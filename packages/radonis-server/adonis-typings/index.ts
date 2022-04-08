@@ -3,7 +3,7 @@ declare module '@ioc:Adonis/Core/HttpContext' {
   import type { AdonisContextContract } from '@ioc:Radonis';
 
   interface HttpContextContract {
-    react: {
+    radonis: {
       shareContext(context: AdonisContextContract): void;
       shareTranslations(locale: string, translations: Record<string, string>): void;
       render<T>(

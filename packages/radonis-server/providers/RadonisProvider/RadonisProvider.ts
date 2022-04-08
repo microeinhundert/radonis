@@ -94,7 +94,7 @@ export class RadonisProvider {
       ],
       (HttpContext, app, Route, AssetsManager) => {
         HttpContext.getter(
-          'react',
+          'radonis',
           function () {
             return initReactRenderer(this, app, Route, AssetsManager);
           },
