@@ -67,7 +67,7 @@ export class RadonisProvider {
    * Register
    */
   public register() {
-    this.app.container.singleton('React', () => {
+    this.app.container.singleton('Radonis', () => {
       return {
         useAdonis,
         useApp,

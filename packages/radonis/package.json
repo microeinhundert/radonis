@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -31,7 +31,7 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis-server": "^0.1.2",
+    "@microeinhundert/radonis-server": "^0.1.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
