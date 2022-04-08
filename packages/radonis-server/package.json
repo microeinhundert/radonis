@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/providers/RadonisProvider/index.js",
   "types": "build/adonis-typings/index.d.ts",
@@ -21,31 +21,33 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/microeinhundert/radonis-server.git"
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
   },
   "bugs": {
-    "url": "https://github.com/microeinhundert/radonis-server/issues"
+    "url": "https://github.com/microeinhundert/radonis/issues"
   },
   "keywords": [
     "adonisjs",
-    "radonis-server"
+    "adonis",
+    "radonis",
+    "server"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
-  "peerDependencies": {
-    "@microeinhundert/radonis": "^0.1.1",
-    "@adonisjs/core": "^5.0.0",
-    "@adonisjs/session": "^6.0.0",
-    "@adonisjs/shield": "^7.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
   "adonisjs": {
     "instructionsMd": "./build/instructions.md",
     "types": "@microeinhundert/radonis-server",
     "providers": [
       "@microeinhundert/radonis-server"
     ]
+  },
+  "peerDependencies": {
+    "@microeinhundert/radonis": "^0.1.2",
+    "@adonisjs/core": "^5.0.0",
+    "@adonisjs/session": "^6.0.0",
+    "@adonisjs/shield": "^7.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@adonisjs/core": "^5.0.0",

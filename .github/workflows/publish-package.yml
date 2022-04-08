@@ -20,6 +20,6 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Publish packages on npm 📦
-        run: npm publish --workspace=packages/radonis --workspace=packages/radonis-server
+        run: npm publish --access public --workspaces
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

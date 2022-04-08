@@ -2,7 +2,8 @@
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
     "rootDir": "./",
-    "target": "es2020",
+    "typeRoots": ["./types"],
+    "target": "es2021",
     "module": "commonjs",
     "incremental": true,
     "removeComments": false,
@@ -10,8 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "jsx": "react",
-    "typeRoots": ["./types"]
+    "jsx": "react"
   },
   "references": [
     {

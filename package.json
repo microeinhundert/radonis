@@ -1,10 +1,14 @@
 {
   "name": "radonis-monorepo",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "private": true,
   "description": "Bridge the gap between React and AdonisJS",
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build": "npm run build --workspaces"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
