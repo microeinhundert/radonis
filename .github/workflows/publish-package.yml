@@ -15,11 +15,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org/'
           scope: '@microeinhundert'
       - name: Install dependencies
         run: npm install
-      - name: Publish package on npm 📦
+      - name: Publish packages on npm 📦
         run: npm publish --workspace=packages/radonis --workspace=packages/radonis-server
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
