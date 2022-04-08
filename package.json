@@ -1,0 +1,33 @@
+{
+  "name": "radonis-monorepo",
+  "version": "0.1.0",
+  "description": "Bridge the gap between React and AdonisJS",
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "keywords": [
+    "adonisjs",
+    "radonis"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "adonis-preset-ts": "^2.1.0",
+    "copyfiles": "2.4.1",
+    "del-cli": "4.0.1",
+    "eslint": "8.12.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-adonis": "2.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "2.6.1",
+    "typescript": "4.6.3"
+  }
+}

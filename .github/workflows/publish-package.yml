@@ -1,0 +1,25 @@
+name: Publish Package
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@microeinhundert'
+      - name: Install dependencies
+        run: npm install
+      - name: Publish package on npm 📦
+        run: npm publish --workspace=packages/radonis --workspace=packages/radonis-server
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

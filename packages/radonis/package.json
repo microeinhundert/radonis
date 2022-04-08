@@ -1,0 +1,46 @@
+{
+  "name": "@microeinhundert/radonis",
+  "version": "0.1.0",
+  "description": "Bridge the gap between React and AdonisJS",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "typings": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "scripts": {
+    "clean": "del build",
+    "compile": "npm run lint && npm run clean && tsc",
+    "build": "npm run compile",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "keywords": [
+    "adonisjs",
+    "radonis"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "@microeinhundert/radonis-server": "^0.1.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14"
+  },
+  "dependencies": {
+    "intl-messageformat": "^9.12.0",
+    "@microeinhundert/radonis-server": "^0.1.0"
+  }
+}
