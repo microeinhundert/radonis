@@ -1,4 +1,5 @@
 import type { HydrationRootProps } from '@ioc:Radonis';
+// @ts-ignore
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis';
 import type { FunctionComponent } from 'react';
 import React from 'react';
