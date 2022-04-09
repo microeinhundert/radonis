@@ -15,27 +15,27 @@ declare global {
       setTranslations: (translations: Manifest['translations']) => void;
       getTranslations: (all?: boolean) => Manifest['translations'];
 
-      markTranslationAsReferenced: (identifier: string) => void;
-      clearReferencedTranslations: () => this;
+      requireTranslationForHydration: (identifier: string) => void;
+      fresh: () => this;
     }
 
     interface RoutesManagerContract {
       setRoutes: (routes: Manifest['routes']) => void;
       getRoutes: (all?: boolean) => Manifest['routes'];
 
-      markRouteAsReferenced: (identifier: string) => void;
-      clearReferencedRoutes: () => this;
+      requireRouteForHydration: (identifier: string) => void;
+      fresh: () => this;
     }
   }
 
   /* eslint-disable @typescript-eslint/naming-convention */
-  var arc_manifest: Radonis.Manifest | undefined;
-  var ars_manifest: Radonis.Manifest | undefined;
-  var ars_i18nManager: Radonis.I18nManagerContract | undefined;
-  var ars_routesManager: Radonis.RoutesManagerContract | undefined;
+  var rad_clientManifest: Radonis.Manifest | undefined;
+  var rad_serverManifest: Radonis.Manifest | undefined;
+  var rad_i18nManager: Radonis.I18nManagerContract | undefined;
+  var rad_routesManager: Radonis.RoutesManagerContract | undefined;
 
   interface Window {
-    arc_manifest: Radonis.Manifest | undefined;
+    rad_clientManifest: Radonis.Manifest | undefined;
   }
 }
 

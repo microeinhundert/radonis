@@ -35,8 +35,8 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Constructor
    */
   constructor(
-    protected routesManager: Radonis.RoutesManagerContract,
-    protected i18nManager: Radonis.I18nManagerContract
+    private routesManager: Radonis.RoutesManagerContract,
+    private i18nManager: Radonis.I18nManagerContract
   ) {}
 
   /**
@@ -47,9 +47,9 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * The referenced routes
+   * The routes required for hydration
    */
-  public get referencedRoutes(): Radonis.Manifest['routes'] {
+  public get routesRequiredForHydration(): Radonis.Manifest['routes'] {
     return this.routesManager.getRoutes();
   }
 
@@ -68,9 +68,9 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * The referenced translations
+   * The translations required for hydration
    */
-  public get referencedTranslations(): Radonis.Manifest['translations'] {
+  public get translationsRequiredForHydration(): Radonis.Manifest['translations'] {
     return this.i18nManager.getTranslations();
   }
 
@@ -94,9 +94,9 @@ export class ManifestBuilder implements Radonis.Manifest {
     return {
       props: this.props,
       route: this.route,
-      routes: this.referencedRoutes,
+      routes: this.routesRequiredForHydration,
       locale: this.locale,
-      translations: this.referencedTranslations,
+      translations: this.translationsRequiredForHydration,
     };
   }
 
@@ -111,7 +111,7 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Set the server manifest on the global scope
    */
   public setServerManifestOnGlobalScope(): void {
-    globalThis.ars_manifest = this.serverManifest;
+    globalThis.rad_serverManifest = this.serverManifest;
   }
 
   /**

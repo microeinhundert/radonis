@@ -4,9 +4,20 @@ import { isServer } from './utils/environment';
 
 export class I18n {
   /**
+   * I18nManager
+   */
+  private i18nManager?: Radonis.I18nManagerContract;
+
+  /**
    * Constructor
    */
-  constructor(private locale: string, private translations: Record<string, string>) {}
+  constructor(
+    private locale: string,
+    private translations: Record<string, string>,
+    private willHydrate?: boolean
+  ) {
+    this.i18nManager = globalThis.rad_i18nManager;
+  }
 
   /**
    * Find the message inside the registered translations and
@@ -19,8 +30,8 @@ export class I18n {
       throw new Error(`Cannot find message for "${identifier}"`);
     }
 
-    if (isServer()) {
-      globalThis.ars_i18nManager?.markTranslationAsReferenced(identifier);
+    if (isServer() && this.willHydrate) {
+      this.i18nManager?.requireTranslationForHydration(identifier);
     }
 
     return message;

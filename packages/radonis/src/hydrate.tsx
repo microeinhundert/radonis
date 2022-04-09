@@ -48,7 +48,9 @@ const createIntersectionObserver = (
  */
 export const hydrate = (components: Record<string, LazyExoticComponent<any>>): void => {
   if (isServer()) {
-    throw new Error('Hydration does not work on the server');
+    throw new Error(
+      'Radonis hydration does not work on the server. Please make sure "hydrate" is only called on the client'
+    );
   }
 
   const hydrationRoots = document.querySelectorAll('[data-hydration-root]');

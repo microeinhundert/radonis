@@ -61,7 +61,7 @@ export class RadonisProvider {
   /**
    * Constructor
    */
-  constructor(protected app: ApplicationContract, protected AssetsManager: AssetsManagerContract) {}
+  constructor(private app: ApplicationContract) {}
 
   /**
    * Register

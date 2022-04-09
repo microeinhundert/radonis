@@ -6,7 +6,7 @@ export const useAdonis = () => {
   const context = useContext(adonisContext);
 
   if (!context) {
-    throw new Error('Cannot use server hooks on the client');
+    throw new Error('Cannot use Radonis server hooks on the client');
   }
 
   return context;

@@ -18,9 +18,9 @@ export class ReactRenderer {
    * Constructor
    */
   constructor(
-    protected manifestBuilder: ManifestBuilder,
-    protected jsFiles: string[],
-    protected cssFiles: string[]
+    private manifestBuilder: ManifestBuilder,
+    private jsFiles: string[],
+    private cssFiles: string[]
   ) {}
 
   /**
@@ -70,7 +70,7 @@ export class ReactRenderer {
 
     return `<!DOCTYPE html>\n${html.replace(
       '<div id="arc-manifest"></div>',
-      `<script>window.arc_manifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`
+      `<script>window.rad_clientManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`
     )}`;
   }
 

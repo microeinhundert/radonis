@@ -12,9 +12,9 @@ export class I18nManager implements Radonis.I18nManagerContract {
   private translations: Record<string, string> = {};
 
   /**
-   * The referenced translations
+   * The translations required for hydration
    */
-  private referencedTranslations: Set<string> = new Set();
+  private translationsRequiredForHydration: Set<string> = new Set();
 
   /**
    * Set the locale
@@ -45,30 +45,30 @@ export class I18nManager implements Radonis.I18nManagerContract {
       return this.translations;
     }
 
-    const referencedTranslations = {};
+    const translations = {};
 
-    for (const identifier of this.referencedTranslations) {
+    for (const identifier of this.translationsRequiredForHydration) {
       if (this.translations[identifier]) {
-        referencedTranslations[identifier] = this.translations[identifier];
+        translations[identifier] = this.translations[identifier];
       }
     }
 
-    return referencedTranslations;
+    return translations;
   }
 
   /**
-   * Mark a translation as referenced
+   * Require a translation for hydration
    */
-  public markTranslationAsReferenced(identifier: string): void {
+  public requireTranslationForHydration(identifier: string): void {
     if (!this.translations[identifier]) return;
-    this.referencedTranslations.add(identifier);
+    this.translationsRequiredForHydration.add(identifier);
   }
 
   /**
-   * Clear the referenced translations
+   * Get a fresh instance
    */
-  public clearReferencedTranslations(): this {
-    this.referencedTranslations.clear();
+  public fresh(): this {
+    this.translationsRequiredForHydration.clear();
 
     return this;
   }
@@ -77,7 +77,6 @@ export class I18nManager implements Radonis.I18nManagerContract {
    * Construct a new I18nManager
    */
   public static construct(): Radonis.I18nManagerContract {
-    return (globalThis.ars_i18nManager =
-      globalThis.ars_i18nManager?.clearReferencedTranslations() ?? new I18nManager());
+    return (globalThis.rad_i18nManager = globalThis.rad_i18nManager?.fresh() ?? new I18nManager());
   }
 }

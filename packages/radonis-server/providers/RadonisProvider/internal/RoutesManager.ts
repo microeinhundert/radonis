@@ -5,9 +5,9 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
   private routes: Record<string, any> = {};
 
   /**
-   * The referenced routes
+   * The routes required for hydration
    */
-  private referencedRoutes: Set<string> = new Set();
+  private routesRequiredForHydration: Set<string> = new Set();
 
   /**
    * Set the routes
@@ -24,30 +24,30 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
       return this.routes;
     }
 
-    const referencedRoutes = {};
+    const routes = {};
 
-    for (const identifier of this.referencedRoutes) {
+    for (const identifier of this.routesRequiredForHydration) {
       if (this.routes[identifier]) {
-        referencedRoutes[identifier] = this.routes[identifier];
+        routes[identifier] = this.routes[identifier];
       }
     }
 
-    return referencedRoutes;
+    return routes;
   }
 
   /**
-   * Mark a route as referenced
+   * Require a route for hydration
    */
-  public markRouteAsReferenced(identifier: string): void {
+  public requireRouteForHydration(identifier: string): void {
     if (!this.routes[identifier]) return;
-    this.referencedRoutes.add(identifier);
+    this.routesRequiredForHydration.add(identifier);
   }
 
   /**
-   * Clear the referenced routes
+   * Get a fresh instance
    */
-  public clearReferencedRoutes(): this {
-    this.referencedRoutes.clear();
+  public fresh(): this {
+    this.routesRequiredForHydration.clear();
 
     return this;
   }
@@ -56,7 +56,7 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
    * Construct a new RoutesManager
    */
   public static construct(): Radonis.RoutesManagerContract {
-    return (globalThis.ars_routesManager =
-      globalThis.ars_routesManager?.clearReferencedRoutes() ?? new RoutesManager());
+    return (globalThis.rad_routesManager =
+      globalThis.rad_routesManager?.fresh() ?? new RoutesManager());
   }
 }

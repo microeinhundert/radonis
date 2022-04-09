@@ -2,7 +2,6 @@
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
     "rootDir": "./",
-    "typeRoots": ["./types"],
     "target": "es2021",
     "module": "commonjs",
     "incremental": true,

@@ -7,14 +7,16 @@ export const isServer = (): boolean => {
 };
 
 export const getManifest = (): Radonis.Manifest | undefined => {
-  return isServer() ? globalThis.ars_manifest : window.arc_manifest;
+  return isServer() ? globalThis.rad_serverManifest : window.rad_clientManifest;
 };
 
 export const getManifestOrFail = () => {
   const manifest = getManifest();
 
   if (!manifest) {
-    throw new Error('Missing manifest: make sure the server provider is configured properly');
+    throw new Error(
+      'Could not get the Radonis manifest. Make sure the server provider is configured properly'
+    );
   }
 
   return manifest;

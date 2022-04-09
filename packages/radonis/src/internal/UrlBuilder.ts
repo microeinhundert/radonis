@@ -2,24 +2,31 @@ import { isServer } from './utils/environment';
 
 export class UrlBuilder {
   /**
+   * RoutesManager
+   */
+  private routesManager?: Radonis.RoutesManagerContract;
+
+  /**
    * Params to be used for building the URL
    */
   private routeParams: any[] | Record<string, any>;
 
   /**
-   * A custom query string to append to the URL
+   * Query string to append to the URL
    */
   private queryString: Record<string, any> = {};
 
   /**
-   * BaseURL to prefix to the endpoint
+   * BaseURL to prefix the URL with
    */
   private baseUrl: string;
 
   /**
    * Constructor
    */
-  constructor(private routes: Record<string, any>) {}
+  constructor(private routes: Record<string, any>, private willHydrate?: boolean) {
+    this.routesManager = globalThis.rad_routesManager;
+  }
 
   /**
    * Process the pattern with the route params
@@ -93,8 +100,8 @@ export class UrlBuilder {
       throw new Error(`Cannot find route for "${identifier}"`);
     }
 
-    if (isServer()) {
-      globalThis.ars_routesManager?.markRouteAsReferenced(identifier);
+    if (isServer() && this.willHydrate) {
+      this.routesManager?.requireRouteForHydration(identifier);
     }
 
     return route;
