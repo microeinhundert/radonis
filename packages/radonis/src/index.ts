@@ -1,9 +1,6 @@
 import { hydrate } from './hydrate';
-import { getManifestOrFail } from './internal/utils/environment';
 
 export const initClient = () => {
-  getManifestOrFail();
-
   return {
     hydrate,
   };

@@ -3,10 +3,10 @@ import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
 import { HydrationContextProvider } from './contexts/hydrationContext';
-import { getManifest, isServer } from './internal/utils/environment';
+import { getManifestOrFail, isServer } from './internal/utils/environment';
 
 /**
- * Create the intersection observer to hydrate components only when in view
+ * Create the intersection observer that hydrates components only when in view
  */
 const createIntersectionObserver = (
   components: Record<string, LazyExoticComponent<any>>
@@ -16,8 +16,8 @@ const createIntersectionObserver = (
       if (!observedHydrationRoot.isIntersecting) return;
 
       const hydrationRoot = observedHydrationRoot.target as HTMLElement;
-      const componentName = hydrationRoot.dataset.hydrationComponent ?? 'Unknown';
-      const propsHash = hydrationRoot.dataset.hydrationProps ?? '0';
+      const componentName = hydrationRoot.dataset.component ?? 'Unknown';
+      const propsHash = hydrationRoot.dataset.props ?? '0';
 
       const Component = components[componentName];
 
@@ -29,8 +29,8 @@ const createIntersectionObserver = (
         return;
       }
 
-      const manifest = getManifest();
-      const props = manifest?.props[propsHash] ?? {};
+      const manifest = getManifestOrFail();
+      const props = manifest.props[propsHash] ?? {};
 
       hydrateRoot(
         hydrationRoot,

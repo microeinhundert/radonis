@@ -125,7 +125,7 @@ export class ManifestBuilder implements Radonis.Manifest {
      */
     if (!propsKeys.length) return null;
 
-    const propsHash = this.propsHasher.hash(Component.props).slice(10, 20);
+    const propsHash = this.propsHasher.hash(Component.props).slice(0, 20);
 
     if (!this.props.has(propsHash)) {
       this.props.set(propsHash, Component.props);
