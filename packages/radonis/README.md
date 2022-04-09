@@ -3,7 +3,7 @@
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
 
-Features:
+**Features:**
 - Render React views directly from AdonisJS routes and controllers
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
@@ -93,7 +93,7 @@ Route.get('/signUp', async ({ radonis }) => {
 Radonis uses partial hydration to only hydrate what is needed.
 In order for Radonis to know what to hydrate on the client, wrap the individual components with the *HydrationRoot* component:
 
-```typescript
+```tsx
 import { HydrationRoot } from '@ioc:Radonis';
 
 const ServerRenderedComponent = () => {
@@ -126,7 +126,7 @@ client.hydrate({ SomeInteractiveComponent });
 
 > Please note that hydration will take place only when the component is in view.
 
-## Available Hooks
+## Hooks
 
 ### useHydration (Server and client)
 
