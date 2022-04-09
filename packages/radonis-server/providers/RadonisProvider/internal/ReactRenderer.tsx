@@ -69,7 +69,7 @@ export class ReactRenderer {
     this.manifestBuilder.setServerManifestOnGlobalScope();
 
     return `<!DOCTYPE html>\n${html.replace(
-      '<div id="arc-manifest"></div>',
+      '<div id="rad-manifest"></div>',
       `<script>window.rad_clientManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`
     )}`;
   }

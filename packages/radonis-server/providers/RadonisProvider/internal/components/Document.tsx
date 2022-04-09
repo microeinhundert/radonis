@@ -28,7 +28,7 @@ export const Document: FunctionComponent<DocumentProps> = ({ children, assets })
       </head>
       <body className="h-full">
         {children}
-        <div id="arc-manifest" />
+        <div id="rad-manifest" />
         {assets.jsFiles.map((file) => (
           <script key={file} src={file} defer />
         ))}

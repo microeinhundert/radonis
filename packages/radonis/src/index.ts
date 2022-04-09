@@ -1,4 +1,4 @@
-import { hydrate } from './hydrate';
+import { hydrate } from './internal/hydrate';
 
 export const initClient = () => {
   return {

@@ -2,8 +2,8 @@ import type { LazyExoticComponent } from 'react';
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 
-import { HydrationContextProvider } from './contexts/hydrationContext';
-import { getManifestOrFail, isServer } from './internal/utils/environment';
+import { HydrationContextProvider } from '../contexts/hydrationContext';
+import { getManifestOrFail, isServer } from './utils/environment';
 
 /**
  * Create the intersection observer that hydrates components only when in view
