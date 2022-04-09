@@ -1,4 +1,4 @@
-import { useManifest } from '../internal/hooks/useManifest';
+import { useManifest } from './useManifest';
 
 export const useRoute = () => {
   const { route } = useManifest();

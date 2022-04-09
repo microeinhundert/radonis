@@ -1,4 +1,4 @@
-import { getManifestOrFail } from '../utils/environment';
+import { getManifestOrFail } from '../internal/utils/environment';
 
 export const useManifest = () => {
   return getManifestOrFail();

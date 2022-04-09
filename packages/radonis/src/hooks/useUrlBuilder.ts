@@ -4,7 +4,7 @@ import { useRoutes } from './useRoutes';
 
 export const useUrlBuilder = () => {
   const routes = useRoutes();
-  const { isInsideHydrationRoot } = useHydration();
+  const { isChildOfHydrationRoot } = useHydration();
 
-  return new UrlBuilder(routes, isInsideHydrationRoot);
+  return new UrlBuilder(routes, isChildOfHydrationRoot);
 };

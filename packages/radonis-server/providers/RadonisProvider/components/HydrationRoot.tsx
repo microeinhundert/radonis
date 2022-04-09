@@ -10,10 +10,10 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   children,
   componentName,
 }) => {
-  const hydration = useHydration();
+  const { isChildOfHydrationRoot, hydration } = useHydration();
   const manifestBuilder = useManifestBuilder();
 
-  if (hydration.isInsideHydrationRoot) {
+  if (isChildOfHydrationRoot) {
     throw new Error(
       `Found HydrationRoot for component "${componentName}" nested inside HydrationRoot for component "${hydration.componentName}".
       This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
@@ -23,7 +23,9 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children));
 
   return (
-    <HydrationContextProvider value={{ isInsideHydrationRoot: true, componentName, propsHash }}>
+    <HydrationContextProvider
+      value={{ isChildOfHydrationRoot: true, hydration: { componentName, propsHash } }}
+    >
       <div
         className="contents"
         data-hydration-root
