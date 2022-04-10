@@ -21,24 +21,20 @@ const createIntersectionObserver = (
       const componentName = hydrationRootTarget.dataset.component;
 
       if (!hydrationRoot || !componentName) {
-        observer.unobserve(hydrationRootTarget);
-        console.warn(
+        throw new Error(
           `Found a HydrationRoot that is missing important hydration data.
           Please make sure you passed all the required props to all of your HydrationRoots.
           If everything looks fine to you, this is most likely a bug of Radonis`
         );
-        return;
       }
 
       const Component = components[componentName];
 
       if (!Component) {
-        observer.unobserve(hydrationRootTarget);
-        console.warn(
+        throw new Error(
           `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRoot}", but that component could not be hydrated.
           Please make sure the name under which the component was passed to "hydrate" matches the "componentName" prop passed to the HydrationRoot`
         );
-        return;
       }
 
       const manifest = getManifestOrFail();
