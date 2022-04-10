@@ -176,7 +176,7 @@ const manifest = useManifest();
 console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', translations: {} }`
 ```
 
-> Please note that the manifest differs between client-side and server-side rendering, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
+> Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
 
 ### useRoute (Server and client)
 
@@ -226,7 +226,7 @@ const url = urlBuilder.make('users.show', [1]); // => `/users/1`
 const url = urlBuilder.make('tasks.index', undefined, { qs: { tags: ['work', 'personal'] } }); // => `/tasks?tags=work,personal
 ```
 
-**The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for usage:**
+**The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
 
 ### useAdonis (Server only)
 
