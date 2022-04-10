@@ -162,7 +162,9 @@ const i18n = useI18n();
 console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
-> Please note that this hook requires @adonisjs/i18n to be installed and some manual setup beforehand. For more information about translations, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n).
+This hook also allows formatting via the ICU format, just like the AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
+
+> Please note that this hook requires and some [manual setup](#3-configure-i18n-optional) beforehand.
 
 
 ### useManifest (Server and client)

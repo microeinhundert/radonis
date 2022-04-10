@@ -49,9 +49,9 @@ export class I18n {
       {},
       {
         formatters: {
-          getNumberFormat: (...args: any[]) => new Intl.NumberFormat(...args),
-          getDateTimeFormat: (...args: any[]) => new Intl.DateTimeFormat(...args),
-          getPluralRules: (...args: any[]) => new Intl.PluralRules(...args),
+          getNumberFormat: (...args) => new Intl.NumberFormat(...args),
+          getDateTimeFormat: (...args) => new Intl.DateTimeFormat(...args),
+          getPluralRules: (...args) => new Intl.PluralRules(...args),
         },
         ignoreTag: true,
       }
