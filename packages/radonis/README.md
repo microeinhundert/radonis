@@ -8,25 +8,30 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
 
-## Getting started
+**Requirements:**
+- AdonisJS v5.X.X
+- React v18.X.X
+- ReactDOM v18.X.X
+
+## Getting Started
 
 ### 1. Install the packages
 
-Install the packages from your command line:
+Install the client as well as the server package from your command line:
 
-```bash
+```console
 npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
 ```
 
 or
 
-```bash
+```console
 yarn add @microeinhundert/radonis @microeinhundert/radonis-server 
 ```
 
 ### 2. Configure the server package
 
-```bash
+```console
 node ace configure @microeinhundert/radonis-server
 ```
 
@@ -34,8 +39,8 @@ node ace configure @microeinhundert/radonis-server
 
 If you plan to use i18n functionality, first install the official [@adonisjs/i18n](https://docs.adonisjs.com/guides/i18n) package:
 
-```bash
-npm i @adonisjs/i18n
+```console
+npm install --save @adonisjs/i18n
 ```
 
 Inside the *DetectUserLocale* middleware, add the following below the *switchLocale* call:
@@ -50,13 +55,13 @@ This makes sure Radonis knows about the available translations as well as the cu
 
 If you plan to use session functionality, install the official [@adonisjs/session](https://docs.adonisjs.com/guides/session) package:
 
-```bash
-npm i @adonisjs/session
+```console
+npm install --save @adonisjs/session
 ```
 
 Without it, *useSession* and *useFlashMessages* hooks won't work.
 
-## Server side templating
+## Server-Side Templating
 
 Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both server and client.
 
@@ -88,7 +93,7 @@ Route.get('/signUp', async ({ radonis }) => {
 });
 ```
 
-## Using client side hydration
+## Using Client-Side Hydration
 
 Radonis uses partial hydration to only hydrate what is needed.
 In order for Radonis to know what to hydrate on the client, wrap the individual components with the *HydrationRoot* component:
@@ -100,7 +105,7 @@ const ServerRenderedComponent = () => {
   return (
     <HydrationRoot componentName="SomeInteractiveComponent">
       <SomeInteractiveComponent someProp="test">
-        This component will be hydrated on the client
+        This component will be hydrated client-side
       </SomeInteractiveComponent>
     </HydrationRoot>
   );

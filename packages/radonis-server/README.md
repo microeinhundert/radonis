@@ -5,25 +5,25 @@
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
   
-## Getting started
+## Getting Started
 
 ### 1. Install the package
 
 Install the package from your command line:
 
-```bash
+```console
 npm install --save @microeinhundert/radonis-server
 ```
 
 or
 
-```bash
+```console
 yarn add @microeinhundert/radonis-server
 ```
 
 ### 2. Configure the package
 
-```bash
+```console
 node ace configure @microeinhundert/radonis-server
 ```
 
