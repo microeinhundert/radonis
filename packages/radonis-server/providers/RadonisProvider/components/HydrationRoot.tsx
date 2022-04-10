@@ -1,8 +1,8 @@
 import type { HydrationRootProps } from '@ioc:Radonis';
-// @ts-ignore
+// @ts-ignore No idea why this import fails in GitHub Actions
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis';
 import type { FunctionComponent } from 'react';
-import React from 'react';
+import React, { useId } from 'react';
 
 import { useManifestBuilder } from '../internal/hooks/useManifestBuilder';
 
@@ -10,12 +10,15 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   children,
   componentName,
 }) => {
-  const { isChildOfHydrationRoot, hydration } = useHydration();
   const manifestBuilder = useManifestBuilder();
+  const parentHydration = useHydration();
+  const hydrationRootId = useId();
 
-  if (isChildOfHydrationRoot) {
+  console.log(parentHydration);
+
+  if (parentHydration) {
     throw new Error(
-      `Found HydrationRoot for component "${componentName}" nested inside HydrationRoot for component "${hydration.componentName}".
+      `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydration.root}" for component "${parentHydration.componentName}".
       This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
     );
   }
@@ -23,12 +26,9 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children));
 
   return (
-    <HydrationContextProvider
-      value={{ isChildOfHydrationRoot: true, hydration: { componentName, propsHash } }}
-    >
+    <HydrationContextProvider value={{ root: hydrationRootId, componentName, propsHash }}>
       <div
-        className="contents"
-        data-hydration-root
+        data-hydration-root={hydrationRootId}
         data-component={componentName}
         data-props={propsHash}
       >

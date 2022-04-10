@@ -15,16 +15,19 @@ const createIntersectionObserver = (
     observedHydrationRoots.forEach((observedHydrationRoot) => {
       if (!observedHydrationRoot.isIntersecting) return;
 
-      const hydrationRoot = observedHydrationRoot.target as HTMLElement;
-      const componentName = hydrationRoot.dataset.component ?? 'Unknown';
-      const propsHash = hydrationRoot.dataset.props ?? '0';
+      const hydrationRootTarget = observedHydrationRoot.target as HTMLElement;
+
+      const hydrationRoot = hydrationRootTarget.dataset.hydrationRoot ?? '0';
+      const componentName = hydrationRootTarget.dataset.component ?? 'Unknown';
+      const propsHash = hydrationRootTarget.dataset.props ?? '0';
 
       const Component = components[componentName];
 
       if (!Component) {
-        observer.unobserve(hydrationRoot);
+        observer.unobserve(hydrationRootTarget);
         console.warn(
-          `Found the server-rendered component "${componentName}", but that component could not be hydrated`
+          `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRoot}", but that component could not be hydrated.
+          Please check if the component was registered under the correct name.`
         );
         return;
       }
@@ -33,14 +36,12 @@ const createIntersectionObserver = (
       const props = manifest.props[propsHash] ?? {};
 
       hydrateRoot(
-        hydrationRoot,
-        <HydrationContextProvider
-          value={{ isChildOfHydrationRoot: true, hydration: { componentName, propsHash } }}
-        >
+        hydrationRootTarget,
+        <HydrationContextProvider value={{ root: hydrationRoot, componentName, propsHash }}>
           <Component {...props} />
         </HydrationContextProvider>
       );
-      observer.unobserve(hydrationRoot);
+      observer.unobserve(hydrationRootTarget);
     });
   });
 };
@@ -51,7 +52,8 @@ const createIntersectionObserver = (
 export const hydrate = (components: Record<string, LazyExoticComponent<any>>): void => {
   if (isServer()) {
     throw new Error(
-      'Radonis hydration does not work on the server. Please make sure "hydrate" is only called on the client'
+      `Radonis hydration does not work on the server.
+      Please make sure "hydrate" is only called on the client`
     );
   }
 

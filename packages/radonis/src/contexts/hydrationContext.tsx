@@ -1,17 +1,12 @@
 import { createContext } from 'react';
 
-export const hydrationContext = createContext<{
-  isChildOfHydrationRoot: boolean;
-  hydration: {
-    componentName: string | null;
-    propsHash: string | null;
-  };
-}>({
-  isChildOfHydrationRoot: false,
-  hydration: {
-    componentName: null,
-    propsHash: null,
-  },
-});
+export const hydrationContext = createContext<
+  | {
+      root: string;
+      componentName: string;
+      propsHash: string | null;
+    }
+  | boolean
+>(false);
 
 export const HydrationContextProvider = hydrationContext.Provider;

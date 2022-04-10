@@ -4,7 +4,7 @@ import { useRoutes } from './useRoutes';
 
 export const useUrlBuilder = () => {
   const routes = useRoutes();
-  const { isChildOfHydrationRoot } = useHydration();
+  const hydration = useHydration();
 
-  return new UrlBuilder(routes, isChildOfHydrationRoot);
+  return new UrlBuilder(routes, !!hydration);
 };

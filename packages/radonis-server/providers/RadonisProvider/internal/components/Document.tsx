@@ -1,10 +1,12 @@
 import type { FunctionComponent } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import { useAdonis } from '../../hooks/useAdonis';
 import { useManifestBuilder } from '../hooks/useManifestBuilder';
 
 interface DocumentProps {
+  children: ReactNode;
   assets: {
     jsFiles: string[];
     cssFiles: string[];
