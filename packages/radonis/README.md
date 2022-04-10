@@ -239,30 +239,71 @@ interface AdonisContextContract {
   request: RequestContract;
   router: RouterContract;
 }
+
+import { useAdonis } from '@ioc:Radonis';
+
+const adonis = useAdonis();
 ```
 
 ### useApp (Server only)
 
 Returns the AdonisJS *ApplicationContract*.
 
+```typescript
+import { useApp } from '@ioc:Radonis';
+
+const app = useApp();
+```
+
 ### useHttpContext (Server only)
 
 Returns the AdonisJS *HttpContextContract*.
+
+```typescript
+import { useHttpContext } from '@ioc:Radonis';
+
+const httpContext = useHttpContext();
+```
 
 ### useRequest (Server only)
 
 Returns the AdonisJS *RequestContract*.
 
+```typescript
+import { useRequest } from '@ioc:Radonis';
+
+const request = useRequest();
+```
+
 ### useRouter (Server only)
 
 Returns the AdonisJS *RouterContract*.
+
+```typescript
+import { useRouter } from '@ioc:Radonis';
+
+const router = useRouter();
+```
+
 ### useSession (Server only, requires @adonisjs/session)
 
 Returns the AdonisJS *SessionContract*.
 
+```typescript
+import { useSession } from '@ioc:Radonis';
+
+const session = useSession();
+```
+
 ### useFlashMessages (Server only, requires @adonisjs/session)
 
 Returns the AdonisJS *StoreContract* that is used for managing flash messages.
+
+```typescript
+import { useFlashMessages } from '@ioc:Radonis';
+
+const flashMessages = useFlashMessages();
+```
 
 ## License
 

@@ -7,7 +7,8 @@ export const useAdonis = () => {
 
   if (!context) {
     throw new Error(
-      'Cannot use hooks from the "radonis-server" package on the client. Please make sure you only use hooks from the main "radonis" package on the client'
+      `You cannot use hooks from the "radonis-server" package on the client.
+      Please make sure to only use hooks from the main "radonis" package inside of client-side hydrated components`
     );
   }
 
