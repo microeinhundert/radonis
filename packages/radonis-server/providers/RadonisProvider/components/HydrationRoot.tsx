@@ -14,8 +14,6 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   const parentHydration = useHydration();
   const hydrationRootId = useId();
 
-  console.log(parentHydration);
-
   if (parentHydration) {
     throw new Error(
       `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydration.root}" for component "${parentHydration.componentName}".

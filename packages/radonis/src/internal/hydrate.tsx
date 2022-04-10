@@ -27,7 +27,7 @@ const createIntersectionObserver = (
         observer.unobserve(hydrationRootTarget);
         console.warn(
           `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRoot}", but that component could not be hydrated.
-          Please check if the component was registered under the correct name.`
+          Please check if the component was registered under the correct name`
         );
         return;
       }
