@@ -7,14 +7,14 @@ export class I18nManager implements Radonis.I18nManagerContract {
   private locale: string = DEFAULT_LOCALE;
 
   /**
-   * The translations
+   * The messages
    */
-  private translations: Record<string, string> = {};
+  private messages: Record<string, string> = {};
 
   /**
-   * The translations required for hydration
+   * The messages required for hydration
    */
-  private translationsRequiredForHydration: Set<string> = new Set();
+  private messagesRequiredForHydration: Set<string> = new Set();
 
   /**
    * Set the locale
@@ -31,44 +31,44 @@ export class I18nManager implements Radonis.I18nManagerContract {
   }
 
   /**
-   * Set the translations
+   * Set the messages
    */
-  public setTranslations(translations: Record<string, string>): void {
-    this.translations = translations;
+  public setMessages(messages: Record<string, string>): void {
+    this.messages = messages;
   }
 
   /**
-   * Get the translations
+   * Get the messages
    */
-  public getTranslations(all?: boolean): Record<string, string> {
+  public getMessages(all?: boolean): Record<string, string> {
     if (all) {
-      return this.translations;
+      return this.messages;
     }
 
-    const translations = {};
+    const messages = {};
 
-    for (const identifier of this.translationsRequiredForHydration) {
-      if (this.translations[identifier]) {
-        translations[identifier] = this.translations[identifier];
+    for (const identifier of this.messagesRequiredForHydration) {
+      if (this.messages[identifier]) {
+        messages[identifier] = this.messages[identifier];
       }
     }
 
-    return translations;
+    return messages;
   }
 
   /**
-   * Require a translation for hydration
+   * Require a message for hydration
    */
-  public requireTranslationForHydration(identifier: string): void {
-    if (!this.translations[identifier]) return;
-    this.translationsRequiredForHydration.add(identifier);
+  public requireMessageForHydration(identifier: string): void {
+    if (!this.messages[identifier]) return;
+    this.messagesRequiredForHydration.add(identifier);
   }
 
   /**
    * Get a fresh instance
    */
   public fresh(): this {
-    this.translationsRequiredForHydration.clear();
+    this.messagesRequiredForHydration.clear();
 
     return this;
   }

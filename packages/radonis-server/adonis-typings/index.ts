@@ -5,7 +5,7 @@ declare module '@ioc:Adonis/Core/HttpContext' {
   interface HttpContextContract {
     radonis: {
       shareContext(context: AdonisContextContract): void;
-      shareTranslations(locale: string, translations: Record<string, string>): void;
+      shareTranslations(locale: string, messages: Record<string, string>): void;
       render<T>(
         Component: ComponentType<T>,
         props?: ComponentPropsWithoutRef<ComponentType<T>>

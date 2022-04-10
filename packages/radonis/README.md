@@ -175,7 +175,7 @@ console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined 
 
 This hook also allows formatting via the ICU format, just like the AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
-> Please note that this hook requires and some [manual setup](#3-configure-i18n-optional) beforehand.
+> Please note that this hook requires some [manual setup](#3-configure-i18n-optional).
 
 
 ### useManifest (Server and client)
@@ -186,7 +186,7 @@ import { useManifest } from '@microeinhundert/radonis';
 const manifest = useManifest();
 
 // Get the manifest:
-console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', translations: {} }`
+console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {} }`
 ```
 
 > Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
@@ -213,7 +213,7 @@ import { useRoutes } from '@microeinhundert/radonis';
 const routes = useRoutes();
 
 // Get all routes as object:
-console.log(routes) // => `{ 'drive.local.serve': '/uploads/*', 'AuthController.signUp': '/signUp', 'AuthController.signIn': '/signIn', 'AuthController.signOut': '/signOut' }`
+console.log(routes) // => `{ 'drive.local.serve': '/uploads/*', ... }`
 ```
 
 ### useUrlBuilder (Server and client)
@@ -230,13 +230,13 @@ const url = urlBuilder.make('signUp'); // => `/signUp`
 const url = urlBuilder.make('users.index'); // => `/users`
 
 // Build the URL with params:
-const url = urlBuilder.make('users.show', { id: 1 }); // => `/users/1`
+const url = urlBuilder.withParams({ id: 1 }).make('users.show'); // => `/users/1`
 
-// You can also pass path params as an array and they will be populated according to their order:
-const url = urlBuilder.make('users.show', [1]); // => `/users/1`
+// You can also provide path params as an array and they will be populated according to their order:
+const url = urlBuilder.withParams([1]).make('users.show'); // => `/users/1`
 
-// You can also pass query parameters:
-const url = urlBuilder.make('tasks.index', undefined, { qs: { tags: ['work', 'personal'] } }); // => `/tasks?tags=work,personal
+// You can also provide query params:
+const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index'); // => `/tech?cool=adonis,react
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**

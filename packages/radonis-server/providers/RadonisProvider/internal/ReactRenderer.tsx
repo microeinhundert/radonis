@@ -33,9 +33,9 @@ export class ReactRenderer {
   /**
    * Share translations with the ReactRenderer
    */
-  public shareTranslations(locale: string, translations: Record<string, string>): void {
+  public shareTranslations(locale: string, messages: Record<string, string>): void {
     this.manifestBuilder.setLocale(locale);
-    this.manifestBuilder.setTranslations(translations);
+    this.manifestBuilder.setMessages(messages);
   }
 
   /**

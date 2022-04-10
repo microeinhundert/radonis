@@ -7,86 +7,20 @@ export class UrlBuilder {
   private routesManager?: Radonis.RoutesManagerContract;
 
   /**
-   * Params to be used for building the URL
+   * Params
    */
-  private routeParams: any[] | Record<string, any>;
+  private params: any[] | Record<string, any>;
 
   /**
-   * Query string to append to the URL
+   * Query params
    */
-  private queryString: Record<string, any> = {};
-
-  /**
-   * BaseURL to prefix the URL with
-   */
-  private baseUrl: string;
+  private queryParams: Record<string, any> = {};
 
   /**
    * Constructor
    */
   constructor(private routes: Record<string, any>, private willHydrate?: boolean) {
     this.routesManager = globalThis.rad_routesManager;
-  }
-
-  /**
-   * Process the pattern with the route params
-   */
-  private processPattern(pattern: string): string {
-    let url: string[] = [];
-    const isParamsAnArray = Array.isArray(this.routeParams);
-
-    /*
-     * Split pattern when route has dynamic segments
-     */
-    const tokens = pattern.split('/');
-    let paramsIndex = 0;
-
-    for (const token of tokens) {
-      /**
-       * Expected wildcard param to be at the end always and hence
-       * we must break out from the loop
-       */
-      if (token === '*') {
-        const wildcardParams = isParamsAnArray
-          ? this.routeParams.slice(paramsIndex)
-          : this.routeParams['*'];
-
-        if (!Array.isArray(wildcardParams)) {
-          throw new Error('Wildcard param must pass an array of values');
-        }
-
-        if (!wildcardParams.length) {
-          throw new Error(`Wildcard param is required to make URL for "${pattern}" route`);
-        }
-
-        url = url.concat(wildcardParams);
-        break;
-      }
-
-      /**
-       * Token is a static value
-       */
-      if (!token.startsWith(':')) {
-        url.push(token);
-      } else {
-        const isOptional = token.endsWith('?');
-        const paramName = token.replace(/^:/, '').replace(/\?$/, '');
-        const param = isParamsAnArray ? this.routeParams[paramsIndex] : this.routeParams[paramName];
-
-        paramsIndex++;
-
-        /*
-         * A required param is always required to make the complete URL
-         */
-        if (!param && !isOptional) {
-          throw new Error(`"${param}" param is required to make URL for "${pattern}" route`);
-        }
-
-        url.push(param);
-      }
-    }
-
-    return url.join('/');
   }
 
   /**
@@ -108,13 +42,72 @@ export class UrlBuilder {
   }
 
   /**
-   * Suffix the query string to the URL
+   * Process the pattern with params
+   */
+  private processPattern(pattern: string): string {
+    let url: string[] = [];
+    const isParamsAnArray = Array.isArray(this.params);
+
+    /*
+     * Split pattern when route has dynamic segments
+     */
+    const tokens = pattern.split('/');
+    let paramsIndex = 0;
+
+    for (const token of tokens) {
+      /**
+       * Expected wildcard param to be at the end always and hence
+       * we must break out from the loop
+       */
+      if (token === '*') {
+        const wildcardParams = isParamsAnArray ? this.params.slice(paramsIndex) : this.params['*'];
+
+        if (!Array.isArray(wildcardParams)) {
+          throw new Error('Wildcard param must pass an array of values');
+        }
+
+        if (!wildcardParams.length) {
+          throw new Error(`Wildcard param is required to make URL for "${pattern}" route`);
+        }
+
+        url = url.concat(wildcardParams);
+        break;
+      }
+
+      /**
+       * Token is a static value
+       */
+      if (!token.startsWith(':')) {
+        url.push(token);
+      } else {
+        const isOptional = token.endsWith('?');
+        const paramName = token.replace(/^:/, '').replace(/\?$/, '');
+        const param = isParamsAnArray ? this.params[paramsIndex] : this.params[paramName];
+
+        paramsIndex++;
+
+        /*
+         * A required param is always required to make the complete URL
+         */
+        if (!param && !isOptional) {
+          throw new Error(`"${param}" param is required to make URL for "${pattern}" route`);
+        }
+
+        url.push(param);
+      }
+    }
+
+    return url.join('/');
+  }
+
+  /**
+   * Suffix the URL with the query string
    */
   private suffixQueryString(url: string): string {
-    if (this.queryString) {
+    if (this.queryParams) {
       const params = new URLSearchParams();
 
-      for (const [key, value] of Object.entries(this.queryString)) {
+      for (const [key, value] of Object.entries(this.queryParams)) {
         if (Array.isArray(value)) {
           value.forEach((item) => params.append(key, item));
         } else {
@@ -130,45 +123,34 @@ export class UrlBuilder {
   }
 
   /**
-   * Prefix a custom URL to the final URL
+   * Define the params required to resolve the route
    */
-  public prefixUrl(url?: string): this {
-    if (url) {
-      this.baseUrl = url;
-    }
-
-    return this;
-  }
-
-  /**
-   * Append query string to the final URL
-   */
-  public qs(queryString?: Record<string, any>): this {
-    if (queryString) {
-      this.queryString = queryString;
-    }
-
-    return this;
-  }
-
-  /**
-   * Define required params to resolve the route
-   */
-  public params(params?: any[] | Record<string, any>): this {
+  public withParams(params?: any[] | Record<string, any>): this {
     if (params) {
-      this.routeParams = params;
+      this.params = params;
     }
 
     return this;
   }
 
   /**
-   * Generate URL for the given route identifier
+   * Define the query params to suffix the URL with
+   */
+  public withQueryParams(queryParams?: Record<string, any>): this {
+    if (queryParams) {
+      this.queryParams = queryParams;
+    }
+
+    return this;
+  }
+
+  /**
+   * Build the URL for the given route identifier
    */
   public make(identifier: string): string {
     const route = this.findRouteOrFail(identifier);
     const url = this.processPattern(route);
 
-    return this.suffixQueryString(this.baseUrl ? `${this.baseUrl}${url}` : url);
+    return this.suffixQueryString(url);
   }
 }

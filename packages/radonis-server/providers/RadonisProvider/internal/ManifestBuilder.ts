@@ -61,17 +61,17 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * The translations
+   * The messages
    */
-  public get translations(): Radonis.Manifest['translations'] {
-    return this.i18nManager.getTranslations(true);
+  public get messages(): Radonis.Manifest['messages'] {
+    return this.i18nManager.getMessages(true);
   }
 
   /**
-   * The translations required for hydration
+   * The messages required for hydration
    */
-  public get translationsRequiredForHydration(): Radonis.Manifest['translations'] {
-    return this.i18nManager.getTranslations();
+  public get messagesRequiredForHydration(): Radonis.Manifest['messages'] {
+    return this.i18nManager.getMessages();
   }
 
   /**
@@ -83,7 +83,7 @@ export class ManifestBuilder implements Radonis.Manifest {
       route: this.route,
       routes: this.routes,
       locale: this.locale,
-      translations: this.translations,
+      messages: this.messages,
     };
   }
 
@@ -96,7 +96,7 @@ export class ManifestBuilder implements Radonis.Manifest {
       route: this.route,
       routes: this.routesRequiredForHydration,
       locale: this.locale,
-      translations: this.translationsRequiredForHydration,
+      messages: this.messagesRequiredForHydration,
     };
   }
 
@@ -115,7 +115,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Register component props with the manifest
+   * Register component props with the ManifestBuilder
    */
   public registerComponentProps(Component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(Component.props);
@@ -135,31 +135,31 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Set the routes on the manifest
+   * Set the routes on the RoutesManager
    */
   public setRoutes(routes: Radonis.Manifest['routes']): void {
     this.routesManager.setRoutes(routes);
   }
 
   /**
-   * Set the current route on the manifest
+   * Set the current route on the ManifestBuilder
    */
   public setRoute(route: Radonis.Manifest['route']): void {
     this.route = route;
   }
 
   /**
-   * Set the locale on the manifest
+   * Set the locale on the I18nManager
    */
   public setLocale(locale: Radonis.Manifest['locale']): void {
     this.i18nManager.setLocale(locale);
   }
 
   /**
-   * Set the translations on the manifest
+   * Set the messages on the I18nManager
    */
-  public setTranslations(translations: Radonis.Manifest['translations']): void {
-    this.i18nManager.setTranslations(translations);
+  public setMessages(messages: Radonis.Manifest['messages']): void {
+    this.i18nManager.setMessages(messages);
   }
 
   /**

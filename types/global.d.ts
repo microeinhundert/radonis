@@ -5,17 +5,17 @@ declare global {
       route: { name: string | null; pattern: string | null } | null;
       routes: Record<string, any>;
       locale: string;
-      translations: Record<string, string>;
+      messages: Record<string, string>;
     }
 
     interface I18nManagerContract {
       setLocale: (locale: Manifest['locale']) => void;
       getLocale: () => Manifest['locale'];
 
-      setTranslations: (translations: Manifest['translations']) => void;
-      getTranslations: (all?: boolean) => Manifest['translations'];
+      setMessages: (messages: Manifest['messages']) => void;
+      getMessages: (all?: boolean) => Manifest['messages'];
 
-      requireTranslationForHydration: (identifier: string) => void;
+      requireMessageForHydration: (identifier: string) => void;
       fresh: () => this;
     }
 

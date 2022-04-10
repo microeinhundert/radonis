@@ -13,25 +13,25 @@ export class I18n {
    */
   constructor(
     private locale: string,
-    private translations: Record<string, string>,
+    private messages: Record<string, string>,
     private willHydrate?: boolean
   ) {
     this.i18nManager = globalThis.rad_i18nManager;
   }
 
   /**
-   * Find the message inside the registered translations and
+   * Find the message inside the registered messages and
    * raise exception when unable to
    */
   private findMessageOrFail(identifier: string): string {
-    const message = this.translations[identifier];
+    const message = this.messages[identifier];
 
     if (!message) {
       throw new Error(`Cannot find message for "${identifier}"`);
     }
 
     if (isServer() && this.willHydrate) {
-      this.i18nManager?.requireTranslationForHydration(identifier);
+      this.i18nManager?.requireMessageForHydration(identifier);
     }
 
     return message;

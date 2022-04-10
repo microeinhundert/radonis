@@ -3,8 +3,8 @@ import { useHydration } from './useHydration';
 import { useManifest } from './useManifest';
 
 export const useI18n = () => {
-  const { locale, translations } = useManifest();
+  const { locale, messages } = useManifest();
   const { isChildOfHydrationRoot } = useHydration();
 
-  return new I18n(locale, translations, isChildOfHydrationRoot);
+  return new I18n(locale, messages, isChildOfHydrationRoot);
 };
