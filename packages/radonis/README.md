@@ -61,6 +61,17 @@ npm install --save @adonisjs/session
 
 Without it, *useSession* and *useFlashMessages* hooks won't work.
 
+### 5. Configure Tailwind CSS
+
+Some Tailwind CSS classes are baked into the default rendering, which is currently not configurable.
+Add the following path to *content* inside tailwind.config.js:
+
+```javascript
+module.exports = {
+  content: ['./node_modules/@microeinhundert/**/*.js'],
+};
+```
+
 ## Server-Side Templating
 
 Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both server and client.
