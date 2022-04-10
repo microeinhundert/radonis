@@ -17,9 +17,18 @@ const createIntersectionObserver = (
 
       const hydrationRootTarget = observedHydrationRoot.target as HTMLElement;
 
-      const hydrationRoot = hydrationRootTarget.dataset.hydrationRoot ?? '0';
-      const componentName = hydrationRootTarget.dataset.component ?? 'Unknown';
-      const propsHash = hydrationRootTarget.dataset.props ?? '0';
+      const hydrationRoot = hydrationRootTarget.dataset.hydrationRoot;
+      const componentName = hydrationRootTarget.dataset.component;
+
+      if (!hydrationRoot || !componentName) {
+        observer.unobserve(hydrationRootTarget);
+        console.warn(
+          `Found a HydrationRoot that is missing important hydration data.
+          Please make sure you passed all the required props to all of your HydrationRoots.
+          If everything looks fine to you, this is most likely a bug of Radonis`
+        );
+        return;
+      }
 
       const Component = components[componentName];
 
@@ -27,12 +36,14 @@ const createIntersectionObserver = (
         observer.unobserve(hydrationRootTarget);
         console.warn(
           `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRoot}", but that component could not be hydrated.
-          Please check if the component was registered under the correct name`
+          Please make sure the name under which the component was passed to "hydrate" matches the "componentName" prop passed to the HydrationRoot`
         );
         return;
       }
 
       const manifest = getManifestOrFail();
+
+      const propsHash = hydrationRootTarget.dataset.props ?? '0';
       const props = manifest.props[propsHash] ?? {};
 
       hydrateRoot(
