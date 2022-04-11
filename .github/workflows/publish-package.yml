@@ -3,7 +3,7 @@ on:
   release:
     types: [created]
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,9 +17,32 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org/'
           scope: '@microeinhundert'
-      - name: Install dependencies
-        run: npm install
-      - name: Publish packages on npm 📦
-        run: npm publish --access public --workspaces
+      - name: Install dev dependencies
+        run: npm install --include=dev
+  build-radonis:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Install radonis dependencies
+        run: npm install --include=prod --workspace packages/radonis
+      - name: Publish radonis on npm 📦
+        run: npm publish --access public --workspace packages/radonis
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  build-radonis-server:
+    runs-on: ubuntu-latest
+    needs: [setup, build-radonis]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Install radonis-server dependencies
+        run: npm install --include=prod --workspace packages/radonis-server
+      - name: Publish radonis-server on npm 📦
+        run: npm publish --access public --workspace packages/radonis-server
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
