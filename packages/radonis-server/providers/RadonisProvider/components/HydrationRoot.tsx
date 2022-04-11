@@ -2,6 +2,7 @@ import type { HydrationRootProps } from '@ioc:Radonis';
 import type { FunctionComponent } from 'react';
 import React, { useId } from 'react';
 
+// @ts-ignore No idea why this import fails in GitHub Actions
 import { HydrationContextProvider, useHydration } from '../../../../radonis';
 import { useManifestBuilder } from '../internal/hooks/useManifestBuilder';
 
