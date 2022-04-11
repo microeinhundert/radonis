@@ -38,10 +38,24 @@ export class FlashMessages {
   }
 
   /**
+   * Check if a specific validation error flash message exists
+   */
+  public hasValidationError(identifier: string): boolean {
+    return this.has(`errors.${identifier}`);
+  }
+
+  /**
    * Get a specific flash message
    */
   public get(identifier: string, defaultValue?: any): any {
     return this.findFlashMessage(identifier) ?? defaultValue;
+  }
+
+  /**
+   * Get a specific validation error flash message
+   */
+  public getValidationError(identifier: string, defaultValue?: any): any {
+    return this.get(`errors.${identifier}`, defaultValue);
   }
 
   /**
