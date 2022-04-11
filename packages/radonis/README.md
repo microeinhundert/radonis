@@ -247,13 +247,13 @@ import { useFlashMessages } from '@microeinhundert/radonis';
 const flashMessages = useFlashMessages();
 
 // Check if a flash message exists:
-console.log(flashMessages.has('errors.fieldName')) // => `true` or `false`
+console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
 
 // Get a flash message:
-console.log(flashMessages.get('errors.fieldName')) // => `required validation failed on fieldName`
+console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
 
 // Get all flash messages:
-console.log(flashMessages.all()) // => `{ 'errors.fieldName': 'required validation failed on fieldName', ... }`
+console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**

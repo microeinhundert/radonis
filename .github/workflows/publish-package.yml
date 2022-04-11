@@ -3,7 +3,7 @@ on:
   release:
     types: [created]
 jobs:
-  build-radonis:
+  publish-radonis:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,9 +25,9 @@ jobs:
         run: npm publish --access public --workspace packages/radonis
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  build-radonis-server:
+  publish-radonis-server:
     runs-on: ubuntu-latest
-    needs: [build-radonis]
+    needs: [publish-radonis]
     permissions:
       contents: read
       packages: write

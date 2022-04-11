@@ -19,6 +19,10 @@ export class FlashMessages {
   private findFlashMessage(identifier: string): any {
     const flashMessage = this.flashMessages[identifier];
 
+    if (!flashMessage) {
+      return this.findFlashMessage(`${identifier}.0`);
+    }
+
     if (isServer() && this.willHydrate) {
       this.flashMessagesManager?.requireFlashMessageForHydration(identifier);
     }
@@ -45,10 +49,10 @@ export class FlashMessages {
    */
   public all(): Record<string, any> {
     return Object.keys(this.flashMessages).reduce<Record<string, any>>(
-      (flashMessages, flashMessageKey) => {
+      (flashMessages, flashMessageIdentifier) => {
         return {
           ...flashMessages,
-          [flashMessageKey]: this.findFlashMessage(flashMessageKey),
+          [flashMessageIdentifier]: this.findFlashMessage(flashMessageIdentifier),
         };
       },
       {}
