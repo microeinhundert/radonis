@@ -124,7 +124,7 @@ const ServerRenderedComponent = () => {
 ```
 
 Make sure to only pass a single child to a *HydrationRoot* component. If you want to hydrate multiple parts of your application, use multiple *HydrationRoot*s instead.
-Theres another gotcha: Because a *HydrationRoot* component acts as root for a React instance, *HydrationRoot*s cannot be nested.
+Theres another gotcha: Because a *HydrationRoot* component acts as root for a React instance, *HydrationRoot*s cannot be nested. Also make sure all props passed to a hydrated component are serializable.
 
 Then in your client bundle:
 
@@ -186,7 +186,7 @@ import { useManifest } from '@microeinhundert/radonis';
 const manifest = useManifest();
 
 // Get the manifest:
-console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {} }`
+console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {}, flashMessages: {} }`
 ```
 
 > Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
@@ -237,6 +237,23 @@ const url = urlBuilder.withParams([1]).make('users.show'); // => `/users/1`
 
 // You can also provide query params:
 const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index'); // => `/tech?cool=adonis,react
+```
+
+### useFlashMessages (Server and client, requires @adonisjs/session)
+
+```typescript
+import { useFlashMessages } from '@microeinhundert/radonis';
+
+const flashMessages = useFlashMessages();
+
+// Check if a flash message exists:
+console.log(flashMessages.has('errors.fieldName')) // => `true` or `false`
+
+// Get a flash message:
+console.log(flashMessages.get('errors.fieldName')) // => `required validation failed on fieldName`
+
+// Get all flash messages:
+console.log(flashMessages.all()) // => `{ 'errors.fieldName': 'required validation failed on fieldName', ... }`
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
@@ -306,16 +323,6 @@ Returns the AdonisJS *SessionContract*.
 import { useSession } from '@ioc:Radonis';
 
 const session = useSession();
-```
-
-### useFlashMessages (Server only, requires @adonisjs/session)
-
-Returns the AdonisJS *StoreContract* that is used for managing flash messages.
-
-```typescript
-import { useFlashMessages } from '@ioc:Radonis';
-
-const flashMessages = useFlashMessages();
 ```
 
 ## License

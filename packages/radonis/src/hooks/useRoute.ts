@@ -5,6 +5,8 @@ export const useRoute = () => {
 
   return {
     current: route,
-    isCurrent: (identifier: string): boolean => route?.name === identifier,
+    isCurrent(identifier: string): boolean {
+      return route?.name === identifier;
+    },
   };
 };

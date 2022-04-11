@@ -7,6 +7,7 @@ export const initClient = () => {
 };
 
 export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext';
+export { useFlashMessages } from './hooks/useFlashMessages';
 export { useHydration } from './hooks/useHydration';
 export { useI18n } from './hooks/useI18n';
 export { useManifest } from './hooks/useManifest';

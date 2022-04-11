@@ -19,7 +19,7 @@ declare module '@ioc:Radonis' {
   import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
   import type { RequestContract } from '@ioc:Adonis/Core/Request';
   import type { RouterContract } from '@ioc:Adonis/Core/Route';
-  import type { SessionContract, StoreContract } from '@ioc:Adonis/Addons/Session';
+  import type { SessionContract } from '@ioc:Adonis/Addons/Session';
   import type { ReactElement } from 'react';
 
   interface AdonisContextContract {
@@ -36,8 +36,6 @@ declare module '@ioc:Radonis' {
   function useHttpContext(): HttpContextContract;
 
   function useSession(): SessionContract;
-
-  function useFlashMessages(): StoreContract;
 
   function useRequest(): RequestContract;
 

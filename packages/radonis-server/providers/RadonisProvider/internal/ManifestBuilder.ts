@@ -1,6 +1,7 @@
 import hasher from 'node-object-hash';
 import type { ReactElement } from 'react';
 
+import { FlashMessagesManager } from './FlashMessagesManager';
 import { I18nManager } from './I18nManager';
 import { RoutesManager } from './RoutesManager';
 
@@ -36,7 +37,8 @@ export class ManifestBuilder implements Radonis.Manifest {
    */
   constructor(
     private routesManager: Radonis.RoutesManagerContract,
-    private i18nManager: Radonis.I18nManagerContract
+    private i18nManager: Radonis.I18nManagerContract,
+    private flashMessagesManager: Radonis.FlashMessagesManagerContract
   ) {}
 
   /**
@@ -75,6 +77,20 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
+   * The flash messages
+   */
+  public get flashMessages(): Radonis.Manifest['flashMessages'] {
+    return this.flashMessagesManager.getFlashMessages(true);
+  }
+
+  /**
+   * The flash messages required for hydration
+   */
+  public get flashMessagesRequiredForHydration(): Radonis.Manifest['flashMessages'] {
+    return this.flashMessagesManager.getFlashMessages();
+  }
+
+  /**
    * The server manifest
    */
   public get serverManifest(): Radonis.Manifest {
@@ -84,6 +100,7 @@ export class ManifestBuilder implements Radonis.Manifest {
       routes: this.routes,
       locale: this.locale,
       messages: this.messages,
+      flashMessages: this.flashMessages,
     };
   }
 
@@ -97,6 +114,7 @@ export class ManifestBuilder implements Radonis.Manifest {
       routes: this.routesRequiredForHydration,
       locale: this.locale,
       messages: this.messagesRequiredForHydration,
+      flashMessages: this.flashMessagesRequiredForHydration,
     };
   }
 
@@ -163,9 +181,20 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
+   * Set the flash messages on the FlashMessagesManager
+   */
+  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): void {
+    this.flashMessagesManager.setFlashMessages(flashMessages);
+  }
+
+  /**
    * Construct a new ManifestBuilder
    */
   public static construct(): ManifestBuilder {
-    return new ManifestBuilder(RoutesManager.construct(), I18nManager.construct());
+    return new ManifestBuilder(
+      RoutesManager.construct(),
+      I18nManager.construct(),
+      FlashMessagesManager.construct()
+    );
   }
 }

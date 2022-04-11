@@ -6,7 +6,6 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route';
 import { HydrationRoot } from './components/HydrationRoot';
 import { useAdonis } from './hooks/useAdonis';
 import { useApp } from './hooks/useApp';
-import { useFlashMessages } from './hooks/useFlashMessages';
 import { useHttpContext } from './hooks/useHttpContext';
 import { useRequest } from './hooks/useRequest';
 import { useRouter } from './hooks/useRouter';
@@ -27,9 +26,9 @@ const initReactRenderer = (
 ): ReactRenderer => {
   const jsFiles = AssetsManager.entryPointJsFiles?.(ENTRY_NAME) ?? [];
   const cssFiles = AssetsManager.entryPointCssFiles?.(ENTRY_NAME) ?? [];
-  const manifestBuilder = ManifestBuilder.construct();
 
   const routes = extractRoutesFromRouter(Router);
+  const manifestBuilder = ManifestBuilder.construct();
 
   /**
    * Set routing related data on the ManifestBuilder
@@ -39,6 +38,13 @@ const initReactRenderer = (
     name: ctx.route?.name ?? null,
     pattern: ctx.route?.pattern ?? null,
   });
+
+  if (ctx.session) {
+    /**
+     * Set flash messages on the ManifestBuilder
+     */
+    manifestBuilder.setFlashMessages(ctx.session.flashMessages.all());
+  }
 
   const reactRenderer = ReactRenderer.construct(manifestBuilder, jsFiles, cssFiles);
 
@@ -71,7 +77,6 @@ export class RadonisProvider {
       return {
         useAdonis,
         useApp,
-        useFlashMessages,
         useHttpContext,
         useRequest,
         useRouter,
