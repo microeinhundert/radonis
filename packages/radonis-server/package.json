@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/providers/RadonisProvider/index.js",
   "types": "build/adonis-typings/index.d.ts",
