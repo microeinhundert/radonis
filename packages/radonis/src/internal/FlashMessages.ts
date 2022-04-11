@@ -19,7 +19,7 @@ export class FlashMessages {
   private findFlashMessage(identifier: string): any {
     const flashMessage = this.flashMessages[identifier];
 
-    if (!flashMessage) {
+    if (!flashMessage && !identifier.match(/\.(\d*)$/i)) {
       return this.findFlashMessage(`${identifier}.0`);
     }
 
