@@ -6,7 +6,7 @@ declare global {
       routes: Record<string, any>;
       locale: string;
       messages: Record<string, string>;
-      flashMessages: Record<string, string>;
+      flashMessages: Record<string, any>;
     }
 
     interface I18nManagerContract {

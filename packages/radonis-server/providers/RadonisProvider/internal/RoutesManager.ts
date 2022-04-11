@@ -24,7 +24,7 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
       return this.routes;
     }
 
-    const routes = {};
+    const routes = {} as Record<string, any>;
 
     for (const identifier of this.routesRequiredForHydration) {
       if (this.routes[identifier]) {

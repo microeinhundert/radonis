@@ -15,7 +15,8 @@ export const getManifestOrFail = () => {
 
   if (!manifest) {
     throw new Error(
-      'Could not get the Radonis manifest. Make sure the server provider is configured properly'
+      `Could not get the Radonis manifest.
+      Make sure the server provider is configured properly`
     );
   }
 

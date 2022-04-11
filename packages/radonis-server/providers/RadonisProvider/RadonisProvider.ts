@@ -43,7 +43,7 @@ const initReactRenderer = (
     /**
      * Set flash messages on the ManifestBuilder
      */
-    manifestBuilder.setFlashMessages(ctx.session.flashMessages.all());
+    manifestBuilder.setFlashMessages(ctx.session.flashMessages?.all() ?? {});
   }
 
   const reactRenderer = ReactRenderer.construct(manifestBuilder, jsFiles, cssFiles);

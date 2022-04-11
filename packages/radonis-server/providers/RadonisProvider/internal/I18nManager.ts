@@ -45,7 +45,7 @@ export class I18nManager implements Radonis.I18nManagerContract {
       return this.messages;
     }
 
-    const messages = {};
+    const messages = {} as Record<string, string>;
 
     for (const identifier of this.messagesRequiredForHydration) {
       if (this.messages[identifier]) {
