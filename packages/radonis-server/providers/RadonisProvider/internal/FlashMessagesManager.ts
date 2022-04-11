@@ -1,3 +1,5 @@
+import { flattie } from 'flattie';
+
 export class FlashMessagesManager implements Radonis.FlashMessagesManagerContract {
   /**
    * The flash messages
@@ -13,7 +15,7 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
    * Set the flash messages
    */
   public setFlashMessages(flashMessages: Record<string, any>): void {
-    this.flashMessages = flashMessages;
+    this.flashMessages = flattie(flashMessages);
   }
 
   /**
