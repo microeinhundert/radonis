@@ -1,9 +1,8 @@
 import type { HydrationRootProps } from '@ioc:Radonis';
-// @ts-ignore No idea why this import fails in GitHub Actions
-import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis';
 import type { FunctionComponent } from 'react';
 import React, { useId } from 'react';
 
+import { HydrationContextProvider, useHydration } from '../../../../radonis';
 import { useManifestBuilder } from '../internal/hooks/useManifestBuilder';
 
 export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
