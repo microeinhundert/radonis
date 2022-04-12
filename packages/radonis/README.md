@@ -252,6 +252,12 @@ console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
 // Get a flash message:
 console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
 
+// You can also omit the index to automatically get the first item if an array:
+console.log(flashMessages.get('errors.fieldName')) // => same as `errors.fieldName.0`
+
+// You can also get validation errors like this:
+console.log(flashMessages.getValidationError('fieldName')) // => same as `errors.fieldName`
+
 // Get all flash messages:
 console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```

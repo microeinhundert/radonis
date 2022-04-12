@@ -26,8 +26,8 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   return (
     <HydrationContextProvider value={{ root: hydrationRootId, componentName, propsHash }}>
       <div
-        data-hydration-root={hydrationRootId}
         data-component={componentName}
+        data-hydration-root={hydrationRootId}
         data-props={propsHash}
       >
         {children}

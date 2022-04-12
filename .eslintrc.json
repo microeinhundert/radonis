@@ -1,7 +1,33 @@
 {
-  "extends": ["plugin:adonis/typescriptPackage", "prettier"],
+  "extends": [
+    "plugin:adonis/typescriptPackage",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
   "plugins": ["prettier", "simple-import-sort"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "18"
+    }
+  },
   "rules": {
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "callbacksLast": true,
+        "shorthandLast": true,
+        "reservedFirst": true
+      }
+    ],
+    "react/prop-types": "off",
+    "react/display-name": "off",
     "prettier/prettier": ["error"],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",

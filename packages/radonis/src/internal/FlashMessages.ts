@@ -47,14 +47,14 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T = any>(identifier: string, defaultValue?: T): T | undefined {
     return this.findFlashMessage(identifier) ?? defaultValue;
   }
 
   /**
    * Get a specific validation error flash message
    */
-  public getValidationError<T>(identifier: string, defaultValue?: T): T | undefined {
+  public getValidationError<T = any>(identifier: string, defaultValue?: T): T | undefined {
     return this.get<T>(`errors.${identifier}`, defaultValue);
   }
 

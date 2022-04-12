@@ -18,14 +18,14 @@ export const Document: FunctionComponent<DocumentProps> = ({ children, assets })
   const { app, request } = useAdonis();
 
   return (
-    <html lang={locale} className="h-full bg-gray-100">
+    <html className="h-full bg-gray-100" lang={locale}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {request.csrfToken && <meta name="csrf-token" content={request.csrfToken} />}
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        {request.csrfToken && <meta content={request.csrfToken} name="csrf-token" />}
         <title>{app.appName}</title>
         {assets.cssFiles.map((file) => (
-          <link key={file} rel="stylesheet" href={file} />
+          <link key={file} href={file} rel="stylesheet" />
         ))}
       </head>
       <body className="h-full">
