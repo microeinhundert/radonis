@@ -55,7 +55,7 @@ export class FlashMessages {
    * Get a specific validation error flash message
    */
   public getValidationError<T>(identifier: string, defaultValue?: T): T | undefined {
-    return this.get(`errors.${identifier}`, defaultValue);
+    return this.get<T>(`errors.${identifier}`, defaultValue);
   }
 
   /**
