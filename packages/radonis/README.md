@@ -152,7 +152,7 @@ import { useHydration } from '@microeinhundert/radonis';
 const hydration = useHydration();
 
 // Get info about the HydrationRoot the component is a child of:
-console.log(hydration) // => `{ root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
+console.log(hydration) // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
 
 // By combining useHydration and useManifest, you can get the props of the component 
 // passed to the HydrationRoot from any component in the tree:

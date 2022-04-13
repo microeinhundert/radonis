@@ -44,7 +44,9 @@ const createIntersectionObserver = (
 
       hydrateRoot(
         hydrationRootTarget,
-        <HydrationContextProvider value={{ root: hydrationRoot, componentName, propsHash }}>
+        <HydrationContextProvider
+          value={{ hydrated: true, root: hydrationRoot, componentName, propsHash }}
+        >
           <Component {...props} />
         </HydrationContextProvider>
       );
