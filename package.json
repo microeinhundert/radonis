@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "private": true,
   "description": "Bridge the gap between React and AdonisJS",
   "workspaces": [
