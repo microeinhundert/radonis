@@ -6,5 +6,5 @@ export const useUrlBuilder = () => {
   const routes = useRoutes();
   const hydration = useHydration();
 
-  return new UrlBuilder(routes, !!hydration);
+  return new UrlBuilder(routes, !!hydration.root);
 };

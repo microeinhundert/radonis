@@ -6,5 +6,5 @@ export const useFlashMessages = () => {
   const { flashMessages } = useManifest();
   const hydration = useHydration();
 
-  return new FlashMessages(flashMessages, !!hydration);
+  return new FlashMessages(flashMessages, !!hydration.root);
 };

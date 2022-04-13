@@ -6,5 +6,5 @@ export const useI18n = () => {
   const { locale, messages } = useManifest();
   const hydration = useHydration();
 
-  return new I18n(locale, messages, !!hydration);
+  return new I18n(locale, messages, !!hydration.root);
 };
