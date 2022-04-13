@@ -165,9 +165,6 @@ console.log(manifest.props[hydration.propsHash]); // => `{ someProp: 'test' }`
 
 ### useHydrated (Server and client)
 
-Allows you to check if a component was hydrated.
-Useful for progressive enhancement by showing parts of a component only after hydration.
-
 ```typescript
 import { useHydrated } from '@microeinhundert/radonis';
 
@@ -175,6 +172,9 @@ const hydrated = useHydrated();
 
 console.log(hydrated) // => `true` if it was hydrated or `false` if not
 ```
+
+This hook allows checking if a component was hydrated.
+Useful for progressive enhancement by showing parts of a component only after hydration.
 
 ### useI18n (Server and client)
 
