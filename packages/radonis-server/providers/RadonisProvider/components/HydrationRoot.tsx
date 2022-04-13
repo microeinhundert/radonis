@@ -11,14 +11,17 @@ export const HydrationRoot: FunctionComponent<HydrationRootProps> = ({
   componentName,
 }) => {
   const manifestBuilder = useManifestBuilder();
-  const parentHydration = useHydration();
+  const { root: parentHydrationRootId, componentName: parentComponentName } = useHydration();
   const hydrationRootId = useId();
 
-  if (parentHydration.root) {
+  if (parentHydrationRootId) {
+    /* eslint-disable prettier/prettier */
     throw new Error(
-      `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydration.root}" for component "${parentHydration.componentName}".
+      `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested
+      inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName ?? 'Unknown'}".
       This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
     );
+    /* eslint-enable prettier/prettier */
   }
 
   const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children));
