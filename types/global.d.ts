@@ -2,7 +2,7 @@ declare global {
   namespace Radonis {
     interface Manifest {
       props: Map<string, Record<string, unknown>>;
-      route: { name: string | null; pattern: string | null } | null;
+      route: { name?: string; pattern?: string } | null;
       routes: Record<string, any>;
       locale: string;
       messages: Record<string, string>;

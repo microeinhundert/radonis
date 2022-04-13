@@ -35,8 +35,8 @@ const initReactRenderer = (
    */
   manifestBuilder.setRoutes(routes);
   manifestBuilder.setRoute({
-    name: ctx.route?.name ?? null,
-    pattern: ctx.route?.pattern ?? null,
+    name: ctx.route?.name,
+    pattern: ctx.route?.pattern,
   });
 
   if (ctx.session) {
