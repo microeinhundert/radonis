@@ -8,9 +8,9 @@ import { getManifestOrFail, isServer } from './utils/environment';
 /**
  * Create the intersection observer that hydrates components only when in view
  */
-const createIntersectionObserver = (
+function createIntersectionObserver(
   components: Record<string, LazyExoticComponent<any>>
-): IntersectionObserver => {
+): IntersectionObserver {
   return new IntersectionObserver((observedHydrationRoots, observer) => {
     observedHydrationRoots.forEach((observedHydrationRoot) => {
       if (!observedHydrationRoot.isIntersecting) return;
@@ -53,12 +53,12 @@ const createIntersectionObserver = (
       observer.unobserve(hydrationRootTarget);
     });
   });
-};
+}
 
 /**
  * Hydrate the server-rendered components on the client
  */
-export const hydrate = (components: Record<string, LazyExoticComponent<any>>): void => {
+export function hydrate(components: Record<string, LazyExoticComponent<any>>): void {
   if (isServer()) {
     throw new Error(
       `Radonis hydration does not work on the server.
@@ -72,4 +72,4 @@ export const hydrate = (components: Record<string, LazyExoticComponent<any>>): v
   hydrationRoots.forEach((hydrationRoot: HTMLElement) => {
     intersectionObserver.observe(hydrationRoot);
   });
-};
+}

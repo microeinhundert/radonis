@@ -1,7 +1,7 @@
 import { useAdonis } from './useAdonis';
 
-export const useRequest = () => {
+export function useRequest() {
   const { request } = useAdonis();
 
   return request;
-};
+}

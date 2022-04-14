@@ -1,6 +1,6 @@
 import { useHttpContext } from './useHttpContext';
 
-export const useSession = () => {
+export function useSession() {
   const { session } = useHttpContext();
 
   if (!session) {
@@ -8,4 +8,4 @@ export const useSession = () => {
   }
 
   return session;
-};
+}

@@ -2,8 +2,8 @@ import { useContext } from 'react';
 
 import { manifestBuilderContext } from '../contexts/manifestBuilderContext';
 
-export const useManifestBuilder = () => {
+export function useManifestBuilder() {
   const context = useContext(manifestBuilderContext);
 
   return context;
-};
+}

@@ -1,16 +1,16 @@
-export const isClient = (): boolean => {
+export function isClient(): boolean {
   return typeof window !== 'undefined';
-};
+}
 
-export const isServer = (): boolean => {
+export function isServer(): boolean {
   return typeof globalThis !== 'undefined' && !isClient();
-};
+}
 
-export const getManifest = (): Radonis.Manifest | undefined => {
+export function getManifest(): Radonis.Manifest | undefined {
   return isServer() ? globalThis.rad_serverManifest : window.rad_clientManifest;
-};
+}
 
-export const getManifestOrFail = () => {
+export function getManifestOrFail(): Radonis.Manifest {
   const manifest = getManifest();
 
   if (!manifest) {
@@ -21,4 +21,4 @@ export const getManifestOrFail = () => {
   }
 
   return manifest;
-};
+}

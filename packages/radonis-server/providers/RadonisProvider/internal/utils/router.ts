@@ -1,6 +1,6 @@
 import type { RouterContract } from '@ioc:Adonis/Core/Route';
 
-export const extractRoutesFromRouter = (Router: RouterContract): Record<string, any> => {
+export function extractRoutesFromRouter(Router: RouterContract): Record<string, any> {
   const rootRoutes = Router.toJSON()['root'];
 
   return rootRoutes.reduce<Record<string, any>>((routes, route) => {
@@ -12,4 +12,4 @@ export const extractRoutesFromRouter = (Router: RouterContract): Record<string, 
 
     return routes;
   }, {});
-};
+}

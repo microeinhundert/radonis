@@ -1,7 +1,7 @@
 import { useAdonis } from './useAdonis';
 
-export const useHttpContext = () => {
+export function useHttpContext() {
   const { ctx } = useAdonis();
 
   return ctx;
-};
+}

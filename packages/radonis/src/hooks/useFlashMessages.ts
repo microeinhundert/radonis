@@ -4,7 +4,7 @@ import { FlashMessages } from '../internal/FlashMessages';
 import { useHydration } from './useHydration';
 import { useManifest } from './useManifest';
 
-export const useFlashMessages = () => {
+export function useFlashMessages() {
   const { flashMessages } = useManifest();
   const hydration = useHydration();
 
@@ -12,4 +12,4 @@ export const useFlashMessages = () => {
     () => new FlashMessages(flashMessages, !!hydration.root),
     [flashMessages, hydration]
   );
-};
+}

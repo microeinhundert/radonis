@@ -1,10 +1,10 @@
 import { hydrate } from './internal/hydrate';
 
-export const initClient = () => {
+export function initClient() {
   return {
     hydrate,
   };
-};
+}
 
 export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext';
 export { useFlashMessages } from './hooks/useFlashMessages';

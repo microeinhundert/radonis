@@ -4,9 +4,9 @@ import { I18n } from '../internal/I18n';
 import { useHydration } from './useHydration';
 import { useManifest } from './useManifest';
 
-export const useI18n = () => {
+export function useI18n() {
   const { locale, messages } = useManifest();
   const hydration = useHydration();
 
   return useMemo(() => new I18n(locale, messages, !!hydration.root), [locale, messages, hydration]);
-};
+}

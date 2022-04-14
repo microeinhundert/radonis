@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useHydration } from './useHydration';
 
-export const useHydrated = () => {
+export function useHydrated() {
   const hydration = useHydration();
   const [hydrated, setHydrated] = useState(false);
 
@@ -12,4 +12,4 @@ export const useHydrated = () => {
   }, []);
 
   return hydrated;
-};
+}

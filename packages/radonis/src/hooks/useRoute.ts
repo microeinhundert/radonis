@@ -1,7 +1,7 @@
 import { useHydration } from './useHydration';
 import { useManifest } from './useManifest';
 
-export const useRoute = () => {
+export function useRoute() {
   const { route, routes } = useManifest();
   const hydration = useHydration();
 
@@ -22,4 +22,4 @@ export const useRoute = () => {
       return false;
     },
   };
-};
+}

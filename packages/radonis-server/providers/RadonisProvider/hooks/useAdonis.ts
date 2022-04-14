@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { adonisContext } from '../internal/contexts/adonisContext';
 
-export const useAdonis = () => {
+export function useAdonis() {
   const context = useContext(adonisContext);
 
   if (!context) {
@@ -13,4 +13,4 @@ export const useAdonis = () => {
   }
 
   return context;
-};
+}

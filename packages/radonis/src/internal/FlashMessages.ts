@@ -1,5 +1,7 @@
 import { isServer } from './utils/environment';
 
+type JSONValue = string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue> | null;
+
 export class FlashMessages {
   /**
    * FlashMessagesManager
@@ -47,15 +49,17 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T = any>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T = JSONValue>(identifier: string, defaultValue: T): T;
+  public get<T = JSONValue>(identifier: string, defaultValue?: T): T | undefined {
     return this.findFlashMessage(identifier) ?? defaultValue;
   }
 
   /**
    * Get a specific validation error flash message
    */
-  public getValidationError<T = any>(identifier: string, defaultValue?: T): T | undefined {
-    return this.get<T>(`errors.${identifier}`, defaultValue);
+  public getValidationError<T = string>(identifier: string, defaultValue: T): T;
+  public getValidationError<T = string>(identifier: string, defaultValue?: T): T | undefined {
+    return this.get<T>(`errors.${identifier}`, defaultValue as T);
   }
 
   /**

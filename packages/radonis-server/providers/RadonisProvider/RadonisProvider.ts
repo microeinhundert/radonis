@@ -18,12 +18,12 @@ import { extractRoutesFromRouter } from './internal/utils/router';
 /**
  * Initialize the ReactRenderer
  */
-const initReactRenderer = (
+function initReactRenderer(
   ctx: HttpContextContract,
   app: ApplicationContract,
   Router: RouterContract,
   AssetsManager: AssetsManagerContract
-): ReactRenderer => {
+): ReactRenderer {
   const jsFiles = AssetsManager.entryPointJsFiles?.(ENTRY_NAME) ?? [];
   const cssFiles = AssetsManager.entryPointCssFiles?.(ENTRY_NAME) ?? [];
 
@@ -59,7 +59,7 @@ const initReactRenderer = (
   });
 
   return reactRenderer;
-};
+}
 
 export class RadonisProvider {
   public static needsApplication = true;

@@ -1,4 +1,3 @@
-import type { FunctionComponent } from 'react';
 import type { ReactNode } from 'react';
 import React from 'react';
 
@@ -13,7 +12,7 @@ interface DocumentProps {
   };
 }
 
-export const Document: FunctionComponent<DocumentProps> = ({ children, assets }) => {
+export function Document({ children, assets }: DocumentProps) {
   const { locale } = useManifestBuilder();
   const { app, request } = useAdonis();
 
@@ -37,4 +36,4 @@ export const Document: FunctionComponent<DocumentProps> = ({ children, assets })
       </body>
     </html>
   );
-};
+}

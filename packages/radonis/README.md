@@ -112,7 +112,7 @@ In order for Radonis to know what to hydrate on the client, wrap the individual 
 ```tsx
 import { HydrationRoot } from '@ioc:Radonis';
 
-const ServerRenderedComponent = () => {
+function ServerRenderedComponent() {
   return (
     <HydrationRoot componentName="SomeInteractiveComponent">
       <SomeInteractiveComponent someProp="test">
@@ -120,7 +120,7 @@ const ServerRenderedComponent = () => {
       </SomeInteractiveComponent>
     </HydrationRoot>
   );
-};
+}
 ```
 
 Make sure to only pass a single child to a *HydrationRoot* component. If you want to hydrate multiple parts of your application, use multiple *HydrationRoot*s instead.
@@ -152,7 +152,7 @@ import { useHydration } from '@microeinhundert/radonis';
 const hydration = useHydration();
 
 // Get info about the HydrationRoot the component is a child of:
-console.log(hydration) // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
+console.log(hydration); // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
 
 // By combining useHydration and useManifest, you can get the props of the component 
 // passed to the HydrationRoot from any component in the tree:
@@ -170,7 +170,7 @@ import { useHydrated } from '@microeinhundert/radonis';
 
 const hydrated = useHydrated();
 
-console.log(hydrated) // => `true` if it was hydrated or `false` if not
+console.log(hydrated); // => `true` if it was hydrated or `false` if not
 ```
 
 This hook allows checking if a component was hydrated.
@@ -184,7 +184,7 @@ import { useI18n } from '@microeinhundert/radonis';
 const i18n = useI18n();
 
 // Get a translated message:
-console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
+console.log(i18n.formatMessage('auth.signUpTitle')); // => `Some message defined in translations`
 ```
 
 This hook also allows formatting via the ICU format, just like the AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
@@ -200,7 +200,7 @@ import { useManifest } from '@microeinhundert/radonis';
 const manifest = useManifest();
 
 // Get the manifest:
-console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {}, flashMessages: {} }`
+console.log(manifest); // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {}, flashMessages: {} }`
 ```
 
 > Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
@@ -213,10 +213,13 @@ import { useRoute } from '@microeinhundert/radonis';
 const route = useRoute();
 
 // Get the current route:
-console.log(route.current) // => `{ name: 'users.show', pattern: '/users/:id' }`
+console.log(route.current); // => `{ name: 'users.show', pattern: '/users/:id' }`
 
 // Check if a route is the current route:
-console.log(route.isCurrent('users.show'))  // => `true` if currently on `users.show`, `false` if not
+console.log(route.isCurrent('users.show'));  // => `true` if currently on `users.show` or a child of `users.show`, `false` if not
+
+// Check if exact match:
+console.log(route.isCurrent('users.show', true));  // => `true` if currently on `users.show`, `false` if not
 ```
 
 ### useRoutes (Server and client)
@@ -227,7 +230,7 @@ import { useRoutes } from '@microeinhundert/radonis';
 const routes = useRoutes();
 
 // Get all routes as object:
-console.log(routes) // => `{ 'drive.local.serve': '/uploads/*', ... }`
+console.log(routes); // => `{ 'drive.local.serve': '/uploads/*', ... }`
 ```
 
 ### useUrlBuilder (Server and client)
@@ -261,19 +264,19 @@ import { useFlashMessages } from '@microeinhundert/radonis';
 const flashMessages = useFlashMessages();
 
 // Check if a flash message exists:
-console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
+console.log(flashMessages.has('errors.fieldName.0')); // => `true` or `false`
 
 // Get a flash message:
-console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
+console.log(flashMessages.get('errors.fieldName.0')); // => `required validation failed on fieldName`
 
 // You can also omit the index to automatically get the first item if an array:
-console.log(flashMessages.get('errors.fieldName')) // => same as `errors.fieldName.0`
+console.log(flashMessages.get('errors.fieldName')); // => same as `errors.fieldName.0`
 
 // You can also get validation errors like this:
-console.log(flashMessages.getValidationError('fieldName')) // => same as `errors.fieldName`
+console.log(flashMessages.getValidationError('fieldName')); // => same as `errors.fieldName`
 
 // Get all flash messages:
-console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
+console.log(flashMessages.all()); // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
