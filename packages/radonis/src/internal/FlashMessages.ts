@@ -1,6 +1,6 @@
 import { isServer } from './utils/environment';
 
-type JSONValue = string | number | boolean | { [x: string]: JSONValue } | Array<JSONValue> | null;
+type JSONValue = string | number | boolean | null;
 
 export class FlashMessages {
   /**
