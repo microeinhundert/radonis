@@ -1,7 +1,9 @@
+import { useHydration } from './useHydration';
 import { useManifest } from './useManifest';
 
 export const useRoute = () => {
   const { route, routes } = useManifest();
+  const hydration = useHydration();
 
   return {
     current: route,
@@ -11,7 +13,9 @@ export const useRoute = () => {
       }
 
       if (routes[identifier]) {
-        globalThis.rad_routesManager?.requireRouteForHydration(identifier);
+        if (hydration.root) {
+          globalThis.rad_routesManager?.requireRouteForHydration(identifier);
+        }
         return !!route?.pattern?.startsWith(routes[identifier]);
       }
 
