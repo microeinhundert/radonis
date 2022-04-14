@@ -1,8 +1,8 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Bridge the gap between React and AdonisJS",
-  "main": "build/providers/RadonisProvider/index.js",
+  "main": "build/providers/RadonisProvider.js",
   "types": "build/adonis-typings/index.d.ts",
   "typings": "build/adonis-typings/index.d.ts",
   "files": [
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "clean": "del build",
-    "copyfiles": "copyfiles \"instructions.md\" build",
+    "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
     "compile": "npm run lint && npm run clean && tsc",
     "build": "npm run compile && npm run copyfiles",
     "prepublishOnly": "npm run build",
@@ -39,10 +39,19 @@
     "types": "@microeinhundert/radonis-server",
     "providers": [
       "@microeinhundert/radonis-server"
-    ]
+    ],
+    "templates": {
+      "basePath": "./build/templates",
+      "config": [
+        {
+          "src": "config.txt",
+          "dest": "radonis"
+        }
+      ]
+    }
   },
   "peerDependencies": {
-    "@microeinhundert/radonis": "^0.3.2",
+    "@microeinhundert/radonis": "^0.4.0",
     "@adonisjs/core": "^5.7.3",
     "@adonisjs/session": "^6.2.2",
     "@adonisjs/shield": "^7.0.10",
@@ -59,6 +68,7 @@
   },
   "dependencies": {
     "flattie": "^1.1.0",
-    "node-object-hash": "^2.3.10"
+    "node-object-hash": "^2.3.10",
+    "twind": "1.0.0-next.37"
   }
 }

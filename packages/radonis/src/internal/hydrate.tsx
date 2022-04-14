@@ -1,9 +1,9 @@
-import type { LazyExoticComponent } from 'react';
-import React from 'react';
-import { hydrateRoot } from 'react-dom/client';
+import type { LazyExoticComponent } from 'react'
+import React from 'react'
+import { hydrateRoot } from 'react-dom/client'
 
-import { HydrationContextProvider } from '../contexts/hydrationContext';
-import { getManifestOrFail, isServer } from './utils/environment';
+import { HydrationContextProvider } from '../contexts/hydrationContext'
+import { getManifestOrFail, isServer } from './utils/environment'
 
 /**
  * Create the intersection observer that hydrates components only when in view
@@ -13,34 +13,34 @@ function createIntersectionObserver(
 ): IntersectionObserver {
   return new IntersectionObserver((observedHydrationRoots, observer) => {
     observedHydrationRoots.forEach((observedHydrationRoot) => {
-      if (!observedHydrationRoot.isIntersecting) return;
+      if (!observedHydrationRoot.isIntersecting) return
 
-      const hydrationRootTarget = observedHydrationRoot.target as HTMLElement;
+      const hydrationRootTarget = observedHydrationRoot.target as HTMLElement
 
-      const hydrationRoot = hydrationRootTarget.dataset.hydrationRoot;
-      const componentName = hydrationRootTarget.dataset.component;
+      const hydrationRoot = hydrationRootTarget.dataset.hydrationRoot
+      const componentName = hydrationRootTarget.dataset.component
 
       if (!hydrationRoot || !componentName) {
         throw new Error(
           `Found a HydrationRoot that is missing important hydration data.
           Please make sure you passed all the required props to all of your HydrationRoots.
           If everything looks fine to you, this is most likely a bug of Radonis`
-        );
+        )
       }
 
-      const Component = components[componentName];
+      const Component = components[componentName]
 
       if (!Component) {
         throw new Error(
           `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRoot}", but that component could not be hydrated.
           Please make sure the name under which the component was passed to "hydrate" matches the "componentName" prop passed to the HydrationRoot`
-        );
+        )
       }
 
-      const manifest = getManifestOrFail();
+      const manifest = getManifestOrFail()
 
-      const propsHash = hydrationRootTarget.dataset.props ?? '0';
-      const props = manifest.props[propsHash] ?? {};
+      const propsHash = hydrationRootTarget.dataset.props ?? '0'
+      const props = manifest.props[propsHash] ?? {}
 
       hydrateRoot(
         hydrationRootTarget,
@@ -49,10 +49,10 @@ function createIntersectionObserver(
         >
           <Component {...props} />
         </HydrationContextProvider>
-      );
-      observer.unobserve(hydrationRootTarget);
-    });
-  });
+      )
+      observer.unobserve(hydrationRootTarget)
+    })
+  })
 }
 
 /**
@@ -63,13 +63,13 @@ export function hydrate(components: Record<string, LazyExoticComponent<any>>): v
     throw new Error(
       `Radonis hydration does not work on the server.
       Please make sure "hydrate" is only called on the client`
-    );
+    )
   }
 
-  const hydrationRoots = document.querySelectorAll('[data-hydration-root]');
-  const intersectionObserver = createIntersectionObserver(components);
+  const hydrationRoots = document.querySelectorAll('[data-hydration-root]')
+  const intersectionObserver = createIntersectionObserver(components)
 
   hydrationRoots.forEach((hydrationRoot: HTMLElement) => {
-    intersectionObserver.observe(hydrationRoot);
-  });
+    intersectionObserver.observe(hydrationRoot)
+  })
 }

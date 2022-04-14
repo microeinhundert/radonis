@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
 
-import { hydrationContext } from '../contexts/hydrationContext';
+import { hydrationContext } from '../contexts/hydrationContext'
 
 export function useHydration() {
-  const context = useContext(hydrationContext);
+  const context = useContext(hydrationContext)
 
-  return context;
+  return context
 }

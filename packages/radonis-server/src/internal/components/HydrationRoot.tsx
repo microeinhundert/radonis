@@ -1,14 +1,14 @@
-import type { HydrationRootProps } from '@ioc:Radonis';
+import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
 // @ts-ignore No idea why this import fails in GitHub Actions
-import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis';
-import React, { useId } from 'react';
+import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis'
+import React, { useId } from 'react'
 
-import { useManifestBuilder } from '../internal/hooks/useManifestBuilder';
+import { useManifestBuilder } from '../hooks/useManifestBuilder'
 
 export function HydrationRoot({ children, componentName }: HydrationRootProps) {
-  const manifestBuilder = useManifestBuilder();
-  const { root: parentHydrationRootId, componentName: parentComponentName } = useHydration();
-  const hydrationRootId = useId();
+  const manifestBuilder = useManifestBuilder()
+  const { root: parentHydrationRootId, componentName: parentComponentName } = useHydration()
+  const hydrationRootId = useId()
 
   if (parentHydrationRootId) {
     /* eslint-disable prettier/prettier */
@@ -20,7 +20,7 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
     /* eslint-enable prettier/prettier */
   }
 
-  const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children));
+  const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children))
 
   return (
     <HydrationContextProvider
@@ -34,5 +34,5 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
         {children}
       </div>
     </HydrationContextProvider>
-  );
+  )
 }

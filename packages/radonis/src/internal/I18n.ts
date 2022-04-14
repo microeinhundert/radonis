@@ -1,12 +1,12 @@
-import { IntlMessageFormat } from 'intl-messageformat';
+import { IntlMessageFormat } from 'intl-messageformat'
 
-import { isServer } from './utils/environment';
+import { isServer } from './utils/environment'
 
 export class I18n {
   /**
    * I18nManager
    */
-  private i18nManager?: Radonis.I18nManagerContract;
+  private i18nManager?: Radonis.I18nManagerContract
 
   /**
    * Constructor
@@ -16,7 +16,7 @@ export class I18n {
     private messages: Record<string, string>,
     private willHydrate?: boolean
   ) {
-    this.i18nManager = globalThis.rad_i18nManager;
+    this.i18nManager = globalThis.rad_i18nManager
   }
 
   /**
@@ -24,24 +24,24 @@ export class I18n {
    * raise exception when unable to
    */
   private findMessageOrFail(identifier: string): string {
-    const message = this.messages[identifier];
+    const message = this.messages[identifier]
 
     if (!message) {
-      throw new Error(`Cannot find message for "${identifier}"`);
+      throw new Error(`Cannot find message for "${identifier}"`)
     }
 
     if (isServer() && this.willHydrate) {
-      this.i18nManager?.requireMessageForHydration(identifier);
+      this.i18nManager?.requireMessageForHydration(identifier)
     }
 
-    return message;
+    return message
   }
 
   /**
    * Format a message
    */
   public formatMessage(identifier: string, data?: Record<string, any>): string {
-    const message = this.findMessageOrFail(identifier);
+    const message = this.findMessageOrFail(identifier)
 
     return new IntlMessageFormat(
       message,
@@ -55,6 +55,6 @@ export class I18n {
         },
         ignoreTag: true,
       }
-    ).format(data || {});
+    ).format(data || {})
   }
 }

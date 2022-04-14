@@ -1,7 +1,7 @@
-import { useManifest } from './useManifest';
+import { useManifest } from './useManifest'
 
 export function useRoutes() {
-  const { routes } = useManifest();
+  const { routes } = useManifest()
 
-  return routes;
+  return routes
 }

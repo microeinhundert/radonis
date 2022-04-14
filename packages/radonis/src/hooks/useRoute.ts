@@ -1,25 +1,25 @@
-import { useHydration } from './useHydration';
-import { useManifest } from './useManifest';
+import { useHydration } from './useHydration'
+import { useManifest } from './useManifest'
 
 export function useRoute() {
-  const { route, routes } = useManifest();
-  const hydration = useHydration();
+  const { route, routes } = useManifest()
+  const hydration = useHydration()
 
   return {
     current: route,
     isCurrent(identifier: string, exact?: boolean): boolean {
       if (exact) {
-        return route?.name === identifier;
+        return route?.name === identifier
       }
 
       if (routes[identifier]) {
         if (hydration.root) {
-          globalThis.rad_routesManager?.requireRouteForHydration(identifier);
+          globalThis.rad_routesManager?.requireRouteForHydration(identifier)
         }
-        return !!route?.pattern?.startsWith(routes[identifier]);
+        return !!route?.pattern?.startsWith(routes[identifier])
       }
 
-      return false;
+      return false
     },
-  };
+  }
 }

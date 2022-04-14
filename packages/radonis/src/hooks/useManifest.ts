@@ -1,5 +1,5 @@
-import { getManifestOrFail } from '../internal/utils/environment';
+import { getManifestOrFail } from '../internal/utils/environment'
 
 export function useManifest() {
-  return getManifestOrFail();
+  return getManifestOrFail()
 }

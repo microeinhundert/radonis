@@ -1,0 +1,8 @@
+import Env from '@ioc:Adonis/Core/Env'
+import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+
+const radonisConfig: RadonisConfig = {
+  productionMode: Env.get('NODE_ENV') === 'production',
+}
+
+export default radonisConfig

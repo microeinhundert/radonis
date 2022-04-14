@@ -2,18 +2,18 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
   /**
    * The routes
    */
-  private routes: Record<string, any> = {};
+  private routes: Record<string, any> = {}
 
   /**
    * The routes required for hydration
    */
-  private routesRequiredForHydration: Set<string> = new Set();
+  private routesRequiredForHydration: Set<string> = new Set()
 
   /**
    * Set the routes
    */
   public setRoutes(routes: Record<string, any>): void {
-    this.routes = routes;
+    this.routes = routes
   }
 
   /**
@@ -21,42 +21,46 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
    */
   public getRoutes(all?: boolean): Record<string, any> {
     if (all) {
-      return this.routes;
+      return this.routes
     }
 
-    const routes = {} as Record<string, any>;
+    const routes = {} as Record<string, any>
 
     for (const identifier of this.routesRequiredForHydration) {
       if (this.routes[identifier]) {
-        routes[identifier] = this.routes[identifier];
+        routes[identifier] = this.routes[identifier]
       }
     }
 
-    return routes;
+    return routes
   }
 
   /**
    * Require a route for hydration
    */
   public requireRouteForHydration(identifier: string): void {
-    if (!this.routes[identifier]) return;
-    this.routesRequiredForHydration.add(identifier);
+    if (!this.routes[identifier]) return
+    this.routesRequiredForHydration.add(identifier)
   }
 
   /**
    * Get a fresh instance
    */
   public fresh(): this {
-    this.routesRequiredForHydration.clear();
+    this.routesRequiredForHydration.clear()
 
-    return this;
+    return this
   }
 
   /**
    * Construct a new RoutesManager
    */
   public static construct(): Radonis.RoutesManagerContract {
+    /**
+     * Setting on the global scope is required in order for the client package
+     * to be able to access this class without having a dependency to the server package
+     */
     return (globalThis.rad_routesManager =
-      globalThis.rad_routesManager?.fresh() ?? new RoutesManager());
+      globalThis.rad_routesManager?.fresh() ?? new RoutesManager())
   }
 }

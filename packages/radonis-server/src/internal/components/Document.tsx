@@ -1,20 +1,20 @@
-import type { ReactNode } from 'react';
-import React from 'react';
+import type { ReactNode } from 'react'
+import React from 'react'
 
-import { useAdonis } from '../../hooks/useAdonis';
-import { useManifestBuilder } from '../hooks/useManifestBuilder';
+import { useManifestBuilder } from '../hooks/useManifestBuilder'
+import { useRadonis } from '../hooks/useRadonis'
 
 interface DocumentProps {
-  children: ReactNode;
+  children: ReactNode
   assets: {
-    jsFiles: string[];
-    cssFiles: string[];
-  };
+    scripts: string[]
+    stylesheets: string[]
+  }
 }
 
 export function Document({ children, assets }: DocumentProps) {
-  const { locale } = useManifestBuilder();
-  const { app, request } = useAdonis();
+  const { locale } = useManifestBuilder()
+  const { application, request } = useRadonis()
 
   return (
     <html className="h-full bg-gray-100" lang={locale}>
@@ -22,18 +22,18 @@ export function Document({ children, assets }: DocumentProps) {
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         {request.csrfToken && <meta content={request.csrfToken} name="csrf-token" />}
-        <title>{app.appName}</title>
-        {assets.cssFiles.map((file) => (
+        <title>{application.appName}</title>
+        {assets.stylesheets.map((file) => (
           <link key={file} href={file} rel="stylesheet" />
         ))}
       </head>
       <body className="h-full">
         {children}
         <div id="rad-manifest" />
-        {assets.jsFiles.map((file) => (
+        {assets.scripts.map((file) => (
           <script key={file} src={file} defer />
         ))}
       </body>
     </html>
-  );
+  )
 }

@@ -7,6 +7,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - Render React views directly from AdonisJS routes and controllers
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
+- Styling with [Twind](https://twind.dev/) built in
 
 **Requirements:**
 - AdonisJS v5.X.X
@@ -61,17 +62,6 @@ npm install --save @adonisjs/session
 
 Without it, *useSession* and *useFlashMessages* hooks won't work.
 
-### 5. Configure Tailwind CSS
-
-Some Tailwind CSS classes are baked into the default rendering, which is currently not configurable.
-Add the following path to *content* inside tailwind.config.js:
-
-```javascript
-module.exports = {
-  content: ['./node_modules/@microeinhundert/**/*.js'],
-};
-```
-
 ## Server-Side Templating
 
 Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both server and client.
@@ -110,7 +100,7 @@ Radonis uses partial hydration to only hydrate what is needed.
 In order for Radonis to know what to hydrate on the client, wrap the individual components with the *HydrationRoot* component:
 
 ```tsx
-import { HydrationRoot } from '@ioc:Radonis';
+import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis';
 
 function ServerRenderedComponent() {
   return (
@@ -281,31 +271,31 @@ console.log(flashMessages.all()); // => `{ 'errors.fieldName.0': 'required valid
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
 
-### useAdonis (Server only)
+### useRadonis (Server only)
 
 Returns info about the AdonisJS instance in the following format:
 
 ```typescript
-interface AdonisContextContract {
-  app: ApplicationContract;
+interface RadonisContextContract {
+  application: ApplicationContract;
   ctx: HttpContextContract;
   request: RequestContract;
   router: RouterContract;
 }
 
-import { useAdonis } from '@ioc:Radonis';
+import { useRadonis } from '@ioc:Adonis/Addons/Radonis';
 
-const adonis = useAdonis();
+const radonis = useRadonis();
 ```
 
-### useApp (Server only)
+### useApplication (Server only)
 
 Returns the AdonisJS *ApplicationContract*.
 
 ```typescript
-import { useApp } from '@ioc:Radonis';
+import { useApplication } from '@ioc:Adonis/Addons/Radonis';
 
-const app = useApp();
+const application = useApplication();
 ```
 
 ### useHttpContext (Server only)
@@ -313,7 +303,7 @@ const app = useApp();
 Returns the AdonisJS *HttpContextContract*.
 
 ```typescript
-import { useHttpContext } from '@ioc:Radonis';
+import { useHttpContext } from '@ioc:Adonis/Addons/Radonis';
 
 const httpContext = useHttpContext();
 ```
@@ -323,7 +313,7 @@ const httpContext = useHttpContext();
 Returns the AdonisJS *RequestContract*.
 
 ```typescript
-import { useRequest } from '@ioc:Radonis';
+import { useRequest } from '@ioc:Adonis/Addons/Radonis';
 
 const request = useRequest();
 ```
@@ -333,7 +323,7 @@ const request = useRequest();
 Returns the AdonisJS *RouterContract*.
 
 ```typescript
-import { useRouter } from '@ioc:Radonis';
+import { useRouter } from '@ioc:Adonis/Addons/Radonis';
 
 const router = useRouter();
 ```
@@ -343,7 +333,7 @@ const router = useRouter();
 Returns the AdonisJS *SessionContract*.
 
 ```typescript
-import { useSession } from '@ioc:Radonis';
+import { useSession } from '@ioc:Adonis/Addons/Radonis';
 
 const session = useSession();
 ```

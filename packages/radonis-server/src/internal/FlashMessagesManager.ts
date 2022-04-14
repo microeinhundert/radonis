@@ -1,21 +1,21 @@
-import { flattie } from 'flattie';
+import { flattie } from 'flattie'
 
 export class FlashMessagesManager implements Radonis.FlashMessagesManagerContract {
   /**
    * The flash messages
    */
-  private flashMessages: Record<string, Radonis.FlashMessage> = {};
+  private flashMessages: Record<string, Radonis.FlashMessage> = {}
 
   /**
    * The flash messages required for hydration
    */
-  private flashMessagesRequiredForHydration: Set<string> = new Set();
+  private flashMessagesRequiredForHydration: Set<string> = new Set()
 
   /**
    * Set the flash messages
    */
   public setFlashMessages(flashMessages: Record<string, unknown>): void {
-    this.flashMessages = flattie(flashMessages);
+    this.flashMessages = flattie(flashMessages)
   }
 
   /**
@@ -23,42 +23,46 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
    */
   public getFlashMessages(all?: boolean): Record<string, Radonis.FlashMessage> {
     if (all) {
-      return this.flashMessages;
+      return this.flashMessages
     }
 
-    const flashMessages = {} as Record<string, Radonis.FlashMessage>;
+    const flashMessages = {} as Record<string, Radonis.FlashMessage>
 
     for (const identifier of this.flashMessagesRequiredForHydration) {
       if (this.flashMessages[identifier]) {
-        flashMessages[identifier] = this.flashMessages[identifier];
+        flashMessages[identifier] = this.flashMessages[identifier]
       }
     }
 
-    return flashMessages;
+    return flashMessages
   }
 
   /**
    * Require a flash message for hydration
    */
   public requireFlashMessageForHydration(identifier: string): void {
-    if (!this.flashMessages[identifier]) return;
-    this.flashMessagesRequiredForHydration.add(identifier);
+    if (!this.flashMessages[identifier]) return
+    this.flashMessagesRequiredForHydration.add(identifier)
   }
 
   /**
    * Get a fresh instance
    */
   public fresh(): this {
-    this.flashMessagesRequiredForHydration.clear();
+    this.flashMessagesRequiredForHydration.clear()
 
-    return this;
+    return this
   }
 
   /**
    * Construct a new FlashMessagesManager
    */
   public static construct(): Radonis.FlashMessagesManagerContract {
+    /**
+     * Setting on the global scope is required in order for the client package
+     * to be able to access this class without having a dependency to the server package
+     */
     return (globalThis.rad_flashMessagesManager =
-      globalThis.rad_flashMessagesManager?.fresh() ?? new FlashMessagesManager());
+      globalThis.rad_flashMessagesManager?.fresh() ?? new FlashMessagesManager())
   }
 }
