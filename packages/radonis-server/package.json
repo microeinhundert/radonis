@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/providers/RadonisProvider.js",
   "types": "build/adonis-typings/index.d.ts",
@@ -53,7 +53,7 @@
     }
   },
   "peerDependencies": {
-    "@microeinhundert/radonis": "^0.4.1",
+    "@microeinhundert/radonis": "^0.4.2",
     "@adonisjs/core": "^5.7.3",
     "@adonisjs/session": "^6.2.2",
     "@adonisjs/shield": "^7.0.10",

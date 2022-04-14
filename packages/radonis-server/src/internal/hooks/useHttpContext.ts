@@ -1,7 +1,7 @@
 import { useRadonis } from './useRadonis'
 
 export function useHttpContext() {
-  const { ctx } = useRadonis()
+  const { httpContext } = useRadonis()
 
-  return ctx
+  return httpContext
 }

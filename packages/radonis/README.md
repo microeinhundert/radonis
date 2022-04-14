@@ -278,8 +278,7 @@ Returns info about the AdonisJS instance in the following format:
 ```typescript
 interface RadonisContextContract {
   application: ApplicationContract;
-  ctx: HttpContextContract;
-  request: RequestContract;
+  httpContext: HttpContextContract;
   router: RouterContract;
 }
 

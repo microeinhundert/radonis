@@ -77,8 +77,7 @@ export default class RadonisProvider {
              */
             reactRenderer.shareContext({
               application,
-              ctx: this,
-              request: this.request,
+              httpContext: this,
               router: Router,
             })
 

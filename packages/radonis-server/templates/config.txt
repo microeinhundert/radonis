@@ -1,5 +1,5 @@
-import Env from '@ioc:Adonis/Core/Env'
-import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis';
+import Env from '@ioc:Adonis/Core/Env';
 
 const radonisConfig: RadonisConfig = {
   productionMode: Env.get('NODE_ENV') === 'production',

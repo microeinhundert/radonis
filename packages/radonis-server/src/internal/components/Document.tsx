@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
 import React from 'react'
 
+import { useApplication } from '../hooks/useApplication'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
-import { useRadonis } from '../hooks/useRadonis'
+import { useRequest } from '../hooks/useRequest'
 
 interface DocumentProps {
   children: ReactNode
@@ -14,7 +15,8 @@ interface DocumentProps {
 
 export function Document({ children, assets }: DocumentProps) {
   const { locale } = useManifestBuilder()
-  const { application, request } = useRadonis()
+  const request = useRequest()
+  const application = useApplication()
 
   return (
     <html className="h-full bg-gray-100" lang={locale}>

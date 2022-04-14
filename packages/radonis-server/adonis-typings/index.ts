@@ -24,8 +24,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   interface RadonisContextContract {
     application: ApplicationContract
-    ctx: HttpContextContract
-    request: RequestContract
+    httpContext: HttpContextContract
     router: RouterContract
   }
 
