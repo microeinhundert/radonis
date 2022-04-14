@@ -49,18 +49,18 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T = JSONValue>(identifier: string, defaultValue: T): T;
-  public get<T = JSONValue>(identifier: string, defaultValue?: T): T | undefined;
-  public get<T = JSONValue>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T extends JSONValue>(identifier: string, defaultValue: T): T;
+  public get<T extends JSONValue>(identifier: string, defaultValue?: T): T | undefined;
+  public get<T extends JSONValue>(identifier: string, defaultValue?: T): T | undefined {
     return this.findFlashMessage(identifier) ?? defaultValue;
   }
 
   /**
    * Get a specific validation error flash message
    */
-  public getValidationError<T = string>(identifier: string, defaultValue: T): T;
-  public getValidationError<T = string>(identifier: string, defaultValue?: T): T | undefined;
-  public getValidationError<T = string>(identifier: string, defaultValue?: T): T | undefined {
+  public getValidationError<T extends string>(identifier: string, defaultValue: T): T;
+  public getValidationError<T extends string>(identifier: string, defaultValue?: T): T | undefined;
+  public getValidationError<T extends string>(identifier: string, defaultValue?: T): T | undefined {
     return this.get<T>(`errors.${identifier}`, defaultValue);
   }
 
