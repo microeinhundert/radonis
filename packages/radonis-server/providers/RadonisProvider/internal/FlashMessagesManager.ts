@@ -4,7 +4,7 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   /**
    * The flash messages
    */
-  private flashMessages: Record<string, any> = {};
+  private flashMessages: Record<string, Radonis.FlashMessage> = {};
 
   /**
    * The flash messages required for hydration
@@ -14,19 +14,19 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   /**
    * Set the flash messages
    */
-  public setFlashMessages(flashMessages: Record<string, any>): void {
+  public setFlashMessages(flashMessages: Record<string, unknown>): void {
     this.flashMessages = flattie(flashMessages);
   }
 
   /**
    * Get the flash messages
    */
-  public getFlashMessages(all?: boolean): Record<string, any> {
+  public getFlashMessages(all?: boolean): Record<string, Radonis.FlashMessage> {
     if (all) {
       return this.flashMessages;
     }
 
-    const flashMessages = {} as Record<string, any>;
+    const flashMessages = {} as Record<string, Radonis.FlashMessage>;
 
     for (const identifier of this.flashMessagesRequiredForHydration) {
       if (this.flashMessages[identifier]) {

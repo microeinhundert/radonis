@@ -1,7 +1,5 @@
 import { isServer } from './utils/environment';
 
-type JSONValue = string | number | boolean | null;
-
 export class FlashMessages {
   /**
    * FlashMessagesManager
@@ -11,14 +9,17 @@ export class FlashMessages {
   /**
    * Constructor
    */
-  constructor(private flashMessages: Record<string, any>, private willHydrate?: boolean) {
+  constructor(
+    private flashMessages: Record<string, Radonis.FlashMessage>,
+    private willHydrate?: boolean
+  ) {
     this.flashMessagesManager = globalThis.rad_flashMessagesManager;
   }
 
   /**
    * Find the flash message inside the registered flash messages
    */
-  private findFlashMessage(identifier: string): any {
+  private findFlashMessage(identifier: string): Radonis.FlashMessage | undefined {
     const flashMessage = this.flashMessages[identifier];
 
     if (!flashMessage && !identifier.match(/\.(\d*)$/i)) {
@@ -49,9 +50,10 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T extends JSONValue>(identifier: string, defaultValue: T): T;
-  public get<T extends JSONValue>(identifier: string, defaultValue?: T): T | undefined;
-  public get<T extends JSONValue>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue: T): T;
+  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue?: T): T | undefined;
+  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue?: T): T | undefined {
+    // @ts-ignore
     return this.findFlashMessage(identifier) ?? defaultValue;
   }
 
@@ -67,12 +69,14 @@ export class FlashMessages {
   /**
    * Get all flash messages
    */
-  public all(): Record<string, any> {
-    return Object.keys(this.flashMessages).reduce<Record<string, any>>(
+  public all(): Record<string, Radonis.FlashMessage> {
+    return Object.keys(this.flashMessages).reduce<Record<string, Radonis.FlashMessage>>(
       (flashMessages, flashMessageIdentifier) => {
         return {
           ...flashMessages,
-          [flashMessageIdentifier]: this.findFlashMessage(flashMessageIdentifier),
+          [flashMessageIdentifier]: this.findFlashMessage(
+            flashMessageIdentifier
+          ) as Radonis.FlashMessage,
         };
       },
       {}

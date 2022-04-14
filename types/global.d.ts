@@ -1,12 +1,14 @@
 declare global {
   namespace Radonis {
+    type FlashMessage = string | boolean | number;
+
     interface Manifest {
       props: Map<string, Record<string, unknown>>;
       route: { name?: string; pattern?: string } | null;
       routes: Record<string, any>;
       locale: string;
       messages: Record<string, string>;
-      flashMessages: Record<string, any>;
+      flashMessages: Record<string, FlashMessage>;
     }
 
     interface I18nManagerContract {
