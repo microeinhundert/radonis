@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE } from './constants'
+import { DEFAULT_LOCALE } from '../constants'
 
 export class I18nManager implements Radonis.I18nManagerContract {
   /**

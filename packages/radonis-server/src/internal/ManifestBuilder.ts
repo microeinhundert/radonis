@@ -1,9 +1,9 @@
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
-import { FlashMessagesManager } from './FlashMessagesManager'
-import { I18nManager } from './I18nManager'
-import { RoutesManager } from './RoutesManager'
+import { FlashMessagesManager } from './managers/FlashMessagesManager'
+import { I18nManager } from './managers/I18nManager'
+import { RoutesManager } from './managers/RoutesManager'
 
 /**
  * Replacer for stringifying Maps
