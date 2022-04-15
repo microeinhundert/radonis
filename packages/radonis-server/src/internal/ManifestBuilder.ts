@@ -1,9 +1,14 @@
+/*
+ * @microeinhundert/radonis-server
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
-
-import { FlashMessagesManager } from './managers/FlashMessagesManager'
-import { I18nManager } from './managers/I18nManager'
-import { RoutesManager } from './managers/RoutesManager'
 
 /**
  * Replacer for stringifying Maps
@@ -36,9 +41,9 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Constructor
    */
   constructor(
-    private routesManager: Radonis.RoutesManagerContract,
+    private flashMessagesManager: Radonis.FlashMessagesManagerContract,
     private i18nManager: Radonis.I18nManagerContract,
-    private flashMessagesManager: Radonis.FlashMessagesManagerContract
+    private routesManager: Radonis.RoutesManagerContract
   ) {}
 
   /**
@@ -155,46 +160,56 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Radonis.Manifest['routes']): void {
+  public setRoutes(routes: Radonis.Manifest['routes']): this {
     this.routesManager.setRoutes(routes)
+
+    return this
   }
 
   /**
    * Set the current route on the ManifestBuilder
    */
-  public setRoute(route: Radonis.Manifest['route']): void {
+  public setRoute(route: Radonis.Manifest['route']): this {
     this.route = route
+
+    return this
   }
 
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Radonis.Manifest['locale']): void {
+  public setLocale(locale: Radonis.Manifest['locale']): this {
     this.i18nManager.setLocale(locale)
+
+    return this
   }
 
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Radonis.Manifest['messages']): void {
+  public setMessages(messages: Radonis.Manifest['messages']): this {
     this.i18nManager.setMessages(messages)
+
+    return this
   }
 
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): void {
+  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
     this.flashMessagesManager.setFlashMessages(flashMessages)
+
+    return this
   }
 
   /**
-   * Construct a new ManifestBuilder
+   * Establish a new context on the underlying managers
    */
-  public static construct(): ManifestBuilder {
-    return new ManifestBuilder(
-      RoutesManager.construct(),
-      I18nManager.construct(),
-      FlashMessagesManager.construct()
-    )
+  public establishNewContext(): this {
+    this.flashMessagesManager.establishNewContext()
+    this.i18nManager.establishNewContext()
+    this.routesManager.establishNewContext()
+
+    return this
   }
 }

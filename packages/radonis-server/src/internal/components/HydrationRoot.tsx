@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis-server
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
 // @ts-ignore No idea why this import fails in GitHub Actions
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis'
@@ -23,14 +32,8 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children))
 
   return (
-    <HydrationContextProvider
-      value={{ hydrated: false, root: hydrationRootId, componentName, propsHash }}
-    >
-      <div
-        data-component={componentName}
-        data-hydration-root={hydrationRootId}
-        data-props={propsHash}
-      >
+    <HydrationContextProvider value={{ hydrated: false, root: hydrationRootId, componentName, propsHash }}>
+      <div data-component={componentName} data-hydration-root={hydrationRootId} data-props={propsHash}>
         {children}
       </div>
     </HydrationContextProvider>

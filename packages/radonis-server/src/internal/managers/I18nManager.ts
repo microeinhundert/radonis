@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis-server
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { DEFAULT_LOCALE } from '../constants'
 
 export class I18nManager implements Radonis.I18nManagerContract {
@@ -15,6 +24,17 @@ export class I18nManager implements Radonis.I18nManagerContract {
    * The messages required for hydration
    */
   private messagesRequiredForHydration: Set<string> = new Set()
+
+  /**
+   * Constructur
+   */
+  constructor() {
+    /**
+     * Setting on the global scope is required in order for the client package
+     * to be able to access this class without having a dependency to the server package
+     */
+    globalThis.rad_i18nManager = this
+  }
 
   /**
    * Set the locale
@@ -65,22 +85,11 @@ export class I18nManager implements Radonis.I18nManagerContract {
   }
 
   /**
-   * Get a fresh instance
+   * Establish a new context
    */
-  public fresh(): this {
+  public establishNewContext(): this {
     this.messagesRequiredForHydration.clear()
 
     return this
-  }
-
-  /**
-   * Construct a new I18nManager
-   */
-  public static construct(): Radonis.I18nManagerContract {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    return (globalThis.rad_i18nManager = globalThis.rad_i18nManager?.fresh() ?? new I18nManager())
   }
 }

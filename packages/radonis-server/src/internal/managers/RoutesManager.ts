@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis-server
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 export class RoutesManager implements Radonis.RoutesManagerContract {
   /**
    * The routes
@@ -8,6 +17,17 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
    * The routes required for hydration
    */
   private routesRequiredForHydration: Set<string> = new Set()
+
+  /**
+   * Constructur
+   */
+  constructor() {
+    /**
+     * Setting on the global scope is required in order for the client package
+     * to be able to access this class without having a dependency to the server package
+     */
+    globalThis.rad_routesManager = this
+  }
 
   /**
    * Set the routes
@@ -44,23 +64,11 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
   }
 
   /**
-   * Get a fresh instance
+   * Establish a new context
    */
-  public fresh(): this {
+  public establishNewContext(): this {
     this.routesRequiredForHydration.clear()
 
     return this
-  }
-
-  /**
-   * Construct a new RoutesManager
-   */
-  public static construct(): Radonis.RoutesManagerContract {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    return (globalThis.rad_routesManager =
-      globalThis.rad_routesManager?.fresh() ?? new RoutesManager())
   }
 }

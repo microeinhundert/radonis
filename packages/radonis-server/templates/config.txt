@@ -1,8 +1,30 @@
-import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis';
-import Env from '@ioc:Adonis/Core/Env';
+import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import Env from '@ioc:Adonis/Core/Env'
 
 const radonisConfig: RadonisConfig = {
+  /*
+  |--------------------------------------------------------------------------
+  | Production Mode
+  |--------------------------------------------------------------------------
+  |
+  | Enabling production mode will optimize the compiling and bundling.
+  |
+  */
   productionMode: Env.get('NODE_ENV') === 'production',
+
+  client: {
+    /*
+    |--------------------------------------------------------------------------
+    | Hydrate
+    |--------------------------------------------------------------------------
+    |
+    | Array of components to be hydrated on the client side.
+    |
+    */
+    hydrate: [
+      //
+    ],
+  }
 }
 
 export default radonisConfig

@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis-server
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { flattie } from 'flattie'
 
 export class FlashMessagesManager implements Radonis.FlashMessagesManagerContract {
@@ -10,6 +19,17 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
    * The flash messages required for hydration
    */
   private flashMessagesRequiredForHydration: Set<string> = new Set()
+
+  /**
+   * Constructur
+   */
+  constructor() {
+    /**
+     * Setting on the global scope is required in order for the client package
+     * to be able to access this class without having a dependency to the server package
+     */
+    globalThis.rad_flashMessagesManager = this
+  }
 
   /**
    * Set the flash messages
@@ -46,23 +66,11 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   }
 
   /**
-   * Get a fresh instance
+   * Establish a new context
    */
-  public fresh(): this {
+  public establishNewContext(): this {
     this.flashMessagesRequiredForHydration.clear()
 
     return this
-  }
-
-  /**
-   * Construct a new FlashMessagesManager
-   */
-  public static construct(): Radonis.FlashMessagesManagerContract {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    return (globalThis.rad_flashMessagesManager =
-      globalThis.rad_flashMessagesManager?.fresh() ?? new FlashMessagesManager())
   }
 }
