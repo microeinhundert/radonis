@@ -53,10 +53,10 @@
     }
   },
   "peerDependencies": {
-    "@microeinhundert/radonis": "^0.4.2",
     "@adonisjs/core": "^5.7.3",
     "@adonisjs/session": "^6.2.2",
     "@adonisjs/shield": "^7.0.10",
+    "@microeinhundert/radonis": "^0.4.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
@@ -69,8 +69,12 @@
     "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
+    "@poppinss/utils": "^4.0.4",
+    "esbuild": "^0.14.36",
     "flattie": "^1.1.0",
+    "i": "^0.3.7",
     "node-object-hash": "^2.3.10",
+    "npm": "^8.7.0",
     "twind": "1.0.0-next.37"
   }
 }

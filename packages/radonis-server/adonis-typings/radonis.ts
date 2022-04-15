@@ -42,8 +42,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   export interface RadonisConfig {
     productionMode: boolean
-    client: {
-      hydrate: any[]
-    }
+    componentsDir: string
+    clientBundleOutputDir: string
   }
 }

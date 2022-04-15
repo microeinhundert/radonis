@@ -10,16 +10,7 @@
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
-/**
- * Replacer for stringifying Maps
- */
-const replacer = (_, value: any): any => {
-  if (value instanceof Map) {
-    return Object.fromEntries(value)
-  } else {
-    return value
-  }
-}
+type Component = ReactElement<Record<string, unknown>>
 
 export class ManifestBuilder implements Radonis.Manifest {
   /**
@@ -30,7 +21,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * The props registered with the manifest
    */
-  public props: Radonis.Manifest['props'] = new Map()
+  public props: Radonis.Manifest['props'] = {}
 
   /**
    * The current route registered with the manifest
@@ -98,7 +89,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * The server manifest
    */
-  public get serverManifest(): Radonis.Manifest {
+  private get serverManifest(): Radonis.Manifest {
     return {
       props: this.props,
       route: this.route,
@@ -112,7 +103,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * The client manifest
    */
-  public get clientManifest(): Radonis.Manifest {
+  private get clientManifest(): Radonis.Manifest {
     return {
       props: this.props,
       route: this.route,
@@ -127,7 +118,7 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Get the client manifest as JSON
    */
   public getClientManifestAsJSON(): string {
-    return JSON.stringify(this.clientManifest, replacer)
+    return JSON.stringify(this.clientManifest)
   }
 
   /**
@@ -140,18 +131,18 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Register component props with the ManifestBuilder
    */
-  public registerComponentProps(Component: ReactElement<Record<string, unknown>>): string | null {
-    const propsKeys = Object.keys(Component.props)
+  public registerComponent(component: Component): string | null {
+    const propsKeys = Object.keys(component.props)
 
     /**
      * Don't register props if the component has none
      */
     if (!propsKeys.length) return null
 
-    const propsHash = this.propsHasher.hash(Component.props).slice(0, 20)
+    const propsHash = this.propsHasher.hash(component.props).slice(0, 20)
 
-    if (!this.props.has(propsHash)) {
-      this.props.set(propsHash, Component.props)
+    if (!this.props[propsHash]) {
+      this.props[propsHash] = component.props
     }
 
     return propsHash

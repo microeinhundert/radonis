@@ -21,7 +21,7 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   private flashMessagesRequiredForHydration: Set<string> = new Set()
 
   /**
-   * Constructur
+   * Constructor
    */
   constructor() {
     /**

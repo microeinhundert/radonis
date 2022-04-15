@@ -16,13 +16,9 @@ import { useRequest } from '../hooks/useRequest'
 
 interface DocumentProps {
   children: ReactNode
-  assets: {
-    scripts: string[]
-    stylesheets: string[]
-  }
 }
 
-export function Document({ children, assets }: DocumentProps) {
+export function Document({ children }: DocumentProps) {
   const { locale } = useManifestBuilder()
   const request = useRequest()
   const application = useApplication()
@@ -34,16 +30,11 @@ export function Document({ children, assets }: DocumentProps) {
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         {request.csrfToken && <meta content={request.csrfToken} name="csrf-token" />}
         <title>{application.appName}</title>
-        {assets.stylesheets.map((file) => (
-          <link key={file} href={file} rel="stylesheet" />
-        ))}
+        <div id="rad-styles" />
       </head>
       <body className="h-full">
         {children}
-        <div id="rad-manifest" />
-        {assets.scripts.map((file) => (
-          <script key={file} src={file} defer />
-        ))}
+        <div id="rad-scripts" />
       </body>
     </html>
   )

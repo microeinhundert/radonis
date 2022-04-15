@@ -10,6 +10,7 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
+import { Compiler } from '../src/internal/Compiler'
 import { HydrationRoot } from '../src/internal/components/HydrationRoot'
 import { useApplication } from '../src/internal/hooks/useApplication'
 import { useHttpContext } from '../src/internal/hooks/useHttpContext'
@@ -17,9 +18,9 @@ import { useRadonis } from '../src/internal/hooks/useRadonis'
 import { useRequest } from '../src/internal/hooks/useRequest'
 import { useRouter } from '../src/internal/hooks/useRouter'
 import { useSession } from '../src/internal/hooks/useSession'
-import { FlashMessagesManager } from '../src/internal/managers/FlashMessagesManager'
-import { I18nManager } from '../src/internal/managers/I18nManager'
-import { RoutesManager } from '../src/internal/managers/RoutesManager'
+import { FlashMessagesManager as FlashMessagesManagerInstance } from '../src/internal/managers/FlashMessagesManager'
+import { I18nManager as I18nManagerInstance } from '../src/internal/managers/I18nManager'
+import { RoutesManager as RoutesManagerInstance } from '../src/internal/managers/RoutesManager'
 import { ManifestBuilder } from '../src/internal/ManifestBuilder'
 import { ReactRenderer } from '../src/internal/ReactRenderer'
 import { extractRootRoutes, transformRoute } from '../src/internal/utils/routing'
@@ -36,6 +37,18 @@ export default class RadonisProvider {
    * Register
    */
   public register() {
+    this.application.container.singleton('Adonis/Addons/Radonis/Manager/FlashMessages', () => {
+      return new FlashMessagesManagerInstance()
+    })
+
+    this.application.container.singleton('Adonis/Addons/Radonis/Manager/I18n', () => {
+      return new I18nManagerInstance()
+    })
+
+    this.application.container.singleton('Adonis/Addons/Radonis/Manager/Routes', () => {
+      return new RoutesManagerInstance()
+    })
+
     this.application.container.singleton('Adonis/Addons/Radonis', () => {
       return {
         useRadonis,
@@ -47,48 +60,49 @@ export default class RadonisProvider {
         HydrationRoot,
       }
     })
-
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/FlashMessages', () => {
-      return new FlashMessagesManager()
-    })
-
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/I18n', () => {
-      return new I18nManager()
-    })
-
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/Routes', () => {
-      return new RoutesManager()
-    })
   }
 
   /**
    * Boot
    */
   public boot() {
-    const config: RadonisConfig = this.application.container.resolveBinding('Adonis/Core/Config').get('radonis', {})
-
     this.application.container.withBindings(
       [
         'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
+        'Adonis/Core/Config',
         'Adonis/Addons/Radonis/Manager/FlashMessages',
         'Adonis/Addons/Radonis/Manager/I18n',
         'Adonis/Addons/Radonis/Manager/Routes',
       ],
-      (HttpContext, application, Route, FlashMessages, I18n, Routes) => {
-        const manifestBuilder = new ManifestBuilder(FlashMessages, I18n, Routes)
+      async (HttpContext, application, Route, Config, FlashMessagesManager, I18nManager, RoutesManager) => {
+        const radonisConfig: RadonisConfig = Config.get('radonis', {})
+
+        /**
+         * Create the Compiler
+         */
+        const compiler = new Compiler(radonisConfig)
+
+        /**
+         * Compile the components
+         */
+        await compiler.compileComponents()
 
         HttpContext.getter(
           'radonis',
           function () {
-            manifestBuilder.establishNewContext()
+            const manifestBuilder = new ManifestBuilder(
+              FlashMessagesManager,
+              I18nManager,
+              RoutesManager
+            ).establishNewContext()
 
             /**
-             * Set the available root routes on the ManifestBuilder
+             * Set the root routes on the ManifestBuilder
              */
-            const extractedRoutes = extractRootRoutes(Route)
-            manifestBuilder.setRoutes(extractedRoutes)
+            const rootRoutes = extractRootRoutes(Route)
+            manifestBuilder.setRoutes(rootRoutes)
 
             /**
              * Set the current route on the ManifestBuilder
@@ -106,7 +120,15 @@ export default class RadonisProvider {
               manifestBuilder.setFlashMessages(this.session.flashMessages?.all() ?? {})
             }
 
-            const reactRenderer = new ReactRenderer(manifestBuilder, [], [], config)
+            /**
+             * Establish a new Compiler context
+             */
+            compiler.establishNewContext()
+
+            /**
+             * Create the ReactRenderer
+             */
+            const reactRenderer = new ReactRenderer(compiler, manifestBuilder, radonisConfig)
 
             /**
              * Share context with the ReactRenderer

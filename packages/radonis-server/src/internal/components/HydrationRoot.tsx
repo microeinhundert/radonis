@@ -12,10 +12,12 @@ import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis'
 import React, { useId } from 'react'
 
+import { useCompiler } from '../hooks/useCompiler'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
 
 export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
+  const compiler = useCompiler()
   const { root: parentHydrationRootId, componentName: parentComponentName } = useHydration()
   const hydrationRootId = useId()
 
@@ -23,13 +25,15 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
     /* eslint-disable prettier/prettier */
     throw new Error(
       `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested
-      inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName ?? 'Unknown'}".
+      inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName}".
       This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
     );
     /* eslint-enable prettier/prettier */
   }
 
-  const propsHash = manifestBuilder.registerComponentProps(React.Children.only(children))
+  compiler.requireComponent(componentName)
+
+  const propsHash = manifestBuilder.registerComponent(React.Children.only(children))
 
   return (
     <HydrationContextProvider value={{ hydrated: false, root: hydrationRootId, componentName, propsHash }}>

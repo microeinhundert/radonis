@@ -1,4 +1,5 @@
-import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import Application from '@ioc:Adonis/Core/Application'
+import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import Env from '@ioc:Adonis/Core/Env'
 
 const radonisConfig: RadonisConfig = {
@@ -7,24 +8,33 @@ const radonisConfig: RadonisConfig = {
   | Production Mode
   |--------------------------------------------------------------------------
   |
-  | Enabling production mode will optimize the compiling and bundling.
+  | Enabling production mode will minify
+  | and set the environment accordingly.
   |
   */
   productionMode: Env.get('NODE_ENV') === 'production',
 
-  client: {
-    /*
-    |--------------------------------------------------------------------------
-    | Hydrate
-    |--------------------------------------------------------------------------
-    |
-    | Array of components to be hydrated on the client side.
-    |
-    */
-    hydrate: [
-      //
-    ],
-  }
+  /*
+  |--------------------------------------------------------------------------
+  | Components Dir
+  |--------------------------------------------------------------------------
+  |
+  | The directory that contains all the components
+  | to be built for hydration on the client.
+  |
+  */
+  componentsDir: Application.resourcesPath('components'),
+
+  /*
+  |--------------------------------------------------------------------------
+  | Client Bundle Output Dir
+  |--------------------------------------------------------------------------
+  |
+  | The directory the built client bundle
+  | should be written to.
+  |
+  */
+  clientBundleOutputDir: Application.publicPath('client'),
 }
 
 export default radonisConfig

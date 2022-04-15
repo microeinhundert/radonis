@@ -19,7 +19,7 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
   private routesRequiredForHydration: Set<string> = new Set()
 
   /**
-   * Constructur
+   * Constructor
    */
   constructor() {
     /**

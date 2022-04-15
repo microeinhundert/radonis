@@ -26,7 +26,7 @@ export class I18nManager implements Radonis.I18nManagerContract {
   private messagesRequiredForHydration: Set<string> = new Set()
 
   /**
-   * Constructur
+   * Constructor
    */
   constructor() {
     /**
