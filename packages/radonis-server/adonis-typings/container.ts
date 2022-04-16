@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { Compiler } from '../src/internal/Compiler'
-import type { ManifestBuilder } from '../src/internal/ManifestBuilder'
-import type { Renderer } from '../src/internal/Renderer'
+import type { Compiler } from '../src/Compiler'
+import type { ManifestBuilder } from '../src/ManifestBuilder'
+import type { Renderer } from '../src/Renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {

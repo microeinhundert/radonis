@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Server provider for Radonis",
   "main": "build/providers/RadonisProvider.js",
   "types": "build/adonis-typings/index.d.ts",
@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "del build",
     "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
-    "compile": "npm run lint && npm run clean && tsc",
+    "compile": "npm run clean && tsc",
     "build": "npm run compile && npm run copyfiles",
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
@@ -59,7 +59,6 @@
     }
   },
   "peerDependencies": {
-    "@microeinhundert/radonis": "*",
     "@adonisjs/core": "^5.7.3",
     "@adonisjs/session": "^6.2.1",
     "@adonisjs/shield": "^7.0.10",
@@ -73,9 +72,9 @@
     "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "*",
-    "@microeinhundert/radonis-twind": "*",
-    "@microeinhundert/radonis-hydrate": "*",
+    "@microeinhundert/radonis-shared": "0.5.0",
+    "@microeinhundert/radonis-twind": "0.5.0",
+    "@microeinhundert/radonis-hydrate": "0.5.0",
     "@poppinss/utils": "^4.0.4",
     "esbuild": "^0.14.36",
     "flattie": "^1.1.0",

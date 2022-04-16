@@ -1,51 +1,38 @@
-name: Publish Package
+name: Build Packages
+
 on:
   release:
     types: [created]
-jobs:
-  publish-radonis:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org/'
-          scope: '@microeinhundert'
-      - name: Install monorepo dev dependencies
-        run: npm install --include=dev
-      - name: Install radonis dependencies
-        run: npm install --include=prod --workspace packages/radonis
-      - name: Publish radonis on npm 📦
-        run: npm publish --access public --workspace packages/radonis
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  publish-radonis-server:
-    runs-on: ubuntu-latest
-    needs: [publish-radonis]
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org/'
-          scope: '@microeinhundert'
-      - name: Install monorepo dev dependencies
-        run: npm install --include=dev
-      - name: Install radonis-server dependencies
-        run: npm install --include=prod --workspace packages/radonis-server
-      - name: Publish radonis-server on npm 📦
-        run: npm publish --access public --workspace packages/radonis-server
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+jobs:
+  build:
+      name: Build and Test
+      timeout-minutes: 15
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 2
+
+        - uses: pnpm/action-setup@v2.0.1
+          with:
+            version: 6.32.3
+
+        - name: Setup Node.js environment
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            registry-url: 'https://registry.npmjs.org/'
+            scope: '@microeinhundert'
+            cache: pnpm
+
+        - name: Install dependencies
+          run: pnpm install
+
+        - name: Lint
+          run: pnpm turbo run lint
+
+        - name: Build
+          run: pnpm turbo run build

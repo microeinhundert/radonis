@@ -3,5 +3,6 @@ build
 coverage
 .DS_Store
 .env
+.turbo
 tmp
 package-lock.json

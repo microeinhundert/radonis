@@ -20,13 +20,13 @@
       "path": "./packages/radonis-client/tsconfig.json"
     },
     {
+      "path": "./packages/radonis-hydrate/tsconfig.json"
+    },
+    {
       "path": "./packages/radonis-server/tsconfig.json"
     },
     {
       "path": "./packages/radonis-shared/tsconfig.json"
-    },
-    {
-      "path": "./packages/radonis-hydrate/tsconfig.json"
     },
     {
       "path": "./packages/radonis-twind/tsconfig.json"

@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "del build",
-    "compile": "npm run lint && npm run clean && tsc",
+    "compile": "npm run clean && tsc",
     "build": "npm run compile",
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
@@ -44,7 +44,7 @@
     "@types/node": "^16"
   },
   "dependencies": {
-    "@microeinhundert/radonis-client": "*",
-    "@microeinhundert/radonis-server": "*"
+    "@microeinhundert/radonis-client": "0.5.0",
+    "@microeinhundert/radonis-server": "0.5.0"
   }
 }
