@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { isServer } from './utils/environment'
 
 export class FlashMessages {
@@ -9,10 +18,7 @@ export class FlashMessages {
   /**
    * Constructor
    */
-  constructor(
-    private flashMessages: Record<string, Radonis.FlashMessage>,
-    private willHydrate?: boolean
-  ) {
+  constructor(private flashMessages: Record<string, Radonis.FlashMessage>, private willHydrate?: boolean) {
     this.flashMessagesManager = globalThis.rad_flashMessagesManager
   }
 
@@ -74,9 +80,7 @@ export class FlashMessages {
       (flashMessages, flashMessageIdentifier) => {
         return {
           ...flashMessages,
-          [flashMessageIdentifier]: this.findFlashMessage(
-            flashMessageIdentifier
-          ) as Radonis.FlashMessage,
+          [flashMessageIdentifier]: this.findFlashMessage(flashMessageIdentifier) as Radonis.FlashMessage,
         }
       },
       {}

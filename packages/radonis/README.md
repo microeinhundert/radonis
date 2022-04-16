@@ -36,23 +36,7 @@ yarn add @microeinhundert/radonis @microeinhundert/radonis-server
 node ace configure @microeinhundert/radonis-server
 ```
 
-### 3. Configure i18n (optional)
-
-If you plan to use i18n functionality, first install the official [@adonisjs/i18n](https://docs.adonisjs.com/guides/i18n) package:
-
-```console
-npm install --save @adonisjs/i18n
-```
-
-Inside the *DetectUserLocale* middleware, add the following below the *switchLocale* call:
-
-```typescript
-ctx.radonis.shareTranslations(language, I18n.getTranslationsFor(language));
-```
-
-This makes sure Radonis knows about the available translations as well as the current locale.
-
-### 4. Configure session storage (optional)
+### 3. Configure session storage (optional)
 
 If you plan to use session functionality, install the official [@adonisjs/session](https://docs.adonisjs.com/guides/session) package:
 
@@ -134,6 +118,22 @@ client.hydrate({ SomeInteractiveComponent });
 
 ## Hooks
 
+### useTwind (Server and client)
+
+```tsx
+import { useTwind } from '@microeinhundert/radonis';
+
+function SomeComponent() {
+  const { tx } = useTwind();
+  
+  return (
+    <div className={tx`text-red-500`}>
+      I am styled using Twind
+    </div>
+  );
+}
+```
+
 ### useHydration (Server and client)
 
 ```typescript
@@ -151,7 +151,6 @@ const manifest = useManifest();
 
 console.log(manifest.props[hydration.propsHash]); // => `{ someProp: 'test' }`
 ```
-
 
 ### useHydrated (Server and client)
 
@@ -177,9 +176,7 @@ const i18n = useI18n();
 console.log(i18n.formatMessage('auth.signUpTitle')); // => `Some message defined in translations`
 ```
 
-This hook also allows formatting via the ICU format, just like the AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
-
-> Please note that this hook requires some [manual setup](#3-configure-i18n-optional).
+This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
 
 ### useManifest (Server and client)

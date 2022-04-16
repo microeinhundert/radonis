@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { IntlMessageFormat } from 'intl-messageformat'
 
 import { isServer } from './utils/environment'
@@ -11,11 +20,7 @@ export class I18n {
   /**
    * Constructor
    */
-  constructor(
-    private locale: string,
-    private messages: Record<string, string>,
-    private willHydrate?: boolean
-  ) {
+  constructor(private locale: string, private messages: Record<string, string>, private willHydrate?: boolean) {
     this.i18nManager = globalThis.rad_i18nManager
   }
 

@@ -23,6 +23,7 @@ import { I18nManager as I18nManagerInstance } from '../src/internal/managers/I18
 import { RoutesManager as RoutesManagerInstance } from '../src/internal/managers/RoutesManager'
 import { ManifestBuilder as ManifestBuilderInstance } from '../src/internal/ManifestBuilder'
 import { ReactRenderer as ReactRendererInstance } from '../src/internal/ReactRenderer'
+
 export default class RadonisProvider {
   public static needsApplication = true
 

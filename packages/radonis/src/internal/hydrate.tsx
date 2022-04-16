@@ -1,16 +1,24 @@
+/*
+ * @microeinhundert/radonis
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import type { LazyExoticComponent } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydrationContext'
+import { TwindContextProvider } from '../contexts/twindContext'
 import { getManifestOrFail, isServer } from './utils/environment'
 
 /**
  * Create the intersection observer that hydrates components only when in view
  */
-function createIntersectionObserver(
-  components: Record<string, LazyExoticComponent<any>>
-): IntersectionObserver {
+function createIntersectionObserver(components: Record<string, LazyExoticComponent<any>>): IntersectionObserver {
   return new IntersectionObserver((observedHydrationRoots, observer) => {
     observedHydrationRoots.forEach((observedHydrationRoot) => {
       if (!observedHydrationRoot.isIntersecting) return
@@ -44,10 +52,10 @@ function createIntersectionObserver(
 
       hydrateRoot(
         hydrationRootTarget,
-        <HydrationContextProvider
-          value={{ hydrated: true, root: hydrationRoot, componentName, propsHash }}
-        >
-          <Component {...props} />
+        <HydrationContextProvider value={{ hydrated: true, root: hydrationRoot, componentName, propsHash }}>
+          <TwindContextProvider>
+            <Component {...props} />
+          </TwindContextProvider>
         </HydrationContextProvider>
       )
       observer.unobserve(hydrationRootTarget)
