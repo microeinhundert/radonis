@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import { flattie } from 'flattie'
-
 export class FlashMessagesManager implements Radonis.FlashMessagesManagerContract {
   /**
    * The flash messages
@@ -34,8 +32,8 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   /**
    * Set the flash messages
    */
-  public setFlashMessages(flashMessages: Record<string, unknown>): void {
-    this.flashMessages = flattie(flashMessages)
+  public setFlashMessages(flashMessages: Record<string, Radonis.FlashMessage>): void {
+    this.flashMessages = flashMessages
   }
 
   /**

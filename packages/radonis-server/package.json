@@ -1,10 +1,11 @@
 {
   "name": "@microeinhundert/radonis-server",
   "version": "0.4.2",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Server provider for Radonis",
   "main": "build/providers/RadonisProvider.js",
   "types": "build/adonis-typings/index.d.ts",
   "typings": "build/adonis-typings/index.d.ts",
+  "sideEffects": false,
   "files": [
     "build/providers",
     "build/src",
@@ -27,6 +28,11 @@
   },
   "bugs": {
     "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0",
+    "yarn": ">= 2.0.0"
   },
   "keywords": [
     "adonisjs",
@@ -53,28 +59,26 @@
     }
   },
   "peerDependencies": {
-    "@adonisjs/core": "^5.7.3",
-    "@adonisjs/session": "^6.2.2",
-    "@adonisjs/shield": "^7.0.10",
-    "@adonisjs/i18n": "^1.5.5",
     "@microeinhundert/radonis": "*",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
-  "devDependencies": {
     "@adonisjs/core": "^5.7.3",
     "@adonisjs/session": "^6.2.1",
     "@adonisjs/shield": "^7.0.10",
     "@adonisjs/i18n": "^1.5.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
     "@types/node": "^16",
     "@types/react": "^18.0.3",
     "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
+    "@microeinhundert/radonis-shared": "*",
+    "@microeinhundert/radonis-twind": "*",
+    "@microeinhundert/radonis-hydrate": "*",
     "@poppinss/utils": "^4.0.4",
     "esbuild": "^0.14.36",
     "flattie": "^1.1.0",
-    "node-object-hash": "^2.3.10",
-    "twind": "1.0.0-next.37"
+    "node-object-hash": "^2.3.10"
   }
 }

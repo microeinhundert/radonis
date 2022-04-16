@@ -177,7 +177,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Record<string, unknown>): void {
+  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): void {
     this.flashMessagesManager.setFlashMessages(flashMessages)
   }
 

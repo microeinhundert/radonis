@@ -8,8 +8,7 @@
  */
 
 import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
-// @ts-ignore No idea why this import fails in GitHub Actions
-import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis'
+import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
 import React, { useId } from 'react'
 
 import { useCompiler } from '../hooks/useCompiler'

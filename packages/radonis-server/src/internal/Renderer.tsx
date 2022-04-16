@@ -12,12 +12,11 @@ import type { RadonisConfig, RadonisContextContract } from '@ioc:Adonis/Addons/R
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
-// @ts-ignore No idea why this import fails in GitHub Actions
-import { twindConfig, TwindContextProvider } from '@microeinhundert/radonis'
+import { extract, install, twindConfig, TwindContextProvider } from '@microeinhundert/radonis-twind'
+import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { extract, install } from 'twind'
 
 import type { Compiler } from './Compiler'
 import { Document } from './components/Document'
@@ -124,7 +123,7 @@ export class Renderer {
       /**
        * Set flash messages
        */
-      this.manifestBuilder.setFlashMessages(httpContext.session.flashMessages.all())
+      this.manifestBuilder.setFlashMessages(flattie(httpContext.session.flashMessages.all()))
     }
 
     this.manifestBuilder.setServerManifestOnGlobalScope()
