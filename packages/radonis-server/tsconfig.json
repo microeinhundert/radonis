@@ -10,7 +10,8 @@
     "types": [
       "@adonisjs/core",
       "@adonisjs/session",
-      "@adonisjs/shield"
+      "@adonisjs/shield",
+      "@adonisjs/i18n"
     ]
   },
   "files": ["../../types/global.d.ts"],

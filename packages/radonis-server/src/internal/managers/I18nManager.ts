@@ -85,11 +85,9 @@ export class I18nManager implements Radonis.I18nManagerContract {
   }
 
   /**
-   * Establish a new context
+   * Prepare for a new request
    */
-  public establishNewContext(): this {
+  public prepareForNewRequest(): void {
     this.messagesRequiredForHydration.clear()
-
-    return this
   }
 }

@@ -66,11 +66,9 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
   }
 
   /**
-   * Establish a new context
+   * Prepare for a new request
    */
-  public establishNewContext(): this {
+  public prepareForNewRequest(): void {
     this.flashMessagesRequiredForHydration.clear()
-
-    return this
   }
 }

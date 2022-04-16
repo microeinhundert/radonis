@@ -10,8 +10,6 @@
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
-type Component = ReactElement<Record<string, unknown>>
-
 export class ManifestBuilder implements Radonis.Manifest {
   /**
    * The hasher used to hash component props
@@ -131,7 +129,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Register component props with the ManifestBuilder
    */
-  public registerComponent(component: Component): string | null {
+  public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(component.props)
 
     /**
@@ -151,56 +149,47 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Radonis.Manifest['routes']): this {
+  public setRoutes(routes: Radonis.Manifest['routes']): void {
     this.routesManager.setRoutes(routes)
-
-    return this
   }
 
   /**
    * Set the current route on the ManifestBuilder
    */
-  public setRoute(route: Radonis.Manifest['route']): this {
+  public setRoute(route: Radonis.Manifest['route']): void {
     this.route = route
-
-    return this
   }
 
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Radonis.Manifest['locale']): this {
+  public setLocale(locale: Radonis.Manifest['locale']): void {
     this.i18nManager.setLocale(locale)
-
-    return this
   }
 
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Radonis.Manifest['messages']): this {
+  public setMessages(messages: Radonis.Manifest['messages']): void {
     this.i18nManager.setMessages(messages)
-
-    return this
   }
 
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
+  public setFlashMessages(flashMessages: Record<string, unknown>): void {
     this.flashMessagesManager.setFlashMessages(flashMessages)
-
-    return this
   }
 
   /**
-   * Establish a new context on the underlying managers
+   * Prepare for a new request
    */
-  public establishNewContext(): this {
-    this.flashMessagesManager.establishNewContext()
-    this.i18nManager.establishNewContext()
-    this.routesManager.establishNewContext()
+  public prepareForNewRequest(): void {
+    this.props = {}
+    this.route = null
 
-    return this
+    this.flashMessagesManager.prepareForNewRequest()
+    this.i18nManager.prepareForNewRequest()
+    this.routesManager.prepareForNewRequest()
   }
 }

@@ -7,6 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export function isFirstCharLowercase(string: string): boolean {
+export function isFirstCharLowerCase(string: string): boolean {
   return string.charAt(0).toLowerCase() === string.charAt(0)
 }

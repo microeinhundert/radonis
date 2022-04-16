@@ -64,11 +64,9 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
   }
 
   /**
-   * Establish a new context
+   * Prepare for a new request
    */
-  public establishNewContext(): this {
+  public prepareForNewRequest(): void {
     this.routesRequiredForHydration.clear()
-
-    return this
   }
 }

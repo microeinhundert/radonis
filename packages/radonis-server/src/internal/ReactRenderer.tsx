@@ -7,9 +7,13 @@
  * file that was distributed with this source code.
  */
 
+import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
 import type { RadonisConfig, RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
+import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { RouterContract } from '@ioc:Adonis/Core/Route'
 // @ts-ignore No idea why this import fails in GitHub Actions
-import { twindConfig } from '@microeinhundert/radonis'
+import { twindConfig, TwindContextProvider } from '@microeinhundert/radonis'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -21,6 +25,7 @@ import { CompilerContextProvider } from './contexts/compilerContext'
 import { ManifestBuilderContextProvider } from './contexts/manifestBuilderContext'
 import { RadonisContextProvider } from './contexts/radonisContext'
 import type { ManifestBuilder } from './ManifestBuilder'
+import { extractRootRoutes, transformRoute } from './utils/routing'
 
 export class ReactRenderer {
   /**
@@ -31,15 +36,13 @@ export class ReactRenderer {
   /**
    * Constructor
    */
-  constructor(private compiler: Compiler, private manifestBuilder: ManifestBuilder, private config: RadonisConfig) {
-    this.installTwind()
-  }
-
-  /**
-   * Install Twind
-   */
-  private installTwind(): void {
-    install(twindConfig, this.config.productionMode)
+  constructor(
+    private i18n: I18nManagerContract,
+    private compiler: Compiler,
+    private manifestBuilder: ManifestBuilder,
+    config: RadonisConfig
+  ) {
+    install(twindConfig, config.productionMode)
   }
 
   /**
@@ -73,20 +76,96 @@ export class ReactRenderer {
   }
 
   /**
-   * Share context with the ReactRenderer
+   * Get the user language from the http context
    */
-  public shareContext(context: RadonisContextContract): this {
-    this.context = context
-
-    return this
+  private getUserLanguage({ request }: HttpContextContract): string {
+    const supportedLocales = this.i18n.supportedLocales()
+    return request.language(supportedLocales) || request.input('lang') || this.i18n.defaultLocale
   }
 
   /**
-   * Share translations with the ReactRenderer
+   * Share context with the ReactRenderer
    */
-  public shareTranslations(locale: string, messages: Record<string, string>): this {
+  public shareContext(context: RadonisContextContract): void {
+    this.context = context
+    this.manifestBuilder.setServerManifestOnGlobalScope()
+  }
+
+  /**
+   * Share available routes with the ManifestBuilder
+   */
+  public shareRoutes(router: RouterContract): void {
+    this.manifestBuilder.setRoutes(extractRootRoutes(router))
+    this.manifestBuilder.setServerManifestOnGlobalScope()
+  }
+
+  /**
+   * Share the current route with the ManifestBuilder
+   */
+  public shareRoute(route: HttpContextContract['route']): void {
+    this.manifestBuilder.setRoute(transformRoute(route))
+    this.manifestBuilder.setServerManifestOnGlobalScope()
+  }
+
+  /**
+   * Share translations with the ManifestBuilder
+   */
+  public shareTranslations(locale: string, messages: Record<string, string>): void {
     this.manifestBuilder.setLocale(locale)
     this.manifestBuilder.setMessages(messages)
+    this.manifestBuilder.setServerManifestOnGlobalScope()
+  }
+
+  /**
+   * Share flash messages with the ManifestBuilder
+   */
+  public shareFlashMessages(flashMessages: Record<string, unknown>): void {
+    this.manifestBuilder.setFlashMessages(flashMessages)
+    this.manifestBuilder.setServerManifestOnGlobalScope()
+  }
+
+  /**
+   * Get the ReactRenderer for a request
+   */
+  public getRendererForRequest(
+    httpContext: HttpContextContract,
+    application: ApplicationContract,
+    router: RouterContract
+  ): this {
+    /**
+     * Share context
+     */
+    this.shareContext({
+      application,
+      httpContext,
+      router,
+    })
+
+    /**
+     * Share routes
+     */
+    this.shareRoutes(router)
+
+    /**
+     * Share route
+     */
+    this.shareRoute(httpContext.route)
+
+    /**
+     * Share translations
+     */
+    const language = this.getUserLanguage(httpContext)
+    this.shareTranslations(language, this.i18n.getTranslationsFor(language))
+
+    /**
+     * Check if @adonisjs/session is installed
+     */
+    if ('session' in httpContext) {
+      /**
+       * Share flash messages
+       */
+      this.shareFlashMessages(httpContext.session.flashMessages.all())
+    }
 
     return this
   }
@@ -95,11 +174,6 @@ export class ReactRenderer {
    * Render the view and return the HTML document
    */
   public render<T>(Component: ComponentType<T>, props?: ComponentPropsWithoutRef<ComponentType<T>>): string {
-    /**
-     * Set the server manifest on the global scope
-     */
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-
     let html = ''
 
     /**
@@ -109,10 +183,12 @@ export class ReactRenderer {
       <ManifestBuilderContextProvider value={this.manifestBuilder}>
         <CompilerContextProvider value={this.compiler}>
           <RadonisContextProvider value={this.context}>
-            <Document>
-              {/* @ts-expect-error Unsure why this errors */}
-              <Component {...(props ?? {})} />
-            </Document>
+            <TwindContextProvider>
+              <Document>
+                {/* @ts-expect-error Unsure why this errors */}
+                <Component {...(props ?? {})} />
+              </Document>
+            </TwindContextProvider>
           </RadonisContextProvider>
         </CompilerContextProvider>
       </ManifestBuilderContextProvider>

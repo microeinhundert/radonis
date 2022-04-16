@@ -12,22 +12,37 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { build } from 'esbuild'
 import { basename, join, parse } from 'path'
 
-import { isFirstCharLowercase } from './utils/string'
+import { isFirstCharLowerCase } from './utils/string'
 
 export class Compiler {
+  /**
+   * The compiled components
+   */
   private compiledComponents: Map<string, { originalPath: string; path: string }> = new Map()
 
+  /**
+   * The required components
+   */
   private requiredComponents = new Set<string>()
 
+  /**
+   * Constructor
+   */
   constructor(private config: RadonisConfig) {}
 
+  /**
+   * Get the paths to all components inside the components directory
+   */
   private discoverComponents(): string[] {
     return fsReadAll(this.config.componentsDir, (filePath) => {
       const fileName = basename(filePath)
-      return fileName.endsWith('.tsx') && !fileName.endsWith('.server.tsx') && !isFirstCharLowercase(fileName)
+      return fileName.endsWith('.tsx') && !fileName.endsWith('.server.tsx') && !isFirstCharLowerCase(fileName)
     }).map((path) => join(this.config.componentsDir, path))
   }
 
+  /**
+   * Compile all components
+   */
   public async compileComponents(): Promise<void> {
     const components = this.discoverComponents()
 
@@ -63,14 +78,23 @@ export class Compiler {
     }
   }
 
+  /**
+   * Require a component
+   */
   public requireComponent(componentName: string): void {
     this.requiredComponents.add(componentName)
   }
 
+  /**
+   * Get the compiled component styles
+   */
   public getComponentStyles(): string[] {
     return []
   }
 
+  /**
+   * Get the compiled component scripts
+   */
   public getComponentScripts(): string[] {
     return Array.from(this.requiredComponents)
       .map((componentName) => {
@@ -80,11 +104,9 @@ export class Compiler {
   }
 
   /**
-   * Establish a new context
+   * Prepare for a new request
    */
-  public establishNewContext(): this {
+  public prepareForNewRequest(): void {
     this.requiredComponents.clear()
-
-    return this
   }
 }
