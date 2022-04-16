@@ -27,9 +27,9 @@ import { RadonisContextProvider } from './contexts/radonisContext'
 import type { ManifestBuilder } from './ManifestBuilder'
 import { extractRootRoutes, transformRoute } from './utils/routing'
 
-export class ReactRenderer {
+export class Renderer {
   /**
-   * The shared context
+   * The context
    */
   private context: RadonisContextContract = null as any
 
@@ -76,56 +76,15 @@ export class ReactRenderer {
   }
 
   /**
-   * Get the user language from the http context
+   * Extract the user locale from the http context
    */
-  private getUserLanguage({ request }: HttpContextContract): string {
+  private extractUserLocale({ request }: HttpContextContract): string {
     const supportedLocales = this.i18n.supportedLocales()
     return request.language(supportedLocales) || request.input('lang') || this.i18n.defaultLocale
   }
 
   /**
-   * Share context with the ReactRenderer
-   */
-  public shareContext(context: RadonisContextContract): void {
-    this.context = context
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-  }
-
-  /**
-   * Share available routes with the ManifestBuilder
-   */
-  public shareRoutes(router: RouterContract): void {
-    this.manifestBuilder.setRoutes(extractRootRoutes(router))
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-  }
-
-  /**
-   * Share the current route with the ManifestBuilder
-   */
-  public shareRoute(route: HttpContextContract['route']): void {
-    this.manifestBuilder.setRoute(transformRoute(route))
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-  }
-
-  /**
-   * Share translations with the ManifestBuilder
-   */
-  public shareTranslations(locale: string, messages: Record<string, string>): void {
-    this.manifestBuilder.setLocale(locale)
-    this.manifestBuilder.setMessages(messages)
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-  }
-
-  /**
-   * Share flash messages with the ManifestBuilder
-   */
-  public shareFlashMessages(flashMessages: Record<string, unknown>): void {
-    this.manifestBuilder.setFlashMessages(flashMessages)
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-  }
-
-  /**
-   * Get the ReactRenderer for a request
+   * Get the Renderer for a request
    */
   public getRendererForRequest(
     httpContext: HttpContextContract,
@@ -133,39 +92,42 @@ export class ReactRenderer {
     router: RouterContract
   ): this {
     /**
-     * Share context
+     * Set context
      */
-    this.shareContext({
+    this.context = {
       application,
       httpContext,
       router,
-    })
+    }
 
     /**
-     * Share routes
+     * Set routes
      */
-    this.shareRoutes(router)
+    this.manifestBuilder.setRoutes(extractRootRoutes(router))
 
     /**
-     * Share route
+     * Set route
      */
-    this.shareRoute(httpContext.route)
+    this.manifestBuilder.setRoute(transformRoute(httpContext.route))
 
     /**
-     * Share translations
+     * Set locale and messages
      */
-    const language = this.getUserLanguage(httpContext)
-    this.shareTranslations(language, this.i18n.getTranslationsFor(language))
+    const locale = this.extractUserLocale(httpContext)
+    this.manifestBuilder.setLocale(locale)
+    this.manifestBuilder.setMessages(this.i18n.getTranslationsFor(locale))
 
     /**
      * Check if @adonisjs/session is installed
      */
     if ('session' in httpContext) {
       /**
-       * Share flash messages
+       * Set flash messages
        */
-      this.shareFlashMessages(httpContext.session.flashMessages.all())
+      this.manifestBuilder.setFlashMessages(httpContext.session.flashMessages.all())
     }
+
+    this.manifestBuilder.setServerManifestOnGlobalScope()
 
     return this
   }

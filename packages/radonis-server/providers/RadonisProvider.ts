@@ -22,7 +22,7 @@ import { FlashMessagesManager as FlashMessagesManagerInstance } from '../src/int
 import { I18nManager as I18nManagerInstance } from '../src/internal/managers/I18nManager'
 import { RoutesManager as RoutesManagerInstance } from '../src/internal/managers/RoutesManager'
 import { ManifestBuilder as ManifestBuilderInstance } from '../src/internal/ManifestBuilder'
-import { ReactRenderer as ReactRendererInstance } from '../src/internal/ReactRenderer'
+import { Renderer as RendererInstance } from '../src/internal/Renderer'
 
 export default class RadonisProvider {
   public static needsApplication = true
@@ -82,9 +82,9 @@ export default class RadonisProvider {
     })
 
     /**
-     * ReactRenderer
+     * Renderer
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/ReactRenderer', () => {
+    this.application.container.singleton('Adonis/Addons/Radonis/Renderer', () => {
       const radonisConfig: RadonisConfig = this.application.container
         .resolveBinding('Adonis/Core/Config')
         .get('radonis', {})
@@ -93,11 +93,11 @@ export default class RadonisProvider {
       const Compiler = this.application.container.resolveBinding('Adonis/Addons/Radonis/Compiler')
       const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
 
-      return new ReactRendererInstance(I18n, Compiler, ManifestBuilder, radonisConfig)
+      return new RendererInstance(I18n, Compiler, ManifestBuilder, radonisConfig)
     })
 
     /**
-     * Radonis
+     * Main
      */
     this.application.container.singleton('Adonis/Addons/Radonis', () => {
       return {
@@ -123,9 +123,9 @@ export default class RadonisProvider {
         'Adonis/Core/Route',
         'Adonis/Addons/Radonis/Compiler',
         'Adonis/Addons/Radonis/ManifestBuilder',
-        'Adonis/Addons/Radonis/ReactRenderer',
+        'Adonis/Addons/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, Compiler, ManifestBuilder, ReactRenderer) => {
+      async (HttpContext, Application, Route, Compiler, ManifestBuilder, Renderer) => {
         await Compiler.compileComponents()
 
         HttpContext.getter(
@@ -134,7 +134,7 @@ export default class RadonisProvider {
             Compiler.prepareForNewRequest()
             ManifestBuilder.prepareForNewRequest()
 
-            return ReactRenderer.getRendererForRequest(this, Application, Route)
+            return Renderer.getRendererForRequest(this, Application, Route)
           },
           true
         )

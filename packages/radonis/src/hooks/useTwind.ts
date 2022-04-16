@@ -15,10 +15,7 @@ export function useTwind() {
   const context = useContext(twindContext)
 
   if (!context) {
-    throw new Error(
-      `You tried using the useTwind hook outside of a Radonis rendered view.
-      This does not work`
-    )
+    throw new Error('The "useTwind" hook does not work outside of Radonis rendered views')
   }
 
   return context
