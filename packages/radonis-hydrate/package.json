@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis",
+  "name": "@microeinhundert/radonis-hydrate",
   "version": "0.4.2",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Hydration library for Radonis client and server",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
@@ -32,19 +32,23 @@
   "keywords": [
     "adonisjs",
     "adonis",
-    "radonis"
+    "radonis",
+    "hydrate"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@microeinhundert/radonis": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16"
+    "@types/node": "^16",
+    "@types/react": "^18.0.3",
+    "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-client": "*",
-    "@microeinhundert/radonis-server": "*"
+    "@microeinhundert/radonis-twind": "*",
+    "@microeinhundert/radonis-shared": "*"
   }
 }

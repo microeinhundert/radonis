@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis",
+  "name": "@microeinhundert/radonis-shared",
   "version": "0.4.2",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Shared library for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
@@ -32,19 +32,15 @@
   "keywords": [
     "adonisjs",
     "adonis",
-    "radonis"
+    "radonis",
+    "shared"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@microeinhundert/radonis": "*"
   },
   "devDependencies": {
     "@types/node": "^16"
-  },
-  "dependencies": {
-    "@microeinhundert/radonis-client": "*",
-    "@microeinhundert/radonis-server": "*"
   }
 }

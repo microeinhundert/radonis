@@ -7,28 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { setup } from 'twind'
-
-import { hydrate } from './internal/hydrate'
-import { twindConfig } from './twindConfig'
-
-export function initClient() {
-  setup(twindConfig)
-
-  return {
-    hydrate,
-  }
-}
-
-export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext'
-export { twindContext, TwindContextProvider } from './contexts/twindContext'
-export { useFlashMessages } from './hooks/useFlashMessages'
-export { useHydrated } from './hooks/useHydrated'
-export { useHydration } from './hooks/useHydration'
-export { useI18n } from './hooks/useI18n'
-export { useManifest } from './hooks/useManifest'
-export { useRoute } from './hooks/useRoute'
-export { useRoutes } from './hooks/useRoutes'
-export { useTwind } from './hooks/useTwind'
-export { useUrlBuilder } from './hooks/useUrlBuilder'
-export { twindConfig }
+export {
+  initClient,
+  useFlashMessages,
+  useI18n,
+  useManifest,
+  useRoute,
+  useRoutes,
+  useUrlBuilder,
+} from '@microeinhundert/radonis-client'
+export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
+export { useTwind } from '@microeinhundert/radonis-twind'

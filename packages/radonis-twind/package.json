@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis",
+  "name": "@microeinhundert/radonis-twind",
   "version": "0.4.2",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Twind library for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
@@ -32,19 +32,25 @@
   "keywords": [
     "adonisjs",
     "adonis",
-    "radonis"
+    "radonis",
+    "twind"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@microeinhundert/radonis": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16"
+    "@types/node": "^16",
+    "@types/react": "^18.0.3",
+    "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-client": "*",
-    "@microeinhundert/radonis-server": "*"
+    "@twind/preset-autoprefix": "1.0.0-next.37",
+    "@twind/preset-tailwind": "1.0.0-next.37",
+    "@twind/preset-tailwind-forms": "1.0.0-next.37",
+    "twind": "1.0.0-next.37"
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis",
+  "name": "@microeinhundert/radonis-client",
   "version": "0.4.2",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Client library for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
@@ -32,19 +32,25 @@
   "keywords": [
     "adonisjs",
     "adonis",
-    "radonis"
+    "radonis",
+    "client"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@microeinhundert/radonis": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16"
+    "@types/node": "^16",
+    "@types/react": "^18.0.3",
+    "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-client": "*",
-    "@microeinhundert/radonis-server": "*"
+    "@microeinhundert/radonis-shared": "*",
+    "@microeinhundert/radonis-twind": "*",
+    "@microeinhundert/radonis-hydrate": "*",
+    "intl-messageformat": "^9.12.0"
   }
 }

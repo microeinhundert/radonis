@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "rootDir": "./",
+    "outDir": "build",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "files": ["../../types/global.d.ts"],
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "build"]
+}

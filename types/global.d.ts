@@ -12,7 +12,7 @@ declare global {
     }
 
     interface FlashMessagesManagerContract {
-      setFlashMessages: (flashMessages: Record<string, unknown>) => void
+      setFlashMessages: (flashMessages: Manifest['flashMessages']) => void
       getFlashMessages: (all?: boolean) => Manifest['flashMessages']
 
       requireFlashMessageForHydration: (identifier: string) => void
