@@ -44,7 +44,9 @@
     "@types/node": "^16"
   },
   "dependencies": {
-    "@microeinhundert/radonis-client": "0.5.0",
-    "@microeinhundert/radonis-server": "0.5.0"
+    "@microeinhundert/radonis-client": "workspace:*",
+    "@microeinhundert/radonis-server": "workspace:*",
+    "@microeinhundert/radonis-twind": "workspace:*",
+    "@microeinhundert/radonis-hydrate": "workspace:*"
   }
 }

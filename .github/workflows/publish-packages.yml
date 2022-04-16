@@ -1,12 +1,12 @@
-name: Build Packages
+name: Publish Packages
 
 on:
   release:
     types: [created]
 
 jobs:
-  build:
-      name: Build and Test
+  publish:
+      name: Build
       timeout-minutes: 15
       runs-on: ubuntu-latest
 
@@ -18,7 +18,7 @@ jobs:
 
         - uses: pnpm/action-setup@v2.0.1
           with:
-            version: 6.32.3
+            version: 6.32.8
 
         - name: Setup Node.js environment
           uses: actions/setup-node@v2

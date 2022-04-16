@@ -1,0 +1,118 @@
+lockfileVersion: 5.3
+
+specifiers:
+  '@twind/preset-autoprefix': 1.0.0-next.37
+  '@twind/preset-tailwind': 1.0.0-next.37
+  '@twind/preset-tailwind-forms': 1.0.0-next.37
+  '@types/node': ^16
+  '@types/react': ^18.0.3
+  '@types/react-dom': ^18.0.0
+  twind: 1.0.0-next.37
+
+dependencies:
+  '@twind/preset-autoprefix': 1.0.0-next.37_twind@1.0.0-next.37
+  '@twind/preset-tailwind': 1.0.0-next.37_twind@1.0.0-next.37
+  '@twind/preset-tailwind-forms': 1.0.0-next.37_0d0ca2d3620b3fecd72b771c0fb32800
+  twind: 1.0.0-next.37
+
+devDependencies:
+  '@types/node': 16.11.27
+  '@types/react': 18.0.5
+  '@types/react-dom': 18.0.1
+
+packages:
+
+  /@swc/helpers/0.3.8:
+    resolution: {integrity: sha512-aWItSZvJj4+GI6FWkjZR13xPNPctq2RRakzo+O6vN7bC2yjwdg5EFpgaSAUn95b7BGSgcflvzVDPoKmJv24IOg==}
+    dev: false
+
+  /@twind/preset-autoprefix/1.0.0-next.37_twind@1.0.0-next.37:
+    resolution: {integrity: sha512-eZkZVZZ+psdC9/2sZVLBRVpbMFvbxfU6t/1JgOKCzPPHvGjmLIsGM++HAHimSoyxjwYqKWHk0Q0S6+5xQfAkTQ==}
+    engines: {node: '>=12.4'}
+    peerDependencies:
+      twind: 1.0.0-next.37
+      typescript: ^4.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@swc/helpers': 0.3.8
+      style-vendorizer: 2.1.1
+      twind: 1.0.0-next.37
+    dev: false
+
+  /@twind/preset-tailwind-forms/1.0.0-next.37_0d0ca2d3620b3fecd72b771c0fb32800:
+    resolution: {integrity: sha512-TiReCqhsro71iOW5Wk9OyGLS4pqE4rlikpW7ba8sKtaf3pgY0GmLLTmepuzs/RccX7baDOKAEm2Y4oodMc7hqw==}
+    engines: {node: '>=12.4'}
+    peerDependencies:
+      '@twind/preset-tailwind': 1.0.0-next.37
+      twind: 1.0.0-next.37
+      typescript: ^4.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@swc/helpers': 0.3.8
+      '@twind/preset-tailwind': 1.0.0-next.37_twind@1.0.0-next.37
+      twind: 1.0.0-next.37
+    dev: false
+
+  /@twind/preset-tailwind/1.0.0-next.37_twind@1.0.0-next.37:
+    resolution: {integrity: sha512-cp+M/Vkrh6Bx/O9Djd++goYcm/Z5kNnleY/jKHx57eMVTwYsdud6n9pYCp0sVN6mO5HM7XqY3fyEhzlLO66Gxw==}
+    engines: {node: '>=12.4'}
+    peerDependencies:
+      twind: 1.0.0-next.37
+      typescript: ^4.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@swc/helpers': 0.3.8
+      twind: 1.0.0-next.37
+    dev: false
+
+  /@types/node/16.11.27:
+    resolution: {integrity: sha512-C1pD3kgLoZ56Uuy5lhfOxie4aZlA3UMGLX9rXteq4WitEZH6Rl80mwactt9QG0w0gLFlN/kLBTFnGXtDVWvWQw==}
+    dev: true
+
+  /@types/prop-types/15.7.5:
+    resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
+    dev: true
+
+  /@types/react-dom/18.0.1:
+    resolution: {integrity: sha512-jCwTXvHtRLiyVvKm9aEdHXs8rflVOGd5Sl913JZrPshfXjn8NYsTNZOz70bCsA31IR0TOqwi3ad+X4tSCBoMTw==}
+    dependencies:
+      '@types/react': 18.0.5
+    dev: true
+
+  /@types/react/18.0.5:
+    resolution: {integrity: sha512-UPxNGInDCIKlfqBrm8LDXYWNfLHwIdisWcsH5GpMyGjhEDLFgTtlRBaoWuCua9HcyuE0rMkmAeZ3FXV1pYLIYQ==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.2
+      csstype: 3.0.11
+    dev: true
+
+  /@types/scheduler/0.16.2:
+    resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+    dev: true
+
+  /csstype/3.0.11:
+    resolution: {integrity: sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==}
+
+  /style-vendorizer/2.1.1:
+    resolution: {integrity: sha512-gVO6Cwxtg8iX0X1W4xMhSc5WbQpiIBQDkhq3JkwebMRRgyhCfuvMrnPlTAGTRjfQPGRmzgjCOZ4drehTnLahHA==}
+    dev: false
+
+  /twind/1.0.0-next.37:
+    resolution: {integrity: sha512-+aHzdV+u2Ttyun6a0ug2Qmj/+J/zgIJFJnITj4A4hdXnjAdE7lQoBng9eKWrogatscfiDXWoW/ntfYg1BO7Bsg==}
+    engines: {node: '>=12.4'}
+    peerDependencies:
+      typescript: ^4.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@swc/helpers': 0.3.8
+      csstype: 3.0.11
+    dev: false

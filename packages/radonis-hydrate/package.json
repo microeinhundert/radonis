@@ -47,7 +47,7 @@
     "@types/react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-twind": "0.5.0",
-    "@microeinhundert/radonis-shared": "0.5.0"
+    "@microeinhundert/radonis-twind": "workspace:*",
+    "@microeinhundert/radonis-shared": "workspace:*"
   }
 }

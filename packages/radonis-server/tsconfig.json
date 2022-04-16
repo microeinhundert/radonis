@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig",
   "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "./",
     "composite": true,
     "lib": ["esnext"],
-    "rootDir": "./",
     "outDir": "build",
     "declaration": true,
     "declarationMap": true,
