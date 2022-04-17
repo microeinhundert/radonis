@@ -15,12 +15,6 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-hooks
 ```
 
-or
-
-```console
-yarn add @microeinhundert/radonis-hooks
-```
-
 ## License
 
 [MIT](LICENSE)

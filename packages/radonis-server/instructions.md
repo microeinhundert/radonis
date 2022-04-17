@@ -1,11 +1,9 @@
-# Additional Configuration
+# Instructions
 
-## Configure session storage (optional)
+## Install peer dependencies
 
-If you plan to use session functionality, install the official [@adonisjs/session](https://docs.adonisjs.com/guides/session) package:
+Install the correct versions of each required package by running the following command:
 
 ```console
-npm install --save @adonisjs/session
+npx install-peerdeps @microeinhundert/radonis-server
 ```
-
-Without it, _useSession_ and _useFlashMessages_ hooks won't work.

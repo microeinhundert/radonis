@@ -15,12 +15,6 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-twind
 ```
 
-or
-
-```console
-yarn add @microeinhundert/radonis-twind
-```
-
 ## License
 
 [MIT](LICENSE)

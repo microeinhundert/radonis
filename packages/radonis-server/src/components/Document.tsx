@@ -28,7 +28,7 @@ export function Document({ children }: DocumentProps) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        {request.csrfToken && <meta content={request.csrfToken} name="csrf-token" />}
+        <meta content={request.csrfToken} name="csrf-token" />
         <title>{application.appName}</title>
         <div id="rad-styles" />
       </head>

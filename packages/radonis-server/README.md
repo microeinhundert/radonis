@@ -15,12 +15,6 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-server
 ```
 
-or
-
-```console
-yarn add @microeinhundert/radonis-server
-```
-
 ### 2. Configure the package
 
 ```console

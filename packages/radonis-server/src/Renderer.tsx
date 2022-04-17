@@ -117,15 +117,13 @@ export class Renderer {
     this.manifestBuilder.setMessages(this.i18n.getTranslationsFor(locale))
 
     /**
-     * Check if @adonisjs/session is installed
+     * Set flash messages
      */
-    if ('session' in httpContext) {
-      /**
-       * Set flash messages
-       */
-      this.manifestBuilder.setFlashMessages(flattie(httpContext.session.flashMessages.all()))
-    }
+    this.manifestBuilder.setFlashMessages(flattie(httpContext.session.flashMessages.all()))
 
+    /**
+     * Set the manifest on the global scope
+     */
     this.manifestBuilder.setServerManifestOnGlobalScope()
 
     return this

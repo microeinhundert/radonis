@@ -15,12 +15,6 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-hydrate
 ```
 
-or
-
-```console
-yarn add @microeinhundert/radonis-hydrate
-```
-
 ## License
 
 [MIT](LICENSE)

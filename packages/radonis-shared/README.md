@@ -15,12 +15,6 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-shared
 ```
 
-or
-
-```console
-yarn add @microeinhundert/radonis-shared
-```
-
 ## License
 
 [MIT](LICENSE)

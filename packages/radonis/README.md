@@ -1,5 +1,8 @@
 # Radonis
 
+| :warning: This package is in active development. Do not use. |
+| ------------------------------------------------------------ |
+
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
 
@@ -12,41 +15,36 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 
 **Requirements:**
 
-- AdonisJS v5.X.X
-- React v18.X.X
-- ReactDOM v18.X.X
+- @adonisjs/core ^5.7.0
+- @adonisjs/session ^6.2.0
+- @adonisjs/shield ^7.0.0
+- @adonisjs/i18n ^1.5.0
+- react ^18.0.0
+- react-dom ^18.0.0
 
 ## Getting Started
 
 ### 1. Install the package
 
-Install the client as well as the server package from your command line:
+Install the package from your command line:
 
 ```console
 npm install --save @microeinhundert/radonis
 ```
 
-or
+### 2. Install peer dependencies
+
+Install the correct versions of each required package by running the following command:
 
 ```console
-yarn add @microeinhundert/radonis
+npx install-peerdeps @microeinhundert/radonis
 ```
 
-### 2. Configure the server
+### 3. Configure the server package
 
 ```console
 node ace configure @microeinhundert/radonis-server
 ```
-
-### 3. Configure session storage (optional)
-
-If you plan to use session functionality, install the official [@adonisjs/session](https://docs.adonisjs.com/guides/session) package:
-
-```console
-npm install --save @adonisjs/session
-```
-
-Without it, _useSession_ and _useFlashMessages_ hooks won't work.
 
 ## Server-Side Templating
 
@@ -238,7 +236,7 @@ const url = urlBuilder.withParams([1]).make('users.show') // => `/users/1`
 const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index') // => `/tech?cool=adonis,react
 ```
 
-### useFlashMessages (Server and client, requires @adonisjs/session)
+### useFlashMessages (Server and client)
 
 ```typescript
 import { useFlashMessages } from '@microeinhundert/radonis'
@@ -319,7 +317,7 @@ import { useRouter } from '@ioc:Adonis/Addons/Radonis'
 const router = useRouter()
 ```
 
-### useSession (Server only, requires @adonisjs/session)
+### useSession (Server only)
 
 Returns the AdonisJS _SessionContract_.
 
