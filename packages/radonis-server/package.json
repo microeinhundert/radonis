@@ -29,6 +29,10 @@
   "bugs": {
     "url": "https://github.com/microeinhundert/radonis/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "engines": {
     "node": ">= 16.0.0",
     "npm": ">= 8.0.0",

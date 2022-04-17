@@ -9,6 +9,10 @@ jobs:
       name: Build
       timeout-minutes: 15
       runs-on: ubuntu-latest
+      env:
+        TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+        TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       steps:
         - name: Check out code
@@ -24,15 +28,17 @@ jobs:
           uses: actions/setup-node@v2
           with:
             node-version: 16
-            registry-url: 'https://registry.npmjs.org/'
             scope: '@microeinhundert'
             cache: pnpm
 
         - name: Install dependencies
           run: pnpm install
 
-        - name: Lint
+        - name: Lint packages
           run: pnpm turbo run lint
 
-        - name: Build
+        - name: Build packages
           run: pnpm turbo run build
+
+        - name: Publish packages
+          run: pnpm turbo run publish
