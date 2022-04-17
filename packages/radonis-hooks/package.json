@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis-client",
+  "name": "@microeinhundert/radonis-hooks",
   "version": "0.5.0",
-  "description": "Client library for Radonis",
+  "description": "Hooks package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",

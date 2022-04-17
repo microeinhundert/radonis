@@ -8,7 +8,7 @@
 			"changeProcessCWD": true
 		},
     {
-			"directory": "packages/radonis-client",
+			"directory": "packages/radonis-hooks",
 			"changeProcessCWD": true
 		},
     {

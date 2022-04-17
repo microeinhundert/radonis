@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-client
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -13,4 +13,3 @@ export { useManifest } from './hooks/useManifest'
 export { useRoute } from './hooks/useRoute'
 export { useRoutes } from './hooks/useRoutes'
 export { useUrlBuilder } from './hooks/useUrlBuilder'
-export { initClient } from './initClient'

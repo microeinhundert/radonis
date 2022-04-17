@@ -1,12 +1,12 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@microeinhundert/radonis-client': workspace:*
+  '@microeinhundert/radonis-hooks': workspace:*
   '@microeinhundert/radonis-server': workspace:*
   '@types/node': ^16
 
 dependencies:
-  '@microeinhundert/radonis-client': link:../radonis-client
+  '@microeinhundert/radonis-hooks': link:../radonis-hooks
   '@microeinhundert/radonis-server': link:../radonis-server
 
 devDependencies:

@@ -17,7 +17,7 @@
       "path": "./packages/radonis/tsconfig.json"
     },
     {
-      "path": "./packages/radonis-client/tsconfig.json"
+      "path": "./packages/radonis-hooks/tsconfig.json"
     },
     {
       "path": "./packages/radonis-hydrate/tsconfig.json"

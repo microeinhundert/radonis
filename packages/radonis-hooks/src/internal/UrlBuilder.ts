@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-client
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *

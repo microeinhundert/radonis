@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
+export { initClient } from './initClient'
 export {
-  initClient,
   useFlashMessages,
   useI18n,
   useManifest,
   useRoute,
   useRoutes,
   useUrlBuilder,
-} from '@microeinhundert/radonis-client'
+} from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
 export { useTwind } from '@microeinhundert/radonis-twind'

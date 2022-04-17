@@ -1,4 +1,4 @@
-# Radonis Client
+# Radonis Hooks
 
 > For documentation, take a look into the README of the main [Radonis](https://github.com/microeinhundert/radonis/tree/main/packages/radonis) package.
 
@@ -12,13 +12,13 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 Install the package from your command line:
 
 ```console
-npm install --save @microeinhundert/radonis-client
+npm install --save @microeinhundert/radonis-hooks
 ```
 
 or
 
 ```console
-yarn add @microeinhundert/radonis-client
+yarn add @microeinhundert/radonis-hooks
 ```
 
 ## License

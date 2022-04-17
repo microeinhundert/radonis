@@ -1,7 +1,7 @@
 {
   "name": "@microeinhundert/radonis-twind",
   "version": "0.5.0",
-  "description": "Twind library for Radonis",
+  "description": "Twind package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
