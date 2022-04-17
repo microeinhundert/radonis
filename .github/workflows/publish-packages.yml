@@ -6,59 +6,49 @@ on:
   workflow_dispatch:
 
 jobs:
-  discover-packages:
-    name: Discover packages
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 6.32.8
-
-      - id: set-matrix
-        run: echo "::set-output name=matrix::{\"packages\":$(pnpm -s list-packages)}"
-
-  build-package:
-    name: Build package
-    needs: discover-packages
-    strategy:
-      matrix: ${{ fromJson(needs.discover-packages.outputs.matrix) }}
+  publish:
+    name: Build
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
     steps:
-      - name: Checkout
+      - name: Check out code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.32.8
+          run_install: |
+            - recursive: true
 
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
           scope: '@microeinhundert'
           cache: pnpm
 
-      - name: Install
-        run: pnpm install --filter="${{ matrix.packages }}"
+      - name: Lint packages
+        run: pnpm turbo run lint
 
-      - name: Lint
-        run: pnpm turbo run lint --filter="${{ matrix.packages }}"
+      - name: Build packages
+        run: pnpm turbo run build
 
-      - name: Build
-        run: pnpm turbo run build --filter="${{ matrix.packages }}"
-
-      - name: Publish
-        run: pnpm publish --no-git-checks --dry-run --filter "${{ matrix.packages }}"
+      - name: Publish packages
+        run: pnpm publish -r --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
