@@ -11,9 +11,7 @@
   ],
   "scripts": {
     "clean": "del build",
-    "compile": "pnpm run clean && tsc",
-    "build": "pnpm run compile",
-    "prepublishOnly": "pnpm run build",
+    "build": "pnpm run clean && tsc",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },

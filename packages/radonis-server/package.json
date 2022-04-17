@@ -16,9 +16,7 @@
   "scripts": {
     "clean": "del build",
     "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
-    "compile": "pnpm run clean && tsc",
-    "build": "pnpm run compile && pnpm run copyfiles",
-    "prepublishOnly": "pnpm run build",
+    "build": "pnpm run clean && tsc && pnpm run copyfiles",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },

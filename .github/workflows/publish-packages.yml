@@ -49,6 +49,6 @@ jobs:
         run: pnpm turbo run build
 
       - name: Publish packages
-        run: pnpm publish -r --dry-run
+        run: pnpm publish -r
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
