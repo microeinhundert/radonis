@@ -5,41 +5,58 @@ on:
     types: [created]
 
 jobs:
-  publish:
-      name: Build
-      timeout-minutes: 15
-      runs-on: ubuntu-latest
-      env:
-        TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-        TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  packages:
+    name: Packages
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      steps:
-        - name: Check out code
-          uses: actions/checkout@v2
-          with:
-            fetch-depth: 2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.8
 
-        - uses: pnpm/action-setup@v2.0.1
-          with:
-            version: 6.32.8
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"packages\":$(pnpm -s list-packages)}"
 
-        - name: Setup Node.js environment
-          uses: actions/setup-node@v2
-          with:
-            node-version: 16
-            scope: '@microeinhundert'
-            cache: pnpm
+  build:
+    needs: packages
+    strategy:
+      matrix: ${{ fromJson(needs.packages.outputs.matrix) }}
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-        - name: Install dependencies
-          run: pnpm install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.8
 
-        - name: Lint packages
-          run: pnpm turbo run lint
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          scope: '@microeinhundert'
+          cache: pnpm
 
-        - name: Build packages
-          run: pnpm turbo run build
+      - name: Install
+        run: pnpm install --filter=${{ matrix.package }}
 
-        - name: Publish packages
-          run: pnpm publish -r --no-git-checks
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Lint
+        run: pnpm turbo run lint --filter=${{ matrix.package }}
+
+      - name: Build
+        run: pnpm turbo run build --filter=${{ matrix.package }}
+
+      - name: Publish
+        run: pnpm publish --no-git-checks --filter "${{ matrix.package }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
