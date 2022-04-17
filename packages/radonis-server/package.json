@@ -28,7 +28,6 @@
     "url": "https://github.com/microeinhundert/radonis/issues"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "engines": {
