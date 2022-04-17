@@ -37,7 +37,7 @@
     "adonisjs",
     "adonis",
     "radonis",
-    "client"
+    "hooks"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
