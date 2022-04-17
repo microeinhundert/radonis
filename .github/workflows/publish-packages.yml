@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  packages:
+  discover-packages:
+    name: Discover packages
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -22,10 +23,11 @@ jobs:
       - id: set-matrix
         run: echo "::set-output name=matrix::{\"packages\":$(pnpm -s list-packages)}"
 
-  build:
-    needs: packages
+  build-package:
+    name: Build package
+    needs: discover-packages
     strategy:
-      matrix: ${{ fromJson(needs.packages.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.discover-packages.outputs.matrix) }}
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
@@ -48,13 +50,13 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install --filter="${{ matrix.packages }}""
+        run: pnpm install --filter="${{ matrix.packages }}"
 
       - name: Lint
-        run: pnpm turbo run lint --filter="${{ matrix.packages }}""
+        run: pnpm turbo run lint --filter="${{ matrix.packages }}"
 
       - name: Build
-        run: pnpm turbo run build --filter="${{ matrix.packages }}""
+        run: pnpm turbo run build --filter="${{ matrix.packages }}"
 
       - name: Publish
         run: pnpm publish --no-git-checks --dry-run --filter "${{ matrix.packages }}"
