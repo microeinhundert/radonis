@@ -6,3 +6,4 @@ coverage
 .turbo
 tmp
 package-lock.json
+.pnpm*
