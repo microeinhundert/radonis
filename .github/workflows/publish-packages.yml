@@ -32,8 +32,6 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
-      - run: echo ${{ matrix.packages }}
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -50,15 +48,15 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install --filter=${{ matrix.package }}
+        run: pnpm install --filter="${{ matrix.packages }}""
 
       - name: Lint
-        run: pnpm turbo run lint --filter=${{ matrix.package }}
+        run: pnpm turbo run lint --filter="${{ matrix.packages }}""
 
       - name: Build
-        run: pnpm turbo run build --filter=${{ matrix.package }}
+        run: pnpm turbo run build --filter="${{ matrix.packages }}""
 
       - name: Publish
-        run: pnpm publish --no-git-checks --dry-run --filter "${{ matrix.package }}"
+        run: pnpm publish --no-git-checks --dry-run --filter "${{ matrix.packages }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
