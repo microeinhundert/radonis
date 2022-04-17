@@ -32,6 +32,8 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
+      - run: echo ${{ matrix }}
+
       - name: Checkout
         uses: actions/checkout@v2
 
