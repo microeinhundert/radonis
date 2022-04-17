@@ -8,4 +8,4 @@ If you plan to use session functionality, install the official [@adonisjs/sessio
 npm install --save @adonisjs/session
 ```
 
-Without it, *useSession* and *useFlashMessages* hooks won't work.
+Without it, _useSession_ and _useFlashMessages_ hooks won't work.

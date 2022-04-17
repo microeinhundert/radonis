@@ -4,12 +4,14 @@ Easily bridge the gap between your [React](https://reactjs.org/) frontend and [A
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
 
 **Features:**
+
 - Render React views directly from AdonisJS routes and controllers
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
 - Styling with [Twind](https://twind.dev/) built in
 
 **Requirements:**
+
 - AdonisJS v5.X.X
 - React v18.X.X
 - ReactDOM v18.X.X
@@ -44,7 +46,7 @@ If you plan to use session functionality, install the official [@adonisjs/sessio
 npm install --save @adonisjs/session
 ```
 
-Without it, *useSession* and *useFlashMessages* hooks won't work.
+Without it, _useSession_ and _useFlashMessages_ hooks won't work.
 
 ## Server-Side Templating
 
@@ -53,16 +55,16 @@ Instead of Edge, Radonis uses React to render views on the server. This makes it
 Usage in controllers:
 
 ```typescript
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { Index, Show } from '../../../resources/views/Users.tsx'; // Where you put your views and how you structure them is completely your choice
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Index, Show } from '../../../resources/views/Users.tsx' // Where you put your views and how you structure them is completely your choice
 
 export default class UsersController {
   public index({ radonis }: HttpContextContract) {
-    return radonis.render(Index);
+    return radonis.render(Index)
   }
 
   public show({ radonis }: HttpContextContract) {
-    return radonis.render(Show);
+    return radonis.render(Show)
   }
 }
 ```
@@ -70,48 +72,46 @@ export default class UsersController {
 Usage in routes:
 
 ```typescript
-import Route from '@ioc:Adonis/Core/Route';
-import { SignUp } from '../resources/views/Auth.tsx';
+import Route from '@ioc:Adonis/Core/Route'
+import { SignUp } from '../resources/views/Auth.tsx'
 
 Route.get('/signUp', async ({ radonis }) => {
-  return radonis.render(SignUp);
-});
+  return radonis.render(SignUp)
+})
 ```
 
 ## Using Client-Side Hydration
 
 Radonis uses partial hydration to only hydrate what is needed.
-In order for Radonis to know what to hydrate on the client, wrap the individual components with the *HydrationRoot* component:
+In order for Radonis to know what to hydrate on the client, wrap the individual components with the _HydrationRoot_ component:
 
 ```tsx
-import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis';
+import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis'
 
 function ServerRenderedComponent() {
   return (
     <HydrationRoot componentName="SomeInteractiveComponent">
-      <SomeInteractiveComponent someProp="test">
-        This component will be hydrated client-side
-      </SomeInteractiveComponent>
+      <SomeInteractiveComponent someProp="test">This component will be hydrated client-side</SomeInteractiveComponent>
     </HydrationRoot>
-  );
+  )
 }
 ```
 
-Make sure to only pass a single child to a *HydrationRoot* component. If you want to hydrate multiple parts of your application, use multiple *HydrationRoot*s instead.
-Theres another gotcha: Because a *HydrationRoot* component acts as root for a React instance, *HydrationRoot*s cannot be nested. Also make sure all props passed to a hydrated component are serializable.
+Make sure to only pass a single child to a _HydrationRoot_ component. If you want to hydrate multiple parts of your application, use multiple *HydrationRoot*s instead.
+Theres another gotcha: Because a _HydrationRoot_ component acts as root for a React instance, *HydrationRoot*s cannot be nested. Also make sure all props passed to a hydrated component are serializable.
 
 Then in your client bundle:
 
 ```typescript
-import { initClient } from '@microeinhundert/radonis';
-import { lazy } from 'react';
+import { initClient } from '@microeinhundert/radonis'
+import { lazy } from 'react'
 
-const client = initClient();
+const client = initClient()
 
 // The variable name must match the componentName passed to the HydrationRoot
-const SomeInteractiveComponent = lazy(() => import('./components/SomeInteractiveComponent'));
+const SomeInteractiveComponent = lazy(() => import('./components/SomeInteractiveComponent'))
 
-client.hydrate({ SomeInteractiveComponent });
+client.hydrate({ SomeInteractiveComponent })
 ```
 
 > Please note that hydration will take place only when the component is in view.
@@ -121,45 +121,41 @@ client.hydrate({ SomeInteractiveComponent });
 ### useTwind (Server and client)
 
 ```tsx
-import { useTwind } from '@microeinhundert/radonis';
+import { useTwind } from '@microeinhundert/radonis'
 
 function SomeComponent() {
-  const { tx } = useTwind();
-  
-  return (
-    <div className={tx`text-red-500`}>
-      I am styled using Twind
-    </div>
-  );
+  const { tx } = useTwind()
+
+  return <div className={tx`text-red-500`}>I am styled using Twind</div>
 }
 ```
 
 ### useHydration (Server and client)
 
 ```typescript
-import { useHydration } from '@microeinhundert/radonis';
+import { useHydration } from '@microeinhundert/radonis'
 
-const hydration = useHydration();
+const hydration = useHydration()
 
 // Get info about the HydrationRoot the component is a child of:
-console.log(hydration); // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
+console.log(hydration) // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
 
-// By combining useHydration and useManifest, you can get the props of the component 
+// By combining useHydration and useManifest, you can get the props of the component
 // passed to the HydrationRoot from any component in the tree:
-const hydration = useHydration();
-const manifest = useManifest();
+const hydration = useHydration()
+const manifest = useManifest()
 
-console.log(manifest.props[hydration.propsHash]); // => `{ someProp: 'test' }`
+console.log(manifest.props[hydration.propsHash]) // => `{ someProp: 'test' }`
 ```
 
 ### useHydrated (Server and client)
 
 ```typescript
-import { useHydrated } from '@microeinhundert/radonis';
+import { useHydrated } from '@microeinhundert/radonis'
 
-const hydrated = useHydrated();
+const hydrated = useHydrated()
 
-console.log(hydrated); // => `true` if it was hydrated or `false` if not
+console.log(hydrated) // => `true` if it was hydrated or `false` if not
 ```
 
 This hook allows checking if a component was hydrated.
@@ -168,26 +164,25 @@ Useful for progressive enhancement by showing parts of a component only after hy
 ### useI18n (Server and client)
 
 ```typescript
-import { useI18n } from '@microeinhundert/radonis';
+import { useI18n } from '@microeinhundert/radonis'
 
-const i18n = useI18n();
+const i18n = useI18n()
 
 // Get a translated message:
-console.log(i18n.formatMessage('auth.signUpTitle')); // => `Some message defined in translations`
+console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
 This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
-
 ### useManifest (Server and client)
 
 ```typescript
-import { useManifest } from '@microeinhundert/radonis';
+import { useManifest } from '@microeinhundert/radonis'
 
-const manifest = useManifest();
+const manifest = useManifest()
 
 // Get the manifest:
-console.log(manifest); // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {}, flashMessages: {} }`
+console.log(manifest) // => `{ props: {}, route: {}, routes: {}, locale: 'en', messages: {}, flashMessages: {} }`
 ```
 
 > Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
@@ -195,75 +190,75 @@ console.log(manifest); // => `{ props: {}, route: {}, routes: {}, locale: 'en', 
 ### useRoute (Server and client)
 
 ```typescript
-import { useRoute } from '@microeinhundert/radonis';
+import { useRoute } from '@microeinhundert/radonis'
 
-const route = useRoute();
+const route = useRoute()
 
 // Get the current route:
-console.log(route.current); // => `{ name: 'users.show', pattern: '/users/:id' }`
+console.log(route.current) // => `{ name: 'users.show', pattern: '/users/:id' }`
 
 // Check if a route is the current route:
-console.log(route.isCurrent('users.show'));  // => `true` if currently on `users.show` or a child of `users.show`, `false` if not
+console.log(route.isCurrent('users.show')) // => `true` if currently on `users.show` or a child of `users.show`, `false` if not
 
 // Check if exact match:
-console.log(route.isCurrent('users.show', true));  // => `true` if currently on `users.show`, `false` if not
+console.log(route.isCurrent('users.show', true)) // => `true` if currently on `users.show`, `false` if not
 ```
 
 ### useRoutes (Server and client)
 
 ```typescript
-import { useRoutes } from '@microeinhundert/radonis';
+import { useRoutes } from '@microeinhundert/radonis'
 
-const routes = useRoutes();
+const routes = useRoutes()
 
 // Get all routes as object:
-console.log(routes); // => `{ 'drive.local.serve': '/uploads/*', ... }`
+console.log(routes) // => `{ 'drive.local.serve': '/uploads/*', ... }`
 ```
 
 ### useUrlBuilder (Server and client)
 
 ```typescript
-import { useUrlBuilder } from '@microeinhundert/radonis';
+import { useUrlBuilder } from '@microeinhundert/radonis'
 
-const urlBuilder = useUrlBuilder();
+const urlBuilder = useUrlBuilder()
 
 // Build the URL for a named route:
-const url = urlBuilder.make('signUp'); // => `/signUp`
+const url = urlBuilder.make('signUp') // => `/signUp`
 
 // Build the URL for a controller:
-const url = urlBuilder.make('users.index'); // => `/users`
+const url = urlBuilder.make('users.index') // => `/users`
 
 // Build the URL with params:
-const url = urlBuilder.withParams({ id: 1 }).make('users.show'); // => `/users/1`
+const url = urlBuilder.withParams({ id: 1 }).make('users.show') // => `/users/1`
 
 // You can also provide path params as an array and they will be populated according to their order:
-const url = urlBuilder.withParams([1]).make('users.show'); // => `/users/1`
+const url = urlBuilder.withParams([1]).make('users.show') // => `/users/1`
 
 // You can also provide query params:
-const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index'); // => `/tech?cool=adonis,react
+const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index') // => `/tech?cool=adonis,react
 ```
 
 ### useFlashMessages (Server and client, requires @adonisjs/session)
 
 ```typescript
-import { useFlashMessages } from '@microeinhundert/radonis';
+import { useFlashMessages } from '@microeinhundert/radonis'
 
-const flashMessages = useFlashMessages();
+const flashMessages = useFlashMessages()
 
 // Check if a flash message exists:
-console.log(flashMessages.has('errors.fieldName.0')); // => `true` or `false`
+console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
 
 // Get a flash message:
-console.log(flashMessages.get('errors.fieldName.0')); // => `required validation failed on fieldName`
+console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
 
 // You can also omit the index to automatically get the first item if an array:
-console.log(flashMessages.get('errors.fieldName')); // => same as `errors.fieldName.0`
+console.log(flashMessages.get('errors.fieldName')) // => same as `errors.fieldName.0`
 
 // You can also get validation errors like this:
-console.log(flashMessages.getValidationError('fieldName')); // => same as `errors.fieldName`
+console.log(flashMessages.getValidationError('fieldName')) // => same as `errors.fieldName`
 
 // Get all flash messages:
-console.log(flashMessages.all()); // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
+console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
@@ -274,64 +269,64 @@ Returns info about the AdonisJS instance in the following format:
 
 ```typescript
 interface RadonisContextContract {
-  application: ApplicationContract;
-  httpContext: HttpContextContract;
-  router: RouterContract;
+  application: ApplicationContract
+  httpContext: HttpContextContract
+  router: RouterContract
 }
 
-import { useRadonis } from '@ioc:Adonis/Addons/Radonis';
+import { useRadonis } from '@ioc:Adonis/Addons/Radonis'
 
-const radonis = useRadonis();
+const radonis = useRadonis()
 ```
 
 ### useApplication (Server only)
 
-Returns the AdonisJS *ApplicationContract*.
+Returns the AdonisJS _ApplicationContract_.
 
 ```typescript
-import { useApplication } from '@ioc:Adonis/Addons/Radonis';
+import { useApplication } from '@ioc:Adonis/Addons/Radonis'
 
-const application = useApplication();
+const application = useApplication()
 ```
 
 ### useHttpContext (Server only)
 
-Returns the AdonisJS *HttpContextContract*.
+Returns the AdonisJS _HttpContextContract_.
 
 ```typescript
-import { useHttpContext } from '@ioc:Adonis/Addons/Radonis';
+import { useHttpContext } from '@ioc:Adonis/Addons/Radonis'
 
-const httpContext = useHttpContext();
+const httpContext = useHttpContext()
 ```
 
 ### useRequest (Server only)
 
-Returns the AdonisJS *RequestContract*.
+Returns the AdonisJS _RequestContract_.
 
 ```typescript
-import { useRequest } from '@ioc:Adonis/Addons/Radonis';
+import { useRequest } from '@ioc:Adonis/Addons/Radonis'
 
-const request = useRequest();
+const request = useRequest()
 ```
 
 ### useRouter (Server only)
 
-Returns the AdonisJS *RouterContract*.
+Returns the AdonisJS _RouterContract_.
 
 ```typescript
-import { useRouter } from '@ioc:Adonis/Addons/Radonis';
+import { useRouter } from '@ioc:Adonis/Addons/Radonis'
 
-const router = useRouter();
+const router = useRouter()
 ```
 
 ### useSession (Server only, requires @adonisjs/session)
 
-Returns the AdonisJS *SessionContract*.
+Returns the AdonisJS _SessionContract_.
 
 ```typescript
-import { useSession } from '@ioc:Adonis/Addons/Radonis';
+import { useSession } from '@ioc:Adonis/Addons/Radonis'
 
-const session = useSession();
+const session = useSession()
 ```
 
 ## License

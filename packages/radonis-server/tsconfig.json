@@ -8,12 +8,7 @@
     "outDir": "build",
     "declaration": true,
     "declarationMap": true,
-    "types": [
-      "@adonisjs/core",
-      "@adonisjs/session",
-      "@adonisjs/shield",
-      "@adonisjs/i18n"
-    ]
+    "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/shield", "@adonisjs/i18n"]
   },
   "files": ["../../types/global.d.ts"],
   "include": ["./**/*"],

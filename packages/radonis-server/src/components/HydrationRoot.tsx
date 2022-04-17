@@ -26,7 +26,7 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
       `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested
       inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName}".
       This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
-    );
+    )
     /* eslint-enable prettier/prettier */
   }
 
