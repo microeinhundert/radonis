@@ -14,9 +14,6 @@ import type { Renderer } from '../src/Renderer'
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {
     'Adonis/Addons/Radonis/Compiler': Compiler
-    'Adonis/Addons/Radonis/Manager/FlashMessages': Radonis.FlashMessagesManagerContract
-    'Adonis/Addons/Radonis/Manager/I18n': Radonis.I18nManagerContract
-    'Adonis/Addons/Radonis/Manager/Routes': Radonis.RoutesManagerContract
     'Adonis/Addons/Radonis/ManifestBuilder': ManifestBuilder
     'Adonis/Addons/Radonis/Renderer': Renderer
   }

@@ -11,17 +11,14 @@ import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 import { Compiler as CompilerInstance } from '../src/Compiler'
-import { HydrationRoot } from '../src/components/HydrationRoot'
-import { useApplication } from '../src/hooks/useApplication'
-import { useHttpContext } from '../src/hooks/useHttpContext'
-import { useRadonis } from '../src/hooks/useRadonis'
-import { useRequest } from '../src/hooks/useRequest'
-import { useRouter } from '../src/hooks/useRouter'
-import { useSession } from '../src/hooks/useSession'
-import { FlashMessagesManager as FlashMessagesManagerInstance } from '../src/managers/FlashMessagesManager'
-import { I18nManager as I18nManagerInstance } from '../src/managers/I18nManager'
-import { RoutesManager as RoutesManagerInstance } from '../src/managers/RoutesManager'
 import { ManifestBuilder as ManifestBuilderInstance } from '../src/ManifestBuilder'
+import { HydrationRoot } from '../src/React/components/HydrationRoot'
+import { useApplication } from '../src/React/hooks/useApplication'
+import { useHttpContext } from '../src/React/hooks/useHttpContext'
+import { useRadonis } from '../src/React/hooks/useRadonis'
+import { useRequest } from '../src/React/hooks/useRequest'
+import { useRouter } from '../src/React/hooks/useRouter'
+import { useSession } from '../src/React/hooks/useSession'
 import { Renderer as RendererInstance } from '../src/Renderer'
 
 export default class RadonisProvider {
@@ -48,35 +45,12 @@ export default class RadonisProvider {
     })
 
     /**
-     * FlashMessagesManager
-     */
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/FlashMessages', () => {
-      return new FlashMessagesManagerInstance()
-    })
-
-    /**
-     * I18nManager
-     */
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/I18n', () => {
-      return new I18nManagerInstance()
-    })
-
-    /**
-     * RoutesManager
-     */
-    this.application.container.singleton('Adonis/Addons/Radonis/Manager/Routes', () => {
-      return new RoutesManagerInstance()
-    })
-
-    /**
      * ManifestBuilder
      */
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const FlashMessagesManager = this.application.container.resolveBinding(
-        'Adonis/Addons/Radonis/Manager/FlashMessages'
-      )
-      const I18nManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/Manager/I18n')
-      const RoutesManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/Manager/Routes')
+      const { FlashMessagesManager } = require('../src/FlashMessagesManager')
+      const { I18nManager } = require('../src/I18nManager')
+      const { RoutesManager } = require('../src/RoutesManager')
 
       return new ManifestBuilderInstance(FlashMessagesManager, I18nManager, RoutesManager)
     })

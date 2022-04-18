@@ -7,10 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { createContext } from 'react'
-
-import type { Compiler } from '../Compiler'
-
-export const compilerContext = createContext<Compiler>(null as any)
-
-export const CompilerContextProvider = compilerContext.Provider
+/**
+ * Check if the first character of a string is a lowercase letter
+ */
+export function isFirstCharLowerCase(string: string): boolean {
+  return string.charAt(0).toLowerCase() === string.charAt(0)
+}

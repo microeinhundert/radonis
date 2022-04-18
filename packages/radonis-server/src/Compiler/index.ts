@@ -12,7 +12,7 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { build } from 'esbuild'
 import { basename, join, parse } from 'path'
 
-import { isFirstCharLowerCase } from './utils/string'
+import { isFirstCharLowerCase } from './utils'
 
 export class Compiler {
   /**

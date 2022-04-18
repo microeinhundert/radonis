@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Bridge the gap between React and AdonisJS",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -42,12 +42,12 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^16"
+    "@types/node": "^16.11.27"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hooks": "workspace:*",
-    "@microeinhundert/radonis-server": "workspace:*",
-    "@microeinhundert/radonis-twind": "workspace:*",
-    "@microeinhundert/radonis-hydrate": "workspace:*"
+    "@microeinhundert/radonis-hooks": "workspace:0.5.1",
+    "@microeinhundert/radonis-hydrate": "workspace:0.5.1",
+    "@microeinhundert/radonis-server": "workspace:0.5.1",
+    "@microeinhundert/radonis-twind": "workspace:0.5.1"
   }
 }

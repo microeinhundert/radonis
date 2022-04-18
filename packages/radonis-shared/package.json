@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-shared",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Shared package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -39,6 +39,6 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^16"
+    "@types/node": "^16.11.27"
   }
 }

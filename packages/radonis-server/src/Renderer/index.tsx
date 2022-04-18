@@ -18,13 +18,13 @@ import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 
-import type { Compiler } from './Compiler'
-import { Document } from './components/Document'
-import { CompilerContextProvider } from './contexts/compilerContext'
-import { ManifestBuilderContextProvider } from './contexts/manifestBuilderContext'
-import { RadonisContextProvider } from './contexts/radonisContext'
-import type { ManifestBuilder } from './ManifestBuilder'
-import { extractRootRoutes, transformRoute } from './utils/routing'
+import type { Compiler } from '../Compiler'
+import type { ManifestBuilder } from '../ManifestBuilder'
+import { Document } from '../React/components/Document'
+import { CompilerContextProvider } from '../React/contexts/compilerContext'
+import { ManifestBuilderContextProvider } from '../React/contexts/manifestBuilderContext'
+import { RadonisContextProvider } from '../React/contexts/radonisContext'
+import { extractRootRoutes, transformRoute } from './utils'
 
 export class Renderer {
   /**

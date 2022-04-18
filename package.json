@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "workspaces": [
@@ -11,8 +11,7 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "prepare": "husky install",
-    "pre-commit": "lint-staged",
-    "list-packages": "echo [$(pnpm -s m ls --depth -1 | tr \" \" \"\n\" | grep -o \"@.*@\" | rev | cut -c 2- | rev | sed -e 's/\\(.*\\)/\"\\1\"/' | paste -sd, - )]"
+    "pre-commit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -50,9 +49,9 @@
     "typescript": "4.6.3"
   },
   "dependencies": {
-    "@adonisjs/core": "^5.7.3",
+    "@adonisjs/core": "^5.7.5",
     "@adonisjs/i18n": "^1.5.5",
-    "@adonisjs/session": "^6.2.1",
+    "@adonisjs/session": "^6.2.2",
     "@adonisjs/shield": "^7.0.10",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

@@ -4,9 +4,9 @@ importers:
 
   .:
     specifiers:
-      '@adonisjs/core': ^5.7.3
+      '@adonisjs/core': ^5.7.5
       '@adonisjs/i18n': ^1.5.5
-      '@adonisjs/session': ^6.2.1
+      '@adonisjs/session': ^6.2.2
       '@adonisjs/shield': ^7.0.10
       adonis-preset-ts: ^2.1.0
       copyfiles: 2.4.1
@@ -51,11 +51,11 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': workspace:*
-      '@microeinhundert/radonis-hydrate': workspace:*
-      '@microeinhundert/radonis-server': workspace:*
-      '@microeinhundert/radonis-twind': workspace:*
-      '@types/node': ^16
+      '@microeinhundert/radonis-hooks': workspace:0.5.1
+      '@microeinhundert/radonis-hydrate': workspace:0.5.1
+      '@microeinhundert/radonis-server': workspace:0.5.1
+      '@microeinhundert/radonis-twind': workspace:0.5.1
+      '@types/node': ^16.11.27
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
@@ -66,12 +66,12 @@ importers:
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': workspace:*
-      '@microeinhundert/radonis-shared': workspace:*
-      '@microeinhundert/radonis-twind': workspace:*
-      '@types/node': ^16
-      '@types/react': ^18.0.3
-      '@types/react-dom': ^18.0.0
+      '@microeinhundert/radonis-hydrate': workspace:0.5.1
+      '@microeinhundert/radonis-shared': workspace:0.5.1
+      '@microeinhundert/radonis-twind': workspace:0.5.1
+      '@types/node': ^16.11.27
+      '@types/react': ^18.0.5
+      '@types/react-dom': ^18.0.1
       intl-messageformat: ^9.12.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
@@ -85,11 +85,11 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-shared': workspace:*
-      '@microeinhundert/radonis-twind': workspace:*
-      '@types/node': ^16
-      '@types/react': ^18.0.3
-      '@types/react-dom': ^18.0.0
+      '@microeinhundert/radonis-shared': workspace:0.5.1
+      '@microeinhundert/radonis-twind': workspace:0.5.1
+      '@types/node': ^16.11.27
+      '@types/react': ^18.0.5
+      '@types/react-dom': ^18.0.1
     dependencies:
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind
@@ -100,13 +100,13 @@ importers:
 
   packages/radonis-server:
     specifiers:
-      '@microeinhundert/radonis-hydrate': workspace:*
-      '@microeinhundert/radonis-shared': workspace:*
-      '@microeinhundert/radonis-twind': workspace:*
+      '@microeinhundert/radonis-hydrate': workspace:0.5.1
+      '@microeinhundert/radonis-shared': workspace:0.5.1
+      '@microeinhundert/radonis-twind': workspace:0.5.1
       '@poppinss/utils': ^4.0.4
-      '@types/node': ^16
-      '@types/react': ^18.0.3
-      '@types/react-dom': ^18.0.0
+      '@types/node': ^16.11.27
+      '@types/react': ^18.0.5
+      '@types/react-dom': ^18.0.1
       esbuild: ^0.14.36
       flattie: ^1.1.0
       node-object-hash: ^2.3.10
@@ -125,7 +125,7 @@ importers:
 
   packages/radonis-shared:
     specifiers:
-      '@types/node': ^16
+      '@types/node': ^16.11.27
     devDependencies:
       '@types/node': 16.11.27
 
@@ -134,9 +134,9 @@ importers:
       '@twind/preset-autoprefix': 1.0.0-next.37
       '@twind/preset-tailwind': 1.0.0-next.37
       '@twind/preset-tailwind-forms': 1.0.0-next.37
-      '@types/node': ^16
-      '@types/react': ^18.0.3
-      '@types/react-dom': ^18.0.0
+      '@types/node': ^16.11.27
+      '@types/react': ^18.0.5
+      '@types/react-dom': ^18.0.1
       twind: 1.0.0-next.37
     dependencies:
       '@twind/preset-autoprefix': 1.0.0-next.37_de6de5ab1aa86f253fa9552cbce6bdc9
@@ -328,7 +328,7 @@ packages:
       '@poppinss/utils': 4.0.4
       accepts: 1.3.8
       intl-messageformat: 9.12.0
-      luxon: 2.3.1
+      luxon: 2.3.2
       yaml: 2.0.1
     dev: false
 
@@ -391,7 +391,7 @@ packages:
       '@poppinss/utils': 4.0.4
       '@types/luxon': 2.3.1
       '@types/validator': 13.7.2
-      luxon: 2.3.1
+      luxon: 2.3.2
       normalize-url: 6.1.0
       tmp-cache: 1.1.0
       validator: 13.7.0
@@ -2642,8 +2642,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /luxon/2.3.1:
-    resolution: {integrity: sha512-I8vnjOmhXsMSlNMZlMkSOvgrxKJl0uOsEzdGgGNZuZPaS9KlefpE9KV95QFftlJSC+1UyCC9/I69R02cz/zcCA==}
+  /luxon/2.3.2:
+    resolution: {integrity: sha512-MlAQQVMFhGk4WUA6gpfsy0QycnKP0+NlCBJRVRNPxxSIbjrCbQ65nrpJD3FVyJNZLuJ0uoqL57ye6BmDYgHaSw==}
     engines: {node: '>=12'}
     dev: false
 

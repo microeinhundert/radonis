@@ -10,6 +10,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 
+/**
+ * Extract the root routes from a Router instance
+ */
 export function extractRootRoutes(Router: RouterContract): Record<string, any> {
   const rootRoutes = Router.toJSON()?.['root'] ?? []
 
@@ -24,6 +27,9 @@ export function extractRootRoutes(Router: RouterContract): Record<string, any> {
   }, {})
 }
 
+/**
+ * Transform a RouteNode to the shape expected by the manifest
+ */
 export function transformRoute(route: HttpContextContract['route']): { name?: string; pattern?: string } {
   return {
     name: route?.name,
