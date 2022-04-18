@@ -1,0 +1,44 @@
+{
+  "name": "@microeinhundert/radonis-shared",
+  "version": "0.5.2",
+  "description": "Shared package for Radonis",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "typings": "build/src/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "build/src"
+  ],
+  "scripts": {
+    "clean": "del build",
+    "build": "pnpm run clean && tsc",
+    "lint": "TIMING=1 eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0",
+    "yarn": ">= 2.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis",
+    "radonis",
+    "shared"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.11.27"
+  }
+}

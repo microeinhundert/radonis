@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "./",
+    "composite": true,
+    "lib": ["esnext"],
+    "outDir": "build",
+    "declaration": true,
+    "declarationMap": true,
+    "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/shield", "@adonisjs/i18n"]
+  },
+  "files": ["../../types/global.d.ts"],
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "build"]
+}

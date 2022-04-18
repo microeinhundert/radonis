@@ -1,0 +1,56 @@
+{
+  "name": "@microeinhundert/radonis-hooks",
+  "version": "0.5.2",
+  "description": "Hooks package for Radonis",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "typings": "build/src/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "build/src"
+  ],
+  "scripts": {
+    "clean": "del build",
+    "build": "pnpm run clean && tsc",
+    "lint": "TIMING=1 eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0",
+    "yarn": ">= 2.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis",
+    "radonis",
+    "hooks"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.27",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.1"
+  },
+  "dependencies": {
+    "@microeinhundert/radonis-hydrate": "0.5.2",
+    "@microeinhundert/radonis-shared": "0.5.2",
+    "@microeinhundert/radonis-twind": "0.5.2",
+    "intl-messageformat": "^9.12.0"
+  }
+}

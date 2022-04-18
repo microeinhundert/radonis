@@ -1,0 +1,59 @@
+{
+  "name": "radonis-monorepo",
+  "version": "0.5.2",
+  "private": true,
+  "description": "Monorepo containing all Radonis packages",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0",
+    "yarn": ">= 2.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "radonis"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "adonis-preset-ts": "^2.1.0",
+    "copyfiles": "2.4.1",
+    "del-cli": "4.0.1",
+    "eslint": "8.13.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-adonis": "2.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.8",
+    "prettier": "2.6.2",
+    "turbo": "^1.2.4",
+    "typescript": "4.6.3"
+  },
+  "dependencies": {
+    "@adonisjs/core": "^5.7.5",
+    "@adonisjs/i18n": "^1.5.5",
+    "@adonisjs/session": "^6.2.2",
+    "@adonisjs/shield": "^7.0.10",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

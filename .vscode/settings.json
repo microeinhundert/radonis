@@ -1,0 +1,32 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.workingDirectories": [
+    {
+      "directory": "packages/radonis",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-hooks",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-hydrate",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-server",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-shared",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-twind",
+      "changeProcessCWD": true
+    }
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

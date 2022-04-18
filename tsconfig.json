@@ -1,0 +1,35 @@
+{
+  "extends": "./node_modules/adonis-preset-ts/tsconfig",
+  "compilerOptions": {
+    "rootDir": "./",
+    "target": "es2021",
+    "module": "commonjs",
+    "incremental": true,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react"
+  },
+  "references": [
+    {
+      "path": "./packages/radonis/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-hooks/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-hydrate/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-server/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-shared/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-twind/tsconfig.json"
+    }
+  ]
+}

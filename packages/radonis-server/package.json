@@ -1,0 +1,84 @@
+{
+  "name": "@microeinhundert/radonis-server",
+  "version": "0.5.2",
+  "description": "Server provider for Radonis",
+  "main": "build/providers/RadonisProvider.js",
+  "types": "build/adonis-typings/index.d.ts",
+  "typings": "build/adonis-typings/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "build/providers",
+    "build/src",
+    "build/adonis-typings",
+    "build/templates",
+    "build/instructions.md"
+  ],
+  "scripts": {
+    "clean": "del build",
+    "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
+    "build": "pnpm run clean && tsc && pnpm run copyfiles",
+    "lint": "TIMING=1 eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0",
+    "yarn": ">= 2.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis",
+    "radonis",
+    "server"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "adonisjs": {
+    "instructionsMd": "./build/instructions.md",
+    "types": "@microeinhundert/radonis-server",
+    "providers": [
+      "@microeinhundert/radonis-server"
+    ],
+    "templates": {
+      "basePath": "./build/templates",
+      "config": [
+        {
+          "src": "config.txt",
+          "dest": "radonis"
+        }
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@adonisjs/core": "^5.7.0",
+    "@adonisjs/i18n": "^1.5.0",
+    "@adonisjs/session": "^6.2.0",
+    "@adonisjs/shield": "^7.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.27",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.1"
+  },
+  "dependencies": {
+    "@microeinhundert/radonis-hydrate": "0.5.2",
+    "@microeinhundert/radonis-shared": "0.5.2",
+    "@microeinhundert/radonis-twind": "0.5.2",
+    "@poppinss/utils": "^4.0.4",
+    "esbuild": "^0.14.36",
+    "flattie": "^1.1.0",
+    "node-object-hash": "^2.3.10"
+  }
+}
