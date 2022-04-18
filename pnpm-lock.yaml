@@ -66,6 +66,7 @@ importers:
 
   packages/radonis-hooks:
     specifiers:
+      '@microeinhundert/radonis-hooks': 0.5.3
       '@microeinhundert/radonis-hydrate': 0.5.3
       '@microeinhundert/radonis-shared': 0.5.3
       '@microeinhundert/radonis-twind': 0.5.3
@@ -74,6 +75,7 @@ importers:
       '@types/react-dom': ^18.0.1
       intl-messageformat: ^9.12.0
     dependencies:
+      '@microeinhundert/radonis-hooks': 'link:'
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind

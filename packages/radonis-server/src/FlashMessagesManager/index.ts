@@ -7,7 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export class FlashMessagesManager implements Radonis.FlashMessagesManagerContract {
+export class FlashMessagesManager {
+  private static instance: FlashMessagesManager
+
   /**
    * The flash messages
    */
@@ -22,11 +24,11 @@ export class FlashMessagesManager implements Radonis.FlashMessagesManagerContrac
    * Constructor
    */
   constructor() {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    globalThis.rad_flashMessagesManager = this
+    if (FlashMessagesManager.instance) {
+      return FlashMessagesManager.instance
+    }
+
+    FlashMessagesManager.instance = this
   }
 
   /**

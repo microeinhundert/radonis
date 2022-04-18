@@ -118,3 +118,7 @@ export default class RadonisProvider {
     )
   }
 }
+
+export { FlashMessagesManager } from '../src/FlashMessagesManager'
+export { I18nManager } from '../src/I18nManager'
+export { RoutesManager } from '../src/RoutesManager'

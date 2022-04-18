@@ -12,16 +12,9 @@ import { IntlMessageFormat } from 'intl-messageformat'
 
 export class I18n {
   /**
-   * I18nManager
-   */
-  private i18nManager?: Radonis.I18nManagerContract
-
-  /**
    * Constructor
    */
-  constructor(private locale: string, private messages: Record<string, string>, private willHydrate?: boolean) {
-    this.i18nManager = globalThis.rad_i18nManager
-  }
+  constructor(private locale: string, private messages: Record<string, string>, private willHydrate?: boolean) {}
 
   /**
    * Find the message inside the registered messages and
@@ -35,7 +28,9 @@ export class I18n {
     }
 
     if (isServer() && this.willHydrate) {
-      this.i18nManager?.requireMessageForHydration(identifier)
+      const { I18nManager } = require('@microeinhundert/radonis-server')
+
+      new I18nManager().requireMessageForHydration(identifier)
     }
 
     return message

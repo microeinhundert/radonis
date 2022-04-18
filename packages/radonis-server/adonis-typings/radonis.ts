@@ -46,3 +46,17 @@ declare module '@ioc:Adonis/Addons/Radonis' {
     clientBundleOutputDir: string
   }
 }
+
+declare module '@microeinhundert/radonis-server' {
+  export class FlashMessagesManager {
+    public requireFlashMessageForHydration: (identifier: string) => void
+  }
+
+  export class I18nManager {
+    public requireMessageForHydration: (identifier: string) => void
+  }
+
+  export class RoutesManager {
+    public requireRouteForHydration: (identifier: string) => void
+  }
+}

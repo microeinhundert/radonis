@@ -7,7 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export class RoutesManager implements Radonis.RoutesManagerContract {
+export class RoutesManager {
+  private static instance: RoutesManager
+
   /**
    * The routes
    */
@@ -22,11 +24,11 @@ export class RoutesManager implements Radonis.RoutesManagerContract {
    * Constructor
    */
   constructor() {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    globalThis.rad_routesManager = this
+    if (RoutesManager.instance) {
+      return RoutesManager.instance
+    }
+
+    RoutesManager.instance = this
   }
 
   /**

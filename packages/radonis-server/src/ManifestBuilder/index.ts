@@ -10,6 +10,10 @@
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
+import type { FlashMessagesManager } from '../FlashMessagesManager'
+import type { I18nManager } from '../I18nManager'
+import type { RoutesManager } from '../RoutesManager'
+
 export class ManifestBuilder implements Radonis.Manifest {
   /**
    * The hasher used to hash component props
@@ -30,9 +34,9 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Constructor
    */
   constructor(
-    private flashMessagesManager: Radonis.FlashMessagesManagerContract,
-    private i18nManager: Radonis.I18nManagerContract,
-    private routesManager: Radonis.RoutesManagerContract
+    private flashMessagesManager: FlashMessagesManager,
+    private i18nManager: I18nManager,
+    private routesManager: RoutesManager
   ) {}
 
   /**

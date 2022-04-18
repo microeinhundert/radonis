@@ -11,16 +11,9 @@ import { isServer } from '@microeinhundert/radonis-shared'
 
 export class FlashMessages {
   /**
-   * FlashMessagesManager
-   */
-  private flashMessagesManager?: Radonis.FlashMessagesManagerContract
-
-  /**
    * Constructor
    */
-  constructor(private flashMessages: Record<string, Radonis.FlashMessage>, private willHydrate?: boolean) {
-    this.flashMessagesManager = globalThis.rad_flashMessagesManager
-  }
+  constructor(private flashMessages: Record<string, Radonis.FlashMessage>, private willHydrate?: boolean) {}
 
   /**
    * Find the flash message inside the registered flash messages
@@ -33,7 +26,9 @@ export class FlashMessages {
     }
 
     if (isServer() && this.willHydrate) {
-      this.flashMessagesManager?.requireFlashMessageForHydration(identifier)
+      const { FlashMessagesManager } = require('@microeinhundert/radonis-server')
+
+      new FlashMessagesManager().requireFlashMessageForHydration(identifier)
     }
 
     return flashMessage

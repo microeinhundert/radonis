@@ -8,11 +8,10 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { build } from 'esbuild'
-import { basename, join, parse } from 'path'
+import { parse } from 'path'
 
-import { isFirstCharLowerCase } from './utils'
+import { discoverComponents } from './utils'
 
 export class Compiler {
   /**
@@ -31,20 +30,10 @@ export class Compiler {
   constructor(private config: RadonisConfig) {}
 
   /**
-   * Get the paths to all components inside the components directory
-   */
-  private discoverComponents(): string[] {
-    return fsReadAll(this.config.componentsDir, (filePath) => {
-      const fileName = basename(filePath)
-      return fileName.endsWith('.tsx') && !fileName.endsWith('.server.tsx') && !isFirstCharLowerCase(fileName)
-    }).map((path) => join(this.config.componentsDir, path))
-  }
-
-  /**
    * Compile all components
    */
   public async compileComponents(): Promise<void> {
-    const components = this.discoverComponents()
+    const components = discoverComponents(this.config.componentsDir)
 
     this.compiledComponents.clear()
 

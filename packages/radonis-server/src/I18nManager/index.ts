@@ -9,7 +9,9 @@
 
 import { DEFAULT_LOCALE } from '../constants'
 
-export class I18nManager implements Radonis.I18nManagerContract {
+export class I18nManager {
+  private static instance: I18nManager
+
   /**
    * The locale
    */
@@ -29,11 +31,11 @@ export class I18nManager implements Radonis.I18nManagerContract {
    * Constructor
    */
   constructor() {
-    /**
-     * Setting on the global scope is required in order for the client package
-     * to be able to access this class without having a dependency to the server package
-     */
-    globalThis.rad_i18nManager = this
+    if (I18nManager.instance) {
+      return I18nManager.instance
+    }
+
+    I18nManager.instance = this
   }
 
   /**

@@ -11,11 +11,6 @@ import { isServer } from '@microeinhundert/radonis-shared'
 
 export class UrlBuilder {
   /**
-   * RoutesManager
-   */
-  private routesManager?: Radonis.RoutesManagerContract
-
-  /**
    * Params
    */
   private params: any[] | Record<string, any>
@@ -28,9 +23,7 @@ export class UrlBuilder {
   /**
    * Constructor
    */
-  constructor(private routes: Record<string, any>, private willHydrate?: boolean) {
-    this.routesManager = globalThis.rad_routesManager
-  }
+  constructor(private routes: Record<string, any>, private willHydrate?: boolean) {}
 
   /**
    * Find the route inside the list of registered routes and
@@ -44,7 +37,9 @@ export class UrlBuilder {
     }
 
     if (isServer() && this.willHydrate) {
-      this.routesManager?.requireRouteForHydration(identifier)
+      const { RoutesManager } = require('@microeinhundert/radonis-server')
+
+      new RoutesManager().requireRouteForHydration(identifier)
     }
 
     return route
