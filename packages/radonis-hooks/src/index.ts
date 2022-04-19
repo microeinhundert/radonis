@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export { useFlashMessages } from './hooks/useFlashMessages'
-export { useI18n } from './hooks/useI18n'
-export { useManifest } from './hooks/useManifest'
-export { useRoute } from './hooks/useRoute'
-export { useRoutes } from './hooks/useRoutes'
-export { useUrlBuilder } from './hooks/useUrlBuilder'
+export { useFlashMessages } from './useFlashMessages'
+export { useI18n } from './useI18n'
+export { useManifest } from './useManifest'
+export { useRoute } from './useRoute'
+export { useRoutes } from './useRoutes'
+export { useUrlBuilder } from './useUrlBuilder'

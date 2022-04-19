@@ -1,0 +1,8 @@
+{
+  "extends": ["plugin:adonis/typescriptApp", "prettier"],
+  "plugins": ["prettier", "simple-import-sort"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "@typescript-eslint/consistent-type-imports": "off"
+  }
+}

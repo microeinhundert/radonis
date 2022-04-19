@@ -10,12 +10,12 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { useMemo } from 'react'
 
-import { I18n } from '../internal/I18n'
-import { useManifest } from './useManifest'
+import { UrlBuilder } from './internal/UrlBuilder'
+import { useRoutes } from './useRoutes'
 
-export function useI18n() {
-  const { locale, messages } = useManifest()
+export function useUrlBuilder() {
+  const routes = useRoutes()
   const hydration = useHydration()
 
-  return useMemo(() => new I18n(locale, messages, !!hydration.root), [locale, messages, hydration])
+  return useMemo(() => new UrlBuilder(routes, !!hydration.root), [routes, hydration])
 }
