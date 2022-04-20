@@ -37,7 +37,7 @@ Add the following to the compilerOptions of your tsconfig:
 ```json
 {
   "compilerOptions": {
-    "jsx": "react" // <- Add this
+    "jsx": "react"
   }
 }
 ```

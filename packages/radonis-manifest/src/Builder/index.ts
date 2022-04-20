@@ -141,8 +141,10 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the server manifest on the global scope
    */
-  public setServerManifestOnGlobalScope(): void {
+  public setServerManifestOnGlobalScope(): this {
     globalThis.manifest = this.serverManifest
+
+    return this
   }
 
   /**
@@ -168,36 +170,46 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Radonis.Manifest['routes']): void {
+  public setRoutes(routes: Radonis.Manifest['routes']): this {
     this.routesManager.setRoutes(routes)
+
+    return this
   }
 
   /**
    * Set the current route on the Builder
    */
-  public setRoute(route: Radonis.Manifest['route']): void {
+  public setRoute(route: Radonis.Manifest['route']): this {
     this.route = route
+
+    return this
   }
 
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Radonis.Manifest['locale']): void {
+  public setLocale(locale: Radonis.Manifest['locale']): this {
     this.i18nManager.setLocale(locale)
+
+    return this
   }
 
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Radonis.Manifest['messages']): void {
+  public setMessages(messages: Radonis.Manifest['messages']): this {
     this.i18nManager.setMessages(messages)
+
+    return this
   }
 
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): void {
+  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
     this.flashMessagesManager.setFlashMessages(flashMessages)
+
+    return this
   }
 
   /**

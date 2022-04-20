@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-manifest",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Manifest package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

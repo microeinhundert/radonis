@@ -10,13 +10,15 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
-import { HydrationRoot } from '../src/React/components/HydrationRoot'
-import { useApplication } from '../src/React/hooks/useApplication'
-import { useHttpContext } from '../src/React/hooks/useHttpContext'
-import { useRadonis } from '../src/React/hooks/useRadonis'
-import { useRequest } from '../src/React/hooks/useRequest'
-import { useRouter } from '../src/React/hooks/useRouter'
-import { useSession } from '../src/React/hooks/useSession'
+import {
+  HydrationRoot,
+  useApplication,
+  useHttpContext,
+  useRadonis,
+  useRequest,
+  useRouter,
+  useSession,
+} from '../src/React'
 
 export default class RadonisProvider {
   public static needsApplication = true

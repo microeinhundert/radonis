@@ -8,7 +8,7 @@
  */
 
 /**
- * This variable will be replaced on build time
+ * This variable will be replaced during the client build
  */
 export const isServer = true
 

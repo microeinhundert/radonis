@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-hydrate",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Hydration package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -41,8 +41,7 @@
   "license": "MIT",
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "@microeinhundert/radonis-server": "0.5.3"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.27",
@@ -50,8 +49,8 @@
     "@types/react-dom": "^18.0.1"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "0.5.3",
-    "@microeinhundert/radonis-twind": "0.5.3",
-    "@microeinhundert/radonis-manifest": "0.5.3"
+    "@microeinhundert/radonis-shared": "0.5.4",
+    "@microeinhundert/radonis-twind": "0.5.4",
+    "@microeinhundert/radonis-manifest": "0.5.4"
   }
 }

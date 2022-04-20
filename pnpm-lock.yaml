@@ -58,8 +58,8 @@ importers:
       '@adonisjs/shield': ^7.0.10
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
-      '@microeinhundert/radonis': ^0.5.3
-      '@microeinhundert/radonis-server': ^0.5.3
+      '@microeinhundert/radonis': ^0.5.4
+      '@microeinhundert/radonis-server': ^0.5.4
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
       adonis-preset-ts: ^2.1.0
@@ -110,32 +110,34 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': 0.5.3
-      '@microeinhundert/radonis-hydrate': 0.5.3
-      '@microeinhundert/radonis-server': 0.5.3
-      '@microeinhundert/radonis-twind': 0.5.3
+      '@microeinhundert/radonis-hooks': 0.5.4
+      '@microeinhundert/radonis-hydrate': 0.5.4
+      '@microeinhundert/radonis-manifest': 0.5.4
+      '@microeinhundert/radonis-server': 0.5.4
+      '@microeinhundert/radonis-shared': 0.5.4
+      '@microeinhundert/radonis-twind': 0.5.4
       '@types/node': ^16.11.27
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
+      '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-server': link:../radonis-server
+      '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind
     devDependencies:
       '@types/node': 16.11.27
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 0.5.3
-      '@microeinhundert/radonis-manifest': 0.5.3
-      '@microeinhundert/radonis-shared': 0.5.3
-      '@microeinhundert/radonis-twind': 0.5.3
+      '@microeinhundert/radonis-hydrate': 0.5.4
+      '@microeinhundert/radonis-shared': 0.5.4
+      '@microeinhundert/radonis-twind': 0.5.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
       intl-messageformat: ^9.12.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
-      '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind
       intl-messageformat: 9.12.0
@@ -146,9 +148,9 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-manifest': 0.5.3
-      '@microeinhundert/radonis-shared': 0.5.3
-      '@microeinhundert/radonis-twind': 0.5.3
+      '@microeinhundert/radonis-manifest': 0.5.4
+      '@microeinhundert/radonis-shared': 0.5.4
+      '@microeinhundert/radonis-twind': 0.5.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
@@ -172,10 +174,9 @@ importers:
 
   packages/radonis-server:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 0.5.3
-      '@microeinhundert/radonis-manifest': 0.5.3
-      '@microeinhundert/radonis-shared': 0.5.3
-      '@microeinhundert/radonis-twind': 0.5.3
+      '@microeinhundert/radonis-hydrate': 0.5.4
+      '@microeinhundert/radonis-manifest': 0.5.4
+      '@microeinhundert/radonis-twind': 0.5.4
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
@@ -185,7 +186,6 @@ importers:
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
-      '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind
       '@poppinss/utils': 4.0.4
       esbuild: 0.14.36

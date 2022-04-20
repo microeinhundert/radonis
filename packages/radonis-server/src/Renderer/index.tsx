@@ -20,11 +20,9 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 
 import type { Compiler } from '../Compiler'
-import { Document } from '../React/components/Document'
-import { CompilerContextProvider } from '../React/contexts/compilerContext'
-import { ManifestBuilderContextProvider } from '../React/contexts/manifestBuilderContext'
-import { RadonisContextProvider } from '../React/contexts/radonisContext'
+import { CompilerContextProvider, Document, ManifestBuilderContextProvider, RadonisContextProvider } from '../React'
 import { extractRootRoutes, transformRoute } from './utils'
+
 export class Renderer {
   /**
    * The context
@@ -38,9 +36,16 @@ export class Renderer {
     private i18n: I18nManagerContract,
     private compiler: Compiler,
     private manifestBuilder: ManifestBuilder,
-    config: RadonisConfig
+    private config: RadonisConfig
   ) {
-    install(twindConfig, config.productionMode)
+    this.installTwind()
+  }
+
+  /**
+   * Install Twind
+   */
+  private installTwind() {
+    install(twindConfig, this.config.productionMode)
   }
 
   /**
@@ -55,7 +60,7 @@ export class Renderer {
       ${this.compiler
         .getComponentStyles()
         .map((style) => `<link rel="stylesheet" src="${style}"></link>`)
-        .join('')}`
+        .join('\n')}`
     )
   }
 
@@ -69,7 +74,7 @@ export class Renderer {
       ${this.compiler
         .getComponentScripts()
         .map((script) => `<script type="module" defer src="${script}"></script>`)
-        .join('')}`
+        .join('\n')}`
     )
   }
 
@@ -98,32 +103,18 @@ export class Renderer {
       router,
     }
 
-    /**
-     * Set routes
-     */
-    this.manifestBuilder.setRoutes(extractRootRoutes(router))
-
-    /**
-     * Set route
-     */
-    this.manifestBuilder.setRoute(transformRoute(httpContext.route))
-
-    /**
-     * Set locale and messages
-     */
     const locale = this.extractUserLocale(httpContext)
-    this.manifestBuilder.setLocale(locale)
-    this.manifestBuilder.setMessages(this.i18n.getTranslationsFor(locale))
 
     /**
-     * Set flash messages
+     * Set manifest
      */
-    this.manifestBuilder.setFlashMessages(flattie(httpContext.session.flashMessages.all()))
-
-    /**
-     * Set the manifest on the global scope
-     */
-    this.manifestBuilder.setServerManifestOnGlobalScope()
+    this.manifestBuilder
+      .setRoutes(extractRootRoutes(router))
+      .setRoute(transformRoute(httpContext.route))
+      .setLocale(locale)
+      .setMessages(this.i18n.getTranslationsFor(locale))
+      .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
+      .setServerManifestOnGlobalScope()
 
     return this
   }
