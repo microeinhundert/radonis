@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { isServer } from '@microeinhundert/radonis-shared'
+import { requireMessageForHydration } from '@microeinhundert/radonis-hydrate'
 import { IntlMessageFormat } from 'intl-messageformat'
 
 export class I18n {
@@ -27,10 +27,8 @@ export class I18n {
       throw new Error(`Cannot find message for "${identifier}"`)
     }
 
-    if (isServer() && this.willHydrate) {
-      const { I18nManager } = require('@microeinhundert/radonis-server')
-
-      new I18nManager().requireMessageForHydration(identifier)
+    if (this.willHydrate) {
+      requireMessageForHydration(identifier)
     }
 
     return message

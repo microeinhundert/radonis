@@ -1,12 +1,11 @@
-import type { ReactNode } from 'react'
+import { useI18n, useTwind } from '@microeinhundert/radonis'
 import React from 'react'
 
-interface DemoProps {
-  children?: ReactNode
-}
+function Demo() {
+  const { tx } = useTwind()
+  const i18n = useI18n()
 
-function Demo({ children }: DemoProps) {
-  return <h1>{children}</h1>
+  return <h1 className={tx`text-2xl`}>{i18n.formatMessage('general.welcome')}</h1>
 }
 
 export default Demo

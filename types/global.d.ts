@@ -2,9 +2,11 @@ declare global {
   namespace Radonis {
     type FlashMessage = string | boolean | number
 
+    type Route = { name?: string; pattern?: string }
+
     interface Manifest {
       props: Record<string, Record<string, unknown>>
-      route: { name?: string; pattern?: string } | null
+      route: Route | null
       routes: Record<string, any>
       locale: string
       messages: Record<string, string>
@@ -12,12 +14,10 @@ declare global {
     }
   }
 
-  /* eslint-disable @typescript-eslint/naming-convention */
-  var rad_clientManifest: Radonis.Manifest | undefined
-  var rad_serverManifest: Radonis.Manifest | undefined
+  var manifest: Radonis.Manifest | undefined
 
   interface Window {
-    rad_clientManifest: Radonis.Manifest | undefined
+    manifest: Radonis.Manifest | undefined
   }
 }
 

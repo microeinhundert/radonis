@@ -11,3 +11,4 @@ export { hydrationContext, HydrationContextProvider } from './contexts/hydration
 export { useHydrated } from './hooks/useHydrated'
 export { useHydration } from './hooks/useHydration'
 export { hydrate } from './hydrate'
+export { requireFlashMessageForHydration, requireMessageForHydration, requireRouteForHydration } from './server'

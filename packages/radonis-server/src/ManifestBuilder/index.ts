@@ -127,7 +127,7 @@ export class ManifestBuilder implements Radonis.Manifest {
    * Set the server manifest on the global scope
    */
   public setServerManifestOnGlobalScope(): void {
-    globalThis.rad_serverManifest = this.serverManifest
+    globalThis.manifest = this.serverManifest
   }
 
   /**

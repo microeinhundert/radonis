@@ -67,7 +67,7 @@ function createIntersectionObserver(components: Record<string, LazyExoticCompone
  * Hydrate the server-rendered components on the client
  */
 export function hydrate(components: Record<string, LazyExoticComponent<any>>): void {
-  if (isServer()) {
+  if (isServer) {
     throw new Error(
       `Radonis hydration does not work server-side.
       Please make sure "hydrate" is only called client-side`

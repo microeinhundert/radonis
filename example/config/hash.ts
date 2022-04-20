@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/JfefW
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import Env from '@ioc:Adonis/Core/Env'
 import type { HashConfig } from '@ioc:Adonis/Core/Hash'
 

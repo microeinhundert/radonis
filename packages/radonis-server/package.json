@@ -17,6 +17,7 @@
     "clean": "del build",
     "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
     "build": "pnpm run clean && tsc && pnpm run copyfiles",
+    "watch": "tsc --watch",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },

@@ -8,9 +8,10 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
-import { build } from 'esbuild'
-import { parse } from 'path'
+import esbuild from 'esbuild'
+import { dirname, parse } from 'path'
 
+import { getLoaderForFile, loaders } from './loaders'
 import { discoverComponents } from './utils'
 
 export class Compiler {
@@ -32,26 +33,57 @@ export class Compiler {
   /**
    * Compile all components
    */
-  public async compileComponents(): Promise<void> {
-    const components = discoverComponents(this.config.componentsDir)
+  public async compileComponents(resolveDir: string): Promise<void> {
+    const { productionMode, clientBundleOutputDir, componentsDir } = this.config
+    const components = discoverComponents(componentsDir)
 
-    this.compiledComponents.clear()
+    const testPlugin = {
+      name: 'radonis-components',
+      setup(build) {
+        build.onResolve({ filter: /.*/ }, (args) => {
+          if (args.path.startsWith(componentsDir)) {
+            return { path: args.path, namespace: 'radonis-component' }
+          }
+        })
 
-    const { metafile } = await build({
-      outdir: this.config.clientBundleOutputDir,
+        build.onLoad({ filter: /.*/, namespace: 'radonis-component' }, ({ path }) => {
+          console.log(dirname(path), resolveDir)
+
+          const contents = `
+            console.log('Test');
+          `
+
+          return {
+            contents,
+            resolveDir: dirname(path),
+            loader: getLoaderForFile(path),
+          }
+        })
+      },
+    }
+
+    const { metafile } = await esbuild.build({
+      outdir: clientBundleOutputDir,
       entryPoints: components,
       platform: 'browser',
       format: 'esm',
       bundle: true,
       splitting: true,
+      treeShaking: true,
       metafile: true,
       write: true,
       logLevel: 'silent',
-      minify: this.config.productionMode,
+      minify: productionMode,
+      loader: loaders,
+      external: ['@microeinhundert/radonis-server'],
       define: {
-        'process.env.NODE_ENV': this.config.productionMode ? '"production"' : '"development"',
+        'process.env.NODE_ENV': productionMode ? '"production"' : '"development"',
+        'isServer': 'false',
       },
+      plugins: [testPlugin],
     })
+
+    this.compiledComponents.clear()
 
     for (const key in metafile.outputs) {
       const output = metafile.outputs[key]

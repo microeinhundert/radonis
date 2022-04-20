@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/JfefZ
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import Env from '@ioc:Adonis/Core/Env'
 import type { LoggerConfig } from '@ioc:Adonis/Core/Logger'
 import type { ProfilerConfig } from '@ioc:Adonis/Core/Profiler'

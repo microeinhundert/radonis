@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/Jfefn
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import type { BodyParserConfig } from '@ioc:Adonis/Core/BodyParser'
 
 const bodyParserConfig: BodyParserConfig = {

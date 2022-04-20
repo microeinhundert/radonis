@@ -30,7 +30,7 @@ export function extractRootRoutes(Router: RouterContract): Record<string, any> {
 /**
  * Transform a RouteNode to the shape expected by the manifest
  */
-export function transformRoute(route: HttpContextContract['route']): { name?: string; pattern?: string } {
+export function transformRoute(route: HttpContextContract['route']): Radonis.Route {
   return {
     name: route?.name,
     pattern: route?.pattern,

@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/Jvwvt
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import type { ShieldConfig } from '@ioc:Adonis/Addons/Shield'
 import Env from '@ioc:Adonis/Core/Env'
 

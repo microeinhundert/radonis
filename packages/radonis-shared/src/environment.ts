@@ -7,20 +7,13 @@
  * file that was distributed with this source code.
  */
 
-export function isClient(): boolean {
-  return typeof window !== 'undefined'
-}
-
-export function isServer(): boolean {
-  return typeof globalThis !== 'undefined' && !isClient()
-}
-
-export function getManifest(): Radonis.Manifest | undefined {
-  return isServer() ? globalThis.rad_serverManifest : window.rad_clientManifest
-}
+/**
+ * This variable will be replaced on build time
+ */
+export const isServer = true
 
 export function getManifestOrFail(): Radonis.Manifest {
-  const manifest = getManifest()
+  const manifest = (globalThis ?? window).manifest
 
   if (!manifest) {
     throw new Error(

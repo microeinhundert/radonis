@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { isServer } from '@microeinhundert/radonis-shared'
+import { requireFlashMessageForHydration } from '@microeinhundert/radonis-hydrate'
 
 export class FlashMessages {
   /**
@@ -25,10 +25,8 @@ export class FlashMessages {
       return this.findFlashMessage(`${identifier}.0`)
     }
 
-    if (isServer() && this.willHydrate) {
-      const { FlashMessagesManager } = require('@microeinhundert/radonis-server')
-
-      new FlashMessagesManager().requireFlashMessageForHydration(identifier)
+    if (this.willHydrate) {
+      requireFlashMessageForHydration(identifier)
     }
 
     return flashMessage

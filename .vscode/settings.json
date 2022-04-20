@@ -26,6 +26,10 @@
     {
       "directory": "packages/radonis-twind",
       "changeProcessCWD": true
+    },
+    {
+      "directory": "example",
+      "changeProcessCWD": true
     }
   ],
   "typescript.tsdk": "node_modules/typescript/lib"

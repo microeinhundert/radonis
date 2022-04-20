@@ -25,7 +25,6 @@ import { CompilerContextProvider } from '../React/contexts/compilerContext'
 import { ManifestBuilderContextProvider } from '../React/contexts/manifestBuilderContext'
 import { RadonisContextProvider } from '../React/contexts/radonisContext'
 import { extractRootRoutes, transformRoute } from './utils'
-
 export class Renderer {
   /**
    * The context
@@ -66,7 +65,7 @@ export class Renderer {
   private injectScripts(html: string): string {
     return html.replace(
       '<div id="rad-scripts"></div>',
-      `<script>window.rad_clientManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
+      `<script>window.manifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
       ${this.compiler
         .getComponentScripts()
         .map((script) => `<script type="module" defer src="${script}"></script>`)
@@ -133,12 +132,10 @@ export class Renderer {
    * Render the view and return the HTML document
    */
   public render<T>(Component: ComponentType<T>, props?: ComponentPropsWithoutRef<ComponentType<T>>): string {
-    let html = ''
-
     /**
      * Render the view
      */
-    html = renderToString(
+    let html = renderToString(
       <ManifestBuilderContextProvider value={this.manifestBuilder}>
         <CompilerContextProvider value={this.compiler}>
           <RadonisContextProvider value={this.context}>

@@ -12,6 +12,7 @@
   "scripts": {
     "clean": "del build",
     "build": "pnpm run clean && tsc",
+    "watch": "tsc --watch",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },
@@ -51,7 +52,6 @@
     "@microeinhundert/radonis-hydrate": "0.5.3",
     "@microeinhundert/radonis-shared": "0.5.3",
     "@microeinhundert/radonis-twind": "0.5.3",
-    "@microeinhundert/radonis-server": "0.5.3",
     "intl-messageformat": "^9.12.0"
   }
 }

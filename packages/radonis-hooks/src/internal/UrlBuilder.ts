@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { isServer } from '@microeinhundert/radonis-shared'
+import { requireRouteForHydration } from '@microeinhundert/radonis-hydrate'
 
 export class UrlBuilder {
   /**
@@ -36,10 +36,8 @@ export class UrlBuilder {
       throw new Error(`Cannot find route for "${identifier}"`)
     }
 
-    if (isServer() && this.willHydrate) {
-      const { RoutesManager } = require('@microeinhundert/radonis-server')
-
-      new RoutesManager().requireRouteForHydration(identifier)
+    if (this.willHydrate) {
+      requireRouteForHydration(identifier)
     }
 
     return route

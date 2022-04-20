@@ -32,18 +32,52 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis
 ```
 
-### 2. Install peer dependencies
-
-Install the correct versions of each required package by running the following command:
-
-```console
-npx install-peerdeps @microeinhundert/radonis
-```
-
-### 3. Configure the server package
+### 2. Configure the server package
 
 ```console
 node ace configure @microeinhundert/radonis-server
+```
+
+### 3. Install required AdonisJS addons
+
+Install and configure the required AdonisJS addons if not already done:
+
+```console
+npm install --save @adonisjs/i18n
+node ace configure @adonisjs/i18n
+```
+
+and
+
+```console
+npm install --save @adonisjs/session
+node ace configure @adonisjs/session
+```
+
+and
+
+```console
+npm install --save @adonisjs/shield
+node ace configure @adonisjs/shield
+```
+
+### 4. Install React
+
+```console
+npm install --save react react-dom
+npm install --save-dev @types/react @types/react-dom
+```
+
+### 5. Configure TypeScript
+
+Add the following to the compilerOptions of your tsconfig:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react" // <- Add this
+  }
+}
 ```
 
 ## Server-Side Templating

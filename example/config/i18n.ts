@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/Jw53K
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import type { I18nConfig } from '@ioc:Adonis/Addons/I18n'
 import Application from '@ioc:Adonis/Core/Application'
 

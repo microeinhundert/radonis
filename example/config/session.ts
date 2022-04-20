@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/JeYHp
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import type { SessionConfig } from '@ioc:Adonis/Addons/Session'
 import Application from '@ioc:Adonis/Core/Application'
 import Env from '@ioc:Adonis/Core/Env'
