@@ -16,7 +16,7 @@ import { isServer } from '@microeinhundert/radonis-shared'
 export function requireRouteForHydration(identifier: string): void {
   if (!isServer) return
 
-  const { RoutesManager } = require('@microeinhundert/radonis-server')
+  const { RoutesManager } = require('@microeinhundert/radonis-manifest')
 
   new RoutesManager().requireRouteForHydration(identifier)
 }
@@ -28,7 +28,7 @@ export function requireRouteForHydration(identifier: string): void {
 export function requireFlashMessageForHydration(identifier: string): void {
   if (!isServer) return
 
-  const { FlashMessagesManager } = require('@microeinhundert/radonis-server')
+  const { FlashMessagesManager } = require('@microeinhundert/radonis-manifest')
 
   new FlashMessagesManager().requireFlashMessageForHydration(identifier)
 }
@@ -40,7 +40,7 @@ export function requireFlashMessageForHydration(identifier: string): void {
 export function requireMessageForHydration(identifier: string): void {
   if (!isServer) return
 
-  const { I18nManager } = require('@microeinhundert/radonis-server')
+  const { I18nManager } = require('@microeinhundert/radonis-manifest')
 
   new I18nManager().requireMessageForHydration(identifier)
 }

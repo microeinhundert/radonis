@@ -7,14 +7,27 @@
  * file that was distributed with this source code.
  */
 
+import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
-import type { FlashMessagesManager } from '../FlashMessagesManager'
-import type { I18nManager } from '../I18nManager'
-import type { RoutesManager } from '../RoutesManager'
-
 export class ManifestBuilder implements Radonis.Manifest {
+  /**
+   * The FlashMessagesManager instance
+   */
+  private flashMessagesManager: FlashMessagesManager
+
+  /**
+   * The I18nManager instance
+   */
+  private i18nManager: I18nManager
+
+  /**
+   * The RoutesManager instance
+   */
+  private routesManager: RoutesManager
+
   /**
    * The hasher used to hash component props
    */
@@ -33,11 +46,11 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Constructor
    */
-  constructor(
-    private flashMessagesManager: FlashMessagesManager,
-    private i18nManager: I18nManager,
-    private routesManager: RoutesManager
-  ) {}
+  constructor(private config: RadonisConfig) {
+    this.routesManager = new RoutesManager()
+    this.flashMessagesManager = new FlashMessagesManager()
+    this.i18nManager = new I18nManager()
+  }
 
   /**
    * The routes
@@ -109,10 +122,10 @@ export class ManifestBuilder implements Radonis.Manifest {
     return {
       props: this.props,
       route: this.route,
-      routes: this.routesRequiredForHydration,
+      routes: this.config.limitClientManifest ? this.routesRequiredForHydration : this.routes,
       locale: this.locale,
-      messages: this.messagesRequiredForHydration,
-      flashMessages: this.flashMessagesRequiredForHydration,
+      messages: this.config.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
+      flashMessages: this.config.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
     }
   }
 

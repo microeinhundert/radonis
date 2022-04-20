@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-manifest
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -8,6 +8,9 @@
  */
 
 export class RoutesManager {
+  /**
+   * The singleton instance
+   */
   private static instance: RoutesManager
 
   /**

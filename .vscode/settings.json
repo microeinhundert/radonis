@@ -16,6 +16,10 @@
       "changeProcessCWD": true
     },
     {
+      "directory": "packages/radonis-manifest",
+      "changeProcessCWD": true
+    },
+    {
       "directory": "packages/radonis-server",
       "changeProcessCWD": true
     },

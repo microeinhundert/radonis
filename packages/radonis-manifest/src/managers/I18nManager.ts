@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-manifest
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -10,6 +10,9 @@
 import { DEFAULT_LOCALE } from '../constants'
 
 export class I18nManager {
+  /**
+   * The singleton instance
+   */
   private static instance: I18nManager
 
   /**

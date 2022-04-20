@@ -35,6 +35,17 @@ const radonisConfig: RadonisConfig = {
   |
   */
   clientBundleOutputDir: Application.publicPath('client'),
+
+  /*
+  |--------------------------------------------------------------------------
+  | Limit Client Manifest
+  |--------------------------------------------------------------------------
+  |
+  | Limit the client manifest to only include data
+  | required for hydration on the client.
+  |
+  */
+  limitClientManifest: true,
 }
 
 export default radonisConfig

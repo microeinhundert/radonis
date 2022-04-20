@@ -23,6 +23,9 @@
       "path": "./packages/radonis-hydrate/tsconfig.json"
     },
     {
+      "path": "./packages/radonis-manifest/tsconfig.json"
+    },
+    {
       "path": "./packages/radonis-server/tsconfig.json"
     },
     {

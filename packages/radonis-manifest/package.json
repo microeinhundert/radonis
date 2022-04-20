@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis-hydrate",
+  "name": "@microeinhundert/radonis-manifest",
   "version": "0.5.3",
-  "description": "Hydration package for Radonis",
+  "description": "Manifest package for Radonis",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "typings": "build/src/index.d.ts",
@@ -35,23 +35,11 @@
     "adonisjs",
     "adonis",
     "radonis",
-    "hydrate"
+    "manifest"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "@microeinhundert/radonis-server": "0.5.3"
-  },
   "devDependencies": {
-    "@types/node": "^16.11.27",
-    "@types/react": "^18.0.5",
-    "@types/react-dom": "^18.0.1"
-  },
-  "dependencies": {
-    "@microeinhundert/radonis-shared": "0.5.3",
-    "@microeinhundert/radonis-twind": "0.5.3",
-    "@microeinhundert/radonis-manifest": "0.5.3"
+    "@types/node": "^16.11.27"
   }
 }

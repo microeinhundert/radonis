@@ -7,4 +7,23 @@
  * file that was distributed with this source code.
  */
 
-export * from './environment'
+/**
+ * This variable will be replaced on build time
+ */
+export const isServer = true
+
+/**
+ * Get the manifest, fail if it does not exist on the global scope
+ */
+export function getManifestOrFail(): Radonis.Manifest {
+  const manifest = (globalThis ?? window).manifest
+
+  if (!manifest) {
+    throw new Error(
+      `Could not get the Radonis manifest.
+      Make sure the server provider is configured properly`
+    )
+  }
+
+  return manifest
+}

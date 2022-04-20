@@ -47,12 +47,13 @@ export default class RadonisProvider {
      * ManifestBuilder
      */
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const { FlashMessagesManager } = require('../src/FlashMessagesManager')
-      const { I18nManager } = require('../src/I18nManager')
-      const { RoutesManager } = require('../src/RoutesManager')
+      const radonisConfig: RadonisConfig = this.application.container
+        .resolveBinding('Adonis/Core/Config')
+        .get('radonis', {})
+
       const { ManifestBuilder } = require('../src/ManifestBuilder')
 
-      return new ManifestBuilder(new FlashMessagesManager(), new I18nManager(), new RoutesManager())
+      return new ManifestBuilder(radonisConfig)
     })
 
     /**
@@ -118,7 +119,3 @@ export default class RadonisProvider {
     )
   }
 }
-
-export { FlashMessagesManager } from '../src/FlashMessagesManager'
-export { I18nManager } from '../src/I18nManager'
-export { RoutesManager } from '../src/RoutesManager'
