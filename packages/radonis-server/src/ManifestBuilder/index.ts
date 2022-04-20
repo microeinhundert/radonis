@@ -119,13 +119,15 @@ export class ManifestBuilder implements Radonis.Manifest {
    * The client manifest
    */
   private get clientManifest(): Radonis.Manifest {
+    const { limitClientManifest } = this.config
+
     return {
       props: this.props,
       route: this.route,
-      routes: this.config.limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      routes: limitClientManifest ? this.routesRequiredForHydration : this.routes,
       locale: this.locale,
-      messages: this.config.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
-      flashMessages: this.config.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
+      messages: limitClientManifest ? this.messagesRequiredForHydration : this.messages,
+      flashMessages: limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
     }
   }
 
