@@ -14,7 +14,7 @@ import { FlashMessagesManager } from './managers/FlashMessagesManager'
 import { I18nManager } from './managers/I18nManager'
 import { RoutesManager } from './managers/RoutesManager'
 
-export class ManifestBuilder implements Radonis.Manifest {
+export class ManifestManifestBuilder implements Radonis.Manifest {
   /**
    * The FlashMessagesManager instance
    */
@@ -146,7 +146,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Register component props with the Builder
+   * Register component props with the ManifestBuilder
    */
   public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(component.props)
@@ -173,7 +173,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Set the current route on the Builder
+   * Set the current route on the ManifestBuilder
    */
   public setRoute(route: Radonis.Manifest['route']): void {
     this.route = route
