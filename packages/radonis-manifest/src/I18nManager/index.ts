@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { DEFAULT_LOCALE } from '../constants'
+import { DEFAULT_LOCALE } from './constants'
 
 export class I18nManager {
   /**

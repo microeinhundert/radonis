@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export { FlashMessagesManager } from './managers/FlashMessagesManager'
-export { I18nManager } from './managers/I18nManager'
-export { RoutesManager } from './managers/RoutesManager'
-export { ManifestBuilder } from './ManifestBuilder'
+export { Builder } from './Builder'
+export { FlashMessagesManager } from './FlashMessagesManager'
+export { I18nManager } from './I18nManager'
+export { RoutesManager } from './RoutesManager'

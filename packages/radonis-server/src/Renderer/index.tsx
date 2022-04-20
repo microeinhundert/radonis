@@ -12,7 +12,7 @@ import type { RadonisConfig, RadonisContextContract } from '@ioc:Adonis/Addons/R
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
-import type { ManifestBuilder } from '@microeinhundert/radonis-manifest'
+import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { extract, install, twindConfig, TwindContextProvider } from '@microeinhundert/radonis-twind'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'

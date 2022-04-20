@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { ManifestBuilder } from '@microeinhundert/radonis-manifest'
+import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 
 import type { Compiler } from '../src/Compiler'
 import type { Renderer } from '../src/Renderer'

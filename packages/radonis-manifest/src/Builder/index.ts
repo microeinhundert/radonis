@@ -10,11 +10,11 @@
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
 
-import { FlashMessagesManager } from './managers/FlashMessagesManager'
-import { I18nManager } from './managers/I18nManager'
-import { RoutesManager } from './managers/RoutesManager'
+import { FlashMessagesManager } from '../FlashMessagesManager'
+import { I18nManager } from '../I18nManager'
+import { RoutesManager } from '../RoutesManager'
 
-export class ManifestManifestBuilder implements Radonis.Manifest {
+export class Builder implements Radonis.Manifest {
   /**
    * The FlashMessagesManager instance
    */
@@ -146,7 +146,7 @@ export class ManifestManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Register component props with the ManifestBuilder
+   * Register component props with the Builder
    */
   public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(component.props)
@@ -173,7 +173,7 @@ export class ManifestManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Set the current route on the ManifestBuilder
+   * Set the current route on the Builder
    */
   public setRoute(route: Radonis.Manifest['route']): void {
     this.route = route
