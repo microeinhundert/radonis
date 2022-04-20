@@ -31,7 +31,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.32.8
+          version: 6.32.9
           run_install: |
             - recursive: true
 
@@ -40,14 +40,14 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org/'
-          scope: '@microeinhundert'
+          scope: '@radonis'
           cache: pnpm
 
       - name: Lint packages
-        run: pnpm turbo run lint
+        run: pnpm run lint
 
       - name: Build packages
-        run: pnpm turbo run build
+        run: pnpm run build
 
       - name: Publish packages
         run: pnpm publish -r

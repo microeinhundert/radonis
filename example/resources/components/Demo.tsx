@@ -1,11 +1,20 @@
 import { useI18n, useTwind } from '@microeinhundert/radonis'
 import React from 'react'
 
-function Demo() {
+interface DemoProps {
+  text: string
+}
+
+function Demo({ text }: DemoProps) {
   const { tx } = useTwind()
   const i18n = useI18n()
 
-  return <h1 className={tx`text-2xl`}>{i18n.formatMessage('general.welcome')}</h1>
+  return (
+    <div className={tx`max-w-lg p-8`}>
+      <h1 className={tx`text-2xl font-bold mb-4`}>{i18n.formatMessage('general.welcome')}</h1>
+      <p>{text}</p>
+    </div>
+  )
 }
 
 export default Demo

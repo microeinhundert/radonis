@@ -24,4 +24,4 @@ import { Welcome } from '../resources/views/Welcome'
 
 Route.get('/', async ({ radonis }) => {
   return radonis.render(Welcome)
-})
+}).as('welcome')

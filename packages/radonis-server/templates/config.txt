@@ -38,6 +38,20 @@ const radonisConfig: RadonisConfig = {
 
   /*
   |--------------------------------------------------------------------------
+  | Build Options
+  |--------------------------------------------------------------------------
+  |
+  | Allows overriding the build options used
+  | by esbuild for bundling the client.
+  |
+  | Use with caution: This is only an escape hatch.
+  | Overriding the options can break the build.
+  |
+  */
+  buildOptions: {},
+
+  /*
+  |--------------------------------------------------------------------------
   | Limit Client Manifest
   |--------------------------------------------------------------------------
   |

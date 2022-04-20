@@ -9,16 +9,19 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import esbuild from 'esbuild'
-import { dirname, parse } from 'path'
+import { parse } from 'path'
 
-import { getLoaderForFile, loaders } from './loaders'
+import { loaders } from './loaders'
+import { componentsPlugin } from './plugins'
 import { discoverComponents } from './utils'
+
+type Component = { originalPath: string; path: string }
 
 export class Compiler {
   /**
    * The compiled components
    */
-  private compiledComponents: Map<string, { originalPath: string; path: string }> = new Map()
+  private compiledComponents: Map<string, Component> = new Map()
 
   /**
    * The required components
@@ -34,59 +37,36 @@ export class Compiler {
    * Compile all components
    */
   public async compileComponents(resolveDir: string): Promise<void> {
-    const { productionMode, clientBundleOutputDir, componentsDir } = this.config
+    const { productionMode, componentsDir, clientBundleOutputDir, buildOptions } = this.config
     const components = discoverComponents(componentsDir)
-
-    const testPlugin = {
-      name: 'radonis-components',
-      setup(build) {
-        build.onResolve({ filter: /.*/ }, (args) => {
-          if (args.path.startsWith(componentsDir)) {
-            return { path: args.path, namespace: 'radonis-component' }
-          }
-        })
-
-        build.onLoad({ filter: /.*/, namespace: 'radonis-component' }, ({ path }) => {
-          console.log(dirname(path), resolveDir)
-
-          const contents = `
-            console.log('Test');
-          `
-
-          return {
-            contents,
-            resolveDir: dirname(path),
-            loader: getLoaderForFile(path),
-          }
-        })
-      },
-    }
 
     const { metafile } = await esbuild.build({
       outdir: clientBundleOutputDir,
       entryPoints: components,
-      platform: 'browser',
-      format: 'esm',
+      metafile: true,
+      write: true,
       bundle: true,
       splitting: true,
       treeShaking: true,
-      metafile: true,
-      write: true,
+      platform: 'browser',
+      format: 'esm',
       logLevel: 'silent',
       minify: productionMode,
-      loader: loaders,
-      external: ['@microeinhundert/radonis-server'],
+      loader: { ...loaders, ...(buildOptions.loader ?? {}) },
+      external: ['@microeinhundert/radonis-manifest', ...(buildOptions.external ?? [])],
       define: {
-        'process.env.NODE_ENV': productionMode ? '"production"' : '"development"',
+        'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
         'isServer': 'false',
+        ...(buildOptions.define ?? {}),
       },
-      plugins: [testPlugin],
+      plugins: [componentsPlugin(resolveDir, componentsDir), ...(buildOptions.plugins ?? [])],
+      ...buildOptions,
     })
 
     this.compiledComponents.clear()
 
-    for (const key in metafile.outputs) {
-      const output = metafile.outputs[key]
+    for (const key in metafile!.outputs) {
+      const output = metafile!.outputs[key]
 
       if (output.entryPoint) {
         const { name } = parse(output.entryPoint)

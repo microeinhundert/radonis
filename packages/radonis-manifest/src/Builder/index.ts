@@ -49,9 +49,9 @@ export class Builder implements Radonis.Manifest {
    * Constructor
    */
   constructor(private limitClientManifest: boolean) {
-    this.routesManager = new RoutesManager()
     this.flashMessagesManager = new FlashMessagesManager()
     this.i18nManager = new I18nManager()
+    this.routesManager = new RoutesManager()
   }
 
   /**

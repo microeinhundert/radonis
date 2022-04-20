@@ -8,6 +8,7 @@
  */
 
 declare module '@ioc:Adonis/Addons/Radonis' {
+  import type { BuildOptions } from 'esbuild'
   import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
   import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
@@ -44,6 +45,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
     productionMode: boolean
     componentsDir: string
     clientBundleOutputDir: string
+    buildOptions: BuildOptions
     limitClientManifest: boolean
   }
 }

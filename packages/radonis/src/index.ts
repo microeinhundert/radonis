@@ -18,3 +18,9 @@ export {
 } from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
 export { useTwind } from '@microeinhundert/radonis-twind'
+
+/**
+ * This must be exported from the main package in order for esbuild
+ * to pick up the package when bundling the components for the client.
+ */
+export { hydrate as __internal__hydrate } from '@microeinhundert/radonis-hydrate'

@@ -1,16 +1,16 @@
 {
   "name": "radonis-monorepo",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "workspaces": [
-    "packages/**",
+    "packages/*",
     "example/"
   ],
   "scripts": {
     "build": "turbo run build --filter=./packages/*",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
+    "lint": "turbo run lint --filter=./packages/*",
+    "format": "turbo run format --filter=./packages/*",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },

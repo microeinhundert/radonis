@@ -1,6 +1,6 @@
 # Radonis Hydrate
 
-> For documentation, take a look into the README of the main [Radonis](https://github.com/microeinhundert/radonis/tree/main/packages/radonis) package.
+> This is an internal package used by Radonis. Take a look into the README of the main [Radonis](https://github.com/microeinhundert/radonis/tree/main/packages/radonis) package.
 
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.

@@ -1,7 +1,7 @@
-import type * as esbuild from 'esbuild'
+import type { Loader } from 'esbuild'
 import { extname } from 'path'
 
-export const loaders: { [ext: string]: esbuild.Loader } = {
+export const loaders: { [ext: string]: Loader } = {
   '.aac': 'file',
   '.css': 'file',
   '.eot': 'file',
@@ -29,7 +29,7 @@ export const loaders: { [ext: string]: esbuild.Loader } = {
   '.woff2': 'file',
 }
 
-export function getLoaderForFile(file: string): esbuild.Loader {
+export function getLoaderForFile(file: string): Loader {
   let ext = extname(file)
   if (ext in loaders) return loaders[ext]
   throw new Error(`Cannot get loader for file ${file}`)
