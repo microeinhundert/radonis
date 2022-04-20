@@ -7,14 +7,15 @@
  * file that was distributed with this source code.
  */
 
+import type { ManifestBuilder } from '@microeinhundert/radonis-manifest'
+
 import type { Compiler } from '../src/Compiler'
-import type { ManifestBuilder } from '../src/ManifestBuilder'
 import type { Renderer } from '../src/Renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {
-    'Adonis/Addons/Radonis/Compiler': Compiler
     'Adonis/Addons/Radonis/ManifestBuilder': ManifestBuilder
+    'Adonis/Addons/Radonis/Compiler': Compiler
     'Adonis/Addons/Radonis/Renderer': Renderer
   }
 }

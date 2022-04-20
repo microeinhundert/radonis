@@ -15,7 +15,7 @@ export const isServer = true
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */
-export function getManifestOrFail(): Radonis.Manifest {
+export function getManifestOrFail() {
   const manifest = (globalThis ?? window).manifest
 
   if (!manifest) {

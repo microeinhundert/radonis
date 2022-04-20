@@ -9,7 +9,9 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { ManifestBuilder as ManifestBuilderInstance } from '@microeinhundert/radonis-manifest'
 
+import { Compiler as CompilerInstance } from '../src/Compiler'
 import { HydrationRoot } from '../src/React/components/HydrationRoot'
 import { useApplication } from '../src/React/hooks/useApplication'
 import { useHttpContext } from '../src/React/hooks/useHttpContext'
@@ -17,6 +19,7 @@ import { useRadonis } from '../src/React/hooks/useRadonis'
 import { useRequest } from '../src/React/hooks/useRequest'
 import { useRouter } from '../src/React/hooks/useRouter'
 import { useSession } from '../src/React/hooks/useSession'
+import { Renderer as RendererInstance } from '../src/Renderer'
 
 export default class RadonisProvider {
   public static needsApplication = true
@@ -31,6 +34,17 @@ export default class RadonisProvider {
    */
   public register() {
     /**
+     * ManifestBuilder
+     */
+    this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
+      const { limitClientManifest }: RadonisConfig = this.application.container
+        .resolveBinding('Adonis/Core/Config')
+        .get('radonis', {})
+
+      return new ManifestBuilderInstance(limitClientManifest)
+    })
+
+    /**
      * Compiler
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Compiler', () => {
@@ -38,22 +52,7 @@ export default class RadonisProvider {
         .resolveBinding('Adonis/Core/Config')
         .get('radonis', {})
 
-      const { Compiler } = require('../src/Compiler')
-
-      return new Compiler(radonisConfig)
-    })
-
-    /**
-     * ManifestBuilder
-     */
-    this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const radonisConfig: RadonisConfig = this.application.container
-        .resolveBinding('Adonis/Core/Config')
-        .get('radonis', {})
-
-      const { ManifestBuilder } = require('../src/ManifestBuilder')
-
-      return new ManifestBuilder(radonisConfig)
+      return new CompilerInstance(radonisConfig)
     })
 
     /**
@@ -68,9 +67,7 @@ export default class RadonisProvider {
       const Compiler = this.application.container.resolveBinding('Adonis/Addons/Radonis/Compiler')
       const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
 
-      const { Renderer } = require('../src/Renderer')
-
-      return new Renderer(I18n, Compiler, ManifestBuilder, radonisConfig)
+      return new RendererInstance(I18n, Compiler, ManifestBuilder, radonisConfig)
     })
 
     /**

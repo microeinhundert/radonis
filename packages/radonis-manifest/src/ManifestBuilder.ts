@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-manifest
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
-import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
 import hasher from 'node-object-hash'
 import type { ReactElement } from 'react'
+
+import { FlashMessagesManager } from './managers/FlashMessagesManager'
+import { I18nManager } from './managers/I18nManager'
+import { RoutesManager } from './managers/RoutesManager'
 
 export class ManifestBuilder implements Radonis.Manifest {
   /**
@@ -46,7 +48,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   /**
    * Constructor
    */
-  constructor(private config: RadonisConfig) {
+  constructor(private limitClientManifest: boolean) {
     this.routesManager = new RoutesManager()
     this.flashMessagesManager = new FlashMessagesManager()
     this.i18nManager = new I18nManager()
@@ -119,15 +121,13 @@ export class ManifestBuilder implements Radonis.Manifest {
    * The client manifest
    */
   private get clientManifest(): Radonis.Manifest {
-    const { limitClientManifest } = this.config
-
     return {
       props: this.props,
       route: this.route,
-      routes: limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      routes: this.limitClientManifest ? this.routesRequiredForHydration : this.routes,
       locale: this.locale,
-      messages: limitClientManifest ? this.messagesRequiredForHydration : this.messages,
-      flashMessages: limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
+      messages: this.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
+      flashMessages: this.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
     }
   }
 
@@ -146,7 +146,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Register component props with the ManifestBuilder
+   * Register component props with the Builder
    */
   public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(component.props)
@@ -173,7 +173,7 @@ export class ManifestBuilder implements Radonis.Manifest {
   }
 
   /**
-   * Set the current route on the ManifestBuilder
+   * Set the current route on the Builder
    */
   public setRoute(route: Radonis.Manifest['route']): void {
     this.route = route

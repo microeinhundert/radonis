@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { createContext } from 'react'
-
-import type { ManifestBuilder } from '../../ManifestBuilder'
 
 export const manifestBuilderContext = createContext<ManifestBuilder>(null as any)
 

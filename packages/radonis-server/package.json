@@ -80,7 +80,6 @@
     "@microeinhundert/radonis-manifest": "0.5.3",
     "@poppinss/utils": "^4.0.4",
     "esbuild": "^0.14.36",
-    "flattie": "^1.1.0",
-    "node-object-hash": "^2.3.10"
+    "flattie": "^1.1.0"
   }
 }

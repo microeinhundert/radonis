@@ -41,5 +41,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.11.27"
+  },
+  "dependencies": {
+    "node-object-hash": "^2.3.10"
   }
 }
