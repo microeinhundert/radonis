@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "./",
     "target": "es2021",
-    "module": "commonjs",
+    "module": "esnext",
     "incremental": true,
     "removeComments": false,
     "moduleResolution": "node",

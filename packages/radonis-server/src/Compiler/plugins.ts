@@ -19,7 +19,8 @@ export const componentsPlugin = (resolveDir: string, componentsDir: string) => (
       console.log(dirname(path), resolveDir)
 
       const contents = `
-        import { __internal__hydrate } from '@microeinhundert/radonis'
+        import { __internal__hydrate } from '@microeinhundert/radonis';
+
         console.log(__internal__hydrate);
       `
 

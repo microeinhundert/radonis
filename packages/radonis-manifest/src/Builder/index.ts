@@ -55,17 +55,17 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * The routes
+   * The flash messages
    */
-  public get routes(): Radonis.Manifest['routes'] {
-    return this.routesManager.getRoutes(true)
+  public get flashMessages(): Radonis.Manifest['flashMessages'] {
+    return this.flashMessagesManager.getFlashMessages(true)
   }
 
   /**
-   * The routes required for hydration
+   * The flash messages required for hydration
    */
-  public get routesRequiredForHydration(): Radonis.Manifest['routes'] {
-    return this.routesManager.getRoutes()
+  public get flashMessagesRequiredForHydration(): Radonis.Manifest['flashMessages'] {
+    return this.flashMessagesManager.getFlashMessages()
   }
 
   /**
@@ -90,17 +90,17 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * The flash messages
+   * The routes
    */
-  public get flashMessages(): Radonis.Manifest['flashMessages'] {
-    return this.flashMessagesManager.getFlashMessages(true)
+  public get routes(): Radonis.Manifest['routes'] {
+    return this.routesManager.getRoutes(true)
   }
 
   /**
-   * The flash messages required for hydration
+   * The routes required for hydration
    */
-  public get flashMessagesRequiredForHydration(): Radonis.Manifest['flashMessages'] {
-    return this.flashMessagesManager.getFlashMessages()
+  public get routesRequiredForHydration(): Radonis.Manifest['routes'] {
+    return this.routesManager.getRoutes()
   }
 
   /**
@@ -109,11 +109,11 @@ export class Builder implements Radonis.Manifest {
   private get serverManifest(): Radonis.Manifest {
     return {
       props: this.props,
-      route: this.route,
-      routes: this.routes,
+      flashMessages: this.flashMessages,
       locale: this.locale,
       messages: this.messages,
-      flashMessages: this.flashMessages,
+      routes: this.routes,
+      route: this.route,
     }
   }
 
@@ -123,11 +123,11 @@ export class Builder implements Radonis.Manifest {
   private get clientManifest(): Radonis.Manifest {
     return {
       props: this.props,
-      route: this.route,
-      routes: this.limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      flashMessages: this.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       locale: this.locale,
       messages: this.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
-      flashMessages: this.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
+      routes: this.limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      route: this.route,
     }
   }
 
@@ -168,19 +168,10 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * Set the routes on the RoutesManager
+   * Set the flash messages on the FlashMessagesManager
    */
-  public setRoutes(routes: Radonis.Manifest['routes']): this {
-    this.routesManager.setRoutes(routes)
-
-    return this
-  }
-
-  /**
-   * Set the current route on the Builder
-   */
-  public setRoute(route: Radonis.Manifest['route']): this {
-    this.route = route
+  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
+    this.flashMessagesManager.setFlashMessages(flashMessages)
 
     return this
   }
@@ -204,10 +195,19 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * Set the flash messages on the FlashMessagesManager
+   * Set the routes on the RoutesManager
    */
-  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
-    this.flashMessagesManager.setFlashMessages(flashMessages)
+  public setRoutes(routes: Radonis.Manifest['routes']): this {
+    this.routesManager.setRoutes(routes)
+
+    return this
+  }
+
+  /**
+   * Set the current route on the Builder
+   */
+  public setRoute(route: Radonis.Manifest['route']): this {
+    this.route = route
 
     return this
   }

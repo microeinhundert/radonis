@@ -54,14 +54,7 @@ export class Renderer {
   private injectStyles(html: string): string {
     const { html: twindProcessedHtml, css } = extract(html)
 
-    return twindProcessedHtml.replace(
-      '<div id="rad-styles"></div>',
-      `<style data-twind>${css}</style>
-      ${this.compiler
-        .getComponentStyles()
-        .map((style) => `<link rel="stylesheet" src="${style}"></link>`)
-        .join('\n')}`
-    )
+    return twindProcessedHtml.replace('<div id="rad-styles"></div>', `<style data-twind>${css}</style>`)
   }
 
   /**
@@ -72,7 +65,7 @@ export class Renderer {
       '<div id="rad-scripts"></div>',
       `<script>window.manifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
       ${this.compiler
-        .getComponentScripts()
+        .getRequiredComponentScripts()
         .map((script) => `<script type="module" defer src="${script}"></script>`)
         .join('\n')}`
     )
@@ -109,11 +102,11 @@ export class Renderer {
      * Set manifest
      */
     this.manifestBuilder
-      .setRoutes(extractRootRoutes(router))
-      .setRoute(transformRoute(httpContext.route))
+      .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
       .setLocale(locale)
       .setMessages(this.i18n.getTranslationsFor(locale))
-      .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
+      .setRoutes(extractRootRoutes(router))
+      .setRoute(transformRoute(httpContext.route))
       .setServerManifestOnGlobalScope()
 
     return this

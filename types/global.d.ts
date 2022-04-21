@@ -6,11 +6,11 @@ declare global {
 
     interface Manifest {
       props: Record<string, Record<string, unknown>>
-      route: Route | null
-      routes: Record<string, any>
+      flashMessages: Record<string, FlashMessage>
       locale: string
       messages: Record<string, string>
-      flashMessages: Record<string, FlashMessage>
+      routes: Record<string, any>
+      route: Route | null
     }
   }
 

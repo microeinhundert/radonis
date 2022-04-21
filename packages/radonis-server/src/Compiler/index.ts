@@ -8,6 +8,7 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import del from 'del'
 import esbuild from 'esbuild'
 import { parse } from 'path'
 
@@ -40,6 +41,9 @@ export class Compiler {
     const { productionMode, componentsDir, clientBundleOutputDir, buildOptions } = this.config
     const components = discoverComponents(componentsDir)
 
+    await del(clientBundleOutputDir)
+    this.compiledComponents.clear()
+
     const { metafile } = await esbuild.build({
       outdir: clientBundleOutputDir,
       entryPoints: components,
@@ -52,18 +56,16 @@ export class Compiler {
       format: 'esm',
       logLevel: 'silent',
       minify: productionMode,
+      ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
       external: ['@microeinhundert/radonis-manifest', ...(buildOptions.external ?? [])],
+      plugins: [componentsPlugin(resolveDir, componentsDir), ...(buildOptions.plugins ?? [])],
       define: {
         'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
         'isServer': 'false',
         ...(buildOptions.define ?? {}),
       },
-      plugins: [componentsPlugin(resolveDir, componentsDir), ...(buildOptions.plugins ?? [])],
-      ...buildOptions,
     })
-
-    this.compiledComponents.clear()
 
     for (const key in metafile!.outputs) {
       const output = metafile!.outputs[key]
@@ -87,16 +89,9 @@ export class Compiler {
   }
 
   /**
-   * Get the compiled component styles
+   * Get the required, compiled component scripts
    */
-  public getComponentStyles(): string[] {
-    return []
-  }
-
-  /**
-   * Get the compiled component scripts
-   */
-  public getComponentScripts(): string[] {
+  public getRequiredComponentScripts(): string[] {
     return Array.from(this.requiredComponents)
       .map((componentName) => {
         return this.compiledComponents.get(componentName)?.path ?? null

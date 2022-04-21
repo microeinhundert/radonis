@@ -5,7 +5,7 @@ import Env from '@ioc:Adonis/Core/Env'
 const radonisConfig: RadonisConfig = {
   /*
   |--------------------------------------------------------------------------
-  | Production Mode
+  | Production mode
   |--------------------------------------------------------------------------
   |
   | Enabling production mode will minify
@@ -16,7 +16,7 @@ const radonisConfig: RadonisConfig = {
 
   /*
   |--------------------------------------------------------------------------
-  | Components Dir
+  | Components dir
   |--------------------------------------------------------------------------
   |
   | The directory that contains all the components
@@ -27,7 +27,7 @@ const radonisConfig: RadonisConfig = {
 
   /*
   |--------------------------------------------------------------------------
-  | Client Bundle Output Dir
+  | Client bundle output dir
   |--------------------------------------------------------------------------
   |
   | The directory the built client bundle
@@ -38,18 +38,21 @@ const radonisConfig: RadonisConfig = {
 
   /*
   |--------------------------------------------------------------------------
-  | Build Options
+  | Build options
   |--------------------------------------------------------------------------
   |
   | Allows overriding the build options used
   | by esbuild for bundling the client.
+  |
+  | Use with caution: This is only an escape hatch.
+  | Overriding the options can break the build.
   |
   */
   buildOptions: {},
 
   /*
   |--------------------------------------------------------------------------
-  | Limit Client Manifest
+  | Limit client manifest
   |--------------------------------------------------------------------------
   |
   | Limit the client manifest to only include data

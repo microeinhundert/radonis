@@ -59,24 +59,16 @@ importers:
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
       '@microeinhundert/radonis': ^0.5.5
-      '@microeinhundert/radonis-hydrate': ^0.5.5
       '@microeinhundert/radonis-server': ^0.5.5
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
-      adonis-preset-ts: ^2.1.0
-      eslint: ^8.13.0
-      eslint-config-prettier: ^8.5.0
-      eslint-plugin-adonis: ^2.1.0
-      eslint-plugin-prettier: ^4.0.0
       openapi-types: ^11.0.0
       pino-pretty: ^7.6.1
-      prettier: ^2.6.2
       proxy-addr: ^2.0.7
       react: ^18.0.0
       react-dom: ^18.0.0
       reflect-metadata: ^0.1.13
       source-map-support: ^0.5.21
-      typescript: ~4.6
       youch: ^3.1.1
       youch-terminal: ^2.1.3
     dependencies:
@@ -85,7 +77,6 @@ importers:
       '@adonisjs/session': 6.2.2_@adonisjs+core@5.7.5
       '@adonisjs/shield': 7.0.10_15921c3c193e5692073906fc00911cc4
       '@microeinhundert/radonis': link:../packages/radonis
-      '@microeinhundert/radonis-hydrate': link:../packages/radonis-hydrate
       '@microeinhundert/radonis-server': link:../packages/radonis-server
       proxy-addr: 2.0.7
       react: 18.0.0
@@ -98,15 +89,8 @@ importers:
       '@japa/runner': 2.0.7
       '@types/react': 18.0.5
       '@types/react-dom': 18.0.1
-      adonis-preset-ts: 2.1.0
-      eslint: 8.13.0
-      eslint-config-prettier: 8.5.0_eslint@8.13.0
-      eslint-plugin-adonis: 2.1.0_eslint@8.13.0+typescript@4.6.3
-      eslint-plugin-prettier: 4.0.0_1815ac95b7fb26c13c7d48a8eef62d0f
       openapi-types: 11.0.0
       pino-pretty: 7.6.1
-      prettier: 2.6.2
-      typescript: 4.6.3
       youch: 3.1.1
       youch-terminal: 2.1.3
 
@@ -183,6 +167,7 @@ importers:
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
+      del: ^6.0.0
       esbuild: ^0.14.36
       flattie: ^1.1.0
     dependencies:
@@ -196,6 +181,7 @@ importers:
       '@types/node': 16.11.27
       '@types/react': 18.0.5
       '@types/react-dom': 18.0.1
+      del: 6.0.0
 
   packages/radonis-shared:
     specifiers:

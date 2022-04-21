@@ -3,7 +3,6 @@ import { extname } from 'path'
 
 export const loaders: { [ext: string]: Loader } = {
   '.aac': 'file',
-  '.css': 'file',
   '.eot': 'file',
   '.flac': 'file',
   '.gif': 'file',
@@ -30,7 +29,7 @@ export const loaders: { [ext: string]: Loader } = {
 }
 
 export function getLoaderForFile(file: string): Loader {
-  let ext = extname(file)
+  const ext = extname(file)
   if (ext in loaders) return loaders[ext]
   throw new Error(`Cannot get loader for file ${file}`)
 }

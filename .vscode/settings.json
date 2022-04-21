@@ -4,6 +4,10 @@
   },
   "eslint.workingDirectories": [
     {
+      "directory": "example",
+      "changeProcessCWD": true
+    },
+    {
       "directory": "packages/radonis",
       "changeProcessCWD": true
     },
