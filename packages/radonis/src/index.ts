@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { initClient } from './initClient'
 export {
   useFlashMessages,
   useI18n,
