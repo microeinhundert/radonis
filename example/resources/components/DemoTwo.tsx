@@ -5,7 +5,7 @@ interface DemoTwoProps {
   text: string
 }
 
-function DemoTwo({ text }: DemoTwoProps) {
+export default function DemoTwo({ text }: DemoTwoProps) {
   const { tx } = useTwind()
   const i18n = useI18n()
 
@@ -16,5 +16,3 @@ function DemoTwo({ text }: DemoTwoProps) {
     </div>
   )
 }
-
-export default DemoTwo

@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export { hydrate } from './client'
 export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext'
 export { useHydrated } from './hooks/useHydrated'
 export { useHydration } from './hooks/useHydration'
-export { requireFlashMessageForHydration, requireMessageForHydration, requireRouteForHydration } from './server'
+export { HydrationManager } from './HydrationManager'

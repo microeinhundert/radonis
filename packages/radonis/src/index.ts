@@ -7,6 +7,19 @@
  * file that was distributed with this source code.
  */
 
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import { setup, twindConfig } from '@microeinhundert/radonis-twind'
+import type { ComponentType } from 'react'
+
+export function initClient() {
+  setup(twindConfig)
+  new HydrationManager().hydrateRoots()
+}
+
+export function registerComponentForHydration(identifier: string, Component: ComponentType) {
+  new HydrationManager().registerComponent(identifier, Component)
+}
+
 export {
   useFlashMessages,
   useI18n,
@@ -17,9 +30,3 @@ export {
 } from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
 export { useTwind } from '@microeinhundert/radonis-twind'
-
-/**
- * This must be exported from the main package in order for esbuild
- * to pick up the package when bundling the components for the client.
- */
-export { hydrate as __internal__hydrate } from '@microeinhundert/radonis-hydrate'

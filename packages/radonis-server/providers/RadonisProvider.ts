@@ -105,7 +105,7 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, Renderer) => {
-        await Compiler.compileComponents(Application.appRoot)
+        await Compiler.compileComponents()
 
         HttpContext.getter(
           'radonis',

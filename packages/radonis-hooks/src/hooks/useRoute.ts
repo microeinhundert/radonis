@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { requireRouteForHydration, useHydration } from '@microeinhundert/radonis-hydrate'
+import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 
 import { useManifest } from './useManifest'
 
@@ -22,7 +22,7 @@ export function useRoute() {
 
     if (routes[identifier]) {
       if (hydration.root) {
-        requireRouteForHydration(identifier)
+        new HydrationManager().requireRouteForHydration(identifier)
       }
 
       return !!route?.pattern?.startsWith(routes[identifier])

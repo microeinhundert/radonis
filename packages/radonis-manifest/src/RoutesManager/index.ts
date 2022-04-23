@@ -52,7 +52,7 @@ export class RoutesManager {
     const routes = {} as Record<string, any>
 
     for (const identifier of this.routesRequiredForHydration) {
-      if (this.routes[identifier]) {
+      if (identifier in this.routes) {
         routes[identifier] = this.routes[identifier]
       }
     }
@@ -64,7 +64,7 @@ export class RoutesManager {
    * Require a route for hydration
    */
   public requireRouteForHydration(identifier: string): void {
-    if (!this.routes[identifier]) return
+    if (!(identifier in this.routes)) return
     this.routesRequiredForHydration.add(identifier)
   }
 

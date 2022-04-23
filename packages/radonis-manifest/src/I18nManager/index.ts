@@ -73,7 +73,7 @@ export class I18nManager {
     const messages = {} as Record<string, string>
 
     for (const identifier of this.messagesRequiredForHydration) {
-      if (this.messages[identifier]) {
+      if (identifier in this.messages) {
         messages[identifier] = this.messages[identifier]
       }
     }
@@ -85,7 +85,7 @@ export class I18nManager {
    * Require a message for hydration
    */
   public requireMessageForHydration(identifier: string): void {
-    if (!this.messages[identifier]) return
+    if (!(identifier in this.messages)) return
     this.messagesRequiredForHydration.add(identifier)
   }
 

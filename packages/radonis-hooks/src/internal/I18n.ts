@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { requireMessageForHydration } from '@microeinhundert/radonis-hydrate'
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { IntlMessageFormat } from 'intl-messageformat'
 
 export class I18n {
@@ -28,7 +28,7 @@ export class I18n {
     }
 
     if (this.willHydrate) {
-      requireMessageForHydration(identifier)
+      new HydrationManager().requireMessageForHydration(identifier)
     }
 
     return message

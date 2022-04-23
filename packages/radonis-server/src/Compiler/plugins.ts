@@ -1,33 +1,57 @@
-import { dirname } from 'path'
+import type { Plugin } from 'esbuild'
+import { readFileSync } from 'fs'
 
-import { getLoaderForFile } from './loaders'
+const DEFAULT_EXPORT_REGEX = /export[ \t]+default[ \t]+(function[ \t]+)?(?<name>\w+)/gs
 
 /**
  * This plugin is responsible for bundling each component into its own file,
  * while wrapping the component with the code required for hydration.
  */
-export const componentsPlugin = (resolveDir: string, componentsDir: string) => ({
+export const componentsPlugin = (componentsDir: string): Plugin => ({
   name: 'radonis-components',
   setup(build) {
-    build.onResolve({ filter: /.*/ }, ({ path }) => {
+    const pluginName = 'radonis-components'
+
+    build.onResolve({ filter: /\.tsx$/ }, ({ path }) => {
       if (path.startsWith(componentsDir)) {
-        return { path, namespace: 'radonis-component' }
+        return { path, namespace: pluginName }
       }
     })
 
-    build.onLoad({ filter: /.*/, namespace: 'radonis-component' }, ({ path }) => {
-      console.log(dirname(path), resolveDir)
+    build.onLoad({ filter: /.*/, namespace: pluginName }, ({ path }) => {
+      try {
+        const componentSource = readFileSync(path, 'utf8')
+        const [match] = [...componentSource.matchAll(DEFAULT_EXPORT_REGEX)]
 
-      const contents = `
-        import { __internal__hydrate } from '@microeinhundert/radonis';
+        if (!match.groups?.name) {
+          return {
+            errors: [
+              {
+                text: `Found component at ${path} without default export`,
+                pluginName: pluginName,
+              },
+            ],
+          }
+        }
 
-        console.log(__internal__hydrate);
-      `
-
-      return {
-        contents,
-        resolveDir: dirname(path),
-        loader: getLoaderForFile(path),
+        return {
+          contents: `
+          import { registerComponentForHydration } from '@microeinhundert/radonis';
+          ${componentSource}
+          registerComponentForHydration('${match.groups.name}', ${match.groups.name});
+          `,
+          resolveDir: process.cwd(),
+          loader: 'tsx',
+        }
+      } catch {
+        return {
+          errors: [
+            {
+              text: `Error compiling component at ${path}t`,
+              pluginName: pluginName,
+            },
+          ],
+        }
       }
     })
   },

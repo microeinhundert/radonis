@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { requireRouteForHydration } from '@microeinhundert/radonis-hydrate'
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 
 export class UrlBuilder {
   /**
@@ -37,7 +37,7 @@ export class UrlBuilder {
     }
 
     if (this.willHydrate) {
-      requireRouteForHydration(identifier)
+      new HydrationManager().requireRouteForHydration(identifier)
     }
 
     return route

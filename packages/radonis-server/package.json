@@ -30,7 +30,7 @@
     "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
     "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
     "build:esm": "tsc --outDir ./build/esm --module esnext",
-    "build": "\"$npm_execpath\" clean && \"$npm_execpath\" build:cjs && \"$npm_execpath\" build:esm && \"$npm_execpath\" copyfiles",
+    "build": "\"$npm_execpath\" run clean && \"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm && \"$npm_execpath\" run copyfiles",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },
@@ -93,6 +93,7 @@
     "@microeinhundert/radonis-twind": "0.5.5",
     "@poppinss/utils": "^4.0.4",
     "esbuild": "^0.14.36",
-    "flattie": "^1.1.0"
+    "flattie": "^1.1.0",
+    "typescript": "4.7.0-beta"
   }
 }

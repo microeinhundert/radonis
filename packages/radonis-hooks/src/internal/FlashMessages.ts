@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { requireFlashMessageForHydration } from '@microeinhundert/radonis-hydrate'
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 
 export class FlashMessages {
   /**
@@ -26,7 +26,7 @@ export class FlashMessages {
     }
 
     if (this.willHydrate) {
-      requireFlashMessageForHydration(identifier)
+      new HydrationManager().requireFlashMessageForHydration(identifier)
     }
 
     return flashMessage

@@ -142,7 +142,7 @@ export class Builder implements Radonis.Manifest {
    * Set the server manifest on the global scope
    */
   public setServerManifestOnGlobalScope(): this {
-    globalThis.manifest = this.serverManifest
+    globalThis.radonisManifest = this.serverManifest
 
     return this
   }

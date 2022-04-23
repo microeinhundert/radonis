@@ -25,7 +25,7 @@
     "clean": "del build",
     "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
     "build:esm": "tsc --outDir ./build/esm --module esnext",
-    "build": "\"$npm_execpath\" clean && \"$npm_execpath\" build:cjs && \"$npm_execpath\" build:esm",
+    "build": "\"$npm_execpath\" run clean && \"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm",
     "lint": "TIMING=1 eslint .",
     "format": "prettier --write ."
   },

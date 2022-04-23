@@ -14,10 +14,10 @@ declare global {
     }
   }
 
-  var manifest: Radonis.Manifest | undefined
+  var radonisManifest: Radonis.Manifest | undefined
 
   interface Window {
-    manifest: Radonis.Manifest | undefined
+    radonisManifest: Radonis.Manifest | undefined
   }
 }
 

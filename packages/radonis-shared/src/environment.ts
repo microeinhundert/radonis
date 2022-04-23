@@ -8,15 +8,15 @@
  */
 
 /**
- * This variable will be replaced during the client build
+ * Whether the current environment is a server or not
  */
-export const isServer = true
+export const isServer = typeof window === 'undefined' && typeof globalThis !== 'undefined'
 
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */
 export function getManifestOrFail(): Radonis.Manifest {
-  const manifest = (globalThis ?? window).manifest
+  const manifest = (globalThis ?? window).radonisManifest
 
   if (!manifest) {
     throw new Error(

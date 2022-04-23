@@ -52,7 +52,7 @@ export class FlashMessagesManager {
     const flashMessages = {} as Record<string, Radonis.FlashMessage>
 
     for (const identifier of this.flashMessagesRequiredForHydration) {
-      if (this.flashMessages[identifier]) {
+      if (identifier in this.flashMessages) {
         flashMessages[identifier] = this.flashMessages[identifier]
       }
     }
@@ -64,7 +64,7 @@ export class FlashMessagesManager {
    * Require a flash message for hydration
    */
   public requireFlashMessageForHydration(identifier: string): void {
-    if (!this.flashMessages[identifier]) return
+    if (!(identifier in this.flashMessages)) return
     this.flashMessagesRequiredForHydration.add(identifier)
   }
 

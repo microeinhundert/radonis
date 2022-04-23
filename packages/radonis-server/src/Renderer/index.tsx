@@ -63,7 +63,7 @@ export class Renderer {
   private injectScripts(html: string): string {
     return html.replace(
       '<div id="rad-scripts"></div>',
-      `<script>window.manifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
+      `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
       ${this.compiler
         .getRequiredComponentScripts()
         .map((script) => `<script type="module" defer src="${script}"></script>`)

@@ -37,7 +37,7 @@ export class Compiler {
   /**
    * Compile all components
    */
-  public async compileComponents(resolveDir: string): Promise<void> {
+  public async compileComponents(): Promise<void> {
     const { productionMode, componentsDir, clientBundleOutputDir, buildOptions } = this.config
     const components = discoverComponents(componentsDir)
 
@@ -59,10 +59,9 @@ export class Compiler {
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
       external: ['@microeinhundert/radonis-manifest', ...(buildOptions.external ?? [])],
-      plugins: [componentsPlugin(resolveDir, componentsDir), ...(buildOptions.plugins ?? [])],
+      plugins: [componentsPlugin(componentsDir), ...(buildOptions.plugins ?? [])],
       define: {
         'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
-        'isServer': 'false',
         ...(buildOptions.define ?? {}),
       },
     })
