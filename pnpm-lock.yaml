@@ -96,12 +96,12 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': 0.6.0
-      '@microeinhundert/radonis-hydrate': 0.6.0
-      '@microeinhundert/radonis-manifest': 0.6.0
-      '@microeinhundert/radonis-server': 0.6.0
-      '@microeinhundert/radonis-shared': 0.6.0
-      '@microeinhundert/radonis-twind': 0.6.0
+      '@microeinhundert/radonis-hooks': 0.6.1
+      '@microeinhundert/radonis-hydrate': 0.6.1
+      '@microeinhundert/radonis-manifest': 0.6.1
+      '@microeinhundert/radonis-server': 0.6.1
+      '@microeinhundert/radonis-shared': 0.6.1
+      '@microeinhundert/radonis-twind': 0.6.1
       '@types/node': ^16.11.27
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
@@ -115,9 +115,9 @@ importers:
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 0.6.0
-      '@microeinhundert/radonis-shared': 0.6.0
-      '@microeinhundert/radonis-twind': 0.6.0
+      '@microeinhundert/radonis-hydrate': 0.6.1
+      '@microeinhundert/radonis-shared': 0.6.1
+      '@microeinhundert/radonis-twind': 0.6.1
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
@@ -134,9 +134,9 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-manifest': 0.6.0
-      '@microeinhundert/radonis-shared': 0.6.0
-      '@microeinhundert/radonis-twind': 0.6.0
+      '@microeinhundert/radonis-manifest': 0.6.1
+      '@microeinhundert/radonis-shared': 0.6.1
+      '@microeinhundert/radonis-twind': 0.6.1
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
       '@types/react-dom': ^18.0.1
@@ -160,9 +160,9 @@ importers:
 
   packages/radonis-server:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 0.6.0
-      '@microeinhundert/radonis-manifest': 0.6.0
-      '@microeinhundert/radonis-twind': 0.6.0
+      '@microeinhundert/radonis-hydrate': 0.6.1
+      '@microeinhundert/radonis-manifest': 0.6.1
+      '@microeinhundert/radonis-twind': 0.6.1
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.5
