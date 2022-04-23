@@ -8,7 +8,6 @@
  */
 
 import hasher from 'node-object-hash'
-import type { ReactElement } from 'react'
 
 import { FlashMessagesManager } from '../FlashMessagesManager'
 import { I18nManager } from '../I18nManager'
@@ -148,20 +147,17 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * Register a component with the Builder
+   * Register props with the Builder
    */
-  public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
-    const propsKeys = Object.keys(component.props)
+  public registerProps(props: Record<string, unknown>): string | null {
+    const propsKeys = Object.keys(props)
 
-    /**
-     * Don't register props if the component has none
-     */
     if (!propsKeys.length) return null
 
-    const propsHash = this.propsHasher.hash(component.props).slice(0, 20)
+    const propsHash = this.propsHasher.hash(props)
 
     if (!this.props[propsHash]) {
-      this.props[propsHash] = component.props
+      this.props[propsHash] = props
     }
 
     return propsHash

@@ -35,7 +35,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   export function useRouter(): RouterContract
 
   export interface HydrationRootProps {
-    children: ReactElement
+    children: ReactElement<Record<string, unknown>>
     componentName: string
   }
 
