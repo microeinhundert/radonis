@@ -10,11 +10,13 @@ import { injectHydrateCall } from './utils'
  * This plugin is responsible for bundling each component into its own file,
  * while wrapping the component with the code required for hydration.
  */
-export const componentsPlugin = (componentsDir: string): Plugin => ({
+export const componentsPlugin = (components: string[]): Plugin => ({
   name: COMPONENTS_PLUGIN_NAME,
   setup(build) {
-    build.onResolve({ filter: new RegExp(`^${componentsDir}/[^/]+\\.(tsx|jsx)$`) }, ({ path }) => {
-      return { path, namespace: COMPONENTS_PLUGIN_NAME }
+    build.onResolve({ filter: /\.(tsx|jsx)$/ }, ({ path }) => {
+      if (components.includes(path)) {
+        return { path, namespace: COMPONENTS_PLUGIN_NAME }
+      }
     })
 
     build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {

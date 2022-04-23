@@ -108,7 +108,7 @@ export class Compiler {
       minify: productionMode,
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-      plugins: [componentsPlugin(componentsDir), ...(buildOptions.plugins ?? [])],
+      plugins: [componentsPlugin(components), ...(buildOptions.plugins ?? [])],
       external: [
         '@microeinhundert/radonis-manifest',
         '@microeinhundert/radonis-server',
