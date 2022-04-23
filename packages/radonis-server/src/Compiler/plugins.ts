@@ -1,24 +1,25 @@
 import type { Plugin } from 'esbuild'
 import { readFileSync } from 'fs'
 
+import { injectHydrateCall } from './utils'
+
 const DEFAULT_EXPORT_REGEX = /export[ \t]+default[ \t]+(function[ \t]+)?(?<name>\w+)/gs
+const COMPONENTS_PLUGIN_NAME = 'radonis-components'
 
 /**
  * This plugin is responsible for bundling each component into its own file,
  * while wrapping the component with the code required for hydration.
  */
 export const componentsPlugin = (componentsDir: string): Plugin => ({
-  name: 'radonis-components',
+  name: COMPONENTS_PLUGIN_NAME,
   setup(build) {
-    const pluginName = 'radonis-components'
-
     build.onResolve({ filter: /\.tsx$/ }, ({ path }) => {
       if (path.startsWith(componentsDir)) {
-        return { path, namespace: pluginName }
+        return { path, namespace: COMPONENTS_PLUGIN_NAME }
       }
     })
 
-    build.onLoad({ filter: /.*/, namespace: pluginName }, ({ path }) => {
+    build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
       try {
         const componentSource = readFileSync(path, 'utf8')
         const [match] = [...componentSource.matchAll(DEFAULT_EXPORT_REGEX)]
@@ -27,19 +28,15 @@ export const componentsPlugin = (componentsDir: string): Plugin => ({
           return {
             errors: [
               {
-                text: `Found component at ${path} without default export`,
-                pluginName: pluginName,
+                text: `Found component at "${path}" without default export`,
+                pluginName: COMPONENTS_PLUGIN_NAME,
               },
             ],
           }
         }
 
         return {
-          contents: `
-          import { registerComponentForHydration } from '@microeinhundert/radonis';
-          ${componentSource}
-          registerComponentForHydration('${match.groups.name}', ${match.groups.name});
-          `,
+          contents: injectHydrateCall(componentSource, match.groups.name),
           resolveDir: process.cwd(),
           loader: 'tsx',
         }
@@ -47,8 +44,8 @@ export const componentsPlugin = (componentsDir: string): Plugin => ({
         return {
           errors: [
             {
-              text: `Error compiling component at ${path}t`,
-              pluginName: pluginName,
+              text: `Error compiling component at "${path}"`,
+              pluginName: COMPONENTS_PLUGIN_NAME,
             },
           ],
         }

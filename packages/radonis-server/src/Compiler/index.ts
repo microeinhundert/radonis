@@ -10,19 +10,18 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import del from 'del'
 import esbuild from 'esbuild'
-import { parse } from 'path'
 
 import { loaders } from './loaders'
 import { componentsPlugin } from './plugins'
-import { discoverComponents } from './utils'
+import { discoverComponents, extractEntryPoints } from './utils'
 
-type Component = { originalPath: string; path: string }
+type EntryPoints = Record<string, string>
 
 export class Compiler {
   /**
-   * The compiled components
+   * The entry points
    */
-  private compiledComponents: Map<string, Component> = new Map()
+  private entryPoints: EntryPoints = {}
 
   /**
    * The required components
@@ -35,14 +34,23 @@ export class Compiler {
   constructor(private config: RadonisConfig) {}
 
   /**
+   * Clear the output directory
+   */
+  private async clearOutputDir(): Promise<void> {
+    const { clientBundleOutputDir } = this.config
+
+    await del(clientBundleOutputDir)
+  }
+
+  /**
    * Compile all components
    */
   public async compileComponents(): Promise<void> {
     const { productionMode, componentsDir, clientBundleOutputDir, buildOptions } = this.config
     const components = discoverComponents(componentsDir)
 
-    await del(clientBundleOutputDir)
-    this.compiledComponents.clear()
+    this.clearOutputDir()
+    this.entryPoints = {}
 
     const { metafile } = await esbuild.build({
       outdir: clientBundleOutputDir,
@@ -58,26 +66,19 @@ export class Compiler {
       minify: productionMode,
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-      external: ['@microeinhundert/radonis-manifest', ...(buildOptions.external ?? [])],
       plugins: [componentsPlugin(componentsDir), ...(buildOptions.plugins ?? [])],
+      external: [
+        '@microeinhundert/radonis-manifest',
+        '@microeinhundert/radonis-server',
+        ...(buildOptions.external ?? []),
+      ],
       define: {
         'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
         ...(buildOptions.define ?? {}),
       },
     })
 
-    for (const key in metafile!.outputs) {
-      const output = metafile!.outputs[key]
-
-      if (output.entryPoint) {
-        const { name } = parse(output.entryPoint)
-
-        this.compiledComponents.set(name, {
-          originalPath: key,
-          path: key.replace('public/', ''),
-        })
-      }
-    }
+    this.entryPoints = extractEntryPoints(metafile!)
   }
 
   /**
@@ -88,14 +89,27 @@ export class Compiler {
   }
 
   /**
-   * Get the required, compiled component scripts
+   * Get the entry points of required components
    */
-  public getRequiredComponentScripts(): string[] {
-    return Array.from(this.requiredComponents)
-      .map((componentName) => {
-        return this.compiledComponents.get(componentName)?.path ?? null
-      })
-      .filter((path): path is string => path !== null)
+  public getRequiredEntryPoints(): EntryPoints {
+    const entryPoints: EntryPoints = {}
+
+    this.requiredComponents.forEach((componentName) => {
+      let entryPoint = this.entryPoints[componentName]
+
+      if (entryPoint) {
+        /**
+         * TODO: Remove this hack
+         */
+        if (entryPoint.startsWith('public')) {
+          entryPoint = entryPoint.replace('public', '')
+        }
+
+        entryPoints[componentName] = entryPoint
+      }
+    })
+
+    return entryPoints
   }
 
   /**

@@ -5,4 +5,4 @@ coverage
 .DS_STORE
 .env
 tmp
-public/client
+public/radonis

@@ -64,9 +64,8 @@ export class Renderer {
     return html.replace(
       '<div id="rad-scripts"></div>',
       `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
-      ${this.compiler
-        .getRequiredComponentScripts()
-        .map((script) => `<script type="module" defer src="${script}"></script>`)
+      ${Object.values(this.compiler.getRequiredEntryPoints())
+        .map((entryPoint) => `<script type="module" defer src="${entryPoint}"></script>`)
         .join('\n')}`
     )
   }

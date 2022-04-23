@@ -8,7 +8,8 @@
  */
 
 import { fsReadAll } from '@poppinss/utils/build/helpers'
-import { basename, join } from 'path'
+import type { Metafile } from 'esbuild'
+import { basename, join, parse } from 'path'
 
 /**
  * Check if the first character of a string is a lowercase letter
@@ -25,4 +26,33 @@ export function discoverComponents(directory: string) {
     const fileName = basename(filePath)
     return fileName.endsWith('.tsx') && !fileName.endsWith('.server.tsx') && !isFirstCharLowerCase(fileName)
   }).map((path) => join(directory, path))
+}
+
+/**
+ * Inject the call to the hydrate function into the source code of a component
+ */
+export function injectHydrateCall(componentSource: string, componentName: string): string {
+  return `
+    import { registerComponentForHydration } from '@microeinhundert/radonis';
+    ${componentSource}
+    registerComponentForHydration('${componentName}', ${componentName});
+  `
+}
+
+/**
+ * Extract the entry points from an esbuild generated metafile
+ */
+export function extractEntryPoints(metafile: Metafile): Record<string, string> {
+  const entryPoints: Record<string, string> = {}
+
+  for (const path in metafile.outputs) {
+    const output = metafile.outputs[path]
+
+    if (output.entryPoint) {
+      const { name } = parse(output.entryPoint)
+      entryPoints[name] = path
+    }
+  }
+
+  return entryPoints
 }

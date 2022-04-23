@@ -34,7 +34,7 @@ const radonisConfig: RadonisConfig = {
   | should be written to.
   |
   */
-  clientBundleOutputDir: Application.publicPath('client'),
+  clientBundleOutputDir: Application.publicPath('radonis'),
 
   /*
   |--------------------------------------------------------------------------
