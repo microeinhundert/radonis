@@ -14,8 +14,7 @@ import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydrationContext'
-
-const HYDRATION_ROOT_SELECTOR = '[data-hydration-root]'
+import { HYDRATION_ROOT_SELECTOR } from './constants'
 
 export class HydrationManager {
   /**
@@ -49,9 +48,7 @@ export class HydrationManager {
 
     if (!hydrationRootId || !componentName) {
       throw new Error(
-        `Found a HydrationRoot that is missing important hydration data.
-        Please make sure you passed all the required props to all of your HydrationRoots.
-        If everything looks fine to you, this is most likely a bug of Radonis`
+        'Found a HydrationRoot that is missing important hydration data. Please make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis'
       )
     }
 
@@ -59,8 +56,7 @@ export class HydrationManager {
 
     if (!Component) {
       throw new Error(
-        `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated.
-        Please make sure the name under which the component was passed to "hydrate" matches the "componentName" prop passed to the HydrationRoot`
+        `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component was not registered for hydration. This is most likely a bug of Radonis`
       )
     }
 

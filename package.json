@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "workspaces": [
@@ -44,9 +44,9 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.8",
+    "lint-staged": "^12.4.0",
     "prettier": "2.6.2",
-    "turbo": "^1.2.4",
+    "turbo": "^1.2.5",
     "typescript": "4.7.0-beta"
   },
   "dependencies": {

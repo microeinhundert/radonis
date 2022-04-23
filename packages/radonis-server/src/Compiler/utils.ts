@@ -11,23 +11,24 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import type { Metafile } from 'esbuild'
 import { basename, join, parse } from 'path'
 
-const PUBLIC_PATH_SEGMENT = 'public'
+import { PUBLIC_PATH_SEGMENT } from './constants'
 
 /**
- * Check if the first character of a string is a lowercase letter
+ * Check if the file looks like it contains a component:
+ * - Starts with an uppercase letter
+ * - Has `.tsx` or `.jsx` extension
+ * - Does not end with `.<something>.<ext>`
  */
-export function isFirstCharLowerCase(string: string): boolean {
-  return string.charAt(0).toLowerCase() === string.charAt(0)
+export function isComponentFile(filePath: string): boolean {
+  const fileName = basename(filePath)
+  return fileName.match(/^[A-Z]\w+\.(tsx|jsx)$/) !== null
 }
 
 /**
  * Discover all components in a specific directory
  */
 export function discoverComponents(directory: string) {
-  return fsReadAll(directory, (filePath) => {
-    const fileName = basename(filePath)
-    return fileName.endsWith('.tsx') && !fileName.endsWith('.server.tsx') && !isFirstCharLowerCase(fileName)
-  }).map((path) => join(directory, path))
+  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).map((path) => join(directory, path))
 }
 
 /**
@@ -65,17 +66,4 @@ export function extractEntryPoints(metafile: Metafile): Record<string, string> {
   }
 
   return entryPoints
-}
-
-/**
- * Filter the last item from an object
- */
-export function filterLastItem<T>(object: Record<string, T>): Record<string, T> {
-  const lastKey = Object.keys(object).at(-1)
-
-  if (!lastKey) return {}
-
-  return {
-    [lastKey]: object[lastKey],
-  }
 }

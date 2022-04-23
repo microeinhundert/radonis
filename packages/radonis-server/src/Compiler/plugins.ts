@@ -3,6 +3,7 @@ import { readFileSync } from 'fs'
 import { dirname } from 'path'
 
 import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_REGEX } from './constants'
+import { getLoaderForFile } from './loaders'
 import { injectHydrateCall } from './utils'
 
 /**
@@ -12,10 +13,8 @@ import { injectHydrateCall } from './utils'
 export const componentsPlugin = (componentsDir: string): Plugin => ({
   name: COMPONENTS_PLUGIN_NAME,
   setup(build) {
-    build.onResolve({ filter: /\.tsx$/ }, ({ path }) => {
-      if (path.startsWith(componentsDir)) {
-        return { path, namespace: COMPONENTS_PLUGIN_NAME }
-      }
+    build.onResolve({ filter: new RegExp(`^${componentsDir}/[^/]+\\.(tsx|jsx)$`) }, ({ path }) => {
+      return { path, namespace: COMPONENTS_PLUGIN_NAME }
     })
 
     build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
@@ -37,7 +36,7 @@ export const componentsPlugin = (componentsDir: string): Plugin => ({
         return {
           contents: injectHydrateCall(componentSource, match.groups.name),
           resolveDir: dirname(path),
-          loader: 'tsx',
+          loader: getLoaderForFile(path),
         }
       } catch {
         return {

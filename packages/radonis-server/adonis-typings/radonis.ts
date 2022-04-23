@@ -44,9 +44,8 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   export interface RadonisConfig {
     productionMode: boolean
     client: {
-      rootDir: string
-      componentsDir: string
       entryFile: string
+      componentsDir: string
       outputDir: string
       limitManifest: boolean
     }

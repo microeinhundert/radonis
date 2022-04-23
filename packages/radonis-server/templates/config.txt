@@ -17,38 +17,22 @@ const radonisConfig: RadonisConfig = {
   client: {
     /*
     |--------------------------------------------------------------------------
-    | Root dir
+    | Entry file
     |--------------------------------------------------------------------------
     */
-    rootDir: Application.resourcesPath(),
+    entryFile: Application.resourcesPath('client.entry.ts'),
 
     /*
     |--------------------------------------------------------------------------
     | Components dir
     |--------------------------------------------------------------------------
-    |
-    | Must be relative to `rootDir`.
-    |
     */
-    componentsDir: 'components',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Entry file
-    |--------------------------------------------------------------------------
-    |
-    | Must be relative to `rootDir`.
-    |
-    */
-    entryFile: 'client.entry.ts',
+    componentsDir: Application.resourcesPath('components'),
 
     /*
     |--------------------------------------------------------------------------
     | Output dir
     |--------------------------------------------------------------------------
-    |
-    | Directory the built client bundle gets written to.
-    |
     */
     outputDir: Application.publicPath('radonis'),
 

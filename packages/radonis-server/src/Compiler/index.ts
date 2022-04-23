@@ -11,19 +11,19 @@ import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import del from 'del'
 import { build } from 'esbuild'
 import { existsSync } from 'fs'
-import { resolve } from 'path'
+import { basename } from 'path'
 
 import { loaders } from './loaders'
 import { componentsPlugin } from './plugins'
-import { discoverComponents, extractEntryPoints, filterLastItem } from './utils'
+import { discoverComponents, extractEntryPoints } from './utils'
 
 type EntryPoints = Record<string, string>
 
 export class Compiler {
   /**
-   * The component entry points
+   * The entry points
    */
-  private componentEntryPoints: EntryPoints = {}
+  private entryPoints: EntryPoints = {}
 
   /**
    * The components required for hydration
@@ -49,35 +49,31 @@ export class Compiler {
   /**
    * Get the path to the entry file
    */
-  private getEntryFilePath() {
+  private getEntryFile() {
     const {
-      client: { rootDir, entryFile },
+      client: { entryFile },
     } = this.config
 
-    const entryFilePath = resolve(rootDir, entryFile)
-
-    if (!existsSync(entryFilePath)) {
-      throw new Error(`The client entry file does not exist at "${entryFilePath}"`)
+    if (!existsSync(entryFile)) {
+      throw new Error(`The Radonis entry file does not exist at "${entryFile}"`)
     }
 
-    return entryFilePath
+    return entryFile
   }
 
   /**
    * Get the path to the components directory
    */
-  private getComponentsDirPath() {
+  private getComponentsDir() {
     const {
-      client: { rootDir, componentsDir },
+      client: { componentsDir },
     } = this.config
 
-    const componentsDirPath = resolve(rootDir, componentsDir)
-
-    if (!existsSync(componentsDirPath)) {
-      throw new Error(`The client components directory does not exist at "${componentsDirPath}"`)
+    if (!existsSync(componentsDir)) {
+      throw new Error(`The Radonis components directory does not exist at "${componentsDir}"`)
     }
 
-    return componentsDirPath
+    return componentsDir
   }
 
   /**
@@ -90,13 +86,13 @@ export class Compiler {
       buildOptions,
     } = this.config
 
-    const componentsDir = this.getComponentsDirPath()
-    const entryFile = this.getEntryFilePath()
+    const componentsDir = this.getComponentsDir()
+    const entryFile = this.getEntryFile()
 
     const components = discoverComponents(componentsDir)
 
     this.clearOutputDir()
-    this.componentEntryPoints = {}
+    this.entryPoints = {}
 
     const { metafile } = await build({
       outdir: outputDir,
@@ -124,36 +120,42 @@ export class Compiler {
       },
     })
 
-    this.componentEntryPoints = extractEntryPoints(metafile!)
+    this.entryPoints = extractEntryPoints(metafile!)
   }
 
   /**
-   * Get the component entry points
+   * Get the entry points
    */
-  public getComponentEntryPoints(all?: boolean): EntryPoints {
-    if (all) {
-      return this.componentEntryPoints
-    }
+  public getEntryPoints(): string[] {
+    const entryPoints = new Map<string, string>()
 
-    const entryPoints = {} as EntryPoints
-
+    /**
+     * Add components required for hydration
+     */
     for (const identifier of this.componentsRequiredForHydration) {
-      if (identifier in this.componentEntryPoints) {
-        entryPoints[identifier] = this.componentEntryPoints[identifier]
+      if (identifier in this.entryPoints) {
+        entryPoints.set(identifier, this.entryPoints[identifier])
       }
     }
 
-    return {
-      ...entryPoints,
-      ...filterLastItem(this.componentEntryPoints),
+    /**
+     * Add entry
+     */
+    const entryFileName = basename(this.getEntryFile())
+    for (const identifier in this.entryPoints) {
+      if (entryFileName.startsWith(identifier)) {
+        entryPoints.set(identifier, this.entryPoints[identifier])
+      }
     }
+
+    return Array.from(entryPoints.values())
   }
 
   /**
    * Require a component for hydration
    */
   public requireComponentForHydration(identifier: string): void {
-    if (!(identifier in this.componentEntryPoints)) return
+    if (!(identifier in this.entryPoints)) return
     this.componentsRequiredForHydration.add(identifier)
   }
 

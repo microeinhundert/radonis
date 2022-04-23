@@ -19,10 +19,7 @@ export function getManifestOrFail(): Radonis.Manifest {
   const manifest = (globalThis ?? window).radonisManifest
 
   if (!manifest) {
-    throw new Error(
-      `Could not get the Radonis manifest.
-       Make sure the server provider is configured properly`
-    )
+    throw new Error('Could not get the Radonis manifest. Make sure the server provider is configured properly')
   }
 
   return manifest
