@@ -86,9 +86,9 @@
     "@types/react-dom": "^18.0.2"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hydrate": "workspace:0.6.3",
-    "@microeinhundert/radonis-manifest": "workspace:0.6.3",
-    "@microeinhundert/radonis-twind": "workspace:0.6.3",
+    "@microeinhundert/radonis-hydrate": "0.6.3",
+    "@microeinhundert/radonis-manifest": "0.6.3",
+    "@microeinhundert/radonis-twind": "0.6.3",
     "@poppinss/utils": "^4.0.4",
     "del": "^6.0.0",
     "esbuild": "^0.14.38",

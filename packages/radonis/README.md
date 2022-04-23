@@ -27,7 +27,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 Install the package from your command line:
 
 ```console
-npm install --save @microeinhundert/radonis
+npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
 ```
 
 ### 2. Configure the server package

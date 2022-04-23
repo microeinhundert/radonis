@@ -63,8 +63,8 @@
     "@types/react-dom": "^18.0.2"
   },
   "dependencies": {
-    "@microeinhundert/radonis-manifest": "workspace:0.6.3",
-    "@microeinhundert/radonis-shared": "workspace:0.6.3",
-    "@microeinhundert/radonis-twind": "workspace:0.6.3"
+    "@microeinhundert/radonis-manifest": "0.6.3",
+    "@microeinhundert/radonis-shared": "0.6.3",
+    "@microeinhundert/radonis-twind": "0.6.3"
   }
 }
