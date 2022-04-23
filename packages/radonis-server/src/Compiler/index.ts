@@ -19,9 +19,9 @@ type EntryPoints = Record<string, string>
 
 export class Compiler {
   /**
-   * The entry points
+   * The component entry points
    */
-  private entryPoints: EntryPoints = {}
+  private componentEntryPoints: EntryPoints = {}
 
   /**
    * The required components
@@ -50,7 +50,7 @@ export class Compiler {
     const components = discoverComponents(componentsDir)
 
     this.clearOutputDir()
-    this.entryPoints = {}
+    this.componentEntryPoints = {}
 
     const { metafile } = await esbuild.build({
       outdir: clientBundleOutputDir,
@@ -78,7 +78,7 @@ export class Compiler {
       },
     })
 
-    this.entryPoints = extractEntryPoints(metafile!)
+    this.componentEntryPoints = extractEntryPoints(metafile!)
   }
 
   /**
@@ -91,11 +91,11 @@ export class Compiler {
   /**
    * Get the entry points of required components
    */
-  public getRequiredEntryPoints(): EntryPoints {
+  public getRequiredComponentEntryPoints(): EntryPoints {
     const entryPoints: EntryPoints = {}
 
     this.requiredComponents.forEach((componentName) => {
-      let entryPoint = this.entryPoints[componentName]
+      let entryPoint = this.componentEntryPoints[componentName]
 
       if (entryPoint) {
         /**
