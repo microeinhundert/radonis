@@ -30,7 +30,7 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
     /* eslint-enable prettier/prettier */
   }
 
-  compiler.requireComponent(componentName)
+  compiler.requireComponentForHydration(componentName)
 
   const propsHash = manifestBuilder.registerComponent(React.Children.only(children))
 

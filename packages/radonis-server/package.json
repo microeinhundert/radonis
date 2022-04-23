@@ -4,7 +4,7 @@
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/providers/RadonisProvider.js",
-  "types": "./build/cjs/src/index.d.ts",
+  "types": "./build/cjs/adonis-typings/index.d.ts",
   "exports": {
     ".": {
       "import": {

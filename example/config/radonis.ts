@@ -14,27 +14,55 @@ const radonisConfig: RadonisConfig = {
   */
   productionMode: Env.get('NODE_ENV') === 'production',
 
-  /*
-  |--------------------------------------------------------------------------
-  | Components dir
-  |--------------------------------------------------------------------------
-  |
-  | The directory that contains all the components
-  | to be built for hydration on the client.
-  |
-  */
-  componentsDir: Application.resourcesPath('components'),
+  client: {
+    /*
+    |--------------------------------------------------------------------------
+    | Root dir
+    |--------------------------------------------------------------------------
+    */
+    rootDir: Application.resourcesPath(),
 
-  /*
-  |--------------------------------------------------------------------------
-  | Client bundle output dir
-  |--------------------------------------------------------------------------
-  |
-  | The directory the built client bundle
-  | should be written to.
-  |
-  */
-  clientBundleOutputDir: Application.publicPath('radonis'),
+    /*
+    |--------------------------------------------------------------------------
+    | Components dir
+    |--------------------------------------------------------------------------
+    |
+    | Must be relative to `rootDir`.
+    |
+    */
+    componentsDir: 'components',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Entry file
+    |--------------------------------------------------------------------------
+    |
+    | Must be relative to `rootDir`.
+    |
+    */
+    entryFile: 'client.entry.ts',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Output dir
+    |--------------------------------------------------------------------------
+    |
+    | Directory the built client bundle gets written to.
+    |
+    */
+    outputDir: Application.publicPath('radonis'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Limit manifest
+    |--------------------------------------------------------------------------
+    |
+    | Limit the client manifest to only include data
+    | required for hydration on the client.
+    |
+    */
+    limitManifest: true,
+  },
 
   /*
   |--------------------------------------------------------------------------
@@ -49,17 +77,6 @@ const radonisConfig: RadonisConfig = {
   |
   */
   buildOptions: {},
-
-  /*
-  |--------------------------------------------------------------------------
-  | Limit client manifest
-  |--------------------------------------------------------------------------
-  |
-  | Limit the client manifest to only include data
-  | required for hydration on the client.
-  |
-  */
-  limitClientManifest: true,
 }
 
 export default radonisConfig

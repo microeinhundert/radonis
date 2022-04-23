@@ -24,9 +24,9 @@ export class HydrationManager {
   private static instance: HydrationManager
 
   /**
-   * The components registered with the HydrationManager
+   * The components registered for hydration
    */
-  private components: Map<string, ComponentType> = new Map()
+  private components: Record<string, ComponentType> = {}
 
   /**
    * Constructor
@@ -59,7 +59,7 @@ export class HydrationManager {
       )
     }
 
-    const Component = this.components.get(componentName)
+    const Component = this.components[componentName]
 
     if (!Component) {
       throw new Error(
@@ -120,7 +120,7 @@ export class HydrationManager {
   public registerComponent(identifier: string, Component: ComponentType): this {
     if (isServer) return this
 
-    this.components.set(identifier, Component)
+    this.components[identifier] = Component
 
     return this
   }

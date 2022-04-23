@@ -11,6 +11,8 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import type { Metafile } from 'esbuild'
 import { basename, join, parse } from 'path'
 
+const PUBLIC_PATH_SEGMENT = 'public'
+
 /**
  * Check if the first character of a string is a lowercase letter
  */
@@ -43,16 +45,37 @@ export function injectHydrateCall(componentSource: string, componentName: string
  * Extract the entry points from an esbuild generated metafile
  */
 export function extractEntryPoints(metafile: Metafile): Record<string, string> {
-  const entryPoints: Record<string, string> = {}
+  const entryPoints = {} as Record<string, string>
 
-  for (const path in metafile.outputs) {
+  for (let path in metafile.outputs) {
     const output = metafile.outputs[path]
 
     if (output.entryPoint) {
       const { name } = parse(output.entryPoint)
+
+      /**
+       * TODO: Remove this hack
+       */
+      if (path.startsWith(PUBLIC_PATH_SEGMENT)) {
+        path = path.replace(PUBLIC_PATH_SEGMENT, '')
+      }
+
       entryPoints[name] = path
     }
   }
 
   return entryPoints
+}
+
+/**
+ * Filter the last item from an object
+ */
+export function filterLastItem<T>(object: Record<string, T>): Record<string, T> {
+  const lastKey = Object.keys(object).at(-1)
+
+  if (!lastKey) return {}
+
+  return {
+    [lastKey]: object[lastKey],
+  }
 }

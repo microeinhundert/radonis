@@ -11,6 +11,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - Render React views directly from AdonisJS routes and controllers
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
+- Ships with a compiler powered by esbuild, no Webpack Encore required
 - Styling with [Twind](https://twind.dev/) built in
 
 **Requirements:**
@@ -129,24 +130,20 @@ function ServerRenderedComponent() {
 }
 ```
 
-Make sure to only pass a single child to a _HydrationRoot_ component. If you want to hydrate multiple parts of your application, use multiple *HydrationRoot*s instead.
-Theres another gotcha: Because a _HydrationRoot_ component acts as root for a React instance, *HydrationRoot*s cannot be nested. Also make sure all props passed to a hydrated component are serializable.
-
-Then in your client bundle:
+Then in your client entry file:
 
 ```typescript
 import { initClient } from '@microeinhundert/radonis'
-import { lazy } from 'react'
 
-const client = initClient()
-
-// The variable name must match the componentName passed to the HydrationRoot
-const SomeInteractiveComponent = lazy(() => import('./components/SomeInteractiveComponent'))
-
-client.hydrate({ SomeInteractiveComponent })
+initClient()
 ```
 
-> Please note that hydration will take place only when the component is in view.
+**Things to keep in mind when working with HydrationRoots:**
+
+- HydrationRoots only accept a single child. If you want to hydrate multiple parts of your application, use multiple HydrationRoots instead.
+- All props passed to components inside HydrationRoots must be serializable.
+- HydrationRoots cannot be nested.
+- Hydration will only take place once the HydrationRoot is in view.
 
 ## Hooks
 
@@ -182,6 +179,8 @@ console.log(manifest.props[hydration.propsHash]) // => `{ someProp: 'test' }`
 
 ### useHydrated (Server and client)
 
+This hook allows checking if a component was hydrated.
+
 ```typescript
 import { useHydrated } from '@microeinhundert/radonis'
 
@@ -189,9 +188,6 @@ const hydrated = useHydrated()
 
 console.log(hydrated) // => `true` if it was hydrated or `false` if not
 ```
-
-This hook allows checking if a component was hydrated.
-Useful for progressive enhancement by showing parts of a component only after hydration.
 
 ### useI18n (Server and client)
 
@@ -204,7 +200,7 @@ const i18n = useI18n()
 console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
-This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
+> This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
 ### useManifest (Server and client)
 
@@ -217,7 +213,7 @@ const manifest = useManifest()
 console.log(manifest) // => `{ props: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. On the client the manifest only includes data actually needed for client-side hydration.
+> Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your use case requires having the same manifest on client and server, set `limitManifest` to `false` in the Radonis config.
 
 ### useRoute (Server and client)
 

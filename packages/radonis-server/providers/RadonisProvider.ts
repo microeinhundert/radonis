@@ -36,13 +36,13 @@ export default class RadonisProvider {
      * ManifestBuilder
      */
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const { limitClientManifest }: RadonisConfig = this.application.container
+      const { client }: RadonisConfig = this.application.container
         .resolveBinding('Adonis/Core/Config')
         .get('radonis', {})
 
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
-      return new ManifestBuilder(limitClientManifest)
+      return new ManifestBuilder(client.limitManifest)
     })
 
     /**

@@ -148,7 +148,7 @@ export class Builder implements Radonis.Manifest {
   }
 
   /**
-   * Register component props with the Builder
+   * Register a component with the Builder
    */
   public registerComponent(component: ReactElement<Record<string, unknown>>): string | null {
     const propsKeys = Object.keys(component.props)
