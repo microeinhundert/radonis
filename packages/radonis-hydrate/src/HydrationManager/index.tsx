@@ -42,14 +42,10 @@ export class HydrationManager {
   /**
    * Hydrate a specific HydrationRoot
    */
-  private hydrateRoot(hydrationRootTarget: HTMLElement): void {
+  private hydrateRoot(hydrationRoot: HTMLElement): void {
     if (isServer) return
 
-    const {
-      hydrationRoot: hydrationRootId,
-      component: componentName,
-      props: propsHash = '0',
-    } = hydrationRootTarget.dataset
+    const { hydrationRoot: hydrationRootId, component: componentName, props: propsHash = '0' } = hydrationRoot.dataset
 
     if (!hydrationRootId || !componentName) {
       throw new Error(
@@ -71,7 +67,7 @@ export class HydrationManager {
     const manifest = getManifestOrFail()
 
     hydrateRoot(
-      hydrationRootTarget,
+      hydrationRoot,
       <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
         <TwindContextProvider>
           <Component {...(manifest.props[propsHash] ?? {})} />
@@ -90,10 +86,10 @@ export class HydrationManager {
       observedHydrationRoots.forEach((observedHydrationRoot) => {
         if (!observedHydrationRoot.isIntersecting) return
 
-        const hydrationRootTarget = observedHydrationRoot.target as HTMLElement
+        const hydrationRoot = observedHydrationRoot.target as HTMLElement
 
-        this.hydrateRoot(hydrationRootTarget)
-        observer.unobserve(hydrationRootTarget)
+        this.hydrateRoot(hydrationRoot)
+        observer.unobserve(hydrationRoot)
       })
     })
   }

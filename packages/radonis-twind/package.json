@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-twind",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "Twind package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -19,7 +19,8 @@
   },
   "sideEffects": false,
   "files": [
-    "build/src"
+    "build/cjs",
+    "build/esm"
   ],
   "scripts": {
     "clean": "del build",

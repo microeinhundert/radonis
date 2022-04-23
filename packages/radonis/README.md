@@ -8,7 +8,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - Render React views directly from AdonisJS routes and controllers
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
-- Ships with a compiler powered by esbuild, no Webpack Encore required
+- Ships with a compiler powered by [esbuild](https://esbuild.github.io/), no Webpack Encore required
 - Styling with [Twind](https://twind.dev/) built in
 
 **Requirements:**
