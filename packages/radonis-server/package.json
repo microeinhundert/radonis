@@ -15,7 +15,8 @@
         "types": "./build/cjs/adonis-typings/index.d.ts",
         "default": "./build/cjs/providers/RadonisProvider.js"
       }
-    }
+    },
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "files": [
