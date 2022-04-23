@@ -1,8 +1,5 @@
 # Radonis
 
-| :warning: This package is in active development. Do not use. |
-| ------------------------------------------------------------ |
-
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
 
