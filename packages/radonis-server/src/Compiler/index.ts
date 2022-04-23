@@ -93,42 +93,38 @@ export class Compiler {
     const componentsDir = this.getComponentsDirPath()
     const entryFile = this.getEntryFilePath()
 
-    try {
-      const components = discoverComponents(componentsDir)
+    const components = discoverComponents(componentsDir)
 
-      this.clearOutputDir()
-      this.componentEntryPoints = {}
+    this.clearOutputDir()
+    this.componentEntryPoints = {}
 
-      const { metafile } = await build({
-        outdir: outputDir,
-        entryPoints: [...components, entryFile],
-        metafile: true,
-        write: true,
-        bundle: true,
-        splitting: true,
-        treeShaking: true,
-        platform: 'browser',
-        format: 'esm',
-        logLevel: 'silent',
-        minify: productionMode,
-        ...buildOptions,
-        loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-        plugins: [componentsPlugin(componentsDir), ...(buildOptions.plugins ?? [])],
-        external: [
-          '@microeinhundert/radonis-manifest',
-          '@microeinhundert/radonis-server',
-          ...(buildOptions.external ?? []),
-        ],
-        define: {
-          'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
-          ...(buildOptions.define ?? {}),
-        },
-      })
+    const { metafile } = await build({
+      outdir: outputDir,
+      entryPoints: [...components, entryFile],
+      metafile: true,
+      write: true,
+      bundle: true,
+      splitting: true,
+      treeShaking: true,
+      platform: 'browser',
+      format: 'esm',
+      logLevel: 'silent',
+      minify: productionMode,
+      ...buildOptions,
+      loader: { ...loaders, ...(buildOptions.loader ?? {}) },
+      plugins: [componentsPlugin(componentsDir), ...(buildOptions.plugins ?? [])],
+      external: [
+        '@microeinhundert/radonis-manifest',
+        '@microeinhundert/radonis-server',
+        ...(buildOptions.external ?? []),
+      ],
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
+        ...(buildOptions.define ?? {}),
+      },
+    })
 
-      this.componentEntryPoints = extractEntryPoints(metafile!)
-    } catch {
-      throw new Error('An error occurred while compiling components. Please check the logs for more details')
-    }
+    this.componentEntryPoints = extractEntryPoints(metafile!)
   }
 
   /**

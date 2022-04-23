@@ -1,10 +1,9 @@
 import type { Plugin } from 'esbuild'
 import { readFileSync } from 'fs'
+import { dirname } from 'path'
 
+import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_REGEX } from './constants'
 import { injectHydrateCall } from './utils'
-
-const DEFAULT_EXPORT_REGEX = /export[ \t]+default[ \t]+(function[ \t]+)?(?<name>\w+)/gs
-const COMPONENTS_PLUGIN_NAME = 'radonis-components'
 
 /**
  * This plugin is responsible for bundling each component into its own file,
@@ -37,7 +36,7 @@ export const componentsPlugin = (componentsDir: string): Plugin => ({
 
         return {
           contents: injectHydrateCall(componentSource, match.groups.name),
-          resolveDir: process.cwd(),
+          resolveDir: dirname(path),
           loader: 'tsx',
         }
       } catch {
