@@ -2,7 +2,7 @@ import type { Plugin } from 'esbuild'
 import { readFileSync } from 'fs'
 import { dirname } from 'path'
 
-import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_REGEX } from './constants'
+import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 import { injectHydrateCall } from './utils'
 
@@ -22,9 +22,13 @@ export const componentsPlugin = (components: string[]): Plugin => ({
     build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
       try {
         const componentSource = readFileSync(path, 'utf8')
-        const [match] = [...componentSource.matchAll(DEFAULT_EXPORT_REGEX)]
 
-        if (!match.groups?.name) {
+        const [[esmExportMatch], [cjsExportMatch]] = [
+          [...componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)],
+          [...componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)],
+        ]
+
+        if (!(esmExportMatch || cjsExportMatch || {}).groups?.name) {
           return {
             errors: [
               {
@@ -36,14 +40,17 @@ export const componentsPlugin = (components: string[]): Plugin => ({
         }
 
         return {
-          contents: injectHydrateCall(componentSource, match.groups.name),
+          contents: esmExportMatch
+            ? injectHydrateCall(componentSource, esmExportMatch.groups!.name, 'esm')
+            : injectHydrateCall(componentSource, cjsExportMatch.groups!.name, 'cjs'),
           resolveDir: dirname(path),
           loader: getLoaderForFile(path),
         }
-      } catch {
+      } catch (error) {
         return {
           errors: [
             {
+              detail: error.message,
               text: `Error compiling component at "${path}"`,
               pluginName: COMPONENTS_PLUGIN_NAME,
             },

@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-twind",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Twind package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",

@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { isProduction } from '@microeinhundert/radonis-shared'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import type { Metafile } from 'esbuild'
-import { basename, join, parse } from 'path'
+import { existsSync } from 'fs'
+import { join, parse } from 'path'
 
 import { PUBLIC_PATH_SEGMENT } from './constants'
 
@@ -21,8 +21,8 @@ import { PUBLIC_PATH_SEGMENT } from './constants'
  * - Does not end with `.<something>.<ext>`
  */
 export function isComponentFile(filePath: string): boolean {
-  const fileName = basename(filePath)
-  return fileName.match(/^[A-Z]\w+\.(ts(x)?|js(x)?)$/) !== null
+  const { base } = parse(filePath)
+  return base.match(/^[A-Z]\w+\.(ts(x)?|js(x)?)$/) !== null
 }
 
 /**
@@ -35,11 +35,15 @@ export function discoverComponents(directory: string) {
 /**
  * Inject the call to the hydrate function into the source code of a component
  */
-export function injectHydrateCall(componentSource: string, componentName: string): string {
+export function injectHydrateCall(componentSource: string, componentName: string, sourceType: 'esm' | 'cjs'): string {
   return `
-    import { registerComponentForHydration } from '@microeinhundert/radonis';
+    ${
+      sourceType === 'esm'
+        ? `import { registerComponentForHydration } from "@microeinhundert/radonis";`
+        : 'const { registerComponentForHydration } = require("@microeinhundert/radonis");'
+    }
     ${componentSource}
-    registerComponentForHydration('${componentName}', ${componentName});
+    registerComponentForHydration("${componentName}", ${componentName});
   `
 }
 
@@ -70,21 +74,14 @@ export function extractEntryPoints(metafile: Metafile): Record<string, string> {
 }
 
 /**
- * Ensure the path points to the already built file in production
+ * Ensure the script path is correct
  */
-export function ensureCorrectProductionPath(path: string): string {
-  const { dir, name, ext } = parse(path)
-
-  switch (ext) {
-    case '.ts':
-    case '.tsx':
-    case '.js':
-    case '.jsx':
-      path = `${dir}/${name}${isProduction ? '.js' : ext}`
-      break
-    case '':
-      path = `${dir}/${name}${isProduction ? '.js' : '.ts'}`
+export function ensureCorrectScriptPath(path: string): string {
+  if (existsSync(path)) {
+    return path
   }
 
-  return path
+  const { ext } = parse(path)
+
+  return ext ? path.replace(ext, '.js') : `${path}.js`
 }
