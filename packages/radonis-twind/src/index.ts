@@ -10,4 +10,4 @@
 export { twindContext, TwindContextProvider } from './contexts/twindContext'
 export { useTwind } from './hooks/useTwind'
 export { twindConfig } from './twindConfig'
-export { extract, install, setup } from 'twind'
+export { extract, install } from 'twind'

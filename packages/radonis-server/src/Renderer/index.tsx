@@ -8,11 +8,12 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { RadonisConfig, RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
+import type { RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import { extract, install, twindConfig, TwindContextProvider } from '@microeinhundert/radonis-twind'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
@@ -32,12 +33,7 @@ export class Renderer {
   /**
    * Constructor
    */
-  constructor(
-    private i18n: I18nManagerContract,
-    private compiler: Compiler,
-    private manifestBuilder: ManifestBuilder,
-    private config: RadonisConfig
-  ) {
+  constructor(private i18n: I18nManagerContract, private compiler: Compiler, private manifestBuilder: ManifestBuilder) {
     this.installTwind()
   }
 
@@ -45,7 +41,7 @@ export class Renderer {
    * Install Twind
    */
   private installTwind() {
-    install(twindConfig, this.config.productionMode)
+    install(twindConfig, isProduction)
   }
 
   /**

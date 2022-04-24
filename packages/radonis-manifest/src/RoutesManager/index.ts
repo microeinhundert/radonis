@@ -63,9 +63,15 @@ export class RoutesManager {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: string): void {
-    if (!(identifier in this.routes)) return
-    this.routesRequiredForHydration.add(identifier)
+  public requireRouteForHydration(identifier: '*' | string): void {
+    if (identifier === '*') {
+      /**
+       * Require all routes
+       */
+      this.routesRequiredForHydration = new Set(Object.keys(this.routes))
+    } else if (identifier in this.routes) {
+      this.routesRequiredForHydration.add(identifier)
+    }
   }
 
   /**

@@ -63,9 +63,15 @@ export class FlashMessagesManager {
   /**
    * Require a flash message for hydration
    */
-  public requireFlashMessageForHydration(identifier: string): void {
-    if (!(identifier in this.flashMessages)) return
-    this.flashMessagesRequiredForHydration.add(identifier)
+  public requireFlashMessageForHydration(identifier: '*' | string): void {
+    if (identifier === '*') {
+      /**
+       * Require all flash messages
+       */
+      this.flashMessagesRequiredForHydration = new Set(Object.keys(this.flashMessages))
+    } else if (identifier in this.flashMessages) {
+      this.flashMessagesRequiredForHydration.add(identifier)
+    }
   }
 
   /**

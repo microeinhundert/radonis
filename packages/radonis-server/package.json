@@ -90,6 +90,7 @@
     "@microeinhundert/radonis-hydrate": "1.0.1",
     "@microeinhundert/radonis-manifest": "1.0.1",
     "@microeinhundert/radonis-twind": "1.0.1",
+    "@microeinhundert/radonis-shared": "1.0.1",
     "@poppinss/utils": "^4.0.4",
     "del": "^6.0.0",
     "esbuild": "^0.14.38",

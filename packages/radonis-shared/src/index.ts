@@ -7,4 +7,4 @@
  * file that was distributed with this source code.
  */
 
-export { getManifestOrFail, isServer } from './environment'
+export { getManifestOrFail, isProduction, isServer } from './environment'

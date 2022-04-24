@@ -13,6 +13,11 @@
 export const isServer = typeof window === 'undefined' && typeof globalThis !== 'undefined'
 
 /**
+ * Whether the current environment is production or not
+ */
+export const isProduction = process.env.NODE_ENV === 'production'
+
+/**
  * Get the manifest, fail if it does not exist on the global scope
  */
 export function getManifestOrFail(): Radonis.Manifest {

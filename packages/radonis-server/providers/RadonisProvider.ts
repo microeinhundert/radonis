@@ -36,13 +36,13 @@ export default class RadonisProvider {
      * ManifestBuilder
      */
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const { client }: RadonisConfig = this.application.container
+      const radonisConfig: RadonisConfig = this.application.container
         .resolveBinding('Adonis/Core/Config')
         .get('radonis', {})
 
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
-      return new ManifestBuilder(client.limitManifest)
+      return new ManifestBuilder(radonisConfig.client.limitManifest)
     })
 
     /**
@@ -62,17 +62,13 @@ export default class RadonisProvider {
      * Renderer
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Renderer', () => {
-      const radonisConfig: RadonisConfig = this.application.container
-        .resolveBinding('Adonis/Core/Config')
-        .get('radonis', {})
-
       const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
       const Compiler = this.application.container.resolveBinding('Adonis/Addons/Radonis/Compiler')
       const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
 
       const { Renderer } = require('../src/Renderer')
 
-      return new Renderer(I18n, Compiler, ManifestBuilder, radonisConfig)
+      return new Renderer(I18n, Compiler, ManifestBuilder)
     })
 
     /**

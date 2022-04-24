@@ -8,11 +8,12 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import { setup, twindConfig } from '@microeinhundert/radonis-twind'
+import { isProduction } from '@microeinhundert/radonis-shared'
+import { install, twindConfig } from '@microeinhundert/radonis-twind'
 import type { ComponentType } from 'react'
 
 export function initClient() {
-  setup(twindConfig)
+  install(twindConfig, isProduction)
   new HydrationManager().hydrateRoots()
 }
 

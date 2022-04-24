@@ -8,6 +8,7 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import del from 'del'
 import { build } from 'esbuild'
 import { existsSync } from 'fs'
@@ -81,9 +82,7 @@ export class Compiler {
    */
   public async compileComponents(): Promise<void> {
     const {
-      productionMode,
-      client: { outputDir },
-      buildOptions,
+      client: { outputDir, buildOptions },
     } = this.config
 
     const componentsDir = this.getComponentsDir()
@@ -105,7 +104,7 @@ export class Compiler {
       platform: 'browser',
       format: 'esm',
       logLevel: 'silent',
-      minify: productionMode,
+      minify: isProduction,
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
       plugins: [componentsPlugin(components), ...(buildOptions.plugins ?? [])],
@@ -115,7 +114,7 @@ export class Compiler {
         ...(buildOptions.external ?? []),
       ],
       define: {
-        'process.env.NODE_ENV': JSON.stringify(productionMode ? 'production' : 'development'),
+        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
         ...(buildOptions.define ?? {}),
       },
     })

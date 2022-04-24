@@ -69,14 +69,10 @@ export class FlashMessages {
    * Get all flash messages
    */
   public all(): Record<string, Radonis.FlashMessage> {
-    return Object.keys(this.flashMessages).reduce<Record<string, Radonis.FlashMessage>>(
-      (flashMessages, flashMessageIdentifier) => {
-        return {
-          ...flashMessages,
-          [flashMessageIdentifier]: this.findFlashMessage(flashMessageIdentifier) as Radonis.FlashMessage,
-        }
-      },
-      {}
-    )
+    if (this.willHydrate) {
+      new HydrationManager().requireFlashMessageForHydration('*')
+    }
+
+    return this.flashMessages
   }
 }

@@ -84,9 +84,15 @@ export class I18nManager {
   /**
    * Require a message for hydration
    */
-  public requireMessageForHydration(identifier: string): void {
-    if (!(identifier in this.messages)) return
-    this.messagesRequiredForHydration.add(identifier)
+  public requireMessageForHydration(identifier: '*' | string): void {
+    if (identifier === '*') {
+      /**
+       * Require all messages
+       */
+      this.messagesRequiredForHydration = new Set(Object.keys(this.messages))
+    } else if (identifier in this.messages) {
+      this.messagesRequiredForHydration.add(identifier)
+    }
   }
 
   /**

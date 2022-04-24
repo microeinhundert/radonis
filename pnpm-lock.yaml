@@ -162,6 +162,7 @@ importers:
     specifiers:
       '@microeinhundert/radonis-hydrate': 1.0.1
       '@microeinhundert/radonis-manifest': 1.0.1
+      '@microeinhundert/radonis-shared': 1.0.1
       '@microeinhundert/radonis-twind': 1.0.1
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
@@ -173,6 +174,7 @@ importers:
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
+      '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-twind': link:../radonis-twind
       '@poppinss/utils': 4.0.4
       del: 6.0.0
