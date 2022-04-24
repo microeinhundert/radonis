@@ -28,7 +28,7 @@ export const componentsPlugin = (components: string[]): Plugin => ({
           [...componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)],
         ]
 
-        if (!(esmExportMatch || cjsExportMatch || {}).groups?.name) {
+        if (!(esmExportMatch ?? cjsExportMatch ?? {}).groups?.name) {
           return {
             errors: [
               {
