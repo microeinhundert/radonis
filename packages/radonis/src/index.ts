@@ -7,20 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import { isProduction } from '@microeinhundert/radonis-shared'
-import { install, twindConfig } from '@microeinhundert/radonis-twind'
-import type { ComponentType } from 'react'
-
-export function initClient() {
-  install(twindConfig, isProduction)
-  new HydrationManager().hydrateRoots()
-}
-
-export function registerComponentForHydration(identifier: string, Component: ComponentType) {
-  new HydrationManager().registerComponent(identifier, Component)
-}
-
+export { initClient, registerComponentForHydration } from './client'
 export {
   useFlashMessages,
   useI18n,

@@ -83,5 +83,5 @@ export function yieldScriptPath(path: string): string {
 
   const { ext } = parse(path)
 
-  return ext ? path.replace(ext, '.js') : this.yieldScriptPath(`${path}.ts`)
+  return ext ? path.replace(ext, '.js') : yieldScriptPath(`${path}.ts`)
 }
