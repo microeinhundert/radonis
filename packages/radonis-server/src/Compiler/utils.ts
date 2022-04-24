@@ -74,14 +74,14 @@ export function extractEntryPoints(metafile: Metafile): Record<string, string> {
 }
 
 /**
- * Ensure the script path is correct
+ * Yield a script path
  */
-export function ensureCorrectScriptPath(path: string): string {
+export function yieldScriptPath(path: string): string {
   if (existsSync(path)) {
     return path
   }
 
   const { ext } = parse(path)
 
-  return ext ? path.replace(ext, '.js') : `${path}.js`
+  return ext ? path.replace(ext, '.js') : this.yieldScriptPath(`${path}.ts`)
 }

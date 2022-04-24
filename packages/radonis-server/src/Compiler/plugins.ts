@@ -22,29 +22,34 @@ export const componentsPlugin = (components: string[]): Plugin => ({
     build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
       try {
         const componentSource = readFileSync(path, 'utf8')
+        const loadOptions = {
+          resolveDir: dirname(path),
+          loader: getLoaderForFile(path),
+        }
 
-        const [[esmExportMatch], [cjsExportMatch]] = [
-          [...componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)],
-          [...componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)],
-        ]
-
-        if (!(esmExportMatch ?? cjsExportMatch ?? {}).groups?.name) {
+        const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
+        if (esmExportMatch?.groups?.name) {
           return {
-            errors: [
-              {
-                text: `Found component at "${path}" without default export`,
-                pluginName: COMPONENTS_PLUGIN_NAME,
-              },
-            ],
+            contents: injectHydrateCall(componentSource, esmExportMatch.groups.name, 'esm'),
+            ...loadOptions,
+          }
+        }
+
+        const [cjsExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)
+        if (cjsExportMatch?.groups?.name) {
+          return {
+            contents: injectHydrateCall(componentSource, cjsExportMatch.groups.name, 'cjs'),
+            ...loadOptions,
           }
         }
 
         return {
-          contents: esmExportMatch
-            ? injectHydrateCall(componentSource, esmExportMatch.groups!.name, 'esm')
-            : injectHydrateCall(componentSource, cjsExportMatch.groups!.name, 'cjs'),
-          resolveDir: dirname(path),
-          loader: getLoaderForFile(path),
+          errors: [
+            {
+              text: `Found component at "${path}" without default export`,
+              pluginName: COMPONENTS_PLUGIN_NAME,
+            },
+          ],
         }
       } catch (error) {
         return {

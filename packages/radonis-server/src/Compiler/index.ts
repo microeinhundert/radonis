@@ -16,7 +16,7 @@ import { basename } from 'path'
 
 import { loaders } from './loaders'
 import { componentsPlugin } from './plugins'
-import { discoverComponents, ensureCorrectScriptPath, extractEntryPoints } from './utils'
+import { discoverComponents, extractEntryPoints, yieldScriptPath } from './utils'
 
 type EntryPoints = Record<string, string>
 
@@ -55,7 +55,7 @@ export class Compiler {
       client: { entryFile },
     } = this.config
 
-    entryFile = ensureCorrectScriptPath(entryFile)
+    entryFile = yieldScriptPath(entryFile)
 
     if (!existsSync(entryFile)) {
       throw new Error(`The Radonis entry file does not exist at "${entryFile}"`)
