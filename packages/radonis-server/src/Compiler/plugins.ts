@@ -13,7 +13,7 @@ import { injectHydrateCall } from './utils'
 export const componentsPlugin = (components: string[]): Plugin => ({
   name: COMPONENTS_PLUGIN_NAME,
   setup(build) {
-    build.onResolve({ filter: /\.(tsx|jsx)$/ }, ({ path }) => {
+    build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
       if (components.includes(path)) {
         return { path, namespace: COMPONENTS_PLUGIN_NAME }
       }

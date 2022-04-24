@@ -11,10 +11,10 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { useMemo } from 'react'
 
 import { UrlBuilder } from '../internal/UrlBuilder'
-import { useRoutes } from './useRoutes'
+import { useManifest } from './useManifest'
 
 export function useUrlBuilder() {
-  const routes = useRoutes()
+  const { routes } = useManifest()
   const hydration = useHydration()
 
   return useMemo(() => new UrlBuilder(routes, !!hydration.root), [routes, hydration])
