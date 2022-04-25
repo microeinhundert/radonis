@@ -3,35 +3,34 @@
   "version": "1.0.5",
   "description": "Server provider for Radonis",
   "type": "commonjs",
-  "main": "./build/cjs/providers/RadonisProvider.js",
-  "types": "./build/cjs/adonis-typings/index.d.ts",
+  "main": "./build/providers/RadonisProvider.js",
+  "types": "./build/adonis-typings/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./build/esm/adonis-typings/index.d.ts",
-        "default": "./build/esm/providers/RadonisProvider.js"
-      },
       "require": {
-        "types": "./build/cjs/adonis-typings/index.d.ts",
-        "default": "./build/cjs/providers/RadonisProvider.js"
+        "types": "./build/adonis-typings/index.d.ts",
+        "default": "./build/providers/RadonisProvider.js"
       }
     },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
   "files": [
-    "build/cjs",
-    "build/esm",
+    "build/adonis-typings",
+    "build/providers",
     "build/templates",
+    "build/src",
+    "build/instructions.js",
+    "build/instructions.d.ts",
     "build/instructions.md"
   ],
   "scripts": {
-    "clean": "del build",
-    "copyfiles": "copyfiles \"instructions.md\" \"templates/*.txt\" build",
-    "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
-    "build:esm": "tsc --outDir ./build/esm --module esnext",
-    "build": "\"$npm_execpath\" run clean && \"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm && \"$npm_execpath\" run copyfiles",
-    "lint": "TIMING=1 eslint .",
+    "clean": "del-cli build",
+    "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
+    "compile:cjs": "tsc --outDir ./build --module commonjs",
+    "compile": "\"$npm_execpath\" run lint && \"$npm_execpath\" run clean && \"$npm_execpath\" run compile:cjs",
+    "build": "\"$npm_execpath\" run compile && \"$npm_execpath\" run copyfiles",
+    "lint": "TIMING=1 eslint . --ext=.ts",
     "format": "prettier --write ."
   },
   "repository": {
@@ -58,6 +57,7 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "adonisjs": {
+    "instructions": "./build/instructions.js",
     "instructionsMd": "./build/instructions.md",
     "types": "@microeinhundert/radonis-server",
     "providers": [
@@ -82,6 +82,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@adonisjs/sink": "^5.2.3",
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2"
@@ -89,8 +90,8 @@
   "dependencies": {
     "@microeinhundert/radonis-hydrate": "1.0.5",
     "@microeinhundert/radonis-manifest": "1.0.5",
-    "@microeinhundert/radonis-twind": "1.0.5",
     "@microeinhundert/radonis-shared": "1.0.5",
+    "@microeinhundert/radonis-twind": "1.0.5",
     "@poppinss/utils": "^4.0.4",
     "del": "^6.0.0",
     "esbuild": "^0.14.38",

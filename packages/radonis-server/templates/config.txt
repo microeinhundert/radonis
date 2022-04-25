@@ -13,7 +13,7 @@ const radonisConfig: RadonisConfig = {
     | that are not bound to a specific component "Island".
     |
     */
-    entryFile: Application.resourcesPath('client.entry.ts'),
+    entryFile: Application.resourcesPath('entry.client.ts'),
 
     /*
     |--------------------------------------------------------------------------

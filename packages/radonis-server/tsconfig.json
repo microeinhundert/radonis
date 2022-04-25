@@ -5,6 +5,7 @@
     "rootDir": "./",
     "composite": true,
     "lib": ["esnext"],
+    "module": "commonjs",
     "outDir": "build",
     "declaration": true,
     "declarationMap": true,

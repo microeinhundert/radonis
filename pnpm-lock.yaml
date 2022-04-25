@@ -160,6 +160,7 @@ importers:
 
   packages/radonis-server:
     specifiers:
+      '@adonisjs/sink': ^5.2.3
       '@microeinhundert/radonis-hydrate': 1.0.5
       '@microeinhundert/radonis-manifest': 1.0.5
       '@microeinhundert/radonis-shared': 1.0.5
@@ -181,6 +182,7 @@ importers:
       esbuild: 0.14.38
       flattie: 1.1.0
     devDependencies:
+      '@adonisjs/sink': 5.2.3
       '@types/node': 16.11.27
       '@types/react': 18.0.6
       '@types/react-dom': 18.0.2
@@ -491,6 +493,23 @@ packages:
       csrf: 3.1.0
       helmet-csp: 3.4.0
     dev: false
+
+  /@adonisjs/sink/5.2.3:
+    resolution: {integrity: sha512-aJKwELFEifF1kQdkj6rUGKjv/n0VZcgjWMP16tU+/Pqrq7S4Agw1FabuLGc23taI1968k5W8o7iyQB4gBmshVw==}
+    peerDependencies:
+      '@adonisjs/application': ^5.0.0
+    dependencies:
+      '@poppinss/cliui': 3.0.2
+      '@poppinss/prompts': 2.0.2
+      '@poppinss/utils': 4.0.4
+      cp-file: 9.1.0
+      fs-extra: 10.1.0
+      marked: 2.1.3
+      marked-terminal: 4.2.0_marked@2.1.3
+      mrm-core: 7.0.0
+      mustache: 4.2.0
+      open: 8.4.0
+    dev: true
 
   /@adonisjs/sink/5.2.3_@adonisjs+application@5.2.4:
     resolution: {integrity: sha512-aJKwELFEifF1kQdkj6rUGKjv/n0VZcgjWMP16tU+/Pqrq7S4Agw1FabuLGc23taI1968k5W8o7iyQB4gBmshVw==}

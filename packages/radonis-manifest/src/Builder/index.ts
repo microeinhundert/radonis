@@ -156,7 +156,7 @@ export class Builder implements Radonis.Manifest {
 
     const propsHash = this.propsHasher.hash(props)
 
-    if (!this.props[propsHash]) {
+    if (!(propsHash in this.props)) {
       this.props[propsHash] = props
     }
 
