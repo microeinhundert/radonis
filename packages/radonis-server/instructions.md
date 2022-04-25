@@ -1,6 +1,6 @@
-# Instructions
+The package has been configured successfully.
 
-### Install required AdonisJS addons
+## Install required AdonisJS addons
 
 Install and configure the required AdonisJS addons if not already done:
 
@@ -23,16 +23,16 @@ npm install --save @adonisjs/shield
 node ace configure @adonisjs/shield
 ```
 
-### Install React
+## Install React
 
 ```console
 npm install --save react react-dom
 npm install --save-dev @types/react @types/react-dom
 ```
 
-### Configure TypeScript
+## Configure TypeScript
 
-Add the following to the compilerOptions of your tsconfig:
+Add the following to the compilerOptions of your `tsconfig.json`:
 
 ```json
 {

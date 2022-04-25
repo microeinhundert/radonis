@@ -68,7 +68,7 @@ npm install --save-dev @types/react @types/react-dom
 
 ### 5. Configure TypeScript
 
-Add the following to the compilerOptions of your tsconfig:
+Add the following to the compilerOptions of your `tsconfig.json`:
 
 ```json
 {
@@ -125,14 +125,6 @@ function ServerRenderedComponent() {
     </HydrationRoot>
   )
 }
-```
-
-Then in your client entry file:
-
-```typescript
-import { initClient } from '@microeinhundert/radonis'
-
-initClient()
 ```
 
 **Things to keep in mind when working with HydrationRoots:**
