@@ -50,6 +50,7 @@
     "adonisjs",
     "adonis",
     "radonis",
+    "plugin",
     "twind"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
