@@ -122,14 +122,14 @@ export class Renderer {
     )
 
     /**
-     * Execute `afterRender` hooks
-     */
-    html = this.pluginsManager.executeHooks('afterRender', html)
-
-    /**
      * Inject scripts
      */
     html = this.injectScripts(html)
+
+    /**
+     * Execute `afterRender` hooks
+     */
+    html = this.pluginsManager.executeHooks('afterRender', html)
 
     return `<!DOCTYPE html>\n${html}`
   }

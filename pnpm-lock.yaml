@@ -58,9 +58,9 @@ importers:
       '@adonisjs/shield': ^7.0.10
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
-      '@microeinhundert/radonis': ^1.1.1
-      '@microeinhundert/radonis-server': ^1.1.1
-      '@microeinhundert/radonis-twind': ^1.1.1
+      '@microeinhundert/radonis': ^1.1.2
+      '@microeinhundert/radonis-server': ^1.1.2
+      '@microeinhundert/radonis-twind': ^1.1.2
       '@types/react': ^18.0.6
       '@types/react-dom': ^18.0.2
       openapi-types: ^11.0.0
@@ -98,25 +98,23 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': 1.1.1
-      '@microeinhundert/radonis-hydrate': 1.1.1
-      '@microeinhundert/radonis-manifest': 1.1.1
-      '@microeinhundert/radonis-server': 1.1.1
-      '@microeinhundert/radonis-shared': 1.1.1
+      '@microeinhundert/radonis-hooks': 1.1.2
+      '@microeinhundert/radonis-hydrate': 1.1.2
+      '@microeinhundert/radonis-manifest': 1.1.2
+      '@microeinhundert/radonis-shared': 1.1.2
       '@types/node': ^16.11.27
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
-      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
     devDependencies:
       '@types/node': 16.11.27
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 1.1.1
-      '@microeinhundert/radonis-shared': 1.1.1
+      '@microeinhundert/radonis-hydrate': 1.1.2
+      '@microeinhundert/radonis-shared': 1.1.2
       '@types/node': ^16.11.27
       '@types/react': ^18.0.6
       '@types/react-dom': ^18.0.2
@@ -132,8 +130,8 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-manifest': 1.1.1
-      '@microeinhundert/radonis-shared': 1.1.1
+      '@microeinhundert/radonis-manifest': 1.1.2
+      '@microeinhundert/radonis-shared': 1.1.2
       '@types/node': ^16.11.27
       '@types/react': ^18.0.6
       '@types/react-dom': ^18.0.2
@@ -157,9 +155,9 @@ importers:
   packages/radonis-server:
     specifiers:
       '@adonisjs/sink': ^5.2.3
-      '@microeinhundert/radonis-hydrate': 1.1.1
-      '@microeinhundert/radonis-manifest': 1.1.1
-      '@microeinhundert/radonis-shared': 1.1.1
+      '@microeinhundert/radonis-hydrate': 1.1.2
+      '@microeinhundert/radonis-manifest': 1.1.2
+      '@microeinhundert/radonis-shared': 1.1.2
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.6

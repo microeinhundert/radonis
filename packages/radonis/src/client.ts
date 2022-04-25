@@ -28,10 +28,12 @@ export function initClient(config?: ClientConfig) {
   }
 
   if (config?.plugins?.length) {
-    pluginsManager.registerPlugins(...config.plugins).executeHooks('onInitClient', null)
+    pluginsManager.registerPlugins(...config.plugins)
   }
 
+  pluginsManager.executeHooks('onInitClient', null)
   hydrationManager.hydrateRoots()
+
   clientInitialized = true
 }
 
