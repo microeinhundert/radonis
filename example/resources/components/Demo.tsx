@@ -1,4 +1,5 @@
-import { useI18n, useTwind } from '@microeinhundert/radonis'
+import { useI18n } from '@microeinhundert/radonis'
+import { useTwind } from '@microeinhundert/radonis-twind'
 import React from 'react'
 
 interface DemoProps {

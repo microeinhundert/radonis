@@ -10,8 +10,9 @@
 import presetAutoprefix from '@twind/preset-autoprefix'
 import presetTailwind from '@twind/preset-tailwind'
 import presetTailwindForms from '@twind/preset-tailwind-forms'
+import presetTypography from '@twind/preset-typography'
 import { defineConfig } from 'twind'
 
-export const twindConfig = defineConfig({
-  presets: [presetAutoprefix(), presetTailwind(), presetTailwindForms()],
+export const config = defineConfig({
+  presets: [presetTailwind(), presetTailwindForms(), presetTypography(), presetAutoprefix()],
 })

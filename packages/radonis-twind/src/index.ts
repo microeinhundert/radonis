@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { twindContext, TwindContextProvider } from './contexts/twindContext'
 export { useTwind } from './hooks/useTwind'
-export { twindConfig } from './twindConfig'
-export { extract, install } from 'twind'
+export { twindPlugin } from './plugin'
+export { apply, injectGlobal, shortcut } from 'twind'

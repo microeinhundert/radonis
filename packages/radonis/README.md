@@ -9,7 +9,6 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - Partially hydrate only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
 - Ships with a compiler powered by [esbuild](https://esbuild.github.io/), no Webpack Encore required
-- Styling with [Twind](https://twind.dev/) built in
 
 **Requirements:**
 
@@ -135,18 +134,6 @@ function ServerRenderedComponent() {
 - Hydration will only take place once the HydrationRoot is in view.
 
 ## Hooks
-
-### useTwind (Server and client)
-
-```tsx
-import { useTwind } from '@microeinhundert/radonis'
-
-function SomeComponent() {
-  const { tx } = useTwind()
-
-  return <div className={tx`text-red-500`}>I am styled using Twind</div>
-}
-```
 
 ### useHydration (Server and client)
 
@@ -345,6 +332,10 @@ import { useSession } from '@ioc:Adonis/Addons/Radonis'
 
 const session = useSession()
 ```
+
+## Available Plugins
+
+[Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)
 
 ## License
 

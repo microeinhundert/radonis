@@ -9,6 +9,7 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 import {
   HydrationRoot,
@@ -24,22 +25,32 @@ export default class RadonisProvider {
   public static needsApplication = true
 
   /**
+   * The PluginsManager instance
+   */
+  private pluginsManager: PluginsManager
+
+  /**
    * Constructor
    */
-  constructor(private application: ApplicationContract) {}
+  constructor(private application: ApplicationContract) {
+    this.pluginsManager = new PluginsManager()
+  }
 
   /**
    * Register
    */
   public register() {
+    const radonisConfig: RadonisConfig = this.application.config.get('radonis', {})
+
+    /**
+     * Register plugins
+     */
+    this.pluginsManager.registerPlugins(...radonisConfig.plugins)
+
     /**
      * ManifestBuilder
      */
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
-      const radonisConfig: RadonisConfig = this.application.container
-        .resolveBinding('Adonis/Core/Config')
-        .get('radonis', {})
-
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
       return new ManifestBuilder(radonisConfig.client.limitManifest)
@@ -49,10 +60,6 @@ export default class RadonisProvider {
      * Compiler
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Compiler', () => {
-      const radonisConfig: RadonisConfig = this.application.container
-        .resolveBinding('Adonis/Core/Config')
-        .get('radonis', {})
-
       const { Compiler } = require('../src/Compiler')
 
       return new Compiler(radonisConfig)
@@ -102,6 +109,8 @@ export default class RadonisProvider {
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, Renderer) => {
         await Compiler.compileComponents()
+
+        this.pluginsManager.execute('onBootServer')
 
         HttpContext.getter(
           'radonis',

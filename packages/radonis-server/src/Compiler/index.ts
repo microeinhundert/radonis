@@ -146,6 +146,7 @@ export class Compiler {
     for (const identifier in this.entryPoints) {
       if (entryFileName.startsWith(identifier)) {
         entryPoints.set(identifier, this.entryPoints[identifier])
+        break
       }
     }
 

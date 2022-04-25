@@ -1,7 +1,19 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import Application from '@ioc:Adonis/Core/Application'
+import { twindPlugin } from '@microeinhundert/radonis-twind'
 
 const radonisConfig: RadonisConfig = {
+  /*
+  |--------------------------------------------------------------------------
+  | Plugins
+  |--------------------------------------------------------------------------
+  |
+  | The registered server plugins. Client plugins are registered
+  | separately inside the client entry file.
+  |
+  */
+  plugins: [twindPlugin],
+
   client: {
     /*
     |--------------------------------------------------------------------------

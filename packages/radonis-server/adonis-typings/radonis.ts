@@ -42,6 +42,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   export function HydrationRoot(props: HydrationRootProps): JSX.Element
 
   export interface RadonisConfig {
+    plugins: Radonis.Plugin[]
     client: {
       entryFile: string
       componentsDir: string

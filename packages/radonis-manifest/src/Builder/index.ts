@@ -17,17 +17,17 @@ export class Builder implements Radonis.Manifest {
   /**
    * The FlashMessagesManager instance
    */
-  private flashMessagesManager: FlashMessagesManager
+  private flashMessagesManager: FlashMessagesManager = new FlashMessagesManager()
 
   /**
    * The I18nManager instance
    */
-  private i18nManager: I18nManager
+  private i18nManager: I18nManager = new I18nManager()
 
   /**
    * The RoutesManager instance
    */
-  private routesManager: RoutesManager
+  private routesManager: RoutesManager = new RoutesManager()
 
   /**
    * The hasher used to hash component props
@@ -47,11 +47,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Constructor
    */
-  constructor(private limitClientManifest: boolean) {
-    this.flashMessagesManager = new FlashMessagesManager()
-    this.i18nManager = new I18nManager()
-    this.routesManager = new RoutesManager()
-  }
+  constructor(private limitClientManifest: boolean) {}
 
   /**
    * The flash messages

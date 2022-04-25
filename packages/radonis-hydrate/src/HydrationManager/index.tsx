@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { getManifestOrFail, isServer } from '@microeinhundert/radonis-shared'
-import { TwindContextProvider } from '@microeinhundert/radonis-twind'
+import { getManifestOrFail, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
@@ -21,6 +20,11 @@ export class HydrationManager {
    * The singleton instance
    */
   private static instance: HydrationManager
+
+  /**
+   * The PluginsManager instance
+   */
+  private pluginsManager: PluginsManager = new PluginsManager()
 
   /**
    * The components registered for hydration
@@ -64,11 +68,12 @@ export class HydrationManager {
 
     hydrateRoot(
       hydrationRoot,
-      <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
-        <TwindContextProvider>
+      this.pluginsManager.execute(
+        'beforeRender',
+        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
           <Component {...(manifest.props[propsHash] ?? {})} />
-        </TwindContextProvider>
-      </HydrationContextProvider>
+        </HydrationContextProvider>
+      )
     )
   }
 
@@ -118,19 +123,6 @@ export class HydrationManager {
   }
 
   /**
-   * Require a route for hydration
-   */
-  public requireRouteForHydration(identifier: string): this {
-    if (!isServer) return this
-
-    const { RoutesManager } = require('@microeinhundert/radonis-manifest')
-
-    new RoutesManager().requireRouteForHydration(identifier)
-
-    return this
-  }
-
-  /**
    * Require a flash message for hydration
    */
   public requireFlashMessageForHydration(identifier: string): this {
@@ -152,6 +144,19 @@ export class HydrationManager {
     const { I18nManager } = require('@microeinhundert/radonis-manifest')
 
     new I18nManager().requireMessageForHydration(identifier)
+
+    return this
+  }
+
+  /**
+   * Require a route for hydration
+   */
+  public requireRouteForHydration(identifier: string): this {
+    if (!isServer) return this
+
+    const { RoutesManager } = require('@microeinhundert/radonis-manifest')
+
+    new RoutesManager().requireRouteForHydration(identifier)
 
     return this
   }

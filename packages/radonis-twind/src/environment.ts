@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-shared
+ * @microeinhundert/radonis-twind
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,5 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export { getManifestOrFail, isProduction, isServer } from './environment'
-export { PluginsManager } from './PluginsManager'
+/**
+ * Whether the current environment is production or not
+ */
+export const isProduction = process.env.NODE_ENV === 'production'

@@ -13,8 +13,7 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
-import { isProduction } from '@microeinhundert/radonis-shared'
-import { extract, install, twindConfig, TwindContextProvider } from '@microeinhundert/radonis-twind'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React from 'react'
@@ -26,6 +25,11 @@ import { extractRootRoutes, transformRoute } from './utils'
 
 export class Renderer {
   /**
+   * The PluginsManager instance
+   */
+  private pluginsManager: PluginsManager = new PluginsManager()
+
+  /**
    * The context
    */
   private context: RadonisContextContract = null as any
@@ -33,25 +37,11 @@ export class Renderer {
   /**
    * Constructor
    */
-  constructor(private i18n: I18nManagerContract, private compiler: Compiler, private manifestBuilder: ManifestBuilder) {
-    this.installTwind()
-  }
-
-  /**
-   * Install Twind
-   */
-  private installTwind() {
-    install(twindConfig, isProduction)
-  }
-
-  /**
-   * Inject styles
-   */
-  private injectStyles(html: string): string {
-    const { html: twindProcessedHtml, css } = extract(html)
-
-    return twindProcessedHtml.replace('<div id="rad-styles"></div>', `<style data-twind>${css}</style>`)
-  }
+  constructor(
+    private i18n: I18nManagerContract,
+    private compiler: Compiler,
+    private manifestBuilder: ManifestBuilder
+  ) {}
 
   /**
    * Inject scripts
@@ -116,24 +106,29 @@ export class Renderer {
      * Render the view
      */
     let html = renderToString(
-      <ManifestBuilderContextProvider value={this.manifestBuilder}>
-        <CompilerContextProvider value={this.compiler}>
-          <RadonisContextProvider value={this.context}>
-            <TwindContextProvider>
+      this.pluginsManager.execute(
+        'beforeRender',
+        <ManifestBuilderContextProvider value={this.manifestBuilder}>
+          <CompilerContextProvider value={this.compiler}>
+            <RadonisContextProvider value={this.context}>
               <Document>
                 {/* @ts-expect-error Unsure why this errors */}
                 <Component {...(props ?? {})} />
               </Document>
-            </TwindContextProvider>
-          </RadonisContextProvider>
-        </CompilerContextProvider>
-      </ManifestBuilderContextProvider>
+            </RadonisContextProvider>
+          </CompilerContextProvider>
+        </ManifestBuilderContextProvider>
+      )
     )
 
     /**
-     * Inject styles and scripts
+     * Execute `afterRender` hooks
      */
-    html = this.injectStyles(html)
+    html = this.pluginsManager.execute('afterRender', html)
+
+    /**
+     * Inject scripts
+     */
     html = this.injectScripts(html)
 
     return `<!DOCTYPE html>\n${html}`
