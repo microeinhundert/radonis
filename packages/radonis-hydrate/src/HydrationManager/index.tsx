@@ -68,7 +68,7 @@ export class HydrationManager {
 
     hydrateRoot(
       hydrationRoot,
-      this.pluginsManager.execute(
+      this.pluginsManager.executeHooks(
         'beforeRender',
         <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
           <Component {...(manifest.props[propsHash] ?? {})} />

@@ -16,10 +16,10 @@ export const twindPlugin: Radonis.Plugin = {
   onBootServer() {
     install(config, isProduction)
   },
-  beforeRender(tree) {
-    return <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
+  beforeRender() {
+    return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
   },
-  afterRender(html) {
-    return inline(html)
+  afterRender() {
+    return (html) => inline(html)
   },
 }

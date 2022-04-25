@@ -28,7 +28,7 @@ export function initClient(config?: ClientConfig) {
   }
 
   if (config?.plugins?.length) {
-    pluginsManager.registerPlugins(...config.plugins).execute('onInitClient')
+    pluginsManager.registerPlugins(...config.plugins).executeHooks('onInitClient', null)
   }
 
   hydrationManager.hydrateRoots()

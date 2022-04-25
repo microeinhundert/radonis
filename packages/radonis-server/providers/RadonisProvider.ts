@@ -108,7 +108,7 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, Renderer) => {
-        this.pluginsManager.execute('onBootServer')
+        this.pluginsManager.executeHooks('onBootServer', null)
 
         await Compiler.compileComponents()
 

@@ -74,18 +74,23 @@ export class PluginsManager {
   /**
    * Execute hooks of a specific type
    */
-  public execute<T extends keyof ManagedPlugin, P extends Parameters<ManagedPlugin[T]>>(type: T, ...params: P): P[0] {
+  public executeHooks<T extends keyof ManagedPlugin, B extends unknown, P extends Parameters<ManagedPlugin[T]>>(
+    type: T,
+    initialBuilderValue: B,
+    ...params: P
+  ): B {
     const hooks = (this as any)[`${type}Hooks`] as ManagedPlugin[T][]
-    const [firstParam, ...restParams] = params
 
-    return hooks.reduce((prevReturnValue, hook) => {
-      const returnValue = hook.apply(null, [prevReturnValue, ...restParams])
+    let builderValue = initialBuilderValue
 
-      if (typeof returnValue !== typeof firstParam) {
-        throw new Error('The return value of a plugin hook must be of the same type as the first parameter')
+    for (const hook of hooks) {
+      const builderOrVoid = hook.apply(null, params)
+
+      if (typeof builderOrVoid === 'function') {
+        builderValue = builderOrVoid.apply(null, [builderValue])
       }
+    }
 
-      return returnValue
-    }, firstParam)
+    return builderValue
   }
 }

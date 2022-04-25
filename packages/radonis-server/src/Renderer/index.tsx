@@ -106,7 +106,7 @@ export class Renderer {
      * Render the view
      */
     let html = renderToString(
-      this.pluginsManager.execute(
+      this.pluginsManager.executeHooks(
         'beforeRender',
         <ManifestBuilderContextProvider value={this.manifestBuilder}>
           <CompilerContextProvider value={this.compiler}>
@@ -124,7 +124,7 @@ export class Renderer {
     /**
      * Execute `afterRender` hooks
      */
-    html = this.pluginsManager.execute('afterRender', html)
+    html = this.pluginsManager.executeHooks('afterRender', html)
 
     /**
      * Inject scripts

@@ -6,11 +6,14 @@ declare global {
 
     type Route = { name?: string; pattern?: string }
 
+    type PluginHook = () => void
+    type PluginHookWithBuilder<T> = () => (value: T) => T
+
     type Plugin = {
-      onInitClient?: () => void
-      onBootServer?: () => void
-      beforeRender?: (tree: ReactElement) => ReactElement
-      afterRender?: (html: string) => string
+      onInitClient?: PluginHook
+      onBootServer?: PluginHook
+      beforeRender?: PluginHookWithBuilder<ReactElement>
+      afterRender?: PluginHookWithBuilder<string>
     }
 
     interface Manifest {
