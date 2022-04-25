@@ -9,6 +9,7 @@
 
 import type * as sinkStatic from '@adonisjs/sink'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { existsSync, mkdirSync } from 'fs'
 import { join } from 'path'
 
 /**
@@ -20,24 +21,25 @@ function getStub(...relativePaths: string[]) {
 }
 
 /**
- * Create the client entry file
+ * Instructions to be executed when setting up the package
  */
-function makeClientEntryFile(projectRoot: string, app: ApplicationContract, sink: typeof sinkStatic) {
+export default async function instructions(projectRoot: string, app: ApplicationContract, sink: typeof sinkStatic) {
   const entryFilePath = app.resourcesPath('entry.client.ts')
 
   const entryFileTemplate = new sink.files.MustacheFile(projectRoot, entryFilePath, getStub('entry.client.txt'))
 
   if (entryFileTemplate.exists()) {
-    sink.logger.action('create').skipped(`${entryFilePath} file already exists`)
+    const resourceDir = app.directoriesMap.get('resources') || 'resources'
+    sink.logger.action('create').skipped(`${resourceDir}/entry.client.ts`)
   } else {
     entryFileTemplate.apply({}).commit()
-    sink.logger.action('create').succeeded(entryFilePath)
+    const resourceDir = app.directoriesMap.get('resources') || 'resources'
+    sink.logger.action('create').succeeded(`${resourceDir}/entry.client.ts`)
   }
-}
 
-/**
- * Instructions to be executed when setting up the package
- */
-export default async function instructions(projectRoot: string, app: ApplicationContract, sink: typeof sinkStatic) {
-  makeClientEntryFile(projectRoot, app, sink)
+  if (!existsSync(app.resourcesPath('components'))) {
+    mkdirSync(app.resourcesPath('components'), { recursive: true })
+    const resourceDir = app.directoriesMap.get('resources') || 'resources'
+    sink.logger.action('create').succeeded(`${resourceDir}/components`)
+  }
 }
