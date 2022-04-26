@@ -1,20 +1,28 @@
 import React from 'react'
-import { inline, install } from 'twind'
+import type { Twind, TwindConfig, TxFunction } from 'twind'
+import { inline, install as install$ } from 'twind'
 import { getSheet, twind, tx as tx$ } from 'twind'
 
-import { config } from './config'
+import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'
 import { isProduction } from './environment'
 
-const tw = /* @__PURE__ */ twind(config, getSheet(false))
-const tx = /* @__PURE__ */ tx$.bind(tw)
+let tw: Twind
+let tx: TxFunction
 
-export const twindPlugin: Radonis.Plugin = {
+const install = (config?: TwindConfig) => {
+  tw = twind(config ?? defaultConfig, getSheet(false))
+  tx = tx$.bind(tw)
+
+  install$(config ?? defaultConfig, isProduction)
+}
+
+export const twindPlugin = (config?: TwindConfig): Radonis.Plugin => ({
   onInitClient() {
-    install(config, isProduction)
+    install(config)
   },
   onBootServer() {
-    install(config, isProduction)
+    install(config)
   },
   beforeRender() {
     return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
@@ -22,4 +30,4 @@ export const twindPlugin: Radonis.Plugin = {
   afterRender() {
     return (html) => inline(html)
   },
-}
+})

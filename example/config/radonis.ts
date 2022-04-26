@@ -12,7 +12,7 @@ const radonisConfig: RadonisConfig = {
   | separately inside the client entry file.
   |
   */
-  plugins: [twindPlugin],
+  plugins: [twindPlugin()],
 
   client: {
     /*
