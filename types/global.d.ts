@@ -12,6 +12,7 @@ declare global {
     type Plugin = {
       onInitClient?: PluginHook
       onBootServer?: PluginHook
+      beforeCompileComponent?: PluginHookWithBuilder<string>
       beforeRender?: PluginHookWithBuilder<ReactElement>
       afterRender?: PluginHookWithBuilder<string>
     }

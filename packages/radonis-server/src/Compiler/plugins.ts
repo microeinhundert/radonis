@@ -1,3 +1,4 @@
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
 import { readFileSync } from 'fs'
 import { dirname } from 'path'
@@ -5,6 +6,8 @@ import { dirname } from 'path'
 import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 import { injectHydrateCall } from './utils'
+
+const pluginsManager = new PluginsManager()
 
 /**
  * This plugin is responsible for bundling each component into its own file,
@@ -21,11 +24,12 @@ export const componentsPlugin = (components: string[]): Plugin => ({
 
     build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
       try {
-        const componentSource = readFileSync(path, 'utf8')
         const loadOptions = {
           resolveDir: dirname(path),
           loader: getLoaderForFile(path),
         }
+
+        const componentSource = pluginsManager.executeHooks('beforeCompileComponent', readFileSync(path, 'utf8'))
 
         const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
         if (esmExportMatch?.groups?.name) {

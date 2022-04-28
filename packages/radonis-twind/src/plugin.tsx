@@ -6,6 +6,7 @@ import { getSheet, twind, tx as tx$ } from 'twind'
 import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'
 import { isProduction } from './environment'
+import { minifyTxLiterals } from './utils'
 
 let tw: Twind
 let tx: TxFunction
@@ -23,6 +24,9 @@ export const twindPlugin = (config?: TwindConfig): Radonis.Plugin => ({
   },
   onBootServer() {
     install(config)
+  },
+  beforeCompileComponent() {
+    return (componentSource) => minifyTxLiterals(componentSource)
   },
   beforeRender() {
     return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
