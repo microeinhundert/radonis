@@ -2,7 +2,10 @@
  * Normalize whitespace
  */
 function normalizeWhitespace(source: string): string {
-  return source.replace(/\s\s+/g, ' ').trim()
+  return source
+    .replace(/\s\s+/g, ' ')
+    .trim()
+    .replaceAll(/\s+`|`\s+?/gs, '`')
 }
 
 /**
@@ -30,7 +33,7 @@ function replace(matchers: RegExp[], replacer: (content: string) => string, sour
 export function minifyTxLiterals(source: string): string {
   return replace(
     [new RegExp(/tx\((?<content>.*?)\)/gs), new RegExp(/tx`(?<content>.*?)`/gs)],
-    (content) => normalizeWhitespace(content),
+    (content) => normalizeWhitespace(content.replaceAll(/\s+`|`\s+?/gs, '`')),
     source
   )
 }

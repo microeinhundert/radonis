@@ -60,7 +60,7 @@ export class HydrationManager {
 
     if (!Component) {
       throw new Error(
-        `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component was not registered for hydration. This is most likely a bug of Radonis`
+        `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated. Make sure the component "${componentName}" exists in the client bundle`
       )
     }
 

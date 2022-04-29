@@ -107,6 +107,7 @@ export class Compiler {
       format: 'esm',
       logLevel: 'silent',
       minify: isProduction,
+      sourcemap: !isProduction,
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
       plugins: [componentsPlugin(components), ...(buildOptions.plugins ?? [])],
