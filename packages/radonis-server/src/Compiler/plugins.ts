@@ -11,7 +11,7 @@ import { injectHydrateCall } from './utils'
 const pluginsManager = new PluginsManager()
 
 export const radonisClientPlugin = (components: string[], outDir: string): Plugin => ({
-  name: 'radonis',
+  name: 'radonis-client',
   setup(build) {
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
       if (components.includes(path)) {
@@ -48,7 +48,7 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
           errors: [
             {
               text: `Found component at "${path}" without default export`,
-              pluginName: 'radonis',
+              pluginName: 'radonis-client',
             },
           ],
         }
@@ -58,7 +58,7 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
             {
               detail: error.message,
               text: `Error compiling component at "${path}"`,
-              pluginName: 'radonis',
+              pluginName: 'radonis-client',
             },
           ],
         }
