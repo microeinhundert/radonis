@@ -33,7 +33,7 @@ function replace(matchers: RegExp[], replacer: (content: string) => string, sour
 export function minifyTxLiterals(source: string): string {
   return replace(
     [new RegExp(/tx\((?<content>.*?)\)/gs), new RegExp(/tx`(?<content>.*?)`/gs)],
-    (content) => normalizeWhitespace(content.replaceAll(/\s+`|`\s+?/gs, '`')),
+    (content) => normalizeWhitespace(content),
     source
   )
 }
