@@ -9,13 +9,12 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
-import del from 'del'
 import { build } from 'esbuild'
 import { existsSync } from 'fs'
 import { basename } from 'path'
 
 import { loaders } from './loaders'
-import { componentsPlugin } from './plugins'
+import { radonisClientPlugin } from './plugins'
 import { discoverComponents, extractEntryPoints, yieldScriptPath } from './utils'
 
 type EntryPoints = Record<string, string>
@@ -35,17 +34,6 @@ export class Compiler {
    * Constructor
    */
   constructor(private config: RadonisConfig) {}
-
-  /**
-   * Clear the output directory
-   */
-  private async clearOutputDir(): Promise<void> {
-    const {
-      client: { outputDir },
-    } = this.config
-
-    await del(outputDir)
-  }
 
   /**
    * Get the path to the entry file
@@ -92,14 +80,13 @@ export class Compiler {
 
     const components = discoverComponents(componentsDir)
 
-    this.clearOutputDir()
     this.entryPoints = {}
 
     const { metafile } = await build({
-      outdir: outputDir,
       entryPoints: [...components, entryFile],
+      outdir: outputDir,
       metafile: true,
-      write: true,
+      write: false,
       bundle: true,
       splitting: true,
       treeShaking: true,
@@ -107,17 +94,16 @@ export class Compiler {
       format: 'esm',
       logLevel: 'silent',
       minify: isProduction,
-      sourcemap: !isProduction,
       ...buildOptions,
       loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-      plugins: [componentsPlugin(components), ...(buildOptions.plugins ?? [])],
+      plugins: [radonisClientPlugin(components, outputDir), ...(buildOptions.plugins ?? [])],
       external: [
         '@microeinhundert/radonis-manifest',
         '@microeinhundert/radonis-server',
         ...(buildOptions.external ?? []),
       ],
       define: {
-        'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+        'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
         ...(buildOptions.define ?? {}),
       },
     })

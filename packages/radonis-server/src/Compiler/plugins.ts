@@ -1,35 +1,32 @@
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
 import { readFileSync } from 'fs'
+import { emptyDir, outputFile } from 'fs-extra'
 import { dirname } from 'path'
 
-import { COMPONENTS_PLUGIN_NAME, DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
+import { DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 import { injectHydrateCall } from './utils'
 
 const pluginsManager = new PluginsManager()
 
-/**
- * This plugin is responsible for bundling each component into its own file,
- * while wrapping the component with the code required for hydration.
- */
-export const componentsPlugin = (components: string[]): Plugin => ({
-  name: COMPONENTS_PLUGIN_NAME,
+export const radonisClientPlugin = (components: string[], outDir: string): Plugin => ({
+  name: 'radonis',
   setup(build) {
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
       if (components.includes(path)) {
-        return { path, namespace: COMPONENTS_PLUGIN_NAME }
+        return { path, namespace: 'radonis-client-component' }
       }
     })
 
-    build.onLoad({ filter: /.*/, namespace: COMPONENTS_PLUGIN_NAME }, ({ path }) => {
+    build.onLoad({ filter: /.*/, namespace: 'radonis-client-component' }, ({ path }) => {
       try {
         const loadOptions = {
           resolveDir: dirname(path),
           loader: getLoaderForFile(path),
         }
 
-        const componentSource = pluginsManager.executeHooks('beforeCompileComponent', readFileSync(path, 'utf8'))
+        const componentSource = readFileSync(path, 'utf8')
 
         const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
         if (esmExportMatch?.groups?.name) {
@@ -51,7 +48,7 @@ export const componentsPlugin = (components: string[]): Plugin => ({
           errors: [
             {
               text: `Found component at "${path}" without default export`,
-              pluginName: COMPONENTS_PLUGIN_NAME,
+              pluginName: 'radonis',
             },
           ],
         }
@@ -61,10 +58,21 @@ export const componentsPlugin = (components: string[]): Plugin => ({
             {
               detail: error.message,
               text: `Error compiling component at "${path}"`,
-              pluginName: COMPONENTS_PLUGIN_NAME,
+              pluginName: 'radonis',
             },
           ],
         }
+      }
+    })
+
+    build.onEnd(async (result) => {
+      await emptyDir(outDir)
+
+      const files = result.outputFiles ?? []
+
+      for (const file of files) {
+        const modifiedFile = pluginsManager.executeHooks('afterCompile', file.text)
+        outputFile(file.path, Buffer.from(modifiedFile))
       }
     })
   },

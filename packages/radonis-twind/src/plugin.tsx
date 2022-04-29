@@ -25,7 +25,7 @@ export const twindPlugin = (config?: TwindConfig): Radonis.Plugin => ({
   onBootServer() {
     install(config)
   },
-  beforeCompileComponent() {
+  afterCompile() {
     return (componentSource) => minifyTxLiterals(componentSource)
   },
   beforeRender() {

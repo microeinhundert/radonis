@@ -26,9 +26,9 @@ export class PluginsManager {
   private onBootServerHooks: ManagedPlugin['onBootServer'][] = []
 
   /**
-   * The `beforeCompileComponent` hooks
+   * The `afterCompile` hooks
    */
-  private beforeCompileComponentHooks: ManagedPlugin['beforeCompileComponent'][] = []
+  private afterCompileHooks: ManagedPlugin['afterCompile'][] = []
 
   /**
    * The `beforeRender` hooks
@@ -55,7 +55,7 @@ export class PluginsManager {
    * Register one or multiple plugins
    */
   public registerPlugins(...plugins: Radonis.Plugin[]): this {
-    for (const { onInitClient, onBootServer, beforeCompileComponent, beforeRender, afterRender } of plugins) {
+    for (const { onInitClient, onBootServer, afterCompile, beforeRender, afterRender } of plugins) {
       if (onInitClient) {
         this.onInitClientHooks.push(onInitClient)
       }
@@ -64,8 +64,8 @@ export class PluginsManager {
         this.onBootServerHooks.push(onBootServer)
       }
 
-      if (beforeCompileComponent) {
-        this.beforeCompileComponentHooks.push(beforeCompileComponent)
+      if (afterCompile) {
+        this.afterCompileHooks.push(afterCompile)
       }
 
       if (beforeRender) {

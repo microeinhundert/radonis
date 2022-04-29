@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-manifest",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Manifest package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
