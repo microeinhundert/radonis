@@ -15,7 +15,9 @@ export function useTwind() {
   const context = useContext(twindContext)
 
   if (!context) {
-    throw new Error('The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree')
+    throw new Error(
+      'The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree. Make sure the Twind plugin was registered on both client and server'
+    )
   }
 
   return context

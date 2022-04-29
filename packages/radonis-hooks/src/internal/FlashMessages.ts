@@ -33,16 +33,30 @@ export class FlashMessages {
   }
 
   /**
-   * Check if a specific flash message exists
+   * Check if a flash message exists
    */
-  public has(identifier: string): boolean {
+  public has(identifier?: string): boolean {
+    if (!identifier) {
+      /**
+       * Check if flash messages exist
+       */
+      return !!Object.keys(this.all()).length
+    }
+
     return !!this.findFlashMessage(identifier)
   }
 
   /**
-   * Check if a specific validation error flash message exists
+   * Check if a validation error flash message exists
    */
-  public hasValidationError(identifier: string): boolean {
+  public hasValidationError(identifier?: string): boolean {
+    if (!identifier) {
+      /**
+       * Check if validation error flash messages exist
+       */
+      return !!Object.keys(this.allValidationErrors()).length
+    }
+
     return this.has(`errors.${identifier}`)
   }
 
@@ -74,5 +88,24 @@ export class FlashMessages {
     }
 
     return this.flashMessages
+  }
+
+  /**
+   * Get all validation error flash messages
+   */
+  public allValidationErrors(): Record<string, Radonis.FlashMessage> {
+    if (this.willHydrate) {
+      new HydrationManager().requireFlashMessageForHydration('errors.*')
+    }
+
+    const flashMessages = {} as Record<string, Radonis.FlashMessage>
+
+    for (const identifier in this.flashMessages) {
+      if (identifier.startsWith('errors.')) {
+        flashMessages[identifier] = this.flashMessages[identifier]
+      }
+    }
+
+    return flashMessages
   }
 }

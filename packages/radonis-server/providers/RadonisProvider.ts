@@ -27,14 +27,12 @@ export default class RadonisProvider {
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager
+  private pluginsManager: PluginsManager = new PluginsManager()
 
   /**
    * Constructor
    */
-  constructor(private application: ApplicationContract) {
-    this.pluginsManager = new PluginsManager()
-  }
+  constructor(private application: ApplicationContract) {}
 
   /**
    * Register
@@ -98,6 +96,8 @@ export default class RadonisProvider {
    * Boot
    */
   public async boot() {
+    this.pluginsManager.executeHooks('onBootServer', null)
+
     this.application.container.withBindings(
       [
         'Adonis/Core/HttpContext',
@@ -108,8 +108,6 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, Renderer) => {
-        this.pluginsManager.executeHooks('onBootServer', null)
-
         await Compiler.compileComponents()
 
         HttpContext.getter(

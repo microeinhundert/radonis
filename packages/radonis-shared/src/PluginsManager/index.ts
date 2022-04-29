@@ -26,7 +26,7 @@ export class PluginsManager {
   private onBootServerHooks: ManagedPlugin['onBootServer'][] = []
 
   /**
-   * The `beforeCompileComponentHooks` hooks
+   * The `beforeCompileComponent` hooks
    */
   private beforeCompileComponentHooks: ManagedPlugin['beforeCompileComponent'][] = []
 

@@ -249,20 +249,32 @@ import { useFlashMessages } from '@microeinhundert/radonis'
 
 const flashMessages = useFlashMessages()
 
-// Check if a flash message exists:
+// Check if some flash message exists:
+console.log(flashMessages.has()) // => `true` or `false`
+
+// Check if some validation error flash message exists:
+console.log(flashMessages.hasValidationError()) // => `true` or `false`
+
+// Check if a specific flash message exists:
 console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
 
-// Get a flash message:
+// Check if a specific validation error flash message exists:
+console.log(flashMessages.hasValidationError('fieldName.0')) // => `true` or `false`
+
+// Get a specific flash message:
 console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
 
 // You can also omit the index to automatically get the first item if an array:
 console.log(flashMessages.get('errors.fieldName')) // => same as `errors.fieldName.0`
 
-// You can also get validation errors like this:
+// You can also get a specific validation error flash message like this:
 console.log(flashMessages.getValidationError('fieldName')) // => same as `errors.fieldName`
 
 // Get all flash messages:
 console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
+
+// Get all validation error flash messages:
+console.log(flashMessages.allValidationErrors()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
