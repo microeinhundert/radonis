@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
+import invariant from 'tiny-invariant'
+
 /**
  * Whether the current environment is a server or not
  */
-export const isServer = typeof window === 'undefined' && typeof globalThis !== 'undefined'
+export const isServer = typeof document === 'undefined' && typeof globalThis !== 'undefined'
 
 /**
  * Whether the current environment is production or not
@@ -23,9 +25,7 @@ export const isProduction = process.env.NODE_ENV === 'production'
 export function getManifestOrFail(): Radonis.Manifest {
   const manifest = (globalThis ?? window).radonisManifest
 
-  if (!manifest) {
-    throw new Error('Could not get the Radonis manifest. Make sure the server provider was configured properly')
-  }
+  invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
   return manifest
 }

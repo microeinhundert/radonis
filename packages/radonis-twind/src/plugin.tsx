@@ -26,7 +26,7 @@ export const twindPlugin = (config?: TwindConfig): Radonis.Plugin => ({
     install(config)
   },
   afterCompile() {
-    return (componentSource) => minifyTxLiterals(componentSource)
+    return (source) => minifyTxLiterals(source)
   },
   beforeRender() {
     return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>

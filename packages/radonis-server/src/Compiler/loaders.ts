@@ -1,5 +1,6 @@
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
+import invariant from 'tiny-invariant'
 
 export const loaders: { [ext: string]: Loader } = {
   '.js': 'js',
@@ -10,6 +11,8 @@ export const loaders: { [ext: string]: Loader } = {
 
 export function getLoaderForFile(file: string): Loader {
   const ext = extname(file)
-  if (ext in loaders) return loaders[ext]
-  throw new Error(`Cannot get loader for file at "${file}"`)
+
+  invariant(ext in loaders, `Cannot get loader for file at "${file}"`)
+
+  return loaders[ext]
 }

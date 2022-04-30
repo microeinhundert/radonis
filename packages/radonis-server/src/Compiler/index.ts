@@ -12,6 +12,7 @@ import { isProduction } from '@microeinhundert/radonis-shared'
 import { build } from 'esbuild'
 import { existsSync } from 'fs'
 import { basename } from 'path'
+import invariant from 'tiny-invariant'
 
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugins'
@@ -45,9 +46,7 @@ export class Compiler {
 
     entryFile = yieldScriptPath(entryFile)
 
-    if (!existsSync(entryFile)) {
-      throw new Error(`The Radonis entry file does not exist at "${entryFile}"`)
-    }
+    invariant(existsSync(entryFile), `The Radonis entry file does not exist at "${entryFile}"`)
 
     return entryFile
   }
@@ -60,9 +59,7 @@ export class Compiler {
       client: { componentsDir },
     } = this.config
 
-    if (!existsSync(componentsDir)) {
-      throw new Error(`The Radonis components directory does not exist at "${componentsDir}"`)
-    }
+    invariant(existsSync(componentsDir), `The Radonis components directory does not exist at "${componentsDir}"`)
 
     return componentsDir
   }
@@ -79,8 +76,6 @@ export class Compiler {
     const entryFile = this.getEntryFile()
 
     const components = discoverComponents(componentsDir)
-
-    this.entryPoints = {}
 
     const { metafile } = await build({
       entryPoints: [...components, entryFile],

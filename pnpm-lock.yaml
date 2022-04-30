@@ -58,9 +58,9 @@ importers:
       '@adonisjs/shield': ^7.0.10
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
-      '@microeinhundert/radonis': ^1.1.7
-      '@microeinhundert/radonis-server': ^1.1.7
-      '@microeinhundert/radonis-twind': ^1.1.7
+      '@microeinhundert/radonis': ^1.1.8
+      '@microeinhundert/radonis-server': ^1.1.8
+      '@microeinhundert/radonis-twind': ^1.1.8
       '@types/react': ^18.0.8
       '@types/react-dom': ^18.0.2
       openapi-types: ^11.0.0
@@ -98,31 +98,35 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': 1.1.7
-      '@microeinhundert/radonis-hydrate': 1.1.7
-      '@microeinhundert/radonis-manifest': 1.1.7
-      '@microeinhundert/radonis-shared': 1.1.7
+      '@microeinhundert/radonis-hooks': 1.1.8
+      '@microeinhundert/radonis-hydrate': 1.1.8
+      '@microeinhundert/radonis-manifest': 1.1.8
+      '@microeinhundert/radonis-shared': 1.1.8
       '@types/node': ^16.11.27
+      tiny-invariant: ^1.2.0
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
+      tiny-invariant: 1.2.0
     devDependencies:
       '@types/node': 16.11.27
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 1.1.7
-      '@microeinhundert/radonis-shared': 1.1.7
+      '@microeinhundert/radonis-hydrate': 1.1.8
+      '@microeinhundert/radonis-shared': 1.1.8
       '@types/node': ^16.11.27
       '@types/react': ^18.0.8
       '@types/react-dom': ^18.0.2
       intl-messageformat: ^9.12.0
+      tiny-invariant: ^1.2.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       intl-messageformat: 9.12.0
+      tiny-invariant: 1.2.0
     devDependencies:
       '@types/node': 16.11.27
       '@types/react': 18.0.8
@@ -130,14 +134,16 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-manifest': 1.1.7
-      '@microeinhundert/radonis-shared': 1.1.7
+      '@microeinhundert/radonis-manifest': 1.1.8
+      '@microeinhundert/radonis-shared': 1.1.8
       '@types/node': ^16.11.27
       '@types/react': ^18.0.8
       '@types/react-dom': ^18.0.2
+      tiny-invariant: ^1.2.0
     dependencies:
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
+      tiny-invariant: 1.2.0
     devDependencies:
       '@types/node': 16.11.27
       '@types/react': 18.0.8
@@ -147,17 +153,19 @@ importers:
     specifiers:
       '@types/node': ^16.11.27
       node-object-hash: ^2.3.10
+      tiny-invariant: ^1.2.0
     dependencies:
       node-object-hash: 2.3.10
+      tiny-invariant: 1.2.0
     devDependencies:
       '@types/node': 16.11.27
 
   packages/radonis-server:
     specifiers:
       '@adonisjs/sink': ^5.2.3
-      '@microeinhundert/radonis-hydrate': 1.1.7
-      '@microeinhundert/radonis-manifest': 1.1.7
-      '@microeinhundert/radonis-shared': 1.1.7
+      '@microeinhundert/radonis-hydrate': 1.1.8
+      '@microeinhundert/radonis-manifest': 1.1.8
+      '@microeinhundert/radonis-shared': 1.1.8
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.8
@@ -165,6 +173,7 @@ importers:
       esbuild: ^0.14.38
       flattie: ^1.1.0
       fs-extra: ^10.1.0
+      tiny-invariant: ^1.2.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-manifest': link:../radonis-manifest
@@ -173,6 +182,7 @@ importers:
       esbuild: 0.14.38
       flattie: 1.1.0
       fs-extra: 10.1.0
+      tiny-invariant: 1.2.0
     devDependencies:
       '@adonisjs/sink': 5.2.3
       '@types/node': 16.11.27
@@ -182,6 +192,9 @@ importers:
   packages/radonis-shared:
     specifiers:
       '@types/node': ^16.11.27
+      tiny-invariant: ^1.2.0
+    dependencies:
+      tiny-invariant: 1.2.0
     devDependencies:
       '@types/node': 16.11.27
 
@@ -194,12 +207,14 @@ importers:
       '@types/node': ^16.11.27
       '@types/react': ^18.0.8
       '@types/react-dom': ^18.0.2
+      tiny-invariant: ^1.2.0
       twind: 1.0.0-next.37
     dependencies:
       '@twind/preset-autoprefix': 1.0.0-next.37_ff63171d532d0085cdece7c557f5bbbd
       '@twind/preset-tailwind': 1.0.0-next.37_ff63171d532d0085cdece7c557f5bbbd
       '@twind/preset-tailwind-forms': 1.0.0-next.37_62820116c361ed4d85d9a0118897fda1
       '@twind/preset-typography': 1.0.0-next.37_ff63171d532d0085cdece7c557f5bbbd
+      tiny-invariant: 1.2.0
       twind: 1.0.0-next.37_typescript@4.7.0-beta
     devDependencies:
       '@types/node': 16.11.27
@@ -5850,6 +5865,10 @@ packages:
     dependencies:
       convert-hrtime: 3.0.0
     dev: true
+
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
 
   /tmp-cache/1.1.0:
     resolution: {integrity: sha512-j040fkL/x+XAZQ9K3bKGEPwgYhOZNBQLa3NXEADUiuno9C+3N2JJA4bVPDREixp604G3/vTXWA3DIPpA9lu1RQ==}

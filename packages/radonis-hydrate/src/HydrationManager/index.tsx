@@ -11,6 +11,7 @@ import { getManifestOrFail, isServer, PluginsManager } from '@microeinhundert/ra
 import type { ComponentType } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
+import invariant from 'tiny-invariant'
 
 import { HydrationContextProvider } from '../contexts/hydrationContext'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
@@ -50,19 +51,20 @@ export class HydrationManager {
 
     const { hydrationRoot: hydrationRootId, component: componentName, props: propsHash = '0' } = hydrationRoot.dataset
 
-    if (!hydrationRootId || !componentName) {
-      throw new Error(
-        'Found a HydrationRoot that is missing important hydration data. Please make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis'
-      )
-    }
+    invariant(
+      hydrationRootId && componentName,
+      `Found a HydrationRoot that is missing important hydration data.
+      Please make sure you passed all the required props to all of your HydrationRoots.
+      If everything looks fine to you, this is most likely a bug of Radonis`
+    )
 
     const Component = this.components[componentName]
 
-    if (!Component) {
-      throw new Error(
-        `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated. Make sure the component "${componentName}" exists in the client bundle`
-      )
-    }
+    invariant(
+      Component,
+      `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated.
+      Please make sure the component "${componentName}" exists in the client bundle`
+    )
 
     const manifest = getManifestOrFail()
 

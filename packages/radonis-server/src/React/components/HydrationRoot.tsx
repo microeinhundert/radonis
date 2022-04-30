@@ -10,6 +10,7 @@
 import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
 import React, { useId } from 'react'
+import invariant from 'tiny-invariant'
 
 import { useCompiler } from '../hooks/useCompiler'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
@@ -34,24 +35,23 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   const hydrationRootId = useId()
 
   /*
-   * Throw if the HydrationRoot is nested inside another HydrationRoot
+   * Fail if the HydrationRoot is nested inside another HydrationRoot
    */
-  if (parentHydrationRootId) {
-    throw new Error(
-      `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName}". This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
-    )
-  }
+  invariant(
+    !parentHydrationRootId,
+    `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName}".
+    This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
+  )
 
   const { props } = React.Children.only(children)
 
   /*
-   * Throw if the props are not serializable
+   * Fail if the props are not serializable
    */
-  if (!isSerializable(props)) {
-    throw new Error(
-      `The props passed to the component "${componentName}" inside HydrationRoot "${hydrationRootId}" are not serializable`
-    )
-  }
+  invariant(
+    isSerializable(props),
+    `The props passed to the component "${componentName}" inside HydrationRoot "${hydrationRootId}" are not serializable`
+  )
 
   /*
    * Register the props with the ManifestBuilder

@@ -9,6 +9,7 @@
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { IntlMessageFormat } from 'intl-messageformat'
+import invariant from 'tiny-invariant'
 
 export class I18n {
   /**
@@ -23,9 +24,7 @@ export class I18n {
   private findMessageOrFail(identifier: string): string {
     const message = this.messages[identifier]
 
-    if (!message) {
-      throw new Error(`Cannot find message for "${identifier}"`)
-    }
+    invariant(message, `Cannot find message for "${identifier}"`)
 
     if (this.willHydrate) {
       new HydrationManager().requireMessageForHydration(identifier)

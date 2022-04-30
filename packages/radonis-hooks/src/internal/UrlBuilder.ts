@@ -8,6 +8,7 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import invariant from 'tiny-invariant'
 
 export class UrlBuilder {
   /**
@@ -32,9 +33,7 @@ export class UrlBuilder {
   private findRouteOrFail(identifier: string): any {
     const route = this.routes[identifier]
 
-    if (!route) {
-      throw new Error(`Cannot find route for "${identifier}"`)
-    }
+    invariant(route, `Cannot find route for "${identifier}"`)
 
     if (this.willHydrate) {
       new HydrationManager().requireRouteForHydration(identifier)
@@ -64,15 +63,11 @@ export class UrlBuilder {
       if (token === '*') {
         const wildcardParams = isParamsAnArray ? this.params.slice(paramsIndex) : this.params['*']
 
-        if (!Array.isArray(wildcardParams)) {
-          throw new Error('Wildcard param must pass an array of values')
-        }
-
-        if (!wildcardParams.length) {
-          throw new Error(`Wildcard param is required to make URL for "${pattern}" route`)
-        }
+        invariant(Array.isArray(wildcardParams), 'Wildcard param must pass an array of values')
+        invariant(wildcardParams.length, `Wildcard param is required to make URL for "${pattern}" route`)
 
         url = url.concat(wildcardParams)
+
         break
       }
 
@@ -91,9 +86,7 @@ export class UrlBuilder {
         /*
          * A required param is always required to make the complete URL
          */
-        if (!param && !isOptional) {
-          throw new Error(`"${param}" param is required to make URL for "${pattern}" route`)
-        }
+        invariant(param && isOptional, `"${param}" param is required to make URL for "${pattern}" route`)
 
         url.push(param)
       }
