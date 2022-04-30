@@ -108,7 +108,7 @@ export class UrlBuilder {
   /**
    * Define the params required to resolve the route
    */
-  public withParams(params?: any[] | Record<string, any>): this {
+  public withParams(params?: Record<string, any>): this {
     if (params) {
       this.params = params
     }
