@@ -14,7 +14,7 @@ export class UrlBuilder {
   /**
    * Params
    */
-  private params: any[] | Record<string, any>
+  private params: Record<string, any> = {}
 
   /**
    * Query params
@@ -46,53 +46,41 @@ export class UrlBuilder {
    * Process the pattern with params
    */
   private processPattern(pattern: string): string {
-    let url: string[] = []
-    const isParamsAnArray = Array.isArray(this.params)
+    let url = pattern
 
-    /*
-     * Split pattern when route has dynamic segments
-     */
-    const tokens = pattern.split('/')
-    let paramsIndex = 0
-
-    for (const token of tokens) {
-      /**
-       * Expected wildcard param to be at the end always and hence
-       * we must break out from the loop
+    if (url.indexOf(':') > -1) {
+      /*
+       * Split pattern when route has dynamic segments
        */
-      if (token === '*') {
-        const wildcardParams = isParamsAnArray ? this.params.slice(paramsIndex) : this.params['*']
+      const tokens = url.split('/')
 
-        invariant(Array.isArray(wildcardParams), 'Wildcard param must pass an array of values')
-        invariant(wildcardParams.length, `Wildcard param is required to make URL for "${pattern}" route`)
-
-        url = url.concat(wildcardParams)
-
-        break
-      }
-
-      /**
-       * Token is a static value
+      /*
+       * Lookup over the route tokens and replace them the params values
        */
-      if (!token.startsWith(':')) {
-        url.push(token)
-      } else {
-        const isOptional = token.endsWith('?')
-        const paramName = token.replace(/^:/, '').replace(/\?$/, '')
-        const param = isParamsAnArray ? this.params[paramsIndex] : this.params[paramName]
+      url = tokens
+        .map((token) => {
+          if (!token.startsWith(':')) {
+            return token
+          }
 
-        paramsIndex++
+          const isOptional = token.endsWith('?')
+          const paramName = token.replace(/^:/, '').replace(/\?$/, '')
+          const param = this.params[paramName]
 
-        /*
-         * A required param is always required to make the complete URL
-         */
-        invariant(param && isOptional, `"${param}" param is required to make URL for "${pattern}" route`)
+          /*
+           * A required param is always required to make the complete URL
+           */
+          invariant(
+            param || isOptional,
+            `The "${paramName}" param is required to make the URL for the "${pattern}" route`
+          )
 
-        url.push(param)
-      }
+          return param
+        })
+        .join('/')
     }
 
-    return url.join('/')
+    return url
   }
 
   /**

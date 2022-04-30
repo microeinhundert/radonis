@@ -235,9 +235,6 @@ const url = urlBuilder.make('users.index') // => `/users`
 // Build the URL with params:
 const url = urlBuilder.withParams({ id: 1 }).make('users.show') // => `/users/1`
 
-// You can also provide path params as an array and they will be populated according to their order:
-const url = urlBuilder.withParams([1]).make('users.show') // => `/users/1`
-
 // You can also provide query params:
 const url = urlBuilder.withQueryParams({ cool: ['adonis', 'react'] }).make('tech.index') // => `/tech?cool=adonis,react
 ```

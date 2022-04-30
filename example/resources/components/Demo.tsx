@@ -3,10 +3,11 @@ import { useTwind } from '@microeinhundert/radonis-twind'
 import React from 'react'
 
 interface DemoProps {
+  name?: string
   text: string
 }
 
-function Demo({ text }: DemoProps) {
+function Demo({ name, text }: DemoProps) {
   const { tx } = useTwind()
   const i18n = useI18n()
 
@@ -19,7 +20,7 @@ function Demo({ text }: DemoProps) {
           mb-4
         `}
       >
-        {i18n.formatMessage('general.welcome')}
+        {i18n.formatMessage(name ? 'general.personalizedWelcome' : 'general.welcome', { name })}
       </h1>
       <p>{text}</p>
     </div>
