@@ -146,18 +146,23 @@ export class Builder implements Radonis.Manifest {
   /**
    * Register props with the Builder
    */
-  public registerProps(props: Record<string, unknown>): string | null {
-    const propsKeys = Object.keys(props)
+  public registerProps(componentName: string, rawProps: Record<string, unknown>): string | null {
+    try {
+      const props = JSON.parse(JSON.stringify(rawProps))
+      const propsKeys = Object.keys(props)
 
-    if (!propsKeys.length) return null
+      if (!propsKeys.length) return null
 
-    const propsHash = this.propsHasher.hash(props)
+      const propsHash = this.propsHasher.hash(props)
 
-    if (!(propsHash in this.props)) {
-      this.props[propsHash] = props
+      if (!(propsHash in this.props)) {
+        this.props[propsHash] = props
+      }
+
+      return propsHash
+    } catch {
+      throw new Error(`The props passed to the component "${componentName}" are not serializable`)
     }
-
-    return propsHash
   }
 
   /**

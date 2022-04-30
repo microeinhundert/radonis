@@ -15,19 +15,6 @@ import invariant from 'tiny-invariant'
 import { useCompiler } from '../hooks/useCompiler'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
 
-/*
- * Check if a data structure is serializable
- */
-function isSerializable(data: unknown): boolean {
-  try {
-    JSON.stringify(data)
-  } catch {
-    return false
-  }
-
-  return true
-}
-
 export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
   const compiler = useCompiler()
@@ -46,17 +33,9 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   const { props } = React.Children.only(children)
 
   /*
-   * Fail if the props are not serializable
-   */
-  invariant(
-    isSerializable(props),
-    `The props passed to the component "${componentName}" inside HydrationRoot "${hydrationRootId}" are not serializable`
-  )
-
-  /*
    * Register the props with the ManifestBuilder
    */
-  const propsHash = manifestBuilder.registerProps(props)
+  const propsHash = manifestBuilder.registerProps(componentName, props)
 
   /*
    * Require the component for hydration on the Compiler
