@@ -58,6 +58,7 @@
     "@types/node": "^16.11.27"
   },
   "dependencies": {
+    "@microeinhundert/radonis-shared": "workspace:1.1.8",
     "node-object-hash": "^2.3.10",
     "tiny-invariant": "^1.2.0"
   }

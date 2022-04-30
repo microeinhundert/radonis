@@ -151,10 +151,12 @@ importers:
 
   packages/radonis-manifest:
     specifiers:
+      '@microeinhundert/radonis-shared': workspace:1.1.8
       '@types/node': ^16.11.27
       node-object-hash: ^2.3.10
       tiny-invariant: ^1.2.0
     dependencies:
+      '@microeinhundert/radonis-shared': link:../radonis-shared
       node-object-hash: 2.3.10
       tiny-invariant: 1.2.0
     devDependencies:

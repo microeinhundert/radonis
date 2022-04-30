@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { isProduction } from '@microeinhundert/radonis-shared'
 import hasher from 'node-object-hash'
 
 import { FlashMessagesManager } from '../FlashMessagesManager'
@@ -130,7 +131,7 @@ export class Builder implements Radonis.Manifest {
    * Get the client manifest as JSON
    */
   public getClientManifestAsJSON(): string {
-    return JSON.stringify(this.clientManifest)
+    return JSON.stringify(this.clientManifest, null, isProduction ? 0 : 2)
   }
 
   /**
