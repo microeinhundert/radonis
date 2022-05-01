@@ -133,6 +133,33 @@ function ServerRenderedComponent() {
 - HydrationRoots cannot be nested.
 - Hydration will only take place once the HydrationRoot is in view.
 
+## Passing model data to client-side hydrated components
+
+In order for the data to be of the same format on both the server and the client, you have to use a custom naming strategy for your Lucid models.
+This makes sure properties are kept in camalCase after serialization.
+
+```ts
+// app/Strategies/CamelCaseNamingStrategy.ts
+import { string } from '@ioc:Adonis/Core/Helpers'
+import { SnakeCaseNamingStrategy, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+
+export default class CamelCaseNamingStrategy extends SnakeCaseNamingStrategy {
+  public serializedName(_model: typeof BaseModel, propertyName: string) {
+    return string.camelCase(propertyName)
+  }
+}
+```
+
+```ts
+import CamelCaseNamingStrategy from 'App/Strategies/CamelCaseNamingStrategy'
+import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
+
+// app/Models/YourModel.ts
+export default class YourModel extends BaseModel {
+  public static namingStrategy = new CamelCaseNamingStrategy()
+}
+```
+
 ## Hooks
 
 ### useHydration (Server and client)
