@@ -85,3 +85,31 @@ export function yieldScriptPath(path: string): string {
 
   return ext ? path.replace(ext, '.js') : yieldScriptPath(`${path}.ts`)
 }
+
+/**
+ * Warn about the usage of IoC imports
+ */
+export function warnAboutIocUsage(importSpecifier: string, path: string) {
+  return {
+    errors: [
+      {
+        text: `Found AdonisJS IoC import "${importSpecifier}" in "${path}". Importing from the AdonisJS IoC Container in components built for the client is not allowed`,
+        pluginName: 'radonis-client',
+      },
+    ],
+  }
+}
+
+/**
+ * Warn about a missing default export
+ */
+export function warnAboutMissingDefaultExport(path: string) {
+  return {
+    errors: [
+      {
+        text: `Found component at "${path}" without default export. All components built for the client must export themselves as default`,
+        pluginName: 'radonis-client',
+      },
+    ],
+  }
+}
