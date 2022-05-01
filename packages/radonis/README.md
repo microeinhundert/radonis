@@ -126,7 +126,7 @@ function ServerRenderedComponent() {
 }
 ```
 
-**Things to keep in mind when working with HydrationRoots:**
+### Things to keep in mind when working with HydrationRoots
 
 - HydrationRoots only accept a single child. If you want to hydrate multiple parts of your application, use multiple HydrationRoots instead.
 - All props passed to the direct child of an HydrationRoot must be serializable.
