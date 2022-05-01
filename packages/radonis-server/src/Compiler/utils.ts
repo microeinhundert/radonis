@@ -90,10 +90,12 @@ export function yieldScriptPath(path: string): string {
  * Warn about the usage of IoC imports
  */
 export function warnAboutIocUsage(importSpecifier: string, path: string) {
+  const { name, ext } = parse(path)
+
   return {
     errors: [
       {
-        text: `Found AdonisJS IoC import "${importSpecifier}" in "${path}". Importing from the AdonisJS IoC Container in components built for the client is not allowed. Suffix the component's file with .server.<ext> to exclude it from the build`,
+        text: `Found AdonisJS IoC import "${importSpecifier}" in "${path}". Importing from the AdonisJS IoC Container in components built for the client is not allowed. Rename the component to "${name}.server${ext}" to exclude it from the build`,
         pluginName: 'radonis-client',
       },
     ],

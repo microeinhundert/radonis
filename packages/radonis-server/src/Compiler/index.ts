@@ -117,7 +117,7 @@ export class Compiler {
       this.logger.info(`finished compilation of ${Object.keys(entryPoints).length - 1} component(s)`)
     } catch (error) {
       const messageParts = error.message.split('error:')
-      this.logger.error(messageParts.at(-1).trim())
+      throw new Error(messageParts.at(-1).trim())
     }
   }
 
