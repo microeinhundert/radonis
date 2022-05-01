@@ -58,9 +58,11 @@ export default class RadonisProvider {
      * Compiler
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Compiler', () => {
+      const Logger = this.application.container.resolveBinding('Adonis/Core/Logger')
+
       const { Compiler } = require('../src/Compiler')
 
-      return new Compiler(radonisConfig)
+      return new Compiler(Logger, radonisConfig)
     })
 
     /**

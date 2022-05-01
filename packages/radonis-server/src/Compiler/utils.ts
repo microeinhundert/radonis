@@ -93,7 +93,7 @@ export function warnAboutIocUsage(importSpecifier: string, path: string) {
   return {
     errors: [
       {
-        text: `Found AdonisJS IoC import "${importSpecifier}" in "${path}". Importing from the AdonisJS IoC Container in components built for the client is not allowed`,
+        text: `Found AdonisJS IoC import "${importSpecifier}" in "${path}". Importing from the AdonisJS IoC Container in components built for the client is not allowed. Suffix the component's file with .server.<ext> to exclude it from the build`,
         pluginName: 'radonis-client',
       },
     ],

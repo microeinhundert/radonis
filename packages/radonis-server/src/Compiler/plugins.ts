@@ -37,6 +37,7 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
       try {
         const componentSource = readFileSync(path, 'utf8')
 
+        // TODO: Checking inside `onLoad` does not check chunks
         const [esmIocImportMatch] = componentSource.matchAll(IOC_IMPORT_ESM_REGEX)
         if (esmIocImportMatch?.groups?.importSpecifier) {
           return warnAboutIocUsage(esmIocImportMatch.groups.importSpecifier, path)

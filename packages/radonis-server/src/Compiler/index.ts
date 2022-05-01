@@ -8,6 +8,7 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import { isProduction } from '@microeinhundert/radonis-shared'
 import { build } from 'esbuild'
 import { existsSync } from 'fs'
@@ -34,7 +35,7 @@ export class Compiler {
   /**
    * Constructor
    */
-  constructor(private config: RadonisConfig) {}
+  constructor(private logger: LoggerContract, private config: RadonisConfig) {}
 
   /**
    * Get the path to the entry file
@@ -65,9 +66,9 @@ export class Compiler {
   }
 
   /**
-   * Compile all components
+   * Execute the components build
    */
-  public async compileComponents(): Promise<void> {
+  private async executeComponentsBuild(): Promise<EntryPoints> {
     const {
       client: { outputDir, buildOptions },
     } = this.config
@@ -103,7 +104,21 @@ export class Compiler {
       },
     })
 
-    this.entryPoints = extractEntryPoints(metafile!)
+    return extractEntryPoints(metafile!)
+  }
+
+  /**
+   * Compile all components
+   */
+  public async compileComponents(): Promise<void> {
+    try {
+      const entryPoints = await this.executeComponentsBuild()
+      this.entryPoints = entryPoints
+      this.logger.info(`finished compilation of ${Object.keys(entryPoints).length - 1} component(s)`)
+    } catch (error) {
+      const messageParts = error.message.split('error:')
+      this.logger.error(messageParts.at(-1).trim())
+    }
   }
 
   /**
