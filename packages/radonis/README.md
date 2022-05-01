@@ -133,7 +133,7 @@ function ServerRenderedComponent() {
 - HydrationRoots cannot be nested.
 - Hydration will only take place once the HydrationRoot is in view.
 
-## Passing model data to client-side hydrated components
+### Passing model data to client-side hydrated components
 
 In order for the data to be of the same format on both the server and the client, you have to use a custom naming strategy for your Lucid models.
 This makes sure properties are kept in camalCase after serialization.
