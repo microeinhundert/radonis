@@ -151,10 +151,10 @@ export default class CamelCaseNamingStrategy extends SnakeCaseNamingStrategy {
 ```
 
 ```ts
+// app/Models/YourModel.ts
 import CamelCaseNamingStrategy from 'App/Strategies/CamelCaseNamingStrategy'
 import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
-// app/Models/YourModel.ts
 export default class YourModel extends BaseModel {
   public static namingStrategy = new CamelCaseNamingStrategy()
 }
