@@ -31,15 +31,15 @@ declare global {
     type BuildOutput = Record<string, { publicPath: string }>
 
     type Asset = {
+      type: 'component' | 'entry'
       identifier: string
       path: string
-      type: 'component' | 'entry'
       flashMessages?: Set<string>
       messages?: Set<string>
       routes?: Set<string>
     }
 
-    type AssetManifest = Record<string, ManifestEntry>
+    type AssetManifest = Record<string, Asset>
   }
 
   var radonisManifest: Radonis.Manifest | undefined

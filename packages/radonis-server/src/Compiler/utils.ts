@@ -186,12 +186,13 @@ export function generateAssetManifest(
   const manifest = {} as Radonis.AssetManifest
 
   for (const identifier in buildOutput) {
+    const path = buildOutput[identifier].publicPath
     const isEntryFile = entryFileName.startsWith(identifier)
 
     manifest[identifier] = {
-      identifier: identifier,
-      path: buildOutput[identifier].publicPath,
       type: isEntryFile ? 'entry' : 'component',
+      identifier: identifier,
+      path,
     }
 
     if (isEntryFile) {
@@ -200,7 +201,7 @@ export function generateAssetManifest(
 
     const component = components.find(({ name }) => name === identifier)
 
-    invariant(component?.source, `Could not analyze source for component "${identifier}"`)
+    invariant(component?.source, `Could not analyze source for component "${identifier}" at "${path}"`)
 
     manifest[identifier] = {
       ...manifest[identifier],
