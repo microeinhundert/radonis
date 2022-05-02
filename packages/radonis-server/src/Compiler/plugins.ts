@@ -20,7 +20,14 @@ import {
   IOC_IMPORT_ESM_REGEX,
 } from './constants'
 import { getLoaderForFile } from './loaders'
-import { injectHydrateCall, warnAboutIocUsage, warnAboutMissingDefaultExport } from './utils'
+import {
+  findAndRequireFlashMessagesForHydration,
+  findAndRequireMessagesForHydration,
+  findAndRequireRoutesForHydration,
+  injectHydrateCall,
+  warnAboutIocUsage,
+  warnAboutMissingDefaultExport,
+} from './utils'
 
 const pluginsManager = new PluginsManager()
 
@@ -89,6 +96,10 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
       const files = result.outputFiles ?? []
 
       for (const file of files) {
+        findAndRequireFlashMessagesForHydration(file.text)
+        findAndRequireMessagesForHydration(file.text)
+        findAndRequireRoutesForHydration(file.text)
+
         const modifiedFile = pluginsManager.executeHooks('afterCompile', file.text)
         outputFile(file.path, Buffer.from(modifiedFile))
       }

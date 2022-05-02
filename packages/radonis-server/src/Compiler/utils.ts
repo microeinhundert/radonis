@@ -7,12 +7,15 @@
  * file that was distributed with this source code.
  */
 
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import type { Metafile } from 'esbuild'
 import { existsSync } from 'fs'
 import { join, parse } from 'path'
 
-import { PUBLIC_PATH_SEGMENT } from './constants'
+import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, PUBLIC_PATH_SEGMENT, URL_BUILDER_USAGE_REGEX } from './constants'
+
+const hydrationManager = new HydrationManager()
 
 /**
  * Check if the file looks like it contains a component:
@@ -71,6 +74,51 @@ export function extractEntryPoints(metafile: Metafile): Record<string, string> {
   }
 
   return entryPoints
+}
+
+/**
+ * Find usages of `.formatMessage` in the source code
+ * and require the messages for hydration.
+ * False matches do not do any harm
+ */
+export function findAndRequireMessagesForHydration(source: string): void {
+  const matches = source.matchAll(I18N_USAGE_REGEX)
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      hydrationManager.requireMessageForHydration(match.groups.identifier)
+    }
+  }
+}
+
+/**
+ * Find usages of `.has(ValidationError)?` and `.get(ValidationError)?` in the source code
+ * and require the flash messages for hydration.
+ * False matches do not do any harm
+ */
+export function findAndRequireFlashMessagesForHydration(source: string): void {
+  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      hydrationManager.requireFlashMessageForHydration(match.groups.identifier)
+    }
+  }
+}
+
+/**
+ * Find usages of `.make` in the source code
+ * and require the routes for hydration.
+ * False matches do not do any harm
+ */
+export function findAndRequireRoutesForHydration(source: string): void {
+  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      hydrationManager.requireRouteForHydration(match.groups.identifier)
+    }
+  }
 }
 
 /**
