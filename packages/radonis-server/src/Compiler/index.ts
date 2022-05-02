@@ -9,23 +9,23 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
-import { isProduction } from '@microeinhundert/radonis-shared'
-import { build } from 'esbuild'
 import { existsSync } from 'fs'
 import { basename } from 'path'
 import invariant from 'tiny-invariant'
 
-import { loaders } from './loaders'
-import { radonisClientPlugin } from './plugins'
-import { discoverComponents, extractEntryPoints, yieldScriptPath } from './utils'
-
-type EntryPoints = Record<string, string>
+import {
+  buildEntryFileAndComponents,
+  discoverComponents,
+  extractRequiredAssets,
+  generateAssetManifest,
+  yieldScriptPath,
+} from './utils'
 
 export class Compiler {
   /**
-   * The entry points
+   * The asset manifest
    */
-  private entryPoints: EntryPoints = {}
+  private assetManifest: Radonis.AssetManifest = {}
 
   /**
    * The components required for hydration
@@ -40,7 +40,7 @@ export class Compiler {
   /**
    * Get the path to the entry file
    */
-  private getEntryFile() {
+  private getEntryFilePath() {
     let {
       client: { entryFile },
     } = this.config
@@ -55,7 +55,7 @@ export class Compiler {
   /**
    * Get the path to the components directory
    */
-  private getComponentsDir() {
+  private getComponentsDirPath() {
     const {
       client: { componentsDir },
     } = this.config
@@ -66,55 +66,28 @@ export class Compiler {
   }
 
   /**
-   * Execute the components build
+   * Compile
    */
-  private async executeComponentsBuild(): Promise<EntryPoints> {
+  public async compile(): Promise<void> {
     const {
       client: { outputDir, buildOptions },
     } = this.config
 
-    const componentsDir = this.getComponentsDir()
-    const entryFile = this.getEntryFile()
-
-    const components = discoverComponents(componentsDir)
-
-    const { metafile } = await build({
-      entryPoints: [...components, entryFile],
-      outdir: outputDir,
-      metafile: true,
-      write: false,
-      bundle: true,
-      splitting: true,
-      treeShaking: true,
-      platform: 'browser',
-      format: 'esm',
-      logLevel: 'silent',
-      minify: isProduction,
-      ...buildOptions,
-      loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-      plugins: [radonisClientPlugin(components, outputDir), ...(buildOptions.plugins ?? [])],
-      external: [
-        '@microeinhundert/radonis-manifest',
-        '@microeinhundert/radonis-server',
-        ...(buildOptions.external ?? []),
-      ],
-      define: {
-        'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
-        ...(buildOptions.define ?? {}),
-      },
-    })
-
-    return extractEntryPoints(metafile!)
-  }
-
-  /**
-   * Compile all components
-   */
-  public async compileComponents(): Promise<void> {
     try {
-      const entryPoints = await this.executeComponentsBuild()
-      this.entryPoints = entryPoints
-      this.logger.info(`finished compilation of ${Object.keys(entryPoints).length - 1} component(s)`)
+      const componentsDirPath = this.getComponentsDirPath()
+      const entryFilePath = this.getEntryFilePath()
+      const entryFileName = basename(entryFilePath)
+      const components = discoverComponents(componentsDirPath)
+      const buildOutput = await buildEntryFileAndComponents(entryFilePath, components, outputDir, buildOptions)
+      const assetManifest = generateAssetManifest(buildOutput, entryFileName, components)
+
+      /**
+       * Output a log message after successful compilation
+       * (substracting by one to exclude the entry file)
+       */
+      this.logger.info(`finished compilation of ${Object.keys(buildOutput).length - 1} component(s)`)
+
+      this.assetManifest = assetManifest
     } catch (error) {
       const messageParts = error.message.split('error:')
       throw new Error(messageParts.at(-1).trim())
@@ -122,40 +95,20 @@ export class Compiler {
   }
 
   /**
-   * Get the entry points
-   */
-  public getEntryPoints(): string[] {
-    const entryPoints = new Map<string, string>()
-
-    /**
-     * Add components required for hydration
-     */
-    for (const identifier of this.componentsRequiredForHydration) {
-      if (identifier in this.entryPoints) {
-        entryPoints.set(identifier, this.entryPoints[identifier])
-      }
-    }
-
-    /**
-     * Add entry
-     */
-    const entryFileName = basename(this.getEntryFile())
-    for (const identifier in this.entryPoints) {
-      if (entryFileName.startsWith(identifier)) {
-        entryPoints.set(identifier, this.entryPoints[identifier])
-        break
-      }
-    }
-
-    return Array.from(entryPoints.values())
-  }
-
-  /**
    * Require a component for hydration
    */
   public requireComponentForHydration(identifier: string): void {
-    if (!(identifier in this.entryPoints)) return
+    if (!(identifier in this.assetManifest)) return
     this.componentsRequiredForHydration.add(identifier)
+  }
+
+  /**
+   * Get the assets required for hydration
+   */
+  public getAssetsRequiredForHydration(): Radonis.Asset[] {
+    return extractRequiredAssets(this.assetManifest, {
+      components: this.componentsRequiredForHydration,
+    })
   }
 
   /**

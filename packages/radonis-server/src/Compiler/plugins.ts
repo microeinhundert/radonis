@@ -9,9 +9,9 @@
 
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
-import { readFileSync } from 'fs'
-import { emptyDir, outputFile } from 'fs-extra'
+import { emptyDir, outputFile as outputFile$ } from 'fs-extra'
 import { dirname } from 'path'
+import invariant from 'tiny-invariant'
 
 import {
   DEFAULT_EXPORT_CJS_REGEX,
@@ -20,37 +20,33 @@ import {
   IOC_IMPORT_ESM_REGEX,
 } from './constants'
 import { getLoaderForFile } from './loaders'
-import {
-  findAndRequireFlashMessagesForHydration,
-  findAndRequireMessagesForHydration,
-  findAndRequireRoutesForHydration,
-  injectHydrateCall,
-  warnAboutIocUsage,
-  warnAboutMissingDefaultExport,
-} from './utils'
+import { injectHydrateCall, warnAboutIocUsage, warnAboutMissingDefaultExport } from './utils'
 
 const pluginsManager = new PluginsManager()
 
-export const radonisClientPlugin = (components: string[], outDir: string): Plugin => ({
+export const radonisClientPlugin = (components: Radonis.Component[], outputDir: string): Plugin => ({
   name: 'radonis-client',
   setup(build) {
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
-      if (components.includes(path)) {
+      if (components.some((component) => component.path === path)) {
         return { path, namespace: 'radonis-client-component' }
       }
     })
 
     build.onLoad({ filter: /.*/, namespace: 'radonis-client-component' }, ({ path }) => {
       try {
-        const componentSource = readFileSync(path, 'utf8')
+        const { source } = components.find((component) => component.path === path) ?? {}
 
-        // TODO: Checking inside `onLoad` does not check chunks
-        const [esmIocImportMatch] = componentSource.matchAll(IOC_IMPORT_ESM_REGEX)
+        invariant(source, `Could not analyze source for component at "${path}"`)
+
+        // TODO: This does not check chunks
+        const [esmIocImportMatch] = source.matchAll(IOC_IMPORT_ESM_REGEX)
         if (esmIocImportMatch?.groups?.importSpecifier) {
           return warnAboutIocUsage(esmIocImportMatch.groups.importSpecifier, path)
         }
 
-        const [cjsIocImportMatch] = componentSource.matchAll(IOC_IMPORT_CJS_REGEX)
+        // TODO: This does not check chunks
+        const [cjsIocImportMatch] = source.matchAll(IOC_IMPORT_CJS_REGEX)
         if (cjsIocImportMatch?.groups?.importSpecifier) {
           return warnAboutIocUsage(cjsIocImportMatch.groups.importSpecifier, path)
         }
@@ -60,18 +56,24 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
           loader: getLoaderForFile(path),
         }
 
-        const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
+        // TODO: Maybe force the export to have the same name as the component file?
+        // This way named exports could be also used, as we can then
+        // be sure which export is the right one to hydrate
+        const [esmExportMatch] = source.matchAll(DEFAULT_EXPORT_ESM_REGEX)
         if (esmExportMatch?.groups?.name) {
           return {
-            contents: injectHydrateCall(componentSource, esmExportMatch.groups.name, 'esm'),
+            contents: injectHydrateCall(esmExportMatch.groups.name, source, 'esm'),
             ...loadOptions,
           }
         }
 
-        const [cjsExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)
+        // TODO: Maybe force the export to have the same name as the component file?
+        // This way named exports could be also used, as we can then
+        // be sure which export is the right one to hydrate
+        const [cjsExportMatch] = source.matchAll(DEFAULT_EXPORT_CJS_REGEX)
         if (cjsExportMatch?.groups?.name) {
           return {
-            contents: injectHydrateCall(componentSource, cjsExportMatch.groups.name, 'cjs'),
+            contents: injectHydrateCall(cjsExportMatch.groups.name, source, 'cjs'),
             ...loadOptions,
           }
         }
@@ -91,17 +93,13 @@ export const radonisClientPlugin = (components: string[], outDir: string): Plugi
     })
 
     build.onEnd(async (result) => {
-      await emptyDir(outDir)
+      await emptyDir(outputDir)
 
-      const files = result.outputFiles ?? []
+      const outputFiles = result.outputFiles ?? []
 
-      for (const file of files) {
-        findAndRequireFlashMessagesForHydration(file.text)
-        findAndRequireMessagesForHydration(file.text)
-        findAndRequireRoutesForHydration(file.text)
-
-        const modifiedFile = pluginsManager.executeHooks('afterCompile', file.text)
-        outputFile(file.path, Buffer.from(modifiedFile))
+      for (const outputFile of outputFiles) {
+        const modifiedFile = pluginsManager.executeHooks('afterCompile', outputFile.text)
+        outputFile$(outputFile.path, Buffer.from(modifiedFile))
       }
     })
   },

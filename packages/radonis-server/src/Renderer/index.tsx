@@ -12,6 +12,7 @@ import type { RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
@@ -29,6 +30,11 @@ export class Renderer {
    * The PluginsManager instance
    */
   private pluginsManager: PluginsManager = new PluginsManager()
+
+  /**
+   * The HydrationManager instance
+   */
+  private hydrationManager: HydrationManager = new HydrationManager()
 
   /**
    * The context
@@ -52,8 +58,11 @@ export class Renderer {
       '<div id="rad-scripts"></div>',
       `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
       ${this.compiler
-        .getEntryPoints()
-        .map((path) => `<script type="module" defer src="${path}"></script>`)
+        .getAssetsRequiredForHydration()
+        .map((asset) => {
+          this.hydrationManager.requireAssetForHydration(asset)
+          return `<script type="module" defer src="${asset.path}"></script>`
+        })
         .join('\n')}`
     )
   }

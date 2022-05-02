@@ -28,7 +28,7 @@ export function Document({ children }: DocumentProps) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <meta content={request.csrfToken} name="csrf-token" />
+        {request.csrfToken && <meta content={request.csrfToken} name="csrf-token" />}
         <title>{application.appName}</title>
       </head>
       <body className="h-full">

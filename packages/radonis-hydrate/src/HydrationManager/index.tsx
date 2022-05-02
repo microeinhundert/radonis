@@ -165,4 +165,26 @@ export class HydrationManager {
 
     return this
   }
+
+  /**
+   * Require the flash messages, messages and routes
+   * used by an asset for hydration
+   */
+  public requireAssetForHydration(asset: Radonis.Asset): this {
+    if (!isServer) return this
+
+    for (const identifier in asset.flashMessages ?? []) {
+      this.requireFlashMessageForHydration(identifier)
+    }
+
+    for (const identifier in asset.messages ?? []) {
+      this.requireMessageForHydration(identifier)
+    }
+
+    for (const identifier in asset.routes ?? []) {
+      this.requireRouteForHydration(identifier)
+    }
+
+    return this
+  }
 }

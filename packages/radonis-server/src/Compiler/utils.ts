@@ -7,15 +7,17 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
-import type { Metafile } from 'esbuild'
-import { existsSync } from 'fs'
+import type { BuildOptions, Metafile } from 'esbuild'
+import { build } from 'esbuild'
+import { existsSync, readFileSync } from 'fs'
 import { join, parse } from 'path'
+import invariant from 'tiny-invariant'
 
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, PUBLIC_PATH_SEGMENT, URL_BUILDER_USAGE_REGEX } from './constants'
-
-const hydrationManager = new HydrationManager()
+import { loaders } from './loaders'
+import { radonisClientPlugin } from './plugins'
 
 /**
  * Check if the file looks like it contains a component:
@@ -31,45 +33,104 @@ export function isComponentFile(filePath: string): boolean {
 /**
  * Discover all components in a specific directory
  */
-export function discoverComponents(directory: string) {
-  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).map((path) => join(directory, path))
+export function discoverComponents(directory: string): Radonis.Component[] {
+  return fsReadAll(directory, (filePath) => isComponentFile(filePath))
+    .map((path) => join(directory, path))
+    .map((path) => {
+      const { name } = parse(path)
+      const source = readFileSync(path, 'utf8')
+
+      return { name, source, path }
+    })
 }
 
 /**
  * Inject the call to the hydrate function into the source code of a component
  */
-export function injectHydrateCall(componentSource: string, componentName: string, sourceType: 'esm' | 'cjs'): string {
+export function injectHydrateCall(componentName: string, source: string, sourceType: 'esm' | 'cjs'): string {
   return `
     ${
       sourceType === 'esm'
         ? `import { registerComponentForHydration } from "@microeinhundert/radonis";`
         : 'const { registerComponentForHydration } = require("@microeinhundert/radonis");'
     }
-    ${componentSource}
+    ${source}
     registerComponentForHydration("${componentName}", ${componentName});
   `
 }
 
 /**
+ * Extract identifiers from usages of `.has(ValidationError)?` and `.get(ValidationError)?` from the source code
+ */
+export function extractFlashMessages(source: string): Set<string> {
+  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
+
+/**
+ * Extract identifiers from usages of `.formatMessage` from the source code
+ */
+export function extractMessages(source: string): Set<string> {
+  const matches = source.matchAll(I18N_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
+
+/**
+ * Extract identifiers from usages of `.make` from the source code
+ */
+export function extractRoutes(source: string): Set<string> {
+  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
+
+/**
  * Extract the entry points from an esbuild generated metafile
  */
-export function extractEntryPoints(metafile: Metafile): Record<string, string> {
-  const entryPoints = {} as Record<string, string>
+function extractEntryPoints(metafile: Metafile): Radonis.BuildOutput {
+  const entryPoints = {} as Radonis.BuildOutput
 
   for (let path in metafile.outputs) {
     const output = metafile.outputs[path]
 
-    if (output.entryPoint) {
-      const { name } = parse(output.entryPoint)
+    if (!output.entryPoint) {
+      continue
+    }
 
-      /**
-       * TODO: Remove this hack
-       */
-      if (path.startsWith(PUBLIC_PATH_SEGMENT)) {
-        path = path.replace(PUBLIC_PATH_SEGMENT, '')
-      }
+    const { name } = parse(output.entryPoint)
 
-      entryPoints[name] = path
+    /**
+     * TODO: Remove this hack
+     */
+    if (path.startsWith(PUBLIC_PATH_SEGMENT)) {
+      path = path.replace(PUBLIC_PATH_SEGMENT, '')
+    }
+
+    entryPoints[name] = {
+      publicPath: path,
     }
   }
 
@@ -77,48 +138,107 @@ export function extractEntryPoints(metafile: Metafile): Record<string, string> {
 }
 
 /**
- * Find usages of `.formatMessage` in the source code
- * and require the messages for hydration.
- * False matches do not do any harm
+ * Build the entry file as well as the components
  */
-export function findAndRequireMessagesForHydration(source: string): void {
-  const matches = source.matchAll(I18N_USAGE_REGEX)
+export async function buildEntryFileAndComponents(
+  entryFilePath: string,
+  components: Radonis.Component[],
+  outputDir: string,
+  buildOptions: BuildOptions
+): Promise<Radonis.BuildOutput> {
+  const { metafile } = await build({
+    entryPoints: [...components.map(({ path }) => path), entryFilePath],
+    outdir: outputDir,
+    metafile: true,
+    write: false,
+    bundle: true,
+    splitting: true,
+    treeShaking: true,
+    platform: 'browser',
+    format: 'esm',
+    logLevel: 'silent',
+    minify: isProduction,
+    ...buildOptions,
+    loader: { ...loaders, ...(buildOptions.loader ?? {}) },
+    plugins: [radonisClientPlugin(components, outputDir), ...(buildOptions.plugins ?? [])],
+    external: [
+      '@microeinhundert/radonis-manifest',
+      '@microeinhundert/radonis-server',
+      ...(buildOptions.external ?? []),
+    ],
+    define: {
+      'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
+      ...(buildOptions.define ?? {}),
+    },
+  })
 
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      hydrationManager.requireMessageForHydration(match.groups.identifier)
-    }
-  }
+  return extractEntryPoints(metafile!)
 }
 
 /**
- * Find usages of `.has(ValidationError)?` and `.get(ValidationError)?` in the source code
- * and require the flash messages for hydration.
- * False matches do not do any harm
+ * Generate the asset manifest
  */
-export function findAndRequireFlashMessagesForHydration(source: string): void {
-  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
+export function generateAssetManifest(
+  buildOutput: Radonis.BuildOutput,
+  entryFileName: string,
+  components: Radonis.Component[]
+): Radonis.AssetManifest {
+  const manifest = {} as Radonis.AssetManifest
 
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      hydrationManager.requireFlashMessageForHydration(match.groups.identifier)
+  for (const identifier in buildOutput) {
+    const isEntryFile = entryFileName.startsWith(identifier)
+
+    manifest[identifier] = {
+      identifier: identifier,
+      path: buildOutput[identifier].publicPath,
+      type: isEntryFile ? 'entry' : 'component',
+    }
+
+    if (isEntryFile) {
+      continue
+    }
+
+    const component = components.find(({ name }) => name === identifier)
+
+    invariant(component?.source, `Could not analyze source for component "${identifier}"`)
+
+    manifest[identifier] = {
+      ...manifest[identifier],
+      flashMessages: extractFlashMessages(component.source),
+      messages: extractMessages(component.source),
+      routes: extractRoutes(component.source),
     }
   }
+
+  return manifest
 }
 
 /**
- * Find usages of `.make` in the source code
- * and require the routes for hydration.
- * False matches do not do any harm
+ * Extract the required assets from the asset manifest
  */
-export function findAndRequireRoutesForHydration(source: string): void {
-  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
+export function extractRequiredAssets(
+  assetManifest: Radonis.AssetManifest,
+  requiredAssets: { components: Set<string> }
+): Radonis.Asset[] {
+  const assets = Object.values(assetManifest)
 
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      hydrationManager.requireRouteForHydration(match.groups.identifier)
+  return assets.reduce<Radonis.Asset[]>((assetsAcc, asset) => {
+    /**
+     * Always include the entry file
+     */
+    if (asset.type === 'entry') {
+      return [...assetsAcc, asset]
     }
-  }
+
+    /**
+     * Include the component if it is required
+     */
+    if (requiredAssets.components.has(asset.identifier)) {
+      return [asset, ...assetsAcc]
+    }
+
+    return assetsAcc
+  }, [])
 }
 
 /**

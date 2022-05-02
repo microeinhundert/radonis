@@ -25,6 +25,21 @@ declare global {
       routes: Record<string, any>
       route: Route | null
     }
+
+    type Component = { name: string; source: string; path: string }
+
+    type BuildOutput = Record<string, { publicPath: string }>
+
+    type Asset = {
+      identifier: string
+      path: string
+      type: 'component' | 'entry'
+      flashMessages?: Set<string>
+      messages?: Set<string>
+      routes?: Set<string>
+    }
+
+    type AssetManifest = Record<string, ManifestEntry>
   }
 
   var radonisManifest: Radonis.Manifest | undefined
