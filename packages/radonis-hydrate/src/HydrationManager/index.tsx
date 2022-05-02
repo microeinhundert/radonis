@@ -9,6 +9,7 @@
 
 import { getManifestOrFail, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
+import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import invariant from 'tiny-invariant'
@@ -72,9 +73,11 @@ export class HydrationManager {
       hydrationRoot,
       this.pluginsManager.executeHooks(
         'beforeRender',
-        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
-          <Component {...(manifest.props[propsHash] ?? {})} />
-        </HydrationContextProvider>
+        <StrictMode>
+          <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
+            <Component {...(manifest.props[propsHash] ?? {})} />
+          </HydrationContextProvider>
+        </StrictMode>
       )
     )
   }

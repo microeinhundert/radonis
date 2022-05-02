@@ -16,6 +16,7 @@ import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manife
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
+import { StrictMode } from 'react'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 
@@ -108,16 +109,18 @@ export class Renderer {
     let html = renderToString(
       this.pluginsManager.executeHooks(
         'beforeRender',
-        <ManifestBuilderContextProvider value={this.manifestBuilder}>
-          <CompilerContextProvider value={this.compiler}>
-            <RadonisContextProvider value={this.context}>
-              <Document>
-                {/* @ts-expect-error Unsure why this errors */}
-                <Component {...(props ?? {})} />
-              </Document>
-            </RadonisContextProvider>
-          </CompilerContextProvider>
-        </ManifestBuilderContextProvider>
+        <StrictMode>
+          <ManifestBuilderContextProvider value={this.manifestBuilder}>
+            <CompilerContextProvider value={this.compiler}>
+              <RadonisContextProvider value={this.context}>
+                <Document>
+                  {/* @ts-expect-error Unsure why this errors */}
+                  <Component {...(props ?? {})} />
+                </Document>
+              </RadonisContextProvider>
+            </CompilerContextProvider>
+          </ManifestBuilderContextProvider>
+        </StrictMode>
       )
     )
 
