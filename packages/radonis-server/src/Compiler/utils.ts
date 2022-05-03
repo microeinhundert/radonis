@@ -7,17 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { isProduction } from '@microeinhundert/radonis-shared'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
-import type { BuildOptions, Metafile } from 'esbuild'
-import { build } from 'esbuild'
 import { existsSync, readFileSync } from 'fs'
 import { join, parse } from 'path'
 import invariant from 'tiny-invariant'
 
-import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, PUBLIC_PATH_SEGMENT, URL_BUILDER_USAGE_REGEX } from './constants'
-import { loaders } from './loaders'
-import { radonisClientPlugin } from './plugins'
+import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 
 /**
  * Check if the file looks like it contains a component:
@@ -27,6 +22,7 @@ import { radonisClientPlugin } from './plugins'
  */
 export function isComponentFile(filePath: string): boolean {
   const { base } = parse(filePath)
+
   return base.match(/^[A-Z]\w+\.(ts(x)?|js(x)?)$/) !== null
 }
 
@@ -108,74 +104,6 @@ export function extractRoutes(source: string): Set<string> {
 }
 
 /**
- * Extract the entry points from an esbuild generated metafile
- */
-function extractEntryPoints(metafile: Metafile): Radonis.BuildOutput {
-  const entryPoints = {} as Radonis.BuildOutput
-
-  for (let path in metafile.outputs) {
-    const output = metafile.outputs[path]
-
-    if (!output.entryPoint) {
-      continue
-    }
-
-    const { name } = parse(output.entryPoint)
-
-    /**
-     * TODO: Remove this hack
-     */
-    if (path.startsWith(PUBLIC_PATH_SEGMENT)) {
-      path = path.replace(PUBLIC_PATH_SEGMENT, '')
-    }
-
-    entryPoints[name] = {
-      publicPath: path,
-    }
-  }
-
-  return entryPoints
-}
-
-/**
- * Build the entry file as well as the components
- */
-export async function buildEntryFileAndComponents(
-  entryFilePath: string,
-  components: Radonis.Component[],
-  outputDir: string,
-  buildOptions: BuildOptions
-): Promise<Radonis.BuildOutput> {
-  const { metafile } = await build({
-    entryPoints: [...components.map(({ path }) => path), entryFilePath],
-    outdir: outputDir,
-    metafile: true,
-    write: false,
-    bundle: true,
-    splitting: true,
-    treeShaking: true,
-    platform: 'browser',
-    format: 'esm',
-    logLevel: 'silent',
-    minify: isProduction,
-    ...buildOptions,
-    loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-    plugins: [radonisClientPlugin(components, outputDir), ...(buildOptions.plugins ?? [])],
-    external: [
-      '@microeinhundert/radonis-manifest',
-      '@microeinhundert/radonis-server',
-      ...(buildOptions.external ?? []),
-    ],
-    define: {
-      'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
-      ...(buildOptions.define ?? {}),
-    },
-  })
-
-  return extractEntryPoints(metafile!)
-}
-
-/**
  * Generate the asset manifest
  */
 export function generateAssetManifest(
@@ -201,7 +129,7 @@ export function generateAssetManifest(
 
     const component = components.find(({ name }) => name === identifier)
 
-    invariant(component?.source, `Could not analyze source for component "${identifier}" at "${path}"`)
+    invariant(component?.source, `Could not statically analyze source for component "${identifier}" at "${path}"`)
 
     manifest[identifier] = {
       ...manifest[identifier],

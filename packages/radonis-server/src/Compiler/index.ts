@@ -13,13 +13,8 @@ import { existsSync } from 'fs'
 import { basename } from 'path'
 import invariant from 'tiny-invariant'
 
-import {
-  buildEntryFileAndComponents,
-  discoverComponents,
-  extractRequiredAssets,
-  generateAssetManifest,
-  yieldScriptPath,
-} from './utils'
+import { buildEntryFileAndComponents } from './build'
+import { discoverComponents, extractRequiredAssets, generateAssetManifest, yieldScriptPath } from './utils'
 
 export class Compiler {
   /**

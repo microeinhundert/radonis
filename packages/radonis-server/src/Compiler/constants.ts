@@ -18,5 +18,3 @@ export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(
 )
 export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\(\W?["'](?<identifier>.+)["']/g)
 export const URL_BUILDER_USAGE_REGEX = new RegExp(/\.make\(\W?["'](?<identifier>.+)["']/g)
-
-export const PUBLIC_PATH_SEGMENT = 'public'

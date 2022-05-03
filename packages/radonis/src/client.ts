@@ -21,7 +21,7 @@ type ClientConfig = {
 
 let clientInitialized = false
 
-export function initClient(config?: ClientConfig) {
+export function initClient(config?: ClientConfig): void {
   invariant(
     !clientInitialized,
     'The Radonis client was initialized multiple times. Make sure to only initialize it once in your application'
@@ -37,6 +37,6 @@ export function initClient(config?: ClientConfig) {
   clientInitialized = true
 }
 
-export function registerComponentForHydration(identifier: string, Component: ComponentType) {
+export function registerComponentForHydration(identifier: string, Component: ComponentType): void {
   hydrationManager.registerComponent(identifier, Component)
 }

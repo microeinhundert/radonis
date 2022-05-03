@@ -37,7 +37,7 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
       try {
         const { source } = components.find((component) => component.path === path) ?? {}
 
-        invariant(source, `Could not analyze source for component at "${path}"`)
+        invariant(source, `Could not statically analyze source for component at "${path}"`)
 
         // TODO: This does not check chunks
         const [esmIocImportMatch] = source.matchAll(IOC_IMPORT_ESM_REGEX)
@@ -56,9 +56,6 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
           loader: getLoaderForFile(path),
         }
 
-        // TODO: Maybe force the export to have the same name as the component file?
-        // This way named exports could be also used, as we can then
-        // be sure which export is the right one to hydrate
         const [esmExportMatch] = source.matchAll(DEFAULT_EXPORT_ESM_REGEX)
         if (esmExportMatch?.groups?.name) {
           return {
@@ -67,9 +64,6 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
           }
         }
 
-        // TODO: Maybe force the export to have the same name as the component file?
-        // This way named exports could be also used, as we can then
-        // be sure which export is the right one to hydrate
         const [cjsExportMatch] = source.matchAll(DEFAULT_EXPORT_CJS_REGEX)
         if (cjsExportMatch?.groups?.name) {
           return {
