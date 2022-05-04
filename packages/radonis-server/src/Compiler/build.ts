@@ -27,6 +27,9 @@ function walkMetafile(
   type?: Radonis.BuildManifestEntry['type']
 ): Radonis.BuildManifestEntry {
   const output = metafile.outputs[path]
+
+  invariant(output, `Could not find metafile output entry for path "${path}"`)
+
   const absolutePath = join(process.cwd(), path)
   const builtFileSource = builtFiles.get(absolutePath) ?? ''
 
