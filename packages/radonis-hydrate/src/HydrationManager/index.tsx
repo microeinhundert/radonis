@@ -177,17 +177,17 @@ export class HydrationManager {
    * used by an asset for hydration
    */
   public requireAssetForHydration(asset: Radonis.AssetManifestEntry): this {
-    if (!isServer) return this
+    if (!isServer || asset.type === 'entry') return this
 
-    for (const identifier in asset.flashMessages) {
+    for (const identifier of asset.flashMessages) {
       this.requireFlashMessageForHydration(identifier)
     }
 
-    for (const identifier in asset.messages) {
+    for (const identifier of asset.messages) {
       this.requireMessageForHydration(identifier)
     }
 
-    for (const identifier in asset.routes) {
+    for (const identifier of asset.routes) {
       this.requireRouteForHydration(identifier)
     }
 

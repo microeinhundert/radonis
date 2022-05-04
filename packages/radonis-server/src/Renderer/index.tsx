@@ -54,16 +54,17 @@ export class Renderer {
    * Inject scripts
    */
   private injectScripts(html: string): string {
+    const scripts = this.compiler
+      .getAssetsRequiredForHydration()
+      .map((asset) => {
+        this.hydrationManager.requireAssetForHydration(asset)
+        return `<script type="module" defer src="${asset.path}"></script>`
+      })
+      .join('\n')
+
     return html.replace(
       '<div id="rad-scripts"></div>',
-      `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>
-      ${this.compiler
-        .getAssetsRequiredForHydration()
-        .map((asset) => {
-          this.hydrationManager.requireAssetForHydration(asset)
-          return `<script type="module" defer src="${asset.path}"></script>`
-        })
-        .join('\n')}`
+      `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>\n${scripts}`
     )
   }
 

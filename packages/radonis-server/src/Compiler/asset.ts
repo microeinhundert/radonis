@@ -1,3 +1,50 @@
+type HydrationRequirements = {
+  flashMessages: Set<string>
+  messages: Set<string>
+  routes: Set<string>
+}
+
+/**
+ * Reduce the hydration requirements for a build manifest entry and its imports
+ */
+function reduceHydrationRequirements(
+  buildManifestEntries: Radonis.BuildManifestEntry[],
+  initialRequirements?: HydrationRequirements
+): HydrationRequirements {
+  return buildManifestEntries.reduce<HydrationRequirements>(
+    (hydrationRequirements, buildManifestEntry) => {
+      const childResult = reduceHydrationRequirements(buildManifestEntry.imports)
+
+      const mergedFlashMessages = new Set([
+        ...childResult.flashMessages,
+        ...hydrationRequirements.flashMessages,
+        ...buildManifestEntry.flashMessages,
+      ])
+      const mergedMessages = new Set([
+        ...childResult.messages,
+        ...hydrationRequirements.messages,
+        ...buildManifestEntry.messages,
+      ])
+      const mergeRoutes = new Set([
+        ...childResult.routes,
+        ...hydrationRequirements.routes,
+        ...buildManifestEntry.routes,
+      ])
+
+      return {
+        flashMessages: mergedFlashMessages,
+        messages: mergedMessages,
+        routes: mergeRoutes,
+      }
+    },
+    initialRequirements ?? {
+      flashMessages: new Set(),
+      messages: new Set(),
+      routes: new Set(),
+    }
+  )
+}
+
 /**
  * Generate the asset manifest
  */
@@ -19,15 +66,11 @@ export function generateAssetManifest(buildManifest: Radonis.BuildManifest): Rad
       type: buildManifestEntry.type,
       identifier: identifier,
       path: buildManifestEntry.publicPath,
-      flashMessages: buildManifestEntry.imports.reduce((acc, { flashMessages }) => {
-        return new Set([...acc, ...flashMessages])
-      }, buildManifestEntry.flashMessages),
-      messages: buildManifestEntry.imports.reduce((acc, { messages }) => {
-        return new Set([...acc, ...messages])
-      }, buildManifestEntry.messages),
-      routes: buildManifestEntry.imports.reduce((acc, { routes }) => {
-        return new Set([...acc, ...routes])
-      }, buildManifestEntry.routes),
+      ...reduceHydrationRequirements(buildManifestEntry.imports, {
+        flashMessages: buildManifestEntry.flashMessages,
+        messages: buildManifestEntry.messages,
+        routes: buildManifestEntry.routes,
+      }),
     })
   }
 
