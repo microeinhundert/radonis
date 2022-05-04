@@ -35,15 +35,11 @@ export function isComponentFile(filePath: string): boolean {
 /**
  * Discover all components in a specific directory
  */
-export function discoverComponents(directory: string): Radonis.Component[] {
-  return fsReadAll(directory, (filePath) => isComponentFile(filePath))
-    .map((path) => join(directory, path))
-    .map((path) => {
-      const { name } = parse(path)
-      const source = readFileSync(path, 'utf8')
-
-      return { name, source, path }
-    })
+export function discoverComponents(directory: string): Map<string, string> {
+  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).reduce<Map<string, string>>((acc, path) => {
+    const absolutePath = join(directory, path)
+    return acc.set(absolutePath, readFileSync(absolutePath, 'utf8'))
+  }, new Map())
 }
 
 /**

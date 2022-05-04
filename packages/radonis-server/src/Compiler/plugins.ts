@@ -26,7 +26,7 @@ const pluginsManager = new PluginsManager()
 
 export const builtFiles = new Map<string, string>()
 
-export const radonisClientPlugin = (components: Radonis.Component[], outputDir: string): Plugin => ({
+export const radonisClientPlugin = (components: Map<string, string>, outputDir: string): Plugin => ({
   name: 'radonis-client',
   setup(build) {
     build.onStart(() => {
@@ -34,25 +34,25 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
     })
 
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
-      if (components.some((component) => component.path === path)) {
+      if (components.has(path)) {
         return { path, namespace: 'radonis-client-component' }
       }
     })
 
     build.onLoad({ filter: /.*/, namespace: 'radonis-client-component' }, ({ path }) => {
       try {
-        const { source } = components.find((component) => component.path === path) ?? {}
+        const componentSource = components.get(path)
 
-        invariant(source, `Could not statically analyze source for component at "${path}"`)
+        invariant(componentSource, `Could not statically analyze source for component at "${path}"`)
 
         // TODO: This does not check chunks
-        const [esmIocImportMatch] = source.matchAll(IOC_IMPORT_ESM_REGEX)
+        const [esmIocImportMatch] = componentSource.matchAll(IOC_IMPORT_ESM_REGEX)
         if (esmIocImportMatch?.groups?.importSpecifier) {
           return warnAboutIocUsage(esmIocImportMatch.groups.importSpecifier, path)
         }
 
         // TODO: This does not check chunks
-        const [cjsIocImportMatch] = source.matchAll(IOC_IMPORT_CJS_REGEX)
+        const [cjsIocImportMatch] = componentSource.matchAll(IOC_IMPORT_CJS_REGEX)
         if (cjsIocImportMatch?.groups?.importSpecifier) {
           return warnAboutIocUsage(cjsIocImportMatch.groups.importSpecifier, path)
         }
@@ -62,18 +62,18 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
           loader: getLoaderForFile(path),
         }
 
-        const [esmExportMatch] = source.matchAll(DEFAULT_EXPORT_ESM_REGEX)
+        const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
         if (esmExportMatch?.groups?.name) {
           return {
-            contents: injectHydrateCall(esmExportMatch.groups.name, source, 'esm'),
+            contents: injectHydrateCall(esmExportMatch.groups.name, componentSource, 'esm'),
             ...loadOptions,
           }
         }
 
-        const [cjsExportMatch] = source.matchAll(DEFAULT_EXPORT_CJS_REGEX)
+        const [cjsExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)
         if (cjsExportMatch?.groups?.name) {
           return {
-            contents: injectHydrateCall(cjsExportMatch.groups.name, source, 'cjs'),
+            contents: injectHydrateCall(cjsExportMatch.groups.name, componentSource, 'cjs'),
             ...loadOptions,
           }
         }

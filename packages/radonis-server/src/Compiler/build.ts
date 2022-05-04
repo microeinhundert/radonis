@@ -94,12 +94,12 @@ function writeBuildManifestToDisk(buildManifest: Radonis.BuildManifest, outputDi
  */
 export async function buildEntryFileAndComponents(
   entryFilePath: string,
-  components: Radonis.Component[],
+  components: Map<string, string>,
   outputDir: string,
   buildOptions: BuildOptions
 ): Promise<Radonis.BuildManifest> {
   const { metafile } = await build({
-    entryPoints: [...components.map(({ path }) => path), entryFilePath],
+    entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
     metafile: true,
     write: false,

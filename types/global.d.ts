@@ -26,8 +26,6 @@ declare global {
       route: Route | null
     }
 
-    type Component = { name: string; source: string; path: string }
-
     type BuildManifestEntry = {
       type: 'component' | 'entry' | 'chunk'
       path: string
