@@ -8,6 +8,7 @@
  */
 
 import { getManifestOrFail, invariant, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import { isClient } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import React from 'react'
@@ -46,7 +47,7 @@ export class HydrationManager {
   /**
    * Hydrate a specific HydrationRoot
    */
-  private hydrateRoot(hydrationRoot: HTMLElement): void {
+  private async hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
     if (isServer) return
 
     const { hydrationRoot: hydrationRootId, component: componentName, props: propsHash = '0' } = hydrationRoot.dataset
@@ -68,17 +69,17 @@ export class HydrationManager {
 
     const manifest = getManifestOrFail()
 
-    hydrateRoot(
-      hydrationRoot,
-      this.pluginsManager.executeHooks(
-        'beforeRender',
-        <StrictMode>
-          <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
-            <Component {...(manifest.props[propsHash] ?? {})} />
-          </HydrationContextProvider>
-        </StrictMode>
-      )
+    let tree = (
+      <StrictMode>
+        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
+          <Component {...(manifest.props[propsHash] ?? {})} />
+        </HydrationContextProvider>
+      </StrictMode>
     )
+
+    tree = await this.pluginsManager.executeHooks('beforeRender', tree)
+
+    hydrateRoot(hydrationRoot, tree)
   }
 
   /**
@@ -88,12 +89,12 @@ export class HydrationManager {
     if (isServer) return
 
     return new IntersectionObserver((observedHydrationRoots, observer) => {
-      observedHydrationRoots.forEach((observedHydrationRoot) => {
+      observedHydrationRoots.forEach(async (observedHydrationRoot) => {
         if (!observedHydrationRoot.isIntersecting) return
 
         const hydrationRoot = observedHydrationRoot.target as HTMLElement
 
-        this.hydrateRoot(hydrationRoot)
+        await this.hydrateRoot(hydrationRoot)
         observer.unobserve(hydrationRoot)
       })
     })
@@ -136,7 +137,7 @@ export class HydrationManager {
    * Require a flash message for hydration
    */
   public requireFlashMessageForHydration(identifier: string): this {
-    if (!isServer) return this
+    if (isClient) return this
 
     const { FlashMessagesManager } = require('@microeinhundert/radonis-manifest')
 
@@ -149,7 +150,7 @@ export class HydrationManager {
    * Require a message for hydration
    */
   public requireMessageForHydration(identifier: string): this {
-    if (!isServer) return this
+    if (isClient) return this
 
     const { I18nManager } = require('@microeinhundert/radonis-manifest')
 
@@ -162,7 +163,7 @@ export class HydrationManager {
    * Require a route for hydration
    */
   public requireRouteForHydration(identifier: string): this {
-    if (!isServer) return this
+    if (isClient) return this
 
     const { RoutesManager } = require('@microeinhundert/radonis-manifest')
 
@@ -176,7 +177,7 @@ export class HydrationManager {
    * used by an asset for hydration
    */
   public requireAssetForHydration(asset: Radonis.AssetManifestEntry): this {
-    if (!isServer || asset.type === 'entry') return this
+    if (isClient || asset.type === 'entry') return this
 
     for (const identifier of asset.flashMessages) {
       this.requireFlashMessageForHydration(identifier)

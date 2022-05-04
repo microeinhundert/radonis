@@ -1,4 +1,13 @@
-import { isProduction, isServer } from './environment'
+/*
+ * @microeinhundert/radonis-shared
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import { isClient, isProduction } from './environment'
 
 const fallbackMessage = 'Something went wrong'
 
@@ -10,9 +19,9 @@ export function invariant(condition: unknown, message?: string): asserts conditi
     return
   }
 
-  if (isProduction && !isServer) {
+  if (isProduction && isClient) {
     throw new Error(fallbackMessage)
   }
 
-  throw new Error(`[Radonis Error] ${message ?? fallbackMessage}`)
+  throw new Error(`[Radonis] ${message ?? fallbackMessage}`)
 }

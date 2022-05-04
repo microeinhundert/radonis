@@ -29,6 +29,7 @@
     "@microeinhundert/radonis": "^1.2.4",
     "@microeinhundert/radonis-server": "^1.2.4",
     "@microeinhundert/radonis-twind": "^1.2.4",
+    "@microeinhundert/radonis-unocss": "^1.2.4",
     "proxy-addr": "^2.0.7",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

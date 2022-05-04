@@ -41,9 +41,9 @@ export default class RadonisProvider {
     const radonisConfig: RadonisConfig = this.application.config.get('radonis', {})
 
     /**
-     * Register plugins
+     * Install plugins
      */
-    this.pluginsManager.registerPlugins(...radonisConfig.plugins)
+    this.pluginsManager.installPlugins(...radonisConfig.plugins)
 
     /**
      * ManifestBuilder
@@ -98,7 +98,7 @@ export default class RadonisProvider {
    * Boot
    */
   public async boot() {
-    this.pluginsManager.executeHooks('onBootServer', null)
+    await this.pluginsManager.executeHooks('onBootServer', null)
 
     this.application.container.withBindings(
       [

@@ -1,6 +1,6 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import Application from '@ioc:Adonis/Core/Application'
-import { twindPlugin } from '@microeinhundert/radonis-twind'
+import { unocssPlugin } from '@microeinhundert/radonis-unocss'
 
 const radonisConfig: RadonisConfig = {
   /*
@@ -12,7 +12,7 @@ const radonisConfig: RadonisConfig = {
   | separately inside the client entry file.
   |
   */
-  plugins: [twindPlugin()],
+  plugins: [unocssPlugin()],
 
   client: {
     /*

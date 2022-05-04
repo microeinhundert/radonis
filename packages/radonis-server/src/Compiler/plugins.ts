@@ -101,7 +101,7 @@ export const radonisClientPlugin = (components: Map<string, string>, outputDir: 
       for (let { path, text } of result.outputFiles) {
         builtFiles.set(path, text)
 
-        const modifiedText = pluginsManager.executeHooks('afterCompile', text)
+        const modifiedText = await pluginsManager.executeHooks('afterCompile', text)
         outputFile$(path, Buffer.from(modifiedText))
       }
     })

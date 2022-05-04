@@ -6,18 +6,7 @@ declare global {
 
     type Route = { name?: string; pattern?: string }
 
-    type PluginHook = () => void
-    type PluginHookWithBuilder<T> = () => (value: T) => T
-
-    type Plugin = {
-      onInitClient?: PluginHook
-      onBootServer?: PluginHook
-      afterCompile?: PluginHookWithBuilder<string>
-      beforeRender?: PluginHookWithBuilder<ReactElement>
-      afterRender?: PluginHookWithBuilder<string>
-    }
-
-    interface Manifest {
+    type Manifest = {
       props: Record<string, Record<string, unknown>>
       flashMessages: Record<string, FlashMessage>
       locale: string

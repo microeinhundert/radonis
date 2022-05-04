@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis-twind",
+  "name": "@microeinhundert/radonis-unocss",
   "version": "1.2.4",
-  "description": "Twind plugin for Radonis",
+  "description": "UnoCSS plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
   "types": "./build/cjs/src/index.d.ts",
@@ -51,26 +51,19 @@
     "adonis",
     "radonis",
     "plugin",
-    "twind"
+    "unocss"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "1.2.4",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@microeinhundert/radonis": "1.2.4"
   },
   "devDependencies": {
-    "@types/node": "^16.11.27",
-    "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.3"
+    "@types/node": "^16.11.27"
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "1.2.4",
-    "@twind/preset-autoprefix": "1.0.0-next.37",
-    "@twind/preset-tailwind": "1.0.0-next.37",
-    "@twind/preset-tailwind-forms": "1.0.0-next.37",
-    "@twind/preset-typography": "1.0.0-next.37",
-    "twind": "1.0.0-next.37"
+    "@unocss/core": "0.32.12",
+    "@unocss/preset-uno": "0.32.12"
   }
 }

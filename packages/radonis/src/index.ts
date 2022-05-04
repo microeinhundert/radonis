@@ -17,3 +17,4 @@ export {
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
+export { definePlugin } from '@microeinhundert/radonis-shared'

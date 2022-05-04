@@ -15,6 +15,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
   import type { ReactElement } from 'react'
+  import type { Plugin } from '@microeinhundert/radonis-shared'
 
   export interface RadonisContextContract {
     application: ApplicationContract
@@ -42,7 +43,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   export function HydrationRoot(props: HydrationRootProps): JSX.Element
 
   export interface RadonisConfig {
-    plugins: Radonis.Plugin[]
+    plugins: Plugin[]
     client: {
       entryFile: string
       componentsDir: string

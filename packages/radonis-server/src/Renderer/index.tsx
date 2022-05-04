@@ -112,27 +112,30 @@ export class Renderer {
   /**
    * Render the view and return the HTML document
    */
-  public render<T>(Component: ComponentType<T>, props?: ComponentPropsWithoutRef<ComponentType<T>>): string {
+  public async render<T>(
+    Component: ComponentType<T>,
+    props?: ComponentPropsWithoutRef<ComponentType<T>>
+  ): Promise<string> {
+    const tree = await this.pluginsManager.executeHooks(
+      'beforeRender',
+      <StrictMode>
+        <ManifestBuilderContextProvider value={this.manifestBuilder}>
+          <CompilerContextProvider value={this.compiler}>
+            <RadonisContextProvider value={this.context}>
+              <Document>
+                {/* @ts-expect-error Unsure why this errors */}
+                <Component {...(props ?? {})} />
+              </Document>
+            </RadonisContextProvider>
+          </CompilerContextProvider>
+        </ManifestBuilderContextProvider>
+      </StrictMode>
+    )
+
     /**
      * Render the view
      */
-    let html = renderToString(
-      this.pluginsManager.executeHooks(
-        'beforeRender',
-        <StrictMode>
-          <ManifestBuilderContextProvider value={this.manifestBuilder}>
-            <CompilerContextProvider value={this.compiler}>
-              <RadonisContextProvider value={this.context}>
-                <Document>
-                  {/* @ts-expect-error Unsure why this errors */}
-                  <Component {...(props ?? {})} />
-                </Document>
-              </RadonisContextProvider>
-            </CompilerContextProvider>
-          </ManifestBuilderContextProvider>
-        </StrictMode>
-      )
-    )
+    let html = renderToString(tree)
 
     /**
      * Inject scripts
@@ -142,7 +145,7 @@ export class Renderer {
     /**
      * Execute `afterRender` hooks
      */
-    html = this.pluginsManager.executeHooks('afterRender', html)
+    html = await this.pluginsManager.executeHooks('afterRender', html)
 
     return `<!DOCTYPE html>\n${html}`
   }

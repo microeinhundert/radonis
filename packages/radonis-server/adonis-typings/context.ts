@@ -11,7 +11,7 @@ declare module '@ioc:Adonis/Core/HttpContext' {
   import type { ComponentPropsWithoutRef, ComponentType } from 'react'
   interface HttpContextContract {
     radonis: {
-      render<T>(Component: ComponentType<T>, props?: ComponentPropsWithoutRef<ComponentType<T>>): string
+      render<T>(Component: ComponentType<T>, props?: ComponentPropsWithoutRef<ComponentType<T>>): Promise<string>
     }
   }
 }

@@ -61,6 +61,7 @@ importers:
       '@microeinhundert/radonis': ^1.2.4
       '@microeinhundert/radonis-server': ^1.2.4
       '@microeinhundert/radonis-twind': ^1.2.4
+      '@microeinhundert/radonis-unocss': ^1.2.4
       '@types/react': ^18.0.8
       '@types/react-dom': ^18.0.3
       openapi-types: ^11.0.0
@@ -80,6 +81,7 @@ importers:
       '@microeinhundert/radonis': link:../packages/radonis
       '@microeinhundert/radonis-server': link:../packages/radonis-server
       '@microeinhundert/radonis-twind': link:../packages/radonis-twind
+      '@microeinhundert/radonis-unocss': link:../packages/radonis-unocss
       proxy-addr: 2.0.7
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
@@ -186,8 +188,12 @@ importers:
   packages/radonis-shared:
     specifiers:
       '@types/node': ^16.11.27
+      '@types/react': ^18.0.8
+      '@types/react-dom': ^18.0.3
     devDependencies:
       '@types/node': 16.11.27
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.3
 
   packages/radonis-twind:
     specifiers:
@@ -211,6 +217,19 @@ importers:
       '@types/node': 16.11.27
       '@types/react': 18.0.8
       '@types/react-dom': 18.0.3
+
+  packages/radonis-unocss:
+    specifiers:
+      '@microeinhundert/radonis-shared': 1.2.4
+      '@types/node': ^16.11.27
+      '@unocss/core': 0.32.12
+      '@unocss/preset-uno': 0.32.12
+    dependencies:
+      '@microeinhundert/radonis-shared': link:../radonis-shared
+      '@unocss/core': 0.32.12
+      '@unocss/preset-uno': 0.32.12
+    devDependencies:
+      '@types/node': 16.11.27
 
 packages:
 
@@ -1249,6 +1268,31 @@ packages:
       '@typescript-eslint/types': 5.20.0
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@unocss/core/0.32.12:
+    resolution: {integrity: sha512-YT2xC/m9u5Il77keqQeNBSU/mU573CMamCalp+AaGAiEil0MDlScuaGMQikxLTkAP24m4eeok8hu4G9ebBskSg==}
+    dev: false
+
+  /@unocss/preset-mini/0.32.12:
+    resolution: {integrity: sha512-Uk7Sy0Pp+BBsyOqh0lVTd3mdra+KKO8gEJshLx1iPFCJ3NS48LTlVWYylE6+AtHnUmRy9muxdSvPG17v1kY5Sw==}
+    dependencies:
+      '@unocss/core': 0.32.12
+    dev: false
+
+  /@unocss/preset-uno/0.32.12:
+    resolution: {integrity: sha512-XWVDMoBOy4V7IpZo/lNLM5mhI8+CCWldtrxuOXJAesrYO1Nz1vyi5pUPtVf3ygvaGRGJA7+38FINPx+3QBo08g==}
+    dependencies:
+      '@unocss/core': 0.32.12
+      '@unocss/preset-mini': 0.32.12
+      '@unocss/preset-wind': 0.32.12
+    dev: false
+
+  /@unocss/preset-wind/0.32.12:
+    resolution: {integrity: sha512-ztjZiEw+8nh3yn/lClXjbP13hbSrEItPzhaijZmNYbL/r84hxKZ22ahHPcjgMgwPxYSxGxuPwAy8w3vjdV7eaQ==}
+    dependencies:
+      '@unocss/core': 0.32.12
+      '@unocss/preset-mini': 0.32.12
+    dev: false
 
   /abstract-logging/2.0.1:
     resolution: {integrity: sha512-2BjRTZxTPvheOvGbBslFSYOUkr+SjPtOnrLP33f+VIWLzezQpZcqVg7ja3L4dBXmzzgwT+a029jRx5PCi3JuiA==}

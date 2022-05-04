@@ -15,6 +15,11 @@ import { invariant } from './invariant'
 export const isServer = typeof document === 'undefined' && typeof globalThis !== 'undefined'
 
 /**
+ * Whether the current environment is a client or not
+ */
+export const isClient = !isServer
+
+/**
  * Whether the current environment is production or not
  */
 export const isProduction = process.env.NODE_ENV === 'production'

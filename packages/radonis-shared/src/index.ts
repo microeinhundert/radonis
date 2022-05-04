@@ -7,6 +7,13 @@
  * file that was distributed with this source code.
  */
 
-export { getManifestOrFail, isProduction, isServer } from './environment'
+import type { Plugin } from './PluginsManager/types'
+
+export function definePlugin(plugin: Plugin): Plugin {
+  return plugin
+}
+
+export { getManifestOrFail, isClient, isProduction, isServer } from './environment'
 export { invariant } from './invariant'
 export { PluginsManager } from './PluginsManager'
+export type { Plugin }

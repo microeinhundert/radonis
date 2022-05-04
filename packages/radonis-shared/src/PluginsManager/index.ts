@@ -7,7 +7,11 @@
  * file that was distributed with this source code.
  */
 
-type ManagedPlugin = Required<Radonis.Plugin>
+import { isClient, isServer } from '../environment'
+import { invariant } from '../invariant'
+import type { Plugin, PluginHooks } from './types'
+
+type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]
 
 export class PluginsManager {
   /**
@@ -16,29 +20,34 @@ export class PluginsManager {
   private static instance: PluginsManager
 
   /**
-   * The `onInitClient` hooks
+   * Names of the installed plugins
    */
-  private onInitClientHooks: ManagedPlugin['onInitClient'][] = []
+  private installedPlugins: Set<string> = new Set()
 
   /**
-   * The `onBootServer` hooks
+   * The registered `onInitClient` hooks
    */
-  private onBootServerHooks: ManagedPlugin['onBootServer'][] = []
+  private onInitClientHooks: PluginHook<'onInitClient'>[] = []
 
   /**
-   * The `afterCompile` hooks
+   * The registered `onBootServer` hooks
    */
-  private afterCompileHooks: ManagedPlugin['afterCompile'][] = []
+  private onBootServerHooks: PluginHook<'onBootServer'>[] = []
 
   /**
-   * The `beforeRender` hooks
+   * The registered `afterCompile` hooks
    */
-  private beforeRenderHooks: ManagedPlugin['beforeRender'][] = []
+  private afterCompileHooks: PluginHook<'afterCompile'>[] = []
 
   /**
-   * The `afterRender` hooks
+   * The registered `beforeRender` hooks
    */
-  private afterRenderHooks: ManagedPlugin['afterRender'][] = []
+  private beforeRenderHooks: PluginHook<'beforeRender'>[] = []
+
+  /**
+   * The registered `afterRender` hooks
+   */
+  private afterRenderHooks: PluginHook<'afterRender'>[] = []
 
   /**
    * Constructor
@@ -52,43 +61,84 @@ export class PluginsManager {
   }
 
   /**
-   * Register one or multiple plugins
+   * Register the hooks of a plugin
    */
-  public registerPlugins(...plugins: Radonis.Plugin[]): this {
-    for (const { onInitClient, onBootServer, afterCompile, beforeRender, afterRender } of plugins) {
-      if (onInitClient) {
-        this.onInitClientHooks.push(onInitClient)
-      }
+  private registerPluginHooks(plugin: Plugin): void {
+    if (plugin.onInitClient) {
+      this.onInitClientHooks.push(plugin.onInitClient)
+    }
+    if (plugin.onBootServer) {
+      this.onBootServerHooks.push(plugin.onBootServer)
+    }
+    if (plugin.afterCompile) {
+      this.afterCompileHooks.push(plugin.afterCompile)
+    }
+    if (plugin.beforeRender) {
+      this.beforeRenderHooks.push(plugin.beforeRender)
+    }
+    if (plugin.afterRender) {
+      this.afterRenderHooks.push(plugin.afterRender)
+    }
+  }
 
-      if (onBootServer) {
-        this.onBootServerHooks.push(onBootServer)
-      }
+  /**
+   * Install a plugin or fail if it is incompatible
+   */
+  private installOrFail({ name: pluginName, environments, conflictsWith }: Plugin): void {
+    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" was already registered`)
 
-      if (afterCompile) {
-        this.afterCompileHooks.push(afterCompile)
-      }
-
-      if (beforeRender) {
-        this.beforeRenderHooks.push(beforeRender)
-      }
-
-      if (afterRender) {
-        this.afterRenderHooks.push(afterRender)
-      }
+    if (environments?.length && isServer) {
+      invariant(
+        environments.includes('server'),
+        `The plugin "${pluginName}" is not installable in the "server" environment`
+      )
     }
 
-    return this
+    if (environments?.length && isClient) {
+      invariant(
+        environments.includes('client'),
+        `The plugin "${pluginName}" is not installable in the "client" environment`
+      )
+    }
+
+    const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
+      this.installedPlugins.has(conflictingPlugin)
+    )
+
+    invariant(
+      !conflictingPlugins?.length,
+      `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins!.join(', ')}`
+    )
+
+    this.installedPlugins.add(pluginName)
+  }
+
+  /**
+   * Install a plugin
+   */
+  private installPlugin(plugin: Plugin): void {
+    this.installOrFail(plugin)
+    this.registerPluginHooks(plugin)
+  }
+
+  /**
+   * Install one or multiple plugins
+   */
+  public installPlugins(...plugins: Plugin[]): void {
+    for (const plugin of plugins) {
+      this.installPlugin(plugin)
+    }
   }
 
   /**
    * Execute hooks of a specific type
    */
-  public executeHooks<T extends keyof ManagedPlugin, B extends unknown, P extends Parameters<ManagedPlugin[T]>>(
+  public async executeHooks<T extends keyof PluginHooks, B extends unknown, P extends Parameters<PluginHook<T>>>(
     type: T,
     initialBuilderValue: B,
     ...params: P
-  ): B {
-    const hooks = (this as any)[`${type}Hooks`] as ManagedPlugin[T][]
+  ): Promise<B> {
+    const hooks = (this as any)[`${type}Hooks`] as PluginHook<T>[]
 
     let builderValue = initialBuilderValue
 
@@ -96,7 +146,7 @@ export class PluginsManager {
       const builderOrVoid = hook.apply(null, params)
 
       if (typeof builderOrVoid === 'function') {
-        builderValue = builderOrVoid.apply(null, [builderValue])
+        builderValue = await builderOrVoid.apply(null, [builderValue])
       }
     }
 
