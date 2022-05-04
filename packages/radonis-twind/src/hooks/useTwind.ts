@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { invariant } from '@microeinhundert/radonis-shared'
 import { useContext } from 'react'
-import invariant from 'tiny-invariant'
 
 import { twindContext } from '../contexts/twindContext'
 
@@ -18,7 +18,7 @@ export function useTwind() {
   invariant(
     context,
     `The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree.
-    Please make sure the Twind plugin was registered on both client and server`
+    Please make sure the Twind plugin was registered on both the client and the server`
   )
 
   return context

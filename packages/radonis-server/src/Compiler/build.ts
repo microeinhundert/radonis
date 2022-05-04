@@ -7,12 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { isProduction } from '@microeinhundert/radonis-shared'
+import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { writeFile } from 'fs'
 import { join, parse } from 'path'
-import invariant from 'tiny-invariant'
 
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'

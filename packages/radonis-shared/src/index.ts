@@ -8,4 +8,5 @@
  */
 
 export { getManifestOrFail, isProduction, isServer } from './environment'
+export { invariant } from './invariant'
 export { PluginsManager } from './PluginsManager'

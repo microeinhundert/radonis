@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { invariant } from '@microeinhundert/radonis-shared'
 import { useContext } from 'react'
-import invariant from 'tiny-invariant'
 
 import { radonisContext } from '../contexts/radonisContext'
 

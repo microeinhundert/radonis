@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import invariant from 'tiny-invariant'
+import { invariant } from './invariant'
 
 /**
  * Whether the current environment is a server or not

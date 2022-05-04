@@ -8,8 +8,8 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import { invariant } from '@microeinhundert/radonis-shared'
 import { IntlMessageFormat } from 'intl-messageformat'
-import invariant from 'tiny-invariant'
 
 export class I18n {
   /**

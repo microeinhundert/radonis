@@ -8,7 +8,7 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import invariant from 'tiny-invariant'
+import { invariant } from '@microeinhundert/radonis-shared'
 
 export class UrlBuilder {
   /**

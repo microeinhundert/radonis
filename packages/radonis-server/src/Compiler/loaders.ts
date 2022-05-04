@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { invariant } from '@microeinhundert/radonis-shared'
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
-import invariant from 'tiny-invariant'
 
 export const loaders: { [ext: string]: Loader } = {
   '.js': 'js',

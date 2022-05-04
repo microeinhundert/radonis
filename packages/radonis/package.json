@@ -63,7 +63,6 @@
     "@microeinhundert/radonis-hooks": "1.2.4",
     "@microeinhundert/radonis-hydrate": "1.2.4",
     "@microeinhundert/radonis-manifest": "1.2.4",
-    "@microeinhundert/radonis-shared": "1.2.4",
-    "tiny-invariant": "^1.2.0"
+    "@microeinhundert/radonis-shared": "1.2.4"
   }
 }

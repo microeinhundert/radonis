@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { isProduction } from '@microeinhundert/radonis-shared'
+import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import hasher from 'node-object-hash'
 
 import { FlashMessagesManager } from '../FlashMessagesManager'
@@ -161,7 +161,7 @@ export class Builder implements Radonis.Manifest {
 
       return propsHash
     } catch {
-      throw new Error(`The props passed to the component "${componentName}" are not serializable`)
+      invariant(false, `The props passed to the component "${componentName}" are not serializable`)
     }
   }
 

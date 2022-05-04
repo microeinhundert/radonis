@@ -7,12 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { getManifestOrFail, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import { getManifestOrFail, invariant, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import invariant from 'tiny-invariant'
 
 import { HydrationContextProvider } from '../contexts/hydrationContext'
 import { HYDRATION_ROOT_SELECTOR } from './constants'

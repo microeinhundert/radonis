@@ -9,8 +9,8 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
+import { invariant } from '@microeinhundert/radonis-shared'
 import { existsSync } from 'fs'
-import invariant from 'tiny-invariant'
 
 import { extractRequiredAssets, generateAssetManifest } from './asset'
 import { buildEntryFileAndComponents } from './build'
@@ -83,7 +83,7 @@ export class Compiler {
       this.assetManifest = generateAssetManifest(buildManifest)
     } catch (error) {
       const messageParts = error.message.split('error:')
-      throw new Error(messageParts.at(-1).trim())
+      invariant(false, messageParts.at(-1).trim())
     }
   }
 

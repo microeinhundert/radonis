@@ -9,8 +9,8 @@
 
 import type { HydrationRootProps } from '@ioc:Adonis/Addons/Radonis'
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
+import { invariant } from '@microeinhundert/radonis-shared'
 import React, { useId } from 'react'
-import invariant from 'tiny-invariant'
 
 import { useCompiler } from '../hooks/useCompiler'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'

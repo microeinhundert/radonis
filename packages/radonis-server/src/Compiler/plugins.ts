@@ -7,11 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { PluginsManager } from '@microeinhundert/radonis-shared'
+import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
 import { emptyDir, outputFile as outputFile$ } from 'fs-extra'
 import { dirname } from 'path'
-import invariant from 'tiny-invariant'
 
 import {
   DEFAULT_EXPORT_CJS_REGEX,
