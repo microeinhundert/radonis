@@ -14,9 +14,58 @@ import { writeFile } from 'fs'
 import { join, parse } from 'path'
 import invariant from 'tiny-invariant'
 
+import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'
 import { builtFiles, radonisClientPlugin } from './plugins'
-import { extractFlashMessages, extractMessages, extractRoutes, stripPublicDir } from './utils'
+import { stripPublicDir } from './utils'
+
+/**
+ * Extract identifiers from usages of `.has(ValidationError)?` and `.get(ValidationError)?` from the source code
+ */
+function extractFlashMessages(source: string): Set<string> {
+  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
+
+/**
+ * Extract identifiers from usages of `.formatMessage` from the source code
+ */
+function extractMessages(source: string): Set<string> {
+  const matches = source.matchAll(I18N_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
+
+/**
+ * Extract identifiers from usages of `.make` from the source code
+ */
+function extractRoutes(source: string): Set<string> {
+  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
+  const identifiers = new Set<string>()
+
+  for (const match of matches) {
+    if (match?.groups?.identifier) {
+      identifiers.add(match.groups.identifier)
+    }
+  }
+
+  return identifiers
+}
 
 /**
  * Walk the esbuild generated metafile and generate the build manifest entries

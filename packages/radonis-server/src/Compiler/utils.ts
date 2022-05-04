@@ -11,8 +11,6 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { existsSync, readFileSync } from 'fs'
 import { join, parse } from 'path'
 
-import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
-
 /**
  * Strip the public dir from the beginning of a path
  */
@@ -55,54 +53,6 @@ export function injectHydrateCall(componentName: string, source: string, sourceT
     ${source}
     registerComponentForHydration("${componentName}", ${componentName});
   `
-}
-
-/**
- * Extract identifiers from usages of `.has(ValidationError)?` and `.get(ValidationError)?` from the source code
- */
-export function extractFlashMessages(source: string): Set<string> {
-  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
-  const identifiers = new Set<string>()
-
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
-    }
-  }
-
-  return identifiers
-}
-
-/**
- * Extract identifiers from usages of `.formatMessage` from the source code
- */
-export function extractMessages(source: string): Set<string> {
-  const matches = source.matchAll(I18N_USAGE_REGEX)
-  const identifiers = new Set<string>()
-
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
-    }
-  }
-
-  return identifiers
-}
-
-/**
- * Extract identifiers from usages of `.make` from the source code
- */
-export function extractRoutes(source: string): Set<string> {
-  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
-  const identifiers = new Set<string>()
-
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
-    }
-  }
-
-  return identifiers
 }
 
 /**
