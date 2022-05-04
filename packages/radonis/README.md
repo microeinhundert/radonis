@@ -371,7 +371,7 @@ const session = useSession()
 
 ## Available Plugins
 
-[Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)
+[Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)  
 [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
 
 ## License

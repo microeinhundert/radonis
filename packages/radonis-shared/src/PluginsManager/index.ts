@@ -137,7 +137,7 @@ export class PluginsManager {
     let builderValue = initialBuilderValue
 
     for (const hook of hooks) {
-      const builderOrVoid = hook.apply(null, params)
+      const builderOrVoid = await hook.apply(null, params)
 
       if (typeof builderOrVoid === 'function') {
         builderValue = await builderOrVoid.apply(null, [builderValue])

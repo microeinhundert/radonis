@@ -11,7 +11,7 @@ import type { ReactElement } from 'react'
 
 export type PluginEnvironment = 'client' | 'server'
 
-export type PluginHook = () => void
+export type PluginHook = (() => Promise<void>) | (() => void)
 export type PluginHookWithBuilder<T> = () => ((value: T) => Promise<T>) | ((value: T) => T)
 
 export type PluginHooks = {
