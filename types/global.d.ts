@@ -28,18 +28,28 @@ declare global {
 
     type Component = { name: string; source: string; path: string }
 
-    type BuildOutput = Record<string, { publicPath: string }>
+    type BuildManifestEntry = {
+      type: 'component' | 'entry' | 'chunk'
+      path: string
+      publicPath: string
+      flashMessages: Set<string>
+      messages: Set<string>
+      routes: Set<string>
+      imports: BuildManifestEntry[]
+    }
 
-    type Asset = {
+    type BuildManifest = Record<string, BuildManifestEntry>
+
+    type AssetManifestEntry = {
       type: 'component' | 'entry'
       identifier: string
       path: string
-      flashMessages?: Set<string>
-      messages?: Set<string>
-      routes?: Set<string>
+      flashMessages: Set<string>
+      messages: Set<string>
+      routes: Set<string>
     }
 
-    type AssetManifest = Record<string, Asset>
+    type AssetManifest = AssetManifestEntry[]
   }
 
   var radonisManifest: Radonis.Manifest | undefined

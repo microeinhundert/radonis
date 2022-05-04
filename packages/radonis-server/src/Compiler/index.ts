@@ -10,17 +10,17 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import { existsSync } from 'fs'
-import { basename } from 'path'
 import invariant from 'tiny-invariant'
 
+import { extractRequiredAssets, generateAssetManifest } from './asset'
 import { buildEntryFileAndComponents } from './build'
-import { discoverComponents, extractRequiredAssets, generateAssetManifest, yieldScriptPath } from './utils'
+import { discoverComponents, yieldScriptPath } from './utils'
 
 export class Compiler {
   /**
    * The asset manifest
    */
-  private assetManifest: Radonis.AssetManifest = {}
+  private assetManifest: Radonis.AssetManifest = []
 
   /**
    * The components required for hydration
@@ -71,18 +71,16 @@ export class Compiler {
     try {
       const componentsDirPath = this.getComponentsDirPath()
       const entryFilePath = this.getEntryFilePath()
-      const entryFileName = basename(entryFilePath)
       const components = discoverComponents(componentsDirPath)
-      const buildOutput = await buildEntryFileAndComponents(entryFilePath, components, outputDir, buildOptions)
-      const assetManifest = generateAssetManifest(buildOutput, entryFileName, components)
+      const buildManifest = await buildEntryFileAndComponents(entryFilePath, components, outputDir, buildOptions)
 
       /**
        * Output a log message after successful compilation
        * (substracting by one to exclude the entry file)
        */
-      this.logger.info(`finished compilation of ${Object.keys(buildOutput).length - 1} component(s)`)
+      this.logger.info(`finished compilation of ${Object.keys(buildManifest).length - 1} component(s)`)
 
-      this.assetManifest = assetManifest
+      this.assetManifest = generateAssetManifest(buildManifest)
     } catch (error) {
       const messageParts = error.message.split('error:')
       throw new Error(messageParts.at(-1).trim())
@@ -93,14 +91,13 @@ export class Compiler {
    * Require a component for hydration
    */
   public requireComponentForHydration(identifier: string): void {
-    if (!(identifier in this.assetManifest)) return
     this.componentsRequiredForHydration.add(identifier)
   }
 
   /**
    * Get the assets required for hydration
    */
-  public getAssetsRequiredForHydration(): Radonis.Asset[] {
+  public getAssetsRequiredForHydration(): Radonis.AssetManifest {
     return extractRequiredAssets(this.assetManifest, {
       components: this.componentsRequiredForHydration,
     })

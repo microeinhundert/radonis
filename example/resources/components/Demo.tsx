@@ -20,7 +20,9 @@ function Demo({ name, text }: DemoProps) {
           mb-4
         `}
       >
-        {i18n.formatMessage(name ? 'general.personalizedWelcome' : 'general.welcome', { name })}
+        {name
+          ? i18n.formatMessage('general.personalizedWelcome', { name })
+          : i18n.formatMessage('general.welcome')}
       </h1>
       <p>{text}</p>
     </div>

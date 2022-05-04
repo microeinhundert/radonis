@@ -24,9 +24,15 @@ import { injectHydrateCall, warnAboutIocUsage, warnAboutMissingDefaultExport } f
 
 const pluginsManager = new PluginsManager()
 
+export const builtFiles = new Map<string, string>()
+
 export const radonisClientPlugin = (components: Radonis.Component[], outputDir: string): Plugin => ({
   name: 'radonis-client',
   setup(build) {
+    build.onStart(() => {
+      builtFiles.clear()
+    })
+
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
       if (components.some((component) => component.path === path)) {
         return { path, namespace: 'radonis-client-component' }
@@ -89,11 +95,14 @@ export const radonisClientPlugin = (components: Radonis.Component[], outputDir: 
     build.onEnd(async (result) => {
       await emptyDir(outputDir)
 
-      const outputFiles = result.outputFiles ?? []
+      if (!result.outputFiles?.length) {
+        return
+      }
 
-      for (const outputFile of outputFiles) {
-        const modifiedFile = pluginsManager.executeHooks('afterCompile', outputFile.text)
-        outputFile$(outputFile.path, Buffer.from(modifiedFile))
+      for (let { path, text } of result.outputFiles) {
+        builtFiles.set(path, text)
+        const modifiedText = pluginsManager.executeHooks('afterCompile', text)
+        outputFile$(path, Buffer.from(modifiedText))
       }
     })
   },

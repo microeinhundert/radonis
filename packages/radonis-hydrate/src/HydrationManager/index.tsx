@@ -54,7 +54,7 @@ export class HydrationManager {
 
     invariant(
       hydrationRootId && componentName,
-      `Found a HydrationRoot that is missing important hydration data.
+      `Found a HydrationRoot that is missing required hydration data.
       Please make sure you passed all the required props to all of your HydrationRoots.
       If everything looks fine to you, this is most likely a bug of Radonis`
     )
@@ -122,6 +122,12 @@ export class HydrationManager {
   public registerComponent(identifier: string, Component: ComponentType): this {
     if (isServer) return this
 
+    invariant(
+      !(identifier in this.components),
+      `The component "${identifier}" was already registered for hydration.
+      Please make sure to not use the same name for multiple components`
+    )
+
     this.components[identifier] = Component
 
     return this
@@ -170,18 +176,18 @@ export class HydrationManager {
    * Require the flash messages, messages and routes
    * used by an asset for hydration
    */
-  public requireAssetForHydration(asset: Radonis.Asset): this {
+  public requireAssetForHydration(asset: Radonis.AssetManifestEntry): this {
     if (!isServer) return this
 
-    for (const identifier in asset.flashMessages ?? []) {
+    for (const identifier in asset.flashMessages) {
       this.requireFlashMessageForHydration(identifier)
     }
 
-    for (const identifier in asset.messages ?? []) {
+    for (const identifier in asset.messages) {
       this.requireMessageForHydration(identifier)
     }
 
-    for (const identifier in asset.routes ?? []) {
+    for (const identifier in asset.routes) {
       this.requireRouteForHydration(identifier)
     }
 

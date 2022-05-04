@@ -10,9 +10,15 @@
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { existsSync, readFileSync } from 'fs'
 import { join, parse } from 'path'
-import invariant from 'tiny-invariant'
 
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
+
+/**
+ * Strip the public dir from the beginning of a path
+ */
+export function stripPublicDir(path: string): string {
+  return join('/', path.replace(/^public\//, ''))
+}
 
 /**
  * Check if the file looks like it contains a component:
@@ -101,73 +107,6 @@ export function extractRoutes(source: string): Set<string> {
   }
 
   return identifiers
-}
-
-/**
- * Generate the asset manifest
- */
-export function generateAssetManifest(
-  buildOutput: Radonis.BuildOutput,
-  entryFileName: string,
-  components: Radonis.Component[]
-): Radonis.AssetManifest {
-  const manifest = {} as Radonis.AssetManifest
-
-  for (const identifier in buildOutput) {
-    const path = buildOutput[identifier].publicPath
-    const isEntryFile = entryFileName.startsWith(identifier)
-
-    manifest[identifier] = {
-      type: isEntryFile ? 'entry' : 'component',
-      identifier: identifier,
-      path,
-    }
-
-    if (isEntryFile) {
-      continue
-    }
-
-    const component = components.find(({ name }) => name === identifier)
-
-    invariant(component?.source, `Could not statically analyze source for component "${identifier}" at "${path}"`)
-
-    manifest[identifier] = {
-      ...manifest[identifier],
-      flashMessages: extractFlashMessages(component.source),
-      messages: extractMessages(component.source),
-      routes: extractRoutes(component.source),
-    }
-  }
-
-  return manifest
-}
-
-/**
- * Extract the required assets from the asset manifest
- */
-export function extractRequiredAssets(
-  assetManifest: Radonis.AssetManifest,
-  requiredAssets: { components: Set<string> }
-): Radonis.Asset[] {
-  const assets = Object.values(assetManifest)
-
-  return assets.reduce<Radonis.Asset[]>((assetsAcc, asset) => {
-    /**
-     * Always include the entry file
-     */
-    if (asset.type === 'entry') {
-      return [...assetsAcc, asset]
-    }
-
-    /**
-     * Include the component if it is required
-     */
-    if (requiredAssets.components.has(asset.identifier)) {
-      return [asset, ...assetsAcc]
-    }
-
-    return assetsAcc
-  }, [])
 }
 
 /**
