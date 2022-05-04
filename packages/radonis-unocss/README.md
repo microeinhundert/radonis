@@ -36,12 +36,12 @@ You can optionally provide your own configuration:
 
 ```ts
 import { unocssPlugin } from '@microeinhundert/radonis-unocss'
-import presetUno from '@unocss/preset-uno'
+import presetWind from '@unocss/preset-wind'
 
 const radonisConfig: RadonisConfig = {
   plugins: [
     unocssPlugin({
-      presets: [presetUno()],
+      presets: [presetWind()],
     }),
   ],
 }

@@ -18,10 +18,11 @@ export function unocssPlugin(config?: UserConfig) {
     onBootServer() {
       install(config)
     },
-    afterCompile() {
-      return async (source) => {
-        console.log(await generator.generate(source))
-        return source
+    afterRender() {
+      return async (html) => {
+        const { css } = await generator.generate(html)
+        console.log(css)
+        return html
       }
     },
   })

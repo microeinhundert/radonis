@@ -8,8 +8,8 @@
  */
 
 import type { UserConfig } from '@unocss/core'
-import presetUno from '@unocss/preset-uno'
+import presetWind from '@unocss/preset-wind'
 
 export const config: UserConfig = {
-  presets: [presetUno()],
+  presets: [presetWind()],
 }

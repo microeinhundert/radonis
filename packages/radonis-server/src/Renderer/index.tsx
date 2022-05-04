@@ -116,7 +116,7 @@ export class Renderer {
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>
   ): Promise<string> {
-    const tree = await this.pluginsManager.executeHooks(
+    const tree = await this.pluginsManager.execute(
       'beforeRender',
       <StrictMode>
         <ManifestBuilderContextProvider value={this.manifestBuilder}>
@@ -145,7 +145,7 @@ export class Renderer {
     /**
      * Execute `afterRender` hooks
      */
-    html = await this.pluginsManager.executeHooks('afterRender', html)
+    html = await this.pluginsManager.execute('afterRender', html)
 
     return `<!DOCTYPE html>\n${html}`
   }

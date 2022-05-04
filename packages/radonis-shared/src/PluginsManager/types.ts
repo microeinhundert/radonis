@@ -9,6 +9,8 @@
 
 import type { ReactElement } from 'react'
 
+export type PluginEnvironment = 'client' | 'server'
+
 export type PluginHook = () => void
 export type PluginHookWithBuilder<T> = () => ((value: T) => Promise<T>) | ((value: T) => T)
 
@@ -48,7 +50,7 @@ export type Plugin = Partial<PluginHooks> & {
   /**
    * The environments the plugin is compatible with
    */
-  environments?: ('client' | 'server')[]
+  environments?: PluginEnvironment[]
 
   /**
    * The names of the plugins this plugin conflicts with

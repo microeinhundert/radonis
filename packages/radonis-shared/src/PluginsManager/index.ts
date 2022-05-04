@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { isClient, isServer } from '../environment'
 import { invariant } from '../invariant'
-import type { Plugin, PluginHooks } from './types'
+import type { Plugin, PluginEnvironment, PluginHooks } from './types'
 
 type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]
 
@@ -63,38 +62,38 @@ export class PluginsManager {
   /**
    * Register the hooks of a plugin
    */
-  private registerPluginHooks(plugin: Plugin): void {
-    if (plugin.onInitClient) {
-      this.onInitClientHooks.push(plugin.onInitClient)
-    }
-    if (plugin.onBootServer) {
-      this.onBootServerHooks.push(plugin.onBootServer)
-    }
-    if (plugin.afterCompile) {
-      this.afterCompileHooks.push(plugin.afterCompile)
-    }
-    if (plugin.beforeRender) {
-      this.beforeRenderHooks.push(plugin.beforeRender)
-    }
-    if (plugin.afterRender) {
-      this.afterRenderHooks.push(plugin.afterRender)
+  private registerHooks(targetEnvironment: PluginEnvironment, plugin: Plugin): void {
+    switch (targetEnvironment) {
+      case 'client': {
+        plugin.onInitClient && this.onInitClientHooks.push(plugin.onInitClient)
+        break
+      }
+      case 'server': {
+        plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
+        plugin.afterCompile && this.afterCompileHooks.push(plugin.afterCompile)
+        plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
+        plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
+      }
     }
   }
 
   /**
    * Install a plugin or fail if it is incompatible
    */
-  private installOrFail({ name: pluginName, environments, conflictsWith }: Plugin): void {
+  private installOrFail(
+    targetEnvironment: PluginEnvironment,
+    { name: pluginName, environments, conflictsWith }: Plugin
+  ): void {
     invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" was already registered`)
 
-    if (environments?.length && isServer) {
+    if (environments?.length && targetEnvironment === 'server') {
       invariant(
         environments.includes('server'),
         `The plugin "${pluginName}" is not installable in the "server" environment`
       )
     }
 
-    if (environments?.length && isClient) {
+    if (environments?.length && targetEnvironment === 'client') {
       invariant(
         environments.includes('client'),
         `The plugin "${pluginName}" is not installable in the "client" environment`
@@ -105,35 +104,30 @@ export class PluginsManager {
       this.installedPlugins.has(conflictingPlugin)
     )
 
-    invariant(
-      !conflictingPlugins?.length,
-      `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins!.join(', ')}`
-    )
+    if (conflictingPlugins?.length) {
+      invariant(
+        false,
+        `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`
+      )
+    }
 
     this.installedPlugins.add(pluginName)
   }
 
   /**
-   * Install a plugin
-   */
-  private installPlugin(plugin: Plugin): void {
-    this.installOrFail(plugin)
-    this.registerPluginHooks(plugin)
-  }
-
-  /**
    * Install one or multiple plugins
    */
-  public installPlugins(...plugins: Plugin[]): void {
+  public install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
     for (const plugin of plugins) {
-      this.installPlugin(plugin)
+      this.installOrFail(targetEnvironment, plugin)
+      this.registerHooks(targetEnvironment, plugin)
     }
   }
 
   /**
    * Execute hooks of a specific type
    */
-  public async executeHooks<T extends keyof PluginHooks, B extends unknown, P extends Parameters<PluginHook<T>>>(
+  public async execute<T extends keyof PluginHooks, B extends unknown, P extends Parameters<PluginHook<T>>>(
     type: T,
     initialBuilderValue: B,
     ...params: P

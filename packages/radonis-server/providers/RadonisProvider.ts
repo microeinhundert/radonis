@@ -43,7 +43,7 @@ export default class RadonisProvider {
     /**
      * Install plugins
      */
-    this.pluginsManager.installPlugins(...radonisConfig.plugins)
+    this.pluginsManager.install('server', ...radonisConfig.plugins)
 
     /**
      * ManifestBuilder
@@ -98,7 +98,7 @@ export default class RadonisProvider {
    * Boot
    */
   public async boot() {
-    await this.pluginsManager.executeHooks('onBootServer', null)
+    await this.pluginsManager.execute('onBootServer', null)
 
     this.application.container.withBindings(
       [

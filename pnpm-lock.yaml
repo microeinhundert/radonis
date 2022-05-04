@@ -223,11 +223,11 @@ importers:
       '@microeinhundert/radonis-shared': 1.2.4
       '@types/node': ^16.11.27
       '@unocss/core': 0.32.12
-      '@unocss/preset-uno': 0.32.12
+      '@unocss/preset-wind': 0.32.12
     dependencies:
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@unocss/core': 0.32.12
-      '@unocss/preset-uno': 0.32.12
+      '@unocss/preset-wind': 0.32.12
     devDependencies:
       '@types/node': 16.11.27
 
@@ -1277,14 +1277,6 @@ packages:
     resolution: {integrity: sha512-Uk7Sy0Pp+BBsyOqh0lVTd3mdra+KKO8gEJshLx1iPFCJ3NS48LTlVWYylE6+AtHnUmRy9muxdSvPG17v1kY5Sw==}
     dependencies:
       '@unocss/core': 0.32.12
-    dev: false
-
-  /@unocss/preset-uno/0.32.12:
-    resolution: {integrity: sha512-XWVDMoBOy4V7IpZo/lNLM5mhI8+CCWldtrxuOXJAesrYO1Nz1vyi5pUPtVf3ygvaGRGJA7+38FINPx+3QBo08g==}
-    dependencies:
-      '@unocss/core': 0.32.12
-      '@unocss/preset-mini': 0.32.12
-      '@unocss/preset-wind': 0.32.12
     dev: false
 
   /@unocss/preset-wind/0.32.12:

@@ -77,7 +77,7 @@ export class HydrationManager {
       </StrictMode>
     )
 
-    tree = await this.pluginsManager.executeHooks('beforeRender', tree)
+    tree = await this.pluginsManager.execute('beforeRender', tree)
 
     hydrateRoot(hydrationRoot, tree)
   }
