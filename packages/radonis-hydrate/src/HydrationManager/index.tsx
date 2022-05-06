@@ -14,7 +14,7 @@ import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
-import { HydrationContextProvider } from '../contexts/hydrationContext'
+import { HydrationContextProvider } from '../React/contexts/hydrationContext'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 
 export class HydrationManager {
@@ -69,15 +69,14 @@ export class HydrationManager {
 
     const manifest = getManifestOrFail()
 
-    let tree = (
+    const tree = await this.pluginsManager.execute(
+      'beforeRender',
       <StrictMode>
         <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
           <Component {...(manifest.props[propsHash] ?? {})} />
         </HydrationContextProvider>
       </StrictMode>
     )
-
-    tree = await this.pluginsManager.execute('beforeRender', tree)
 
     hydrateRoot(hydrationRoot, tree)
   }

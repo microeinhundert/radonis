@@ -7,7 +7,5 @@
  * file that was distributed with this source code.
  */
 
-export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext'
-export { useHydrated } from './hooks/useHydrated'
-export { useHydration } from './hooks/useHydration'
 export { HydrationManager } from './HydrationManager'
+export { hydrationContext, HydrationContextProvider, useHydrated, useHydration } from './React'

@@ -22,20 +22,20 @@ function reduceHydrationRequirements(
 ): HydrationRequirements {
   return buildManifestEntries.reduce<HydrationRequirements>(
     (hydrationRequirements, buildManifestEntry) => {
-      const childResult = reduceHydrationRequirements(buildManifestEntry.imports)
+      const childRequirements = reduceHydrationRequirements(buildManifestEntry.imports)
 
       const mergedFlashMessages = new Set([
-        ...childResult.flashMessages,
+        ...childRequirements.flashMessages,
         ...hydrationRequirements.flashMessages,
         ...buildManifestEntry.flashMessages,
       ])
       const mergedMessages = new Set([
-        ...childResult.messages,
+        ...childRequirements.messages,
         ...hydrationRequirements.messages,
         ...buildManifestEntry.messages,
       ])
-      const mergeRoutes = new Set([
-        ...childResult.routes,
+      const mergedRoutes = new Set([
+        ...childRequirements.routes,
         ...hydrationRequirements.routes,
         ...buildManifestEntry.routes,
       ])
@@ -43,7 +43,7 @@ function reduceHydrationRequirements(
       return {
         flashMessages: mergedFlashMessages,
         messages: mergedMessages,
-        routes: mergeRoutes,
+        routes: mergedRoutes,
       }
     },
     initialRequirements ?? {

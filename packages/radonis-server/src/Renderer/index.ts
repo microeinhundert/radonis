@@ -17,12 +17,10 @@ import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manife
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
-import { StrictMode } from 'react'
-import React from 'react'
 import { renderToString } from 'react-dom/server'
 
 import type { Compiler } from '../Compiler'
-import { CompilerContextProvider, Document, ManifestBuilderContextProvider, RadonisContextProvider } from '../React'
+import { wrapWithDocument } from '../React'
 import { extractRootRoutes, transformRoute } from './utils'
 
 export class Renderer {
@@ -116,26 +114,15 @@ export class Renderer {
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>
   ): Promise<string> {
-    const tree = await this.pluginsManager.execute(
-      'beforeRender',
-      <StrictMode>
-        <ManifestBuilderContextProvider value={this.manifestBuilder}>
-          <CompilerContextProvider value={this.compiler}>
-            <RadonisContextProvider value={this.context}>
-              <Document>
-                {/* @ts-expect-error Unsure why this errors */}
-                <Component {...(props ?? {})} />
-              </Document>
-            </RadonisContextProvider>
-          </CompilerContextProvider>
-        </ManifestBuilderContextProvider>
-      </StrictMode>
-    )
-
     /**
      * Render the view
      */
-    let html = renderToString(tree)
+    let html = renderToString(
+      await this.pluginsManager.execute(
+        'beforeRender',
+        wrapWithDocument(this.manifestBuilder, this.compiler, this.context, Component, props)
+      )
+    )
 
     /**
      * Inject scripts

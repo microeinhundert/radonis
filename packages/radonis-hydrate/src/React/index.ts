@@ -7,4 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export const HYDRATION_ROOT_SELECTOR = '[data-hydration-root]'
+export { hydrationContext, HydrationContextProvider } from './contexts/hydrationContext'
+export { useHydrated } from './hooks/useHydrated'
+export { useHydration } from './hooks/useHydration'
