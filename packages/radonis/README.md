@@ -136,7 +136,7 @@ function ServerRenderedComponent() {
 ### Passing model data to client-side hydrated components
 
 In order for the data to be of the same format on both the server and the client, you have to use a custom naming strategy for your Lucid models.
-This makes sure properties are kept in camalCase after serialization.
+This makes sure properties are kept in camelCase after serialization.
 
 ```ts
 // app/Strategies/CamelCaseNamingStrategy.ts

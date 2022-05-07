@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { Document } from './components/Document'
 export { HydrationRoot } from './components/HydrationRoot'
 export { useApplication } from './hooks/useApplication'
 export { useHttpContext } from './hooks/useHttpContext'

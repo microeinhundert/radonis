@@ -1,3 +1,12 @@
+/*
+ * @microeinhundert/radonis-twind
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { definePlugin, isProduction } from '@microeinhundert/radonis-shared'
 import React from 'react'
 import type { Twind, TwindConfig, TxFunction } from 'twind'
@@ -29,7 +38,7 @@ export function twindPlugin(config?: TwindConfig) {
     onBootServer() {
       install(config)
     },
-    afterCompile() {
+    beforeOutput() {
       return (source) => minifyTxLiterals(source)
     },
     beforeRender() {

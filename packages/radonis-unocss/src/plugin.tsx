@@ -1,4 +1,13 @@
-import { definePlugin } from '@microeinhundert/radonis-shared'
+/*
+ * @microeinhundert/radonis-unocss
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import { definePlugin, isProduction } from '@microeinhundert/radonis-shared'
 import type { UnoGenerator, UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 
@@ -20,9 +29,8 @@ export function unocssPlugin(config?: UserConfig) {
     },
     afterRender() {
       return async (html) => {
-        const { css } = await generator.generate(html)
-        console.log(css)
-        return html
+        const { css } = await generator.generate(html, { minify: isProduction })
+        return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
       }
     },
   })

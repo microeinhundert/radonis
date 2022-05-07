@@ -34,6 +34,16 @@ export class PluginsManager {
   private onBootServerHooks: PluginHook<'onBootServer'>[] = []
 
   /**
+   * The registered `beforeOutput` hooks
+   */
+  private beforeOutputHooks: PluginHook<'beforeOutput'>[] = []
+
+  /**
+   * The registered `beforeCompile` hooks
+   */
+  private beforeCompileHooks: PluginHook<'beforeCompile'>[] = []
+
+  /**
    * The registered `afterCompile` hooks
    */
   private afterCompileHooks: PluginHook<'afterCompile'>[] = []
@@ -70,6 +80,8 @@ export class PluginsManager {
       }
       case 'server': {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
+        plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
+        plugin.beforeCompile && this.beforeCompileHooks.push(plugin.beforeCompile)
         plugin.afterCompile && this.afterCompileHooks.push(plugin.afterCompile)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)

@@ -15,7 +15,7 @@ import { join, parse } from 'path'
 
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'
-import { builtFiles, radonisClientPlugin } from './plugins'
+import { compiledFiles, radonisClientPlugin } from './plugins'
 import { stripPublicDir } from './utils'
 
 /**
@@ -79,15 +79,15 @@ function walkMetafile(
   invariant(output, `Could not find metafile output entry for path "${path}"`)
 
   const absolutePath = join(process.cwd(), path)
-  const builtFileSource = builtFiles.get(absolutePath) ?? ''
+  const compiledFileSource = compiledFiles.get(absolutePath) ?? ''
 
   return {
     type: type ?? 'chunk',
     path: absolutePath,
     publicPath: stripPublicDir(path),
-    flashMessages: extractFlashMessages(builtFileSource),
-    messages: extractMessages(builtFileSource),
-    routes: extractRoutes(builtFileSource),
+    flashMessages: extractFlashMessages(compiledFileSource),
+    messages: extractMessages(compiledFileSource),
+    routes: extractRoutes(compiledFileSource),
     imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$)),
   }
 }

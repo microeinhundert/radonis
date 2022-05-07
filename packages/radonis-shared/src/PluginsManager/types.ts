@@ -26,9 +26,19 @@ export type PluginHooks = {
   onBootServer: PluginHook
 
   /**
-   * This plugin hook is called after the client has been compiled
+   * This plugin hook is called before a file is output
    */
-  afterCompile: PluginHookWithBuilder<string>
+  beforeOutput: PluginHookWithBuilder<string>
+
+  /**
+   * This plugin hook is called before the compiler starts
+   */
+  beforeCompile: PluginHook
+
+  /**
+   * This plugin hook is called after the compiler has finished
+   */
+  afterCompile: PluginHook
 
   /**
    * This plugin hook is called before the page is rendered
@@ -36,7 +46,7 @@ export type PluginHooks = {
   beforeRender: PluginHookWithBuilder<ReactElement>
 
   /**
-   * This plugin hook is called after the page is rendered
+   * This plugin hook is called after the page has been rendered
    */
   afterRender: PluginHookWithBuilder<string>
 }
