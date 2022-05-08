@@ -8,4 +8,4 @@
  */
 
 export { unocssPlugin } from './plugin'
-export { preflight } from './preflight'
+export { basePreflight, formsPreflight } from './preflight'

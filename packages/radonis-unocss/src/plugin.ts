@@ -26,6 +26,7 @@ export function unocssPlugin(config?: UserConfig) {
     environments: ['server'],
     conflictsWith: ['twind'],
     onBootServer() {
+      tokens.clear()
       install(config)
     },
     async afterOutput(files) {

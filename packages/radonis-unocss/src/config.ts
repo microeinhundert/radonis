@@ -10,9 +10,9 @@
 import type { UserConfig } from '@unocss/core'
 import presetWind from '@unocss/preset-wind'
 
-import { preflight } from './preflight'
+import { basePreflight, formsPreflight } from './preflight'
 
 export const config: UserConfig = {
   presets: [presetWind()],
-  preflights: [preflight],
+  preflights: [basePreflight, formsPreflight],
 }
