@@ -16,8 +16,8 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - @adonisjs/session ^6.2.0
 - @adonisjs/shield ^7.0.0
 - @adonisjs/i18n ^1.5.0
-- react ^18.0.0
-- react-dom ^18.0.0
+- react ^18.1.0
+- react-dom ^18.1.0
 
 ## Getting Started
 

@@ -75,7 +75,8 @@ export class HydrationManager {
         <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
           <Component {...(manifest.props[propsHash] ?? {})} />
         </HydrationContextProvider>
-      </StrictMode>
+      </StrictMode>,
+      null
     )
 
     hydrateRoot(hydrationRoot, tree)

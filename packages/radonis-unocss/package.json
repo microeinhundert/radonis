@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "1.2.4",
-    "@unocss/core": "0.32.12",
-    "@unocss/preset-wind": "0.32.12"
+    "@unocss/core": "0.33.1",
+    "@unocss/preset-wind": "0.33.1"
   }
 }

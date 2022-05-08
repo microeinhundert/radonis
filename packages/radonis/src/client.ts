@@ -31,7 +31,7 @@ export async function initClient(config?: ClientConfig): Promise<void> {
     pluginsManager.install('client', ...config.plugins)
   }
 
-  await pluginsManager.execute('onInitClient', null)
+  await pluginsManager.execute('onInitClient', null, null)
   hydrationManager.hydrateRoots()
 
   clientInitialized = true

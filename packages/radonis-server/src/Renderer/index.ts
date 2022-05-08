@@ -120,7 +120,8 @@ export class Renderer {
     let html = renderToString(
       await this.pluginsManager.execute(
         'beforeRender',
-        wrapWithDocument(this.manifestBuilder, this.compiler, this.context, Component, props)
+        wrapWithDocument(this.manifestBuilder, this.compiler, this.context, Component, props),
+        null
       )
     )
 
@@ -132,7 +133,7 @@ export class Renderer {
     /**
      * Execute `afterRender` hooks
      */
-    html = await this.pluginsManager.execute('afterRender', html)
+    html = await this.pluginsManager.execute('afterRender', html, null)
 
     return `<!DOCTYPE html>\n${html}`
   }

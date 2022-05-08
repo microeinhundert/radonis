@@ -78,14 +78,14 @@
     "@adonisjs/i18n": "^1.5.0",
     "@adonisjs/session": "^6.2.0",
     "@adonisjs/shield": "^7.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
-    "@adonisjs/sink": "^5.2.3",
-    "@adonisjs/application": "^5.0.0",
+    "@adonisjs/sink": "^5.3.1",
+    "@adonisjs/application": "^5.2.4",
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.8",
+    "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3"
   },
   "dependencies": {

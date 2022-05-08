@@ -36,25 +36,25 @@
     "adonis-preset-ts": "^2.1.0",
     "copyfiles": "2.4.1",
     "del-cli": "4.0.1",
-    "eslint": "8.14.0",
+    "eslint": "8.15.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-adonis": "2.1.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.4.1",
     "prettier": "2.6.2",
-    "turbo": "^1.2.5",
+    "turbo": "^1.2.8",
     "typescript": "4.7.0-beta"
   },
   "dependencies": {
-    "@adonisjs/core": "^5.7.5",
+    "@adonisjs/core": "^5.7.6",
     "@adonisjs/i18n": "^1.5.5",
     "@adonisjs/session": "^6.2.2",
     "@adonisjs/shield": "^7.0.10",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   }
 }

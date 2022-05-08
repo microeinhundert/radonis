@@ -11,44 +11,49 @@ import type { ReactElement } from 'react'
 
 export type PluginEnvironment = 'client' | 'server'
 
-export type PluginHook = (() => Promise<void>) | (() => void)
-export type PluginHookWithBuilder<T> = () => ((value: T) => Promise<T>) | ((value: T) => T)
+export type PluginHook<I> = (input: I) => Promise<void> | void
+export type PluginHookWithBuilder<B, I> = (input: I) => (value: B) => Promise<B> | B
 
 export type PluginHooks = {
   /**
    * This plugin hook is called after the client has been initialized
    */
-  onInitClient: PluginHook
+  onInitClient: PluginHook<null>
 
   /**
    * This plugin hook is called after the server has been booted
    */
-  onBootServer: PluginHook
+  onBootServer: PluginHook<null>
 
   /**
    * This plugin hook is called before a file is output
    */
-  beforeOutput: PluginHookWithBuilder<string>
+  beforeOutput: PluginHookWithBuilder<string, null>
+
+  /**
+   * This plugin hook is called after all files have been output
+   */
+  afterOutput: PluginHook<Map<string, string>>
 
   /**
    * This plugin hook is called before the compiler starts
    */
-  beforeCompile: PluginHook
+  beforeCompile: PluginHook<null>
 
   /**
    * This plugin hook is called after the compiler has finished
    */
-  afterCompile: PluginHook
+  afterCompile: PluginHook<null>
 
   /**
    * This plugin hook is called before the page is rendered
    */
-  beforeRender: PluginHookWithBuilder<ReactElement>
+  beforeRender: PluginHookWithBuilder<ReactElement, null>
 
   /**
    * This plugin hook is called after the page has been rendered
    */
-  afterRender: PluginHookWithBuilder<string>
+  afterRender: PluginHookWithBuilder<string, null>
 }
 
 export type Plugin = Partial<PluginHooks> & {

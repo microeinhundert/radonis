@@ -98,7 +98,7 @@ export default class RadonisProvider {
    * Boot
    */
   public async boot() {
-    await this.pluginsManager.execute('onBootServer', null)
+    await this.pluginsManager.execute('onBootServer', null, null)
 
     this.application.container.withBindings(
       [
