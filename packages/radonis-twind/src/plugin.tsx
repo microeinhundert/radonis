@@ -17,26 +17,26 @@ import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'
 import { minifyTxLiterals } from './utils'
 
-let tw: Twind
-let tx: TxFunction
-
-function install(config?: TwindConfig): void {
-  tw = twind(config ?? defaultConfig, getSheet(false))
-  tx = tx$.bind(tw)
-
-  install$(config ?? defaultConfig, isProduction)
-}
-
 export function twindPlugin(config?: TwindConfig) {
+  let tw: Twind
+  let tx: TxFunction
+
+  function install(): void {
+    tw = twind(config ?? defaultConfig, getSheet(false))
+    tx = tx$.bind(tw)
+
+    install$(config ?? defaultConfig, isProduction)
+  }
+
   return definePlugin({
     name: 'twind',
     environments: ['client', 'server'],
     conflictsWith: ['unocss'],
     onInitClient() {
-      install(config)
+      install()
     },
     onBootServer() {
-      install(config)
+      install()
     },
     beforeOutput() {
       return (source) => minifyTxLiterals(source)

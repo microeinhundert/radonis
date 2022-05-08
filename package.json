@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "workspaces": [

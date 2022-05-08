@@ -13,31 +13,30 @@ import { createGenerator } from '@unocss/core'
 
 import { config as defaultConfig } from './config'
 
-let generator: UnoGenerator
-let tokens = new Set<string>()
-
-function install(config?: UserConfig): void {
-  generator = createGenerator(config ?? defaultConfig)
-}
-
 export function unocssPlugin(config?: UserConfig) {
+  let generator: UnoGenerator
+  const staticTokens = new Set<string>()
+
   return definePlugin({
     name: 'unocss',
     environments: ['server'],
     conflictsWith: ['twind'],
     onBootServer() {
-      tokens.clear()
-      install(config)
+      generator = createGenerator(config ?? defaultConfig)
     },
     async afterOutput(files) {
+      staticTokens.clear()
+
       for (const file of files) {
-        await generator.applyExtractors(file[1], file[0], tokens)
+        await generator.applyExtractors(file[1], file[0], staticTokens)
       }
     },
     afterRender() {
+      const renderTokens = new Set(staticTokens)
+
       return async (html) => {
-        await generator.applyExtractors(html, undefined, tokens)
-        const { css } = await generator.generate(tokens, { minify: isProduction })
+        await generator.applyExtractors(html, undefined, renderTokens)
+        const { css } = await generator.generate(renderTokens, { minify: isProduction })
         return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
       }
     },
