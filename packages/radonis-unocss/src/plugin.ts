@@ -35,7 +35,7 @@ export function unocssPlugin(config?: UserConfig) {
     },
     afterRender() {
       return async (html) => {
-        await generator.applyExtractors(html, undefined, tokens)
+        await generator.applyExtractors(html, html, tokens)
         const { css } = await generator.generate(tokens, { minify: isProduction })
         return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
       }
