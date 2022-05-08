@@ -14,7 +14,7 @@ import { createGenerator } from '@unocss/core'
 import { config as defaultConfig } from './config'
 
 let generator: UnoGenerator
-let css: string
+let tokens = new Set<string>()
 
 function install(config?: UserConfig): void {
   generator = createGenerator(config ?? defaultConfig)
@@ -29,17 +29,14 @@ export function unocssPlugin(config?: UserConfig) {
       install(config)
     },
     async afterOutput(files) {
-      const tokens = new Set<string>()
-
       for (const file of files) {
         await generator.applyExtractors(file[1], file[0], tokens)
       }
-
-      const result = await generator.generate(tokens, { minify: isProduction })
-      css = result.css
     },
     afterRender() {
-      return (html) => {
+      return async (html) => {
+        await generator.applyExtractors(html, undefined, tokens)
+        const { css } = await generator.generate(tokens, { minify: isProduction })
         return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
       }
     },

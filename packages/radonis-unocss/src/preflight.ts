@@ -7,7 +7,10 @@
  * file that was distributed with this source code.
  */
 
-export const preflight = `
+import type { Preflight } from '@unocss/core'
+
+export const preflight: Preflight = {
+  getCSS: () => `
 *,
 ::before,
 ::after {
@@ -231,4 +234,5 @@ video {
   max-width: 100%;
   height: auto;
 }
-`
+`,
+}

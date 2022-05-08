@@ -14,5 +14,5 @@ import { preflight } from './preflight'
 
 export const config: UserConfig = {
   presets: [presetWind()],
-  preflights: [{ getCSS: () => preflight }],
+  preflights: [preflight],
 }

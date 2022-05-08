@@ -8,3 +8,4 @@
  */
 
 export { unocssPlugin } from './plugin'
+export { preflight } from './preflight'
