@@ -9,6 +9,7 @@
 
 export { HydrationRoot } from './components/HydrationRoot'
 export { useApplication } from './hooks/useApplication'
+export { useHead } from './hooks/useHead'
 export { useHttpContext } from './hooks/useHttpContext'
 export { useRadonis } from './hooks/useRadonis'
 export { useRequest } from './hooks/useRequest'

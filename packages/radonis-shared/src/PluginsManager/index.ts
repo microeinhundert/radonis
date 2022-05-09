@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '../invariant'
+import { invariant } from '../utils'
 import type { Plugin, PluginEnvironment, PluginHooks } from './types'
 
 type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]

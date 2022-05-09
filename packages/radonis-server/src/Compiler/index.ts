@@ -12,15 +12,15 @@ import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import { invariant } from '@microeinhundert/radonis-shared'
 import { existsSync } from 'fs'
 
-import { extractRequiredAssets, generateAssetManifest } from './asset'
+import { extractRequiredAssets, generateAssetsManifest } from './assets'
 import { buildEntryFileAndComponents } from './build'
 import { discoverComponents, yieldScriptPath } from './utils'
 
 export class Compiler {
   /**
-   * The asset manifest
+   * The assets manifest
    */
-  private assetManifest: Radonis.AssetManifest = []
+  private assetsManifest: Radonis.AssetsManifest = []
 
   /**
    * The components required for hydration
@@ -80,7 +80,7 @@ export class Compiler {
        */
       this.logger.info(`finished compilation of ${Object.keys(buildManifest).length - 1} component(s)`)
 
-      this.assetManifest = generateAssetManifest(buildManifest)
+      this.assetsManifest = generateAssetsManifest(buildManifest)
     } catch (error) {
       const messageParts = error.message.split('error:')
       invariant(false, messageParts.at(-1).trim())
@@ -97,8 +97,8 @@ export class Compiler {
   /**
    * Get the assets required for hydration
    */
-  public getAssetsRequiredForHydration(): Radonis.AssetManifest {
-    return extractRequiredAssets(this.assetManifest, {
+  public getAssetsRequiredForHydration(): Radonis.AssetsManifest {
+    return extractRequiredAssets(this.assetsManifest, {
       components: this.componentsRequiredForHydration,
     })
   }

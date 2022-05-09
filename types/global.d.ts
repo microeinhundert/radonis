@@ -27,7 +27,7 @@ declare global {
 
     type BuildManifest = Record<string, BuildManifestEntry>
 
-    type AssetManifestEntry = {
+    type AssetsManifestEntry = {
       type: 'component' | 'entry'
       identifier: string
       path: string
@@ -36,7 +36,11 @@ declare global {
       routes: Set<string>
     }
 
-    type AssetManifest = AssetManifestEntry[]
+    type AssetsManifest = AssetsManifestEntry[]
+
+    interface HTMLMetaDescriptor {
+      [name: string]: null | string | undefined | Array<Record<string, string> | string>
+    }
   }
 
   var radonisManifest: Radonis.Manifest | undefined

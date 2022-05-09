@@ -14,6 +14,7 @@ import { PluginsManager } from '@microeinhundert/radonis-shared'
 import {
   HydrationRoot,
   useApplication,
+  useHead,
   useHttpContext,
   useRadonis,
   useRequest,
@@ -85,6 +86,7 @@ export default class RadonisProvider {
       return {
         useRadonis,
         useApplication,
+        useHead,
         useHttpContext,
         useRequest,
         useRouter,

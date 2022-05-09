@@ -14,6 +14,6 @@ export function definePlugin(plugin: Plugin): Plugin {
 }
 
 export { getManifestOrFail, isClient, isProduction, isServer } from './environment'
-export { invariant } from './invariant'
 export { PluginsManager } from './PluginsManager'
+export { invariant, xssSanitize } from './utils'
 export type { Plugin }

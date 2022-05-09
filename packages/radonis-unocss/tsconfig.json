@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "rootDir": "./",
     "composite": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["esnext"],
     "module": "commonjs",
     "outDir": "build",
     "declaration": true,

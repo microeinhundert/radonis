@@ -55,10 +55,10 @@ function reduceHydrationRequirements(
 }
 
 /**
- * Generate the asset manifest
+ * Generate the assets manifest
  */
-export function generateAssetManifest(buildManifest: Radonis.BuildManifest): Radonis.AssetManifest {
-  const assetManifest = [] as Radonis.AssetManifest
+export function generateAssetsManifest(buildManifest: Radonis.BuildManifest): Radonis.AssetsManifest {
+  const assetsManifest = [] as Radonis.AssetsManifest
 
   for (const identifier in buildManifest) {
     const buildManifestEntry = buildManifest[identifier]
@@ -71,7 +71,7 @@ export function generateAssetManifest(buildManifest: Radonis.BuildManifest): Rad
       continue
     }
 
-    assetManifest.push({
+    assetsManifest.push({
       type: buildManifestEntry.type,
       identifier: identifier,
       path: buildManifestEntry.publicPath,
@@ -83,17 +83,17 @@ export function generateAssetManifest(buildManifest: Radonis.BuildManifest): Rad
     })
   }
 
-  return assetManifest
+  return assetsManifest
 }
 
 /**
- * Extract the required assets from the asset manifest
+ * Extract the required assets from the assets manifest
  */
 export function extractRequiredAssets(
-  assetManifest: Radonis.AssetManifest,
+  assetsManifest: Radonis.AssetsManifest,
   requiredAssets: { components: Set<string> }
-): Radonis.AssetManifest {
-  return assetManifest.reduce<Radonis.AssetManifest>((assets, asset) => {
+): Radonis.AssetsManifest {
+  return assetsManifest.reduce<Radonis.AssetsManifest>((assets, asset) => {
     /**
      * Always include the entry file
      */

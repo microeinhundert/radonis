@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from './invariant'
+import { invariant } from './utils'
 
 /**
  * Whether the current environment is a server or not

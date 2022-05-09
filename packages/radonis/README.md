@@ -109,6 +109,22 @@ Route.get('/signUp', async ({ radonis }) => {
 })
 ```
 
+### Adding tags to the head of the page
+
+To add tags to the <head> of the page, use the `Head` component in your views:
+
+```tsx
+import { Head } from '@ioc:Adonis/Addons/Radonis'
+
+function View() {
+  return (
+    <Head>
+      <meta name="description" content="This meta tag gets added to the head" />
+    </Head>
+  )
+}
+```
+
 ## Using Client-Side Hydration
 
 Radonis uses partial hydration to only hydrate what is needed.

@@ -9,6 +9,13 @@
 
 import { isClient, isProduction } from './environment'
 
+/**
+ * Sanitize a string to prevent XSS attacks
+ */
+export function xssSanitize(string: string) {
+  return string.replace(/[^\w. ]/gi, (char: string) => '&#' + char.charCodeAt(0) + ';')
+}
+
 const fallbackMessage = 'Something went wrong'
 
 /**

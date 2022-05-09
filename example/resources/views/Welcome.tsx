@@ -1,4 +1,4 @@
-import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis'
+import { HydrationRoot, useHead } from '@ioc:Adonis/Addons/Radonis'
 import React from 'react'
 
 import Demo from '../components/Demo'
@@ -8,6 +8,12 @@ interface WelcomeProps {
 }
 
 function Welcome({ name }: WelcomeProps) {
+  const head = useHead()
+
+  head.addMeta({
+    title: 'Welcome',
+  })
+
   return (
     <HydrationRoot componentName="Demo">
       <Demo
