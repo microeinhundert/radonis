@@ -16,13 +16,6 @@ npm install --save @adonisjs/session
 node ace configure @adonisjs/session
 ```
 
-and
-
-```console
-npm install --save @adonisjs/shield
-node ace configure @adonisjs/shield
-```
-
 ## Install React
 
 ```console

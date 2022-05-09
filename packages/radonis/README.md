@@ -14,7 +14,6 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 
 - @adonisjs/core ^5.7.0
 - @adonisjs/session ^6.2.0
-- @adonisjs/shield ^7.0.0
 - @adonisjs/i18n ^1.5.0
 - react ^18.1.0
 - react-dom ^18.1.0
@@ -49,13 +48,6 @@ and
 ```console
 npm install --save @adonisjs/session
 node ace configure @adonisjs/session
-```
-
-and
-
-```console
-npm install --save @adonisjs/shield
-node ace configure @adonisjs/shield
 ```
 
 ### 4. Install React
@@ -111,17 +103,19 @@ Route.get('/signUp', async ({ radonis }) => {
 
 ### Adding tags to the head of the page
 
-To add tags to the <head> of the page, use the `Head` component in your views:
+To add tags to the <head> of the page, use the `useHead` hook in your views:
 
 ```tsx
-import { Head } from '@ioc:Adonis/Addons/Radonis'
+import { useHead } from '@ioc:Adonis/Addons/Radonis'
 
 function View() {
-  return (
-    <Head>
-      <meta name="description" content="This meta tag gets added to the head" />
-    </Head>
-  )
+  const head = useHead()
+
+  head.addMeta({
+    title: 'Welcome',
+  })
+
+  return <SomeComponent>Hello World!</SomeComponent>
 }
 ```
 

@@ -7,7 +7,6 @@ importers:
       '@adonisjs/core': ^5.7.6
       '@adonisjs/i18n': ^1.5.5
       '@adonisjs/session': ^6.2.2
-      '@adonisjs/shield': ^7.0.10
       adonis-preset-ts: ^2.1.0
       copyfiles: 2.4.1
       del-cli: 4.0.1
@@ -29,7 +28,6 @@ importers:
       '@adonisjs/core': 5.7.6
       '@adonisjs/i18n': 1.5.5_@adonisjs+core@5.7.6
       '@adonisjs/session': 6.2.2_@adonisjs+core@5.7.6
-      '@adonisjs/shield': 7.0.10_rtm3n2rhbpc3gcesuhwmv6mby4
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     devDependencies:
@@ -559,23 +557,6 @@ packages:
     dependencies:
       '@adonisjs/core': 5.7.5
       '@adonisjs/session': 6.2.2_@adonisjs+core@5.7.5
-      '@poppinss/utils': 4.0.4
-      csrf: 3.1.0
-      helmet-csp: 3.4.0
-    dev: false
-
-  /@adonisjs/shield/7.0.10_rtm3n2rhbpc3gcesuhwmv6mby4:
-    resolution: {integrity: sha512-Ovzr484PDfnTESBi5gh/GeNdNHCW3/beLQkNaa+kVGWHI/Btfcn8hHd7W196TzwiQyU7fP/lGaxji9yWNCH28g==}
-    peerDependencies:
-      '@adonisjs/core': ^5.7.0
-      '@adonisjs/session': ^6.2.0
-      '@adonisjs/view': ^6.1.0
-    peerDependenciesMeta:
-      '@adonisjs/view':
-        optional: true
-    dependencies:
-      '@adonisjs/core': 5.7.6
-      '@adonisjs/session': 6.2.2_@adonisjs+core@5.7.6
       '@poppinss/utils': 4.0.4
       csrf: 3.1.0
       helmet-csp: 3.4.0

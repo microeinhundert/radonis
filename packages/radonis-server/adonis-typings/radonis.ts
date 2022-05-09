@@ -14,7 +14,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
-  import type { ReactElement, ReactNode } from 'react'
+  import type { ReactElement } from 'react'
   import type { Plugin } from '@microeinhundert/radonis-shared'
 
   export interface RadonisContextContract {
