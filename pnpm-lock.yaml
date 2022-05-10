@@ -17,7 +17,7 @@ importers:
       eslint-plugin-react: ^7.29.4
       eslint-plugin-react-hooks: ^4.5.0
       eslint-plugin-simple-import-sort: ^7.0.0
-      husky: ^7.0.4
+      husky: ^8.0.1
       lint-staged: ^12.4.1
       prettier: 2.6.2
       react: ^18.1.0
@@ -41,7 +41,7 @@ importers:
       eslint-plugin-react: 7.29.4_eslint@8.15.0
       eslint-plugin-react-hooks: 4.5.0_eslint@8.15.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.15.0
-      husky: 7.0.4
+      husky: 8.0.1
       lint-staged: 12.4.1
       prettier: 2.6.2
       turbo: 1.2.8
@@ -56,10 +56,10 @@ importers:
       '@adonisjs/shield': ^7.0.10
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
-      '@microeinhundert/radonis': ^1.2.8
-      '@microeinhundert/radonis-server': ^1.2.8
-      '@microeinhundert/radonis-twind': ^1.2.8
-      '@microeinhundert/radonis-unocss': ^1.2.8
+      '@microeinhundert/radonis': ^1.2.9
+      '@microeinhundert/radonis-server': ^1.2.9
+      '@microeinhundert/radonis-twind': ^1.2.9
+      '@microeinhundert/radonis-unocss': ^1.2.9
       '@types/react': ^18.0.9
       '@types/react-dom': ^18.0.3
       openapi-types: ^11.0.0
@@ -98,10 +98,10 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-hooks': 1.2.8
-      '@microeinhundert/radonis-hydrate': 1.2.8
-      '@microeinhundert/radonis-manifest': 1.2.8
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-hooks': 1.2.9
+      '@microeinhundert/radonis-hydrate': 1.2.9
+      '@microeinhundert/radonis-manifest': 1.2.9
+      '@microeinhundert/radonis-shared': 1.2.9
       '@types/node': ^16.11.27
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
@@ -113,8 +113,8 @@ importers:
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': 1.2.8
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-hydrate': 1.2.9
+      '@microeinhundert/radonis-shared': 1.2.9
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
       '@types/react-dom': ^18.0.3
@@ -130,8 +130,8 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-manifest': 1.2.8
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-manifest': 1.2.9
+      '@microeinhundert/radonis-shared': 1.2.9
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
       '@types/react-dom': ^18.0.3
@@ -145,7 +145,7 @@ importers:
 
   packages/radonis-manifest:
     specifiers:
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-shared': 1.2.9
       '@types/node': ^16.11.27
       node-object-hash: ^2.3.10
     dependencies:
@@ -158,9 +158,9 @@ importers:
     specifiers:
       '@adonisjs/application': ^5.2.4
       '@adonisjs/sink': ^5.3.1
-      '@microeinhundert/radonis-hydrate': 1.2.8
-      '@microeinhundert/radonis-manifest': 1.2.8
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-hydrate': 1.2.9
+      '@microeinhundert/radonis-manifest': 1.2.9
+      '@microeinhundert/radonis-shared': 1.2.9
       '@poppinss/utils': ^4.0.4
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
@@ -195,7 +195,7 @@ importers:
 
   packages/radonis-twind:
     specifiers:
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-shared': 1.2.9
       '@twind/preset-autoprefix': 1.0.0-next.37
       '@twind/preset-tailwind': 1.0.0-next.37
       '@twind/preset-tailwind-forms': 1.0.0-next.37
@@ -218,7 +218,7 @@ importers:
 
   packages/radonis-unocss:
     specifiers:
-      '@microeinhundert/radonis-shared': 1.2.8
+      '@microeinhundert/radonis-shared': 1.2.9
       '@types/node': ^16.11.27
       '@unocss/core': 0.33.1
       '@unocss/preset-wind': 0.33.1
@@ -3527,9 +3527,9 @@ packages:
     engines: {node: '>=10.17.0'}
     dev: true
 
-  /husky/7.0.4:
-    resolution: {integrity: sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==}
-    engines: {node: '>=12'}
+  /husky/8.0.1:
+    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: true
 

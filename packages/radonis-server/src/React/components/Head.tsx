@@ -9,7 +9,11 @@
 
 import React from 'react'
 
-export function Head({ meta }: { meta: Radonis.HTMLMetaDescriptor }) {
+interface HeadProps {
+  meta: Radonis.HTMLMetaDescriptor
+}
+
+export function Head({ meta }: HeadProps) {
   return (
     <head>
       {Object.entries(meta).map(([name, value]) => {
