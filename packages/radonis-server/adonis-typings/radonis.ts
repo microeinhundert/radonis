@@ -17,39 +17,39 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { ReactElement } from 'react'
   import type { Plugin } from '@microeinhundert/radonis-shared'
 
-  export interface RadonisContextContract {
+  interface RadonisContextContract {
     application: ApplicationContract
     httpContext: HttpContextContract
     router: RouterContract
   }
 
-  export function useRadonis(): RadonisContextContract
+  function useRadonis(): RadonisContextContract
 
-  export function useApplication(): ApplicationContract
+  function useApplication(): ApplicationContract
 
-  export function useHttpContext(): HttpContextContract
+  function useHttpContext(): HttpContextContract
 
-  export function useSession(): SessionContract
+  function useSession(): SessionContract
 
-  export function useRequest(): RequestContract
+  function useRequest(): RequestContract
 
-  export function useRouter(): RouterContract
+  function useRouter(): RouterContract
 
-  export interface HeadContract {
+  interface HeadContract {
     addMeta(meta: Radonis.HTMLMetaDescriptor): void
     setTitle(title: string): void
   }
 
-  export function useHead(): HeadContract
+  function useHead(): HeadContract
 
-  export interface HydrationRootProps {
+  interface HydrationRootProps {
     children: ReactElement<Record<string, unknown>>
     componentName: string
   }
 
-  export function HydrationRoot(props: HydrationRootProps): JSX.Element
+  function HydrationRoot(props: HydrationRootProps): JSX.Element
 
-  export interface RadonisConfig {
+  interface RadonisConfig {
     plugins: Plugin[]
     client: {
       entryFile: string
