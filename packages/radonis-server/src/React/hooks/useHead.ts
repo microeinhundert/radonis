@@ -21,11 +21,13 @@ export function useHead() {
     Please make sure to only use hooks from the main "radonis" package inside of client-side hydrated components`
   )
 
-  const { dispatchData } = context
-
   return {
-    addMeta: (meta: Radonis.HTMLMetaDescriptor) => {
-      dispatchData({ type: HeadActionType.AddMeta, payload: meta })
+    ...context.data,
+    addMeta: (meta: Radonis.HTMLMetaDescriptor): void => {
+      context.dispatchData({ type: HeadActionType.AddMeta, payload: meta })
+    },
+    setTitle: (title: string): void => {
+      context.dispatchData({ type: HeadActionType.AddMeta, payload: { title } })
     },
   }
 }

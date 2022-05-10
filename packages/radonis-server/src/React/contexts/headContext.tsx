@@ -8,7 +8,7 @@
  */
 
 import type { Dispatch, ReactNode } from 'react'
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useMemo, useReducer } from 'react'
 
 export enum HeadActionType {
   AddMeta = 'ADD_META',
@@ -37,13 +37,13 @@ const initialState: HeadState = {
 
 export const headContext = createContext(initialState)
 
-function headDataReducer(state: HeadState['data'], action: HeadAction): HeadState['data'] {
+function headDataReducer(data: HeadState['data'], action: HeadAction): HeadState['data'] {
   switch (action.type) {
     case HeadActionType.AddMeta: {
       return {
-        ...state,
+        ...data,
         meta: {
-          ...state.meta,
+          ...data.meta,
           ...action.payload,
         },
       }
@@ -53,8 +53,11 @@ function headDataReducer(state: HeadState['data'], action: HeadAction): HeadStat
 
 export function HeadContextProvider({ children }: { children: ReactNode }) {
   const [data, dispatchData] = useReducer(headDataReducer, initialState.data)
+  const contextValue = useMemo(() => {
+    return { data, dispatchData }
+  }, [data, dispatchData])
 
-  return <headContext.Provider value={{ data, dispatchData }}>{children}</headContext.Provider>
+  return <headContext.Provider value={contextValue}>{children}</headContext.Provider>
 }
 
 export const HeadContextConsumer = headContext.Consumer

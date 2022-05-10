@@ -37,6 +37,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   export interface HeadContract {
     addMeta(meta: Radonis.HTMLMetaDescriptor): void
+    setTitle(title: string): void
   }
 
   export function useHead(): HeadContract

@@ -6,7 +6,7 @@ declare global {
 
     type Route = { name?: string; pattern?: string }
 
-    type Manifest = {
+    interface Manifest {
       props: Record<string, Record<string, unknown>>
       flashMessages: Record<string, FlashMessage>
       locale: string
@@ -15,7 +15,7 @@ declare global {
       route: Route | null
     }
 
-    type BuildManifestEntry = {
+    interface BuildManifestEntry {
       type: 'component' | 'entry' | 'chunk'
       path: string
       publicPath: string
@@ -27,7 +27,7 @@ declare global {
 
     type BuildManifest = Record<string, BuildManifestEntry>
 
-    type AssetsManifestEntry = {
+    interface AssetsManifestEntry {
       type: 'component' | 'entry'
       identifier: string
       path: string
@@ -39,6 +39,9 @@ declare global {
     type AssetsManifest = AssetsManifestEntry[]
 
     interface HTMLMetaDescriptor {
+      charset?: 'utf-8'
+      charSet?: 'utf-8'
+      title?: string
       [name: string]: null | string | undefined | Array<Record<string, string> | string>
     }
   }

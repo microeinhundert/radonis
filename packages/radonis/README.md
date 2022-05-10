@@ -103,7 +103,7 @@ Route.get('/signUp', async ({ radonis }) => {
 
 ### Adding tags to the head of the page
 
-To add tags to the <head> of the page, use the `useHead` hook in your views:
+To modify the <head> of a page, use the `useHead` hook in your views:
 
 ```tsx
 import { useHead } from '@ioc:Adonis/Addons/Radonis'
@@ -111,8 +111,12 @@ import { useHead } from '@ioc:Adonis/Addons/Radonis'
 function View() {
   const head = useHead()
 
+  // Set the <title> tag
+  head.setTitle('Welcome')
+
+  // Add <meta> tags
   head.addMeta({
-    title: 'Welcome',
+    viewport: 'width=device-width, initial-scale=1.0',
   })
 
   return <SomeComponent>Hello World!</SomeComponent>
