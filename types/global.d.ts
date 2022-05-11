@@ -37,13 +37,6 @@ declare global {
     }
 
     type AssetsManifest = AssetsManifestEntry[]
-
-    interface HTMLMetaDescriptor {
-      charset?: 'utf-8'
-      charSet?: 'utf-8'
-      title?: string
-      [name: string]: null | string | undefined | Array<Record<string, string> | string>
-    }
   }
 
   var radonisManifest: Radonis.Manifest | undefined

@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { useRadonis } from './useRadonis'
+import { useContext } from 'react'
+
+import { radonisContext } from '../contexts/radonisContext'
 
 export function useHttpContext() {
-  const { httpContext } = useRadonis()
+  const context = useContext(radonisContext)
 
-  return httpContext
+  return context.httpContext
 }

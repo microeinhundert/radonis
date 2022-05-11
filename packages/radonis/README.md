@@ -123,6 +123,22 @@ function View() {
 }
 ```
 
+You can optionally pass <head> data directly to the render call as the third argument:
+
+```typescript
+import Route from '@ioc:Adonis/Core/Route'
+import { SignUp } from '../resources/views/Auth.tsx'
+
+Route.get('/signUp', async ({ radonis }) => {
+  return radonis.render(SignUp, undefined, {
+    title: 'Sign up',
+    meta: { viewport: 'width=device-width, initial-scale=1.0' },
+  })
+})
+```
+
+> Please note that usage of the `useHead` hook always overrides data passed to `render`.
+
 ## Using Client-Side Hydration
 
 Radonis uses partial hydration to only hydrate what is needed.

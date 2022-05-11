@@ -8,7 +8,7 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
+import type { RadonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
@@ -18,6 +18,7 @@ import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
+import type { HeadManager } from 'src/HeadManager'
 
 import type { Compiler } from '../Compiler'
 import { wrapWithDocument } from '../React'
@@ -45,8 +46,16 @@ export class Renderer {
   constructor(
     private i18n: I18nManagerContract,
     private compiler: Compiler,
+    private headManager: HeadManager,
     private manifestBuilder: ManifestBuilder
   ) {}
+
+  /**
+   * Inject head
+   */
+  private injectHead(html: string): string {
+    return html.replace('<div id="rad-head"></div>', this.headManager.getTags())
+  }
 
   /**
    * Inject scripts
@@ -62,7 +71,7 @@ export class Renderer {
 
     return html.replace(
       '<div id="rad-scripts"></div>',
-      `<script>window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>\n${scripts}`
+      `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>\n${scripts}`
     )
   }
 
@@ -108,22 +117,42 @@ export class Renderer {
   }
 
   /**
-   * Render the view and return the HTML document
+   * Render the view and return the full HTML document
    */
   public async render<T>(
     Component: ComponentType<T>,
-    props?: ComponentPropsWithoutRef<ComponentType<T>>
+    props?: ComponentPropsWithoutRef<ComponentType<T>>,
+    options?: RenderOptions
   ): Promise<string> {
+    /**
+     * Set the title on the HeadManager
+     */
+    if (options?.title) {
+      this.headManager.setTitle(options.title)
+    }
+
+    /**
+     * Add meta to the HeadManager
+     */
+    if (options?.meta) {
+      this.headManager.addMeta(options.meta)
+    }
+
     /**
      * Render the view
      */
     let html = renderToString(
       await this.pluginsManager.execute(
         'beforeRender',
-        wrapWithDocument(this.manifestBuilder, this.compiler, this.context, Component, props),
+        wrapWithDocument(this.compiler, this.headManager, this.manifestBuilder, this.context, Component, props),
         null
       )
     )
+
+    /**
+     * Inject head
+     */
+    html = this.injectHead(html)
 
     /**
      * Inject scripts

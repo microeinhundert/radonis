@@ -13,33 +13,35 @@ import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'reac
 import React, { StrictMode } from 'react'
 
 import type { Compiler } from '../../Compiler'
+import type { HeadManager } from '../../HeadManager'
 import { Document } from '../components/Document'
 import { CompilerContextProvider } from '../contexts/compilerContext'
-import { HeadContextProvider } from '../contexts/headContext'
+import { HeadManagerContextProvider } from '../contexts/headManagerContext'
 import { ManifestBuilderContextProvider } from '../contexts/manifestBuilderContext'
 import { RadonisContextProvider } from '../contexts/radonisContext'
 
 export function wrapWithDocument<T>(
-  manifestBuilder: ManifestBuilder,
   compiler: Compiler,
+  headManager: HeadManager,
+  manifestBuilder: ManifestBuilder,
   context: RadonisContextContract,
   Component: ComponentType<T>,
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
   return (
     <StrictMode>
-      <ManifestBuilderContextProvider value={manifestBuilder}>
-        <CompilerContextProvider value={compiler}>
-          <RadonisContextProvider value={context}>
-            <HeadContextProvider>
+      <CompilerContextProvider value={compiler}>
+        <HeadManagerContextProvider value={headManager}>
+          <ManifestBuilderContextProvider value={manifestBuilder}>
+            <RadonisContextProvider value={context}>
               <Document>
                 {/* @ts-expect-error Unsure why this errors */}
                 <Component {...(props ?? {})} />
               </Document>
-            </HeadContextProvider>
-          </RadonisContextProvider>
-        </CompilerContextProvider>
-      </ManifestBuilderContextProvider>
+            </RadonisContextProvider>
+          </ManifestBuilderContextProvider>
+        </HeadManagerContextProvider>
+      </CompilerContextProvider>
     </StrictMode>
   )
 }

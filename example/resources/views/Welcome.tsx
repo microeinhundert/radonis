@@ -10,9 +10,7 @@ interface WelcomeProps {
 function Welcome({ name }: WelcomeProps) {
   const head = useHead()
 
-  head.addMeta({
-    title: 'Welcome',
-  })
+  head.setTitle('Welcome')
 
   return (
     <HydrationRoot componentName="Demo">

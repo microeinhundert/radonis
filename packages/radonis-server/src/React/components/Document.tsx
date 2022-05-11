@@ -10,9 +10,7 @@
 import type { ReactNode } from 'react'
 import React from 'react'
 
-import { HeadContextConsumer } from '../contexts/headContext'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
-import { Head } from './Head'
 
 interface DocumentProps {
   children: ReactNode
@@ -23,9 +21,13 @@ export function Document({ children }: DocumentProps) {
 
   return (
     <html className="h-full bg-gray-100" lang={manifestBuilder.locale}>
-      <HeadContextConsumer>{({ data }) => <Head {...data} />}</HeadContextConsumer>
+      <head>
+        {/* The tag below will be replaced after rendering */}
+        <div id="rad-head" />
+      </head>
       <body className="h-full">
         {children}
+        {/* The tag below will be replaced after rendering */}
         <div id="rad-scripts" />
       </body>
     </html>

@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { useRadonis } from './useRadonis'
+import { useContext } from 'react'
+
+import { radonisContext } from '../contexts/radonisContext'
 
 export function useRouter() {
-  const { router } = useRadonis()
+  const context = useContext(radonisContext)
 
-  return router
+  return context.router
 }

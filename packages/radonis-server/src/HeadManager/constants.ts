@@ -7,12 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { useContext } from 'react'
+import type { HeadMeta } from '@ioc:Adonis/Addons/Radonis'
 
-import { radonisContext } from '../contexts/radonisContext'
-
-export function useRadonis() {
-  const context = useContext(radonisContext)
-
-  return context
+export const DEFAULT_META: HeadMeta = {
+  viewport: 'width=device-width, initial-scale=1.0',
 }

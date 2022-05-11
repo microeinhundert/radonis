@@ -67,16 +67,26 @@ export default class RadonisProvider {
     })
 
     /**
+     * HeadManager
+     */
+    this.application.container.singleton('Adonis/Addons/Radonis/HeadManager', () => {
+      const { HeadManager } = require('../src/HeadManager')
+
+      return new HeadManager(this.application)
+    })
+
+    /**
      * Renderer
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Renderer', () => {
       const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
       const Compiler = this.application.container.resolveBinding('Adonis/Addons/Radonis/Compiler')
+      const HeadManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/HeadManager')
       const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
 
       const { Renderer } = require('../src/Renderer')
 
-      return new Renderer(I18n, Compiler, ManifestBuilder)
+      return new Renderer(I18n, Compiler, HeadManager, ManifestBuilder)
     })
 
     /**
@@ -109,16 +119,18 @@ export default class RadonisProvider {
         'Adonis/Core/Route',
         'Adonis/Addons/Radonis/ManifestBuilder',
         'Adonis/Addons/Radonis/Compiler',
+        'Adonis/Addons/Radonis/HeadManager',
         'Adonis/Addons/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, ManifestBuilder, Compiler, Renderer) => {
+      async (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
         await Compiler.compile()
 
         HttpContext.getter(
           'radonis',
           function () {
-            Compiler.prepareForNewRequest()
             ManifestBuilder.prepareForNewRequest()
+            Compiler.prepareForNewRequest()
+            HeadManager.prepareForNewRequest()
 
             return Renderer.getRendererForRequest(this, Application, Route)
           },

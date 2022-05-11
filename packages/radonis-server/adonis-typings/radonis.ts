@@ -35,9 +35,15 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   function useRouter(): RouterContract
 
+  interface HeadMeta {
+    charset?: 'utf-8'
+    charSet?: 'utf-8'
+    [name: string]: null | string | undefined | Array<Record<string, string> | string>
+  }
+
   interface HeadContract {
-    addMeta(meta: Radonis.HTMLMetaDescriptor): void
     setTitle(title: string): void
+    addMeta(meta: HeadMeta): void
   }
 
   function useHead(): HeadContract
@@ -48,6 +54,11 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   }
 
   function HydrationRoot(props: HydrationRootProps): JSX.Element
+
+  interface RenderOptions {
+    title?: string
+    meta?: HeadMeta
+  }
 
   interface RadonisConfig {
     plugins: Plugin[]

@@ -27,10 +27,19 @@ export const isProduction = process.env.NODE_ENV === 'production'
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */
+let cachedManifest: Radonis.Manifest | null = null
 export function getManifestOrFail(): Radonis.Manifest {
+  if (cachedManifest) {
+    return cachedManifest
+  }
+
   const manifest = (globalThis ?? window).radonisManifest
+
+  if (isClient && isProduction) {
+    document.querySelector('#rad-manifest')?.remove()
+  }
 
   invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
-  return manifest
+  return (cachedManifest = manifest)
 }
