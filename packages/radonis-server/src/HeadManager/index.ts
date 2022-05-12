@@ -8,6 +8,17 @@
  */
 
 import type { HeadMeta, RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import { separateArray } from '@microeinhundert/radonis-shared'
+
+/**
+ * Build the title
+ */
+function buildTitle(title: string, prefix: string, suffix: string, separator: string): string {
+  return separateArray(
+    [prefix, title, suffix].filter(Boolean).map((part) => part.trim()),
+    separator
+  ).join(' ')
+}
 
 export class HeadManager {
   /**
@@ -24,15 +35,24 @@ export class HeadManager {
    * Constructor
    */
   constructor(private config: RadonisConfig) {
-    this.title = config.head.title
-    this.meta = config.head.meta
+    this.setDefaults()
+  }
+
+  /**
+   * Set the defaults
+   */
+  private setDefaults() {
+    this.setTitle(this.config.head.title.default)
+    this.addMeta(this.config.head.defaultMeta)
   }
 
   /**
    * Set the page <title>
    */
   public setTitle(title: string): void {
-    this.title = title
+    const { prefix, suffix, separator } = this.config.head.title
+
+    this.title = buildTitle(title, prefix, suffix, separator)
   }
 
   /**
@@ -93,7 +113,6 @@ export class HeadManager {
    * Prepare for a new request
    */
   public prepareForNewRequest(): void {
-    this.title = this.config.head.title
-    this.meta = this.config.head.meta
+    this.setDefaults()
   }
 }

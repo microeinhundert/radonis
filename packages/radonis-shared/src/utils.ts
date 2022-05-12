@@ -19,7 +19,7 @@ export function xssSanitize(string: string) {
 const fallbackMessage = 'Something went wrong'
 
 /**
- * Throws a message when the passed condition is falsy
+ * Throw a message when the passed condition is falsy
  */
 export function invariant(condition: unknown, message?: string): asserts condition {
   if (condition) {
@@ -31,4 +31,11 @@ export function invariant(condition: unknown, message?: string): asserts conditi
   }
 
   throw new Error(`[Radonis] ${message ?? fallbackMessage}`)
+}
+
+/**
+ * Separate items of an array with a specific value
+ */
+export function separateArray(array: unknown[], separator: unknown) {
+  return array.flatMap((item) => [item, separator]).slice(0, -1)
 }

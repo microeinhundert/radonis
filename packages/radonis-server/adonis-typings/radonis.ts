@@ -63,8 +63,13 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   interface RadonisConfig {
     plugins: Plugin[]
     head: {
-      title: string
-      meta: HeadMeta
+      title: {
+        default: string
+        prefix: string
+        suffix: string
+        separator: string
+      }
+      defaultMeta: HeadMeta
     }
     client: {
       entryFile: string

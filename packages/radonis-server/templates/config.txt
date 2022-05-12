@@ -27,20 +27,61 @@ const radonisConfig: RadonisConfig = {
     | Title
     |--------------------------------------------------------------------------
     |
-    | The default <title> tag content.
+    | Defaults and general config for the page <title>.
     |
     */
-    title: Application.appName,
+    title: {
+      /*
+      |--------------------------------------------------------------------------
+      | Default
+      |--------------------------------------------------------------------------
+      |
+      | The default title value.
+      | Views without a title set will fall back to this value.
+      |
+      */
+      default: Application.appName,
+
+      /*
+      |--------------------------------------------------------------------------
+      | Prefix
+      |--------------------------------------------------------------------------
+      |
+      | A string to prefix the title with.
+      |
+      */
+      prefix: '',
+
+      /*
+      |--------------------------------------------------------------------------
+      | Suffix
+      |--------------------------------------------------------------------------
+      |
+      | A string to suffix the title with.
+      |
+      */
+      suffix: '',
+
+      /*
+      |--------------------------------------------------------------------------
+      | Separator
+      |--------------------------------------------------------------------------
+      |
+      | The character separating the title and the prefix / suffix.
+      |
+      */
+      separator: '|',
+    },
 
     /*
     |--------------------------------------------------------------------------
-    | Meta
+    | Default meta
     |--------------------------------------------------------------------------
     |
     | The default <meta> tags.
     |
     */
-    meta: {
+    defaultMeta: {
       charSet: 'utf-8',
       viewport: 'width=device-width, initial-scale=1.0',
     },
@@ -78,7 +119,7 @@ const radonisConfig: RadonisConfig = {
     |
     | The directory where the client bundle will be written to.
     | If you change this to some directory outside the public directory,
-    | make sure to setup the webserver accordingly in order for the client
+    | make sure to set up the webserver accordingly in order for the client
     | assets to be publicly accessible.
     |
     */
