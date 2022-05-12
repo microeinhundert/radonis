@@ -7,50 +7,50 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta } from '@ioc:Adonis/Addons/Radonis'
-import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-
-import { DEFAULT_META } from './constants'
+import type { HeadMeta, RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 
 export class HeadManager {
   /**
-   * The title
+   * The page <title>
    */
-  private title: string = this.application.appName
+  private title: string
 
   /**
-   * The meta data
+   * The page <meta>
    */
-  private meta: HeadMeta = DEFAULT_META
+  private meta: HeadMeta
 
   /**
    * Constructor
    */
-  constructor(private application: ApplicationContract) {}
+  constructor(private config: RadonisConfig) {
+    this.title = config.head.title
+    this.meta = config.head.meta
+  }
 
   /**
-   * Set the title
+   * Set the page <title>
    */
   public setTitle(title: string): void {
     this.title = title
   }
 
   /**
-   * Add meta data
+   * Add page <meta>
    */
   public addMeta(meta: HeadMeta): void {
     this.meta = { ...this.meta, ...meta }
   }
 
   /**
-   * Get HTML title tag for the <head>
+   * Get the HTML <title> tag for the <head>
    */
   public getTitleTag(): string {
     return `<title>${this.title}</title>`
   }
 
   /**
-   * Get HTML meta tags for the <head>
+   * Get the HTML <meta> tags for the <head>
    */
   public getMetaTags(): string {
     return Object.entries(this.meta)
@@ -93,7 +93,7 @@ export class HeadManager {
    * Prepare for a new request
    */
   public prepareForNewRequest(): void {
-    this.title = this.application.appName
-    this.meta = DEFAULT_META
+    this.title = this.config.head.title
+    this.meta = this.config.head.meta
   }
 }

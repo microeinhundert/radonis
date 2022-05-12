@@ -62,6 +62,10 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   interface RadonisConfig {
     plugins: Plugin[]
+    head: {
+      title: string
+      meta: HeadMeta
+    }
     client: {
       entryFile: string
       componentsDir: string

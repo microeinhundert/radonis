@@ -72,7 +72,7 @@ export default class RadonisProvider {
     this.application.container.singleton('Adonis/Addons/Radonis/HeadManager', () => {
       const { HeadManager } = require('../src/HeadManager')
 
-      return new HeadManager(this.application)
+      return new HeadManager(radonisConfig)
     })
 
     /**

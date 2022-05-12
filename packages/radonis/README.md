@@ -103,7 +103,7 @@ Route.get('/signUp', async ({ radonis }) => {
 
 ### Adding tags to the head of the page
 
-To modify the <head> of a page, use the `useHead` hook in your views:
+To modify the `<head>` of a page, use the `useHead` hook in your views:
 
 ```tsx
 import { useHead } from '@ioc:Adonis/Addons/Radonis'
@@ -123,7 +123,7 @@ function View() {
 }
 ```
 
-You can optionally pass <head> data directly to the render call as the third argument:
+You can optionally pass `<head>` data directly to the render call as the third argument:
 
 ```typescript
 import Route from '@ioc:Adonis/Core/Route'
@@ -137,11 +137,11 @@ Route.get('/signUp', async ({ radonis }) => {
 })
 ```
 
-> Please note that usage of the `useHead` hook always overrides data passed to `render`.
+> Note that usage of the `useHead` hook always overrides data passed to `render`.
 
 ## Using Client-Side Hydration
 
-Radonis uses partial hydration to only hydrate what is needed.
+Radonis uses partial hydration, which only hydrates parts of the page that require interactivity on the client.
 In order for Radonis to know what to hydrate on the client, wrap the individual components with the _HydrationRoot_ component:
 
 ```tsx
@@ -246,7 +246,7 @@ const manifest = useManifest()
 console.log(manifest) // => `{ props: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Please note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your use case requires having the same manifest on client and server, set `limitManifest` to `false` in the Radonis config.
+> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your use case requires having the same manifest on client and server, set `limitManifest` to `false` in the Radonis config.
 
 ### useRoute (Server and client)
 
