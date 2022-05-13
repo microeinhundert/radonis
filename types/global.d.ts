@@ -1,49 +1,17 @@
+/*
+ * @microeinhundert/radonis
+ *
+ * (c) Leon Seipp <l.seipp@microeinhundert.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare global {
-  namespace Radonis {
-    import type { ReactElement } from 'react'
-
-    type FlashMessage = string | boolean | number
-
-    type Route = { name?: string; pattern?: string }
-
-    interface Manifest {
-      props: Record<string, Record<string, any>>
-      globals: Record<string, any>
-      flashMessages: Record<string, FlashMessage>
-      locale: string
-      messages: Record<string, string>
-      routes: Record<string, any>
-      route: Route | null
-    }
-
-    interface BuildManifestEntry {
-      type: 'component' | 'entry' | 'chunk'
-      path: string
-      publicPath: string
-      flashMessages: Set<string>
-      messages: Set<string>
-      routes: Set<string>
-      imports: BuildManifestEntry[]
-    }
-
-    type BuildManifest = Record<string, BuildManifestEntry>
-
-    interface AssetsManifestEntry {
-      type: 'component' | 'entry'
-      identifier: string
-      path: string
-      flashMessages: Set<string>
-      messages: Set<string>
-      routes: Set<string>
-    }
-
-    type AssetsManifest = AssetsManifestEntry[]
-  }
-
-  var radonisManifest: Radonis.Manifest | undefined
+  var radonisManifest: any
 
   interface Window {
-    radonisManifest: Radonis.Manifest | undefined
+    radonisManifest: any
   }
 }
 

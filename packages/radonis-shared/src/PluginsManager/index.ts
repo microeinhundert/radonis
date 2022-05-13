@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
 import { invariant } from '../utils'
-import type { Plugin, PluginEnvironment, PluginHooks } from './types'
 
 type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]
 
@@ -164,4 +164,11 @@ export class PluginsManager {
 
     return builderValue
   }
+}
+
+/**
+ * Helper to define plugins in a type-safe manner
+ */
+export function definePlugin(plugin: Plugin): Plugin {
+  return plugin
 }

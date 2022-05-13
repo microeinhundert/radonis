@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { AssetsManifest, BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-shared'
+
 type HydrationRequirements = {
   flashMessages: Set<string>
   messages: Set<string>
@@ -17,7 +19,7 @@ type HydrationRequirements = {
  * Reduce the hydration requirements for a build manifest entry and its imports
  */
 function reduceHydrationRequirements(
-  buildManifestEntries: Radonis.BuildManifestEntry[],
+  buildManifestEntries: BuildManifestEntry[],
   initialRequirements?: HydrationRequirements
 ): HydrationRequirements {
   return buildManifestEntries.reduce<HydrationRequirements>(
@@ -57,8 +59,8 @@ function reduceHydrationRequirements(
 /**
  * Generate the assets manifest
  */
-export function generateAssetsManifest(buildManifest: Radonis.BuildManifest): Radonis.AssetsManifest {
-  const assetsManifest = [] as Radonis.AssetsManifest
+export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {
+  const assetsManifest = [] as AssetsManifest
 
   for (const identifier in buildManifest) {
     const buildManifestEntry = buildManifest[identifier]
@@ -90,10 +92,10 @@ export function generateAssetsManifest(buildManifest: Radonis.BuildManifest): Ra
  * Extract the required assets from the assets manifest
  */
 export function extractRequiredAssets(
-  assetsManifest: Radonis.AssetsManifest,
+  assetsManifest: AssetsManifest,
   requiredAssets: { components: Set<string> }
-): Radonis.AssetsManifest {
-  return assetsManifest.reduce<Radonis.AssetsManifest>((assets, asset) => {
+): AssetsManifest {
+  return assetsManifest.reduce<AssetsManifest>((assets, asset) => {
     /**
      * Always include the entry file
      */

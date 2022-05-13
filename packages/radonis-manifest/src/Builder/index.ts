@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { Manifest, Props, PropsHash } from '@microeinhundert/radonis-shared'
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import hasher from 'node-object-hash'
 
@@ -14,7 +15,7 @@ import { FlashMessagesManager } from '../FlashMessagesManager'
 import { I18nManager } from '../I18nManager'
 import { RoutesManager } from '../RoutesManager'
 
-export class Builder implements Radonis.Manifest {
+export class Builder implements Manifest {
   /**
    * The FlashMessagesManager instance
    */
@@ -38,17 +39,17 @@ export class Builder implements Radonis.Manifest {
   /**
    * The props registered with the Builder
    */
-  public props: Radonis.Manifest['props'] = {}
+  public props: Manifest['props'] = {}
 
   /**
    * The globals added to the Builder
    */
-  public globals: Radonis.Manifest['globals'] = {}
+  public globals: Manifest['globals'] = {}
 
   /**
    * The current route set on the Builder
    */
-  public route: Radonis.Manifest['route'] = null
+  public route: Manifest['route'] = null
 
   /**
    * Constructor
@@ -58,56 +59,56 @@ export class Builder implements Radonis.Manifest {
   /**
    * The flash messages
    */
-  public get flashMessages(): Radonis.Manifest['flashMessages'] {
+  public get flashMessages(): Manifest['flashMessages'] {
     return this.flashMessagesManager.getFlashMessages(true)
   }
 
   /**
    * The flash messages required for hydration
    */
-  public get flashMessagesRequiredForHydration(): Radonis.Manifest['flashMessages'] {
+  public get flashMessagesRequiredForHydration(): Manifest['flashMessages'] {
     return this.flashMessagesManager.getFlashMessages()
   }
 
   /**
    * The locale
    */
-  public get locale(): Radonis.Manifest['locale'] {
+  public get locale(): Manifest['locale'] {
     return this.i18nManager.getLocale()
   }
 
   /**
    * The messages
    */
-  public get messages(): Radonis.Manifest['messages'] {
+  public get messages(): Manifest['messages'] {
     return this.i18nManager.getMessages(true)
   }
 
   /**
    * The messages required for hydration
    */
-  public get messagesRequiredForHydration(): Radonis.Manifest['messages'] {
+  public get messagesRequiredForHydration(): Manifest['messages'] {
     return this.i18nManager.getMessages()
   }
 
   /**
    * The routes
    */
-  public get routes(): Radonis.Manifest['routes'] {
+  public get routes(): Manifest['routes'] {
     return this.routesManager.getRoutes(true)
   }
 
   /**
    * The routes required for hydration
    */
-  public get routesRequiredForHydration(): Radonis.Manifest['routes'] {
+  public get routesRequiredForHydration(): Manifest['routes'] {
     return this.routesManager.getRoutes()
   }
 
   /**
    * The server manifest
    */
-  private get serverManifest(): Radonis.Manifest {
+  private get serverManifest(): Manifest {
     return {
       props: this.props,
       globals: this.globals,
@@ -122,7 +123,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * The client manifest
    */
-  private get clientManifest(): Radonis.Manifest {
+  private get clientManifest(): Manifest {
     return {
       props: this.props,
       globals: this.globals,
@@ -157,7 +158,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentName: string, rawProps: Record<string, any>): string | null {
+  public registerProps(componentName: string, rawProps: Props): PropsHash | null {
     try {
       const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)
@@ -179,7 +180,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Add globals to the Builder
    */
-  public addGlobals(globals: Radonis.Manifest['globals']): this {
+  public addGlobals(globals: Manifest['globals']): this {
     this.globals = { ...this.globals, ...globals }
 
     return this
@@ -188,7 +189,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Radonis.Manifest['flashMessages']): this {
+  public setFlashMessages(flashMessages: Manifest['flashMessages']): this {
     this.flashMessagesManager.setFlashMessages(flashMessages)
 
     return this
@@ -197,7 +198,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Radonis.Manifest['locale']): this {
+  public setLocale(locale: Manifest['locale']): this {
     this.i18nManager.setLocale(locale)
 
     return this
@@ -206,7 +207,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Radonis.Manifest['messages']): this {
+  public setMessages(messages: Manifest['messages']): this {
     this.i18nManager.setMessages(messages)
 
     return this
@@ -215,7 +216,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Radonis.Manifest['routes']): this {
+  public setRoutes(routes: Manifest['routes']): this {
     this.routesManager.setRoutes(routes)
 
     return this
@@ -224,7 +225,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Set the current route on the Builder
    */
-  public setRoute(route: Radonis.Manifest['route']): this {
+  public setRoute(route: Manifest['route']): this {
     this.route = route
 
     return this

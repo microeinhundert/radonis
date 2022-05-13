@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-shared'
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
@@ -69,11 +70,7 @@ function extractRoutes(source: string): Set<string> {
 /**
  * Walk the esbuild generated metafile and generate the build manifest entries
  */
-function walkMetafile(
-  metafile: Metafile,
-  path: string,
-  type?: Radonis.BuildManifestEntry['type']
-): Radonis.BuildManifestEntry {
+function walkMetafile(metafile: Metafile, path: string, type?: BuildManifestEntry['type']): BuildManifestEntry {
   const output = metafile.outputs[path]
 
   invariant(output, `Could not find metafile output entry for path "${path}"`)
@@ -95,9 +92,9 @@ function walkMetafile(
 /**
  * Generate the build manifest
  */
-function generateBuildManifest(metafile: Metafile, entryFilePath: string): Radonis.BuildManifest {
+function generateBuildManifest(metafile: Metafile, entryFilePath: string): BuildManifest {
   const { name: entryFileName } = parse(entryFilePath)
-  const buildManifest = {} as Radonis.BuildManifest
+  const buildManifest = {} as BuildManifest
 
   for (let path in metafile.outputs) {
     const metafileOutput = metafile.outputs[path]
@@ -127,7 +124,7 @@ function generateBuildManifest(metafile: Metafile, entryFilePath: string): Radon
 /**
  * Write the build manifest to disk
  */
-function writeBuildManifestToDisk(buildManifest: Radonis.BuildManifest, outputDir: string): void {
+function writeBuildManifestToDisk(buildManifest: BuildManifest, outputDir: string): void {
   writeFile(
     join(outputDir, 'manifest.json'),
     JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
@@ -145,7 +142,7 @@ export async function buildEntryFileAndComponents(
   components: Map<string, string>,
   outputDir: string,
   buildOptions: BuildOptions
-): Promise<Radonis.BuildManifest> {
+): Promise<BuildManifest> {
   const { metafile } = await build({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,

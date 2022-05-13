@@ -9,6 +9,7 @@
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import type { Route } from '@microeinhundert/radonis-shared'
 
 /**
  * Extract the root routes from a Router instance
@@ -30,7 +31,7 @@ export function extractRootRoutes(Router: RouterContract): Record<string, any> {
 /**
  * Transform a RouteNode to the shape expected by the manifest
  */
-export function transformRoute(route: HttpContextContract['route']): Radonis.Route {
+export function transformRoute(route: HttpContextContract['route']): Route {
   return {
     name: route?.name,
     pattern: route?.pattern,

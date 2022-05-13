@@ -7,13 +7,27 @@
  * file that was distributed with this source code.
  */
 
-import type { Plugin } from './PluginsManager/types'
-
-export function definePlugin(plugin: Plugin): Plugin {
-  return plugin
-}
-
 export { getManifestOrFail, isClient, isProduction, isServer } from './environment'
-export { PluginsManager } from './PluginsManager'
-export { invariant, separateArray, xssSanitize } from './utils'
-export type { Plugin }
+export { definePlugin, PluginsManager } from './PluginsManager'
+export { invariant, separateArray } from './utils'
+
+/**
+ * Types
+ */
+export type {
+  AssetsManifest,
+  AssetsManifestEntry,
+  BuildManifest,
+  BuildManifestEntry,
+  FlashMessage,
+  Globals,
+  Manifest,
+  Plugin,
+  PluginEnvironment,
+  PluginHook,
+  PluginHooks,
+  PluginHookWithBuilder,
+  Props,
+  PropsHash,
+  Route,
+} from './types'

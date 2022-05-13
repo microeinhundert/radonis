@@ -9,6 +9,7 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
+import type { AssetsManifest } from '@microeinhundert/radonis-shared'
 import { invariant } from '@microeinhundert/radonis-shared'
 import { existsSync } from 'fs'
 
@@ -20,7 +21,7 @@ export class Compiler {
   /**
    * The assets manifest
    */
-  private assetsManifest: Radonis.AssetsManifest = []
+  private assetsManifest: AssetsManifest = []
 
   /**
    * The components required for hydration
@@ -97,7 +98,7 @@ export class Compiler {
   /**
    * Get the assets required for hydration
    */
-  public getAssetsRequiredForHydration(): Radonis.AssetsManifest {
+  public getAssetsRequiredForHydration(): AssetsManifest {
     return extractRequiredAssets(this.assetsManifest, {
       components: this.componentsRequiredForHydration,
     })

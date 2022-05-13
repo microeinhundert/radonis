@@ -11,6 +11,6 @@
     "declarationMap": true
   },
   "files": ["../../types/global.d.ts"],
-  "include": ["./**/*"],
+  "include": ["./**/*", "../radonis-manifest/src/types.ts"],
   "exclude": ["node_modules", "build"]
 }

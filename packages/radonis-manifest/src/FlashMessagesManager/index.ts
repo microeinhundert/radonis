@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { FlashMessage } from '@microeinhundert/radonis-shared'
+
 export class FlashMessagesManager {
   /**
    * The singleton instance
@@ -16,7 +18,7 @@ export class FlashMessagesManager {
   /**
    * The flash messages
    */
-  private flashMessages: Record<string, Radonis.FlashMessage> = {}
+  private flashMessages: Record<string, FlashMessage> = {}
 
   /**
    * The flash messages required for hydration
@@ -37,19 +39,19 @@ export class FlashMessagesManager {
   /**
    * Set the flash messages
    */
-  public setFlashMessages(flashMessages: Record<string, Radonis.FlashMessage>): void {
+  public setFlashMessages(flashMessages: Record<string, FlashMessage>): void {
     this.flashMessages = flashMessages
   }
 
   /**
    * Get the flash messages
    */
-  public getFlashMessages(all?: boolean): Record<string, Radonis.FlashMessage> {
+  public getFlashMessages(all?: boolean): Record<string, FlashMessage> {
     if (all) {
       return this.flashMessages
     }
 
-    const flashMessages = {} as Record<string, Radonis.FlashMessage>
+    const flashMessages = {} as Record<string, FlashMessage>
 
     for (const identifier of this.flashMessagesRequiredForHydration) {
       if (identifier in this.flashMessages) {

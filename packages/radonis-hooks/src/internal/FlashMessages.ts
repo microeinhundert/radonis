@@ -8,17 +8,18 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import type { FlashMessage } from '@microeinhundert/radonis-shared'
 
 export class FlashMessages {
   /**
    * Constructor
    */
-  constructor(private flashMessages: Record<string, Radonis.FlashMessage>, private willHydrate?: boolean) {}
+  constructor(private flashMessages: Record<string, FlashMessage>, private willHydrate?: boolean) {}
 
   /**
    * Find the flash message inside the registered flash messages
    */
-  private findFlashMessage(identifier: string): Radonis.FlashMessage | undefined {
+  private findFlashMessage(identifier: string): FlashMessage | undefined {
     const flashMessage = this.flashMessages[identifier]
 
     if (!flashMessage && !identifier.match(/\.(\d*)$/i)) {
@@ -63,9 +64,9 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue: T): T
-  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue?: T): T | undefined
-  public get<T extends Radonis.FlashMessage>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T extends FlashMessage>(identifier: string, defaultValue: T): T
+  public get<T extends FlashMessage>(identifier: string, defaultValue?: T): T | undefined
+  public get<T extends FlashMessage>(identifier: string, defaultValue?: T): T | undefined {
     // @ts-ignore
     return this.findFlashMessage(identifier) ?? defaultValue
   }
@@ -82,7 +83,7 @@ export class FlashMessages {
   /**
    * Get all flash messages
    */
-  public all(): Record<string, Radonis.FlashMessage> {
+  public all(): Record<string, FlashMessage> {
     if (this.willHydrate) {
       new HydrationManager().requireFlashMessageForHydration('*')
     }
@@ -93,12 +94,12 @@ export class FlashMessages {
   /**
    * Get all validation error flash messages
    */
-  public allValidationErrors(): Record<string, Radonis.FlashMessage> {
+  public allValidationErrors(): Record<string, FlashMessage> {
     if (this.willHydrate) {
       new HydrationManager().requireFlashMessageForHydration('errors.*')
     }
 
-    const flashMessages = {} as Record<string, Radonis.FlashMessage>
+    const flashMessages = {} as Record<string, FlashMessage>
 
     for (const identifier in this.flashMessages) {
       if (identifier.startsWith('errors.')) {

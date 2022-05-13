@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { AssetsManifestEntry } from '@microeinhundert/radonis-shared'
 import { getManifestOrFail, invariant, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import { isClient } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
@@ -176,7 +177,7 @@ export class HydrationManager {
    * Require the flash messages, messages and routes
    * used by an asset for hydration
    */
-  public requireAssetForHydration(asset: Radonis.AssetsManifestEntry): this {
+  public requireAssetForHydration(asset: AssetsManifestEntry): this {
     if (isClient || asset.type === 'entry') return this
 
     for (const identifier of asset.flashMessages) {

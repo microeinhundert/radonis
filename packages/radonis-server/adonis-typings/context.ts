@@ -8,7 +8,8 @@
  */
 
 declare module '@ioc:Adonis/Core/HttpContext' {
-  import type { Globals, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+  import type { Globals } from '@microeinhundert/radonis-shared'
+  import type { RenderOptions } from '@ioc:Adonis/Addons/Radonis'
   import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 
   interface RadonisContract {

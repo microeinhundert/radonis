@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { ManifestContract } from '@ioc:Adonis/Addons/Radonis'
-
+import type { Manifest } from './types'
 import { invariant } from './utils'
 
 /**
@@ -29,8 +28,8 @@ export const isProduction = process.env.NODE_ENV === 'production'
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */
-let cachedManifest: ManifestContract | null = null
-export function getManifestOrFail(): ManifestContract {
+let cachedManifest: Manifest | null = null
+export function getManifestOrFail(): Manifest {
   if (cachedManifest) {
     return cachedManifest
   }

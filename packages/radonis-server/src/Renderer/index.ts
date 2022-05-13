@@ -8,12 +8,13 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { AdonisContextContract, Globals, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
+import type { Globals } from '@microeinhundert/radonis-shared'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
@@ -111,7 +112,6 @@ export class Renderer {
       .setMessages(this.i18n.getTranslationsFor(locale))
       .setRoutes(extractRootRoutes(router))
       .setRoute(transformRoute(httpContext.route))
-      .setServerManifestOnGlobalScope()
 
     return this
   }
@@ -153,6 +153,11 @@ export class Renderer {
     if (options?.globals) {
       this.manifestBuilder.addGlobals(options.globals)
     }
+
+    /**
+     * Set the server manifest on the global scope
+     */
+    this.manifestBuilder.setServerManifestOnGlobalScope()
 
     /**
      * Render the view
