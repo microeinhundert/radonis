@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-shared'
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
+import type { BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { writeFile } from 'fs'

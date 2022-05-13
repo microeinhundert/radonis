@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { definePlugin, isProduction } from '@microeinhundert/radonis-shared'
+import { definePlugin } from '@microeinhundert/radonis'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import React from 'react'
 import type { Twind, TwindConfig, TxFunction } from 'twind'
-import { inline, install as install$ } from 'twind'
-import { getSheet, twind, tx as tx$ } from 'twind'
+import { getSheet, inline, install as install$, twind, tx as tx$ } from 'twind'
 
 import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'

@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { Manifest } from './types'
+import type { Manifest } from '@microeinhundert/radonis-types'
+
 import { invariant } from './utils'
 
 /**

@@ -10,24 +10,3 @@
 export { getManifestOrFail, isClient, isProduction, isServer } from './environment'
 export { definePlugin, PluginsManager } from './PluginsManager'
 export { invariant, separateArray } from './utils'
-
-/**
- * Types
- */
-export type {
-  AssetsManifest,
-  AssetsManifestEntry,
-  BuildManifest,
-  BuildManifestEntry,
-  FlashMessage,
-  Globals,
-  Manifest,
-  Plugin,
-  PluginEnvironment,
-  PluginHook,
-  PluginHooks,
-  PluginHookWithBuilder,
-  Props,
-  PropsHash,
-  Route,
-} from './types'

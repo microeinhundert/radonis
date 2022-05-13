@@ -8,8 +8,8 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import type { Plugin } from '@microeinhundert/radonis-shared'
 import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
+import type { Plugin } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 
 const pluginsManager = new PluginsManager()
@@ -21,6 +21,9 @@ type ClientConfig = {
 
 let clientInitialized = false
 
+/**
+ * Initialize the client
+ */
 export async function initClient(config?: ClientConfig): Promise<void> {
   invariant(
     !clientInitialized,
@@ -37,6 +40,9 @@ export async function initClient(config?: ClientConfig): Promise<void> {
   clientInitialized = true
 }
 
+/**
+ * Imported by the Compiler to register components for hydration
+ */
 export function registerComponentForHydration(identifier: string, Component: ComponentType): void {
   hydrationManager.registerComponent(identifier, Component)
 }

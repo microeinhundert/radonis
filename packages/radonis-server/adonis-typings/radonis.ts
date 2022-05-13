@@ -15,7 +15,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
   import type { ReactElement } from 'react'
-  import type { Globals, Plugin } from '@microeinhundert/radonis-shared'
+  import type { Globals, Plugin } from '@microeinhundert/radonis-types'
 
   interface AdonisContextContract {
     application: ApplicationContract

@@ -36,6 +36,9 @@
     },
     {
       "path": "./packages/radonis-unocss/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-types/tsconfig.json"
     }
   ]
 }

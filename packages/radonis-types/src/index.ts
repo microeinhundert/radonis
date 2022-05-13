@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-shared
+ * @microeinhundert/radonis-types
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -9,17 +9,35 @@
 
 import type { ReactElement } from 'react'
 
+/**
+ * Props hash
+ */
 export type PropsHash = string
 
+/**
+ * Props
+ */
 export type Props = Record<string, any>
 
+/**
+ * Globals (must be an interface for declaration merging)
+ */
 export interface Globals {}
 
+/**
+ * Flash message
+ */
 export type FlashMessage = string | boolean | number
 
+/**
+ * Route
+ */
 export type Route = { name?: string; pattern?: string }
 
-export interface Manifest {
+/**
+ * Manifest
+ */
+export type Manifest = {
   props: Record<PropsHash, Props>
   globals: Globals
   flashMessages: Record<string, FlashMessage>
@@ -29,7 +47,10 @@ export interface Manifest {
   route: Route | null
 }
 
-export interface BuildManifestEntry {
+/**
+ * Build manifest entry
+ */
+export type BuildManifestEntry = {
   type: 'component' | 'entry' | 'chunk'
   path: string
   publicPath: string
@@ -39,9 +60,15 @@ export interface BuildManifestEntry {
   imports: BuildManifestEntry[]
 }
 
+/**
+ * Build manifest
+ */
 export type BuildManifest = Record<string, BuildManifestEntry>
 
-export interface AssetsManifestEntry {
+/**
+ * Assets manifest entry
+ */
+export type AssetsManifestEntry = {
   type: 'component' | 'entry'
   identifier: string
   path: string
@@ -50,13 +77,29 @@ export interface AssetsManifestEntry {
   routes: Set<string>
 }
 
+/**
+ * Assets manifest
+ */
 export type AssetsManifest = AssetsManifestEntry[]
 
+/**
+ * Plugin environment
+ */
 export type PluginEnvironment = 'client' | 'server'
 
+/**
+ * Plugin hook
+ */
 export type PluginHook<I> = (input: I) => Promise<void> | void
+
+/**
+ * Plugin hook with builder
+ */
 export type PluginHookWithBuilder<B, I> = (input: I) => (value: B) => Promise<B> | B
 
+/**
+ * Plugin hooks
+ */
 export type PluginHooks = {
   /**
    * This plugin hook is called after the client has been initialized
@@ -99,6 +142,9 @@ export type PluginHooks = {
   afterRender: PluginHookWithBuilder<string, null>
 }
 
+/**
+ * Plugin
+ */
 export type Plugin = Partial<PluginHooks> & {
   /**
    * The name of the plugin

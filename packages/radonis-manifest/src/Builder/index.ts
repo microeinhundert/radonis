@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { Manifest, Props, PropsHash } from '@microeinhundert/radonis-shared'
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
+import type { Manifest, Props, PropsHash } from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
 
 import { FlashMessagesManager } from '../FlashMessagesManager'

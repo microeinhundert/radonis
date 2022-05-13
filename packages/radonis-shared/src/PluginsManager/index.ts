@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
+import type { Plugin, PluginEnvironment, PluginHooks } from '@microeinhundert/radonis-types'
+
 import { invariant } from '../utils'
 
 type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]

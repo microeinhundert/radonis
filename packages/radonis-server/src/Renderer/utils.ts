@@ -9,7 +9,7 @@
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
-import type { Route } from '@microeinhundert/radonis-shared'
+import type { Route } from '@microeinhundert/radonis-types'
 
 /**
  * Extract the root routes from a Router instance

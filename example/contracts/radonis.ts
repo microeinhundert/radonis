@@ -1,4 +1,4 @@
-declare module '@microeinhundert/radonis-shared' {
+declare module '@microeinhundert/radonis-types' {
   /*
   |--------------------------------------------------------------------------
   | Define typed globals

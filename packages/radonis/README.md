@@ -1,5 +1,7 @@
 # Radonis
 
+![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis)
+
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
 

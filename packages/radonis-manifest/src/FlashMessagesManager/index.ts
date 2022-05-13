@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { FlashMessage } from '@microeinhundert/radonis-shared'
+import type { FlashMessage } from '@microeinhundert/radonis-types'
 
 export class FlashMessagesManager {
   /**

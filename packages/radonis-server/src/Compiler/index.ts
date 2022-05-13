@@ -9,8 +9,8 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
-import type { AssetsManifest } from '@microeinhundert/radonis-shared'
 import { invariant } from '@microeinhundert/radonis-shared'
+import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { existsSync } from 'fs'
 
 import { extractRequiredAssets, generateAssetsManifest } from './assets'

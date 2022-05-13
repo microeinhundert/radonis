@@ -1,6 +1,6 @@
-# Radonis Server
+# Radonis Types
 
-![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis-server)
+![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis-types)
 
 > This is an internal package used by Radonis. Take a look into the README of the main [Radonis](https://github.com/microeinhundert/radonis/tree/main/packages/radonis) package.
 
@@ -14,13 +14,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 Install the package from your command line:
 
 ```console
-npm install --save @microeinhundert/radonis-server
-```
-
-### 2. Configure the package
-
-```console
-node ace configure @microeinhundert/radonis-server
+npm install --save @microeinhundert/radonis-types
 ```
 
 ## License

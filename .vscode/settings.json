@@ -40,6 +40,10 @@
       "changeProcessCWD": true
     },
     {
+      "directory": "packages/radonis-types",
+      "changeProcessCWD": true
+    },
+    {
       "directory": "example",
       "changeProcessCWD": true
     }

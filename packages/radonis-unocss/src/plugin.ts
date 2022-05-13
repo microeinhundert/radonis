@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { definePlugin, isProduction } from '@microeinhundert/radonis-shared'
+import { definePlugin } from '@microeinhundert/radonis'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import type { UnoGenerator, UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 

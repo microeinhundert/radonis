@@ -8,7 +8,7 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import type { FlashMessage } from '@microeinhundert/radonis-shared'
+import type { FlashMessage } from '@microeinhundert/radonis-types'
 
 export class FlashMessages {
   /**

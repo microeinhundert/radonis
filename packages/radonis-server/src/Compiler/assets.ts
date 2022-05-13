@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetsManifest, BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-shared'
+import type { AssetsManifest, BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-types'
 
 type HydrationRequirements = {
   flashMessages: Set<string>

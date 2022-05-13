@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "./",
+    "composite": true,
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "outDir": "build",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "files": ["../../types/global.d.ts"],
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "build"]
+}

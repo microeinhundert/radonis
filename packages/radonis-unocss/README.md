@@ -1,5 +1,7 @@
 # UnoCSS Plugin for Radonis
 
+![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis-unocss)
+
 Add styling powered by [UnoCSS](https://github.com/unocss/unocss) to your Radonis application.
 
 ## Getting Started

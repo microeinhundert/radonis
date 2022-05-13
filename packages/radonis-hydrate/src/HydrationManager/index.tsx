@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetsManifestEntry } from '@microeinhundert/radonis-shared'
-import { getManifestOrFail, invariant, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
-import { isClient } from '@microeinhundert/radonis-shared'
+import { getManifestOrFail, invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import type { AssetsManifestEntry } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import React from 'react'
