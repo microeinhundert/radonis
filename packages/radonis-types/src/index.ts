@@ -112,12 +112,12 @@ export type PluginHooks = {
   onBootServer: PluginHook<null>
 
   /**
-   * This plugin hook is called before a file is output
+   * This plugin hook is called before a file is output by the compiler
    */
   beforeOutput: PluginHookWithBuilder<string, null>
 
   /**
-   * This plugin hook is called after all files have been output
+   * This plugin hook is called after all files have been output by the compiler
    */
   afterOutput: PluginHook<Map<string, string>>
 

@@ -450,10 +450,84 @@ import { useSession } from '@ioc:Adonis/Addons/Radonis'
 const session = useSession()
 ```
 
-## Available Plugins
+## Plugins
+
+### Official
 
 [Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)  
 [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
+
+### Build your own
+
+Take a look at this example which illustrates how a plugin is built:
+
+```typescript
+import { definePlugin } from '@microeinhundert/radonis'
+
+function yourPlugin() {
+  return definePlugin({
+    /**
+     * The name of the plugin
+     */
+    name: 'your-plugin',
+
+    /**
+     * The environments the plugin is compatible with
+     */
+    environments: ['client', 'server'],
+
+    /**
+     * This plugin hook is called after the client has been initialized
+     */
+    onInitClient() {},
+
+    /**
+     * This plugin hook is called after the server has been booted
+     */
+    onBootServer() {},
+
+    /**
+     * This plugin hook is called before a file is output by the compiler
+     */
+    beforeOutput(fileContents: string) {},
+
+    /**
+     * This plugin hook is called after all files have been output by the compiler
+     */
+    afterOutput(files: Map<string, string>) {},
+
+    /**
+     * This plugin hook is called before the compiler starts
+     */
+    beforeCompile() {},
+
+    /**
+     * This plugin hook is called after the compiler has finished
+     */
+    afterCompile() {},
+
+    /**
+     * This plugin hook is called before the page is rendered
+     */
+    beforeRender() {
+      return async (tree: ReactElement) => {
+        // Return modified React tree
+        return tree
+      }
+    },
+
+    /**
+     * This plugin hook is called after the page has been rendered
+     */
+    afterRender() {
+      return async (html: string) => {
+        // Return modified HTML
+        return html
+      }
+    },
+  })
+}
+```
 
 ## License
 

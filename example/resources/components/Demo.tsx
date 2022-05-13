@@ -1,4 +1,4 @@
-import { useI18n, useManifest } from '@microeinhundert/radonis'
+import { useI18n } from '@microeinhundert/radonis'
 import React from 'react'
 
 interface DemoProps {
@@ -8,9 +8,6 @@ interface DemoProps {
 
 function Demo({ name, text }: DemoProps) {
   const i18n = useI18n()
-  const manifest = useManifest()
-
-  console.log(manifest.props)
 
   return (
     <div className="max-w-lg p-8">
