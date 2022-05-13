@@ -157,7 +157,7 @@ export class Builder implements Radonis.Manifest {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentName: string, rawProps: Record<string, unknown>): string | null {
+  public registerProps(componentName: string, rawProps: Record<string, any>): string | null {
     try {
       const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)

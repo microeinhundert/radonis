@@ -114,6 +114,7 @@ importers:
   packages/radonis-hooks:
     specifiers:
       '@microeinhundert/radonis-hydrate': 1.2.12
+      '@microeinhundert/radonis-server': 1.2.12
       '@microeinhundert/radonis-shared': 1.2.12
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
@@ -121,6 +122,7 @@ importers:
       intl-messageformat: ^9.12.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
+      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
       intl-messageformat: 9.12.0
     devDependencies:

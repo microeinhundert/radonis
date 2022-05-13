@@ -7,7 +7,7 @@ declare global {
     type Route = { name?: string; pattern?: string }
 
     interface Manifest {
-      props: Record<string, Record<string, unknown>>
+      props: Record<string, Record<string, any>>
       globals: Record<string, any>
       flashMessages: Record<string, FlashMessage>
       locale: string

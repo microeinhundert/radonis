@@ -49,11 +49,13 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   function useHead(): HeadContract
 
   interface HydrationRootProps {
-    children: ReactElement<Record<string, unknown>>
+    children: ReactElement<Record<string, any>>
     componentName: string
   }
 
   function HydrationRoot(props: HydrationRootProps): JSX.Element
+
+  interface Globals {}
 
   interface RenderOptions {
     title?: string
@@ -80,6 +82,4 @@ declare module '@ioc:Adonis/Addons/Radonis' {
       buildOptions: BuildOptions
     }
   }
-
-  interface Globals {}
 }
