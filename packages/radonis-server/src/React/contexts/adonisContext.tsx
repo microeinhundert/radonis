@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { RadonisContextContract } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract } from '@ioc:Adonis/Addons/Radonis'
 import { createContext } from 'react'
 
-export const radonisContext = createContext<RadonisContextContract>(null as any)
+export const adonisContext = createContext<AdonisContextContract>(null as any)
 
-export const RadonisContextProvider = radonisContext.Provider
+export const AdonisContextProvider = adonisContext.Provider

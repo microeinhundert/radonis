@@ -333,20 +333,24 @@ console.log(flashMessages.allValidationErrors()) // => `{ 'errors.fieldName.0': 
 
 **The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
 
-### useRadonis (Server only)
+### useAdonis (Server only)
 
 Returns info about the AdonisJS instance in the following format:
 
 ```typescript
-interface RadonisContextContract {
+interface AdonisContextContract {
   application: ApplicationContract
   httpContext: HttpContextContract
   router: RouterContract
 }
+```
 
-import { useRadonis } from '@ioc:Adonis/Addons/Radonis'
+Usage:
 
-const radonis = useRadonis()
+```typescript
+import { useAdonis } from '@ioc:Adonis/Addons/Radonis'
+
+const radonis = useAdonis()
 ```
 
 ### useApplication (Server only)

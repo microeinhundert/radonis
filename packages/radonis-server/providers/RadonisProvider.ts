@@ -13,10 +13,10 @@ import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 import {
   HydrationRoot,
+  useAdonis,
   useApplication,
   useHead,
   useHttpContext,
-  useRadonis,
   useRequest,
   useRouter,
   useSession,
@@ -94,13 +94,13 @@ export default class RadonisProvider {
      */
     this.application.container.singleton('Adonis/Addons/Radonis', () => {
       return {
-        useRadonis,
+        useAdonis,
         useApplication,
-        useHead,
         useHttpContext,
+        useSession,
         useRequest,
         useRouter,
-        useSession,
+        useHead,
         HydrationRoot,
       }
     })

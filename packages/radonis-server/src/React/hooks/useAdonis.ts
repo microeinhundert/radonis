@@ -9,10 +9,10 @@
 
 import { useContext } from 'react'
 
-import { radonisContext } from '../contexts/radonisContext'
+import { adonisContext } from '../contexts/adonisContext'
 
-export function useRadonis() {
-  const context = useContext(radonisContext)
+export function useAdonis() {
+  const context = useContext(adonisContext)
 
   return context
 }

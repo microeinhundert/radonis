@@ -19,7 +19,7 @@ const radonisConfig: RadonisConfig = {
   | Head
   |--------------------------------------------------------------------------
   |
-  | Defaults for the page <head>.
+  | Configuration of the page <head>.
   |
   */
   head: {
@@ -28,7 +28,7 @@ const radonisConfig: RadonisConfig = {
     | Title
     |--------------------------------------------------------------------------
     |
-    | Defaults and general config for the page <title>.
+    | Defaults and general configuration of the page <title>.
     |
     */
     title: {

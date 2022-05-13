@@ -8,7 +8,7 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { RadonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
@@ -38,7 +38,7 @@ export class Renderer {
   /**
    * The context
    */
-  private context: RadonisContextContract = null as any
+  private context: AdonisContextContract = null as any
 
   /**
    * Constructor

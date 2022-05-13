@@ -17,13 +17,13 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { ReactElement } from 'react'
   import type { Plugin } from '@microeinhundert/radonis-shared'
 
-  interface RadonisContextContract {
+  interface AdonisContextContract {
     application: ApplicationContract
     httpContext: HttpContextContract
     router: RouterContract
   }
 
-  function useRadonis(): RadonisContextContract
+  function useAdonis(): AdonisContextContract
 
   function useApplication(): ApplicationContract
 
@@ -79,4 +79,6 @@ declare module '@ioc:Adonis/Addons/Radonis' {
       buildOptions: BuildOptions
     }
   }
+
+  interface Globals {}
 }
