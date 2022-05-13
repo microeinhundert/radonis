@@ -395,7 +395,7 @@ Usage:
 ```typescript
 import { useAdonis } from '@ioc:Adonis/Addons/Radonis'
 
-const radonis = useAdonis()
+const adonis = useAdonis()
 ```
 
 ### useApplication (Server only)

@@ -138,7 +138,11 @@ export class Builder implements Radonis.Manifest {
    * Get the client manifest as JSON
    */
   public getClientManifestAsJSON(): string {
-    return JSON.stringify(this.clientManifest, null, isProduction ? 0 : 2)
+    try {
+      return JSON.stringify(this.clientManifest, null, isProduction ? 0 : 2)
+    } catch {
+      invariant(false, `The manifest is not serializable`)
+    }
   }
 
   /**
