@@ -146,7 +146,7 @@ By default, Radonis limits the client manifest to only include data required for
 
 ### Extending the manifest
 
-You can also add your own data to the manifest, for example the currently logged in user or some global application settings. To extend the manifest, first add the types of your custom data to `contracts/radonis.ts` inside of the `Globals` interface. Then, call `withGlobals` in your controllers, routes, middlewares or everywhere `radonis` is available on the HttpContext:
+You can also add your own data to the manifest, for example the currently logged in user or some global application settings. To extend the manifest, first add the types for your custom data to `contracts/radonis.ts` inside of the `Globals` interface. Then, call `withGlobals` in your controllers, routes, middlewares or everywhere `radonis` is available on the HttpContext:
 
 ```typescript
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
