@@ -36,12 +36,17 @@ export class Builder implements Radonis.Manifest {
   private propsHasher = hasher({ sort: true, coerce: false, alg: 'md5' })
 
   /**
-   * The props registered with the manifest
+   * The props registered with the Builder
    */
   public props: Radonis.Manifest['props'] = {}
 
   /**
-   * The current route registered with the manifest
+   * The globals added to the Builder
+   */
+  public globals: Radonis.Manifest['globals'] = {}
+
+  /**
+   * The current route set on the Builder
    */
   public route: Radonis.Manifest['route'] = null
 
@@ -105,6 +110,7 @@ export class Builder implements Radonis.Manifest {
   private get serverManifest(): Radonis.Manifest {
     return {
       props: this.props,
+      globals: this.globals,
       flashMessages: this.flashMessages,
       locale: this.locale,
       messages: this.messages,
@@ -119,6 +125,7 @@ export class Builder implements Radonis.Manifest {
   private get clientManifest(): Radonis.Manifest {
     return {
       props: this.props,
+      globals: this.globals,
       flashMessages: this.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       locale: this.locale,
       messages: this.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
@@ -163,6 +170,15 @@ export class Builder implements Radonis.Manifest {
     } catch {
       invariant(false, `The props passed to the component "${componentName}" are not serializable`)
     }
+  }
+
+  /**
+   * Add globals to the Builder
+   */
+  public addGlobals(globals: Radonis.Manifest['globals']): this {
+    this.globals = { ...this.globals, ...globals }
+
+    return this
   }
 
   /**
@@ -215,6 +231,7 @@ export class Builder implements Radonis.Manifest {
    */
   public prepareForNewRequest(): void {
     this.props = {}
+    this.globals = {}
     this.route = null
 
     this.flashMessagesManager.prepareForNewRequest()

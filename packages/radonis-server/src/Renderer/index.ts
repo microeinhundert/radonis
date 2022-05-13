@@ -8,7 +8,7 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { AdonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract, Globals, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
@@ -117,6 +117,15 @@ export class Renderer {
   }
 
   /**
+   * Add globals for the current request
+   */
+  public withGlobals(globals: Globals): this {
+    this.manifestBuilder.addGlobals(globals)
+
+    return this
+  }
+
+  /**
    * Render the view and return the full HTML document
    */
   public async render<T>(
@@ -136,6 +145,13 @@ export class Renderer {
      */
     if (options?.meta) {
       this.headManager.addMeta(options.meta)
+    }
+
+    /**
+     * Add globals to the ManifestBuilder
+     */
+    if (options?.globals) {
+      this.manifestBuilder.addGlobals(options.globals)
     }
 
     /**

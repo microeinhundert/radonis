@@ -71,7 +71,7 @@ Add the following to the compilerOptions of your `tsconfig.json`:
 
 ## Server-Side Templating
 
-Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both server and client.
+Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both the server and the client.
 
 Usage in controllers:
 
@@ -139,6 +139,51 @@ Route.get('/signUp', async ({ radonis }) => {
 
 > Note that usage of the `useHead` hook always overrides data passed to `render`.
 
+## The Manifest
+
+The manifest is where Radonis stores all its data, like props of a component or translation messages. This manifest is also accessible client-side, which makes client-side hydration possible.
+By default, Radonis limits the client manifest to only include data required for client-side hydration. If your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+
+### Extending the manifest
+
+You can also add your own data to the manifest, for example the currently logged in user or some global application settings. To extend the manifest, first add the types of your custom data to `contracts/radonis.ts` inside of the `Globals` interface. Then, call `withGlobals` in your controllers, routes, middlewares or everywhere `radonis` is available on the HttpContext:
+
+```typescript
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Index, Show } from '../../../resources/views/Users.tsx'
+
+export default class UsersController {
+  public index({ radonis }: HttpContextContract) {
+    return radonis.withGlobals({ user: { id: 1, email: 'radonis@example.com' } }).render(Index)
+  }
+}
+```
+
+You can optionally pass globals directly to the render call as the third argument:
+
+```typescript
+import Route from '@ioc:Adonis/Core/Route'
+import { SignUp } from '../resources/views/Auth.tsx'
+
+Route.get('/signUp', async ({ radonis }) => {
+  return radonis.render(SignUp, undefined, {
+    globals: { user: { id: 1, email: 'radonis@example.com' } },
+  })
+})
+```
+
+Access your custom globals with the `useManifest` hook:
+
+```typescript
+import { useManifest } from '@microeinhundert/radonis'
+
+const manifest = useManifest()
+
+console.log(manifest.globals) // => `{ user: { id: 1, email: 'radonis@example.com' } }`
+```
+
+> Note that globals are set on a per-request basis. Use a custom middleware if you need some globals on all routes.
+
 ## Using Client-Side Hydration
 
 Radonis uses partial hydration, which only hydrates parts of the page that require interactivity on the client.
@@ -165,7 +210,7 @@ function ServerRenderedComponent() {
 
 ### Passing model data to client-side hydrated components
 
-In order for the data to be of the same format on both the server and the client, you have to use a custom naming strategy for your Lucid models.
+In order for data to be of the same format on both the server and the client, you have to use a custom naming strategy for your Lucid models.
 This makes sure properties are kept in camelCase after serialization.
 
 ```ts
@@ -243,10 +288,10 @@ import { useManifest } from '@microeinhundert/radonis'
 const manifest = useManifest()
 
 // Get the manifest:
-console.log(manifest) // => `{ props: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
+console.log(manifest) // => `{ props: {}, globals: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your use case requires having the same manifest on client and server, set `limitManifest` to `false` in the Radonis config.
+> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
 
 ### useRoute (Server and client)
 

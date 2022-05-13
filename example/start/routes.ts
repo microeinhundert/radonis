@@ -23,7 +23,7 @@ import Route from '@ioc:Adonis/Core/Route'
 import { Welcome } from '../resources/views/Welcome'
 
 Route.get('/', async ({ radonis }) => {
-  return radonis.render(Welcome)
+  return radonis.withGlobals({ lorem: 'Lorem ipsum dolor sit amet' }).render(Welcome)
 }).as('welcome')
 
 Route.get('/:name', async ({ radonis, params }) => {

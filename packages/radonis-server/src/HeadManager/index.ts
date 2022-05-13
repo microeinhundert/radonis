@@ -22,12 +22,12 @@ function buildTitle(title: string, prefix: string, suffix: string, separator: st
 
 export class HeadManager {
   /**
-   * The page <title>
+   * The page title
    */
   private title: string
 
   /**
-   * The page <meta>
+   * The page meta
    */
   private meta: HeadMeta
 
@@ -47,7 +47,7 @@ export class HeadManager {
   }
 
   /**
-   * Set the page <title>
+   * Set the page title
    */
   public setTitle(title: string): void {
     const { prefix, suffix, separator } = this.config.head.title
@@ -56,21 +56,21 @@ export class HeadManager {
   }
 
   /**
-   * Add page <meta>
+   * Add page meta
    */
   public addMeta(meta: HeadMeta): void {
     this.meta = { ...this.meta, ...meta }
   }
 
   /**
-   * Get the HTML <title> tag for the <head>
+   * Get the HTML title tag for the head
    */
   public getTitleTag(): string {
     return `<title>${this.title}</title>`
   }
 
   /**
-   * Get the HTML <meta> tags for the <head>
+   * Get the HTML meta tags for the head
    */
   public getMetaTags(): string {
     return Object.entries(this.meta)
@@ -103,7 +103,7 @@ export class HeadManager {
   }
 
   /**
-   * Get all HTML tags for the <head>
+   * Get all HTML tags for the head
    */
   public getTags(): string {
     return [this.getTitleTag(), this.getMetaTags()].join('\n')

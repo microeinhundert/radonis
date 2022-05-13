@@ -8,6 +8,7 @@ declare global {
 
     interface Manifest {
       props: Record<string, Record<string, unknown>>
+      globals: Record<string, any>
       flashMessages: Record<string, FlashMessage>
       locale: string
       messages: Record<string, string>

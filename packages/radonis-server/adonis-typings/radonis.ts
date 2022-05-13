@@ -58,6 +58,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   interface RenderOptions {
     title?: string
     meta?: HeadMeta
+    globals?: Globals
   }
 
   interface RadonisConfig {
