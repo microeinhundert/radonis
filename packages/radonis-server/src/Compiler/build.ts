@@ -8,7 +8,13 @@
  */
 
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
-import type { BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-types'
+import type {
+  BuildManifest,
+  BuildManifestEntry,
+  FlashMessageIdentifier,
+  MessageIdentifier,
+  RouteIdentifier,
+} from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { writeFile } from 'fs'
@@ -22,9 +28,9 @@ import { stripPublicDir } from './utils'
 /**
  * Extract identifiers from usages of `.has(ValidationError)?` and `.get(ValidationError)?` from the source code
  */
-function extractFlashMessages(source: string): Set<string> {
+function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
   const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
-  const identifiers = new Set<string>()
+  const identifiers = new Set<FlashMessageIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -38,9 +44,9 @@ function extractFlashMessages(source: string): Set<string> {
 /**
  * Extract identifiers from usages of `.formatMessage` from the source code
  */
-function extractMessages(source: string): Set<string> {
+function extractMessages(source: string): Set<MessageIdentifier> {
   const matches = source.matchAll(I18N_USAGE_REGEX)
-  const identifiers = new Set<string>()
+  const identifiers = new Set<MessageIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -54,9 +60,9 @@ function extractMessages(source: string): Set<string> {
 /**
  * Extract identifiers from usages of `.make` from the source code
  */
-function extractRoutes(source: string): Set<string> {
+function extractRoutes(source: string): Set<RouteIdentifier> {
   const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
-  const identifiers = new Set<string>()
+  const identifiers = new Set<RouteIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {

@@ -8,6 +8,7 @@
  */
 
 export { useFlashMessages } from './hooks/useFlashMessages'
+export { useGlobals } from './hooks/useGlobals'
 export { useI18n } from './hooks/useI18n'
 export { useManifest } from './hooks/useManifest'
 export { useRoute } from './hooks/useRoute'

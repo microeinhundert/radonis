@@ -43,7 +43,7 @@ export function discoverComponents(directory: string): Map<string, string> {
 /**
  * Inject the call to the hydrate function into the source code of a component
  */
-export function injectHydrateCall(componentName: string, source: string, sourceType: 'esm' | 'cjs'): string {
+export function injectHydrateCall(componentIdentifier: string, source: string, sourceType: 'esm' | 'cjs'): string {
   return `
     ${
       sourceType === 'esm'
@@ -51,7 +51,7 @@ export function injectHydrateCall(componentName: string, source: string, sourceT
         : 'const { registerComponentForHydration } = require("@microeinhundert/radonis");'
     }
     ${source}
-    registerComponentForHydration("${componentName}", ${componentName});
+    registerComponentForHydration("${componentIdentifier}", ${componentIdentifier});
   `
 }
 

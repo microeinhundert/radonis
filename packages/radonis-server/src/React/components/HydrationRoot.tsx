@@ -15,10 +15,10 @@ import React, { useId } from 'react'
 import { useCompiler } from '../hooks/useCompiler'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
 
-export function HydrationRoot({ children, componentName }: HydrationRootProps) {
+export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
   const compiler = useCompiler()
-  const { root: parentHydrationRootId, componentName: parentComponentName } = useHydration()
+  const { root: parentHydrationRootId, componentIdentifier: parentComponentIdentifier } = useHydration()
   const hydrationRootId = useId()
 
   /*
@@ -26,7 +26,7 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
    */
   invariant(
     !parentHydrationRootId,
-    `Found HydrationRoot "${hydrationRootId}" for component "${componentName}" nested inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentName}".
+    `Found HydrationRoot "${hydrationRootId}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentIdentifier}".
     This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
   )
 
@@ -35,16 +35,16 @@ export function HydrationRoot({ children, componentName }: HydrationRootProps) {
   /*
    * Register the props with the ManifestBuilder
    */
-  const propsHash = manifestBuilder.registerProps(componentName, props)
+  const propsHash = manifestBuilder.registerProps(componentIdentifier, props)
 
   /*
    * Require the component for hydration on the Compiler
    */
-  compiler.requireComponentForHydration(componentName)
+  compiler.requireComponentForHydration(componentIdentifier)
 
   return (
-    <HydrationContextProvider value={{ hydrated: false, root: hydrationRootId, componentName, propsHash }}>
-      <div data-component={componentName} data-hydration-root={hydrationRootId} data-props={propsHash}>
+    <HydrationContextProvider value={{ hydrated: false, root: hydrationRootId, componentIdentifier, propsHash }}>
+      <div data-component={componentIdentifier} data-hydration-root={hydrationRootId} data-props={propsHash}>
         {children}
       </div>
     </HydrationContextProvider>

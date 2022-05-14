@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { getManifestOrFail, invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import { invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type {
   AssetsManifestEntry,
+  Components,
   FlashMessageIdentifier,
-  HydratableComponents,
   MessageIdentifier,
   RouteIdentifier,
   ValueOf,
@@ -22,6 +22,7 @@ import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../React/contexts/hydrationContext'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
+import { getManifestOrFail } from './utils'
 
 export class HydrationManager {
   /**
@@ -37,7 +38,7 @@ export class HydrationManager {
   /**
    * The components registered for hydration
    */
-  private components: HydratableComponents = {}
+  private components: Components = {}
 
   /**
    * Constructor
@@ -56,21 +57,25 @@ export class HydrationManager {
   private async hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
     if (isServer) return
 
-    const { hydrationRoot: hydrationRootId, component: componentName, props: propsHash = '0' } = hydrationRoot.dataset
+    const {
+      hydrationRoot: hydrationRootId,
+      component: componentIdentifier,
+      props: propsHash = '0',
+    } = hydrationRoot.dataset
 
     invariant(
-      hydrationRootId && componentName,
+      hydrationRootId && componentIdentifier,
       `Found a HydrationRoot that is missing required hydration data.
       Please make sure you passed all the required props to all of your HydrationRoots.
       If everything looks fine to you, this is most likely a bug of Radonis`
     )
 
-    const Component = this.components[componentName]
+    const Component = this.components[componentIdentifier]
 
     invariant(
       Component,
-      `Found the server-rendered component "${componentName}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated.
-      Please make sure the component "${componentName}" exists in the client bundle`
+      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated.
+      Please make sure the component "${componentIdentifier}" exists in the client bundle`
     )
 
     const manifest = getManifestOrFail()
@@ -78,7 +83,7 @@ export class HydrationManager {
     const tree = await this.pluginsManager.execute(
       'beforeRender',
       <StrictMode>
-        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentName, propsHash }}>
+        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentIdentifier, propsHash }}>
           <Component {...(manifest.props[propsHash] ?? {})} />
         </HydrationContextProvider>
       </StrictMode>,
@@ -125,7 +130,7 @@ export class HydrationManager {
   /**
    * Register a component
    */
-  public registerComponent(identifier: string, Component: ValueOf<HydratableComponents>): this {
+  public registerComponent(identifier: string, Component: ValueOf<Components>): this {
     if (isServer) return this
 
     invariant(

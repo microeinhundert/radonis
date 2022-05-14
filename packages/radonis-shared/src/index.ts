@@ -7,6 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { getManifestOrFail, isClient, isProduction, isServer } from './environment'
+export { isClient, isProduction, isServer } from './environment'
 export { definePlugin, PluginsManager } from './PluginsManager'
 export { invariant, separateArray } from './utils'

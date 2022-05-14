@@ -12,22 +12,22 @@ import { join } from 'path'
 import type { ComponentType, ReactElement } from 'react'
 
 /**
- * Hydratable component name
+ * Component identifier (overridden by generated type)
  */
-export type HydratableComponentName = string
+export type ComponentIdentifier = string
 
 /**
- * Hydratable components
+ * Components
  */
-export type HydratableComponents = Record<HydratableComponentName, ComponentType>
+export type Components = Record<ComponentIdentifier, ComponentType>
 
 /**
- * Generate a union type of all hydratable components
+ * Generate a union type of all components
  */
-export function generateHydratableComponentNameUnionType(components: HydratableComponentName[]): string {
-  if (!components.length) return 'type HydratableComponentName = never'
+export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
+  if (!components.length) return 'type ComponentIdentifier = never'
 
-  return `type HydratableComponentName = ${components.map((value) => `'${value}'`).join(' | ')}`
+  return `type ComponentIdentifier = ${components.map((value) => `'${value}'`).join(' | ')}`
 }
 
 /* ---------------------------------------- */
@@ -45,7 +45,7 @@ export type PropsGroups = Record<PropsGroupHash, Record<string, any>>
 /* ---------------------------------------- */
 
 /**
- * Globals (must be an interface for declaration merging)
+ * Globals (must be an interface for declaration merging, overridden by consumer)
  */
 export interface Globals {}
 
@@ -69,7 +69,7 @@ export type FlashMessages = Record<FlashMessageIdentifier, string | boolean | nu
 export type Locale = string
 
 /**
- * Message identifier
+ * Message identifier (overridden by generated type)
  */
 export type MessageIdentifier = string
 
@@ -100,7 +100,7 @@ export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]
 export type RouteIdentifier = string
 
 /**
- * Routes
+ * Routes (overridden by generated type)
  */
 export type Routes = Record<RouteIdentifier, string>
 
@@ -130,7 +130,7 @@ export type RouteParams = Record<string, string | number>
 /**
  * Manifest
  */
-export type Manifest = {
+export interface Manifest {
   props: PropsGroups
   globals: Globals
   flashMessages: FlashMessages
@@ -145,10 +145,10 @@ export type Manifest = {
 /**
  * Hydration requirements
  */
-export type HydrationRequirements = {
-  flashMessages: Set<string>
-  messages: Set<string>
-  routes: Set<string>
+export interface HydrationRequirements {
+  flashMessages: Set<FlashMessageIdentifier>
+  messages: Set<MessageIdentifier>
+  routes: Set<RouteIdentifier>
 }
 
 /* ---------------------------------------- */
@@ -156,7 +156,7 @@ export type HydrationRequirements = {
 /**
  * Build manifest entry
  */
-export type BuildManifestEntry = HydrationRequirements & {
+export interface BuildManifestEntry extends HydrationRequirements {
   type: 'component' | 'entry' | 'chunk'
   path: string
   publicPath: string
@@ -173,7 +173,7 @@ export type BuildManifest = Record<string, BuildManifestEntry>
 /**
  * Assets manifest entry
  */
-export type AssetsManifestEntry = HydrationRequirements & {
+export interface AssetsManifestEntry extends HydrationRequirements {
   type: 'component' | 'entry'
   identifier: string
   path: string
@@ -204,7 +204,7 @@ export type PluginHookWithBuilder<B, I> = (input: I) => (value: B) => Promise<B>
 /**
  * Plugin hooks
  */
-export type PluginHooks = {
+export interface PluginHooks {
   /**
    * This plugin hook is called after the client has been initialized
    */
@@ -249,7 +249,7 @@ export type PluginHooks = {
 /**
  * Plugin
  */
-export type Plugin = Partial<PluginHooks> & {
+export interface Plugin extends Partial<PluginHooks> {
   /**
    * The name of the plugin
    */
@@ -281,14 +281,14 @@ export function generateAndWriteTypesToDisk(
     messages,
     routes,
   }: {
-    components: HydratableComponentName[]
+    components: ComponentIdentifier[]
     messages: MessageIdentifier[]
     routes: RouteIdentifier[]
   },
   outputDir: string
 ): void {
   const typeDeclarations = [
-    generateHydratableComponentNameUnionType(components),
+    generateComponentIdentifierUnionType(components),
     generateMessageIdentifierUnionType(messages),
     generateRouteIdentifierUnionType(routes),
   ].join('\n')

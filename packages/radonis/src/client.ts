@@ -8,7 +8,7 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
+import { invariant, isClient, isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 
@@ -26,16 +26,25 @@ let clientInitialized = false
  */
 export async function initClient(config?: ClientConfig): Promise<void> {
   invariant(
+    isClient,
+    'The Radonis client can only be initialized on the client. Make sure to only run "initClient" in the browser'
+  )
+
+  invariant(
     !clientInitialized,
     'The Radonis client was initialized multiple times. Make sure to only initialize it once in your application'
   )
 
   if (config?.plugins?.length) {
     pluginsManager.install('client', ...config.plugins)
+    await pluginsManager.execute('onInitClient', null, null)
   }
 
-  await pluginsManager.execute('onInitClient', null, null)
   hydrationManager.hydrateRoots()
+
+  if (isProduction) {
+    document.querySelector('#rad-manifest')?.remove()
+  }
 
   clientInitialized = true
 }

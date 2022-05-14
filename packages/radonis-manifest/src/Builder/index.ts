@@ -164,7 +164,7 @@ export class Builder implements Manifest {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentName: string, rawProps: ValueOf<PropsGroups>): PropsGroupHash | null {
+  public registerProps(componentIdentifier: string, rawProps: ValueOf<PropsGroups>): PropsGroupHash | null {
     try {
       const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)
@@ -179,7 +179,7 @@ export class Builder implements Manifest {
 
       return propsHash
     } catch {
-      invariant(false, `The props passed to the component "${componentName}" are not serializable`)
+      invariant(false, `The props passed to the component "${componentIdentifier}" are not serializable`)
     }
   }
 

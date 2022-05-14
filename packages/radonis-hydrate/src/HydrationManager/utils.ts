@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-hooks
+ * @microeinhundert/radonis-hydrate
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -10,10 +10,13 @@
 import { invariant } from '@microeinhundert/radonis-shared'
 import type { Manifest } from '@microeinhundert/radonis-types'
 
-export function useManifest() {
+/**
+ * Get the manifest, fail if it does not exist on the global scope
+ */
+export function getManifestOrFail(): Manifest {
   const manifest = (globalThis ?? window).radonisManifest
 
   invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
-  return manifest as Manifest
+  return manifest
 }

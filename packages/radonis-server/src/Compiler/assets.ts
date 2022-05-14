@@ -11,6 +11,7 @@ import type {
   AssetsManifest,
   BuildManifest,
   BuildManifestEntry,
+  ComponentIdentifier,
   HydrationRequirements,
 } from '@microeinhundert/radonis-types'
 
@@ -74,7 +75,7 @@ export function generateAssetsManifest(buildManifest: BuildManifest): AssetsMani
 
     assetsManifest.push({
       type: buildManifestEntry.type,
-      identifier: identifier,
+      identifier,
       path: buildManifestEntry.publicPath,
       ...reduceHydrationRequirements(buildManifestEntry.imports, {
         flashMessages: buildManifestEntry.flashMessages,
@@ -92,7 +93,7 @@ export function generateAssetsManifest(buildManifest: BuildManifest): AssetsMani
  */
 export function extractRequiredAssets(
   assetsManifest: AssetsManifest,
-  requiredAssets: { components: Set<string> }
+  requiredAssets: { components: Set<ComponentIdentifier> }
 ): AssetsManifest {
   return assetsManifest.reduce<AssetsManifest>((assets, asset) => {
     /**

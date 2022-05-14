@@ -153,7 +153,7 @@ Route.get('/signUp', async ({ radonis }) => {
 ## The Manifest
 
 The manifest is where Radonis stores all its data, like props of a component or translation messages. This manifest is also accessible client-side, which makes client-side hydration possible.
-By default, Radonis limits the client manifest to only include data required for client-side hydration. If your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+By default, Radonis limits the client manifest to only include data required for client-side hydration. However if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
 
 ### Extending the manifest
 
@@ -183,14 +183,14 @@ Route.get('/signUp', async ({ radonis }) => {
 })
 ```
 
-Access your custom globals with the `useManifest` hook:
+Access your custom globals with the `useGlobals` hook:
 
 ```typescript
-import { useManifest } from '@microeinhundert/radonis'
+import { useGlobals } from '@microeinhundert/radonis'
 
-const manifest = useManifest()
+const globals = useGlobals()
 
-console.log(manifest.globals) // => `{ user: { id: 1, email: 'radonis@example.com' } }`
+console.log(globals) // => `{ user: { id: 1, email: 'radonis@example.com' } }`
 ```
 
 > Note that globals are set on a per-request basis. Use a custom middleware if you need some globals on all routes.
@@ -205,7 +205,7 @@ import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis'
 
 function ServerRenderedComponent() {
   return (
-    <HydrationRoot componentName="SomeInteractiveComponent">
+    <HydrationRoot component="SomeInteractiveComponent">
       <SomeInteractiveComponent someProp="test">This component will be hydrated client-side</SomeInteractiveComponent>
     </HydrationRoot>
   )
@@ -256,7 +256,7 @@ import { useHydration } from '@microeinhundert/radonis'
 const hydration = useHydration()
 
 // Get info about the HydrationRoot the component is a child of:
-console.log(hydration) // => `{ hydrated: false, root: ':Rl6:', componentName: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
+console.log(hydration) // => `{ hydrated: false, root: ':Rl6:', componentIdentifier: 'SomeInteractiveComponent', propsHash: 'cf5aff6dac00648098a9' }`
 
 // By combining useHydration and useManifest, you can get the props of the component
 // passed to the HydrationRoot from any component in the tree:
@@ -302,7 +302,18 @@ const manifest = useManifest()
 console.log(manifest) // => `{ props: {}, globals: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. If your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. However if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+
+### useGlobals (Server and client)
+
+```typescript
+import { useGlobals } from '@microeinhundert/radonis'
+
+const globals = useGlobals()
+
+// Get the globals:
+console.log(globals) // => `{}`
+```
 
 ### useRoute (Server and client)
 

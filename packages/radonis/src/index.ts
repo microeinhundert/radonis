@@ -10,6 +10,7 @@
 export { initClient, registerComponentForHydration } from './client'
 export {
   useFlashMessages,
+  useGlobals,
   useI18n,
   useManifest,
   useRoute,
@@ -19,8 +20,8 @@ export {
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
 export { definePlugin } from '@microeinhundert/radonis-shared'
 export type {
+  ComponentIdentifier,
   FlashMessageIdentifier,
-  HydratableComponentName,
   MessageIdentifier,
   Plugin,
   RouteIdentifier,
