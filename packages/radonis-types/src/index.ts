@@ -95,12 +95,12 @@ export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]
 /* ---------------------------------------- */
 
 /**
- * Route identifier
+ * Route identifier (overridden by generated type)
  */
 export type RouteIdentifier = string
 
 /**
- * Routes (overridden by generated type)
+ * Routes
  */
 export type Routes = Record<RouteIdentifier, string>
 

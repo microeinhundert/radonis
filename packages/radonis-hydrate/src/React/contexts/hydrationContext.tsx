@@ -13,12 +13,12 @@ import { createContext } from 'react'
 export const hydrationContext = createContext<{
   hydrated: boolean
   root: string | null
-  componentIdentifier: ComponentIdentifier | null
+  component: ComponentIdentifier | null
   propsHash: PropsGroupHash | null
 }>({
   hydrated: false,
   root: null,
-  componentIdentifier: null,
+  component: null,
   propsHash: null,
 })
 

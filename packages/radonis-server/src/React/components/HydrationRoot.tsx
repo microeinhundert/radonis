@@ -18,7 +18,7 @@ import { useManifestBuilder } from '../hooks/useManifestBuilder'
 export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
   const compiler = useCompiler()
-  const { root: parentHydrationRootId, componentIdentifier: parentComponentIdentifier } = useHydration()
+  const { root: parentHydrationRootId, component: parentComponentIdentifier } = useHydration()
   const hydrationRootId = useId()
 
   /*
@@ -43,7 +43,9 @@ export function HydrationRoot({ children, component: componentIdentifier }: Hydr
   compiler.requireComponentForHydration(componentIdentifier)
 
   return (
-    <HydrationContextProvider value={{ hydrated: false, root: hydrationRootId, componentIdentifier, propsHash }}>
+    <HydrationContextProvider
+      value={{ hydrated: false, root: hydrationRootId, component: componentIdentifier, propsHash }}
+    >
       <div data-component={componentIdentifier} data-hydration-root={hydrationRootId} data-props={propsHash}>
         {children}
       </div>

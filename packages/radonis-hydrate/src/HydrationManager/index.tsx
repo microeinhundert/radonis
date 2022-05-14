@@ -83,7 +83,9 @@ export class HydrationManager {
     const tree = await this.pluginsManager.execute(
       'beforeRender',
       <StrictMode>
-        <HydrationContextProvider value={{ hydrated: true, root: hydrationRootId, componentIdentifier, propsHash }}>
+        <HydrationContextProvider
+          value={{ hydrated: true, root: hydrationRootId, component: componentIdentifier, propsHash }}
+        >
           <Component {...(manifest.props[propsHash] ?? {})} />
         </HydrationContextProvider>
       </StrictMode>,
