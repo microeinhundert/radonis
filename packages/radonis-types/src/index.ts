@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { writeFile } from 'fs'
+import { outputFile } from 'fs-extra'
 import { join } from 'path'
 import type { ComponentType, ReactElement } from 'react'
 
@@ -287,15 +287,14 @@ export function generateAndWriteTypesToDisk(
   },
   outputDir: string
 ): void {
-  writeFile(
-    join(outputDir, '.radonis', 'types.d.ts'),
-    [
-      generateHydratableComponentNameUnionType(components),
-      generateMessageIdentifierUnionType(messages),
-      generateRouteIdentifierUnionType(routes),
-    ].join('\n'),
-    (error) => {
-      if (error) throw new Error('Error writing types to disk')
-    }
+  const typeDeclarations = [
+    generateHydratableComponentNameUnionType(components),
+    generateMessageIdentifierUnionType(messages),
+    generateRouteIdentifierUnionType(routes),
+  ].join('\n')
+
+  outputFile(
+    join(outputDir, 'radonis.d.ts'),
+    `// This file is auto-generated, DO NOT EDIT\ndeclare module '@microeinhundert/radonis-types' {\n${typeDeclarations}\n}`
   )
 }

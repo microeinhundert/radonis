@@ -94,7 +94,7 @@ export class UrlBuilderImpl {
    * Find the route inside the list of registered routes and
    * raise exception when unable to
    */
-  private findRouteOrFail(identifier: string): ValueOf<Routes> {
+  private findRouteOrFail(identifier: RouteIdentifier): ValueOf<Routes> {
     const route = this.routes[identifier]
 
     invariant(route, `Cannot find route for "${identifier}"`)

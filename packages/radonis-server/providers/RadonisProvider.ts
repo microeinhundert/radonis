@@ -9,7 +9,8 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
+import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import { isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
 import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
 
 import {
@@ -22,6 +23,23 @@ import {
   useRouter,
   useSession,
 } from '../src/React'
+
+/**
+ * Extract the root routes from a Router instance
+ */
+export function extractRootRoutes(Router: RouterContract): Record<string, any> {
+  const rootRoutes = Router.toJSON()?.['root'] ?? []
+
+  return rootRoutes.reduce<Record<string, any>>((routes, route) => {
+    if (route.name) {
+      routes[route.name] = route.pattern
+    } else if (typeof route.handler === 'string') {
+      routes[route.handler] = route.pattern
+    }
+
+    return routes
+  }, {})
+}
 
 export default class RadonisProvider {
   public static needsApplication = true
@@ -115,6 +133,45 @@ export default class RadonisProvider {
 
     this.application.container.withBindings(
       [
+        'Adonis/Core/Application',
+        'Adonis/Core/Route',
+        'Adonis/Addons/I18n',
+        'Adonis/Addons/Radonis/ManifestBuilder',
+        'Adonis/Addons/Radonis/Compiler',
+      ],
+      async (Application, Route, I18n, ManifestBuilder, Compiler) => {
+        /**
+         * Compile
+         */
+        const assets = await Compiler.compile()
+
+        /**
+         * Set routes on the ManifestBuilder
+         */
+        const routes = extractRootRoutes(Route)
+        ManifestBuilder.setRoutes(routes)
+
+        if (isProduction) return
+
+        const components = assets.filter(({ type }) => type === 'component').map(({ identifier }) => identifier)
+        const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
+
+        /**
+         * Generate types
+         */
+        generateAndWriteTypesToDisk(
+          {
+            components,
+            messages: Object.keys(messagesForDefaultLocale),
+            routes: Object.keys(routes),
+          },
+          Application.tmpPath('types')
+        )
+      }
+    )
+
+    this.application.container.withBindings(
+      [
         'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
@@ -124,17 +181,9 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
-        const assets = await Compiler.compile()
-
-        generateAndWriteTypesToDisk(
-          {
-            components: assets.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
-            messages: Object.keys(ManifestBuilder.messages),
-            routes: Object.keys(ManifestBuilder.routes),
-          },
-          Application.appRoot
-        )
-
+        /**
+         * Define getter
+         */
         HttpContext.getter(
           'radonis',
           function () {

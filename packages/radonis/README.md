@@ -66,16 +66,18 @@ Add the following to the `compilerOptions` object of your `tsconfig.json`:
 ```json
 {
   "compilerOptions": {
+    ...,
     "jsx": "react"
   }
 }
 ```
 
-For additional type safety, add the dynamically generated radonis types to the `files` array of your `tsconfig.json`:
+For additional type safety, add the dynamically generated radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
 ```json
 {
-  "files": ["./.radonis/types.d.ts"]
+  "exclude": [..., "tmp"],
+  "files": [..., "./tmp/types/radonis.d.ts"]
 }
 ```
 

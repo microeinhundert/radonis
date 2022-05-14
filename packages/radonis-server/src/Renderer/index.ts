@@ -11,11 +11,11 @@ import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
 import type { AdonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Globals, Locale } from '@microeinhundert/radonis-types'
+import type { Globals, Locale, Route } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
@@ -23,7 +23,16 @@ import { renderToString } from 'react-dom/server'
 import type { Compiler } from '../Compiler'
 import type { HeadManager } from '../HeadManager'
 import { wrapWithDocument } from '../React'
-import { extractRootRoutes, transformRoute } from './utils'
+
+/**
+ * Transform a RouteNode to the shape expected by the manifest
+ */
+export function transformRoute(routeNode?: RouteNode): Route {
+  return {
+    name: routeNode?.name,
+    pattern: routeNode?.pattern,
+  }
+}
 
 export class Renderer {
   /**
@@ -110,7 +119,6 @@ export class Renderer {
       .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
       .setLocale(locale)
       .setMessages(this.i18n.getTranslationsFor(locale))
-      .setRoutes(extractRootRoutes(router))
       .setRoute(transformRoute(httpContext.route))
 
     return this

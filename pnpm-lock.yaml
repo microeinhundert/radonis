@@ -237,6 +237,9 @@ importers:
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
       '@types/react-dom': ^18.0.3
+      fs-extra: ^10.1.0
+    dependencies:
+      fs-extra: 10.1.0
     devDependencies:
       '@types/node': 16.11.27
       '@types/react': 18.0.9
