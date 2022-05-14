@@ -1,7 +1,7 @@
 {
   "extends": "../node_modules/adonis-preset-ts/tsconfig",
   "include": ["**/*"],
-  "exclude": ["node_modules", "build"],
+  "exclude": ["node_modules", "build", "tmp"],
   "compilerOptions": {
     "outDir": "build",
     "rootDir": "./",
@@ -23,5 +23,5 @@
       "@microeinhundert/radonis-server"
     ]
   },
-  "files": ["./.radonis/types.d.ts"],
+  "files": ["./tmp/types/radonis.d.ts"]
 }
