@@ -30,7 +30,6 @@ Add the following to the `compilerOptions` object of your `tsconfig.json`:
 ```json
 {
   "compilerOptions": {
-    ...,
     "jsx": "react"
   }
 }
@@ -40,7 +39,7 @@ For additional type safety, add the dynamically generated radonis types to the `
 
 ```json
 {
-  "exclude": [..., "tmp"],
-  "files": [..., "./tmp/types/radonis.d.ts"]
+  "exclude": ["tmp"],
+  "files": ["./tmp/types/radonis.d.ts"]
 }
 ```
