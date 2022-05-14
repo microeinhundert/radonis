@@ -10,6 +10,7 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
+import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
 
 import {
   HydrationRoot,
@@ -123,7 +124,16 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
-        await Compiler.compile()
+        const assets = await Compiler.compile()
+
+        generateAndWriteTypesToDisk(
+          {
+            components: assets.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
+            messages: Object.keys(ManifestBuilder.messages),
+            routes: Object.keys(ManifestBuilder.routes),
+          },
+          Application.appRoot
+        )
 
         HttpContext.getter(
           'radonis',

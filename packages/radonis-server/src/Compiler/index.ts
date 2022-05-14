@@ -64,16 +64,19 @@ export class Compiler {
   /**
    * Compile
    */
-  public async compile(): Promise<void> {
+  public async compile(): Promise<AssetsManifest> {
     const {
       client: { outputDir, buildOptions },
     } = this.config
 
     try {
-      const componentsDirPath = this.getComponentsDirPath()
       const entryFilePath = this.getEntryFilePath()
+      const componentsDirPath = this.getComponentsDirPath()
       const components = discoverComponents(componentsDirPath)
       const buildManifest = await buildEntryFileAndComponents(entryFilePath, components, outputDir, buildOptions)
+      const assetsManifest = generateAssetsManifest(buildManifest)
+
+      this.assetsManifest = assetsManifest
 
       /**
        * Output a log message after successful compilation
@@ -81,7 +84,7 @@ export class Compiler {
        */
       this.logger.info(`finished compilation of ${Object.keys(buildManifest).length - 1} component(s)`)
 
-      this.assetsManifest = generateAssetsManifest(buildManifest)
+      return assetsManifest
     } catch (error) {
       const messageParts = error.message.split('error:')
       invariant(false, messageParts.at(-1).trim())

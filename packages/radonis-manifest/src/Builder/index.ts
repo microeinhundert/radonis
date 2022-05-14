@@ -8,12 +8,25 @@
  */
 
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
-import type { Manifest, Props, PropsHash } from '@microeinhundert/radonis-types'
+import type {
+  FlashMessages,
+  Globals,
+  Locale,
+  Manifest,
+  Messages,
+  PropsGroupHash,
+  PropsGroups,
+  Route,
+  Routes,
+  ValueOf,
+} from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
 
 import { FlashMessagesManager } from '../FlashMessagesManager'
 import { I18nManager } from '../I18nManager'
 import { RoutesManager } from '../RoutesManager'
+
+const PROPS_HASHER = hasher({ sort: true, coerce: false, alg: 'md5' })
 
 export class Builder implements Manifest {
   /**
@@ -32,24 +45,19 @@ export class Builder implements Manifest {
   private routesManager: RoutesManager = new RoutesManager()
 
   /**
-   * The hasher used to hash component props
-   */
-  private propsHasher = hasher({ sort: true, coerce: false, alg: 'md5' })
-
-  /**
    * The props registered with the Builder
    */
-  public props: Manifest['props'] = {}
+  public props: PropsGroups = {}
 
   /**
    * The globals added to the Builder
    */
-  public globals: Manifest['globals'] = {}
+  public globals: Globals = {}
 
   /**
    * The current route set on the Builder
    */
-  public route: Manifest['route'] = null
+  public route: Route | null = null
 
   /**
    * Constructor
@@ -59,49 +67,49 @@ export class Builder implements Manifest {
   /**
    * The flash messages
    */
-  public get flashMessages(): Manifest['flashMessages'] {
+  public get flashMessages(): FlashMessages {
     return this.flashMessagesManager.getFlashMessages(true)
   }
 
   /**
    * The flash messages required for hydration
    */
-  public get flashMessagesRequiredForHydration(): Manifest['flashMessages'] {
+  public get flashMessagesRequiredForHydration(): FlashMessages {
     return this.flashMessagesManager.getFlashMessages()
   }
 
   /**
    * The locale
    */
-  public get locale(): Manifest['locale'] {
+  public get locale(): Locale {
     return this.i18nManager.getLocale()
   }
 
   /**
    * The messages
    */
-  public get messages(): Manifest['messages'] {
+  public get messages(): Messages {
     return this.i18nManager.getMessages(true)
   }
 
   /**
    * The messages required for hydration
    */
-  public get messagesRequiredForHydration(): Manifest['messages'] {
+  public get messagesRequiredForHydration(): Messages {
     return this.i18nManager.getMessages()
   }
 
   /**
    * The routes
    */
-  public get routes(): Manifest['routes'] {
+  public get routes(): Routes {
     return this.routesManager.getRoutes(true)
   }
 
   /**
    * The routes required for hydration
    */
-  public get routesRequiredForHydration(): Manifest['routes'] {
+  public get routesRequiredForHydration(): Routes {
     return this.routesManager.getRoutes()
   }
 
@@ -149,23 +157,21 @@ export class Builder implements Manifest {
   /**
    * Set the server manifest on the global scope
    */
-  public setServerManifestOnGlobalScope(): this {
+  public setServerManifestOnGlobalScope(): void {
     globalThis.radonisManifest = this.serverManifest
-
-    return this
   }
 
   /**
    * Register props with the Builder
    */
-  public registerProps(componentName: string, rawProps: Props): PropsHash | null {
+  public registerProps(componentName: string, rawProps: ValueOf<PropsGroups>): PropsGroupHash | null {
     try {
       const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)
 
       if (!propsKeys.length) return null
 
-      const propsHash = this.propsHasher.hash(props)
+      const propsHash = PROPS_HASHER.hash(props)
 
       if (!(propsHash in this.props)) {
         this.props[propsHash] = props
@@ -180,7 +186,7 @@ export class Builder implements Manifest {
   /**
    * Add globals to the Builder
    */
-  public addGlobals(globals: Manifest['globals']): this {
+  public addGlobals(globals: Globals): this {
     this.globals = { ...this.globals, ...globals }
 
     return this
@@ -189,7 +195,7 @@ export class Builder implements Manifest {
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: Manifest['flashMessages']): this {
+  public setFlashMessages(flashMessages: FlashMessages): this {
     this.flashMessagesManager.setFlashMessages(flashMessages)
 
     return this
@@ -198,7 +204,7 @@ export class Builder implements Manifest {
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Manifest['locale']): this {
+  public setLocale(locale: Locale): this {
     this.i18nManager.setLocale(locale)
 
     return this
@@ -207,7 +213,7 @@ export class Builder implements Manifest {
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Manifest['messages']): this {
+  public setMessages(messages: Messages): this {
     this.i18nManager.setMessages(messages)
 
     return this
@@ -216,7 +222,7 @@ export class Builder implements Manifest {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Manifest['routes']): this {
+  public setRoutes(routes: Routes): this {
     this.routesManager.setRoutes(routes)
 
     return this
@@ -225,7 +231,7 @@ export class Builder implements Manifest {
   /**
    * Set the current route on the Builder
    */
-  public setRoute(route: Manifest['route']): this {
+  public setRoute(route: Route): this {
     this.route = route
 
     return this

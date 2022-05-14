@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { RouteIdentifier, Routes } from '@microeinhundert/radonis-types'
+
 export class RoutesManager {
   /**
    * The singleton instance
@@ -16,12 +18,12 @@ export class RoutesManager {
   /**
    * The routes
    */
-  private routes: Record<string, any> = {}
+  private routes: Routes = {}
 
   /**
    * The routes required for hydration
    */
-  private routesRequiredForHydration: Set<string> = new Set()
+  private routesRequiredForHydration: Set<RouteIdentifier> = new Set()
 
   /**
    * Constructor
@@ -37,19 +39,19 @@ export class RoutesManager {
   /**
    * Set the routes
    */
-  public setRoutes(routes: Record<string, any>): void {
+  public setRoutes(routes: Routes): void {
     this.routes = routes
   }
 
   /**
    * Get the routes
    */
-  public getRoutes(all?: boolean): Record<string, any> {
+  public getRoutes(all?: boolean): Routes {
     if (all) {
       return this.routes
     }
 
-    const routes = {} as Record<string, any>
+    const routes = {} as Routes
 
     for (const identifier of this.routesRequiredForHydration) {
       if (identifier in this.routes) {
@@ -63,7 +65,7 @@ export class RoutesManager {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: '*' | string): void {
+  public requireRouteForHydration(identifier: '*' | RouteIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all routes

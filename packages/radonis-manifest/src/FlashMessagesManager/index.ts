@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { FlashMessage } from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
 
 export class FlashMessagesManager {
   /**
@@ -18,12 +18,12 @@ export class FlashMessagesManager {
   /**
    * The flash messages
    */
-  private flashMessages: Record<string, FlashMessage> = {}
+  private flashMessages: FlashMessages = {}
 
   /**
    * The flash messages required for hydration
    */
-  private flashMessagesRequiredForHydration: Set<string> = new Set()
+  private flashMessagesRequiredForHydration: Set<FlashMessageIdentifier> = new Set()
 
   /**
    * Constructor
@@ -39,19 +39,19 @@ export class FlashMessagesManager {
   /**
    * Set the flash messages
    */
-  public setFlashMessages(flashMessages: Record<string, FlashMessage>): void {
+  public setFlashMessages(flashMessages: FlashMessages): void {
     this.flashMessages = flashMessages
   }
 
   /**
    * Get the flash messages
    */
-  public getFlashMessages(all?: boolean): Record<string, FlashMessage> {
+  public getFlashMessages(all?: boolean): FlashMessages {
     if (all) {
       return this.flashMessages
     }
 
-    const flashMessages = {} as Record<string, FlashMessage>
+    const flashMessages = {} as FlashMessages
 
     for (const identifier of this.flashMessagesRequiredForHydration) {
       if (identifier in this.flashMessages) {
@@ -65,7 +65,7 @@ export class FlashMessagesManager {
   /**
    * Require a flash message for hydration
    */
-  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | string): void {
+  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | FlashMessageIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all flash messages

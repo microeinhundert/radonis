@@ -9,19 +9,20 @@
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { invariant } from '@microeinhundert/radonis-shared'
+import type { Locale, MessageData, MessageIdentifier, Messages, ValueOf } from '@microeinhundert/radonis-types'
 import { IntlMessageFormat } from 'intl-messageformat'
 
-export class I18n {
+export class I18nImpl {
   /**
    * Constructor
    */
-  constructor(private locale: string, private messages: Record<string, string>, private willHydrate?: boolean) {}
+  constructor(private locale: Locale, private messages: Messages, private willHydrate?: boolean) {}
 
   /**
    * Find the message inside the registered messages and
    * raise exception when unable to
    */
-  private findMessageOrFail(identifier: string): string {
+  private findMessageOrFail(identifier: MessageIdentifier): ValueOf<Messages> {
     const message = this.messages[identifier]
 
     invariant(message, `Cannot find message for "${identifier}"`)
@@ -36,7 +37,7 @@ export class I18n {
   /**
    * Format a message
    */
-  public formatMessage(identifier: string, data?: Record<string, any>): string {
+  public formatMessage(identifier: MessageIdentifier, data?: MessageData): ValueOf<Messages> {
     const message = this.findMessageOrFail(identifier)
 
     return new IntlMessageFormat(

@@ -11,7 +11,7 @@ import { invariant } from '@microeinhundert/radonis-shared'
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
 
-export const loaders: { [ext: string]: Loader } = {
+export const loaders: Record<string, Loader> = {
   '.js': 'js',
   '.jsx': 'jsx',
   '.ts': 'ts',

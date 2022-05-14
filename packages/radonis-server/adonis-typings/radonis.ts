@@ -15,7 +15,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
   import type { ReactElement } from 'react'
-  import type { Globals, Plugin } from '@microeinhundert/radonis-types'
+  import type { Globals, HydratableComponentName, Plugin } from '@microeinhundert/radonis-types'
 
   interface AdonisContextContract {
     application: ApplicationContract
@@ -50,7 +50,7 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   interface HydrationRootProps {
     children: ReactElement<Record<string, any>>
-    componentName: string
+    componentName: HydratableComponentName
   }
 
   function HydrationRoot(props: HydrationRootProps): JSX.Element

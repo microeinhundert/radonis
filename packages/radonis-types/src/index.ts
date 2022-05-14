@@ -7,27 +7,113 @@
  * file that was distributed with this source code.
  */
 
-import type { ReactElement } from 'react'
+import { writeFile } from 'fs'
+import { join } from 'path'
+import type { ComponentType, ReactElement } from 'react'
+
+/**
+ * Hydratable component name
+ */
+export type HydratableComponentName = string
+
+/**
+ * Hydratable components
+ */
+export type HydratableComponents = Record<HydratableComponentName, ComponentType>
+
+/**
+ * Generate a union type of all hydratable components
+ */
+export function generateHydratableComponentNameUnionType(components: HydratableComponentName[]): string {
+  if (!components.length) return 'type HydratableComponentName = never'
+
+  return `type HydratableComponentName = ${components.map((value) => `'${value}'`).join(' | ')}`
+}
+
+/* ---------------------------------------- */
 
 /**
  * Props hash
  */
-export type PropsHash = string
+export type PropsGroupHash = string
 
 /**
- * Props
+ * Props groups
  */
-export type Props = Record<string, any>
+export type PropsGroups = Record<PropsGroupHash, Record<string, any>>
+
+/* ---------------------------------------- */
 
 /**
  * Globals (must be an interface for declaration merging)
  */
 export interface Globals {}
 
+/* ---------------------------------------- */
+
 /**
- * Flash message
+ * Flash message identifier
  */
-export type FlashMessage = string | boolean | number
+export type FlashMessageIdentifier = string
+
+/**
+ * Flash messages
+ */
+export type FlashMessages = Record<FlashMessageIdentifier, string | boolean | number>
+
+/* ---------------------------------------- */
+
+/**
+ * Locale
+ */
+export type Locale = string
+
+/**
+ * Message identifier
+ */
+export type MessageIdentifier = string
+
+/**
+ * Message data
+ */
+export type MessageData = Record<string, any>
+
+/**
+ * Messages
+ */
+export type Messages = Record<MessageIdentifier, string>
+
+/**
+ * Generate a union type of all available messages
+ */
+export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
+  if (!messages.length) return 'type MessageIdentifier = never'
+
+  return `type MessageIdentifier = ${messages.map((value) => `'${value}'`).join(' | ')}`
+}
+
+/* ---------------------------------------- */
+
+/**
+ * Route identifier
+ */
+export type RouteIdentifier = string
+
+/**
+ * Routes
+ */
+export type Routes = Record<RouteIdentifier, string>
+
+/**
+ * Generate a union type of all available routes
+ */
+export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
+  if (!routes.length) return 'type RouteIdentifier = never'
+
+  return `type RouteIdentifier = ${routes.map((value) => `'${value}'`).join(' | ')}`
+}
+
+/* ---------------------------------------- */
 
 /**
  * Route
@@ -35,28 +121,45 @@ export type FlashMessage = string | boolean | number
 export type Route = { name?: string; pattern?: string }
 
 /**
+ * Route params
+ */
+export type RouteParams = Record<string, string | number>
+
+/* ---------------------------------------- */
+
+/**
  * Manifest
  */
 export type Manifest = {
-  props: Record<PropsHash, Props>
+  props: PropsGroups
   globals: Globals
-  flashMessages: Record<string, FlashMessage>
-  locale: string
-  messages: Record<string, string>
-  routes: Record<string, any>
+  flashMessages: FlashMessages
+  locale: Locale
+  messages: Messages
+  routes: Routes
   route: Route | null
 }
+
+/* ---------------------------------------- */
+
+/**
+ * Hydration requirements
+ */
+export type HydrationRequirements = {
+  flashMessages: Set<string>
+  messages: Set<string>
+  routes: Set<string>
+}
+
+/* ---------------------------------------- */
 
 /**
  * Build manifest entry
  */
-export type BuildManifestEntry = {
+export type BuildManifestEntry = HydrationRequirements & {
   type: 'component' | 'entry' | 'chunk'
   path: string
   publicPath: string
-  flashMessages: Set<string>
-  messages: Set<string>
-  routes: Set<string>
   imports: BuildManifestEntry[]
 }
 
@@ -65,22 +168,23 @@ export type BuildManifestEntry = {
  */
 export type BuildManifest = Record<string, BuildManifestEntry>
 
+/* ---------------------------------------- */
+
 /**
  * Assets manifest entry
  */
-export type AssetsManifestEntry = {
+export type AssetsManifestEntry = HydrationRequirements & {
   type: 'component' | 'entry'
   identifier: string
   path: string
-  flashMessages: Set<string>
-  messages: Set<string>
-  routes: Set<string>
 }
 
 /**
  * Assets manifest
  */
 export type AssetsManifest = AssetsManifestEntry[]
+
+/* ---------------------------------------- */
 
 /**
  * Plugin environment
@@ -160,4 +264,38 @@ export type Plugin = Partial<PluginHooks> & {
    * The names of the plugins this plugin conflicts with
    */
   conflictsWith?: string[]
+}
+
+/* ---------------------------------------- */
+
+/**
+ * Utils
+ */
+export type ValueOf<T> = T[keyof T]
+
+/* ---------------------------------------- */
+
+export function generateAndWriteTypesToDisk(
+  {
+    components,
+    messages,
+    routes,
+  }: {
+    components: HydratableComponentName[]
+    messages: MessageIdentifier[]
+    routes: RouteIdentifier[]
+  },
+  outputDir: string
+): void {
+  writeFile(
+    join(outputDir, '.radonis', 'types.d.ts'),
+    [
+      generateHydratableComponentNameUnionType(components),
+      generateMessageIdentifierUnionType(messages),
+      generateRouteIdentifierUnionType(routes),
+    ].join('\n'),
+    (error) => {
+      if (error) throw new Error('Error writing types to disk')
+    }
+  )
 }

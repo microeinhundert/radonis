@@ -15,13 +15,13 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Globals } from '@microeinhundert/radonis-types'
+import type { Globals, Locale } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import { renderToString } from 'react-dom/server'
-import type { HeadManager } from 'src/HeadManager'
 
 import type { Compiler } from '../Compiler'
+import type { HeadManager } from '../HeadManager'
 import { wrapWithDocument } from '../React'
 import { extractRootRoutes, transformRoute } from './utils'
 
@@ -79,7 +79,7 @@ export class Renderer {
   /**
    * Extract the user locale from the http context
    */
-  private extractUserLocale({ request }: HttpContextContract): string {
+  private extractUserLocale({ request }: HttpContextContract): Locale {
     const supportedLocales = this.i18n.supportedLocales()
     return request.language(supportedLocales) || request.input('lang') || this.i18n.defaultLocale
   }

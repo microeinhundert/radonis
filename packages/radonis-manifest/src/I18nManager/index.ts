@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import type { Locale, MessageIdentifier, Messages } from '@microeinhundert/radonis-types'
+
 import { DEFAULT_LOCALE } from './constants'
 
 export class I18nManager {
@@ -18,17 +20,17 @@ export class I18nManager {
   /**
    * The locale
    */
-  private locale: string = DEFAULT_LOCALE
+  private locale: Locale = DEFAULT_LOCALE
 
   /**
    * The messages
    */
-  private messages: Record<string, string> = {}
+  private messages: Messages = {}
 
   /**
    * The messages required for hydration
    */
-  private messagesRequiredForHydration: Set<string> = new Set()
+  private messagesRequiredForHydration: Set<MessageIdentifier> = new Set()
 
   /**
    * Constructor
@@ -44,33 +46,33 @@ export class I18nManager {
   /**
    * Set the locale
    */
-  public setLocale(locale: string): void {
+  public setLocale(locale: Locale): void {
     this.locale = locale
   }
 
   /**
    * Get the locale
    */
-  public getLocale(): string {
+  public getLocale(): Locale {
     return this.locale
   }
 
   /**
    * Set the messages
    */
-  public setMessages(messages: Record<string, string>): void {
+  public setMessages(messages: Messages): void {
     this.messages = messages
   }
 
   /**
    * Get the messages
    */
-  public getMessages(all?: boolean): Record<string, string> {
+  public getMessages(all?: boolean): Messages {
     if (all) {
       return this.messages
     }
 
-    const messages = {} as Record<string, string>
+    const messages = {} as Messages
 
     for (const identifier of this.messagesRequiredForHydration) {
       if (identifier in this.messages) {
@@ -84,7 +86,7 @@ export class I18nManager {
   /**
    * Require a message for hydration
    */
-  public requireMessageForHydration(identifier: '*' | string): void {
+  public requireMessageForHydration(identifier: '*' | MessageIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all messages

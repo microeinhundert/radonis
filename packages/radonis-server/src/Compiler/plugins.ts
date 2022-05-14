@@ -25,6 +25,9 @@ const pluginsManager = new PluginsManager()
 
 export const compiledFiles = new Map<string, string>()
 
+/**
+ * The esbuild plugin responsible for compiling the components for the client
+ */
 export const radonisClientPlugin = (components: Map<string, string>, outputDir: string): Plugin => ({
   name: 'radonis-client',
   setup(build) {

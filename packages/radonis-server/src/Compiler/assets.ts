@@ -7,13 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetsManifest, BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-types'
-
-type HydrationRequirements = {
-  flashMessages: Set<string>
-  messages: Set<string>
-  routes: Set<string>
-}
+import type {
+  AssetsManifest,
+  BuildManifest,
+  BuildManifestEntry,
+  HydrationRequirements,
+} from '@microeinhundert/radonis-types'
 
 /**
  * Reduce the hydration requirements for a build manifest entry and its imports

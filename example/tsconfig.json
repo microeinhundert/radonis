@@ -22,5 +22,6 @@
       "@japa/preset-adonis/build/adonis-typings",
       "@microeinhundert/radonis-server"
     ]
-  }
+  },
+  "files": ["./.radonis/types.d.ts"],
 }

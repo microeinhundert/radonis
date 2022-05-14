@@ -8,8 +8,7 @@
  */
 
 import { getManifestOrFail, invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
-import type { AssetsManifestEntry } from '@microeinhundert/radonis-types'
-import type { ComponentType } from 'react'
+import type { AssetsManifestEntry, HydratableComponents, ValueOf } from '@microeinhundert/radonis-types'
 import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
@@ -31,7 +30,7 @@ export class HydrationManager {
   /**
    * The components registered for hydration
    */
-  private components: Record<string, ComponentType> = {}
+  private components: HydratableComponents = {}
 
   /**
    * Constructor
@@ -119,7 +118,7 @@ export class HydrationManager {
   /**
    * Register a component
    */
-  public registerComponent(identifier: string, Component: ComponentType): this {
+  public registerComponent(identifier: string, Component: ValueOf<HydratableComponents>): this {
     if (isServer) return this
 
     invariant(

@@ -9,38 +9,23 @@
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { invariant } from '@microeinhundert/radonis-shared'
+import type { RouteIdentifier, RouteParams, Routes, ValueOf } from '@microeinhundert/radonis-types'
 
-export class UrlBuilder {
+export class UrlBuilderImpl {
   /**
    * Params
    */
-  private params: Record<string, any> = {}
+  private params: RouteParams = {}
 
   /**
    * Query params
    */
-  private queryParams: Record<string, any> = {}
+  private queryParams: RouteParams = {}
 
   /**
    * Constructor
    */
-  constructor(private routes: Record<string, any>, private willHydrate?: boolean) {}
-
-  /**
-   * Find the route inside the list of registered routes and
-   * raise exception when unable to
-   */
-  private findRouteOrFail(identifier: string): any {
-    const route = this.routes[identifier]
-
-    invariant(route, `Cannot find route for "${identifier}"`)
-
-    if (this.willHydrate) {
-      new HydrationManager().requireRouteForHydration(identifier)
-    }
-
-    return route
-  }
+  constructor(private routes: Routes, private willHydrate?: boolean) {}
 
   /**
    * Process the pattern with params
@@ -94,7 +79,7 @@ export class UrlBuilder {
         if (Array.isArray(value)) {
           value.forEach((item) => params.append(key, item))
         } else {
-          params.set(key, value)
+          params.set(key, value.toString())
         }
       }
 
@@ -106,9 +91,25 @@ export class UrlBuilder {
   }
 
   /**
+   * Find the route inside the list of registered routes and
+   * raise exception when unable to
+   */
+  private findRouteOrFail(identifier: string): ValueOf<Routes> {
+    const route = this.routes[identifier]
+
+    invariant(route, `Cannot find route for "${identifier}"`)
+
+    if (this.willHydrate) {
+      new HydrationManager().requireRouteForHydration(identifier)
+    }
+
+    return route
+  }
+
+  /**
    * Define the params required to resolve the route
    */
-  public withParams(params?: Record<string, any>): this {
+  public withParams(params?: RouteParams): this {
     if (params) {
       this.params = params
     }
@@ -119,7 +120,7 @@ export class UrlBuilder {
   /**
    * Define the query params to suffix the URL with
    */
-  public withQueryParams(queryParams?: Record<string, any>): this {
+  public withQueryParams(queryParams?: RouteParams): this {
     if (queryParams) {
       this.queryParams = queryParams
     }
@@ -130,7 +131,7 @@ export class UrlBuilder {
   /**
    * Build the URL for the given route identifier
    */
-  public make(identifier: string): string {
+  public make(identifier: RouteIdentifier): ValueOf<Routes> {
     const route = this.findRouteOrFail(identifier)
     const url = this.processPattern(route)
 

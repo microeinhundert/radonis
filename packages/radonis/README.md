@@ -61,13 +61,21 @@ npm install --save-dev @types/react @types/react-dom
 
 ### 5. Configure TypeScript
 
-Add the following to the compilerOptions of your `tsconfig.json`:
+Add the following to the `compilerOptions` object of your `tsconfig.json`:
 
 ```json
 {
   "compilerOptions": {
     "jsx": "react"
   }
+}
+```
+
+For additional type safety, add the dynamically generated radonis types to the `files` array of your `tsconfig.json`:
+
+```json
+{
+  "files": ["./.radonis/types.d.ts"]
 }
 ```
 

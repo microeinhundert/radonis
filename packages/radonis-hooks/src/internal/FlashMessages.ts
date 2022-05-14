@@ -8,18 +8,18 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import type { FlashMessage } from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, FlashMessages, ValueOf } from '@microeinhundert/radonis-types'
 
-export class FlashMessages {
+export class FlashMessagesImpl {
   /**
    * Constructor
    */
-  constructor(private flashMessages: Record<string, FlashMessage>, private willHydrate?: boolean) {}
+  constructor(private flashMessages: FlashMessages, private willHydrate?: boolean) {}
 
   /**
    * Find the flash message inside the registered flash messages
    */
-  private findFlashMessage(identifier: string): FlashMessage | undefined {
+  private findFlashMessage(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
     const flashMessage = this.flashMessages[identifier]
 
     if (!flashMessage && !identifier.match(/\.(\d*)$/i)) {
@@ -36,7 +36,7 @@ export class FlashMessages {
   /**
    * Check if a flash message exists
    */
-  public has(identifier?: string): boolean {
+  public has(identifier?: FlashMessageIdentifier): boolean {
     if (!identifier) {
       /**
        * Check if flash messages exist
@@ -50,7 +50,7 @@ export class FlashMessages {
   /**
    * Check if a validation error flash message exists
    */
-  public hasValidationError(identifier?: string): boolean {
+  public hasValidationError(identifier?: FlashMessageIdentifier): boolean {
     if (!identifier) {
       /**
        * Check if validation error flash messages exist
@@ -64,9 +64,9 @@ export class FlashMessages {
   /**
    * Get a specific flash message
    */
-  public get<T extends FlashMessage>(identifier: string, defaultValue: T): T
-  public get<T extends FlashMessage>(identifier: string, defaultValue?: T): T | undefined
-  public get<T extends FlashMessage>(identifier: string, defaultValue?: T): T | undefined {
+  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue: T): T
+  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue?: T): T | undefined
+  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue?: T): T | undefined {
     // @ts-ignore
     return this.findFlashMessage(identifier) ?? defaultValue
   }
@@ -74,16 +74,22 @@ export class FlashMessages {
   /**
    * Get a specific validation error flash message
    */
-  public getValidationError<T extends string>(identifier: string, defaultValue: T): T
-  public getValidationError<T extends string>(identifier: string, defaultValue?: T): T | undefined
-  public getValidationError<T extends string>(identifier: string, defaultValue?: T): T | undefined {
+  public getValidationError<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue: T): T
+  public getValidationError<T extends ValueOf<FlashMessages>>(
+    identifier: FlashMessageIdentifier,
+    defaultValue?: T
+  ): T | undefined
+  public getValidationError<T extends ValueOf<FlashMessages>>(
+    identifier: FlashMessageIdentifier,
+    defaultValue?: T
+  ): T | undefined {
     return this.get<T>(`errors.${identifier}`, defaultValue)
   }
 
   /**
    * Get all flash messages
    */
-  public all(): Record<string, FlashMessage> {
+  public all(): FlashMessages {
     if (this.willHydrate) {
       new HydrationManager().requireFlashMessageForHydration('*')
     }
@@ -94,12 +100,12 @@ export class FlashMessages {
   /**
    * Get all validation error flash messages
    */
-  public allValidationErrors(): Record<string, FlashMessage> {
+  public allValidationErrors(): FlashMessages {
     if (this.willHydrate) {
       new HydrationManager().requireFlashMessageForHydration('errors.*')
     }
 
-    const flashMessages = {} as Record<string, FlashMessage>
+    const flashMessages = {} as FlashMessages
 
     for (const identifier in this.flashMessages) {
       if (identifier.startsWith('errors.')) {

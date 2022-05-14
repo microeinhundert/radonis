@@ -151,7 +151,7 @@ export class PluginsManager {
     initialBuilderValue: B,
     ...params: P
   ): Promise<B> {
-    const hooks = (this as any)[`${type}Hooks`] as PluginHook<T>[]
+    const hooks = this[`${type}Hooks`] as PluginHook<T>[]
 
     let builderValue = initialBuilderValue
 
