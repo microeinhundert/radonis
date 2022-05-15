@@ -11,6 +11,6 @@
     "declarationMap": true,
     "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/i18n"]
   },
-  "include": ["../../bin/**/*", "./**/*"],
+  "include": ["./**/*"],
   "exclude": ["node_modules", "build"]
 }

@@ -10,6 +10,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["../../bin/**/*", "./**/*"],
+  "include": ["./**/*"],
   "exclude": ["node_modules", "build"]
 }
