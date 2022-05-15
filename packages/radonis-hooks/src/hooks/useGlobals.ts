@@ -7,12 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { Globals } from '@microeinhundert/radonis-types'
-
 import { useManifest } from './useManifest'
 
 export function useGlobals() {
   const { globals } = useManifest()
 
-  return globals as Globals
+  return globals
 }

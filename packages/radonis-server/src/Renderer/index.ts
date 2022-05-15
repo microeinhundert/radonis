@@ -38,12 +38,12 @@ export class Renderer {
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager = new PluginsManager()
+  private pluginsManager: PluginsManager = PluginsManager.getInstance()
 
   /**
    * The HydrationManager instance
    */
-  private hydrationManager: HydrationManager = new HydrationManager()
+  private hydrationManager: HydrationManager = HydrationManager.getInstance()
 
   /**
    * The context

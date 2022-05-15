@@ -15,7 +15,7 @@ export class I18nManager {
   /**
    * The singleton instance
    */
-  private static instance: I18nManager
+  private static instance?: I18nManager
 
   /**
    * The locale
@@ -31,17 +31,6 @@ export class I18nManager {
    * The messages required for hydration
    */
   private messagesRequiredForHydration: Set<MessageIdentifier> = new Set()
-
-  /**
-   * Constructor
-   */
-  constructor() {
-    if (I18nManager.instance) {
-      return I18nManager.instance
-    }
-
-    I18nManager.instance = this
-  }
 
   /**
    * Set the locale
@@ -102,5 +91,12 @@ export class I18nManager {
    */
   public prepareForNewRequest(): void {
     this.messagesRequiredForHydration.clear()
+  }
+
+  /**
+   * Get the singleton instance
+   */
+  public static getInstance(): I18nManager {
+    return (I18nManager.instance = I18nManager.instance ?? new I18nManager())
   }
 }

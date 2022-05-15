@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "jsx": "react"
   },
+  "include": ["./packages/**/*"],
   "references": [
     {
       "path": "./packages/radonis/tsconfig.json"

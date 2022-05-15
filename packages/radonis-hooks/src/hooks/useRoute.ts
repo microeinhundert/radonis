@@ -23,7 +23,7 @@ export function useRoute() {
 
     if (routes[identifier]) {
       if (hydration.root) {
-        new HydrationManager().requireRouteForHydration(identifier)
+        HydrationManager.getInstance().requireRouteForHydration(identifier)
       }
 
       return !!route?.pattern?.startsWith(routes[identifier])

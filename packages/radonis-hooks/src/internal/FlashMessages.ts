@@ -27,7 +27,7 @@ export class FlashMessagesImpl {
     }
 
     if (this.willHydrate) {
-      new HydrationManager().requireFlashMessageForHydration(identifier)
+      HydrationManager.getInstance().requireFlashMessageForHydration(identifier)
     }
 
     return flashMessage
@@ -91,7 +91,7 @@ export class FlashMessagesImpl {
    */
   public all(): FlashMessages {
     if (this.willHydrate) {
-      new HydrationManager().requireFlashMessageForHydration('*')
+      HydrationManager.getInstance().requireFlashMessageForHydration('*')
     }
 
     return this.flashMessages
@@ -102,7 +102,7 @@ export class FlashMessagesImpl {
    */
   public allValidationErrors(): FlashMessages {
     if (this.willHydrate) {
-      new HydrationManager().requireFlashMessageForHydration('errors.*')
+      HydrationManager.getInstance().requireFlashMessageForHydration('errors.*')
     }
 
     const flashMessages = {} as FlashMessages

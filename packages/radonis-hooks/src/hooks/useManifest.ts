@@ -10,10 +10,18 @@
 import { invariant } from '@microeinhundert/radonis-shared'
 import type { Manifest } from '@microeinhundert/radonis-types'
 
+declare global {
+  var radonisManifest: Manifest | undefined
+
+  interface Window {
+    radonisManifest: Manifest | undefined
+  }
+}
+
 export function useManifest() {
   const manifest = (globalThis ?? window).radonisManifest
 
   invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
-  return manifest as Manifest
+  return manifest
 }

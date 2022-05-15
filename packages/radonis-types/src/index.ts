@@ -130,15 +130,14 @@ export type RouteParams = Record<string, string | number>
 /**
  * Manifest
  */
-export interface Manifest {
+export type Manifest = {
   props: PropsGroups
-  globals: Globals
   flashMessages: FlashMessages
   locale: Locale
   messages: Messages
   routes: Routes
   route: Route | null
-}
+} & { globals: Globals }
 
 /* ---------------------------------------- */
 

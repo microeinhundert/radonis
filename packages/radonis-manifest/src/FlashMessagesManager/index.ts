@@ -13,7 +13,7 @@ export class FlashMessagesManager {
   /**
    * The singleton instance
    */
-  private static instance: FlashMessagesManager
+  private static instance?: FlashMessagesManager
 
   /**
    * The flash messages
@@ -24,17 +24,6 @@ export class FlashMessagesManager {
    * The flash messages required for hydration
    */
   private flashMessagesRequiredForHydration: Set<FlashMessageIdentifier> = new Set()
-
-  /**
-   * Constructor
-   */
-  constructor() {
-    if (FlashMessagesManager.instance) {
-      return FlashMessagesManager.instance
-    }
-
-    FlashMessagesManager.instance = this
-  }
 
   /**
    * Set the flash messages
@@ -88,5 +77,12 @@ export class FlashMessagesManager {
    */
   public prepareForNewRequest(): void {
     this.flashMessagesRequiredForHydration.clear()
+  }
+
+  /**
+   * Get the singleton instance
+   */
+  public static getInstance(): FlashMessagesManager {
+    return (FlashMessagesManager.instance = FlashMessagesManager.instance ?? new FlashMessagesManager())
   }
 }

@@ -22,28 +22,17 @@ import type {
 } from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
 
-import { FlashMessagesManager } from '../FlashMessagesManager'
-import { I18nManager } from '../I18nManager'
-import { RoutesManager } from '../RoutesManager'
+import type { FlashMessagesManager } from '../FlashMessagesManager'
+import type { I18nManager } from '../I18nManager'
+import type { RoutesManager } from '../RoutesManager'
 
 const PROPS_HASHER = hasher({ sort: true, coerce: false, alg: 'md5' })
 
+type BuilderConfig = {
+  limitClientManifest: boolean
+}
+
 export class Builder implements Manifest {
-  /**
-   * The FlashMessagesManager instance
-   */
-  private flashMessagesManager: FlashMessagesManager = new FlashMessagesManager()
-
-  /**
-   * The I18nManager instance
-   */
-  private i18nManager: I18nManager = new I18nManager()
-
-  /**
-   * The RoutesManager instance
-   */
-  private routesManager: RoutesManager = new RoutesManager()
-
   /**
    * The props registered with the Builder
    */
@@ -62,7 +51,12 @@ export class Builder implements Manifest {
   /**
    * Constructor
    */
-  constructor(private limitClientManifest: boolean) {}
+  constructor(
+    private flashMessagesManager: FlashMessagesManager,
+    private i18nManager: I18nManager,
+    private routesManager: RoutesManager,
+    private config: BuilderConfig
+  ) {}
 
   /**
    * The flash messages
@@ -135,10 +129,10 @@ export class Builder implements Manifest {
     return {
       props: this.props,
       globals: this.globals,
-      flashMessages: this.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
+      flashMessages: this.config.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       locale: this.locale,
-      messages: this.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
-      routes: this.limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      messages: this.config.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
+      routes: this.config.limitClientManifest ? this.routesRequiredForHydration : this.routes,
       route: this.route,
     }
   }
@@ -171,10 +165,10 @@ export class Builder implements Manifest {
 
       if (!propsKeys.length) return null
 
-      const propsHash = PROPS_HASHER.hash(props)
+      const propsHash = PROPS_HASHER.hash(rawProps)
 
       if (!(propsHash in this.props)) {
-        this.props[propsHash] = props
+        this.props[propsHash] = rawProps
       }
 
       return propsHash

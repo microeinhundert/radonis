@@ -28,7 +28,7 @@ export class I18nImpl {
     invariant(message, `Cannot find message for "${identifier}"`)
 
     if (this.willHydrate) {
-      new HydrationManager().requireMessageForHydration(identifier)
+      HydrationManager.getInstance().requireMessageForHydration(identifier)
     }
 
     return message

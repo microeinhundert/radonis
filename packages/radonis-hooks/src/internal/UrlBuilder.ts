@@ -100,7 +100,7 @@ export class UrlBuilderImpl {
     invariant(route, `Cannot find route for "${identifier}"`)
 
     if (this.willHydrate) {
-      new HydrationManager().requireRouteForHydration(identifier)
+      HydrationManager.getInstance().requireRouteForHydration(identifier)
     }
 
     return route

@@ -13,7 +13,7 @@ export class RoutesManager {
   /**
    * The singleton instance
    */
-  private static instance: RoutesManager
+  private static instance?: RoutesManager
 
   /**
    * The routes
@@ -24,17 +24,6 @@ export class RoutesManager {
    * The routes required for hydration
    */
   private routesRequiredForHydration: Set<RouteIdentifier> = new Set()
-
-  /**
-   * Constructor
-   */
-  constructor() {
-    if (RoutesManager.instance) {
-      return RoutesManager.instance
-    }
-
-    RoutesManager.instance = this
-  }
 
   /**
    * Set the routes
@@ -81,5 +70,12 @@ export class RoutesManager {
    */
   public prepareForNewRequest(): void {
     this.routesRequiredForHydration.clear()
+  }
+
+  /**
+   * Get the singleton instance
+   */
+  public static getInstance(): RoutesManager {
+    return (RoutesManager.instance = RoutesManager.instance ?? new RoutesManager())
   }
 }

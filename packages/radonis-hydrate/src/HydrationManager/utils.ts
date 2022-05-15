@@ -10,6 +10,14 @@
 import { invariant } from '@microeinhundert/radonis-shared'
 import type { Manifest } from '@microeinhundert/radonis-types'
 
+declare global {
+  var radonisManifest: Manifest | undefined
+
+  interface Window {
+    radonisManifest: Manifest | undefined
+  }
+}
+
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */

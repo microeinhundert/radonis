@@ -20,7 +20,7 @@ import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
-import { HydrationContextProvider } from '../React/contexts/hydrationContext'
+import { HydrationContextProvider } from '../React'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils'
 
@@ -28,28 +28,17 @@ export class HydrationManager {
   /**
    * The singleton instance
    */
-  private static instance: HydrationManager
+  private static instance?: HydrationManager
 
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager = new PluginsManager()
+  private pluginsManager: PluginsManager = PluginsManager.getInstance()
 
   /**
    * The components registered for hydration
    */
   private components: Components = {}
-
-  /**
-   * Constructor
-   */
-  constructor() {
-    if (HydrationManager.instance) {
-      return HydrationManager.instance
-    }
-
-    HydrationManager.instance = this
-  }
 
   /**
    * Hydrate a specific HydrationRoot
@@ -58,13 +47,13 @@ export class HydrationManager {
     if (isServer) return
 
     const {
-      hydrationRoot: hydrationRootId,
+      hydrationRoot: hydrationRootIdentifier,
       component: componentIdentifier,
       props: propsHash = '0',
     } = hydrationRoot.dataset
 
     invariant(
-      hydrationRootId && componentIdentifier,
+      hydrationRootIdentifier && componentIdentifier,
       `Found a HydrationRoot that is missing required hydration data.
       Please make sure you passed all the required props to all of your HydrationRoots.
       If everything looks fine to you, this is most likely a bug of Radonis`
@@ -74,7 +63,7 @@ export class HydrationManager {
 
     invariant(
       Component,
-      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootId}", but that component could not be hydrated.
+      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootIdentifier}", but that component could not be hydrated.
       Please make sure the component "${componentIdentifier}" exists in the client bundle`
     )
 
@@ -84,7 +73,7 @@ export class HydrationManager {
       'beforeRender',
       <StrictMode>
         <HydrationContextProvider
-          value={{ hydrated: true, root: hydrationRootId, component: componentIdentifier, propsHash }}
+          value={{ hydrated: true, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}
         >
           <Component {...(manifest.props[propsHash] ?? {})} />
         </HydrationContextProvider>
@@ -154,7 +143,7 @@ export class HydrationManager {
 
     const { FlashMessagesManager } = require('@microeinhundert/radonis-manifest')
 
-    new FlashMessagesManager().requireFlashMessageForHydration(identifier)
+    FlashMessagesManager.getInstance().requireFlashMessageForHydration(identifier)
 
     return this
   }
@@ -167,7 +156,7 @@ export class HydrationManager {
 
     const { I18nManager } = require('@microeinhundert/radonis-manifest')
 
-    new I18nManager().requireMessageForHydration(identifier)
+    I18nManager.getInstance().requireMessageForHydration(identifier)
 
     return this
   }
@@ -180,7 +169,7 @@ export class HydrationManager {
 
     const { RoutesManager } = require('@microeinhundert/radonis-manifest')
 
-    new RoutesManager().requireRouteForHydration(identifier)
+    RoutesManager.getInstance().requireRouteForHydration(identifier)
 
     return this
   }
@@ -205,5 +194,12 @@ export class HydrationManager {
     }
 
     return this
+  }
+
+  /**
+   * Get the singleton instance
+   */
+  public static getInstance(): HydrationManager {
+    return (HydrationManager.instance = HydrationManager.instance ?? new HydrationManager())
   }
 }

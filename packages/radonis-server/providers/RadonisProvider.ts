@@ -10,6 +10,7 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
 import { isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
 import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
 
@@ -47,7 +48,7 @@ export default class RadonisProvider {
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager = new PluginsManager()
+  private pluginsManager: PluginsManager = PluginsManager.getInstance()
 
   /**
    * Constructor
@@ -71,7 +72,13 @@ export default class RadonisProvider {
     this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
-      return new ManifestBuilder(radonisConfig.client.limitManifest)
+      const flashMessagesManager = FlashMessagesManager.getInstance()
+      const i18nManager = I18nManager.getInstance()
+      const routesManager = RoutesManager.getInstance()
+
+      return new ManifestBuilder(flashMessagesManager, i18nManager, routesManager, {
+        limitManifest: radonisConfig.client.limitManifest,
+      })
     })
 
     /**
@@ -180,7 +187,7 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/HeadManager',
         'Adonis/Addons/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
+      (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
         /**
          * Define getter
          */

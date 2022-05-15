@@ -17,7 +17,7 @@ export class PluginsManager {
   /**
    * The singleton instance
    */
-  private static instance: PluginsManager
+  private static instance?: PluginsManager
 
   /**
    * Names of the installed plugins
@@ -63,17 +63,6 @@ export class PluginsManager {
    * The registered `afterRender` hooks
    */
   private afterRenderHooks: PluginHook<'afterRender'>[] = []
-
-  /**
-   * Constructor
-   */
-  constructor() {
-    if (PluginsManager.instance) {
-      return PluginsManager.instance
-    }
-
-    PluginsManager.instance = this
-  }
 
   /**
    * Register the hooks of a plugin
@@ -164,6 +153,13 @@ export class PluginsManager {
     }
 
     return builderValue
+  }
+
+  /**
+   * Get the singleton instance
+   */
+  public static getInstance(): PluginsManager {
+    return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager())
   }
 }
 

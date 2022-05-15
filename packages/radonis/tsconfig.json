@@ -10,7 +10,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "files": ["../../types/global.d.ts"],
   "include": ["./**/*"],
   "exclude": ["node_modules", "build"]
 }

@@ -12,8 +12,8 @@ import { invariant, isClient, isProduction, PluginsManager } from '@microeinhund
 import type { Plugin } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 
-const pluginsManager = new PluginsManager()
-const hydrationManager = new HydrationManager()
+const pluginsManager = PluginsManager.getInstance()
+const hydrationManager = HydrationManager.getInstance()
 
 type ClientConfig = {
   plugins?: Plugin[]
@@ -27,7 +27,7 @@ let clientInitialized = false
 export async function initClient(config?: ClientConfig): Promise<void> {
   invariant(
     isClient,
-    'The Radonis client can only be initialized on the client. Make sure to only run "initClient" in the browser'
+    'The Radonis client can only be initialized on the client. Make sure to only execute "initClient" in the browser'
   )
 
   invariant(

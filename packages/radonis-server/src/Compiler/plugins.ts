@@ -21,7 +21,7 @@ import {
 import { getLoaderForFile } from './loaders'
 import { injectHydrateCall, warnAboutIocUsage, warnAboutMissingDefaultExport } from './utils'
 
-const pluginsManager = new PluginsManager()
+const pluginsManager = PluginsManager.getInstance()
 
 export const compiledFiles = new Map<string, string>()
 

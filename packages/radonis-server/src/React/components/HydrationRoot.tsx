@@ -18,15 +18,15 @@ import { useManifestBuilder } from '../hooks/useManifestBuilder'
 export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
   const compiler = useCompiler()
-  const { root: parentHydrationRootId, component: parentComponentIdentifier } = useHydration()
-  const hydrationRootId = useId()
+  const { root: parentHydrationRootIdentifier, component: parentComponentIdentifier } = useHydration()
+  const hydrationRootIdentifier = useId()
 
   /*
    * Fail if the HydrationRoot is nested inside another HydrationRoot
    */
   invariant(
-    !parentHydrationRootId,
-    `Found HydrationRoot "${hydrationRootId}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootId}" for component "${parentComponentIdentifier}".
+    !parentHydrationRootIdentifier,
+    `Found HydrationRoot "${hydrationRootIdentifier}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootIdentifier}" for component "${parentComponentIdentifier}".
     This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
   )
 
@@ -44,9 +44,9 @@ export function HydrationRoot({ children, component: componentIdentifier }: Hydr
 
   return (
     <HydrationContextProvider
-      value={{ hydrated: false, root: hydrationRootId, component: componentIdentifier, propsHash }}
+      value={{ hydrated: false, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}
     >
-      <div data-component={componentIdentifier} data-hydration-root={hydrationRootId} data-props={propsHash}>
+      <div data-component={componentIdentifier} data-hydration-root={hydrationRootIdentifier} data-props={propsHash}>
         {children}
       </div>
     </HydrationContextProvider>
