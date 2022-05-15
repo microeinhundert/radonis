@@ -31,7 +31,7 @@ export class Compiler {
   /**
    * Constructor
    */
-  constructor(private logger: LoggerContract, private config: RadonisConfig) {}
+  constructor(private logger: LoggerContract, private config: Pick<RadonisConfig, 'client'>) {}
 
   /**
    * Get the path to the entry file

@@ -34,7 +34,7 @@ export class HeadManager {
   /**
    * Constructor
    */
-  constructor(private config: RadonisConfig) {
+  constructor(private config: Pick<RadonisConfig, 'head'>) {
     this.setDefaults()
   }
 
@@ -43,7 +43,7 @@ export class HeadManager {
    */
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
-    this.addMeta(this.config.head.defaultMeta)
+    this.addMeta(this.config.head.defaultMeta, true)
   }
 
   /**
@@ -58,8 +58,8 @@ export class HeadManager {
   /**
    * Add page meta
    */
-  public addMeta(meta: HeadMeta): void {
-    this.meta = { ...this.meta, ...meta }
+  public addMeta(meta: HeadMeta, override?: boolean): void {
+    this.meta = override ? meta : { ...this.meta, ...meta }
   }
 
   /**

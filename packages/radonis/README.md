@@ -509,7 +509,12 @@ function yourPlugin() {
     /**
      * This plugin hook is called before a file is output by the compiler
      */
-    beforeOutput(fileContents: string) {},
+    beforeOutput() {
+      return (source: string) => {
+        // Return modified file source
+        return source
+      }
+    },
 
     /**
      * This plugin hook is called after all files have been output by the compiler
@@ -530,7 +535,7 @@ function yourPlugin() {
      * This plugin hook is called before the page is rendered
      */
     beforeRender() {
-      return async (tree: ReactElement) => {
+      return (tree: ReactElement) => {
         // Return modified React tree
         return tree
       }
@@ -540,7 +545,7 @@ function yourPlugin() {
      * This plugin hook is called after the page has been rendered
      */
     afterRender() {
-      return async (html: string) => {
+      return (html: string) => {
         // Return modified HTML
         return html
       }

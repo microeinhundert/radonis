@@ -92,7 +92,7 @@ export class PluginsManager {
     targetEnvironment: PluginEnvironment,
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
-    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" was already registered`)
+    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" was already installed`)
 
     if (environments?.length && targetEnvironment === 'server') {
       invariant(
