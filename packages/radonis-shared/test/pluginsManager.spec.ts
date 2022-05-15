@@ -11,7 +11,10 @@ import { test } from '@japa/runner'
 
 import { definePlugin, PluginsManager } from '../src/PluginsManager'
 
-test.group('PluginsManager', (group) => {
+/**
+ * Plugins Manager
+ */
+test.group('Plugins Manager', (group) => {
   let pluginsManager: PluginsManager
 
   group.each.setup(() => {

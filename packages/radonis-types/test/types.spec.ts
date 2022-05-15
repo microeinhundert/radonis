@@ -15,7 +15,10 @@ import {
   generateRouteIdentifierUnionType,
 } from '../src'
 
-test.group('Types', () => {
+/**
+ * Type Generators
+ */
+test.group('Type Generators', () => {
   test('generates component identifier union', ({ assert }) => {
     const declaration = generateComponentIdentifierUnionType(['ComponentOne', 'ComponentTwo', 'ComponentThree'])
     assert.equal(declaration, `type ComponentIdentifier = 'ComponentOne' | 'ComponentTwo' | 'ComponentThree'`)

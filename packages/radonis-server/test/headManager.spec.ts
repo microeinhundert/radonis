@@ -11,7 +11,10 @@ import { test } from '@japa/runner'
 
 import { HeadManager } from '../src/HeadManager'
 
-test.group('HeadManager', (group) => {
+/**
+ * Head Manager
+ */
+test.group('Head Manager', (group) => {
   let headManager: HeadManager
 
   group.each.setup(() => {
