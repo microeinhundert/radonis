@@ -18,7 +18,7 @@ import {
 /**
  * Type Generators
  */
-test.group('Type Generators', () => {
+test.group('Type Generation', () => {
   test('generates component identifier union', ({ assert }) => {
     const declaration = generateComponentIdentifierUnionType(['ComponentOne', 'ComponentTwo', 'ComponentThree'])
     assert.equal(declaration, `type ComponentIdentifier = 'ComponentOne' | 'ComponentTwo' | 'ComponentThree'`)

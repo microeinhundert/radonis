@@ -10,6 +10,7 @@
 import { test } from '@japa/runner'
 
 import { HeadManager } from '../src/HeadManager'
+import { headManagerConfigFixture } from './fixtures/headManagerConfig'
 
 /**
  * Head Manager
@@ -18,20 +19,7 @@ test.group('Head Manager', (group) => {
   let headManager: HeadManager
 
   group.each.setup(() => {
-    headManager = new HeadManager({
-      head: {
-        title: {
-          default: 'Radonis',
-          prefix: '',
-          suffix: '',
-          separator: '|',
-        },
-        defaultMeta: {
-          charSet: 'utf-8',
-          viewport: 'width=device-width, initial-scale=1.0',
-        },
-      },
-    })
+    headManager = new HeadManager(headManagerConfigFixture)
   })
 
   test('outputs title set via config', ({ assert }) => {

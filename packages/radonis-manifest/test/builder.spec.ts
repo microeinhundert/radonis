@@ -13,6 +13,11 @@ import { Builder } from '../src/Builder'
 import { FlashMessagesManager } from '../src/FlashMessagesManager'
 import { I18nManager } from '../src/I18nManager'
 import { RoutesManager } from '../src/RoutesManager'
+import { flashMessagesFixtureOne } from './fixtures/flashMessages'
+import { globalsFixtureOne } from './fixtures/globals'
+import { i18nFixtureOne } from './fixtures/i18n'
+import { propsFixtureNonSerializable, propsFixtureOne, propsFixtureTwo } from './fixtures/props'
+import { routesFixtureOne } from './fixtures/routes'
 
 /**
  * Globals
@@ -33,16 +38,12 @@ test.group('Globals', (group) => {
   })
 
   test('stores globals', ({ assert }) => {
-    const data = { lorem: 'ipsum', test: 123, hello: { to: 'world' } }
-
-    builder.addGlobals(data)
-    assert.deepEqual(builder.globals, data)
+    builder.addGlobals(globalsFixtureOne)
+    assert.deepEqual(builder.globals, globalsFixtureOne)
   })
 
   test('clears globals on new request', ({ assert }) => {
-    const data = { lorem: 'ipsum', test: 123, hello: { to: 'world' } }
-
-    builder.addGlobals(data)
+    builder.addGlobals(globalsFixtureOne)
     builder.prepareForNewRequest()
     assert.deepEqual(builder.globals, {})
   })
@@ -57,18 +58,6 @@ test.group('Props', (group) => {
   let routesManager: RoutesManager
   let builder: Builder
 
-  const data = {
-    stringProp: 'hello world',
-    numericProp: 123,
-    arrayProp: [1, 2, 3],
-    objectProp: {
-      stringProp: 'hello world',
-      numericProp: 123,
-      arrayProp: [1, 2, 3],
-    },
-    dateProp: new Date(),
-  }
-
   group.each.setup(() => {
     flashMessagesManager = new FlashMessagesManager()
     i18nManager = new I18nManager()
@@ -79,43 +68,46 @@ test.group('Props', (group) => {
   })
 
   test('stores', ({ assert }) => {
-    const propsHashOne = builder.registerProps('MyComponentOne', data) as string
+    const propsHashOne = builder.registerProps('MyComponentOne', propsFixtureOne)
     assert.isString(propsHashOne)
 
-    const propsHashTwo = builder.registerProps('MyComponentTwo', data) as string
+    const propsHashTwo = builder.registerProps('MyComponentTwo', propsFixtureTwo)
     assert.isString(propsHashTwo)
 
-    const propsHashThree = builder.registerProps('MyComponentThree', {}) as null
+    const propsHashThree = builder.registerProps('MyComponentThree', {})
     assert.isNull(propsHashThree)
 
-    assert.deepEqual(builder.props, { [propsHashOne]: data, [propsHashTwo]: data })
+    assert.deepEqual(builder.props, {
+      [propsHashOne as string]: propsFixtureOne,
+      [propsHashTwo as string]: propsFixtureTwo,
+    })
   })
 
   test('clears on new request', ({ assert }) => {
-    builder.registerProps('MyComponentOne', data) as string
+    builder.registerProps('MyComponentOne', propsFixtureOne)
     builder.prepareForNewRequest()
     assert.deepEqual(builder.props, {})
   })
 
   test('throws if not serializable', ({ assert }) => {
     assert.throws(
-      () => builder.registerProps('MyComponent', { ...data, nonSerializableProp: BigInt(1) }),
+      () => builder.registerProps('MyComponent', propsFixtureNonSerializable),
       'The props passed to the component "MyComponent" are not serializable'
     )
   })
 
   test('serializes the client manifest', ({ assert }) => {
-    const propsHashOne = builder.registerProps('MyComponentOne', data) as string
-    assert.isString(propsHashOne)
-
-    const propsHashTwo = builder.registerProps('MyComponentTwo', data) as string
-    assert.isString(propsHashTwo)
+    const propsHashOne = builder.registerProps('MyComponentOne', propsFixtureOne)
+    const propsHashTwo = builder.registerProps('MyComponentTwo', propsFixtureTwo)
 
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
         {
-          props: { [propsHashOne]: data, [propsHashTwo]: data },
+          props: {
+            [propsHashOne as string]: propsFixtureOne,
+            [propsHashTwo as string]: propsFixtureTwo,
+          },
           globals: {},
           flashMessages: {},
           locale: 'en',
@@ -139,11 +131,6 @@ test.group('Flash Messages', (group) => {
   let routesManager: RoutesManager
   let builder: Builder
 
-  const data = {
-    firstName: 'Error on field',
-    welcome: 'Welcome to AdonisJS + Radonis!',
-  }
-
   group.each.setup(() => {
     flashMessagesManager = new FlashMessagesManager()
     i18nManager = new I18nManager()
@@ -151,23 +138,22 @@ test.group('Flash Messages', (group) => {
     builder = new Builder(flashMessagesManager, i18nManager, routesManager, {
       limitClientManifest: true,
     })
-    builder.setFlashMessages(data)
+    builder.setFlashMessages(flashMessagesFixtureOne)
   })
 
   test('stores and requires for hydration', ({ assert }) => {
-    assert.deepEqual(builder.flashMessagesRequiredForHydration, {})
     flashMessagesManager.requireFlashMessageForHydration('firstName')
     assert.deepEqual(builder.flashMessagesRequiredForHydration, {
       firstName: 'Error on field',
     })
-    assert.deepEqual(builder.flashMessages, data)
+    assert.deepEqual(builder.flashMessages, flashMessagesFixtureOne)
   })
 
   test('clears hydration requirements on new request', ({ assert }) => {
     flashMessagesManager.requireFlashMessageForHydration('firstName')
     builder.prepareForNewRequest()
     assert.deepEqual(builder.flashMessagesRequiredForHydration, {})
-    assert.deepEqual(builder.flashMessages, data)
+    assert.deepEqual(builder.flashMessages, flashMessagesFixtureOne)
   })
 
   test('serializes the client manifest', ({ assert }) => {
@@ -179,7 +165,7 @@ test.group('Flash Messages', (group) => {
         {
           props: {},
           globals: {},
-          flashMessages: data,
+          flashMessages: flashMessagesFixtureOne,
           locale: 'en',
           messages: {},
           routes: {},
@@ -201,12 +187,6 @@ test.group('I18n', (group) => {
   let routesManager: RoutesManager
   let builder: Builder
 
-  const data = {
-    'hello': 'Hello { name }',
-    'shared.sidebar.signOut': 'Sign Out',
-    'shared.sidebar.signIn': 'Sign In',
-  }
-
   group.each.setup(() => {
     flashMessagesManager = new FlashMessagesManager()
     i18nManager = new I18nManager()
@@ -214,25 +194,24 @@ test.group('I18n', (group) => {
     builder = new Builder(flashMessagesManager, i18nManager, routesManager, {
       limitClientManifest: true,
     })
-    builder.setMessages(data)
+    builder.setMessages(i18nFixtureOne)
   })
 
   test('stores and requires for hydration', ({ assert }) => {
-    assert.deepEqual(builder.messagesRequiredForHydration, {})
     i18nManager.requireMessageForHydration('hello')
     i18nManager.requireMessageForHydration('shared.sidebar.signIn')
     assert.deepEqual(builder.messagesRequiredForHydration, {
       'hello': 'Hello { name }',
       'shared.sidebar.signIn': 'Sign In',
     })
-    assert.deepEqual(builder.messages, data)
+    assert.deepEqual(builder.messages, i18nFixtureOne)
   })
 
   test('clears hydration requirements on new request', ({ assert }) => {
     i18nManager.requireMessageForHydration('hello')
     builder.prepareForNewRequest()
     assert.deepEqual(builder.messagesRequiredForHydration, {})
-    assert.deepEqual(builder.messages, data)
+    assert.deepEqual(builder.messages, i18nFixtureOne)
   })
 
   test('serializes the client manifest', ({ assert }) => {
@@ -246,7 +225,7 @@ test.group('I18n', (group) => {
           globals: {},
           flashMessages: {},
           locale: 'en',
-          messages: data,
+          messages: i18nFixtureOne,
           routes: {},
           route: null,
         },
@@ -266,12 +245,6 @@ test.group('Routes', (group) => {
   let routesManager: RoutesManager
   let builder: Builder
 
-  const data = {
-    'drive.local.serve': '/uploads/*',
-    'home': '/',
-    'dashboard': '/dashboard',
-  }
-
   group.each.setup(() => {
     flashMessagesManager = new FlashMessagesManager()
     i18nManager = new I18nManager()
@@ -279,23 +252,22 @@ test.group('Routes', (group) => {
     builder = new Builder(flashMessagesManager, i18nManager, routesManager, {
       limitClientManifest: true,
     })
-    builder.setRoutes(data)
+    builder.setRoutes(routesFixtureOne)
   })
 
   test('stores and requires for hydration', ({ assert }) => {
-    assert.deepEqual(builder.routesRequiredForHydration, {})
     routesManager.requireRouteForHydration('drive.local.serve')
     assert.deepEqual(builder.routesRequiredForHydration, {
       'drive.local.serve': '/uploads/*',
     })
-    assert.deepEqual(builder.routes, data)
+    assert.deepEqual(builder.routes, routesFixtureOne)
   })
 
   test('clears hydration requirements on new request', ({ assert }) => {
     routesManager.requireRouteForHydration('drive.local.serve')
     builder.prepareForNewRequest()
     assert.deepEqual(builder.routesRequiredForHydration, {})
-    assert.deepEqual(builder.routes, data)
+    assert.deepEqual(builder.routes, routesFixtureOne)
   })
 
   test('serializes the client manifest', ({ assert }) => {
@@ -310,7 +282,7 @@ test.group('Routes', (group) => {
           flashMessages: {},
           locale: 'en',
           messages: {},
-          routes: data,
+          routes: routesFixtureOne,
           route: null,
         },
         null,
