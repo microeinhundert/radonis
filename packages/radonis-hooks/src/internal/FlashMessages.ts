@@ -64,26 +64,15 @@ export class FlashMessagesImpl {
   /**
    * Get a specific flash message
    */
-  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue: T): T
-  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue?: T): T | undefined
-  public get<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue?: T): T | undefined {
-    // @ts-ignore
-    return this.findFlashMessage(identifier) ?? defaultValue
+  public get(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
+    return this.findFlashMessage(identifier)
   }
 
   /**
    * Get a specific validation error flash message
    */
-  public getValidationError<T extends ValueOf<FlashMessages>>(identifier: FlashMessageIdentifier, defaultValue: T): T
-  public getValidationError<T extends ValueOf<FlashMessages>>(
-    identifier: FlashMessageIdentifier,
-    defaultValue?: T
-  ): T | undefined
-  public getValidationError<T extends ValueOf<FlashMessages>>(
-    identifier: FlashMessageIdentifier,
-    defaultValue?: T
-  ): T | undefined {
-    return this.get<T>(`errors.${identifier}`, defaultValue)
+  public getValidationError(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
+    return this.get(`errors.${identifier}`)
   }
 
   /**
