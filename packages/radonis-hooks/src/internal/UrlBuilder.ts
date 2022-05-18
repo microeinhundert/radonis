@@ -158,8 +158,7 @@ export class UrlBuilderImpl {
    */
   public maybeMake(maybeIdentifier: RouteIdentifier | string): ValueOf<Routes> {
     try {
-      const url = this.make(maybeIdentifier)
-      return url
+      return this.make(maybeIdentifier)
     } catch {
       return maybeIdentifier
     }
