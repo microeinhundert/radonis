@@ -22,7 +22,7 @@ export class PluginsManager {
   /**
    * Names of the installed plugins
    */
-  private installedPlugins: Set<string> = new Set()
+  private installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }> = new Map()
 
   /**
    * The registered `onInitClient` hooks
@@ -86,40 +86,48 @@ export class PluginsManager {
   }
 
   /**
+   * Check for conflicts between installed plugins
+   */
+  private checkForConflicts(targetEnvironment: PluginEnvironment): void {
+    for (const [pluginName, { environments, conflictsWith }] of this.installedPlugins) {
+      if (!environments?.includes(targetEnvironment)) {
+        continue
+      }
+
+      const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
+        this.installedPlugins.has(conflictingPlugin)
+      )
+
+      if (conflictingPlugins?.length) {
+        invariant(
+          false,
+          `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`
+        )
+      }
+    }
+  }
+
+  /**
    * Install a plugin or fail if it is incompatible
    */
   private installOrFail(
     targetEnvironment: PluginEnvironment,
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
-    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" was already installed`)
+    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" is already installed`)
 
-    if (environments?.length && targetEnvironment === 'server') {
-      invariant(
-        environments.includes('server'),
-        `The plugin "${pluginName}" is not installable in the "server" environment`
-      )
+    if (environments?.length) {
+      for (const environment of ['server', 'client']) {
+        if (targetEnvironment === environment) {
+          invariant(
+            environments.includes(environment),
+            `The plugin "${pluginName}" is not installable in the "${environment}" environment`
+          )
+        }
+      }
     }
 
-    if (environments?.length && targetEnvironment === 'client') {
-      invariant(
-        environments.includes('client'),
-        `The plugin "${pluginName}" is not installable in the "client" environment`
-      )
-    }
-
-    const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
-      this.installedPlugins.has(conflictingPlugin)
-    )
-
-    if (conflictingPlugins?.length) {
-      invariant(
-        false,
-        `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`
-      )
-    }
-
-    this.installedPlugins.add(pluginName)
+    this.installedPlugins.set(pluginName, { environments, conflictsWith })
   }
 
   /**
@@ -128,6 +136,7 @@ export class PluginsManager {
   public install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
     for (const plugin of plugins) {
       this.installOrFail(targetEnvironment, plugin)
+      this.checkForConflicts(targetEnvironment)
       this.registerHooks(targetEnvironment, plugin)
     }
   }

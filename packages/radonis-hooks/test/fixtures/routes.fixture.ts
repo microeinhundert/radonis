@@ -8,13 +8,12 @@
  */
 
 export const routesFixtureOne = {
-  'home': '/',
-  'withWildcard': '/foo/*',
-  'withoutParams': '/foo',
-  'singleParam': '/foo/:id',
-  'singleParamInBetween': '/foo/:id/edit',
-  'singleOptionalParam': '/foo/:id?',
-  'singleOptionalParamInBetween': '/foo/:id?/edit',
-  'multipleParams': '/foo/:name/bar/:id',
-  'AuthController.signUp': '/signUp',
+  home: '/',
+  withWildcard: '/foo/*',
+  withoutParams: '/foo',
+  singleParam: '/foo/:id',
+  singleParamInBetween: '/foo/:id/edit',
+  singleOptionalParam: '/foo/:id?',
+  singleOptionalParamInBetween: '/foo/:id?/edit',
+  multipleParams: '/foo/:name/bar/:id',
 }

@@ -23,13 +23,11 @@ test.group('I18n', (group) => {
   })
 
   test('gets messages', ({ assert }) => {
-    const message = i18n.formatMessage('message')
-    assert.equal(message, 'Hello world')
+    assert.equal(i18n.formatMessage('message'), 'Hello world')
   })
 
   test('inserts data into messages', ({ assert }) => {
-    const message = i18n.formatMessage('messageWithVariable', { name: 'world' })
-    assert.equal(message, 'Hello world')
+    assert.equal(i18n.formatMessage('messageWithVariable', { name: 'world' }), 'Hello world')
   })
 
   test('throws if data is missing', ({ assert }) => {

@@ -22,34 +22,23 @@ test.group('Url Builder', (group) => {
     urlBuilder = new UrlBuilderImpl(routesFixtureOne)
   })
 
-  test('builds url', ({ assert }) => {
-    const urlOne = urlBuilder.make('home')
-    assert.equal(urlOne, '/')
-
-    const urlTwo = urlBuilder.make('withoutParams')
-    assert.equal(urlTwo, '/foo')
-
-    const urlThree = urlBuilder.make('AuthController.signUp')
-    assert.equal(urlThree, '/signUp')
+  test('builds urls', ({ assert }) => {
+    assert.equal(urlBuilder.make('home'), '/')
+    assert.equal(urlBuilder.make('withoutParams'), '/foo')
   })
 
-  test('builds url with params', ({ assert }) => {
-    const urlOne = urlBuilder.withParams({ id: 123 }).make('singleParam')
-    assert.equal(urlOne, '/foo/123')
-
-    const urlTwo = urlBuilder.withParams({ id: 123 }).make('singleParamInBetween')
-    assert.equal(urlTwo, '/foo/123/edit')
-
-    const urlThree = urlBuilder.withParams({ name: 'microeinhundert', id: 100 }).make('multipleParams')
-    assert.equal(urlThree, '/foo/microeinhundert/bar/100')
+  test('builds urls with params', ({ assert }) => {
+    assert.equal(urlBuilder.withParams({ id: 123 }).make('singleParam'), '/foo/123')
+    assert.equal(urlBuilder.withParams({ id: 123 }).make('singleParamInBetween'), '/foo/123/edit')
+    assert.equal(
+      urlBuilder.withParams({ name: 'microeinhundert', id: 100 }).make('multipleParams'),
+      '/foo/microeinhundert/bar/100'
+    )
   })
 
-  test('builds url with optional params', ({ assert }) => {
-    const urlOne = urlBuilder.make('singleOptionalParam')
-    assert.equal(urlOne, '/foo')
-
-    const urlTwo = urlBuilder.make('singleOptionalParamInBetween')
-    assert.equal(urlTwo, '/foo/edit')
+  test('builds urls with optional params', ({ assert }) => {
+    assert.equal(urlBuilder.make('singleOptionalParam'), '/foo')
+    assert.equal(urlBuilder.make('singleOptionalParamInBetween'), '/foo/edit')
   })
 
   test('throws if route was not found', ({ assert }) => {
@@ -61,12 +50,10 @@ test.group('Url Builder', (group) => {
       () => urlBuilder.make('singleParam'),
       'The "id" param is required to make the URL for the "/foo/:id" route'
     )
-
     assert.throws(
       () => urlBuilder.make('multipleParams'),
       'The "name" param is required to make the URL for the "/foo/:name/bar/:id" route'
     )
-
     assert.throws(
       () => urlBuilder.withParams({ name: 'microeinhundert' }).make('multipleParams'),
       'The "id" param is required to make the URL for the "/foo/:name/bar/:id" route'
@@ -78,20 +65,22 @@ test.group('Url Builder', (group) => {
   })
 
   test('appends query params to url', ({ assert }) => {
-    const urlOne = urlBuilder.withQueryParams({ paramOne: 'test', paramTwo: 123 }).make('home')
-    assert.equal(urlOne, '/?paramOne=test&paramTwo=123')
-
-    const urlTwo = urlBuilder.withParams({ id: 123 }).withQueryParams({ paramOne: 'test' }).make('singleParamInBetween')
-    assert.equal(urlTwo, '/foo/123/edit?paramOne=test')
+    assert.equal(
+      urlBuilder.withQueryParams({ paramOne: 'test', paramTwo: 123 }).make('home'),
+      '/?paramOne=test&paramTwo=123'
+    )
+    assert.equal(
+      urlBuilder.withParams({ id: 123 }).withQueryParams({ paramOne: 'test' }).make('singleParamInBetween'),
+      '/foo/123/edit?paramOne=test'
+    )
   })
 
   test('clears params for next url', ({ assert }) => {
-    const urlOne = urlBuilder.withParams({ id: 123 }).withQueryParams({ paramOne: 'test' }).make('singleParamInBetween')
-    assert.equal(urlOne, '/foo/123/edit?paramOne=test')
-
-    const urlTwo = urlBuilder.withParams({ id: 123 }).make('singleParamInBetween')
-    assert.equal(urlTwo, '/foo/123/edit')
-
+    assert.equal(
+      urlBuilder.withParams({ id: 123 }).withQueryParams({ paramOne: 'test' }).make('singleParamInBetween'),
+      '/foo/123/edit?paramOne=test'
+    )
+    assert.equal(urlBuilder.withParams({ id: 123 }).make('singleParamInBetween'), '/foo/123/edit')
     assert.throws(
       () => urlBuilder.make('singleParamInBetween'),
       'The "id" param is required to make the URL for the "/foo/:id/edit" route'

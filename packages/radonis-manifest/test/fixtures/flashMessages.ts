@@ -8,6 +8,7 @@
  */
 
 export const flashMessagesFixtureOne = {
-  firstName: 'Error on field',
-  welcome: 'Welcome to AdonisJS + Radonis!',
+  'firstName': 'Error on field',
+  'welcome': 'Welcome to AdonisJS + Radonis!',
+  'errors.required': 'This field is required.',
 }

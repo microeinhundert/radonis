@@ -23,8 +23,7 @@ test.group('Flash Messages', (group) => {
   })
 
   test('gets all flash messages', ({ assert }) => {
-    const all = flashMessages.all()
-    assert.deepEqual(all, {
+    assert.deepEqual(flashMessages.all(), {
       'someMessage': 'This is a flash message.',
       'someOtherMessage.0': 'This is a flash message.',
       'errors.required': 'This field is required.',
@@ -32,76 +31,49 @@ test.group('Flash Messages', (group) => {
   })
 
   test('gets all validation error flash messages', ({ assert }) => {
-    const all = flashMessages.allValidationErrors()
-    assert.deepEqual(all, {
+    assert.deepEqual(flashMessages.allValidationErrors(), {
       'errors.required': 'This field is required.',
     })
   })
 
   test('gets flash messages', ({ assert }) => {
-    const flashMessageOne = flashMessages.get('someMessage')
-    assert.equal(flashMessageOne, 'This is a flash message.')
-
-    const flashMessageTwo = flashMessages.get('someOtherMessage')
-    assert.equal(flashMessageTwo, 'This is a flash message.')
-
-    const flashMessageThree = flashMessages.get('someOtherMessage.0')
-    assert.equal(flashMessageThree, 'This is a flash message.')
-
-    const flashMessageFour = flashMessages.get('errors.required')
-    assert.equal(flashMessageFour, 'This field is required.')
+    assert.equal(flashMessages.get('someMessage'), 'This is a flash message.')
+    assert.equal(flashMessages.get('someOtherMessage.0'), 'This is a flash message.')
+    assert.equal(flashMessages.get('someOtherMessage'), 'This is a flash message.')
+    assert.equal(flashMessages.get('errors.required'), 'This field is required.')
   })
 
   test('gets validation error flash messages', ({ assert }) => {
-    const flashMessageOne = flashMessages.getValidationError('required')
-    assert.equal(flashMessageOne, 'This field is required.')
+    assert.equal(flashMessages.getValidationError('required'), 'This field is required.')
   })
 
   test('returns undefined if flash message does not exist', ({ assert }) => {
-    const flashMessageOne = flashMessages.get('doesNotExist')
-    assert.isUndefined(flashMessageOne)
-
-    const flashMessageTwo = flashMessages.get('doesNotExist.0')
-    assert.isUndefined(flashMessageTwo)
+    assert.isUndefined(flashMessages.get('doesNotExist.0'))
+    assert.isUndefined(flashMessages.get('doesNotExist'))
   })
 
   test('returns undefined if validation error flash message does not exist', ({ assert }) => {
-    const flashMessageOne = flashMessages.getValidationError('doesNotExist')
-    assert.isUndefined(flashMessageOne)
-
-    const flashMessageTwo = flashMessages.getValidationError('doesNotExist.0')
-    assert.isUndefined(flashMessageTwo)
+    assert.isUndefined(flashMessages.getValidationError('doesNotExist.0'))
+    assert.isUndefined(flashMessages.getValidationError('doesNotExist'))
   })
 
   test('checks if flash messages exist', ({ assert }) => {
-    const messagesExist = flashMessages.has()
-    assert.isTrue(messagesExist)
+    assert.isTrue(flashMessages.has())
   })
 
   test('checks if validation error flash messages exist', ({ assert }) => {
-    const messagesExist = flashMessages.hasValidationError()
-    assert.isTrue(messagesExist)
+    assert.isTrue(flashMessages.hasValidationError())
   })
 
   test('checks if specific flash messages exist', ({ assert }) => {
-    const messageExistsOne = flashMessages.has('someMessage')
-    assert.isTrue(messageExistsOne)
-
-    const messageExistsTwo = flashMessages.has('someOtherMessage')
-    assert.isTrue(messageExistsTwo)
-
-    const messageExistsThree = flashMessages.has('someOtherMessage.0')
-    assert.isTrue(messageExistsThree)
-
-    const messageExistsFour = flashMessages.has('doesNotExist')
-    assert.isFalse(messageExistsFour)
-
-    const messageExistsFive = flashMessages.has('doesNotExist.0')
-    assert.isFalse(messageExistsFive)
+    assert.isTrue(flashMessages.has('someMessage'))
+    assert.isTrue(flashMessages.has('someOtherMessage.0'))
+    assert.isTrue(flashMessages.has('someOtherMessage'))
+    assert.isFalse(flashMessages.has('doesNotExist.0'))
+    assert.isFalse(flashMessages.has('doesNotExist'))
   })
 
   test('checks if specific validation error flash messages exist', ({ assert }) => {
-    const messageExistsOne = flashMessages.hasValidationError('required')
-    assert.isTrue(messageExistsOne)
+    assert.isTrue(flashMessages.hasValidationError('required'))
   })
 })

@@ -16,7 +16,7 @@ import { RoutesManager } from '../src/RoutesManager'
 import { flashMessagesFixtureOne } from './fixtures/flashMessages'
 import { globalsFixtureOne } from './fixtures/globals'
 import { messagesFixtureOne } from './fixtures/messages'
-import { propsFixtureNonSerializable, propsFixtureOne, propsFixtureTwo } from './fixtures/props'
+import { propsFixtureOne, propsFixtureThree, propsFixtureTwo } from './fixtures/props'
 import { routesFixtureOne } from './fixtures/routes'
 
 /**
@@ -91,7 +91,7 @@ test.group('Props', (group) => {
 
   test('throws if not serializable', ({ assert }) => {
     assert.throws(
-      () => builder.registerProps('MyComponent', propsFixtureNonSerializable),
+      () => builder.registerProps('MyComponent', propsFixtureThree),
       'The props passed to the component "MyComponent" are not serializable'
     )
   })
@@ -158,7 +158,6 @@ test.group('Flash Messages', (group) => {
 
   test('serializes the client manifest', ({ assert }) => {
     flashMessagesManager.requireFlashMessageForHydration('*')
-
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
@@ -216,7 +215,6 @@ test.group('I18n', (group) => {
 
   test('serializes the client manifest', ({ assert }) => {
     i18nManager.requireMessageForHydration('*')
-
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
@@ -272,7 +270,6 @@ test.group('Routes', (group) => {
 
   test('serializes the client manifest', ({ assert }) => {
     routesManager.requireRouteForHydration('*')
-
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(

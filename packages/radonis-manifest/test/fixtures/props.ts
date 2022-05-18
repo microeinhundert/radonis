@@ -19,12 +19,16 @@ export const propsFixtureOne = {
   dateProp: new Date(),
 }
 
-export const propsFixtureNonSerializable = {
-  ...propsFixtureOne,
-  nonSerializableProp: BigInt(1),
+export const propsFixtureTwo = {
+  stringProp: 'hello world',
+  numericProp: 123,
+  arrayProp: [1, 2, 3],
+  additionalProp: 123,
 }
 
-export const propsFixtureTwo = {
-  ...propsFixtureOne,
-  additionalProp: 123,
+export const propsFixtureThree = {
+  numericProp: 123,
+  arrayProp: [1, 2, 3],
+  dateProp: new Date(),
+  nonSerializableProp: BigInt(1),
 }

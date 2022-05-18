@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-shared
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -45,6 +45,7 @@ test.group('Plugins Manager', (group) => {
   test('throws if two plugins conflict with each other', ({ assert }) => {
     const testPluginOne = definePlugin({
       name: 'test-plugin-1',
+      conflictsWith: ['test-plugin-2'],
       environments: ['client'],
     })
 
@@ -56,11 +57,11 @@ test.group('Plugins Manager', (group) => {
 
     assert.throws(
       () => pluginsManager.install('client', testPluginOne, testPluginTwo),
-      'The plugin "test-plugin-2" conflicts with the following installed plugins: test-plugin-1'
+      'The plugin "test-plugin-1" conflicts with the following installed plugins: test-plugin-2'
     )
   })
 
-  test('throws if plugin was already installed', ({ assert }) => {
+  test('throws if plugin is already installed', ({ assert }) => {
     const testPlugin = definePlugin({
       name: 'test-plugin',
       environments: ['server'],
@@ -68,7 +69,7 @@ test.group('Plugins Manager', (group) => {
 
     assert.throws(
       () => pluginsManager.install('server', testPlugin, testPlugin),
-      'The plugin "test-plugin" was already installed'
+      'The plugin "test-plugin" is already installed'
     )
   })
 })
