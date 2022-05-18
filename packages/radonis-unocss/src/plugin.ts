@@ -22,6 +22,7 @@ export function unocssPlugin(config?: UserConfig) {
     name: 'unocss',
     environments: ['server'],
     conflictsWith: ['twind'],
+    // Server hooks
     onBootServer() {
       generator = createGenerator(config ?? defaultConfig)
     },

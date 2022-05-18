@@ -30,6 +30,11 @@ export class PluginsManager {
   private onInitClientHooks: PluginHook<'onInitClient'>[] = []
 
   /**
+   * The registered `beforeHydrate` hooks
+   */
+  private beforeHydrateHooks: PluginHook<'beforeHydrate'>[] = []
+
+  /**
    * The registered `onBootServer` hooks
    */
   private onBootServerHooks: PluginHook<'onBootServer'>[] = []
@@ -71,6 +76,7 @@ export class PluginsManager {
     switch (targetEnvironment) {
       case 'client': {
         plugin.onInitClient && this.onInitClientHooks.push(plugin.onInitClient)
+        plugin.beforeHydrate && this.beforeHydrateHooks.push(plugin.beforeHydrate)
         break
       }
       case 'server': {

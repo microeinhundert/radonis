@@ -156,7 +156,7 @@ export class UrlBuilderImpl {
    * Build the URL for the given route identifier
    * or just return the passed value if it is not a valid route identifier
    */
-  public maybeMake(maybeIdentifier: RouteIdentifier | string): ValueOf<Routes> {
+  public maybeMake(maybeIdentifier: string): ValueOf<Routes> {
     try {
       return this.make(maybeIdentifier)
     } catch {

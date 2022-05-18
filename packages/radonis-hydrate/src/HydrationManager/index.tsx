@@ -70,7 +70,7 @@ export class HydrationManager {
     const manifest = getManifestOrFail()
 
     const tree = await this.pluginsManager.execute(
-      'beforeRender',
+      'beforeHydrate',
       <StrictMode>
         <HydrationContextProvider
           value={{ hydrated: true, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}

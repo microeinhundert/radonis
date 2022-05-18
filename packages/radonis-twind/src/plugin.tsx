@@ -32,9 +32,14 @@ export function twindPlugin(config?: TwindConfig) {
     name: 'twind',
     environments: ['client', 'server'],
     conflictsWith: ['unocss'],
+    // Client hooks
     onInitClient() {
       install()
     },
+    beforeHydrate() {
+      return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
+    },
+    // Server hooks
     onBootServer() {
       install()
     },

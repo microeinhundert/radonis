@@ -210,6 +210,11 @@ export interface PluginHooks {
   onInitClient: PluginHook<null>
 
   /**
+   * This plugin hook is called before a component is hydrated
+   */
+  beforeHydrate: PluginHookWithBuilder<ReactElement, null>
+
+  /**
    * This plugin hook is called after the server has been booted
    */
   onBootServer: PluginHook<null>

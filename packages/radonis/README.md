@@ -502,6 +502,16 @@ function yourPlugin() {
     onInitClient() {},
 
     /**
+     * This plugin hook is called before a component is hydrated
+     */
+    beforeHydrate() {
+      return (tree: ReactElement) => {
+        // Return modified React tree
+        return tree
+      }
+    },
+
+    /**
      * This plugin hook is called after the server has been booted
      */
     onBootServer() {},
