@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-types
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -18,7 +18,7 @@ import {
 /**
  * Type Generators
  */
-test.group('Type Generation', () => {
+test.group('Type Generators', () => {
   test('generates component identifier union', ({ assert }) => {
     const declaration = generateComponentIdentifierUnionType(['ComponentOne', 'ComponentTwo', 'ComponentThree'])
     assert.equal(declaration, `type ComponentIdentifier = 'ComponentOne' | 'ComponentTwo' | 'ComponentThree'`)

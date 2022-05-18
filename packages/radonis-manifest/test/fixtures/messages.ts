@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-export const flashMessagesFixtureOne = {
-  firstName: 'Error on field',
-  welcome: 'Welcome to AdonisJS + Radonis!',
+export const messagesFixtureOne = {
+  'hello': 'Hello { name }',
+  'shared.sidebar.signOut': 'Sign Out',
+  'shared.sidebar.signIn': 'Sign In',
 }

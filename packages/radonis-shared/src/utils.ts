@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { isClient, isProduction } from './environment'
+import { isClient, isProduction, isTesting } from './environment'
 
+const prefix = isTesting ? '' : '[Radonis]'
 const fallbackMessage = 'Something went wrong'
 
 /**
@@ -23,7 +24,7 @@ export function invariant(condition: unknown, message?: string): asserts conditi
     throw new Error(fallbackMessage)
   }
 
-  throw new Error(`[Radonis] ${message ?? fallbackMessage}`)
+  throw new Error([prefix, message ?? fallbackMessage].filter(Boolean).join(' '))
 }
 
 /**

@@ -21,3 +21,8 @@ export const isClient = !isServer
  * Whether the current environment is production or not
  */
 export const isProduction = process.env.NODE_ENV === 'production'
+
+/**
+ * Whether the current environment is testing or not
+ */
+export const isTesting = process.env.NODE_ENV === 'test'

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export const flashMessagesFixtureOne = {
-  firstName: 'Error on field',
-  welcome: 'Welcome to AdonisJS + Radonis!',
+export const messagesFixtureOne = {
+  message: 'Hello world',
+  messageWithVariable: 'Hello { name }',
 }

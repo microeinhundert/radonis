@@ -15,7 +15,7 @@ import { I18nManager } from '../src/I18nManager'
 import { RoutesManager } from '../src/RoutesManager'
 import { flashMessagesFixtureOne } from './fixtures/flashMessages'
 import { globalsFixtureOne } from './fixtures/globals'
-import { i18nFixtureOne } from './fixtures/i18n'
+import { messagesFixtureOne } from './fixtures/messages'
 import { propsFixtureNonSerializable, propsFixtureOne, propsFixtureTwo } from './fixtures/props'
 import { routesFixtureOne } from './fixtures/routes'
 
@@ -194,7 +194,7 @@ test.group('I18n', (group) => {
     builder = new Builder(flashMessagesManager, i18nManager, routesManager, {
       limitClientManifest: true,
     })
-    builder.setMessages(i18nFixtureOne)
+    builder.setMessages(messagesFixtureOne)
   })
 
   test('stores and requires for hydration', ({ assert }) => {
@@ -204,14 +204,14 @@ test.group('I18n', (group) => {
       'hello': 'Hello { name }',
       'shared.sidebar.signIn': 'Sign In',
     })
-    assert.deepEqual(builder.messages, i18nFixtureOne)
+    assert.deepEqual(builder.messages, messagesFixtureOne)
   })
 
   test('clears hydration requirements on new request', ({ assert }) => {
     i18nManager.requireMessageForHydration('hello')
     builder.prepareForNewRequest()
     assert.deepEqual(builder.messagesRequiredForHydration, {})
-    assert.deepEqual(builder.messages, i18nFixtureOne)
+    assert.deepEqual(builder.messages, messagesFixtureOne)
   })
 
   test('serializes the client manifest', ({ assert }) => {
@@ -225,7 +225,7 @@ test.group('I18n', (group) => {
           globals: {},
           flashMessages: {},
           locale: 'en',
-          messages: i18nFixtureOne,
+          messages: messagesFixtureOne,
           routes: {},
           route: null,
         },

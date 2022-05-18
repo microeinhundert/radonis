@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -8,6 +8,7 @@
  */
 
 export const flashMessagesFixtureOne = {
-  firstName: 'Error on field',
-  welcome: 'Welcome to AdonisJS + Radonis!',
+  'someMessage': 'This is a flash message.',
+  'someOtherMessage.0': 'This is a flash message.',
+  'errors.required': 'This field is required.',
 }

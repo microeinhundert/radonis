@@ -33,7 +33,11 @@ export class UrlBuilderImpl {
   private processPattern(pattern: string): string {
     let url = pattern
 
-    if (url.indexOf(':') > -1) {
+    if (url.includes('*')) {
+      invariant(false, 'Wildcard routes are not supported')
+    }
+
+    if (url.includes(':')) {
       /*
        * Split pattern when route has dynamic segments
        */
@@ -62,7 +66,12 @@ export class UrlBuilderImpl {
 
           return param
         })
+        .filter(Boolean)
         .join('/')
+    }
+
+    if (!url.startsWith('/')) {
+      url = `/${url}`
     }
 
     return url
@@ -134,7 +143,12 @@ export class UrlBuilderImpl {
   public make(identifier: RouteIdentifier): ValueOf<Routes> {
     const route = this.findRouteOrFail(identifier)
     const url = this.processPattern(route)
+    const urlWithQueryString = this.suffixQueryString(url)
 
-    return this.suffixQueryString(url)
+    // Clear params
+    this.params = {}
+    this.queryParams = {}
+
+    return urlWithQueryString
   }
 }
