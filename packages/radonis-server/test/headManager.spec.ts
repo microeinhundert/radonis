@@ -94,27 +94,30 @@ test.group('Head Manager', (group) => {
 
   test('allows overriding meta', ({ assert }) => {
     headManager.addMeta({ 'viewport': 'width=device-width, initial-scale=2.0', 'theme-color': '#000000' })
-    assert.equal(
-      headManager.getMetaTags(),
-      [
-        '<meta charset="utf-8" />',
-        '<meta content="width=device-width, initial-scale=2.0" name="viewport" />',
-        '<meta content="#000000" name="theme-color" />',
-      ].join('\n')
-    )
+
+    const expectedMetaTags = [
+      '<meta charset="utf-8" />',
+      '<meta content="width=device-width, initial-scale=2.0" name="viewport" />',
+      '<meta content="#000000" name="theme-color" />',
+    ]
+
+    assert.equal(headManager.getMetaTags(), expectedMetaTags.join('\n'))
   })
 
-  test('resets back to defaults on new request', ({ assert }) => {
+  test('reverts back to default title on new request', ({ assert }) => {
     headManager.setTitle('A custom title')
-    headManager.addMeta({ 'theme-color': '#000000' })
     headManager.prepareForNewRequest()
+    assert.equal(headManager.getTitleTag(), '<title>Radonis</title>')
+  })
 
+  test('reverts back to default meta on new request', ({ assert }) => {
     const expectedMetaTags = [
       '<meta charset="utf-8" />',
       '<meta content="width=device-width, initial-scale=1.0" name="viewport" />',
     ]
 
-    assert.equal(headManager.getTitleTag(), '<title>Radonis</title>')
+    headManager.addMeta({ 'theme-color': '#000000' })
+    headManager.prepareForNewRequest()
     assert.equal(headManager.getMetaTags(), expectedMetaTags.join('\n'))
   })
 })
