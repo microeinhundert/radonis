@@ -45,10 +45,6 @@ test.group('Url Builder', (group) => {
     assert.throws(() => urlBuilder.make('doesNotExist'), 'Cannot find route for "doesNotExist"')
   })
 
-  test('does not throw when using maybeMake', ({ assert }) => {
-    assert.equal(urlBuilder.maybeMake('/this-is-a-url'), '/this-is-a-url')
-  })
-
   test('throws if required params are missing', ({ assert }) => {
     assert.throws(
       () => urlBuilder.make('singleParam'),
