@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "pnpm@7.0.0",
@@ -39,7 +39,7 @@
     "@adonisjs/require-ts": "^2.0.11",
     "@japa/assert": "^1.3.4",
     "@japa/run-failed-tests": "^1.0.7",
-    "@japa/runner": "^2.0.7",
+    "@japa/runner": "^2.0.8",
     "@japa/spec-reporter": "^1.1.12",
     "adonis-preset-ts": "^2.1.0",
     "copyfiles": "2.4.1",
@@ -53,15 +53,15 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
-    "openapi-types": "^11.0.0",
+    "openapi-types": "^11.0.1",
     "prettier": "2.6.2",
     "turbo": "^1.2.9",
     "typescript": "4.7.0-beta"
   },
   "dependencies": {
-    "@adonisjs/core": "^5.7.6",
+    "@adonisjs/core": "^5.8.2",
     "@adonisjs/i18n": "^1.5.5",
-    "@adonisjs/session": "^6.2.3",
+    "@adonisjs/session": "^6.3.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   }

@@ -77,7 +77,7 @@ export default class RadonisProvider {
       const routesManager = RoutesManager.getInstance()
 
       return new ManifestBuilder(flashMessagesManager, i18nManager, routesManager, {
-        limitManifest: radonisConfig.client.limitManifest,
+        limitClientManifest: radonisConfig.client.limitManifest,
       })
     })
 

@@ -22,7 +22,7 @@ export class FlashMessagesImpl {
   private findFlashMessage(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
     const flashMessage = this.flashMessages[identifier]
 
-    if (!flashMessage && !identifier.match(/\.(\d*)$/i)) {
+    if (typeof flashMessage === 'undefined' && !identifier.match(/\.(\d*)$/i)) {
       return this.findFlashMessage(`${identifier}.0`)
     }
 
