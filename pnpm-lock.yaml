@@ -7,7 +7,7 @@ importers:
       '@adonisjs/core': ^5.8.2
       '@adonisjs/i18n': ^1.5.5
       '@adonisjs/require-ts': ^2.0.11
-      '@adonisjs/session': ^6.3.0
+      '@adonisjs/session': ^6.4.0
       '@japa/assert': ^1.3.4
       '@japa/run-failed-tests': ^1.0.7
       '@japa/runner': ^2.0.8
@@ -33,7 +33,7 @@ importers:
     dependencies:
       '@adonisjs/core': 5.8.2
       '@adonisjs/i18n': 1.5.5_@adonisjs+core@5.8.2
-      '@adonisjs/session': 6.3.0_@adonisjs+core@5.8.2
+      '@adonisjs/session': 6.4.0_@adonisjs+core@5.8.2
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
     devDependencies:
@@ -64,7 +64,7 @@ importers:
       '@adonisjs/assembler': ^5.6.2
       '@adonisjs/core': ^5.8.2
       '@adonisjs/repl': ^3.1.10
-      '@adonisjs/session': ^6.3.0
+      '@adonisjs/session': ^6.4.0
       '@adonisjs/shield': ^7.0.10
       '@japa/preset-adonis': ^1.0.15
       '@japa/runner': ^2.0.7
@@ -86,8 +86,8 @@ importers:
     dependencies:
       '@adonisjs/core': 5.8.2
       '@adonisjs/repl': 3.1.10_@adonisjs+core@5.8.2
-      '@adonisjs/session': 6.3.0_@adonisjs+core@5.8.2
-      '@adonisjs/shield': 7.0.10_36lngem2p5x23rsxrwnhtgnvi4
+      '@adonisjs/session': 6.4.0_@adonisjs+core@5.8.2
+      '@adonisjs/shield': 7.0.10_ptsi7w2ryiel2fxqmvxle4c7xy
       '@microeinhundert/radonis': link:../packages/radonis
       '@microeinhundert/radonis-server': link:../packages/radonis-server
       '@microeinhundert/radonis-twind': link:../packages/radonis-twind
@@ -531,17 +531,17 @@ packages:
       - supports-color
     dev: true
 
-  /@adonisjs/session/6.3.0_@adonisjs+core@5.8.2:
-    resolution: {integrity: sha512-ce/6GCJnahLkhSS8GKLej3BEjGlwpC3ymYdQOo0G1Uf+84V6igiJLlhgVoHEGJ4IOnHCjj8gv7ICIM26FnNbBg==}
+  /@adonisjs/session/6.4.0_@adonisjs+core@5.8.2:
+    resolution: {integrity: sha512-9yHS60lFpNBUX5/yB+0j+bXQDWqbaYJ1JelLCYtaKRa7B0NewvmPAmsNpHH8SrXE3XGaRyKOxrUGRcmSGg5mRA==}
     peerDependencies:
-      '@adonisjs/core': ^5.5.0
+      '@adonisjs/core': ^5.8.0
     dependencies:
       '@adonisjs/core': 5.8.2
       '@poppinss/utils': 4.0.4
       fs-extra: 10.1.0
     dev: false
 
-  /@adonisjs/shield/7.0.10_36lngem2p5x23rsxrwnhtgnvi4:
+  /@adonisjs/shield/7.0.10_ptsi7w2ryiel2fxqmvxle4c7xy:
     resolution: {integrity: sha512-Ovzr484PDfnTESBi5gh/GeNdNHCW3/beLQkNaa+kVGWHI/Btfcn8hHd7W196TzwiQyU7fP/lGaxji9yWNCH28g==}
     peerDependencies:
       '@adonisjs/core': ^5.7.0
@@ -552,7 +552,7 @@ packages:
         optional: true
     dependencies:
       '@adonisjs/core': 5.8.2
-      '@adonisjs/session': 6.3.0_@adonisjs+core@5.8.2
+      '@adonisjs/session': 6.4.0_@adonisjs+core@5.8.2
       '@poppinss/utils': 4.0.4
       csrf: 3.1.0
       helmet-csp: 3.4.0
