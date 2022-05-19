@@ -184,3 +184,5 @@ export class PluginsManager {
 export function definePlugin(plugin: Plugin): Plugin {
   return plugin
 }
+
+export type { Plugin }
