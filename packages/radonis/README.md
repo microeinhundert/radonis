@@ -87,7 +87,7 @@ Instead of Edge, Radonis uses React to render views on the server. This makes it
 Usage in controllers:
 
 ```typescript
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { Index, Show } from '../../../resources/views/Users.tsx' // Where you put your views and how you structure them is completely your choice
 
 export default class UsersController {
@@ -148,7 +148,20 @@ Route.get('/signUp', async ({ radonis }) => {
 })
 ```
 
-> Note that usage of the `useHead` hook always overrides data passed to `render`.
+You can also add meta by calling `withMeta` in your controllers, routes, middlewares or everywhere `radonis` is available on the HttpContext:
+
+```typescript
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Index, Show } from '../../../resources/views/Users.tsx'
+
+export default class UsersController {
+  public index({ radonis }: HttpContextContract) {
+    return radonis.withMeta({ viewport: 'width=device-width, initial-scale=1.0' }).render(Index)
+  }
+}
+```
+
+> Note that usage of the `useHead` hook always overrides data passed to `render` or `withMeta`.
 
 ## The Manifest
 
@@ -160,7 +173,7 @@ By default, Radonis limits the client manifest to only include data required for
 You can also add your own data to the manifest, for example the currently logged in user or some global application settings. To extend the manifest, first add the types for your custom data to `contracts/radonis.ts` inside of the `Globals` interface. Then, call `withGlobals` in your controllers, routes, middlewares or everywhere `radonis` is available on the HttpContext:
 
 ```typescript
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { Index, Show } from '../../../resources/views/Users.tsx'
 
 export default class UsersController {

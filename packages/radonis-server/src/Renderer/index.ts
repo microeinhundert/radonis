@@ -8,7 +8,7 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { AdonisContextContract, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract, HeadMeta, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
@@ -120,6 +120,15 @@ export class Renderer {
       .setLocale(locale)
       .setMessages(this.i18n.getTranslationsFor(locale))
       .setRoute(transformRoute(httpContext.route))
+
+    return this
+  }
+
+  /**
+   * Add meta for the current request
+   */
+  public withMeta(meta: HeadMeta): this {
+    this.headManager.addMeta(meta)
 
     return this
   }
