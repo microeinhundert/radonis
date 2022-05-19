@@ -564,6 +564,29 @@ function yourPlugin() {
 }
 ```
 
+Here's an example of a plugin that injects the react-query provider into the server-side rendering as well as the client-side hydration:
+
+```tsx
+import { definePlugin } from '@microeinhundert/radonis'
+import React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+export function reactQueryPlugin() {
+  const queryClient = new QueryClient()
+
+  return definePlugin({
+    name: 'react-query',
+    environments: ['client', 'server'],
+    beforeHydrate() {
+      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+    },
+    beforeRender() {
+      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+    },
+  })
+}
+```
+
 ## License
 
 [MIT](LICENSE)
