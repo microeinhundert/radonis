@@ -26,7 +26,7 @@ import { compiledFiles, radonisClientPlugin } from './plugins'
 import { stripPublicDir } from './utils'
 
 /**
- * Extract identifiers from usages of `.has(ValidationError)?` and `.get(ValidationError)?` from the source code
+ * Extract identifiers from usages of `.has(Error)?` and `.get(Error)?` from the source code
  */
 function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
   const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)

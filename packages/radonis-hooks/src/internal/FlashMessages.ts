@@ -48,14 +48,14 @@ export class FlashMessagesImpl {
   }
 
   /**
-   * Check if a validation error flash message exists
+   * Check if a error flash message exists
    */
-  public hasValidationError(identifier?: FlashMessageIdentifier): boolean {
+  public hasError(identifier?: FlashMessageIdentifier): boolean {
     if (!identifier) {
       /**
-       * Check if validation error flash messages exist
+       * Check if error flash messages exist
        */
-      return !!Object.keys(this.allValidationErrors()).length
+      return !!Object.keys(this.allErrors()).length
     }
 
     return this.has(`errors.${identifier}`)
@@ -69,9 +69,9 @@ export class FlashMessagesImpl {
   }
 
   /**
-   * Get a specific validation error flash message
+   * Get a specific error flash message
    */
-  public getValidationError(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
+  public getError(identifier: FlashMessageIdentifier): ValueOf<FlashMessages> | undefined {
     return this.get(`errors.${identifier}`)
   }
 
@@ -87,9 +87,9 @@ export class FlashMessagesImpl {
   }
 
   /**
-   * Get all validation error flash messages
+   * Get all error flash messages
    */
-  public allValidationErrors(): FlashMessages {
+  public allErrors(): FlashMessages {
     if (this.willHydrate) {
       HydrationManager.getInstance().requireFlashMessageForHydration('errors.*')
     }

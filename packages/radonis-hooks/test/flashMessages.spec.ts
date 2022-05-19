@@ -30,8 +30,8 @@ test.group('Flash Messages', (group) => {
     })
   })
 
-  test('gets all validation error flash messages', ({ assert }) => {
-    assert.deepEqual(flashMessages.allValidationErrors(), {
+  test('gets all error flash messages', ({ assert }) => {
+    assert.deepEqual(flashMessages.allErrors(), {
       'errors.required': 'This field is required.',
     })
   })
@@ -43,8 +43,8 @@ test.group('Flash Messages', (group) => {
     assert.equal(flashMessages.get('errors.required'), 'This field is required.')
   })
 
-  test('gets validation error flash messages', ({ assert }) => {
-    assert.equal(flashMessages.getValidationError('required'), 'This field is required.')
+  test('gets error flash messages', ({ assert }) => {
+    assert.equal(flashMessages.getError('required'), 'This field is required.')
   })
 
   test('returns undefined if flash message does not exist', ({ assert }) => {
@@ -52,17 +52,17 @@ test.group('Flash Messages', (group) => {
     assert.isUndefined(flashMessages.get('doesNotExist'))
   })
 
-  test('returns undefined if validation error flash message does not exist', ({ assert }) => {
-    assert.isUndefined(flashMessages.getValidationError('doesNotExist.0'))
-    assert.isUndefined(flashMessages.getValidationError('doesNotExist'))
+  test('returns undefined if error flash message does not exist', ({ assert }) => {
+    assert.isUndefined(flashMessages.getError('doesNotExist.0'))
+    assert.isUndefined(flashMessages.getError('doesNotExist'))
   })
 
   test('checks if flash messages exist', ({ assert }) => {
     assert.isTrue(flashMessages.has())
   })
 
-  test('checks if validation error flash messages exist', ({ assert }) => {
-    assert.isTrue(flashMessages.hasValidationError())
+  test('checks if error flash messages exist', ({ assert }) => {
+    assert.isTrue(flashMessages.hasError())
   })
 
   test('checks if specific flash messages exist', ({ assert }) => {
@@ -73,7 +73,7 @@ test.group('Flash Messages', (group) => {
     assert.isFalse(flashMessages.has('doesNotExist'))
   })
 
-  test('checks if specific validation error flash messages exist', ({ assert }) => {
-    assert.isTrue(flashMessages.hasValidationError('required'))
+  test('checks if specific error flash messages exist', ({ assert }) => {
+    assert.isTrue(flashMessages.hasError('required'))
   })
 })

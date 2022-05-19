@@ -62,7 +62,7 @@ export class FlashMessagesManager {
       this.flashMessagesRequiredForHydration = new Set(Object.keys(this.flashMessages))
     } else if (identifier === 'errors.*') {
       /**
-       * Require all validation error flash messages
+       * Require all error flash messages
        */
       this.flashMessagesRequiredForHydration = new Set(
         Object.keys(this.flashMessages).filter((key) => key.startsWith('errors.'))
