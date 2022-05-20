@@ -19,7 +19,7 @@ export type ComponentIdentifier = string
 /**
  * Components
  */
-export type Components = Record<ComponentIdentifier, ComponentType>
+export type Components = Map<ComponentIdentifier, ComponentType>
 
 /**
  * Generate a union type of all components
@@ -59,7 +59,7 @@ export type FlashMessageIdentifier = string
 /**
  * Flash messages
  */
-export type FlashMessages = Record<FlashMessageIdentifier, string | boolean | number>
+export type FlashMessages = Record<FlashMessageIdentifier, any>
 
 /* ---------------------------------------- */
 

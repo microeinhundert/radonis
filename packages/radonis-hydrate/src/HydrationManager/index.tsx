@@ -14,8 +14,8 @@ import type {
   FlashMessageIdentifier,
   MessageIdentifier,
   RouteIdentifier,
-  ValueOf,
 } from '@microeinhundert/radonis-types'
+import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
@@ -38,7 +38,7 @@ export class HydrationManager {
   /**
    * The components registered for hydration
    */
-  private components: Components = {}
+  private components: Components = new Map()
 
   /**
    * Hydrate a specific HydrationRoot
@@ -59,7 +59,7 @@ export class HydrationManager {
       If everything looks fine to you, this is most likely a bug of Radonis`
     )
 
-    const Component = this.components[componentIdentifier]
+    const Component = this.components.get(componentIdentifier)
 
     invariant(
       Component,
@@ -121,16 +121,16 @@ export class HydrationManager {
   /**
    * Register a component
    */
-  public registerComponent(identifier: string, Component: ValueOf<Components>): this {
+  public registerComponent(identifier: string, Component: ComponentType): this {
     if (isServer) return this
 
     invariant(
-      !(identifier in this.components),
+      !this.components.has(identifier),
       `The component "${identifier}" was already registered for hydration.
       Please make sure to not use the same name for multiple components`
     )
 
-    this.components[identifier] = Component
+    this.components.set(identifier, Component)
 
     return this
   }
