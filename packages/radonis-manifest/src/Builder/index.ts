@@ -9,13 +9,14 @@
 
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import type {
+  ComponentIdentifier,
   FlashMessages,
   Globals,
   Locale,
   Manifest,
   Messages,
-  PropsGroupHash,
-  PropsGroups,
+  Props,
+  PropsHash,
   Route,
   Routes,
   ValueOf,
@@ -36,7 +37,7 @@ export class Builder implements Manifest {
   /**
    * The props registered with the Builder
    */
-  public props: PropsGroups = {}
+  public props: Props = {}
 
   /**
    * The globals added to the Builder
@@ -158,7 +159,7 @@ export class Builder implements Manifest {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentIdentifier: string, rawProps: ValueOf<PropsGroups>): PropsGroupHash | null {
+  public registerProps(componentIdentifier: ComponentIdentifier, rawProps: ValueOf<Props>): PropsHash | null {
     try {
       const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)

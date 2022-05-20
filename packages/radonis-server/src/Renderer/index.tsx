@@ -18,6 +18,7 @@ import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Globals, Locale, Route } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
+import React, { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 
 import type { Compiler } from '../Compiler'
@@ -185,16 +186,16 @@ export class Renderer {
      */
     this.manifestBuilder.setServerManifestOnGlobalScope()
 
+    const tree = await this.pluginsManager.execute(
+      'beforeRender',
+      wrapWithDocument(this.compiler, this.headManager, this.manifestBuilder, this.context, Component, props),
+      null
+    )
+
     /**
      * Render the view
      */
-    let html = renderToString(
-      await this.pluginsManager.execute(
-        'beforeRender',
-        wrapWithDocument(this.compiler, this.headManager, this.manifestBuilder, this.context, Component, props),
-        null
-      )
-    )
+    let html = renderToString(<StrictMode>{tree}</StrictMode>)
 
     /**
      * Inject head

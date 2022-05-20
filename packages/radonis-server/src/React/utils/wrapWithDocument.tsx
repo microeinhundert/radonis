@@ -10,7 +10,7 @@
 import type { AdonisContextContract } from '@ioc:Adonis/Addons/Radonis'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
-import React, { StrictMode } from 'react'
+import React from 'react'
 
 import type { Compiler } from '../../Compiler'
 import type { HeadManager } from '../../HeadManager'
@@ -29,19 +29,17 @@ export function wrapWithDocument<T>(
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
   return (
-    <StrictMode>
-      <CompilerContextProvider value={compiler}>
-        <HeadManagerContextProvider value={headManager}>
-          <ManifestBuilderContextProvider value={manifestBuilder}>
-            <AdonisContextProvider value={context}>
-              <Document>
-                {/* @ts-expect-error Unsure why this errors */}
-                <Component {...(props ?? {})} />
-              </Document>
-            </AdonisContextProvider>
-          </ManifestBuilderContextProvider>
-        </HeadManagerContextProvider>
-      </CompilerContextProvider>
-    </StrictMode>
+    <CompilerContextProvider value={compiler}>
+      <HeadManagerContextProvider value={headManager}>
+        <ManifestBuilderContextProvider value={manifestBuilder}>
+          <AdonisContextProvider value={context}>
+            <Document>
+              {/* @ts-expect-error Unsure why this errors */}
+              <Component {...(props ?? {})} />
+            </Document>
+          </AdonisContextProvider>
+        </ManifestBuilderContextProvider>
+      </HeadManagerContextProvider>
+    </CompilerContextProvider>
   )
 }

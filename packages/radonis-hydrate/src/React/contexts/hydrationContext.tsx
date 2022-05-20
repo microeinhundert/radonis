@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, PropsGroupHash } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier, PropsHash } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
 export const hydrationContext = createContext<{
   hydrated: boolean
   root: string | null
   component: ComponentIdentifier | null
-  propsHash: PropsGroupHash | null
+  propsHash: PropsHash | null
 }>({
   hydrated: false,
   root: null,

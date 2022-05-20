@@ -35,12 +35,12 @@ export function generateComponentIdentifierUnionType(components: ComponentIdenti
 /**
  * Props hash
  */
-export type PropsGroupHash = string
+export type PropsHash = string
 
 /**
- * Props groups
+ * Props
  */
-export type PropsGroups = Record<PropsGroupHash, Record<string, any>>
+export type Props = Record<PropsHash, Record<string, any>>
 
 /* ---------------------------------------- */
 
@@ -131,7 +131,7 @@ export type RouteParams = Record<string, string | number>
  * Manifest
  */
 export type Manifest = {
-  props: PropsGroups
+  props: Props
   flashMessages: FlashMessages
   locale: Locale
   messages: Messages
