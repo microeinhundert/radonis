@@ -125,6 +125,15 @@ export class Renderer {
   }
 
   /**
+   * Set title for the current request
+   */
+  public withTitle(title: string): this {
+    this.headManager.setTitle(title)
+
+    return this
+  }
+
+  /**
    * Add meta for the current request
    */
   public withMeta(meta: HeadMeta): this {
