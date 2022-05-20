@@ -18,10 +18,11 @@ export {
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
-export { definePlugin, Plugin } from '@microeinhundert/radonis-shared'
+export { definePlugin } from '@microeinhundert/radonis-shared'
 export type {
   ComponentIdentifier,
   FlashMessageIdentifier,
   MessageIdentifier,
+  Plugin,
   RouteIdentifier,
 } from '@microeinhundert/radonis-types'

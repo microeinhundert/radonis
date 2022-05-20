@@ -299,6 +299,6 @@ export function generateAndWriteTypesToDisk(
 
   outputFile(
     join(outputDir, 'radonis.d.ts'),
-    `// This file is auto-generated, DO NOT EDIT\ndeclare module '@microeinhundert/radonis-types' {\n${typeDeclarations}\n}`
+    `// This file is auto-generated, DO NOT EDIT\ndeclare module '@microeinhundert/radonis-types' {\n${typeDeclarations}\n}\nexport {}`
   )
 }

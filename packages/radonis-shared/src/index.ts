@@ -8,6 +8,5 @@
  */
 
 export { isClient, isProduction, isServer, isTesting } from './environment'
-export type { Plugin } from './PluginsManager'
 export { definePlugin, PluginsManager } from './PluginsManager'
 export { invariant, separateArray } from './utils'
