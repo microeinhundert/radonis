@@ -13,6 +13,7 @@ declare module '@ioc:Adonis/Core/HttpContext' {
   import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 
   interface RadonisContract {
+    withTitle(string: string): RadonisContract
     withMeta(meta: HeadMeta): RadonisContract
     withGlobals(globals: Globals): RadonisContract
     render<T>(
