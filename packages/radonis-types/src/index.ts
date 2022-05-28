@@ -273,6 +273,122 @@ export interface Plugin extends Partial<PluginHooks> {
 /* ---------------------------------------- */
 
 /**
+ * Headers
+ */
+export type Headers = Record<string, string>
+
+/**
+ * Method
+ */
+export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch'
+
+/**
+ * Encoding type
+ */
+export type EncType = 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded'
+
+/**
+ * Transition state
+ */
+export type TransitionState = 'idle' | 'submitting' | 'error' | 'catch-error'
+
+/**
+ * Transition
+ */
+export interface Transition {
+  state: TransitionState
+  formData: FormData
+}
+
+/**
+ * Response param
+ */
+export type ResponseParam<TData> = Response & { data: TData }
+
+/**
+ * Form hooks
+ */
+export type FormHooks<TData, TError> = {
+  /**
+   * This hook is called before a fetch request is made
+   */
+  beforeRequest?: (init: Omit<RequestInit, 'signal'>) => void
+
+  /**
+   * This hook is called after any fetch request
+   */
+  afterRequest?: () => void
+
+  /**
+   * This hook is called on success
+   */
+  onSuccess?: (response: ResponseParam<TData>) => void
+
+  /**
+   * This hook is called on error
+   */
+  onError?: (response: ResponseParam<TError>) => void
+
+  /**
+   * This hook is called on catched error
+   */
+  onCatchError?: (error: any) => void
+
+  /**
+   * This hook is called after the fetch request was aborted
+   */
+  afterAbort?: () => void
+}
+
+/**
+ * Request init options
+ */
+export interface RequestInitOptions {
+  action: string
+  method?: Method
+  encType?: EncType
+  requestHeaders?: Headers
+  requestBody?: Record<string, any>
+  transform?: (data: Record<string, any>) => any
+  formData?: FormData
+}
+
+/**
+ * Fetch options
+ */
+export interface FetchOptions<TData, TError> {
+  action: string
+  method: Method
+  encType?: EncType
+  headers?: Headers
+  body?: Record<string, any>
+  transform?: (data: Record<string, any>) => any
+  hooks?: FormHooks<TData, TError>
+  formData?: FormData
+}
+
+/**
+ * Form options
+ */
+export interface FormOptions<TData, TError> extends FetchOptions<TData, TError> {
+  includeSubmitValue?: boolean
+  formData: never
+}
+
+/**
+ * Form children props
+ */
+export type FormChildrenProps<TData, TError> = {
+  data: TData | null
+  error: TError | null
+  status: number
+  transition: Transition
+  abort: () => void
+}
+
+/* ---------------------------------------- */
+
+/**
  * Utils
  */
 export type ValueOf<T> = T[keyof T]

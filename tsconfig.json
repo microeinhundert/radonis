@@ -10,12 +10,16 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "importHelpers": true,
     "jsx": "react"
   },
   "include": ["./packages/**/*"],
   "references": [
     {
       "path": "./packages/radonis/tsconfig.json"
+    },
+    {
+      "path": "./packages/radonis-form/tsconfig.json"
     },
     {
       "path": "./packages/radonis-hooks/tsconfig.json"

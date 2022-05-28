@@ -12,6 +12,10 @@
       "changeProcessCWD": true
     },
     {
+      "directory": "packages/radonis-form",
+      "changeProcessCWD": true
+    },
+    {
       "directory": "packages/radonis-hooks",
       "changeProcessCWD": true
     },

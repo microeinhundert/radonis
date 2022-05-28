@@ -63,6 +63,7 @@
     "@adonisjs/i18n": "^1.5.5",
     "@adonisjs/session": "^6.4.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "tslib": "^2.4.0"
   }
 }
