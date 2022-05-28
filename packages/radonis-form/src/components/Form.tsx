@@ -13,21 +13,12 @@ import React from 'react'
 
 import { useForm } from '../hooks/useForm'
 
-interface FormProps<TData, TError> extends FormOptions<TData, TError> {
-  children: (props: FormChildrenProps<TData, TError>) => ReactNode
-}
+type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>, 'method' | 'action' | 'children'> &
+  FormOptions<TData, TError> & {
+    children: (props: FormChildrenProps<TData, TError>) => ReactNode
+  }
 
-/**
- * The request headers and body will be generated based on the `encType` and `requestBody`.
- * `formData` will be serialized to appropriate `body` type based on `encType` value.
- *
- * When `requestBody` is not empty, the `Content-Type` header will be set to `application/json` and
- * `requestBody` will be used as the `body`.
- */
-export function Form<TData, TError>({
-  children,
-  ...props
-}: Omit<FormHTMLAttributes<HTMLFormElement>, 'method' | 'encType' | 'action' | 'children'> & FormProps<TData, TError>) {
+export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm(props)
 
   return (

@@ -283,11 +283,6 @@ export type Headers = Record<string, string>
 export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch'
 
 /**
- * Encoding type
- */
-export type EncType = 'multipart/form-data' | 'application/json' | 'application/x-www-form-urlencoded'
-
-/**
  * Transition state
  */
 export type TransitionState = 'idle' | 'submitting' | 'error' | 'catch-error'
@@ -346,10 +341,7 @@ export type FormHooks<TData, TError> = {
 export interface RequestInitOptions {
   action: string
   method?: Method
-  encType?: EncType
-  requestHeaders?: Headers
-  requestBody?: Record<string, any>
-  transform?: (data: Record<string, any>) => any
+  headers?: Headers
   formData?: FormData
 }
 
@@ -359,10 +351,7 @@ export interface RequestInitOptions {
 export interface FetchOptions<TData, TError> {
   action: string
   method: Method
-  encType?: EncType
   headers?: Headers
-  body?: Record<string, any>
-  transform?: (data: Record<string, any>) => any
   hooks?: FormHooks<TData, TError>
   formData?: FormData
 }
@@ -370,9 +359,8 @@ export interface FetchOptions<TData, TError> {
 /**
  * Form options
  */
-export interface FormOptions<TData, TError> extends FetchOptions<TData, TError> {
+export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TError>, 'formData'> {
   includeSubmitValue?: boolean
-  formData: never
 }
 
 /**

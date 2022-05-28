@@ -14,16 +14,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { createRequestInit } from '../utils/createRequestInit'
 
-export function useFetch<TData, TError>({
-  action,
-  method,
-  encType = 'multipart/form-data',
-  headers,
-  body,
-  transform,
-  hooks,
-  formData,
-}: FetchOptions<TData, TError>) {
+export function useFetch<TData, TError>({ action, method, headers, hooks, formData }: FetchOptions<TData, TError>) {
   const isFirstRender = useRef(true)
 
   /**
@@ -40,35 +31,23 @@ export function useFetch<TData, TError>({
   const [error, setError] = useState<TError | null>(null)
   const [transitionState, setTransitionState] = useState<TransitionState>('idle')
 
-  /**
-   * The memoized request object
-   */
-  const requestObject = useMemo(() => {
+  const request = useMemo(() => {
     return createRequestInit({
       action,
       method,
-      encType,
-      requestHeaders: headers,
-      requestBody: body,
-      transform,
+      headers,
       formData,
     })
-  }, [action, body, encType, formData, headers, method, transform])
+  }, [action, method, headers, formData])
 
   useEffect(() => {
-    /**
-     * Declare new AbortController on every request
-     */
     const controller = new AbortController()
     const signal = controller.signal
 
-    async function executeFetch(requestObject: ReturnType<typeof createRequestInit>) {
+    async function executeFetch(request: ReturnType<typeof createRequestInit>) {
       try {
-        /**
-         * Make the request
-         */
-        const response = await fetch(requestObject.url, {
-          ...requestObject.requestInit,
+        const response = await fetch(request.url, {
+          ...request.requestInit,
           signal,
         })
 
@@ -130,17 +109,11 @@ export function useFetch<TData, TError>({
      * 3. Or Re-Fetch request when abort is `true` (which simulates continuous clicking of the submit button)
      */
     if (!isFirstRender.current && (submit || abort)) {
-      /**
-       * Generate request `headers` and `body`
-       */
-      const requestObject = createRequestInit({
+      const request = createRequestInit({
         action,
         method,
-        encType,
         formData,
-        requestBody: body,
-        requestHeaders: headers,
-        transform,
+        headers,
       })
 
       /**
@@ -155,12 +128,11 @@ export function useFetch<TData, TError>({
        * Call the `beforeRequest` hook
        */
       if (hooks?.beforeRequest) {
-        hooks.beforeRequest(requestObject.requestInit)
+        hooks.beforeRequest(request.requestInit)
       }
 
       setTransitionState('submitting')
-
-      executeFetch(requestObject)
+      executeFetch(request)
     }
 
     /**
@@ -178,9 +150,7 @@ export function useFetch<TData, TError>({
 
       setTransitionState('idle')
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [abort, action, body, encType, formData, headers, hooks, method, submit, transform])
+  }, [abort, action, formData, headers, hooks, method, submit])
 
   /**
    * Change the first render state to `false` after the first render
@@ -190,7 +160,7 @@ export function useFetch<TData, TError>({
   }
 
   /**
-   * Abort fetch request
+   * Abort the fetch request
    */
   function abortRequest() {
     setSubmit(false)
@@ -198,7 +168,7 @@ export function useFetch<TData, TError>({
   }
 
   return {
-    request: requestObject,
+    request: request,
     submit,
     setSubmit,
     abort,

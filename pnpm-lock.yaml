@@ -131,12 +131,14 @@ importers:
 
   packages/radonis-form:
     specifiers:
+      '@microeinhundert/radonis-hooks': 1.3.12
       '@microeinhundert/radonis-shared': 1.3.12
       '@microeinhundert/radonis-types': 1.3.12
       '@types/node': ^16.11.27
       '@types/react': ^18.0.9
       '@types/react-dom': ^18.0.5
     dependencies:
+      '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
     devDependencies:

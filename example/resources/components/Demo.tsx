@@ -1,4 +1,4 @@
-import { Form, useI18n } from '@microeinhundert/radonis'
+import { Form, useI18n, useUrlBuilder } from '@microeinhundert/radonis'
 import React from 'react'
 
 interface DemoProps {
@@ -8,13 +8,19 @@ interface DemoProps {
 
 function Demo({ name, text }: DemoProps) {
   const i18n = useI18n()
+  const urlBuilder = useUrlBuilder()
 
   return (
     <>
-      <Form action="/test">
-        {() => (
+      <Form
+        action={urlBuilder.withParams({ name: 'hello' }).make('personalizedWelcome')}
+        method="post"
+      >
+        {({ error }) => (
           <div>
-            <input name="field" type="test" />
+            <input name="field" type="text" />
+            <button type="submit">Submit</button>
+            {error && <div>{error}</div>}
           </div>
         )}
       </Form>

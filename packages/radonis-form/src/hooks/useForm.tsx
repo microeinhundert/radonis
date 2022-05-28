@@ -7,26 +7,17 @@
  * file that was distributed with this source code.
  */
 
-import type { FetchOptions, FormOptions } from '@microeinhundert/radonis-types'
+import type { FormOptions } from '@microeinhundert/radonis-types'
 import type { FormEvent } from 'react'
 import { useEffect } from 'react'
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 
 import { useFetch } from './useFetch'
 
-/**
- * The request headers and body will be generated based on the `encType` and `requestBody`.
- * `formData` will be serialized to appropriate `body` type based on `encType` value.
- *
- * When `requestBody` is not empty, the `Content-Type` header will be set to `application/json` and
- * `requestBody` will be used as the `body`.
- */
 export function useForm<TData, TError>({
   action,
   method,
-  encType,
   headers,
-  transform,
   hooks,
   includeSubmitValue,
 }: FormOptions<TData, TError>) {
@@ -44,28 +35,17 @@ export function useForm<TData, TError>({
     formData.current = new FormData(form.current || undefined)
   }, [])
 
-  /**
-   * The memoized fetch options
-   */
-  const fetchOptions = useMemo<FetchOptions<TData, TError>>(
-    () => ({
-      action,
-      method,
-      encType: encType || 'application/x-www-form-urlencoded',
-      headers,
-      transform,
-      hooks,
-      formData: formData.current || undefined,
-    }),
-    [action, method, encType, headers, transform, hooks]
-  )
-
   const { request, submit, setSubmit, abort, setAbort, data, error, status, transition, abortRequest } = useFetch<
     TData,
     TError
-  >(fetchOptions)
+  >({
+    action,
+    method,
+    headers,
+    hooks,
+    formData: formData.current || undefined,
+  })
 
-  /** submit handler */
   function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
@@ -105,9 +85,8 @@ export function useForm<TData, TError>({
 
   const getFormProps = () => ({
     ref: form,
-    action: request.formUrl,
-    method: request.method as string,
-    encType: request.encType as string,
+    action: request.form.action,
+    method: request.form.method,
     onSubmit: submitHandler,
   })
 
