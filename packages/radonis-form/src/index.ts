@@ -10,3 +10,4 @@
 export { Form } from './components/Form'
 export { useFetch } from './hooks/useFetch'
 export { useForm } from './hooks/useForm'
+export type { FormChildrenProps, FormProps } from './types'

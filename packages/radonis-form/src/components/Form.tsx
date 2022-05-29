@@ -20,13 +20,15 @@ export function Form<
 
   return (
     <form {...form.getFormProps()}>
-      {children({
-        data: form.data,
-        error: form.error,
-        status: form.status,
-        transition: form.transition,
-        abort: form.abort,
-      })}
+      {typeof children === 'function'
+        ? children({
+            data: form.data,
+            error: form.error,
+            status: form.status,
+            transition: form.transition,
+            abort: form.abort,
+          })
+        : children}
     </form>
   )
 }

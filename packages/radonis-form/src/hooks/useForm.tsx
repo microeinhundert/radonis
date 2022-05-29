@@ -16,7 +16,16 @@ import { useFetch } from './useFetch'
 export function useForm<
   TData extends Record<string, any>,
   TError extends Record<string, any> = Record<keyof TData, string | undefined>
->({ action, params, queryParams, method, hooks, includeSubmitValue }: FormOptions<TData, TError>) {
+>({
+  action,
+  params,
+  queryParams,
+  method,
+  hooks,
+  includeSubmitValue,
+  reloadDocument,
+  ...props
+}: FormOptions<TData, TError>) {
   const form = useRef<HTMLFormElement | null>(null)
   const formData = useRef<FormData | null>(null)
 
@@ -24,10 +33,7 @@ export function useForm<
     formData.current = new FormData(form.current || undefined)
   }, [])
 
-  const { request, submit, setSubmit, abort, setAbort, data, error, status, transition, abortRequest } = useFetch<
-    TData,
-    TError
-  >({
+  const fetch = useFetch<TData, TError>({
     action,
     params,
     queryParams,
@@ -57,9 +63,9 @@ export function useForm<
      * 1. Set submit state to `true` to trigger fetch request
      * 2. Set abort state to `false`, if abort state is already `true`.
      */
-    if (!submit) {
-      setSubmit(true)
-      abort && setAbort(false)
+    if (!fetch.submit) {
+      fetch.setSubmit(true)
+      fetch.abort && fetch.setAbort(false)
 
       return
     }
@@ -69,23 +75,24 @@ export function useForm<
      * 1. Set abort state to `false` to cancel current fetch request
      * 2. Set submit state to `false`, so that fetch request can be trigger again on next click.
      */
-    setAbort(true)
-    setSubmit(false)
+    fetch.setAbort(true)
+    fetch.setSubmit(false)
   }
 
   const getFormProps = () => ({
+    ...(reloadDocument ? {} : { onSubmit: submitHandler }),
     ref: form,
-    action: request.form.action,
-    method: request.form.method,
-    onSubmit: submitHandler,
+    ...props,
+    action: fetch.request.form.action,
+    method: fetch.request.form.method,
   })
 
   return {
-    data,
-    error,
-    status,
-    transition,
-    abort: abortRequest,
+    data: fetch.data,
+    error: fetch.error,
+    status: fetch.status,
+    transition: fetch.transition,
+    abort: fetch.abortRequest,
     getFormProps,
   }
 }

@@ -9,42 +9,68 @@
 
 import type { RequestInitOptions } from '../types'
 
-const BASE = 'https://example.com'
-const FORM_METHODS = ['get', 'post']
+/**
+ * Check if a method is natively supported by the <form> element
+ */
+function isNativeFormMethod(method: string): boolean {
+  return ['get', 'post'].includes(method)
+}
+
+/**
+ * Convert an URL to a relative path
+ */
+function urlToRelativePath(url: URL): string {
+  return url.toString().replace(url.origin, '')
+}
 
 export function createRequestInit({ action, method = 'post', headers, formData }: RequestInitOptions) {
-  const url = new URL(action, BASE)
+  /**
+   * The URL constructor requires an absolute URL,
+   * therefore we set a fake base URL and remove it afterwards
+   */
+  const url = new URL(action, 'https://example.com')
+
   const requestInit: RequestInit = {
     method,
-    headers,
+    headers: {
+      Accept: 'application/json',
+      ...(headers ?? {}),
+    },
   }
 
-  if (method === 'get' && formData) {
-    for (const entity of formData.entries()) {
-      url.searchParams.append(entity[0], entity[1].toString())
+  switch (method) {
+    case 'get': {
+      if (!formData) {
+        break
+      }
+
+      for (const entity of formData.entries()) {
+        url.searchParams.append(entity[0], entity[1].toString())
+      }
+
+      break
+    }
+    default: {
+      requestInit.body = formData
     }
   }
 
-  if (method !== 'get') {
-    requestInit.body = formData
-  }
-
   return {
-    url: url.toString().replace(BASE, ''),
+    url: urlToRelativePath(url),
     method,
     requestInit,
     form: {
       get action() {
         const actionUrl = url
 
-        if (!FORM_METHODS.includes(method)) {
+        if (!isNativeFormMethod(method)) {
           actionUrl.searchParams.append('_method', method)
         }
 
-        return actionUrl.toString().replace(BASE, '')
+        return urlToRelativePath(actionUrl)
       },
       get method() {
-        return FORM_METHODS.includes(method) ? method : 'post'
+        return isNativeFormMethod(method) ? method : 'post'
       },
     },
   }

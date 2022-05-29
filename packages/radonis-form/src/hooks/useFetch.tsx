@@ -23,7 +23,7 @@ export function useFetch<
   const urlBuilder = useUrlBuilder()
 
   /**
-   * Submit and abort controller states
+   * Submit and abort states
    */
   const [submit, setSubmit] = useState(false)
   const [abort, setAbort] = useState(false)
@@ -58,6 +58,10 @@ export function useFetch<
           ...request.requestInit,
           signal,
         })
+
+        if (response.redirected) {
+          window.location.href = response.url
+        }
 
         const responseWithData: ResponseWithData<TData> = {
           ...response,

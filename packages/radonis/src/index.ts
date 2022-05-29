@@ -8,6 +8,7 @@
  */
 
 export { initClient, registerComponentForHydration } from './client'
+export type { FormChildrenProps, FormProps } from '@microeinhundert/radonis-form'
 export { Form, useFetch, useForm } from '@microeinhundert/radonis-form'
 export {
   useFlashMessages,
