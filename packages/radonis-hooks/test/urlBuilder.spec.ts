@@ -9,7 +9,7 @@
 
 import { test } from '@japa/runner'
 
-import { UrlBuilderImpl } from '../src/internal/UrlBuilder'
+import { UrlBuilderImpl } from '../src/implementations/UrlBuilder'
 import { routesFixtureOne } from './fixtures/routes.fixture'
 
 /**
@@ -29,7 +29,7 @@ test.group('Url Builder', (group) => {
 
   test('builds urls with params', ({ assert }) => {
     assert.equal(urlBuilder.withParams({ id: 123 }).make('singleParam'), '/foo/123')
-    assert.equal(urlBuilder.withParams({ id: 123 }).make('singleParamInBetween'), '/foo/123/edit')
+    assert.equal(urlBuilder.withParams({ id: 321 }).make('singleParamInBetween'), '/foo/321/edit')
     assert.equal(
       urlBuilder.withParams({ name: 'microeinhundert', id: 100 }).make('multipleParams'),
       '/foo/microeinhundert/bar/100'

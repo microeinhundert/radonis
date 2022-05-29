@@ -10,7 +10,7 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { useMemo } from 'react'
 
-import { I18nImpl } from '../internal/I18n'
+import { I18nImpl } from '../implementations/I18n'
 import { useManifest } from './useManifest'
 
 export function useI18n() {

@@ -10,7 +10,7 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { useMemo } from 'react'
 
-import { UrlBuilderImpl } from '../internal/UrlBuilder'
+import { UrlBuilderImpl } from '../implementations/UrlBuilder'
 import { useManifest } from './useManifest'
 
 export function useUrlBuilder() {

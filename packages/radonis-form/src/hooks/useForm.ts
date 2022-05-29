@@ -13,10 +13,7 @@ import { useEffect, useRef } from 'react'
 import type { FormOptions } from '../types'
 import { useFetch } from './useFetch'
 
-export function useForm<
-  TData extends Record<string, any>,
-  TError extends Record<string, any> = Record<keyof TData, string | undefined>
->({
+export function useForm<TData extends Record<string, any>, TError extends Record<keyof TData, string | undefined>>({
   action,
   params,
   queryParams,
@@ -61,7 +58,7 @@ export function useForm<
     /**
      * When submit state is `false`,
      * 1. Set submit state to `true` to trigger fetch request
-     * 2. Set abort state to `false`, if abort state is already `true`.
+     * 2. Set abort state to `false`, if abort state is already `true`
      */
     if (!fetch.submit) {
       fetch.setSubmit(true)
@@ -73,7 +70,7 @@ export function useForm<
     /**
      * When submit state is `true`,
      * 1. Set abort state to `false` to cancel current fetch request
-     * 2. Set submit state to `false`, so that fetch request can be trigger again on next click.
+     * 2. Set submit state to `false`, so that fetch request can be triggered again on next click
      */
     fetch.setAbort(true)
     fetch.setSubmit(false)

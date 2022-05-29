@@ -9,7 +9,7 @@
 
 import { test } from '@japa/runner'
 
-import { FlashMessagesImpl } from '../src/internal/FlashMessages'
+import { FlashMessagesImpl } from '../src/implementations/FlashMessages'
 import { flashMessagesFixtureOne } from './fixtures/flashMessages.fixture'
 
 /**

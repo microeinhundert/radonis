@@ -9,7 +9,7 @@
 
 import { test } from '@japa/runner'
 
-import { I18nImpl } from '../src/internal/I18n'
+import { I18nImpl } from '../src/implementations/I18n'
 import { messagesFixtureOne } from './fixtures/messages.fixture'
 
 /**

@@ -166,7 +166,7 @@ export default class UsersController {
 ## The Manifest
 
 The manifest is where Radonis stores all its data, like props of a component or translation messages. This manifest is also accessible client-side, which makes client-side hydration possible.
-By default, Radonis limits the client manifest to only include data required for client-side hydration. However if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+By default, Radonis limits the client manifest to only include data required for client-side hydration. However, if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
 
 ### Extending the manifest
 
@@ -315,7 +315,7 @@ const manifest = useManifest()
 console.log(manifest) // => `{ props: {}, globals: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. However if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. However, if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
 
 ### useGlobals (Server and client)
 

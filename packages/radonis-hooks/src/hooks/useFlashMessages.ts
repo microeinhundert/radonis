@@ -10,7 +10,7 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { useMemo } from 'react'
 
-import { FlashMessagesImpl } from '../internal/FlashMessages'
+import { FlashMessagesImpl } from '../implementations/FlashMessages'
 import { useManifest } from './useManifest'
 
 export function useFlashMessages() {

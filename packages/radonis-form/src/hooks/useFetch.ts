@@ -15,10 +15,15 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FetchOptions, ResponseWithData, Transition, TransitionState } from '../types'
 import { createRequestInit } from '../utils/createRequestInit'
 
-export function useFetch<
-  TData extends Record<string, any>,
-  TError extends Record<string, any> = Record<keyof TData, string | undefined>
->({ action, params, queryParams, method, headers, hooks, formData }: FetchOptions<TData, TError>) {
+export function useFetch<TData extends Record<string, any>, TError extends Record<keyof TData, string | undefined>>({
+  action,
+  params,
+  queryParams,
+  method,
+  headers,
+  hooks,
+  formData,
+}: FetchOptions<TData, TError>) {
   const isFirstRender = useRef(true)
   const urlBuilder = useUrlBuilder()
 
@@ -118,7 +123,7 @@ export function useFetch<
     /**
      * 1. Prevent fetching on first render with useRef
      * 2. Fetch request when submit is `true`
-     * 3. Or Re-Fetch request when abort is `true` (which simulates continuous clicking of the submit button)
+     * 3. Or re-fetch request when abort is `true` (which simulates continuous clicking of the submit button)
      */
     if (!isFirstRender.current && (submit || abort)) {
       /**
