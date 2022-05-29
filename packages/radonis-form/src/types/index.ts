@@ -110,7 +110,7 @@ export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TEr
  */
 export type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>, 'method' | 'action' | 'children'> &
   FormOptions<TData, TError> & {
-    children: ((props: FormChildrenProps<TData, TError>) => ReactNode) | ReactNode
+    children?: ((props: FormChildrenProps<TData, TError>) => ReactNode) | ReactNode
   }
 
 /**
