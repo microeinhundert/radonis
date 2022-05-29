@@ -14,8 +14,9 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
+  import type { Globals, ComponentIdentifier } from '@microeinhundert/radonis-types'
+  import type { Plugin } from '@microeinhundert/radonis-shared'
   import type { ReactElement } from 'react'
-  import type { Globals, ComponentIdentifier, Plugin } from '@microeinhundert/radonis-types'
 
   interface AdonisContextContract {
     application: ApplicationContract
@@ -24,15 +25,10 @@ declare module '@ioc:Adonis/Addons/Radonis' {
   }
 
   function useAdonis(): AdonisContextContract
-
   function useApplication(): ApplicationContract
-
   function useHttpContext(): HttpContextContract
-
   function useSession(): SessionContract
-
   function useRequest(): RequestContract
-
   function useRouter(): RouterContract
 
   interface HeadMeta {
@@ -48,12 +44,10 @@ declare module '@ioc:Adonis/Addons/Radonis' {
 
   function useHead(): HeadContract
 
-  interface HydrationRootProps {
+  function HydrationRoot(props: {
     children: ReactElement<Record<string, any>>
     component: ComponentIdentifier
-  }
-
-  function HydrationRoot(props: HydrationRootProps): JSX.Element
+  }): JSX.Element
 
   interface RenderOptions {
     title?: string

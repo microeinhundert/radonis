@@ -8,18 +8,13 @@
  */
 
 import { invariant, isProduction } from '@microeinhundert/radonis-shared'
-import type {
-  BuildManifest,
-  BuildManifestEntry,
-  FlashMessageIdentifier,
-  MessageIdentifier,
-  RouteIdentifier,
-} from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { writeFile } from 'fs'
 import { join, parse } from 'path'
 
+import type { BuildManifest, BuildManifestEntry } from '../types'
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'
 import { compiledFiles, radonisClientPlugin } from './plugins'

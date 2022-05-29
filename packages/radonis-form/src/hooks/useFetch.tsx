@@ -9,13 +9,18 @@
  * file that was distributed with this source code.
  */
 
-import type { FetchOptions, ResponseParam, Transition, TransitionState } from '@microeinhundert/radonis-types'
+import { useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import type { FetchOptions, ResponseParam, Transition, TransitionState } from '../types'
 import { createRequestInit } from '../utils/createRequestInit'
 
-export function useFetch<TData, TError>({ action, method, headers, hooks, formData }: FetchOptions<TData, TError>) {
+export function useFetch<
+  TData extends Record<string, any>,
+  TError extends Record<string, any> = Record<keyof TData, string | undefined>
+>({ action, params, queryParams, method, headers, hooks, formData }: FetchOptions<TData, TError>) {
   const isFirstRender = useRef(true)
+  const urlBuilder = useUrlBuilder()
 
   /**
    * Submit and abort controller states
@@ -32,19 +37,22 @@ export function useFetch<TData, TError>({ action, method, headers, hooks, formDa
   const [transitionState, setTransitionState] = useState<TransitionState>('idle')
 
   const request = useMemo(() => {
+    urlBuilder.withParams(params)
+    urlBuilder.withQueryParams(queryParams)
+
     return createRequestInit({
-      action,
+      action: urlBuilder.make(action),
       method,
       headers,
       formData,
     })
-  }, [action, method, headers, formData])
+  }, [urlBuilder, action, params, queryParams, method, headers, formData])
 
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
 
-    async function executeFetch(request: ReturnType<typeof createRequestInit>) {
+    async function executeFetch() {
       try {
         const response = await fetch(request.url, {
           ...request.requestInit,
@@ -109,13 +117,6 @@ export function useFetch<TData, TError>({ action, method, headers, hooks, formDa
      * 3. Or Re-Fetch request when abort is `true` (which simulates continuous clicking of the submit button)
      */
     if (!isFirstRender.current && (submit || abort)) {
-      const request = createRequestInit({
-        action,
-        method,
-        formData,
-        headers,
-      })
-
       /**
        * Reset states before submitting
        */
@@ -132,7 +133,7 @@ export function useFetch<TData, TError>({ action, method, headers, hooks, formDa
       }
 
       setTransitionState('submitting')
-      executeFetch(request)
+      executeFetch()
     }
 
     /**
@@ -150,7 +151,7 @@ export function useFetch<TData, TError>({ action, method, headers, hooks, formDa
 
       setTransitionState('idle')
     }
-  }, [abort, action, formData, headers, hooks, method, submit])
+  }, [request, abort, hooks, submit])
 
   /**
    * Change the first render state to `false` after the first render

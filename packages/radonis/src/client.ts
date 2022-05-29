@@ -8,8 +8,8 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import type { Plugin } from '@microeinhundert/radonis-shared'
 import { invariant, isClient, isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Plugin } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 
 const pluginsManager = PluginsManager.getInstance()

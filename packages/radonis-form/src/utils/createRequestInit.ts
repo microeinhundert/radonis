@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RequestInitOptions } from '@microeinhundert/radonis-types'
+import type { RequestInitOptions } from '../types'
 
 const BASE = 'https://example.com'
 const FORM_METHODS = ['get', 'post']

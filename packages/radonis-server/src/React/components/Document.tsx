@@ -7,14 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { ReactNode } from 'react'
 import React from 'react'
 
+import type { DocumentProps } from '../../types'
 import { useManifestBuilder } from '../hooks/useManifestBuilder'
-
-interface DocumentProps {
-  children: ReactNode
-}
 
 export function Document({ children }: DocumentProps) {
   const manifestBuilder = useManifestBuilder()

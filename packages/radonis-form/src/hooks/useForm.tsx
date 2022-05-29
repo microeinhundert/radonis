@@ -7,20 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import type { FormOptions } from '@microeinhundert/radonis-types'
 import type { FormEvent } from 'react'
-import { useEffect } from 'react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
+import type { FormOptions } from '../types'
 import { useFetch } from './useFetch'
 
-export function useForm<TData, TError>({
-  action,
-  method,
-  headers,
-  hooks,
-  includeSubmitValue,
-}: FormOptions<TData, TError>) {
+export function useForm<
+  TData extends Record<string, any>,
+  TError extends Record<string, any> = Record<keyof TData, string | undefined>
+>({ action, params, queryParams, method, headers, hooks, includeSubmitValue }: FormOptions<TData, TError>) {
   /**
    * The form ref
    */
@@ -40,6 +36,8 @@ export function useForm<TData, TError>({
     TError
   >({
     action,
+    params,
+    queryParams,
     method,
     headers,
     hooks,

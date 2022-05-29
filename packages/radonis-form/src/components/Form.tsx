@@ -7,18 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { FormChildrenProps, FormOptions } from '@microeinhundert/radonis-types'
-import type { FormHTMLAttributes, ReactNode } from 'react'
 import React from 'react'
 
 import { useForm } from '../hooks/useForm'
+import type { FormProps } from '../types'
 
-type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>, 'method' | 'action' | 'children'> &
-  FormOptions<TData, TError> & {
-    children: (props: FormChildrenProps<TData, TError>) => ReactNode
-  }
-
-export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
+export function Form<
+  TData extends Record<string, any>,
+  TError extends Record<string, any> = Record<keyof TData, string | undefined>
+>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm(props)
 
   return (
