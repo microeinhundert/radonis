@@ -141,7 +141,7 @@ export function useFetch<
     }
 
     /**
-     * Abort fetch request on every `submit` and `abort` state changes
+     * Abort fetch request on every `submit` and `abort` state change
      */
     return () => {
       controller.abort()
