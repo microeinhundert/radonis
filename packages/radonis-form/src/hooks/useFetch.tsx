@@ -12,7 +12,7 @@
 import { useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import type { FetchOptions, ResponseParam, Transition, TransitionState } from '../types'
+import type { FetchOptions, ResponseWithData, Transition, TransitionState } from '../types'
 import { createRequestInit } from '../utils/createRequestInit'
 
 export function useFetch<
@@ -59,7 +59,7 @@ export function useFetch<
           signal,
         })
 
-        const responseWithData: ResponseParam<TData> = {
+        const responseWithData: ResponseWithData<TData> = {
           ...response,
           data: await response.json(),
         }
@@ -169,7 +169,7 @@ export function useFetch<
   }
 
   return {
-    request: request,
+    request,
     submit,
     setSubmit,
     abort,

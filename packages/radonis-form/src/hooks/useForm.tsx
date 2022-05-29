@@ -16,15 +16,8 @@ import { useFetch } from './useFetch'
 export function useForm<
   TData extends Record<string, any>,
   TError extends Record<string, any> = Record<keyof TData, string | undefined>
->({ action, params, queryParams, method, headers, hooks, includeSubmitValue }: FormOptions<TData, TError>) {
-  /**
-   * The form ref
-   */
+>({ action, params, queryParams, method, hooks, includeSubmitValue }: FormOptions<TData, TError>) {
   const form = useRef<HTMLFormElement | null>(null)
-
-  /**
-   * The form data
-   */
   const formData = useRef<FormData | null>(null)
 
   useEffect(() => {
@@ -39,9 +32,8 @@ export function useForm<
     params,
     queryParams,
     method,
-    headers,
     hooks,
-    formData: formData.current || undefined,
+    formData: formData.current ?? undefined,
   })
 
   function submitHandler(event: FormEvent<HTMLFormElement>) {

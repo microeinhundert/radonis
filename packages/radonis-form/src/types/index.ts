@@ -34,9 +34,9 @@ export interface Transition {
 }
 
 /**
- * Response param
+ * Response with data
  */
-export type ResponseParam<TData> = Response & { data: TData }
+export type ResponseWithData<TData> = Response & { data: TData }
 
 /**
  * Hooks
@@ -55,12 +55,12 @@ export type Hooks<TData, TError> = {
   /**
    * This hook is called on success
    */
-  onSuccess?: (response: ResponseParam<TData>) => void
+  onSuccess?: (response: ResponseWithData<TData>) => void
 
   /**
    * This hook is called on error
    */
-  onError?: (response: ResponseParam<TError>) => void
+  onError?: (response: ResponseWithData<TError>) => void
 
   /**
    * This hook is called on catched error
@@ -99,7 +99,7 @@ export interface FetchOptions<TData, TError> {
 /**
  * Form options
  */
-export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TError>, 'formData'> {
+export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TError>, 'headers' | 'formData'> {
   includeSubmitValue?: boolean
 }
 
