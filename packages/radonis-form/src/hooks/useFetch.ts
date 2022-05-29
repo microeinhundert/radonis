@@ -10,6 +10,7 @@
  */
 
 import { useUrlBuilder } from '@microeinhundert/radonis-hooks'
+import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { FetchOptions, ResponseWithData, Transition, TransitionState } from '../types'
@@ -26,6 +27,11 @@ export function useFetch<TData extends Record<string, any>, TError extends Recor
 }: FetchOptions<TData, TError>) {
   const isFirstRender = useRef(true)
   const urlBuilder = useUrlBuilder()
+  const hydration = useHydration()
+
+  if (hydration.root) {
+    HydrationManager.getInstance().requireRouteForHydration(action)
+  }
 
   /**
    * Submit and abort states

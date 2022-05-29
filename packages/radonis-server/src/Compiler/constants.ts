@@ -13,6 +13,6 @@ export const DEFAULT_EXPORT_CJS_REGEX = new RegExp(/exports.default\s+=\s+(funct
 export const IOC_IMPORT_ESM_REGEX = new RegExp(/from\s+["'](?<importSpecifier>@ioc:.+?)["']/g)
 export const IOC_IMPORT_CJS_REGEX = new RegExp(/require\(\W?["'](?<importSpecifier>@ioc:.+?)["']/g)
 
-export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(/\.(get(Error)?|has(Error)?)\(\W?["'](?<identifier>.+?)["']/g)
-export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\(\W?["'](?<identifier>.+?)["']/g)
-export const URL_BUILDER_USAGE_REGEX = new RegExp(/\.make\(\W?["'](?<identifier>.+?)["']/g)
+export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(/\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g)
+export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\((\W+)?["'](?<identifier>.+?)["']/g)
+export const URL_BUILDER_USAGE_REGEX = new RegExp(/(\.make\(|action:)(\W+)?["'](?<identifier>.+?)["']/g)

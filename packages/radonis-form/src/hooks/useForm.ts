@@ -27,7 +27,7 @@ export function useForm<TData extends Record<string, any>, TError extends Record
   const formData = useRef<FormData | null>(null)
 
   useEffect(() => {
-    formData.current = new FormData(form.current || undefined)
+    formData.current = new FormData(form.current ?? undefined)
   }, [])
 
   const fetch = useFetch<TData, TError>({
