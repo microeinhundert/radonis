@@ -10,7 +10,8 @@
 import { useFlashMessages } from '@microeinhundert/radonis-hooks'
 import type { FormEvent } from 'react'
 import { useId, useState } from 'react'
-import type { FormFieldInputElement, FormFieldProps } from 'src/types'
+
+import type { FormFieldInputElement, FormFieldProps } from '../types'
 
 export function useFormField<T extends FormFieldProps>(
   name: string,
