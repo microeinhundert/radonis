@@ -15,4 +15,4 @@ export const IOC_IMPORT_CJS_REGEX = new RegExp(/require\(\W?["'](?<importSpecifi
 
 export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(/\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g)
 export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\((\W+)?["'](?<identifier>.+?)["']/g)
-export const URL_BUILDER_USAGE_REGEX = new RegExp(/(\.make\(|action:)(\W+)?["'](?<identifier>.+?)["']/g)
+export const URL_BUILDER_USAGE_REGEX = new RegExp(/(\.make\(|(action|to|route):)(\W+)?["'](?<identifier>.+?)["']/g)

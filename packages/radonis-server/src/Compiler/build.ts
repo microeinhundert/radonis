@@ -53,7 +53,7 @@ function extractMessages(source: string): Set<MessageIdentifier> {
 }
 
 /**
- * Extract identifiers from usages of `.make` and the `action` prop from the source code
+ * Extract identifiers from usages of `.make` as well as specific component props from the source code
  */
 function extractRoutes(source: string): Set<RouteIdentifier> {
   const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
