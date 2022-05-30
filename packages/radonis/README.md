@@ -161,7 +161,7 @@ export default class UsersController {
 }
 ```
 
-> Note that usage of the `useHead` hook always overrides data passed to `render` or `withMeta`.
+> **Note**: Usage of the `useHead` hook always overrides data passed to `render` or `withMeta`.
 
 ## The Manifest
 
@@ -206,7 +206,7 @@ const globals = useGlobals()
 console.log(globals) // => `{ user: { id: 1, email: 'radonis@example.com' } }`
 ```
 
-> Note that globals are set on a per-request basis. Use a custom middleware if you need some globals on all routes.
+> **Note**: Globals are set on a per-request basis. Use a custom middleware if you need some globals on all routes.
 
 ## Using Client-Side Hydration
 
@@ -302,7 +302,7 @@ const i18n = useI18n()
 console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
-> This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
+> **Note**: This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
 ### useManifest (Server and client)
 
@@ -315,7 +315,7 @@ const manifest = useManifest()
 console.log(manifest) // => `{ props: {}, globals: {}, flashMessages: {}, locale: 'en', messages: {}, routes: {}, route: {} }`
 ```
 
-> Note that the manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. However, if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
+> **Note**: The manifest differs between server-side rendering and client-side hydration, therefore don't use this hook inside of components you plan to hydrate on the client. However, if your specific use case requires having the same manifest on both the client and the server, set `client.limitManifest` to `false` in the Radonis config.
 
 ### useGlobals (Server and client)
 

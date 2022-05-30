@@ -48,27 +48,27 @@ export type Hooks<TData, TError> = {
   beforeRequest?: (init: Omit<RequestInit, 'signal'>) => void
 
   /**
-   * This hook is called after any fetch request
+   * This hook is called after a fetch request has finished
    */
   afterRequest?: () => void
 
   /**
-   * This hook is called on success
+   * This hook is called after a successful fetch request
    */
   onSuccess?: (response: ResponseWithData<TData>) => void
 
   /**
-   * This hook is called on error
+   * This hook is called after a failed fetch request
    */
   onError?: (response: ResponseWithData<TError>) => void
 
   /**
-   * This hook is called on catched error
+   * This hook is called after a thrown error of a failed fetch request was catched
    */
   onCatchError?: (error: any) => void
 
   /**
-   * This hook is called after the fetch request was aborted
+   * This hook is called after a fetch request was aborted
    */
   afterAbort?: () => void
 }
