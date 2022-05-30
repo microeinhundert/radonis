@@ -55,11 +55,13 @@
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "@microeinhundert/radonis-server": "1.3.18",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
   "devDependencies": {
     "@types/node": "^16.11.27"
-  },
-  "peerDependencies": {
-    "@microeinhundert/radonis-server": "1.3.18"
   },
   "dependencies": {
     "@microeinhundert/radonis-form": "1.3.18",
@@ -67,6 +69,7 @@
     "@microeinhundert/radonis-hydrate": "1.3.18",
     "@microeinhundert/radonis-manifest": "1.3.18",
     "@microeinhundert/radonis-shared": "1.3.18",
-    "@microeinhundert/radonis-types": "1.3.18"
+    "@microeinhundert/radonis-types": "1.3.18",
+    "react-query": "^4.0.0-beta"
   }
 }

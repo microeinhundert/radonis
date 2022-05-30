@@ -7,4 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { QueryClient } from 'react-query'
+
 export const HYDRATION_ROOT_SELECTOR = '[data-hydration-root]'
+export const QUERY_CLIENT = new QueryClient()

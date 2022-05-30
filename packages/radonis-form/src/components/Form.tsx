@@ -12,21 +12,16 @@ import React from 'react'
 import { useForm } from '../hooks/useForm'
 import type { FormProps } from '../types'
 
-export function Form<TData extends Record<string, any>, TError extends Record<keyof TData, string | undefined>>({
-  children,
-  ...props
-}: FormProps<TData, TError>) {
+export function Form<TData = unknown, TError = unknown>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm(props)
 
   return (
     <form {...form.getFormProps()}>
       {typeof children === 'function'
         ? children({
-            data: form.data,
-            error: form.error,
+            data: form.data ?? null,
+            error: form.error ?? null,
             status: form.status,
-            transition: form.transition,
-            abort: form.abort,
           })
         : children}
     </form>

@@ -35,7 +35,7 @@ Add the following to the `compilerOptions` object of your `tsconfig.json`:
 }
 ```
 
-For additional type safety, add the dynamically generated radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
+For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
 ```json
 {

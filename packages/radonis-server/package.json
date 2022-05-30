@@ -89,8 +89,6 @@
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
-    "@adonisjs/sink": "^5.3.2",
-    "@adonisjs/application": "^5.2.5",
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5"
@@ -103,6 +101,7 @@
     "@poppinss/utils": "^4.0.4",
     "esbuild": "^0.14.42",
     "flattie": "^1.1.0",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "react-query": "^4.0.0-beta"
   }
 }

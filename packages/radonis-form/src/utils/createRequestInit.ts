@@ -23,18 +23,17 @@ function urlToRelativePath(url: URL): string {
   return url.toString().replace(url.origin, '')
 }
 
-export function createRequestInit({ action, method = 'post', headers, formData }: RequestInitOptions) {
+export function createRequestInit({ action, method = 'post', formData }: RequestInitOptions) {
   /**
-   * The URL constructor requires an absolute URL,
-   * therefore we set a fake base URL and remove it afterwards
+   * Because of the URL constructor requiring an absolute URL,
+   * we have to pass a fake base URL
    */
-  const url = new URL(action, 'https://example.com')
+  const requestUrl = new URL(action, 'https://example.com')
 
   const requestInit: RequestInit = {
     method,
     headers: {
       Accept: 'application/json',
-      ...(headers ?? {}),
     },
   }
 
@@ -45,7 +44,7 @@ export function createRequestInit({ action, method = 'post', headers, formData }
       }
 
       for (const entity of formData.entries()) {
-        url.searchParams.append(entity[0], entity[1].toString())
+        requestUrl.searchParams.append(entity[0], entity[1].toString())
       }
 
       break
@@ -56,12 +55,12 @@ export function createRequestInit({ action, method = 'post', headers, formData }
   }
 
   return {
-    url: urlToRelativePath(url),
-    method,
+    requestUrl: urlToRelativePath(requestUrl),
     requestInit,
     form: {
+      data: formData,
       get action() {
-        const actionUrl = url
+        const actionUrl = requestUrl
 
         if (!isNativeFormMethod(method)) {
           actionUrl.searchParams.append('_method', method)

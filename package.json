@@ -36,6 +36,8 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
+    "@adonisjs/sink": "^5.3.2",
+    "@adonisjs/application": "^5.2.5",
     "@adonisjs/require-ts": "^2.0.12",
     "@japa/assert": "^1.3.4",
     "@japa/run-failed-tests": "^1.0.7",
@@ -65,5 +67,14 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "tslib": "^2.4.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["react", "react-dom"],
+      "allowedVersions": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+      }
+    }
   }
 }

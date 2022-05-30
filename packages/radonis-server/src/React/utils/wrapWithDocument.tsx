@@ -11,6 +11,7 @@ import type { AdonisContextContract } from '@ioc:Adonis/Addons/Radonis'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
 import React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import type { Compiler } from '../../Compiler'
 import type { HeadManager } from '../../HeadManager'
@@ -28,15 +29,19 @@ export function wrapWithDocument<T>(
   Component: ComponentType<T>,
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
+  const queryClient = new QueryClient()
+
   return (
     <CompilerContextProvider value={compiler}>
       <HeadManagerContextProvider value={headManager}>
         <ManifestBuilderContextProvider value={manifestBuilder}>
           <AdonisContextProvider value={context}>
-            <Document>
-              {/* @ts-expect-error Unsure why this errors */}
-              <Component {...(props ?? {})} />
-            </Document>
+            <QueryClientProvider client={queryClient}>
+              <Document>
+                {/* @ts-expect-error Unsure why this errors */}
+                <Component {...(props ?? {})} />
+              </Document>
+            </QueryClientProvider>
           </AdonisContextProvider>
         </ManifestBuilderContextProvider>
       </HeadManagerContextProvider>

@@ -7,89 +7,97 @@
  * file that was distributed with this source code.
  */
 
+import { useUrlBuilder } from '@microeinhundert/radonis-hooks'
+import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
+import { useMutation } from 'react-query'
 
 import type { FormOptions } from '../types'
-import { useFetch } from './useFetch'
+import { createRequestInit } from '../utils/createRequestInit'
 
-export function useForm<TData extends Record<string, any>, TError extends Record<keyof TData, string | undefined>>({
+export function useForm<TData = unknown, TError = unknown>({
   action,
   params,
   queryParams,
   method,
   hooks,
-  includeSubmitValue,
   reloadDocument,
   ...props
 }: FormOptions<TData, TError>) {
+  const urlBuilder = useUrlBuilder()
+  const hydration = useHydration()
+
   const form = useRef<HTMLFormElement | null>(null)
   const formData = useRef<FormData | null>(null)
 
-  useEffect(() => {
-    formData.current = new FormData(form.current ?? undefined)
-  }, [])
+  if (hydration.root) {
+    HydrationManager.getInstance().requireRouteForHydration(action)
+  }
 
-  const fetch = useFetch<TData, TError>({
-    action,
-    params,
-    queryParams,
-    method,
-    hooks,
-    formData: formData.current ?? undefined,
+  useEffect(() => {
+    if (form.current) {
+      formData.current = new FormData(form.current)
+    }
+  }, [form])
+
+  /**
+   * The memoized request init
+   */
+  const request = useMemo(() => {
+    urlBuilder.withParams(params)
+    urlBuilder.withQueryParams(queryParams)
+
+    return createRequestInit({
+      action: urlBuilder.make(action),
+      method,
+      formData: formData.current,
+    })
+  }, [urlBuilder, action, params, queryParams, method, formData])
+
+  /**
+   * The mutation
+   */
+  const mutation = useMutation<TData, TError, FormData>({
+    mutationKey: ['form', action, method, params, queryParams],
+    mutationFn: async () => {
+      const response = await fetch(request.requestUrl, request.requestInit)
+
+      return response.json()
+    },
+    ...(hooks ?? {}),
   })
 
+  /**
+   * The submit handler
+   */
   function submitHandler(event: FormEvent<HTMLFormElement>) {
+    if (event.defaultPrevented) return
+
     event.preventDefault()
 
-    /**
-     * 1. Get submit button value
-     * 2. Update formData value
-     * 3. Remove previous formData submitter value
-     * 4. Update formData submitter value if it exists
-     */
-    const submitter = (event.nativeEvent as any).submitter as HTMLButtonElement
-    formData.current = new FormData(event.currentTarget)
-    if (includeSubmitValue && submitter.hasAttribute('name') && submitter.hasAttribute('value')) {
-      formData.current.delete(submitter.name)
-      formData.current.append(submitter.name, submitter.value)
-    }
-
-    /**
-     * When submit state is `false`,
-     * 1. Set submit state to `true` to trigger fetch request
-     * 2. Set abort state to `false`, if abort state is already `true`
-     */
-    if (!fetch.submit) {
-      fetch.setSubmit(true)
-      fetch.abort && fetch.setAbort(false)
-
+    if (!formData.current) {
       return
     }
 
-    /**
-     * When submit state is `true`,
-     * 1. Set abort state to `false` to cancel current fetch request
-     * 2. Set submit state to `false`, so that fetch request can be triggered again on next click
-     */
-    fetch.setAbort(true)
-    fetch.setSubmit(false)
+    mutation.mutate(formData.current)
   }
 
+  /**
+   * The form props getter
+   */
   const getFormProps = () => ({
-    ...(reloadDocument ? {} : { onSubmit: submitHandler }),
+    onSubmit: reloadDocument ? undefined : submitHandler,
     ref: form,
     ...props,
-    action: fetch.request.form.action,
-    method: fetch.request.form.method,
+    action: request.form.action,
+    method: request.form.method,
   })
 
   return {
-    data: fetch.data,
-    error: fetch.error,
-    status: fetch.status,
-    transition: fetch.transition,
-    abort: fetch.abortRequest,
+    data: mutation.data,
+    error: mutation.error,
+    status: mutation.status,
     getFormProps,
   }
 }

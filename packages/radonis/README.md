@@ -71,7 +71,7 @@ Add the following to the `compilerOptions` object of your `tsconfig.json`:
 }
 ```
 
-For additional type safety, add the dynamically generated radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
+For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
 ```json
 {
@@ -341,7 +341,7 @@ console.log(route.current) // => `{ name: 'users.show', pattern: '/users/:id' }`
 // Check if a route is the current route:
 console.log(route.isCurrent('users.show')) // => `true` if currently on `users.show` or a child of `users.show`, `false` if not
 
-// Check if exact match:
+// Check if a route is exactly the current route:
 console.log(route.isCurrent('users.show', true)) // => `true` if currently on `users.show`, `false` if not
 ```
 
@@ -383,25 +383,25 @@ import { useFlashMessages } from '@microeinhundert/radonis'
 
 const flashMessages = useFlashMessages()
 
-// Check if some flash message exists:
+// Check if any flash message exists:
 console.log(flashMessages.has()) // => `true` or `false`
 
-// Check if some error flash message exists:
+// Check if any error flash message exists:
 console.log(flashMessages.hasError()) // => `true` or `false`
 
-// Check if a specific flash message exists:
+// Check if some specific flash message exists:
 console.log(flashMessages.has('errors.fieldName.0')) // => `true` or `false`
 
-// Check if a specific error flash message exists:
+// Check if some specific error flash message exists:
 console.log(flashMessages.hasError('fieldName.0')) // => `true` or `false`
 
-// Get a specific flash message:
+// Get some specific flash message:
 console.log(flashMessages.get('errors.fieldName.0')) // => `required validation failed on fieldName`
 
-// You can also omit the index to automatically get the first item if an array:
+// You can also omit the index to automatically get the first item from an array:
 console.log(flashMessages.get('errors.fieldName')) // => same as `errors.fieldName.0`
 
-// You can also get a specific error flash message like this:
+// You can also get some specific error flash message like this:
 console.log(flashMessages.getError('fieldName')) // => same as `errors.fieldName`
 
 // Get all flash messages:
@@ -577,24 +577,25 @@ function yourPlugin() {
 }
 ```
 
-Here's an example of a plugin that injects the react-query provider into the server-side rendering as well as the client-side hydration:
+Here's an example of a plugin that injects a React context provider into the server-side rendering as well as the client-side hydration:
 
 ```tsx
 import { definePlugin } from '@microeinhundert/radonis'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 export function reactQueryPlugin() {
-  const queryClient = new QueryClient()
+  const contextProviderValue = {
+    hello: 'world',
+  }
 
   return definePlugin({
-    name: 'react-query',
+    name: 'context-provider-plugin',
     environments: ['client', 'server'],
     beforeHydrate() {
-      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+      return (tree) => <SomeContextProvider value={contextProviderValue}>{tree}</SomeContextProvider>
     },
     beforeRender() {
-      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+      return (tree) => <SomeContextProvider value={contextProviderValue}>{tree}</SomeContextProvider>
     },
   })
 }

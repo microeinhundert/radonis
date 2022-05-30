@@ -9,6 +9,7 @@
 
 import type { RouteIdentifier, RouteParams } from '@microeinhundert/radonis-types'
 import type { FormHTMLAttributes, ReactNode } from 'react'
+import type { MutationOptions } from 'react-query'
 
 /**
  * Headers
@@ -21,57 +22,12 @@ export type Headers = Record<string, string>
 export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch'
 
 /**
- * Transition state
- */
-export type TransitionState = 'idle' | 'submitting' | 'error' | 'catch-error'
-
-/**
- * Transition
- */
-export interface Transition {
-  state: TransitionState
-  formData: FormData
-}
-
-/**
- * Response with data
- */
-export type ResponseWithData<TData> = Response & { data: TData }
-
-/**
  * Hooks
  */
-export type Hooks<TData, TError> = {
-  /**
-   * This hook is called before a fetch request is made
-   */
-  beforeRequest?: (init: Omit<RequestInit, 'signal'>) => void
-
-  /**
-   * This hook is called after a fetch request has finished
-   */
-  afterRequest?: () => void
-
-  /**
-   * This hook is called after a successful fetch request
-   */
-  onSuccess?: (response: ResponseWithData<TData>) => void
-
-  /**
-   * This hook is called after a failed fetch request
-   */
-  onError?: (response: ResponseWithData<TError>) => void
-
-  /**
-   * This hook is called after a thrown error of a failed fetch request was catched
-   */
-  onCatchError?: (error: any) => void
-
-  /**
-   * This hook is called after a fetch request was aborted
-   */
-  afterAbort?: () => void
-}
+export type Hooks<TData, TError> = Pick<
+  MutationOptions<TData, TError, FormData, void>,
+  'onMutate' | 'onSuccess' | 'onError' | 'onSettled'
+>
 
 /**
  * Request init options
@@ -79,28 +35,18 @@ export type Hooks<TData, TError> = {
 export interface RequestInitOptions {
   action: string
   method?: Method
-  headers?: Headers
-  formData?: FormData
-}
-
-/**
- * Fetch options
- */
-export interface FetchOptions<TData, TError> {
-  action: RouteIdentifier
-  params?: RouteParams
-  queryParams?: RouteParams
-  method: Method
-  headers?: Headers
-  hooks?: Hooks<TData, TError>
-  formData?: FormData
+  formData: FormData | null
 }
 
 /**
  * Form options
  */
-export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TError>, 'headers' | 'formData'> {
-  includeSubmitValue?: boolean
+export type FormOptions<TData, TError> = {
+  action: RouteIdentifier
+  params?: RouteParams
+  queryParams?: RouteParams
+  method: Method
+  hooks?: Hooks<TData, TError>
   reloadDocument?: boolean
   [key: string]: any
 }
@@ -108,7 +54,7 @@ export interface FormOptions<TData, TError> extends Omit<FetchOptions<TData, TEr
 /**
  * Form props
  */
-export type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>, 'method' | 'action' | 'children'> &
+export type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>, 'children' | 'action' | 'method'> &
   FormOptions<TData, TError> & {
     children?: ((props: FormChildrenProps<TData, TError>) => ReactNode) | ReactNode
   }
@@ -119,9 +65,7 @@ export type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>,
 export type FormChildrenProps<TData, TError> = {
   data: TData | null
   error: TError | null
-  status: number
-  transition: Transition
-  abort: () => void
+  status: 'error' | 'idle' | 'loading' | 'success'
 }
 
 /**

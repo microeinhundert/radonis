@@ -1,4 +1,4 @@
-import { useI18n } from '@microeinhundert/radonis'
+import { Form, useI18n } from '@microeinhundert/radonis'
 import React from 'react'
 
 interface DemoProps {
@@ -17,6 +17,30 @@ function Demo({ name, text }: DemoProps) {
           : i18n.formatMessage('general.welcome')}
       </h1>
       <p>{text}</p>
+      <Form<{ test: string }, { error: string }>
+        action="personalizedWelcome"
+        hooks={{
+          onMutate: () => {
+            console.log('onMutate')
+          },
+          onError: (form) => {
+            console.log(form)
+          },
+        }}
+        method="post"
+        params={{ name: 'test' }}
+      >
+        {({ status }) => {
+          return (
+            <>
+              <input name="text" type="text" />
+              <button name="test" type="submit" value="test">
+                {status === 'loading' ? 'Loading...' : 'Submit'}
+              </button>
+            </>
+          )
+        }}
+      </Form>
     </div>
   )
 }
