@@ -23,5 +23,5 @@ export function useManifest() {
 
   invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
-  return manifest
+  return manifest as Readonly<Manifest>
 }

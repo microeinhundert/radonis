@@ -161,7 +161,7 @@ export default class UsersController {
 }
 ```
 
-> **Note**: Usage of the `useHead` hook always overrides data passed to `render` or `withMeta`.
+> **Note**: Data passed to `useHead` is always prioritized over data passed to `render` or `withMeta`.
 
 ## The Manifest
 
@@ -261,7 +261,7 @@ export default class YourModel extends BaseModel {
 
 ## Forms
 
-By default, Radonis applications work like a traditional monolythic application: Forms are submitted and trigger a page reload, no JavaScript required. With the help of client-side hydration and flash messages, this "old school" way of handling user input comes really close to the modern UX known from Single Page Applications. But there are cases, being some small interaction like a "Add to favorites" button or a whole form, where communicating with the backend via REST API comes in handy and delivers a better UX for the user. Radonis ships with a form component that can do both, and switching between them is as simple as adding a prop to the form component.
+By default, Radonis applications work like a traditional monolythic application: Forms are submitted and trigger a page reload, no JavaScript required. With the help of client-side hydration and flash messages, this "old school" way of handling user input comes really close to the modern UX known from Single Page Applications. But there are cases, being some small interaction like a "Add to favorites" button or a whole form, where communicating with the backend via fetch comes in handy and delivers a better UX for the user. Radonis ships with a form component that can do both, and switching between submit and fetch is as simple as adding a prop to the form component.
 
 ```tsx
 import { Form } from '@microeinhundert/radonis'
@@ -273,7 +273,7 @@ type Data = {
 
 type Error = Record<keyof Data, string | undefined>
 
-function RestApiFormDemo() {
+function FetchFormDemo() {
   return (
     <Form<Data, Error>
       method="post" // or `get`, `put`, `delete`, `patch`
@@ -366,7 +366,7 @@ function TraditionalFormDemo() {
 }
 ```
 
-When JavaScript is not available, API forms will gracefully fall back to a traditional submit. But then you must make sure that validation will work in both cases, API and traditional submit.
+When JavaScript is not available, fetch forms will gracefully fall back to a traditional submit. But then you must make sure that validation will work in both cases, fetch and traditional submit.
 
 > **Note**: When using methods other than `get` or `post`, `allowMethodSpoofing` must be set to `true` in the AdonisJS config. The `hooks` prop as well as the render props do not work in conjunction with `reloadDocument`.
 
@@ -413,7 +413,7 @@ const i18n = useI18n()
 console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
-> **Note**: This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
+> **Note**: This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS documentation](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
 ### useManifest (Server and client)
 
@@ -548,9 +548,9 @@ const [mutate, { status }] = useMutation(storeComment)
 mutate({ postId, authorId, comment })
 ```
 
-> **Note**: For more information on how to use the `useMutation` hook, refer to the [use-mutation docs](https://github.com/sergiodxa/use-mutation).
+> **Note**: For more information on how to use the `useMutation` hook, refer to the [use-mutation documentation](https://github.com/sergiodxa/use-mutation).
 
-**The following hooks align with AdonisJS functionality, refer to the official [AdonisJS docs](https://docs.adonisjs.com/guides/introduction) for usage:**
+For the following hooks, refer to the official [AdonisJS documentation](https://docs.adonisjs.com/guides/introduction), as these hooks just proxy AdonisJS contracts.
 
 ### useAdonis (Server only)
 
@@ -722,7 +722,7 @@ Here's an example of a plugin that injects a React context provider into the ser
 import { definePlugin } from '@microeinhundert/radonis'
 import React from 'react'
 
-export function reactQueryPlugin() {
+export function contextProviderPlugin() {
   const contextProviderValue = {
     hello: 'world',
   }
