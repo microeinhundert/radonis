@@ -71,6 +71,7 @@
     "@microeinhundert/radonis-types": "1.3.18",
     "intl-messageformat": "^10.0.1",
     "swr": "^1.3.0",
+    "use-mutation": "^2.2.1",
     "tslib": "^2.4.0"
   }
 }

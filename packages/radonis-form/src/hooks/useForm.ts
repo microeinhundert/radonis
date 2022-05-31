@@ -7,11 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { useUrlBuilder } from '@microeinhundert/radonis-hooks'
+import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
 import { useRef } from 'react'
-import useMutation from 'use-mutation'
 
 import type { FormOptions } from '../types'
 
