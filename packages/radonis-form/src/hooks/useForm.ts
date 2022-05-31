@@ -84,9 +84,6 @@ export function useForm<TData = unknown, TError = unknown>({
     return response.json()
   }, hooks)
 
-  /**
-   * The submit handler
-   */
   function submitHandler(event: FormEvent<HTMLFormElement>) {
     if (event.defaultPrevented) return
     event.preventDefault()
@@ -94,9 +91,6 @@ export function useForm<TData = unknown, TError = unknown>({
     mutate(new FormData(event.currentTarget))
   }
 
-  /**
-   * The form props getter
-   */
   const getFormProps = () => ({
     onSubmit: reloadDocument ? undefined : submitHandler,
     ref: form,
