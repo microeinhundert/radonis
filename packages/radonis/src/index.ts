@@ -15,6 +15,7 @@ export {
   useGlobals,
   useI18n,
   useManifest,
+  useMutation,
   useRoute,
   useRoutes,
   useUrlBuilder,

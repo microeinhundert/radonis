@@ -259,6 +259,117 @@ export default class YourModel extends BaseModel {
 }
 ```
 
+## Forms
+
+By default, Radonis applications work like a traditional monolythic application: Forms are submitted and trigger a page reload, no JavaScript required. With the help of client-side hydration and flash messages, this "old school" way of handling user input comes really close to the modern UX known from Single Page Applications. But there are cases, being some small interaction like a "Add to favorites" button or a whole form, where communicating with the backend via REST API comes in handy and delivers a better UX for the user. Radonis ships with a form component that can do both, and switching between them is as simple as adding a prop to the form component.
+
+```tsx
+import { Form } from '@microeinhundert/radonis'
+
+type Data = {
+  title: string
+  description: string
+}
+
+type Error = Record<keyof Data, string | undefined>
+
+function RestApiFormDemo() {
+  return (
+    <Form<Data, Error>
+      method="post" // or `get`, `put`, `delete`, `patch`
+      action="YourController.store"
+      params={{ someParam: 'hello' }}
+      queryParams={{ someQueryParam: 'world' }}
+      hooks={{
+        onMutate: ({ input }) => {
+          // Do something before the mutation runs
+
+          return () => {
+            // Rollback changes if the mutation failed
+          }
+        },
+        onSuccess: ({ data, input }) => {
+          // Do something once the mutation succeeded
+        },
+        onFailure: ({ error, rollback, input }) => {
+          // Do something once the mutation failed,
+          // like executing the rollback
+          if (rollback) rollback()
+        },
+        onSettled: ({ status, error, data, rollback, input }) => {
+          switch (status) {
+            case 'success': {
+              // Do something if the mutation succeeded
+            }
+            case 'failure': {
+              // Do something if the mutation failed
+            }
+          }
+        },
+      }}
+    >
+      {({ status, error }) => {
+        const isSubmitting = status === 'running'
+
+        return (
+          <>
+            <label>
+              <span>Title</span>
+              <input name="title" type="text" required />
+              {error?.title && <span>Validation failed</span>}
+            </label>
+            <label>
+              <span>Description</span>
+              <textarea name="description" required />
+              {error?.description && <span>Validation failed</span>}
+            </label>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
+          </>
+        )
+      }}
+    </Form>
+  )
+}
+```
+
+To submit the form traditionally, simply add the `reloadDocument` prop to the form component and switch to flash messages for validation:
+
+```tsx
+import { useFlashMessages, Form } from '@microeinhundert/radonis'
+
+function TraditionalFormDemo() {
+  const flashMessages = useFlashMessages()
+
+  return (
+    <Form
+      method="post" // or `get`, `put`, `delete`, `patch`
+      action="YourController.store"
+      params={{ someParam: 'hello' }}
+      queryParams={{ someQueryParam: 'world' }}
+      reloadDocument // Reload the document like a <form> would do natively
+    >
+      <label>
+        <span>Title</span>
+        <input name="title" type="text" required />
+        {flashMessages.hasError('title') && <span>{flashMessages.getError('title')}</span>}
+      </label>
+      <label>
+        <span>Description</span>
+        <textarea name="description" required />
+        {flashMessages.hasError('description') && <span>{flashMessages.getError('description')}</span>}
+      </label>
+      <button type="submit">Submit</button>
+    </Form>
+  )
+}
+```
+
+When JavaScript is not available, API forms will gracefully fall back to a traditional submit. But then you must make sure that validation will work in both cases, API and traditional submit.
+
+> **Note**: When using methods other than `get` or `post`, `allowMethodSpoofing` must be set to `true` in the AdonisJS config. The `hooks` prop as well as the render props do not work in conjunction with `reloadDocument`.
+
 ## Hooks
 
 ### useHydration (Server and client)
@@ -302,7 +413,7 @@ const i18n = useI18n()
 console.log(i18n.formatMessage('auth.signUpTitle')) // => `Some message defined in translations`
 ```
 
-> **Note**: This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
+> **Note**: This hook also allows formatting via the ICU message format, just like the official AdonisJS i18n package. Refer to the official [AdonisJS docs](https://docs.adonisjs.com/guides/i18n) for more information about the available formatting rules.
 
 ### useManifest (Server and client)
 
@@ -411,7 +522,35 @@ console.log(flashMessages.all()) // => `{ 'errors.fieldName.0': 'required valida
 console.log(flashMessages.allErrors()) // => `{ 'errors.fieldName.0': 'required validation failed on fieldName', ... }`
 ```
 
-**The following hooks align with AdonisJS functionality, refer to the official [AdonisJS Docs](https://docs.adonisjs.com/guides/introduction) for usage:**
+### useMutation (Client only)
+
+```typescript
+import { useMutation, useUrlBuilder } from '@microeinhundert/radonis'
+
+const urlBuilder = useUrlBuilder()
+
+// Create a function that runs the mutation:
+async function storeComment({ postId, authorId, comment }: { postId: string; authorId: string; comment: string }) {
+  const response = await fetch(urlBuilder.withParams({ id: postId }).make('PostsController.storeComment'), {
+    method: 'POST',
+    body: JSON.stringify({ authorId, comment }),
+  })
+
+  if (!response.ok) throw new Error(res.statusText)
+
+  return response.json()
+}
+
+// Use this function with the `useMutation` hook:
+const [mutate, { status }] = useMutation(storeComment)
+
+// Execute the mutation:
+mutate({ postId, authorId, comment })
+```
+
+> **Note**: For more information on how to use the `useMutation` hook, refer to the [use-mutation docs](https://github.com/sergiodxa/use-mutation).
+
+**The following hooks align with AdonisJS functionality, refer to the official [AdonisJS docs](https://docs.adonisjs.com/guides/introduction) for usage:**
 
 ### useAdonis (Server only)
 
