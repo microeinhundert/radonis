@@ -9,7 +9,7 @@
 
 import type { RouteIdentifier, RouteParams } from '@microeinhundert/radonis-types'
 import type { FormHTMLAttributes, ReactNode } from 'react'
-import type { MutationOptions } from 'react-query'
+import type { Options, Status } from 'use-mutation'
 
 /**
  * Headers
@@ -24,19 +24,9 @@ export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch'
 /**
  * Hooks
  */
-export type Hooks<TData, TError> = Pick<
-  MutationOptions<TData, TError, FormData, void>,
-  'onMutate' | 'onSuccess' | 'onError' | 'onSettled'
+export type Hooks<TData, TError> = Partial<
+  Pick<Options<FormData, TData, TError>, 'onMutate' | 'onSuccess' | 'onFailure' | 'onSettled'>
 >
-
-/**
- * Request init options
- */
-export interface RequestInitOptions {
-  action: string
-  method?: Method
-  formData: FormData | null
-}
 
 /**
  * Form options
@@ -65,7 +55,7 @@ export type FormProps<TData, TError> = Omit<FormHTMLAttributes<HTMLFormElement>,
 export type FormChildrenProps<TData, TError> = {
   data: TData | null
   error: TError | null
-  status: 'error' | 'idle' | 'loading' | 'success'
+  status: Status
 }
 
 /**

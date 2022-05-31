@@ -75,6 +75,7 @@
     "@twind/preset-tailwind": "1.0.0-next.37",
     "@twind/preset-tailwind-forms": "1.0.0-next.37",
     "@twind/preset-typography": "1.0.0-next.37",
-    "twind": "1.0.0-next.37"
+    "twind": "1.0.0-next.37",
+    "tslib": "^2.4.0"
   }
 }

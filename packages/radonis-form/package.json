@@ -66,9 +66,10 @@
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {
+    "@microeinhundert/radonis-hooks": "1.3.18",
     "@microeinhundert/radonis-hydrate": "1.3.18",
     "@microeinhundert/radonis-types": "1.3.18",
-    "@microeinhundert/radonis-hooks": "1.3.18",
-    "react-query": "^4.0.0-beta"
+    "use-mutation": "^2.2.1",
+    "tslib": "^2.4.0"
   }
 }

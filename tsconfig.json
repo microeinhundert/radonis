@@ -10,7 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "importHelpers": true,
     "jsx": "react"
   },
   "include": ["./packages/**/*"],

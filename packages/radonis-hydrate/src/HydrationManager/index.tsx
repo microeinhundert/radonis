@@ -19,10 +19,9 @@ import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
-import { QueryClientProvider } from 'react-query'
 
 import { HydrationContextProvider } from '../React'
-import { HYDRATION_ROOT_SELECTOR, QUERY_CLIENT } from './constants'
+import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils'
 
 export class HydrationManager {
@@ -75,9 +74,7 @@ export class HydrationManager {
       <HydrationContextProvider
         value={{ hydrated: true, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}
       >
-        <QueryClientProvider client={QUERY_CLIENT}>
-          <Component {...(manifest.props[propsHash] ?? {})} />
-        </QueryClientProvider>
+        <Component {...(manifest.props[propsHash] ?? {})} />
       </HydrationContextProvider>,
       null
     )

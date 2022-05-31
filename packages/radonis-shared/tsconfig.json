@@ -8,7 +8,8 @@
     "module": "commonjs",
     "outDir": "build",
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "importHelpers": true
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "build"]
