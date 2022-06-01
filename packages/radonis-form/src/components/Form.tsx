@@ -13,7 +13,7 @@ import { useForm } from '../hooks/useForm'
 import type { FormProps } from '../types'
 
 export function Form<TData = unknown, TError = unknown>({ children, ...props }: FormProps<TData, TError>) {
-  const form = useForm(props)
+  const form = useForm<TData, TError>(props)
 
   return (
     <form {...form.getFormProps()}>
