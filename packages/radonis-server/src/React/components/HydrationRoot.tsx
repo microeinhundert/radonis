@@ -12,8 +12,8 @@ import { invariant } from '@microeinhundert/radonis-shared'
 import React, { useId } from 'react'
 
 import type { HydrationRootProps } from '../../types'
-import { useCompiler } from '../hooks/useCompiler'
-import { useManifestBuilder } from '../hooks/useManifestBuilder'
+import { useCompiler } from '../hooks/internal/useCompiler'
+import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
 export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()

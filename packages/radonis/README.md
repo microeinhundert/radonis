@@ -548,8 +548,6 @@ const [mutate, { status }] = useMutation(storeComment)
 mutate({ postId, authorId, comment })
 ```
 
-> **Note**: For more information on how to use the `useMutation` hook, refer to the [use-mutation documentation](https://github.com/sergiodxa/use-mutation).
-
 For the following hooks, refer to the official [AdonisJS documentation](https://docs.adonisjs.com/guides/introduction), as these hooks just proxy AdonisJS contracts.
 
 ### useAdonis (Server only)

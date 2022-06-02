@@ -7,37 +7,32 @@
  * file that was distributed with this source code.
  */
 
-import type { MutationOptions, MutationStatus } from '@microeinhundert/radonis-hooks'
+import type { MutationHooks, MutationStatus } from '@microeinhundert/radonis-hooks'
 import type { RouteIdentifier, RouteParams } from '@microeinhundert/radonis-types'
 import type { FormHTMLAttributes, ReactNode } from 'react'
 
 /**
- * Headers
+ * Form method
  */
-export type Headers = Record<string, string>
+export type FormMethod = 'get' | 'post' | 'put' | 'delete' | 'patch'
 
 /**
- * Method
+ * Form hooks
  */
-export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch'
-
-/**
- * Hooks
- */
-export type Hooks<TData, TError> = Partial<
-  Pick<MutationOptions<FormData, TData, TError>, 'onMutate' | 'onSuccess' | 'onFailure' | 'onSettled'>
->
+export type FormHooks<TData, TError> = MutationHooks<FormData, TData, TError>
 
 /**
  * Form options
  */
-export type FormOptions<TData, TError> = {
+export interface FormOptions<TData, TError> {
   action: RouteIdentifier
   params?: RouteParams
   queryParams?: RouteParams
-  method: Method
-  hooks?: Hooks<TData, TError>
+  method: FormMethod
+  hooks?: FormHooks<TData, TError>
   reloadDocument?: boolean
+  throwOnFailure?: boolean
+  useErrorBoundary?: boolean
   [key: string]: any
 }
 

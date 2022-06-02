@@ -10,7 +10,7 @@
 import React from 'react'
 
 import type { DocumentProps } from '../../types'
-import { useManifestBuilder } from '../hooks/useManifestBuilder'
+import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
 export function Document({ children }: DocumentProps) {
   const manifestBuilder = useManifestBuilder()

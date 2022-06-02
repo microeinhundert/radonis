@@ -9,10 +9,10 @@
 
 import { useContext } from 'react'
 
-import { manifestBuilderContext } from '../contexts/manifestBuilderContext'
+import { compilerContext } from '../../contexts/compilerContext'
 
-export function useManifestBuilder() {
-  const context = useContext(manifestBuilderContext)
+export function useCompiler() {
+  const context = useContext(compilerContext)
 
   return context
 }

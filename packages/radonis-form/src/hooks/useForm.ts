@@ -10,6 +10,7 @@
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
+import { useCallback } from 'react'
 import { useRef } from 'react'
 
 import type { FormOptions } from '../types'
@@ -28,13 +29,15 @@ export function urlToRelativePath(url: URL): string {
   return url.toString().replace(url.origin, '')
 }
 
-export function useForm<TData = unknown, TError = unknown>({
+export function useForm<TData, TError>({
   action,
   params,
   queryParams,
   method,
   hooks,
   reloadDocument,
+  throwOnFailure,
+  useErrorBoundary,
   ...props
 }: FormOptions<TData, TError>) {
   const hydration = useHydration()
@@ -51,44 +54,50 @@ export function useForm<TData = unknown, TError = unknown>({
 
   /**
    * Because of the URL constructor requiring an absolute URL,
-   * we have to pass a fake base URL to the URL constructor
+   * we have to pass a fake base URL to it
    */
   const requestUrl = new URL(urlBuilder.make(action), 'https://example.com')
 
-  const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(async (formData: FormData) => {
-    const requestInit: RequestInit = {
-      method,
-      headers: {
-        Accept: 'application/json',
-      },
-    }
+  const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(
+    async (formData: FormData) => {
+      const requestInit: RequestInit = {
+        method,
+        headers: {
+          Accept: 'application/json',
+        },
+      }
 
-    switch (method) {
-      case 'get': {
-        for (const entity of formData.entries()) {
-          requestUrl.searchParams.append(entity[0], entity[1].toString())
+      switch (method) {
+        case 'get': {
+          for (const entity of formData.entries()) {
+            requestUrl.searchParams.append(entity[0], entity[1].toString())
+          }
+
+          break
         }
-
-        break
+        default: {
+          requestInit.body = formData
+        }
       }
-      default: {
-        requestInit.body = formData
-      }
-    }
 
-    const response = await fetch(urlToRelativePath(requestUrl), requestInit)
+      const response = await fetch(urlToRelativePath(requestUrl), requestInit)
 
-    if (!response.ok) throw new Error(response.statusText)
+      if (!response.ok) throw new Error(response.statusText)
 
-    return response.json()
-  }, hooks)
+      return response.json()
+    },
+    { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
+  )
 
-  function submitHandler(event: FormEvent<HTMLFormElement>) {
-    if (event.defaultPrevented) return
-    event.preventDefault()
+  const submitHandler = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      if (event.defaultPrevented) return
+      event.preventDefault()
 
-    mutate(new FormData(event.currentTarget))
-  }
+      mutate(new FormData(event.currentTarget))
+    },
+    [mutate]
+  )
 
   const getFormProps = () => ({
     onSubmit: reloadDocument ? undefined : submitHandler,
