@@ -16,7 +16,8 @@ import { config as defaultConfig } from './config'
 
 export function unocssPlugin(config?: UserConfig) {
   let generator: UnoGenerator
-  const outputTokens = new Set<string>()
+
+  const tokensFromStaticAnalysis = new Set<string>()
 
   return definePlugin({
     name: 'unocss',
@@ -26,19 +27,15 @@ export function unocssPlugin(config?: UserConfig) {
     onBootServer() {
       generator = createGenerator(config ?? defaultConfig)
     },
-    async afterOutput(files) {
-      outputTokens.clear()
-
-      for (const file of files) {
-        await generator.applyExtractors(file[1], file[0], outputTokens)
-      }
+    async afterReadFile(file) {
+      await generator.applyExtractors(file[1], file[0], tokensFromStaticAnalysis)
     },
     afterRender() {
-      const renderTokens = new Set(outputTokens)
+      const tokensFromRender = new Set(tokensFromStaticAnalysis)
 
       return async (html) => {
-        await generator.applyExtractors(html, undefined, renderTokens)
-        const { css } = await generator.generate(renderTokens, { minify: isProduction })
+        await generator.applyExtractors(html, undefined, tokensFromRender)
+        const { css } = await generator.generate(tokensFromRender, { minify: isProduction })
         return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
       }
     },

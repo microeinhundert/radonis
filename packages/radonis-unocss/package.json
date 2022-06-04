@@ -70,6 +70,7 @@
     "@unocss/core": "0.37.4",
     "@unocss/preset-wind": "0.37.4",
     "mini-svg-data-uri": "^1.4.4",
+    "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"
   }
 }

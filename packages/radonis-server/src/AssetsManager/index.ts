@@ -10,8 +10,17 @@
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { AssetsManifest } from '@microeinhundert/radonis-build'
 import { extractRequiredAssets, readAssetsManifestFromDisk } from '@microeinhundert/radonis-build'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
+import { fsReadAll } from '@poppinss/utils/build/helpers'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 export class AssetsManager {
+  /**
+   * The PluginsManager instance
+   */
+  private pluginsManager: PluginsManager = PluginsManager.getInstance()
+
   /**
    * The assets manifest
    */
@@ -28,10 +37,24 @@ export class AssetsManager {
   constructor(private config: Pick<RadonisConfig, 'client'>) {}
 
   /**
+   * Read assets
+   */
+  private readAssets(): void {
+    const { outputDir } = this.config.client
+
+    return fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
+      const absoluteFilePath = join(outputDir, filePath)
+      this.pluginsManager.execute('afterReadFile', null, [absoluteFilePath, readFileSync(absoluteFilePath, 'utf8')])
+    })
+  }
+
+  /**
    * Initialize
    */
   public async init(): Promise<AssetsManifest> {
     const { outputDir } = this.config.client
+
+    this.readAssets()
 
     const assetsManifest = await readAssetsManifestFromDisk(outputDir)
 

@@ -49,14 +49,9 @@ export class PluginsManager {
   private afterOutputHooks: PluginHook<'afterOutput'>[] = []
 
   /**
-   * The registered `beforeCompile` hooks
+   * The registered `afterReadFile` hooks
    */
-  private beforeCompileHooks: PluginHook<'beforeCompile'>[] = []
-
-  /**
-   * The registered `afterCompile` hooks
-   */
-  private afterCompileHooks: PluginHook<'afterCompile'>[] = []
+  private afterReadFileHooks: PluginHook<'afterReadFile'>[] = []
 
   /**
    * The registered `beforeRender` hooks
@@ -82,8 +77,7 @@ export class PluginsManager {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
         plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
         plugin.afterOutput && this.afterOutputHooks.push(plugin.afterOutput)
-        plugin.beforeCompile && this.beforeCompileHooks.push(plugin.beforeCompile)
-        plugin.afterCompile && this.afterCompileHooks.push(plugin.afterCompile)
+        plugin.afterReadFile && this.afterReadFileHooks.push(plugin.afterReadFile)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
       }

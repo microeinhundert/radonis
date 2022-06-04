@@ -667,7 +667,7 @@ function yourPlugin() {
     onBootServer() {},
 
     /**
-     * This plugin hook is called before a file is output by the compiler
+     * This plugin hook is called before a file is output
      */
     beforeOutput() {
       return (source: string) => {
@@ -677,19 +677,14 @@ function yourPlugin() {
     },
 
     /**
-     * This plugin hook is called after all files have been output by the compiler
+     * This plugin hook is called after all files have been output
      */
-    afterOutput(files: Map<string, string>) {},
+    afterOutput(files) {},
 
     /**
-     * This plugin hook is called before the compiler starts
+     * This plugin hook is called after a file has been red
      */
-    beforeCompile() {},
-
-    /**
-     * This plugin hook is called after the compiler has finished
-     */
-    afterCompile() {},
+    afterReadFile(file) {},
 
     /**
      * This plugin hook is called before the page is rendered

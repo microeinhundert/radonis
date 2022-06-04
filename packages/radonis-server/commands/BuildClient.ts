@@ -15,8 +15,6 @@ import { existsSync } from 'fs'
 import { emptyDir, outputFile } from 'fs-extra'
 import { parse } from 'path'
 
-const pluginsManager = PluginsManager.getInstance()
-
 /**
  * A command to build the client
  */
@@ -28,6 +26,11 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
+   * The PluginsManager instance
+   */
+  private pluginsManager: PluginsManager = PluginsManager.getInstance()
+
+  /**
    * The Radonis config
    */
   private config: RadonisConfig = this.application.config.get('radonis', {})
@@ -35,7 +38,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * Yield a script path
    */
-  public yieldScriptPath(path: string): string {
+  private yieldScriptPath(path: string): string {
     if (existsSync(path)) {
       return path
     }
@@ -107,10 +110,10 @@ export default class BuildClient extends BaseCommand {
       /**
        * Does not work with the Generator API
        */
-      outputFile(filePath, Buffer.from(await pluginsManager.execute('beforeOutput', fileSource, null)))
+      outputFile(filePath, Buffer.from(await this.pluginsManager.execute('beforeOutput', fileSource, null)))
     }
 
-    await pluginsManager.execute('afterOutput', null, builtFiles)
+    await this.pluginsManager.execute('afterOutput', null, builtFiles)
 
     /**
      * Output the build manifest
@@ -145,6 +148,6 @@ export default class BuildClient extends BaseCommand {
      * Output a log message after successful build
      * (substracting by one to exclude the entry file)
      */
-    this.logger.info(`successfully built the client with ${Object.keys(buildManifest).length - 1} component(s)`)
+    this.logger.info(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
   }
 }
