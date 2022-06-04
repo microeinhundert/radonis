@@ -138,53 +138,27 @@ export default class RadonisProvider {
 
     this.application.container.withBindings(
       [
+        'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
         'Adonis/Addons/I18n',
         'Adonis/Addons/Radonis/ManifestBuilder',
         'Adonis/Addons/Radonis/AssetsManager',
+        'Adonis/Addons/Radonis/HeadManager',
+        'Adonis/Addons/Radonis/Renderer',
       ],
-      async (Application, Route, I18n, ManifestBuilder, AssetsManager) => {
+      async (HttpContext, Application, Route, I18n, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+        /**
+         * Initialize the AssetsManager
+         */
+        await AssetsManager.init()
+
         /**
          * Set routes on the ManifestBuilder
          */
         const routes = extractRootRoutes(Route)
         ManifestBuilder.setRoutes(routes)
 
-        /**
-         * Initialize the AssetsManager
-         */
-        await AssetsManager.init()
-
-        if (isProduction) return
-
-        const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
-
-        /**
-         * Generate types
-         */
-        generateAndWriteTypesToDisk(
-          {
-            components: AssetsManager.getComponents(),
-            messages: Object.keys(messagesForDefaultLocale),
-            routes: Object.keys(routes),
-          },
-          Application.tmpPath('types')
-        )
-      }
-    )
-
-    this.application.container.withBindings(
-      [
-        'Adonis/Core/HttpContext',
-        'Adonis/Core/Application',
-        'Adonis/Core/Route',
-        'Adonis/Addons/Radonis/ManifestBuilder',
-        'Adonis/Addons/Radonis/AssetsManager',
-        'Adonis/Addons/Radonis/HeadManager',
-        'Adonis/Addons/Radonis/Renderer',
-      ],
-      (HttpContext, Application, Route, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         /**
          * Define getter
          */
@@ -199,6 +173,22 @@ export default class RadonisProvider {
           },
           true
         )
+
+        if (!isProduction && this.application.environment !== 'console') {
+          const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
+
+          /**
+           * Generate types
+           */
+          generateAndWriteTypesToDisk(
+            {
+              components: AssetsManager.components.all,
+              messages: Object.keys(messagesForDefaultLocale),
+              routes: Object.keys(routes),
+            },
+            Application.tmpPath('types')
+          )
+        }
       }
     )
   }

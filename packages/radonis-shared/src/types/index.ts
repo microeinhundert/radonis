@@ -44,6 +44,11 @@ export interface PluginHooks {
   onBootServer: PluginHook<null>
 
   /**
+   * This plugin hook is called on scan of a previously output file
+   */
+  onScanFile: PluginHook<[string, string]>
+
+  /**
    * This plugin hook is called before a file is output
    */
   beforeOutput: PluginHookWithBuilder<string, null>
@@ -52,11 +57,6 @@ export interface PluginHooks {
    * This plugin hook is called after all files have been output
    */
   afterOutput: PluginHook<Map<string, string>>
-
-  /**
-   * This plugin hook is called after a file has been red
-   */
-  afterReadFile: PluginHook<[string, string]>
 
   /**
    * This plugin hook is called before the page is rendered

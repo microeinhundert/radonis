@@ -80,7 +80,7 @@ export class Renderer {
       target,
       [
         `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`,
-        ...this.assetsManager.getHydrationRequirements().map((asset) => {
+        ...this.assetsManager.components.requiredForHydration.map((asset) => {
           this.hydrationManager.requireAssetForHydration(asset)
           return `<script type="module" defer src="${asset.path}"></script>`
         }),

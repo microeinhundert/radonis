@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { invariant, isProduction } from '@microeinhundert/radonis-shared'
+import { invariant } from '@microeinhundert/radonis-shared'
 import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
@@ -128,6 +128,7 @@ export async function buildEntryFileAndComponents(
   entryFilePath: string,
   components: Map<string, string>,
   outputDir: string,
+  forProduction: boolean,
   buildOptions: BuildOptions
 ): Promise<{ buildManifest: BuildManifest; builtFiles: Map<string, string> }> {
   const { metafile } = await build({
@@ -141,13 +142,13 @@ export async function buildEntryFileAndComponents(
     platform: 'browser',
     format: 'esm',
     logLevel: 'silent',
-    minify: isProduction,
+    minify: forProduction,
     ...buildOptions,
     loader: { ...loaders, ...(buildOptions.loader ?? {}) },
     plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],
     external: ['@microeinhundert/radonis-manifest', '@microeinhundert/radonis-build', ...(buildOptions.external ?? [])],
     define: {
-      'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
+      'process.env.NODE_ENV': forProduction ? '"production"' : '"development"',
       ...(buildOptions.define ?? {}),
     },
   })

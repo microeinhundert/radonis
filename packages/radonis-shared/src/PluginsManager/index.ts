@@ -39,6 +39,11 @@ export class PluginsManager {
   private onBootServerHooks: PluginHook<'onBootServer'>[] = []
 
   /**
+   * The registered `onScanFile` hooks
+   */
+  private onScanFileHooks: PluginHook<'onScanFile'>[] = []
+
+  /**
    * The registered `beforeOutput` hooks
    */
   private beforeOutputHooks: PluginHook<'beforeOutput'>[] = []
@@ -47,11 +52,6 @@ export class PluginsManager {
    * The registered `afterOutput` hooks
    */
   private afterOutputHooks: PluginHook<'afterOutput'>[] = []
-
-  /**
-   * The registered `afterReadFile` hooks
-   */
-  private afterReadFileHooks: PluginHook<'afterReadFile'>[] = []
 
   /**
    * The registered `beforeRender` hooks
@@ -75,9 +75,9 @@ export class PluginsManager {
       }
       case 'server': {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
+        plugin.onScanFile && this.onScanFileHooks.push(plugin.onScanFile)
         plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
         plugin.afterOutput && this.afterOutputHooks.push(plugin.afterOutput)
-        plugin.afterReadFile && this.afterReadFileHooks.push(plugin.afterReadFile)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
       }

@@ -35,7 +35,36 @@ export class AssetsManager {
   /**
    * Constructor
    */
-  constructor(private config: Pick<RadonisConfig, 'client'>) {}
+  constructor(private config: Pick<RadonisConfig, 'client'>) {
+    this.scanFiles()
+  }
+
+  /**
+   * The components
+   */
+  public get components(): {
+    all: string[]
+    requiredForHydration: AssetsManifest
+  } {
+    return {
+      all: this.assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
+      requiredForHydration: extractRequiredAssets(this.assetsManifest, {
+        components: this.componentsRequiredForHydration,
+      }),
+    }
+  }
+
+  /**
+   * Scan the previously output files
+   */
+  private scanFiles(): void {
+    const { outputDir } = this.config.client
+
+    fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
+      const absoluteFilePath = join(outputDir, filePath)
+      this.pluginsManager.execute('onScanFile', null, [absoluteFilePath, readFileSync(absoluteFilePath, 'utf8')])
+    })
+  }
 
   /**
    * Initialize
@@ -46,19 +75,7 @@ export class AssetsManager {
     const buildManifest = await readBuildManifestFromDisk(outputDir)
     const assetsManifest = await generateAssetsManifest(buildManifest)
 
-    fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
-      const absoluteFilePath = join(outputDir, filePath)
-      this.pluginsManager.execute('afterReadFile', null, [absoluteFilePath, readFileSync(absoluteFilePath, 'utf8')])
-    })
-
     this.assetsManifest = assetsManifest
-  }
-
-  /**
-   * Get the components
-   */
-  public getComponents() {
-    return this.assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier)
   }
 
   /**
@@ -66,15 +83,6 @@ export class AssetsManager {
    */
   public requireComponentForHydration(identifier: string): void {
     this.componentsRequiredForHydration.add(identifier)
-  }
-
-  /**
-   * Get the hydration requirements
-   */
-  public getHydrationRequirements(): AssetsManifest {
-    return extractRequiredAssets(this.assetsManifest, {
-      components: this.componentsRequiredForHydration,
-    })
   }
 
   /**

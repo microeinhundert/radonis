@@ -667,6 +667,11 @@ function yourPlugin() {
     onBootServer() {},
 
     /**
+     * This plugin hook is called on scan of a previously output file
+     */
+    onScanFile(file) {},
+
+    /**
      * This plugin hook is called before a file is output
      */
     beforeOutput() {
@@ -680,11 +685,6 @@ function yourPlugin() {
      * This plugin hook is called after all files have been output
      */
     afterOutput(files) {},
-
-    /**
-     * This plugin hook is called after a file has been red
-     */
-    afterReadFile(file) {},
 
     /**
      * This plugin hook is called before the page is rendered

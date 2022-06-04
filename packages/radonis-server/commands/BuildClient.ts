@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { BaseCommand } from '@adonisjs/ace'
+import { BaseCommand, flags } from '@adonisjs/ace'
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { buildEntryFileAndComponents, discoverComponents } from '@microeinhundert/radonis-build'
 import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
@@ -23,7 +23,23 @@ export default class BuildClient extends BaseCommand {
   public static description = 'Build the Radonis client'
   public static settings = {
     loadApp: true,
+    stayAlive: true,
   }
+
+  /**
+   * Build for production
+   */
+  @flags.boolean({ description: 'Build for production', alias: 'prod' })
+  public production: boolean
+
+  /**
+   * Allows watching for file changes
+   */
+  @flags.boolean({
+    description: 'Watch for file changes and re-build the client on change',
+    alias: 'w',
+  })
+  public watch: boolean
 
   /**
    * The PluginsManager instance
@@ -84,6 +100,8 @@ export default class BuildClient extends BaseCommand {
       client: { outputDir, buildOptions },
     } = this.config
 
+    this.logger.info(`building the client...`)
+
     const entryFilePath = this.getEntryFilePath()
     const componentsDirPath = this.getComponentsDirPath()
     const components = discoverComponents(componentsDirPath)
@@ -95,7 +113,18 @@ export default class BuildClient extends BaseCommand {
       entryFilePath,
       components,
       outputDir,
-      buildOptions
+      this.production,
+      {
+        ...buildOptions,
+        watch: this.watch
+          ? {
+              onRebuild: (error) => {
+                if (error) this.logger.error(`rebuilding the client failed`)
+                else this.logger.success('successfully rebuilt the client')
+              },
+            }
+          : false,
+      }
     )
 
     /**
@@ -136,6 +165,13 @@ export default class BuildClient extends BaseCommand {
      * Output a log message after successful build
      * (substracting by one to exclude the entry file)
      */
-    this.logger.info(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+
+    /**
+     * Exit if not in watch mode
+     */
+    if (!this.watch) {
+      this.exit()
+    }
   }
 }

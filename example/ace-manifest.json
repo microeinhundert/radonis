@@ -98,14 +98,30 @@
     },
     "build:client": {
       "settings": {
-        "loadApp": true
+        "loadApp": true,
+        "stayAlive": true
       },
       "commandPath": "@microeinhundert/radonis-server/build/commands/BuildClient",
       "commandName": "build:client",
       "description": "Build the Radonis client",
       "args": [],
       "aliases": [],
-      "flags": []
+      "flags": [
+        {
+          "name": "production",
+          "propertyName": "production",
+          "type": "boolean",
+          "description": "Build for production",
+          "alias": "prod"
+        },
+        {
+          "name": "watch",
+          "propertyName": "watch",
+          "type": "boolean",
+          "description": "Watch for file changes and re-build the client on change",
+          "alias": "w"
+        }
+      ]
     }
   },
   "aliases": {}

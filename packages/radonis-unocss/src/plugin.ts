@@ -27,7 +27,7 @@ export function unocssPlugin(config?: UserConfig) {
     onBootServer() {
       generator = createGenerator(config ?? defaultConfig)
     },
-    async afterReadFile(file) {
+    async onScanFile(file) {
       await generator.applyExtractors(file[1], file[0], tokensFromStaticAnalysis)
     },
     afterRender() {

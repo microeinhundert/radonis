@@ -3,8 +3,8 @@
   "version": "1.3.21",
   "private": true,
   "scripts": {
-    "dev": "node ace serve --watch",
-    "build": "node ace build --production",
+    "dev": "concurrently 'node ace build:client --watch' 'node ace serve --watch'",
+    "build": "concurrently 'node ace build:client --production' 'node ace build --production'",
     "test": "node ace test",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
@@ -16,6 +16,7 @@
     "@japa/runner": "^2.0.8",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "concurrently": "^7.2.1",
     "openapi-types": "^11.0.1",
     "pino-pretty": "^7.6.1",
     "youch": "^3.2.0",
