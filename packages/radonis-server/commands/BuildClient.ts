@@ -91,7 +91,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Build entry file and components
      */
-    const { buildManifest, assetsManifest, builtFiles } = await buildEntryFileAndComponents(
+    const { buildManifest, builtFiles } = await buildEntryFileAndComponents(
       entryFilePath,
       components,
       outputDir,
@@ -122,18 +122,6 @@ export default class BuildClient extends BaseCommand {
       .addFile('build-manifest', { extname: '.json' })
       .stub(
         JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
-        { raw: true }
-      )
-      .destinationDir(outputDir)
-      .appRoot(this.application.appRoot)
-
-    /**
-     * Output the assets manifest
-     */
-    this.generator
-      .addFile('assets-manifest', { extname: '.json' })
-      .stub(
-        JSON.stringify(assetsManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
         { raw: true }
       )
       .destinationDir(outputDir)

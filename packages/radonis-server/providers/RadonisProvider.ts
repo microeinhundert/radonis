@@ -151,14 +151,13 @@ export default class RadonisProvider {
         const routes = extractRootRoutes(Route)
         ManifestBuilder.setRoutes(routes)
 
+        /**
+         * Initialize the AssetsManager
+         */
+        await AssetsManager.init()
+
         if (isProduction) return
 
-        /**
-         * Init the AssetsManager
-         */
-        const assets = await AssetsManager.init()
-
-        const components = assets.filter(({ type }) => type === 'component').map(({ identifier }) => identifier)
         const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
 
         /**
@@ -166,7 +165,7 @@ export default class RadonisProvider {
          */
         generateAndWriteTypesToDisk(
           {
-            components,
+            components: AssetsManager.getComponents(),
             messages: Object.keys(messagesForDefaultLocale),
             routes: Object.keys(routes),
           },

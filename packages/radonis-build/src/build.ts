@@ -13,11 +13,10 @@ import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { join, parse } from 'path'
 
-import { generateAssetsManifest } from './assets'
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'
 import { builtFiles, radonisClientPlugin } from './plugin'
-import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
+import type { BuildManifest, BuildManifestEntry } from './types'
 import { stripPublicDir } from './utils'
 
 /**
@@ -130,7 +129,7 @@ export async function buildEntryFileAndComponents(
   components: Map<string, string>,
   outputDir: string,
   buildOptions: BuildOptions
-): Promise<{ buildManifest: BuildManifest; assetsManifest: AssetsManifest; builtFiles: Map<string, string> }> {
+): Promise<{ buildManifest: BuildManifest; builtFiles: Map<string, string> }> {
   const { metafile } = await build({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
@@ -154,11 +153,9 @@ export async function buildEntryFileAndComponents(
   })
 
   const buildManifest = generateBuildManifest(metafile!, entryFilePath)
-  const assetsManifest = generateAssetsManifest(buildManifest)
 
   return {
     buildManifest,
-    assetsManifest,
     builtFiles,
   }
 }

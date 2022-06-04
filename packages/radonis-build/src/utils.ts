@@ -12,7 +12,7 @@ import { readFileSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { join, parse } from 'path'
 
-import type { AssetsManifest, BuildManifest } from './types'
+import type { BuildManifest } from './types'
 
 /**
  * Strip the public dir from the beginning of a path
@@ -52,17 +52,5 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
     return JSON.parse(fileContents)
   } catch {
     return {}
-  }
-}
-
-/**
- * Read the assets manifest from disk
- */
-export async function readAssetsManifestFromDisk(directory: string): Promise<AssetsManifest> {
-  try {
-    const fileContents = await readFile(join(directory, 'assets-manifest.json'), 'utf-8')
-    return JSON.parse(fileContents)
-  } catch {
-    return []
   }
 }
