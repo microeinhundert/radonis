@@ -7,23 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier } from '@microeinhundert/radonis-types'
 import type { ReactElement, ReactNode } from 'react'
-
-/**
- * Build manifest entry
- */
-export interface BuildManifestEntry extends HydrationRequirements {
-  type: 'component' | 'entry' | 'chunk'
-  path: string
-  publicPath: string
-  imports: BuildManifestEntry[]
-}
-
-/**
- * Build manifest
- */
-export type BuildManifest = Record<string, BuildManifestEntry>
 
 /**
  * Document props

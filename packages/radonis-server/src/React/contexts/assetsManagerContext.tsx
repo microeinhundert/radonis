@@ -9,8 +9,8 @@
 
 import { createContext } from 'react'
 
-import type { Compiler } from '../../Compiler'
+import type { AssetsManager } from '../../AssetsManager'
 
-export const compilerContext = createContext<Compiler>(null as any)
+export const assetsManagerContext = createContext<AssetsManager>(null as any)
 
-export const CompilerContextProvider = compilerContext.Provider
+export const AssetsManagerContextProvider = assetsManagerContext.Provider

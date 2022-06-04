@@ -11,7 +11,8 @@
     },
     "list:routes": {
       "settings": {
-        "loadApp": true
+        "loadApp": true,
+        "stayAlive": true
       },
       "commandPath": "@adonisjs/core/build/commands/ListRoutes/index",
       "commandName": "list:routes",
@@ -91,6 +92,17 @@
       "commandPath": "@adonisjs/repl/build/commands/AdonisRepl",
       "commandName": "repl",
       "description": "Start a new REPL session",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
+    "build:client": {
+      "settings": {
+        "loadApp": true
+      },
+      "commandPath": "@microeinhundert/radonis-server/build/commands/BuildClient",
+      "commandName": "build:client",
+      "description": "Build the Radonis client",
       "args": [],
       "aliases": [],
       "flags": []

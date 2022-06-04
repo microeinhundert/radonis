@@ -21,7 +21,7 @@ import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React, { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 
-import type { Compiler } from '../Compiler'
+import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
 import { wrapWithDocument } from '../React'
 
@@ -56,7 +56,7 @@ export class Renderer {
    */
   constructor(
     private i18n: I18nManagerContract,
-    private compiler: Compiler,
+    private assetsManager: AssetsManager,
     private headManager: HeadManager,
     private manifestBuilder: ManifestBuilder
   ) {}
@@ -65,24 +65,27 @@ export class Renderer {
    * Inject head
    */
   private injectHead(html: string): string {
-    return html.replace('<div id="rad-head"></div>', this.headManager.getTags())
+    const target = '</head>'
+
+    return html.replace(target, [this.headManager.getTags(), target].join('\n'))
   }
 
   /**
    * Inject scripts
    */
   private injectScripts(html: string): string {
-    const scripts = this.compiler
-      .getAssetsRequiredForHydration()
-      .map((asset) => {
-        this.hydrationManager.requireAssetForHydration(asset)
-        return `<script type="module" defer src="${asset.path}"></script>`
-      })
-      .join('\n')
+    const target = '</body>'
 
     return html.replace(
-      '<div id="rad-scripts"></div>',
-      `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>\n${scripts}`
+      target,
+      [
+        `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`,
+        ...this.assetsManager.getHydrationRequirements().map((asset) => {
+          this.hydrationManager.requireAssetForHydration(asset)
+          return `<script type="module" defer src="${asset.path}"></script>`
+        }),
+        target,
+      ].join('\n')
     )
   }
 
@@ -91,6 +94,7 @@ export class Renderer {
    */
   private extractUserLocale({ request }: HttpContextContract): Locale {
     const supportedLocales = this.i18n.supportedLocales()
+
     return request.language(supportedLocales) || request.input('lang') || this.i18n.defaultLocale
   }
 
@@ -186,15 +190,14 @@ export class Renderer {
      */
     this.manifestBuilder.setServerManifestOnGlobalScope()
 
-    const tree = await this.pluginsManager.execute(
-      'beforeRender',
-      wrapWithDocument(this.compiler, this.headManager, this.manifestBuilder, this.context, Component, props),
-      null
-    )
-
     /**
      * Render the view
      */
+    const tree = await this.pluginsManager.execute(
+      'beforeRender',
+      wrapWithDocument(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
+      null
+    )
     let html = renderToString(<StrictMode>{tree}</StrictMode>)
 
     /**

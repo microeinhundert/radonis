@@ -1,27 +1,29 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "1.3.20",
+  "version": "1.3.21",
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/providers/RadonisProvider.js",
   "types": "./build/adonis-typings/index.d.ts",
   "exports": {
     ".": {
-      "require": {
-        "types": "./build/adonis-typings/index.d.ts",
-        "default": "./build/providers/RadonisProvider.js"
-      }
+      "types": "./build/adonis-typings/index.d.ts",
+      "require": "./build/providers/RadonisProvider.js"
     },
-    "./package.json": "./package.json"
+    "./commands": "./build/commands/index.js",
+    "./commands/BuildClient": "./build/commands/BuildClient.js",
+    "./build/commands": "./build/commands/index.js",
+    "./build/commands/BuildClient": "./build/commands/BuildClient.js",
+    "./*": "./*"
   },
   "sideEffects": false,
   "files": [
     "build/adonis-typings",
-    "build/providers",
+    "build/commands",
     "build/templates",
+    "build/providers",
     "build/src",
     "build/instructions.js",
-    "build/instructions.d.ts",
     "build/instructions.md"
   ],
   "scripts": {
@@ -62,6 +64,9 @@
     "instructions": "./build/instructions.js",
     "instructionsMd": "./build/instructions.md",
     "types": "@microeinhundert/radonis-server",
+    "commands": [
+      "@microeinhundert/radonis-server/build/commands"
+    ],
     "providers": [
       "@microeinhundert/radonis-server"
     ],
@@ -94,12 +99,12 @@
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hydrate": "1.3.20",
-    "@microeinhundert/radonis-manifest": "1.3.20",
-    "@microeinhundert/radonis-shared": "1.3.20",
-    "@microeinhundert/radonis-types": "1.3.20",
-    "@poppinss/utils": "^4.0.4",
-    "esbuild": "^0.14.42",
+    "@adonisjs/ace": "^11.3.1",
+    "@microeinhundert/radonis-hydrate": "1.3.21",
+    "@microeinhundert/radonis-build": "1.3.21",
+    "@microeinhundert/radonis-manifest": "1.3.21",
+    "@microeinhundert/radonis-shared": "1.3.21",
+    "@microeinhundert/radonis-types": "1.3.21",
     "flattie": "^1.1.0",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"

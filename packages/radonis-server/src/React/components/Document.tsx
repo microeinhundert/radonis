@@ -17,15 +17,8 @@ export function Document({ children }: DocumentProps) {
 
   return (
     <html className="h-full bg-gray-100" lang={manifestBuilder.locale}>
-      <head>
-        {/* The tag below will be replaced after rendering */}
-        <div id="rad-head" />
-      </head>
-      <body className="h-full">
-        {children}
-        {/* The tag below will be replaced after rendering */}
-        <div id="rad-scripts" />
-      </body>
+      <head></head>
+      <body className="h-full">{children}</body>
     </html>
   )
 }

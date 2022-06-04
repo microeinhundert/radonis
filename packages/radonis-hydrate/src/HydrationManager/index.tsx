@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import type { AssetsManifestEntry } from '@microeinhundert/radonis-build'
 import { invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type {
-  AssetsManifestEntry,
   Components,
   FlashMessageIdentifier,
   MessageIdentifier,

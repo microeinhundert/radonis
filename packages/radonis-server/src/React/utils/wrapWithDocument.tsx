@@ -12,16 +12,16 @@ import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manife
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
 import React from 'react'
 
-import type { Compiler } from '../../Compiler'
+import type { AssetsManager } from '../../AssetsManager'
 import type { HeadManager } from '../../HeadManager'
 import { Document } from '../components/Document'
 import { AdonisContextProvider } from '../contexts/adonisContext'
-import { CompilerContextProvider } from '../contexts/compilerContext'
+import { AssetsManagerContextProvider } from '../contexts/assetsManagerContext'
 import { HeadManagerContextProvider } from '../contexts/headManagerContext'
 import { ManifestBuilderContextProvider } from '../contexts/manifestBuilderContext'
 
 export function wrapWithDocument<T>(
-  compiler: Compiler,
+  assetsManager: AssetsManager,
   headManager: HeadManager,
   manifestBuilder: ManifestBuilder,
   context: AdonisContextContract,
@@ -29,7 +29,7 @@ export function wrapWithDocument<T>(
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
   return (
-    <CompilerContextProvider value={compiler}>
+    <AssetsManagerContextProvider value={assetsManager}>
       <HeadManagerContextProvider value={headManager}>
         <ManifestBuilderContextProvider value={manifestBuilder}>
           <AdonisContextProvider value={context}>
@@ -40,6 +40,6 @@ export function wrapWithDocument<T>(
           </AdonisContextProvider>
         </ManifestBuilderContextProvider>
       </HeadManagerContextProvider>
-    </CompilerContextProvider>
+    </AssetsManagerContextProvider>
   )
 }

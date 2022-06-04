@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-build
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -11,13 +11,13 @@ import { invariant, isProduction } from '@microeinhundert/radonis-shared'
 import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
-import { writeFile } from 'fs'
 import { join, parse } from 'path'
 
-import type { BuildManifest, BuildManifestEntry } from '../types'
+import { generateAssetsManifest } from './assets'
 import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
 import { loaders } from './loaders'
-import { compiledFiles, radonisClientPlugin } from './plugins'
+import { builtFiles, radonisClientPlugin } from './plugin'
+import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
 import { stripPublicDir } from './utils'
 
 /**
@@ -77,15 +77,15 @@ function walkMetafile(metafile: Metafile, path: string, type?: BuildManifestEntr
   invariant(output, `Could not find metafile output entry for path "${path}"`)
 
   const absolutePath = join(process.cwd(), path)
-  const compiledFileSource = compiledFiles.get(absolutePath) ?? ''
+  const builtFileSource = builtFiles.get(absolutePath) ?? ''
 
   return {
     type: type ?? 'chunk',
     path: absolutePath,
     publicPath: stripPublicDir(path),
-    flashMessages: extractFlashMessages(compiledFileSource),
-    messages: extractMessages(compiledFileSource),
-    routes: extractRoutes(compiledFileSource),
+    flashMessages: extractFlashMessages(builtFileSource),
+    messages: extractMessages(builtFileSource),
+    routes: extractRoutes(builtFileSource),
     imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$)),
   }
 }
@@ -123,19 +123,6 @@ function generateBuildManifest(metafile: Metafile, entryFilePath: string): Build
 }
 
 /**
- * Write the build manifest to disk
- */
-function writeBuildManifestToDisk(buildManifest: BuildManifest, outputDir: string): void {
-  writeFile(
-    join(outputDir, 'manifest.json'),
-    JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
-    (error) => {
-      invariant(!error, 'Error writing manifest to disk')
-    }
-  )
-}
-
-/**
  * Build the entry file as well as the components
  */
 export async function buildEntryFileAndComponents(
@@ -143,7 +130,7 @@ export async function buildEntryFileAndComponents(
   components: Map<string, string>,
   outputDir: string,
   buildOptions: BuildOptions
-): Promise<BuildManifest> {
+): Promise<{ buildManifest: BuildManifest; assetsManifest: AssetsManifest; builtFiles: Map<string, string> }> {
   const { metafile } = await build({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
@@ -158,12 +145,8 @@ export async function buildEntryFileAndComponents(
     minify: isProduction,
     ...buildOptions,
     loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-    plugins: [radonisClientPlugin(components, outputDir), ...(buildOptions.plugins ?? [])],
-    external: [
-      '@microeinhundert/radonis-manifest',
-      '@microeinhundert/radonis-server',
-      ...(buildOptions.external ?? []),
-    ],
+    plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],
+    external: ['@microeinhundert/radonis-manifest', '@microeinhundert/radonis-build', ...(buildOptions.external ?? [])],
     define: {
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"',
       ...(buildOptions.define ?? {}),
@@ -171,8 +154,11 @@ export async function buildEntryFileAndComponents(
   })
 
   const buildManifest = generateBuildManifest(metafile!, entryFilePath)
+  const assetsManifest = generateAssetsManifest(buildManifest)
 
-  writeBuildManifestToDisk(buildManifest, outputDir)
-
-  return buildManifest
+  return {
+    buildManifest,
+    assetsManifest,
+    builtFiles,
+  }
 }

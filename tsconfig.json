@@ -18,6 +18,9 @@
       "path": "./packages/radonis/tsconfig.json"
     },
     {
+      "path": "./packages/radonis-build/tsconfig.json"
+    },
+    {
       "path": "./packages/radonis-form/tsconfig.json"
     },
     {

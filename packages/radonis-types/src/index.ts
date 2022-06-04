@@ -151,22 +151,6 @@ export interface HydrationRequirements {
 }
 
 /**
- * Assets manifest entry
- */
-export interface AssetsManifestEntry extends HydrationRequirements {
-  type: 'component' | 'entry'
-  identifier: string
-  path: string
-}
-
-/**
- * Assets manifest
- */
-export type AssetsManifest = AssetsManifestEntry[]
-
-/* ---------------------------------------- */
-
-/**
  * Utils
  */
 export type ValueOf<T> = T[keyof T]

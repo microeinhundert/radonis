@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-build
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,9 +7,35 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetsManifest, ComponentIdentifier, HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier, HydrationRequirements } from '@microeinhundert/radonis-types'
 
-import type { BuildManifest, BuildManifestEntry } from '../types'
+import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
+
+/**
+ * Extract the required assets from the assets manifest
+ */
+export function extractRequiredAssets(
+  assetsManifest: AssetsManifest,
+  requiredAssets: { components: Set<ComponentIdentifier> }
+): AssetsManifest {
+  return assetsManifest.reduce<AssetsManifest>((assets, asset) => {
+    /**
+     * Always include the entry file
+     */
+    if (asset.type === 'entry') {
+      return [...assets, asset]
+    }
+
+    /**
+     * Include the component if it is required
+     */
+    if (requiredAssets.components.has(asset.identifier)) {
+      return [asset, ...assets]
+    }
+
+    return assets
+  }, [])
+}
 
 /**
  * Reduce the hydration requirements for a build manifest entry and its imports
@@ -82,30 +108,4 @@ export function generateAssetsManifest(buildManifest: BuildManifest): AssetsMani
   }
 
   return assetsManifest
-}
-
-/**
- * Extract the required assets from the assets manifest
- */
-export function extractRequiredAssets(
-  assetsManifest: AssetsManifest,
-  requiredAssets: { components: Set<ComponentIdentifier> }
-): AssetsManifest {
-  return assetsManifest.reduce<AssetsManifest>((assets, asset) => {
-    /**
-     * Always include the entry file
-     */
-    if (asset.type === 'entry') {
-      return [...assets, asset]
-    }
-
-    /**
-     * Include the component if it is required
-     */
-    if (requiredAssets.components.has(asset.identifier)) {
-      return [asset, ...assets]
-    }
-
-    return assets
-  }, [])
 }

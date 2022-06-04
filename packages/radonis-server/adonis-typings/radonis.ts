@@ -8,13 +8,13 @@
  */
 
 declare module '@ioc:Adonis/Addons/Radonis' {
-  import type { BuildOptions } from 'esbuild'
   import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
   import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
   import type { Globals, ComponentIdentifier } from '@microeinhundert/radonis-types'
+  import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { Plugin } from '@microeinhundert/radonis-shared'
   import type { ReactElement } from 'react'
 

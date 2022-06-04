@@ -12,12 +12,12 @@ import { invariant } from '@microeinhundert/radonis-shared'
 import React, { useId } from 'react'
 
 import type { HydrationRootProps } from '../../types'
-import { useCompiler } from '../hooks/internal/useCompiler'
+import { useAssetsManager } from '../hooks/internal/useAssetsManager'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
 export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
-  const compiler = useCompiler()
+  const assetsManager = useAssetsManager()
   const { root: parentHydrationRootIdentifier, component: parentComponentIdentifier } = useHydration()
   const hydrationRootIdentifier = useId()
 
@@ -38,9 +38,9 @@ export function HydrationRoot({ children, component: componentIdentifier }: Hydr
   const propsHash = manifestBuilder.registerProps(componentIdentifier, props)
 
   /*
-   * Require the component for hydration on the Compiler
+   * Require the component for hydration on the AssetsManager
    */
-  compiler.requireComponentForHydration(componentIdentifier)
+  assetsManager.requireComponentForHydration(componentIdentifier)
 
   return (
     <HydrationContextProvider

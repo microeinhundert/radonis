@@ -9,14 +9,14 @@
 
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 
-import type { Compiler } from '../src/Compiler'
+import type { AssetsManager } from '../src/AssetsManager'
 import type { HeadManager } from '../src/HeadManager'
 import type { Renderer } from '../src/Renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {
     'Adonis/Addons/Radonis/ManifestBuilder': ManifestBuilder
-    'Adonis/Addons/Radonis/Compiler': Compiler
+    'Adonis/Addons/Radonis/AssetsManager': AssetsManager
     'Adonis/Addons/Radonis/HeadManager': HeadManager
     'Adonis/Addons/Radonis/Renderer': Renderer
   }

@@ -9,10 +9,10 @@
 
 import { useContext } from 'react'
 
-import { compilerContext } from '../../contexts/compilerContext'
+import { assetsManagerContext } from '../../contexts/assetsManagerContext'
 
-export function useCompiler() {
-  const context = useContext(compilerContext)
+export function useAssetsManager() {
+  const context = useContext(assetsManagerContext)
 
   return context
 }

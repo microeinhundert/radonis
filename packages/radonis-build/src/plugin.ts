@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-build
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -9,30 +9,52 @@
 
 import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
-import { emptyDir, outputFile as outputFile$ } from 'fs-extra'
 import { dirname } from 'path'
 
-import {
-  DEFAULT_EXPORT_CJS_REGEX,
-  DEFAULT_EXPORT_ESM_REGEX,
-  IOC_IMPORT_CJS_REGEX,
-  IOC_IMPORT_ESM_REGEX,
-} from './constants'
+import { DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
-import { injectHydrateCall, warnAboutIocUsage, warnAboutMissingDefaultExport } from './utils'
 
 const pluginsManager = PluginsManager.getInstance()
 
-export const compiledFiles = new Map<string, string>()
+export const builtFiles = new Map<string, string>()
+
+/**
+ * Inject the call to the hydrate function into the source code of a component
+ */
+function injectHydrateCall(componentIdentifier: string, source: string, sourceType: 'esm' | 'cjs'): string {
+  return `
+    ${
+      sourceType === 'esm'
+        ? `import { registerComponentForHydration } from "@microeinhundert/radonis";`
+        : 'const { registerComponentForHydration } = require("@microeinhundert/radonis");'
+    }
+    ${source}
+    registerComponentForHydration("${componentIdentifier}", ${componentIdentifier});
+  `
+}
+
+/**
+ * Warn about a missing default export
+ */
+function warnAboutMissingDefaultExport(path: string) {
+  return {
+    errors: [
+      {
+        text: `Found component at "${path}" without default export. All components built for the client must export themselves as default`,
+        pluginName: 'radonis-client',
+      },
+    ],
+  }
+}
 
 /**
  * The esbuild plugin responsible for compiling the components for the client
  */
-export const radonisClientPlugin = (components: Map<string, string>, outputDir: string): Plugin => ({
+export const radonisClientPlugin = (components: Map<string, string>): Plugin => ({
   name: 'radonis-client',
   setup(build) {
     build.onStart(async () => {
-      compiledFiles.clear()
+      builtFiles.clear()
       await pluginsManager.execute('beforeCompile', null, null)
     })
 
@@ -47,18 +69,6 @@ export const radonisClientPlugin = (components: Map<string, string>, outputDir: 
         const componentSource = components.get(path)
 
         invariant(componentSource, `Could not statically analyze source for component at "${path}"`)
-
-        // TODO: This does not check chunks
-        const [esmIocImportMatch] = componentSource.matchAll(IOC_IMPORT_ESM_REGEX)
-        if (esmIocImportMatch?.groups?.importSpecifier) {
-          return warnAboutIocUsage(esmIocImportMatch.groups.importSpecifier, path)
-        }
-
-        // TODO: This does not check chunks
-        const [cjsIocImportMatch] = componentSource.matchAll(IOC_IMPORT_CJS_REGEX)
-        if (cjsIocImportMatch?.groups?.importSpecifier) {
-          return warnAboutIocUsage(cjsIocImportMatch.groups.importSpecifier, path)
-        }
 
         const loadOptions = {
           resolveDir: dirname(path),
@@ -96,20 +106,15 @@ export const radonisClientPlugin = (components: Map<string, string>, outputDir: 
     })
 
     build.onEnd(async (result) => {
-      await emptyDir(outputDir)
-
       await pluginsManager.execute('afterCompile', null, null)
 
       if (!result.outputFiles?.length) {
         return
       }
 
-      for (let { path, text } of result.outputFiles) {
-        compiledFiles.set(path, text)
-        outputFile$(path, Buffer.from(await pluginsManager.execute('beforeOutput', text, null)))
+      for (const { path, text } of result.outputFiles) {
+        builtFiles.set(path, text)
       }
-
-      await pluginsManager.execute('afterOutput', null, compiledFiles)
     })
   },
 })

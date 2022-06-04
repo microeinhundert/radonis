@@ -82,14 +82,12 @@ export default class RadonisProvider {
     })
 
     /**
-     * Compiler
+     * AssetsManager
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/Compiler', () => {
-      const Logger = this.application.container.resolveBinding('Adonis/Core/Logger')
+    this.application.container.singleton('Adonis/Addons/Radonis/AssetsManager', () => {
+      const { AssetsManager } = require('../src/AssetsManager')
 
-      const { Compiler } = require('../src/Compiler')
-
-      return new Compiler(Logger, radonisConfig)
+      return new AssetsManager(radonisConfig)
     })
 
     /**
@@ -106,13 +104,13 @@ export default class RadonisProvider {
      */
     this.application.container.singleton('Adonis/Addons/Radonis/Renderer', () => {
       const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-      const Compiler = this.application.container.resolveBinding('Adonis/Addons/Radonis/Compiler')
+      const AssetsManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/AssetsManager')
       const HeadManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/HeadManager')
       const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
 
       const { Renderer } = require('../src/Renderer')
 
-      return new Renderer(I18n, Compiler, HeadManager, ManifestBuilder)
+      return new Renderer(I18n, AssetsManager, HeadManager, ManifestBuilder)
     })
 
     /**
@@ -144,14 +142,9 @@ export default class RadonisProvider {
         'Adonis/Core/Route',
         'Adonis/Addons/I18n',
         'Adonis/Addons/Radonis/ManifestBuilder',
-        'Adonis/Addons/Radonis/Compiler',
+        'Adonis/Addons/Radonis/AssetsManager',
       ],
-      async (Application, Route, I18n, ManifestBuilder, Compiler) => {
-        /**
-         * Compile
-         */
-        const assets = await Compiler.compile()
-
+      async (Application, Route, I18n, ManifestBuilder, AssetsManager) => {
         /**
          * Set routes on the ManifestBuilder
          */
@@ -159,6 +152,11 @@ export default class RadonisProvider {
         ManifestBuilder.setRoutes(routes)
 
         if (isProduction) return
+
+        /**
+         * Init the AssetsManager
+         */
+        const assets = await AssetsManager.init()
 
         const components = assets.filter(({ type }) => type === 'component').map(({ identifier }) => identifier)
         const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
@@ -183,11 +181,11 @@ export default class RadonisProvider {
         'Adonis/Core/Application',
         'Adonis/Core/Route',
         'Adonis/Addons/Radonis/ManifestBuilder',
-        'Adonis/Addons/Radonis/Compiler',
+        'Adonis/Addons/Radonis/AssetsManager',
         'Adonis/Addons/Radonis/HeadManager',
         'Adonis/Addons/Radonis/Renderer',
       ],
-      (HttpContext, Application, Route, ManifestBuilder, Compiler, HeadManager, Renderer) => {
+      (HttpContext, Application, Route, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         /**
          * Define getter
          */
@@ -195,7 +193,7 @@ export default class RadonisProvider {
           'radonis',
           function () {
             ManifestBuilder.prepareForNewRequest()
-            Compiler.prepareForNewRequest()
+            AssetsManager.prepareForNewRequest()
             HeadManager.prepareForNewRequest()
 
             return Renderer.getRendererForRequest(this, Application, Route)

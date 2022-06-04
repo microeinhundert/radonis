@@ -8,6 +8,10 @@
       "changeProcessCWD": true
     },
     {
+      "directory": "packages/radonis-build",
+      "changeProcessCWD": true
+    },
+    {
       "directory": "packages/radonis",
       "changeProcessCWD": true
     },

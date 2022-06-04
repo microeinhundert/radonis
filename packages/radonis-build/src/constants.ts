@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-build
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -9,9 +9,6 @@
 
 export const DEFAULT_EXPORT_ESM_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
 export const DEFAULT_EXPORT_CJS_REGEX = new RegExp(/exports.default\s+=\s+(function\s+)?(?<name>\w+)/g)
-
-export const IOC_IMPORT_ESM_REGEX = new RegExp(/from\s+["'](?<importSpecifier>@ioc:.+?)["']/g)
-export const IOC_IMPORT_CJS_REGEX = new RegExp(/require\(\W?["'](?<importSpecifier>@ioc:.+?)["']/g)
 
 export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(/\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g)
 export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\((\W+)?["'](?<identifier>.+?)["']/g)
