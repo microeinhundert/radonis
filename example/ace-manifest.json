@@ -111,15 +111,19 @@
           "name": "production",
           "propertyName": "production",
           "type": "boolean",
-          "description": "Build for production",
-          "alias": "prod"
+          "description": "Build for production"
         },
         {
           "name": "watch-dir",
           "propertyName": "watchDir",
           "type": "string",
-          "description": "Directory to watch for changes",
-          "alias": "w"
+          "description": "Directory to watch for changes"
+        },
+        {
+          "name": "output-dir",
+          "propertyName": "outputDir",
+          "type": "string",
+          "description": "Directory to output built files to"
         }
       ]
     }
