@@ -174,7 +174,7 @@ export default class RadonisProvider {
           true
         )
 
-        if (!isProduction && this.application.environment !== 'console') {
+        if (!isProduction) {
           const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
 
           /**

@@ -13,7 +13,7 @@ import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { join, parse } from 'path'
 
-import { FLASH_MESSAGES_USAGE_REGEX, I18N_USAGE_REGEX, URL_BUILDER_USAGE_REGEX } from './constants'
+import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
 import { loaders } from './loaders'
 import { builtFiles, radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry } from './types'
@@ -23,7 +23,7 @@ import { stripPublicDir } from './utils'
  * Extract identifiers from usages of `.has(Error)?` and `.get(Error)?` from the source code
  */
 function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
-  const matches = source.matchAll(FLASH_MESSAGES_USAGE_REGEX)
+  const matches = source.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
   const identifiers = new Set<FlashMessageIdentifier>()
 
   for (const match of matches) {
@@ -39,7 +39,7 @@ function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
  * Extract identifiers from usages of `.formatMessage` from the source code
  */
 function extractMessages(source: string): Set<MessageIdentifier> {
-  const matches = source.matchAll(I18N_USAGE_REGEX)
+  const matches = source.matchAll(MESSAGE_IDENTIFIER_REGEX)
   const identifiers = new Set<MessageIdentifier>()
 
   for (const match of matches) {
@@ -55,7 +55,7 @@ function extractMessages(source: string): Set<MessageIdentifier> {
  * Extract identifiers from usages of `.make` as well as specific component props from the source code
  */
 function extractRoutes(source: string): Set<RouteIdentifier> {
-  const matches = source.matchAll(URL_BUILDER_USAGE_REGEX)
+  const matches = source.matchAll(ROUTE_IDENTIFIER_REGEX)
   const identifiers = new Set<RouteIdentifier>()
 
   for (const match of matches) {
@@ -130,8 +130,11 @@ export async function buildEntryFileAndComponents(
   outputDir: string,
   forProduction: boolean,
   buildOptions: BuildOptions
-): Promise<{ buildManifest: BuildManifest; builtFiles: Map<string, string> }> {
-  const { metafile } = await build({
+): Promise<{ buildManifest: BuildManifest }> {
+  /**
+   * Run the build
+   */
+  const buildResult = await build({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
     metafile: true,
@@ -153,10 +156,12 @@ export async function buildEntryFileAndComponents(
     },
   })
 
-  const buildManifest = generateBuildManifest(metafile!, entryFilePath)
+  /**
+   * Generate the build manifest
+   */
+  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath)
 
   return {
     buildManifest,
-    builtFiles,
   }
 }

@@ -10,6 +10,8 @@
 export const DEFAULT_EXPORT_ESM_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
 export const DEFAULT_EXPORT_CJS_REGEX = new RegExp(/exports.default\s+=\s+(function\s+)?(?<name>\w+)/g)
 
-export const FLASH_MESSAGES_USAGE_REGEX = new RegExp(/\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g)
-export const I18N_USAGE_REGEX = new RegExp(/\.formatMessage\((\W+)?["'](?<identifier>.+?)["']/g)
-export const URL_BUILDER_USAGE_REGEX = new RegExp(/(\.make\(|(action|to|route):)(\W+)?["'](?<identifier>.+?)["']/g)
+export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(
+  /\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g
+)
+export const MESSAGE_IDENTIFIER_REGEX = new RegExp(/\.formatMessage\((\W+)?["'](?<identifier>.+?)["']/g)
+export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(\.make\(|(action|to|route):)(\W+)?["'](?<identifier>.+?)["']/g)

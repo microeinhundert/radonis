@@ -7,13 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '@microeinhundert/radonis-shared'
+import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
+import { emptyDir, outputFile } from 'fs-extra'
 import { dirname } from 'path'
 
 import { DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 
+const pluginsManager = PluginsManager.getInstance()
 export const builtFiles = new Map<string, string>()
 
 /**
@@ -53,6 +55,7 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
   setup(build) {
     build.onStart(async () => {
       builtFiles.clear()
+      await emptyDir(build.initialOptions.outdir)
     })
 
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
@@ -109,7 +112,10 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
 
       for (const { path, text } of result.outputFiles) {
         builtFiles.set(path, text)
+        outputFile(path, Buffer.from(await pluginsManager.execute('beforeOutput', text, null)))
       }
+
+      await pluginsManager.execute('afterOutput', null, builtFiles)
     })
   },
 })

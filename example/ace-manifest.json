@@ -115,10 +115,10 @@
           "alias": "prod"
         },
         {
-          "name": "watch",
-          "propertyName": "watch",
-          "type": "boolean",
-          "description": "Watch for file changes and re-build the client on change",
+          "name": "watch-dir",
+          "propertyName": "watchDir",
+          "type": "string",
+          "description": "Directory to watch for changes",
           "alias": "w"
         }
       ]

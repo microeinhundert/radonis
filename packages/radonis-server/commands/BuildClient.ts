@@ -10,10 +10,23 @@
 import { BaseCommand, flags } from '@adonisjs/ace'
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { buildEntryFileAndComponents, discoverComponents } from '@microeinhundert/radonis-build'
-import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
+import { invariant } from '@microeinhundert/radonis-shared'
+import chokidar from 'chokidar'
 import { existsSync } from 'fs'
-import { emptyDir, outputFile } from 'fs-extra'
 import { parse } from 'path'
+
+/**
+ * Yield a script path
+ */
+function yieldScriptPath(path: string): string {
+  if (existsSync(path)) {
+    return path
+  }
+
+  const { ext } = parse(path)
+
+  return ext ? path.replace(ext, '.js') : yieldScriptPath(`${path}.ts`)
+}
 
 /**
  * A command to build the client
@@ -29,22 +42,20 @@ export default class BuildClient extends BaseCommand {
   /**
    * Build for production
    */
-  @flags.boolean({ description: 'Build for production', alias: 'prod' })
+  @flags.boolean({ description: 'Build for production' })
   public production: boolean
 
   /**
-   * Allows watching for file changes
+   * Allows watching a directory for file changes
    */
-  @flags.boolean({
-    description: 'Watch for file changes and re-build the client on change',
-    alias: 'w',
-  })
-  public watch: boolean
+  @flags.string({ description: 'Directory to watch for changes' })
+  public watchDir: string
 
   /**
-   * The PluginsManager instance
+   * Allows configuring the output directory
    */
-  private pluginsManager: PluginsManager = PluginsManager.getInstance()
+  @flags.string({ description: 'Directory to output built files to' })
+  public outputDir: string
 
   /**
    * The Radonis config
@@ -52,27 +63,14 @@ export default class BuildClient extends BaseCommand {
   private config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
-   * Yield a script path
-   */
-  private yieldScriptPath(path: string): string {
-    if (existsSync(path)) {
-      return path
-    }
-
-    const { ext } = parse(path)
-
-    return ext ? path.replace(ext, '.js') : this.yieldScriptPath(`${path}.ts`)
-  }
-
-  /**
    * Get the path to the entry file
    */
-  private getEntryFilePath() {
+  private get entryFilePath() {
     let {
       client: { entryFile },
     } = this.config
 
-    entryFile = this.yieldScriptPath(entryFile)
+    entryFile = yieldScriptPath(entryFile)
 
     invariant(existsSync(entryFile), `The Radonis entry file does not exist at "${entryFile}"`)
 
@@ -82,7 +80,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * Get the path to the components directory
    */
-  private getComponentsDirPath() {
+  private get componentsDirPath() {
     const {
       client: { componentsDir },
     } = this.config
@@ -93,56 +91,30 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * Run the command
+   * Run the build
    */
-  public async run() {
+  private async build() {
     const {
       client: { outputDir, buildOptions },
     } = this.config
 
     this.logger.info(`building the client...`)
 
-    const entryFilePath = this.getEntryFilePath()
-    const componentsDirPath = this.getComponentsDirPath()
-    const components = discoverComponents(componentsDirPath)
+    const components = discoverComponents(this.componentsDirPath)
 
-    /**
-     * Build entry file and components
-     */
-    const { buildManifest, builtFiles } = await buildEntryFileAndComponents(
-      entryFilePath,
+    const { buildManifest } = await buildEntryFileAndComponents(
+      this.entryFilePath,
       components,
-      outputDir,
+      this.outputDir || outputDir,
       this.production,
-      {
-        ...buildOptions,
-        watch: this.watch
-          ? {
-              onRebuild: (error) => {
-                if (error) this.logger.error(`rebuilding the client failed`)
-                else this.logger.success('successfully rebuilt the client')
-              },
-            }
-          : false,
-      }
+      buildOptions
     )
 
     /**
-     * Empty the output directory
+     * Output a log message after successful build
+     * (substracting by one to exclude the entry file)
      */
-    await emptyDir(outputDir)
-
-    /**
-     * Output built files
-     */
-    for (const [filePath, fileSource] of builtFiles) {
-      /**
-       * Does not work with the Generator API
-       */
-      outputFile(filePath, Buffer.from(await this.pluginsManager.execute('beforeOutput', fileSource, null)))
-    }
-
-    await this.pluginsManager.execute('afterOutput', null, builtFiles)
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
 
     /**
      * Output the build manifest
@@ -160,17 +132,37 @@ export default class BuildClient extends BaseCommand {
      * Run the Generator
      */
     await this.generator.run()
+  }
 
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+  /**
+   * Run the command
+   */
+  public async run() {
+    await this.build()
 
-    /**
-     * Exit if not in watch mode
-     */
-    if (!this.watch) {
+    if (this.watchDir) {
+      /**
+       * Initialize the watcher
+       */
+      const watcher = chokidar.watch(this.watchDir, {
+        cwd: process.cwd(),
+        ignoreInitial: true,
+      })
+
+      /**
+       * Rebuild on changes
+       */
+      watcher
+        .on('ready', () => {
+          this.logger.info('watching for file changes...')
+        })
+        .on('error', () => {
+          this.logger.error('rebuilding the client failed')
+        })
+        .on('all', async () => {
+          await this.build()
+        })
+    } else {
       this.exit()
     }
   }

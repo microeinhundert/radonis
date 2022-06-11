@@ -123,6 +123,9 @@ const radonisConfig: RadonisConfig = {
     | make sure to set up the webserver accordingly in order for the client
     | assets to be publicly accessible.
     |
+    | Make sure to also update the output-dir flag of
+    | the `build:client` script inside package.json accordingly.
+    |
     */
     outputDir: Application.publicPath('radonis'),
 

@@ -80,6 +80,29 @@ For additional type safety, add the dynamically generated Radonis types to the `
 }
 ```
 
+### 6. Replace package scripts
+
+In order for the Radonis client build to run in parallel with the AdonisJS server build, replace the existing `dev` and `build` scripts in your `package.json` file with the following scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "concurrently 'npm:dev:*'",
+    "dev:server": "node ace serve --watch",
+    "dev:client": "node ace build:client --watch-dir './resources/**/*.ts(x)?'",
+    "build": "concurrently 'npm:build:*'",
+    "build:server": "node ace build --production",
+    "build:client": "node ace build:client --production --output-dir './build/public/radonis'"
+  }
+}
+```
+
+And install `concurrently`:
+
+```console
+npm install --save-dev concurrently
+```
+
 ## Server-Side Templating
 
 Instead of Edge, Radonis uses React to render views on the server. This makes it possible to use the same templating language on both the server and the client.
