@@ -59,13 +59,13 @@
   "license": "MIT",
   "peerDependencies": {
     "@microeinhundert/radonis": "1.3.21",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@microeinhundert/radonis": "1.3.21",
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {

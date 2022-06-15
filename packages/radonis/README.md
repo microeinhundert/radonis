@@ -17,8 +17,8 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - @adonisjs/core ^5.8.0
 - @adonisjs/session ^6.4.0
 - @adonisjs/i18n ^1.5.0
-- react ^18.1.0
-- react-dom ^18.1.0
+- react ^18.2.0
+- react-dom ^18.2.0
 
 ## Getting Started
 
@@ -92,7 +92,7 @@ In order for the Radonis client build to run in parallel with the AdonisJS serve
     "dev:client": "node ace build:client --watch-dir './resources/**/*.ts(x)?'",
     "build": "concurrently 'npm:build:*'",
     "build:server": "node ace build --production",
-    "build:client": "node ace build:client --production --output-dir './build/public/radonis'"
+    "build:client": "node ace build:client --production --output-dir adonis-build-dir"
   }
 }
 ```

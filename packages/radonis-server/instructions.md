@@ -56,7 +56,7 @@ In order for the Radonis client build to run in parallel with the AdonisJS serve
     "dev:client": "node ace build:client --watch-dir './resources/**/*.ts(x)?'",
     "build": "concurrently 'npm:build:*'",
     "build:server": "node ace build --production",
-    "build:client": "node ace build:client --production --output-dir './build/public/radonis'"
+    "build:client": "node ace build:client --production --output-dir adonis-build-dir"
   }
 }
 ```

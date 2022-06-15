@@ -59,7 +59,7 @@
   "devDependencies": {
     "@microeinhundert/radonis-types": "1.3.21",
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {

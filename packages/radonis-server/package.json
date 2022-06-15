@@ -90,12 +90,12 @@
     "@adonisjs/core": "^5.8.0",
     "@adonisjs/i18n": "^1.5.0",
     "@adonisjs/session": "^6.4.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {

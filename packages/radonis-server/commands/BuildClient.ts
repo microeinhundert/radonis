@@ -8,12 +8,13 @@
  */
 
 import { BaseCommand, flags } from '@adonisjs/ace'
+import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { buildEntryFileAndComponents, discoverComponents } from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
-import { parse } from 'path'
+import { parse, relative, resolve } from 'path'
 
 /**
  * Yield a script path
@@ -55,7 +56,7 @@ export default class BuildClient extends BaseCommand {
    * Allows configuring the output directory
    */
   @flags.string({ description: 'Directory to output built files to' })
-  public outputDir: string
+  public outputDir: string | 'build-dir'
 
   /**
    * The Radonis config
@@ -63,7 +64,7 @@ export default class BuildClient extends BaseCommand {
   private config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
-   * Get the path to the entry file
+   * The path to the entry file
    */
   private get entryFilePath() {
     let {
@@ -78,7 +79,7 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * Get the path to the components directory
+   * The path to the components directory
    */
   private get componentsDirPath() {
     const {
@@ -91,11 +92,29 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
+   * The path to the output directory
+   */
+  private get environmentAwareOutputDirPath() {
+    const {
+      client: { outputDir },
+    } = this.config
+
+    const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
+    const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
+
+    if (this.outputDir === 'adonis-build-dir') {
+      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
+    }
+
+    return this.outputDir || outputDir
+  }
+
+  /**
    * Run the build
    */
   private async build() {
     const {
-      client: { outputDir, buildOptions },
+      client: { buildOptions },
     } = this.config
 
     this.logger.info(`building the client...`)
@@ -105,7 +124,7 @@ export default class BuildClient extends BaseCommand {
     const { buildManifest } = await buildEntryFileAndComponents(
       this.entryFilePath,
       components,
-      this.outputDir || outputDir,
+      this.environmentAwareOutputDirPath,
       this.production,
       buildOptions
     )
@@ -125,7 +144,7 @@ export default class BuildClient extends BaseCommand {
         JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
         { raw: true }
       )
-      .destinationDir(outputDir)
+      .destinationDir(this.environmentAwareOutputDirPath)
       .appRoot(this.application.appRoot)
 
     /**

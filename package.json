@@ -51,12 +51,12 @@
     "eslint-plugin-adonis": "2.1.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.1",
     "openapi-types": "^12.0.0",
-    "prettier": "2.6.2",
+    "prettier": "2.7.0",
     "turbo": "^1.2.16",
     "typescript": "4.7.3"
   },
@@ -64,15 +64,15 @@
     "@adonisjs/core": "^5.8.3",
     "@adonisjs/i18n": "^1.5.6",
     "@adonisjs/session": "^6.4.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": ["react", "react-dom", "@adonisjs/application"],
       "allowedVersions": {
-        "react": "^18.1.0",
-        "react-dom": "^18.1.0"
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
       }
     }
   }

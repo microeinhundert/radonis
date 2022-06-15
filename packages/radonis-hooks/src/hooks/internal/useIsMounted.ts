@@ -9,12 +9,12 @@
 
 import { useRef } from 'react'
 
-import { useUniversalLayoutEffect } from './useUniversalLayoutEffect'
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
 export function useIsMounted() {
   const isMounted = useRef(false)
 
-  useUniversalLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     isMounted.current = true
 
     return () => {

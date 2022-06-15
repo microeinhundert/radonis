@@ -8,7 +8,7 @@
     "dev:client": "node ace build:client --watch-dir './resources/**/*.ts(x)?'",
     "build": "concurrently 'npm:build:*'",
     "build:server": "node ace build --production",
-    "build:client": "node ace build:client --production --output-dir './build/public/radonis'",
+    "build:client": "node ace build:client --production --output-dir adonis-build-dir",
     "test": "node ace test",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
@@ -18,7 +18,7 @@
     "@adonisjs/assembler": "^5.7.0",
     "@japa/preset-adonis": "^1.0.16",
     "@japa/runner": "^2.0.8",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
     "openapi-types": "^11.0.1",
     "pino-pretty": "^7.6.1",
@@ -36,8 +36,8 @@
     "@microeinhundert/radonis-twind": "^1.3.21",
     "@microeinhundert/radonis-unocss": "^1.3.21",
     "proxy-addr": "^2.0.7",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21"
   }
