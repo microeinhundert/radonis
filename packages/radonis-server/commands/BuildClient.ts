@@ -44,19 +44,19 @@ export default class BuildClient extends BaseCommand {
    * Build for production
    */
   @flags.boolean({ description: 'Build for production' })
-  public production: boolean
+  public production: boolean | undefined
 
   /**
    * Allows watching a directory for file changes
    */
   @flags.string({ description: 'Directory to watch for changes' })
-  public watchDir: string
+  public watchDir: string | undefined
 
   /**
    * Allows configuring the output directory
    */
   @flags.string({ description: 'Directory to output built files to' })
-  public outputDir: string | 'build-dir'
+  public outputDir: 'build-dir' | string | undefined
 
   /**
    * The Radonis config
@@ -99,18 +99,18 @@ export default class BuildClient extends BaseCommand {
       client: { outputDir },
     } = this.config
 
-    if (this.outputDir) {
-      if (this.outputDir === 'adonis-build-dir') {
-        const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
-        const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
-
-        return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
-      }
-
-      return resolve(this.application.appRoot, this.outputDir)
+    if (!this.outputDir) {
+      return outputDir
     }
 
-    return outputDir
+    if (this.outputDir === 'adonis-build-dir') {
+      const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
+      const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
+
+      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
+    }
+
+    return resolve(this.application.appRoot, this.outputDir)
   }
 
   /**
@@ -129,7 +129,7 @@ export default class BuildClient extends BaseCommand {
       this.entryFilePath,
       components,
       this.environmentAwareOutputDirPath,
-      this.production,
+      !!this.production,
       buildOptions
     )
 
