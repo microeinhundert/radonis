@@ -99,11 +99,11 @@ export default class BuildClient extends BaseCommand {
       client: { outputDir },
     } = this.config
 
-    const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
-    const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
-
     if (this.outputDir) {
       if (this.outputDir === 'adonis-build-dir') {
+        const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
+        const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
+
         return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
       }
 
