@@ -102,11 +102,15 @@ export default class BuildClient extends BaseCommand {
     const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
     const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
 
-    if (this.outputDir === 'adonis-build-dir') {
-      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
+    if (this.outputDir) {
+      if (this.outputDir === 'adonis-build-dir') {
+        return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
+      }
+
+      return resolve(this.application.appRoot, this.outputDir)
     }
 
-    return this.outputDir ? resolve(this.application.appRoot, this.outputDir) : outputDir
+    return outputDir
   }
 
   /**
@@ -163,7 +167,7 @@ export default class BuildClient extends BaseCommand {
       /**
        * Initialize the watcher
        */
-      const watcher = chokidar.watch(this.watchDir, {
+      const watcher = chokidar.watch(resolve(this.application.appRoot, this.watchDir), {
         cwd: process.cwd(),
         ignoreInitial: true,
       })
