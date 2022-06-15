@@ -56,7 +56,7 @@ export default class BuildClient extends BaseCommand {
    * Allows configuring the output directory
    */
   @flags.string({ description: 'Directory to output built files to' })
-  public outputDir: 'build-dir' | string | undefined
+  public outputDir: 'tsconfig-out-dir' | string | undefined
 
   /**
    * The Radonis config
@@ -64,7 +64,7 @@ export default class BuildClient extends BaseCommand {
   private config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
-   * The path to the entry file
+   * The entry file path
    */
   private get entryFilePath() {
     let {
@@ -79,9 +79,9 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * The path to the components directory
+   * The components directory path
    */
-  private get componentsDirPath() {
+  private get componentsDir() {
     const {
       client: { componentsDir },
     } = this.config
@@ -92,9 +92,9 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * The path to the output directory
+   * The output directory path
    */
-  private get environmentAwareOutputDirPath() {
+  private get environmentAwareOutputDir() {
     const {
       client: { outputDir },
     } = this.config
@@ -103,7 +103,10 @@ export default class BuildClient extends BaseCommand {
       return outputDir
     }
 
-    if (this.outputDir === 'adonis-build-dir') {
+    /**
+     * Resolve path using outDir from tsconfig
+     */
+    if (this.outputDir === 'tsconfig-out-dir') {
       const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
       const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
 
@@ -123,12 +126,12 @@ export default class BuildClient extends BaseCommand {
 
     this.logger.info(`building the client...`)
 
-    const components = discoverComponents(this.componentsDirPath)
+    const components = discoverComponents(this.componentsDir)
 
     const { buildManifest } = await buildEntryFileAndComponents(
       this.entryFilePath,
       components,
-      this.environmentAwareOutputDirPath,
+      this.environmentAwareOutputDir,
       !!this.production,
       buildOptions
     )
@@ -148,7 +151,7 @@ export default class BuildClient extends BaseCommand {
         JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
         { raw: true }
       )
-      .destinationDir(this.environmentAwareOutputDirPath)
+      .destinationDir(this.environmentAwareOutputDir)
       .appRoot(this.application.appRoot)
 
     /**
