@@ -19,6 +19,7 @@ import type {
   PropsHash,
   Route,
   Routes,
+  UniqueBetweenRequests,
   ValueOf,
 } from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
@@ -33,7 +34,7 @@ type BuilderConfig = {
   limitClientManifest: boolean
 }
 
-export class Builder implements Manifest {
+export class Builder implements Manifest, UniqueBetweenRequests {
   /**
    * The props registered with the Builder
    */

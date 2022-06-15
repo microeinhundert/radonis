@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, FlashMessages, UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
-export class FlashMessagesManager {
+export class FlashMessagesManager implements UniqueBetweenRequests {
   /**
    * The singleton instance
    */

@@ -9,6 +9,7 @@
 
 import type { HeadMeta, RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { separateArray } from '@microeinhundert/radonis-shared'
+import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
 /**
  * Build the title
@@ -20,7 +21,7 @@ function buildTitle(title: string, prefix: string, suffix: string, separator: st
   ).join(' ')
 }
 
-export class HeadManager {
+export class HeadManager implements UniqueBetweenRequests {
   /**
    * The page title
    */

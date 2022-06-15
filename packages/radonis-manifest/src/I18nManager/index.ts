@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import type { Locale, MessageIdentifier, Messages } from '@microeinhundert/radonis-types'
+import type { Locale, MessageIdentifier, Messages, UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
 import { DEFAULT_LOCALE } from './constants'
 
-export class I18nManager {
+export class I18nManager implements UniqueBetweenRequests {
   /**
    * The singleton instance
    */

@@ -150,10 +150,19 @@ export interface HydrationRequirements {
   routes: Set<RouteIdentifier>
 }
 
+/* ---------------------------------------- */
+
 /**
- * Utils
+ * Value of
  */
 export type ValueOf<T> = T[keyof T]
+
+/**
+ * Unique between requests
+ */
+export interface UniqueBetweenRequests {
+  prepareForNewRequest(): void
+}
 
 /* ---------------------------------------- */
 

@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteIdentifier, Routes } from '@microeinhundert/radonis-types'
+import type { RouteIdentifier, Routes, UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
-export class RoutesManager {
+export class RoutesManager implements UniqueBetweenRequests {
   /**
    * The singleton instance
    */
