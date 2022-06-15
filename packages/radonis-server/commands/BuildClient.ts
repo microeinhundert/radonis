@@ -106,7 +106,7 @@ export default class BuildClient extends BaseCommand {
       return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
     }
 
-    return this.outputDir || outputDir
+    return this.outputDir ? resolve(this.application.appRoot, this.outputDir) : outputDir
   }
 
   /**
