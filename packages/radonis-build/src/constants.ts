@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export const DEFAULT_EXPORT_ESM_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
-export const DEFAULT_EXPORT_CJS_REGEX = new RegExp(/exports.default\s+=\s+(function\s+)?(?<name>\w+)/g)
-
+export const DEFAULT_EXPORT_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
 export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(
   /\.(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>.+?)["']/g
 )

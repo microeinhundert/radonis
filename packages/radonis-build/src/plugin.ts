@@ -12,7 +12,7 @@ import type { Plugin } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 import { dirname } from 'path'
 
-import { DEFAULT_EXPORT_CJS_REGEX, DEFAULT_EXPORT_ESM_REGEX } from './constants'
+import { DEFAULT_EXPORT_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 
 const pluginsManager = PluginsManager.getInstance()
@@ -21,13 +21,9 @@ export const builtFiles = new Map<string, string>()
 /**
  * Inject the call to the hydrate function into the source code of a component
  */
-function injectHydrateCall(componentIdentifier: string, source: string, sourceType: 'esm' | 'cjs'): string {
+function injectHydrateCall(componentIdentifier: string, source: string): string {
   return `
-    ${
-      sourceType === 'esm'
-        ? `import { registerComponentForHydration } from "@microeinhundert/radonis";`
-        : 'const { registerComponentForHydration } = require("@microeinhundert/radonis");'
-    }
+    import { registerComponentForHydration } from "@microeinhundert/radonis";
     ${source}
     registerComponentForHydration("${componentIdentifier}", ${componentIdentifier});
   `
@@ -75,18 +71,10 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
           loader: getLoaderForFile(path),
         }
 
-        const [esmExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_ESM_REGEX)
-        if (esmExportMatch?.groups?.name) {
+        const [defaultExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_REGEX)
+        if (defaultExportMatch?.groups?.name) {
           return {
-            contents: injectHydrateCall(esmExportMatch.groups.name, componentSource, 'esm'),
-            ...loadOptions,
-          }
-        }
-
-        const [cjsExportMatch] = componentSource.matchAll(DEFAULT_EXPORT_CJS_REGEX)
-        if (cjsExportMatch?.groups?.name) {
-          return {
-            contents: injectHydrateCall(cjsExportMatch.groups.name, componentSource, 'cjs'),
+            contents: injectHydrateCall(defaultExportMatch.groups.name, componentSource),
             ...loadOptions,
           }
         }
