@@ -128,7 +128,9 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/HeadManager',
         'Adonis/Addons/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+      async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+        Router.commit()
+
         /**
          * Initialize the AssetsManager
          */
@@ -137,7 +139,7 @@ export default class RadonisProvider {
         /**
          * Set routes on the ManifestBuilder
          */
-        const routes = extractRootRoutes(Route)
+        const routes = extractRootRoutes(Router)
         ManifestBuilder.setRoutes(routes)
 
         /**
