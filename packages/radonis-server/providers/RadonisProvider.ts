@@ -9,10 +9,8 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
-import { isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
-import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 import {
   HydrationRoot,
@@ -24,23 +22,7 @@ import {
   useRouter,
   useSession,
 } from '../src/React'
-
-/**
- * Extract the root routes from a Router instance
- */
-export function extractRootRoutes(Router: RouterContract): Record<string, any> {
-  const rootRoutes = Router.toJSON()?.['root'] ?? []
-
-  return rootRoutes.reduce<Record<string, any>>((routes, route) => {
-    if (route.name) {
-      routes[route.name] = route.pattern
-    } else if (typeof route.handler === 'string') {
-      routes[route.handler] = route.pattern
-    }
-
-    return routes
-  }, {})
-}
+import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 
 export default class RadonisProvider {
   public static needsApplication = true
@@ -141,13 +123,12 @@ export default class RadonisProvider {
         'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
-        'Adonis/Addons/I18n',
         'Adonis/Addons/Radonis/ManifestBuilder',
         'Adonis/Addons/Radonis/AssetsManager',
         'Adonis/Addons/Radonis/HeadManager',
         'Adonis/Addons/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, I18n, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+      async (HttpContext, Application, Route, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         /**
          * Initialize the AssetsManager
          */
@@ -173,22 +154,6 @@ export default class RadonisProvider {
           },
           true
         )
-
-        if (!isProduction) {
-          const messagesForDefaultLocale = I18n.getTranslationsFor(I18n.defaultLocale)
-
-          /**
-           * Generate types
-           */
-          generateAndWriteTypesToDisk(
-            {
-              components: AssetsManager.components.all,
-              messages: Object.keys(messagesForDefaultLocale),
-              routes: Object.keys(routes),
-            },
-            Application.tmpPath('types')
-          )
-        }
       }
     )
   }

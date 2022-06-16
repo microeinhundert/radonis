@@ -124,6 +124,12 @@
           "propertyName": "outputDir",
           "type": "string",
           "description": "Directory to output built files to"
+        },
+        {
+          "name": "types-output-dir",
+          "propertyName": "typesOutputDir",
+          "type": "string",
+          "description": "Directory to output generated types to"
         }
       ]
     }

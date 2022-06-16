@@ -27,8 +27,8 @@ function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
   const identifiers = new Set<FlashMessageIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
+    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+      identifiers.add(match.groups.identifier.trim())
     }
   }
 
@@ -43,8 +43,8 @@ function extractMessages(source: string): Set<MessageIdentifier> {
   const identifiers = new Set<MessageIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
+    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+      identifiers.add(match.groups.identifier.trim())
     }
   }
 
@@ -59,8 +59,8 @@ function extractRoutes(source: string): Set<RouteIdentifier> {
   const identifiers = new Set<RouteIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier)
+    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+      identifiers.add(match.groups.identifier.trim())
     }
   }
 
@@ -130,7 +130,7 @@ export async function buildEntryFileAndComponents(
   outputDir: string,
   forProduction: boolean,
   buildOptions: BuildOptions
-): Promise<{ buildManifest: BuildManifest }> {
+): Promise<BuildManifest> {
   /**
    * Run the build
    */
@@ -161,7 +161,5 @@ export async function buildEntryFileAndComponents(
    */
   const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath)
 
-  return {
-    buildManifest,
-  }
+  return buildManifest
 }

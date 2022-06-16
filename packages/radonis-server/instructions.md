@@ -53,7 +53,7 @@ In order for the Radonis client build to run in parallel with the AdonisJS serve
   "scripts": {
     "dev": "concurrently 'npm:dev:*'",
     "dev:server": "node ace serve --watch",
-    "dev:client": "node ace build:client --watch-dir './resources/**/*.ts(x)?'",
+    "dev:client": "node ace build:client --types-output-dir './tmp/types' --watch-dir './resources/!(views)/**/*.ts(x)?'",
     "build": "concurrently 'npm:build:*'",
     "build:server": "node ace build --production",
     "build:client": "node ace build:client --production --output-dir tsconfig-out-dir"

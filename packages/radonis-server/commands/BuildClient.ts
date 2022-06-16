@@ -12,9 +12,12 @@ import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import { buildEntryFileAndComponents, discoverComponents } from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
+import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { parse, relative, resolve } from 'path'
+
+import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 
 /**
  * Yield a script path
@@ -57,6 +60,12 @@ export default class BuildClient extends BaseCommand {
    */
   @flags.string({ description: 'Directory to output built files to' })
   public outputDir: 'tsconfig-out-dir' | string | undefined
+
+  /**
+   * Allows configuring the types output directory
+   */
+  @flags.string({ description: 'Directory to output generated types to' })
+  public typesOutputDir: string | undefined
 
   /**
    * The Radonis config
@@ -124,23 +133,15 @@ export default class BuildClient extends BaseCommand {
       client: { buildOptions },
     } = this.config
 
-    this.logger.info(`building the client...`)
-
     const components = discoverComponents(this.componentsDir)
 
-    const { buildManifest } = await buildEntryFileAndComponents(
+    const buildManifest = await buildEntryFileAndComponents(
       this.entryFilePath,
       components,
       this.environmentAwareOutputDir,
       !!this.production,
       buildOptions
     )
-
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
 
     /**
      * Output the build manifest
@@ -155,16 +156,58 @@ export default class BuildClient extends BaseCommand {
       .appRoot(this.application.appRoot)
 
     /**
-     * Run the Generator
+     * Run the generator
      */
     await this.generator.run()
+
+    /**
+     * Output a log message after successful build
+     * (substracting by one to exclude the entry file)
+     */
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+  }
+
+  /**
+   * Generate TypeScript types for components, messages and routes
+   */
+  private generateTypes(): void {
+    /**
+     * Do not generate types when no output dir is set
+     */
+    if (!this.typesOutputDir) {
+      return
+    }
+
+    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
+    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
+    const AssetsManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/AssetsManager')
+
+    Router.commit()
+
+    /**
+     * Generate and output types
+     */
+    generateAndWriteTypesToDisk(
+      {
+        components: AssetsManager.components.all.map(({ identifier }) => identifier),
+        messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
+        routes: Object.keys(extractRootRoutes(Router)),
+      },
+      resolve(this.application.appRoot, this.typesOutputDir)
+    )
+
+    /**
+     * Output a log message after successful generation
+     */
+    this.logger.success('successfully generated types')
   }
 
   /**
    * Run the command
    */
-  public async run() {
+  public async run(): Promise<void> {
     await this.build()
+    this.generateTypes()
 
     if (this.watchDir) {
       /**
@@ -187,6 +230,7 @@ export default class BuildClient extends BaseCommand {
         })
         .on('all', async () => {
           await this.build()
+          this.generateTypes()
         })
     } else {
       this.exit()

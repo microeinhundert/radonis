@@ -37,10 +37,13 @@ export function isComponentFile(filePath: string): boolean {
  * Discover all components in a specific directory
  */
 export function discoverComponents(directory: string): Map<string, string> {
-  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).reduce<Map<string, string>>((acc, filePath) => {
-    const absoluteFilePath = join(directory, filePath)
-    return acc.set(absoluteFilePath, readFileSync(absoluteFilePath, 'utf8'))
-  }, new Map())
+  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).reduce<Map<string, string>>(
+    (components, componentPath) => {
+      const absoluteComponentPath = join(directory, componentPath)
+      return components.set(absoluteComponentPath, readFileSync(absoluteComponentPath, 'utf8'))
+    },
+    new Map<string, string>()
+  )
 }
 
 /**
