@@ -152,7 +152,7 @@ export default class RadonisProvider {
             AssetsManager.prepareForNewRequest()
             HeadManager.prepareForNewRequest()
 
-            return Renderer.getRendererForRequest(this, Application, Route)
+            return Renderer.getRendererForRequest(this, Application, Router)
           },
           true
         )
