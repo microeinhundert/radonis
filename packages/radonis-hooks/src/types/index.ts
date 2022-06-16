@@ -75,7 +75,7 @@ export interface MutationOptions<TInput, TData, TError> extends MutationHooks<TI
   throwOnFailure?: boolean
 
   /**
-   * If `true`, a failure in the mutation will cause the Hook to
+   * If `true`, a failure in the mutation will cause the hook to
    * throw at render time, making error boundaries catch the error.
    */
   useErrorBoundary?: boolean

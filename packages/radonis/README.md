@@ -559,7 +559,7 @@ async function storeComment({ postId, authorId, comment }: { postId: string; aut
     body: JSON.stringify({ authorId, comment }),
   })
 
-  if (!response.ok) throw new Error(res.statusText)
+  if (!response.ok) throw new Error(response.statusText)
 
   return response.json()
 }
