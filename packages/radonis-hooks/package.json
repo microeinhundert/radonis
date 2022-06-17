@@ -69,7 +69,6 @@
     "@microeinhundert/radonis-hydrate": "1.4.0",
     "@microeinhundert/radonis-shared": "1.4.0",
     "@microeinhundert/radonis-types": "1.4.0",
-    "use-safe-callback": "^1.0.2",
     "intl-messageformat": "^10.1.0",
     "tslib": "^2.4.0"
   }

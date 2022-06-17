@@ -131,10 +131,12 @@ export default class RadonisProvider {
       async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         Router.commit()
 
-        /**
-         * Initialize the AssetsManager
-         */
-        await AssetsManager.init()
+        if (Application.inProduction) {
+          /**
+           * Initialize the AssetsManager
+           */
+          await AssetsManager.init()
+        }
 
         /**
          * Set routes on the ManifestBuilder

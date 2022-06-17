@@ -27,7 +27,7 @@ function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
   const identifiers = new Set<FlashMessageIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+    if (match?.groups?.identifier) {
       identifiers.add(match.groups.identifier.trim())
     }
   }
@@ -43,7 +43,7 @@ function extractMessages(source: string): Set<MessageIdentifier> {
   const identifiers = new Set<MessageIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+    if (match?.groups?.identifier) {
       identifiers.add(match.groups.identifier.trim())
     }
   }
@@ -59,7 +59,7 @@ function extractRoutes(source: string): Set<RouteIdentifier> {
   const identifiers = new Set<RouteIdentifier>()
 
   for (const match of matches) {
-    if (match?.groups?.identifier && !match.groups.identifier.trim().includes(' ')) {
+    if (match?.groups?.identifier) {
       identifiers.add(match.groups.identifier.trim())
     }
   }
