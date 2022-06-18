@@ -118,10 +118,6 @@ export default class RadonisProvider {
   public async boot() {
     await this.pluginsManager.execute('onBootServer', null, null)
 
-    if (this.application.environment === 'console') {
-      return
-    }
-
     this.application.container.withBindings(
       [
         'Adonis/Core/HttpContext',
