@@ -55,7 +55,7 @@ export class AssetsManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Scan the previously output files
+   * Scan the built files
    */
   private scanBuiltFiles(): void {
     const { outputDir } = this.config.client
