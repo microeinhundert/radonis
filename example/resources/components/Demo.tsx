@@ -1,5 +1,5 @@
 import { useI18n } from '@microeinhundert/radonis'
-import React from 'react'
+import React, { useState } from 'react'
 
 interface DemoProps {
   name?: string
@@ -8,6 +8,7 @@ interface DemoProps {
 
 function Demo({ name, text }: DemoProps) {
   const i18n = useI18n()
+  const [clicked, setClicked] = useState(false)
 
   return (
     <div className="max-w-lg p-8">
@@ -17,6 +18,10 @@ function Demo({ name, text }: DemoProps) {
           : i18n.formatMessage('general.welcome')}
       </h1>
       <p>{text}</p>
+      <button type="button" onClick={() => setClicked(true)}>
+        Test
+      </button>
+      {clicked && <p className="text-green-500">Clicked</p>}
     </div>
   )
 }

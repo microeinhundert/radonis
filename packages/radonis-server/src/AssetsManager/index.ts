@@ -63,7 +63,7 @@ export class AssetsManager implements UniqueBetweenRequests {
 
     fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
       const absoluteFilePath = join(outputDir, filePath)
-      this.pluginsManager.execute('onScanFile', null, [absoluteFilePath, readFileSync(absoluteFilePath, 'utf8')])
+      this.pluginsManager.execute('onScanFile', null, [readFileSync(absoluteFilePath, 'utf8'), absoluteFilePath])
     })
   }
 
