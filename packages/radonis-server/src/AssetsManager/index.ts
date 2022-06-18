@@ -74,10 +74,17 @@ export class AssetsManager implements UniqueBetweenRequests {
 
     const buildManifest = await readBuildManifestFromDisk(outputDir)
 
-    if (buildManifest) {
+    if (!buildManifest) {
+      this.assetsManifest = []
+      return
+    }
+
+    try {
       const assetsManifest = await generateAssetsManifest(buildManifest)
       this.assetsManifest = assetsManifest
       this.scanBuiltFiles()
+    } catch {
+      this.assetsManifest = []
     }
   }
 
