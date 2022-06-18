@@ -117,11 +117,11 @@ export default class RadonisProvider {
    * Boot
    */
   public async boot() {
+    await this.pluginsManager.execute('onBootServer', null, null)
+
     if (this.application.environment === 'console') {
       return
     }
-
-    await this.pluginsManager.execute('onBootServer', null, null)
 
     this.application.container.withBindings(
       [
