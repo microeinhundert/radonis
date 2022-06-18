@@ -9,7 +9,6 @@
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
 import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 
@@ -134,22 +133,12 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
-        const radonisConfig: RadonisConfig = Application.config.get('radonis', {})
-        const { outputDir } = radonisConfig.client
-
-        Router.commit()
-
-        /**
-         * Initialize the AssetsManager
-         */
-        const buildManifest = await readBuildManifestFromDisk(outputDir)
-        await AssetsManager.init(buildManifest ?? {})
+        await AssetsManager.readBuildManifest()
 
         /**
          * Set routes on the ManifestBuilder
          */
-        const routes = extractRootRoutes(Router)
-        ManifestBuilder.setRoutes(routes)
+        ManifestBuilder.setRoutes(extractRootRoutes(Router))
 
         /**
          * Define getter

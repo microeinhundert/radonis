@@ -167,6 +167,14 @@ export class Renderer {
     options?: RenderOptions
   ): Promise<string> {
     /**
+     * Re-read the build manifest on every
+     * render when not in production
+     */
+    if (!this.context.application.inProduction) {
+      await this.assetsManager.readBuildManifest()
+    }
+
+    /**
      * Set the title on the HeadManager
      */
     if (options?.title) {

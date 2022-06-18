@@ -8,7 +8,8 @@
  */
 
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
-import type { AssetsManifest, BuildManifest } from '@microeinhundert/radonis-build'
+import type { AssetsManifest } from '@microeinhundert/radonis-build'
+import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
 import { generateAssetsManifest } from '@microeinhundert/radonis-build'
 import { extractRequiredAssets } from '@microeinhundert/radonis-build'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
@@ -68,10 +69,13 @@ export class AssetsManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Initialize
+   * Read the build manifest
    */
-  public async init(buildManifest: BuildManifest): Promise<void> {
-    const assetsManifest = await generateAssetsManifest(buildManifest)
+  public async readBuildManifest(): Promise<void> {
+    const { outputDir } = this.config.client
+
+    const buildManifest = await readBuildManifestFromDisk(outputDir)
+    const assetsManifest = await generateAssetsManifest(buildManifest ?? {})
 
     this.assetsManifest = assetsManifest
   }

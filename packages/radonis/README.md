@@ -4,6 +4,8 @@
 
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
+This package is similar to [Inertia.js](https://inertiajs.com/), but does not offload all the rendering work to the client.
+It's like a traditional monolythic application architecture with modern, SPA-like DX.
 
 **Features:**
 
