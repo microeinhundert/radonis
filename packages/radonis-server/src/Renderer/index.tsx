@@ -14,7 +14,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
+import { generateHTMLAttributesString, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Globals, Locale, Route } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
@@ -62,23 +62,30 @@ export class Renderer {
   ) {}
 
   /**
-   * Inject head
+   * Inject closing head
    */
-  private injectHead(html: string): string {
+  private injectClosingHead(html: string): string {
     const target = '</head>'
 
     return html.replace(target, [this.headManager.getTags(), target].join('\n'))
   }
 
   /**
-   * Inject scripts
+   * Inject closing body
    */
-  private injectScripts(html: string): string {
+  private injectClosingBody(html: string): string {
     const target = '</body>'
 
     const scriptTags = this.assetsManager.components.requiredForHydration.map((asset) => {
       this.hydrationManager.requireAssetForHydration(asset)
-      return `<script type="module" defer src="${asset.path}"></script>`
+
+      const attributes = {
+        type: 'module',
+        defer: true,
+        src: asset.path,
+      }
+
+      return `<script ${generateHTMLAttributesString(attributes)}></script>`
     })
 
     return html.replace(
@@ -211,14 +218,14 @@ export class Renderer {
     let html = renderToString(<StrictMode>{tree}</StrictMode>)
 
     /**
-     * Inject head
+     * Inject closing head
      */
-    html = this.injectHead(html)
+    html = this.injectClosingHead(html)
 
     /**
-     * Inject scripts
+     * Inject closing body
      */
-    html = this.injectScripts(html)
+    html = this.injectClosingBody(html)
 
     /**
      * Execute `afterRender` hooks
