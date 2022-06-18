@@ -9,8 +9,8 @@ It's like a traditional monolythic application architecture with modern, SPA-lik
 
 **Features:**
 
-- Render React views directly from AdonisJS routes and controllers
-- Partially hydrate only the components that require interactivity on the client (Islands Architecture)
+- Renders React views directly from AdonisJS routes and controllers
+- Partially hydrates only the components that require interactivity on the client (Islands Architecture)
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server
 - Ships with a compiler powered by [esbuild](https://esbuild.github.io/), no Webpack Encore required
 
@@ -24,9 +24,9 @@ It's like a traditional monolythic application architecture with modern, SPA-lik
 
 ## Getting Started
 
-### 1. Install the package
+### 1. Install the packages
 
-Install the package from your command line:
+Install the packages from your command line:
 
 ```console
 npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
@@ -38,40 +38,21 @@ npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
 node ace configure @microeinhundert/radonis-server
 ```
 
-### 3. Install required AdonisJS addons
+### 3. Configure AdonisJS addons
 
-Install and configure the required AdonisJS addons if not already done:
+Configure the required AdonisJS addons if not already done:
 
 ```console
-npm install --save @adonisjs/i18n
 node ace configure @adonisjs/i18n
 ```
 
 and
 
 ```console
-npm install --save @adonisjs/session
 node ace configure @adonisjs/session
 ```
 
-### 4. Install React
-
-```console
-npm install --save react react-dom
-npm install --save-dev @types/react @types/react-dom
-```
-
-### 5. Configure TypeScript
-
-Add the following to the `compilerOptions` object of your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "jsx": "react"
-  }
-}
-```
+### 4. Register generated types (optional)
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
@@ -80,29 +61,6 @@ For additional type safety, add the dynamically generated Radonis types to the `
   "exclude": ["tmp"],
   "files": ["./tmp/types/radonis.d.ts"]
 }
-```
-
-### 6. Replace package scripts
-
-In order for the Radonis client build to run in parallel with the AdonisJS server build, replace the existing `dev` and `build` scripts in your `package.json` file with the following scripts:
-
-```json
-{
-  "scripts": {
-    "dev": "concurrently 'npm:dev:*'",
-    "dev:client": "node ace build:client --types-output-dir './tmp/types' --watch-dir './resources/!(views)/**/*.ts(x)?'",
-    "dev:server": "node ace serve --watch",
-    "build": "concurrently 'npm:build:*'",
-    "build:client": "node ace build:client --production --output-dir tsconfig-out-dir",
-    "build:server": "node ace build --production"
-  }
-}
-```
-
-And install `concurrently`:
-
-```console
-npm install --save-dev concurrently
 ```
 
 ## Server-Side Templating

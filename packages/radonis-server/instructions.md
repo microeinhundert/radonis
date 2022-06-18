@@ -1,39 +1,20 @@
-The package has been configured successfully.
+Follow the following steps to finalize the installation:
 
-## Install required AdonisJS addons
+## Configure AdonisJS addons
 
-Install and configure the required AdonisJS addons if not already done:
+Configure the required AdonisJS addons if not already done:
 
 ```console
-npm install --save @adonisjs/i18n
 node ace configure @adonisjs/i18n
 ```
 
 and
 
 ```console
-npm install --save @adonisjs/session
 node ace configure @adonisjs/session
 ```
 
-## Install React
-
-```console
-npm install --save react react-dom
-npm install --save-dev @types/react @types/react-dom
-```
-
-## Configure TypeScript
-
-Add the following to the `compilerOptions` object of your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "jsx": "react"
-  }
-}
-```
+## Register generated types (optional)
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
@@ -42,27 +23,4 @@ For additional type safety, add the dynamically generated Radonis types to the `
   "exclude": ["tmp"],
   "files": ["./tmp/types/radonis.d.ts"]
 }
-```
-
-### Replace package scripts
-
-In order for the Radonis client build to run in parallel with the AdonisJS server build, replace the existing `dev` and `build` scripts in your `package.json` file with the following scripts:
-
-```json
-{
-  "scripts": {
-    "dev": "concurrently 'npm:dev:*'",
-    "dev:client": "node ace build:client --types-output-dir './tmp/types' --watch-dir './resources/!(views)/**/*.ts(x)?'",
-    "dev:server": "node ace serve --watch",
-    "build": "concurrently 'npm:build:*'",
-    "build:client": "node ace build:client --production --output-dir tsconfig-out-dir",
-    "build:server": "node ace build --production"
-  }
-}
-```
-
-And install `concurrently`:
-
-```console
-npm install --save-dev concurrently
 ```
