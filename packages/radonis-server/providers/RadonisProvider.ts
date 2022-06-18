@@ -133,7 +133,9 @@ export default class RadonisProvider {
         'Adonis/Addons/Radonis/Renderer',
       ],
       async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
-        await AssetsManager.readBuildManifest()
+        if (Application.inProduction) {
+          await AssetsManager.readBuildManifest()
+        }
 
         /**
          * Set routes on the ManifestBuilder
