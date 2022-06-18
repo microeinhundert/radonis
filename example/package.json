@@ -1,6 +1,6 @@
 {
   "name": "radonis-example-app",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "dev": "concurrently 'npm:dev:*'",
@@ -15,26 +15,26 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^5.7.0",
-    "@japa/preset-adonis": "^1.0.16",
-    "@japa/runner": "^2.0.8",
-    "@types/react": "^18.0.12",
+    "@adonisjs/assembler": "^5.8.0",
+    "@japa/preset-adonis": "^1.1.0",
+    "@japa/runner": "^2.0.9",
+    "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
-    "openapi-types": "^11.0.1",
-    "pino-pretty": "^7.6.1",
+    "openapi-types": "^12.0.0",
+    "pino-pretty": "^8.0.0",
     "youch": "^3.2.0",
     "youch-terminal": "^2.1.4",
-    "concurrently": "^7.2.1"
+    "concurrently": "^7.2.2"
   },
   "dependencies": {
     "@adonisjs/core": "^5.8.3",
     "@adonisjs/repl": "^3.1.11",
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/shield": "^7.0.11",
-    "@microeinhundert/radonis": "^1.4.0",
-    "@microeinhundert/radonis-server": "^1.4.0",
-    "@microeinhundert/radonis-twind": "^1.4.0",
-    "@microeinhundert/radonis-unocss": "^1.4.0",
+    "@microeinhundert/radonis": "^1.4.1",
+    "@microeinhundert/radonis-server": "^1.4.1",
+    "@microeinhundert/radonis-twind": "^1.4.1",
+    "@microeinhundert/radonis-unocss": "^1.4.1",
     "proxy-addr": "^2.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
