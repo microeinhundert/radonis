@@ -10,6 +10,7 @@
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { readFile } from 'fs/promises'
+import { outputFile } from 'fs-extra'
 import { join, parse } from 'path'
 
 import type { BuildManifest } from './types'
@@ -56,4 +57,11 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
   } catch {
     return null
   }
+}
+
+/**
+ * Write the build manifest to disk
+ */
+export function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): void {
+  outputFile(join(directory, 'build-manifest.json'), JSON.stringify(buildManifest, null, 2))
 }

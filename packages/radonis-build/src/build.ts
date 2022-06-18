@@ -149,7 +149,11 @@ export async function buildEntryFileAndComponents(
     ...buildOptions,
     loader: { ...loaders, ...(buildOptions.loader ?? {}) },
     plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],
-    external: ['@microeinhundert/radonis-manifest', '@microeinhundert/radonis-build', ...(buildOptions.external ?? [])],
+    external: [
+      '@microeinhundert/radonis-manifest',
+      '@microeinhundert/radonis-server',
+      ...(buildOptions.external ?? []),
+    ],
     define: {
       'process.env.NODE_ENV': forProduction ? '"production"' : '"development"',
       ...(buildOptions.define ?? {}),

@@ -10,7 +10,11 @@
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
-import { buildEntryFileAndComponents, discoverComponents } from '@microeinhundert/radonis-build'
+import {
+  buildEntryFileAndComponents,
+  discoverComponents,
+  writeBuildManifestToDisk,
+} from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
 import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
 import chokidar from 'chokidar'
@@ -144,21 +148,9 @@ export default class BuildClient extends BaseCommand {
     )
 
     /**
-     * Output the build manifest
+     * Write the build manifest
      */
-    this.generator
-      .addFile('build-manifest', { extname: '.json' })
-      .stub(
-        JSON.stringify(buildManifest, (_, value) => (value instanceof Set ? [...value] : value), 2),
-        { raw: true }
-      )
-      .destinationDir(this.environmentAwareOutputDir)
-      .appRoot(this.application.appRoot)
-
-    /**
-     * Run the generator
-     */
-    await this.generator.run()
+    writeBuildManifestToDisk(buildManifest, this.environmentAwareOutputDir)
 
     /**
      * Output a log message after successful build
