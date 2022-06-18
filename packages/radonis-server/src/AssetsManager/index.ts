@@ -37,9 +37,7 @@ export class AssetsManager implements UniqueBetweenRequests {
   /**
    * Constructor
    */
-  constructor(private config: Pick<RadonisConfig, 'client'>) {
-    this.scanFiles()
-  }
+  constructor(private config: Pick<RadonisConfig, 'client'>) {}
 
   /**
    * The components
@@ -59,7 +57,7 @@ export class AssetsManager implements UniqueBetweenRequests {
   /**
    * Scan the previously output files
    */
-  private scanFiles(): void {
+  private scanBuiltFiles(): void {
     const { outputDir } = this.config.client
 
     fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
@@ -75,9 +73,12 @@ export class AssetsManager implements UniqueBetweenRequests {
     const { outputDir } = this.config.client
 
     const buildManifest = await readBuildManifestFromDisk(outputDir)
-    const assetsManifest = await generateAssetsManifest(buildManifest ?? {})
 
-    this.assetsManifest = assetsManifest
+    if (buildManifest) {
+      const assetsManifest = await generateAssetsManifest(buildManifest)
+      this.assetsManifest = assetsManifest
+      this.scanBuiltFiles()
+    }
   }
 
   /**
