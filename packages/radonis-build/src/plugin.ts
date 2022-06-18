@@ -51,7 +51,7 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
   setup(build) {
     build.onStart(async () => {
       builtFiles.clear()
-      await emptyDir(build.initialOptions.outdir)
+      await emptyDir(build.initialOptions.outdir!)
     })
 
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
