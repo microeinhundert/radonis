@@ -53,6 +53,7 @@ export function discoverComponents(directory: string): Map<string, string> {
 export async function readBuildManifestFromDisk(directory: string): Promise<BuildManifest | null> {
   try {
     const fileContents = await readFile(join(directory, 'build-manifest.json'), 'utf-8')
+
     return JSON.parse(fileContents)
   } catch {
     return null

@@ -22,7 +22,7 @@ import { stripPublicDir } from './utils'
 /**
  * Extract identifiers from usages of `.has(Error)?` and `.get(Error)?` from the source code
  */
-function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
+function extractFlashMessages(source: string): FlashMessageIdentifier[] {
   const matches = source.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
   const identifiers = new Set<FlashMessageIdentifier>()
 
@@ -32,13 +32,13 @@ function extractFlashMessages(source: string): Set<FlashMessageIdentifier> {
     }
   }
 
-  return identifiers
+  return Array.from(identifiers)
 }
 
 /**
  * Extract identifiers from usages of `.formatMessage` from the source code
  */
-function extractMessages(source: string): Set<MessageIdentifier> {
+function extractMessages(source: string): MessageIdentifier[] {
   const matches = source.matchAll(MESSAGE_IDENTIFIER_REGEX)
   const identifiers = new Set<MessageIdentifier>()
 
@@ -48,13 +48,13 @@ function extractMessages(source: string): Set<MessageIdentifier> {
     }
   }
 
-  return identifiers
+  return Array.from(identifiers)
 }
 
 /**
  * Extract identifiers from usages of `.make` as well as specific component props from the source code
  */
-function extractRoutes(source: string): Set<RouteIdentifier> {
+function extractRoutes(source: string): RouteIdentifier[] {
   const matches = source.matchAll(ROUTE_IDENTIFIER_REGEX)
   const identifiers = new Set<RouteIdentifier>()
 
@@ -64,7 +64,7 @@ function extractRoutes(source: string): Set<RouteIdentifier> {
     }
   }
 
-  return identifiers
+  return Array.from(identifiers)
 }
 
 /**

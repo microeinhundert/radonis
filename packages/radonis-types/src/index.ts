@@ -145,9 +145,9 @@ export type Manifest = {
  * Hydration requirements
  */
 export interface HydrationRequirements {
-  flashMessages: Set<FlashMessageIdentifier>
-  messages: Set<MessageIdentifier>
-  routes: Set<RouteIdentifier>
+  flashMessages: FlashMessageIdentifier[]
+  messages: MessageIdentifier[]
+  routes: RouteIdentifier[]
 }
 
 /* ---------------------------------------- */

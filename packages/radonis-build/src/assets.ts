@@ -65,15 +65,15 @@ function reduceHydrationRequirements(
       ])
 
       return {
-        flashMessages: mergedFlashMessages,
-        messages: mergedMessages,
-        routes: mergedRoutes,
+        flashMessages: Array.from(mergedFlashMessages),
+        messages: Array.from(mergedMessages),
+        routes: Array.from(mergedRoutes),
       }
     },
     initialRequirements ?? {
-      flashMessages: new Set(),
-      messages: new Set(),
-      routes: new Set(),
+      flashMessages: [],
+      messages: [],
+      routes: [],
     }
   )
 }
