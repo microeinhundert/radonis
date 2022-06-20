@@ -9,7 +9,7 @@
 
 declare module '@ioc:Adonis/Core/HttpContext' {
   import type { Globals } from '@microeinhundert/radonis-types'
-  import type { HeadMeta, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
+  import type { HeadMeta, RenderOptions } from '@ioc:Microeinhundert/Radonis'
   import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 
   interface RadonisContract {

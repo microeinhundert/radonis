@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { AssetsManifest } from '@microeinhundert/radonis-build'
 import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
 import { generateAssetsManifest } from '@microeinhundert/radonis-build'

@@ -9,7 +9,7 @@
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
-import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import {
   buildEntryFileAndComponents,
   discoverComponents,
@@ -172,7 +172,7 @@ export default class BuildClient extends BaseCommand {
 
     const Router = this.application.container.resolveBinding('Adonis/Core/Route')
     const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-    const AssetsManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/AssetsManager')
+    const AssetsManager = this.application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
 
     Router.commit()
 

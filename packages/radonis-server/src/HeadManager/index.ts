@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta, RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import type { HeadMeta, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { generateHTMLAttributesString, separateArray } from '@microeinhundert/radonis-shared'
 import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 

@@ -7,17 +7,20 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '@microeinhundert/radonis-shared'
+import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
+import { emptyDir, outputFile } from 'fs-extra'
 import { join, parse } from 'path'
 
 import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
 import { loaders } from './loaders'
-import { builtFiles, radonisClientPlugin } from './plugin'
+import { radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry } from './types'
 import { stripPublicDir } from './utils'
+
+const pluginsManager = PluginsManager.getInstance()
 
 /**
  * Extract identifiers from usages of `.has(Error)?` and `.get(Error)?` from the source code
@@ -70,7 +73,12 @@ function extractRoutes(source: string): RouteIdentifier[] {
 /**
  * Walk the esbuild generated metafile and generate the build manifest entries
  */
-function walkMetafile(metafile: Metafile, path: string, type?: BuildManifestEntry['type']): BuildManifestEntry {
+function walkMetafile(
+  metafile: Metafile,
+  path: string,
+  builtFiles: Map<string, string>,
+  type?: BuildManifestEntry['type']
+): BuildManifestEntry {
   const output = metafile.outputs[path]
 
   invariant(output, `Could not find metafile output entry for path "${path}"`)
@@ -85,14 +93,18 @@ function walkMetafile(metafile: Metafile, path: string, type?: BuildManifestEntr
     flashMessages: extractFlashMessages(builtFileSource),
     messages: extractMessages(builtFileSource),
     routes: extractRoutes(builtFileSource),
-    imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$)),
+    imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$, builtFiles)),
   }
 }
 
 /**
  * Generate the build manifest
  */
-function generateBuildManifest(metafile: Metafile, entryFilePath: string): BuildManifest {
+function generateBuildManifest(
+  metafile: Metafile,
+  entryFilePath: string,
+  builtFiles: Map<string, string>
+): BuildManifest {
   const { name: entryFileName } = parse(entryFilePath)
   const buildManifest = {} as BuildManifest
 
@@ -115,7 +127,12 @@ function generateBuildManifest(metafile: Metafile, entryFilePath: string): Build
       Please make sure to not use the same name for multiple components`
     )
 
-    buildManifest[fileName] = walkMetafile(metafile, path, fileName === entryFileName ? 'entry' : 'component')
+    buildManifest[fileName] = walkMetafile(
+      metafile,
+      path,
+      builtFiles,
+      fileName === entryFileName ? 'entry' : 'component'
+    )
   }
 
   return buildManifest
@@ -131,6 +148,11 @@ export async function buildEntryFileAndComponents(
   forProduction: boolean,
   buildOptions: BuildOptions
 ): Promise<BuildManifest> {
+  /**
+   * Empty the output directory
+   */
+  await emptyDir(outputDir)
+
   /**
    * Run the build
    */
@@ -160,10 +182,19 @@ export async function buildEntryFileAndComponents(
     },
   })
 
+  const builtFiles = new Map<string, string>()
+
+  for (const { path, text } of buildResult.outputFiles ?? []) {
+    builtFiles.set(path, text)
+    outputFile(path, Buffer.from(await pluginsManager.execute('beforeOutput', text, null)))
+  }
+
+  await pluginsManager.execute('afterOutput', null, builtFiles)
+
   /**
    * Generate the build manifest
    */
-  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath)
+  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath, builtFiles)
 
   return buildManifest
 }

@@ -15,9 +15,9 @@ import type { Renderer } from '../src/Renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {
-    'Adonis/Addons/Radonis/ManifestBuilder': ManifestBuilder
-    'Adonis/Addons/Radonis/AssetsManager': AssetsManager
-    'Adonis/Addons/Radonis/HeadManager': HeadManager
-    'Adonis/Addons/Radonis/Renderer': Renderer
+    'Microeinhundert/Radonis/ManifestBuilder': ManifestBuilder
+    'Microeinhundert/Radonis/AssetsManager': AssetsManager
+    'Microeinhundert/Radonis/HeadManager': HeadManager
+    'Microeinhundert/Radonis/Renderer': Renderer
   }
 }

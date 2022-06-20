@@ -7,16 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
+import { invariant } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
-import { emptyDir, outputFile } from 'fs-extra'
 import { dirname } from 'path'
 
 import { DEFAULT_EXPORT_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
-
-const pluginsManager = PluginsManager.getInstance()
-export const builtFiles = new Map<string, string>()
 
 /**
  * Inject the call to the hydrate function into the source code of a component
@@ -49,11 +45,6 @@ function warnAboutMissingDefaultExport(path: string) {
 export const radonisClientPlugin = (components: Map<string, string>): Plugin => ({
   name: 'radonis-client',
   setup(build) {
-    build.onStart(async () => {
-      builtFiles.clear()
-      await emptyDir(build.initialOptions.outdir!)
-    })
-
     build.onResolve({ filter: /\.(ts(x)?|js(x)?)$/ }, ({ path }) => {
       if (components.has(path)) {
         return { path, namespace: 'radonis-client-component' }
@@ -91,19 +82,6 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
           ],
         }
       }
-    })
-
-    build.onEnd(async (result) => {
-      if (!result.outputFiles?.length) {
-        return
-      }
-
-      for (const { path, text } of result.outputFiles) {
-        builtFiles.set(path, text)
-        outputFile(path, Buffer.from(await pluginsManager.execute('beforeOutput', text, null)))
-      }
-
-      await pluginsManager.execute('afterOutput', null, builtFiles)
     })
   },
 })

@@ -8,10 +8,10 @@
  */
 
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
-import type { AdonisContextContract, HeadMeta, RenderOptions } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
+import type { AdonisContextContract, HeadMeta, RenderOptions } from '@ioc:Microeinhundert/Radonis'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { generateHTMLAttributesString, PluginsManager } from '@microeinhundert/radonis-shared'

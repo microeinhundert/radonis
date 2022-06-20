@@ -100,7 +100,7 @@ Route.get('/signUp', async ({ radonis }) => {
 To modify the `<head>` of a page, use the `useHead` hook in your views:
 
 ```tsx
-import { useHead } from '@ioc:Adonis/Addons/Radonis'
+import { useHead } from '@ioc:Microeinhundert/Radonis'
 
 function View() {
   const head = useHead()
@@ -197,7 +197,7 @@ Radonis uses partial hydration, which only hydrates parts of the page that requi
 In order for Radonis to know what to hydrate on the client, wrap the individual components with the _HydrationRoot_ component:
 
 ```tsx
-import { HydrationRoot } from '@ioc:Adonis/Addons/Radonis'
+import { HydrationRoot } from '@ioc:Microeinhundert/Radonis'
 
 function ServerRenderedComponent() {
   return (
@@ -548,7 +548,7 @@ interface AdonisContextContract {
 Usage:
 
 ```typescript
-import { useAdonis } from '@ioc:Adonis/Addons/Radonis'
+import { useAdonis } from '@ioc:Microeinhundert/Radonis'
 
 const adonis = useAdonis()
 ```
@@ -558,7 +558,7 @@ const adonis = useAdonis()
 Returns the AdonisJS _ApplicationContract_.
 
 ```typescript
-import { useApplication } from '@ioc:Adonis/Addons/Radonis'
+import { useApplication } from '@ioc:Microeinhundert/Radonis'
 
 const application = useApplication()
 ```
@@ -568,7 +568,7 @@ const application = useApplication()
 Returns the AdonisJS _HttpContextContract_.
 
 ```typescript
-import { useHttpContext } from '@ioc:Adonis/Addons/Radonis'
+import { useHttpContext } from '@ioc:Microeinhundert/Radonis'
 
 const httpContext = useHttpContext()
 ```
@@ -578,7 +578,7 @@ const httpContext = useHttpContext()
 Returns the AdonisJS _RequestContract_.
 
 ```typescript
-import { useRequest } from '@ioc:Adonis/Addons/Radonis'
+import { useRequest } from '@ioc:Microeinhundert/Radonis'
 
 const request = useRequest()
 ```
@@ -588,7 +588,7 @@ const request = useRequest()
 Returns the AdonisJS _RouterContract_.
 
 ```typescript
-import { useRouter } from '@ioc:Adonis/Addons/Radonis'
+import { useRouter } from '@ioc:Microeinhundert/Radonis'
 
 const router = useRouter()
 ```
@@ -598,7 +598,7 @@ const router = useRouter()
 Returns the AdonisJS _SessionContract_.
 
 ```typescript
-import { useSession } from '@ioc:Adonis/Addons/Radonis'
+import { useSession } from '@ioc:Microeinhundert/Radonis'
 
 const session = useSession()
 ```

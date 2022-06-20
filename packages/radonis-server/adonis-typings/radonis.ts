@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-declare module '@ioc:Adonis/Addons/Radonis' {
+declare module '@ioc:Microeinhundert/Radonis' {
   import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
   import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import type { RequestContract } from '@ioc:Adonis/Core/Request'

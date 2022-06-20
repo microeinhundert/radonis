@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import type { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 
@@ -51,7 +51,7 @@ export default class RadonisProvider {
     /**
      * ManifestBuilder
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/ManifestBuilder', () => {
+    this.application.container.singleton('Microeinhundert/Radonis/ManifestBuilder', () => {
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
       const flashMessagesManager = FlashMessagesManager.getInstance()
@@ -66,7 +66,7 @@ export default class RadonisProvider {
     /**
      * AssetsManager
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/AssetsManager', () => {
+    this.application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
       const { AssetsManager } = require('../src/AssetsManager')
 
       return new AssetsManager(radonisConfig)
@@ -75,7 +75,7 @@ export default class RadonisProvider {
     /**
      * HeadManager
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/HeadManager', () => {
+    this.application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
       const { HeadManager } = require('../src/HeadManager')
 
       return new HeadManager(radonisConfig)
@@ -84,11 +84,11 @@ export default class RadonisProvider {
     /**
      * Renderer
      */
-    this.application.container.singleton('Adonis/Addons/Radonis/Renderer', () => {
+    this.application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
       const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-      const AssetsManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/AssetsManager')
-      const HeadManager = this.application.container.resolveBinding('Adonis/Addons/Radonis/HeadManager')
-      const ManifestBuilder = this.application.container.resolveBinding('Adonis/Addons/Radonis/ManifestBuilder')
+      const AssetsManager = this.application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
+      const HeadManager = this.application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
+      const ManifestBuilder = this.application.container.resolveBinding('Microeinhundert/Radonis/ManifestBuilder')
 
       const { Renderer } = require('../src/Renderer')
 
@@ -98,7 +98,7 @@ export default class RadonisProvider {
     /**
      * Main
      */
-    this.application.container.singleton('Adonis/Addons/Radonis', () => {
+    this.application.container.singleton('Microeinhundert/Radonis', () => {
       return {
         useAdonis,
         useApplication,
@@ -123,10 +123,10 @@ export default class RadonisProvider {
         'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
-        'Adonis/Addons/Radonis/ManifestBuilder',
-        'Adonis/Addons/Radonis/AssetsManager',
-        'Adonis/Addons/Radonis/HeadManager',
-        'Adonis/Addons/Radonis/Renderer',
+        'Microeinhundert/Radonis/ManifestBuilder',
+        'Microeinhundert/Radonis/AssetsManager',
+        'Microeinhundert/Radonis/HeadManager',
+        'Microeinhundert/Radonis/Renderer',
       ],
       async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         await AssetsManager.readBuildManifest()

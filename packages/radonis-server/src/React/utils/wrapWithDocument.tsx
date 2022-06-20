@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AdonisContextContract } from '@ioc:Adonis/Addons/Radonis'
+import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
 import React from 'react'

@@ -1,4 +1,4 @@
-import { RadonisConfig } from '@ioc:Adonis/Addons/Radonis'
+import { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import Application from '@ioc:Adonis/Core/Application'
 import { unocssPlugin } from '@microeinhundert/radonis-unocss'
 
