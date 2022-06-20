@@ -124,7 +124,7 @@ function generateBuildManifest(
     invariant(
       !(fileName in buildManifest),
       `A build manifest entry for "${fileName}" already exists.
-      Please make sure to not use the same name for multiple components`
+      Please make sure to not use the same name for multiple components, regardless of what directory they are in`
     )
 
     buildManifest[fileName] = walkMetafile(
@@ -184,9 +184,9 @@ export async function buildEntryFileAndComponents(
 
   const builtFiles = new Map<string, string>()
 
-  for (const { path, text } of buildResult.outputFiles ?? []) {
+  for (const { path, text, contents } of buildResult.outputFiles ?? []) {
     builtFiles.set(path, text)
-    outputFile(path, Buffer.from(await pluginsManager.execute('beforeOutput', text, null)))
+    outputFile(path, contents)
   }
 
   await pluginsManager.execute('afterOutput', null, builtFiles)
