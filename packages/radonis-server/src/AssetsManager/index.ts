@@ -48,9 +48,13 @@ export class AssetsManager implements UniqueBetweenRequests {
   } {
     return {
       all: this.assetsManifest.filter(({ type }) => type === 'component'),
-      requiredForHydration: extractRequiredAssets(this.assetsManifest, {
-        components: this.componentsRequiredForHydration,
-      }),
+      requiredForHydration: extractRequiredAssets(
+        this.assetsManifest,
+        {
+          components: this.componentsRequiredForHydration,
+        },
+        !this.config.client.alwaysIncludeEntryFile
+      ),
     }
   }
 

@@ -16,9 +16,10 @@ import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
  */
 export function extractRequiredAssets(
   assetsManifest: AssetsManifest,
-  requiredAssets: { components: Set<ComponentIdentifier> }
+  requiredAssets: { components: Set<ComponentIdentifier> },
+  canOmitEntryFile?: boolean
 ): AssetsManifest {
-  return assetsManifest.reduce<AssetsManifest>((assets, asset) => {
+  const extractedAssets = assetsManifest.reduce<AssetsManifest>((assets, asset) => {
     /**
      * Always include the entry file
      */
@@ -35,6 +36,15 @@ export function extractRequiredAssets(
 
     return assets
   }, [])
+
+  /**
+   * Return no assets if the entry file is the only asset and `canOmitEntryFile` is true
+   */
+  if (extractedAssets.length === 1 && extractedAssets[0].type === 'entry' && canOmitEntryFile) {
+    return []
+  }
+
+  return extractedAssets
 }
 
 /**
