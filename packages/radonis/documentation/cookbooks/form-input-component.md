@@ -98,10 +98,9 @@ function Input({ name, type: initialType = 'text', className, ...restProps }: In
 export default Input
 ```
 
-The language file looks like this:
+The language file at `resources/lang/en/shared.json` looks like this:
 
 ```json
-// resources/lang/en/shared.json
 {
   "input": {
     "showContents": "Show contents",
