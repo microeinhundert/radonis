@@ -23,7 +23,7 @@ import { stripPublicDir } from './utils'
 const pluginsManager = PluginsManager.getInstance()
 
 /**
- * Extract identifiers from usages of `.has(Error)?` and `.get(Error)?` from the source code
+ * Extract identifiers from usage of `.has(Error)?` and `.get(Error)?` from the source code
  */
 function extractFlashMessages(source: string): FlashMessageIdentifier[] {
   const matches = source.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
@@ -39,7 +39,7 @@ function extractFlashMessages(source: string): FlashMessageIdentifier[] {
 }
 
 /**
- * Extract identifiers from usages of `.formatMessage` from the source code
+ * Extract identifiers from usage of `.formatMessage` from the source code
  */
 function extractMessages(source: string): MessageIdentifier[] {
   const matches = source.matchAll(MESSAGE_IDENTIFIER_REGEX)
@@ -55,7 +55,7 @@ function extractMessages(source: string): MessageIdentifier[] {
 }
 
 /**
- * Extract identifiers from usages of `.make` as well as specific component props from the source code
+ * Extract identifiers from usage of `.make` as well as specific component props from the source code
  */
 function extractRoutes(source: string): RouteIdentifier[] {
   const matches = source.matchAll(ROUTE_IDENTIFIER_REGEX)

@@ -1,7 +1,7 @@
 # Creating A Form Input Component
 
 Radonis ships with a React hook called `useFormField` that abstracts away some of the logic required for form fields.
-This hook makes it easy to handle the display of field errors, touched and dirty states as well as id generation for the label and aria attributes.
+This hook makes it easy to handle the display of field errors, touched and dirty states, id generation for the label and aria attributes as well as value retrieval from session.
 Because of the server-centric nature of Radonis, more advanced React form libraries like [Formik](https://formik.org/) or [React Hook Form](https://react-hook-form.com/) should not be necessary.
 
 The following snippet is an example implementation of a simple input component.
