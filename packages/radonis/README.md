@@ -20,7 +20,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJ
 - react ^18.2.0
 - react-dom ^18.2.0
 
-> **Note**: Required packages are automatically installed.
+> **Note**: Required packages are installed automatically.
 
 ## Getting Started
 
@@ -52,7 +52,9 @@ and
 node ace configure @adonisjs/session
 ```
 
-### 4. Register generated types (optional)
+> **Note**: These addons were automatically installed as part of the `node ace configure` command.
+
+### 4. Register generated types (Optional)
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 

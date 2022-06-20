@@ -35,9 +35,9 @@ and
 node ace configure @adonisjs/session
 ```
 
-> _Note_: These addons are automatically installed when configuring the Radonis server package.
+> **Note**: These addons were automatically installed as part of the `node ace configure` command.
 
-### 4. Register generated types (optional)
+### 4. Register generated types (Optional)
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 

@@ -14,7 +14,7 @@ and
 node ace configure @adonisjs/session
 ```
 
-## Register generated types (optional)
+## Register generated types (Optional)
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
@@ -24,3 +24,7 @@ For additional type safety, add the dynamically generated Radonis types to the `
   "files": ["./tmp/types/radonis.d.ts"]
 }
 ```
+
+## Read the documentation
+
+For documentation about Radonis, take a look at the markdown files located in the documentation directory or [follow this link](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/index.md).
