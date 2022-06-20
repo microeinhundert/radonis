@@ -590,7 +590,8 @@ const session = useSession()
 
 ## Cookbooks
 
-[CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)  
+[CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)
+[ Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/form-input-component.md)
 [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
 
 ## Official Plugins
