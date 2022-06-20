@@ -8,6 +8,7 @@ The following snippet is an example implementation of a simple input component.
 As a bonus, this component also displays a password show/hide button, but only when hydrated. This is made possible by the `useHydrated` hook.
 
 ```tsx
+// resources/components/Input.tsx
 import { useFormField, useHydrated, useI18n } from '@microeinhundert/radonis'
 import React, { useState } from 'react'
 
