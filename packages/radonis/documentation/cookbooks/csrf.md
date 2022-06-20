@@ -24,14 +24,14 @@ export default class CsrfMiddleware {
 }
 ```
 
-2. Register the newly created `CsrfMiddleware`:
+3. Register the newly created `CsrfMiddleware`:
 
 ```typescript
 // start/kernel.ts
 Server.middleware.register([() => import('App/Middleware/Csrf')])
 ```
 
-1. Define the type for the `csrfToken` global:
+4. Define the type for the `csrfToken` global:
 
 ```typescript
 // contracts/radonis.ts
@@ -42,7 +42,7 @@ declare module '@microeinhundert/radonis-types' {
 }
 ```
 
-4. Optional: Create a React hook for retrieving the token from globals:
+5. Optional: Create a React hook for retrieving the token from globals:
 
 ```typescript
 // resources/hooks/useCsrfToken.ts
@@ -55,7 +55,7 @@ export function useCsrfToken() {
 }
 ```
 
-5. Optional: Create a React component for the hidden `_csrf` form field:
+6. Optional: Create a React component for the hidden `_csrf` form field:
 
 ```tsx
 // resources/components/CsrfField.tsx
