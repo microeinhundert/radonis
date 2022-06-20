@@ -54,7 +54,7 @@ Usage in controllers:
 
 ```typescript
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Index, Show } from '../../../resources/views/Users.tsx' // Where you put your views and how you structure them is completely your choice
+import { Index, Show } from 'resources/views/Users.tsx' // Where you put your views and how you structure them is completely your choice
 
 export default class UsersController {
   public index({ radonis }: HttpContextContract) {
@@ -118,7 +118,7 @@ You can also add meta by calling `withMeta` in your controllers, routes, middlew
 
 ```typescript
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Index, Show } from '../../../resources/views/Users.tsx'
+import { Index, Show } from 'resources/views/Users.tsx'
 
 export default class UsersController {
   public index({ radonis }: HttpContextContract) {
@@ -140,7 +140,7 @@ You can also add your own data to the manifest, for example the currently logged
 
 ```typescript
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Index, Show } from '../../../resources/views/Users.tsx'
+import { Index, Show } from 'resources/views/Users.tsx'
 
 export default class UsersController {
   public index({ radonis }: HttpContextContract) {
