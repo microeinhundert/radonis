@@ -96,8 +96,8 @@ const radonisConfig: RadonisConfig = {
     |
     | The entry file is where the client library is initialized.
     | You can also use this file to include your own scripts
-    |
     | that are not bound to a specific component "Island".
+    |
     */
     entryFile: Application.resourcesPath('entry.client.ts'),
 
