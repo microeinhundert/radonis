@@ -652,7 +652,7 @@ function yourPlugin() {
     /**
      * This plugin hook is called on scan of a previously output file
      */
-    onScanFile(file) {},
+    onScanFile(file: [string, string]) {},
 
     /**
      * This plugin hook is called before a file is output
@@ -667,7 +667,7 @@ function yourPlugin() {
     /**
      * This plugin hook is called after all files have been output
      */
-    afterOutput(files) {},
+    afterOutput(files: Map<string, string>) {},
 
     /**
      * This plugin hook is called before the page is rendered
