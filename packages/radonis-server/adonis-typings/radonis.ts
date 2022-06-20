@@ -47,6 +47,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   function HydrationRoot(props: {
     children: ReactElement<Record<string, any>>
     component: ComponentIdentifier
+    disabled?: boolean
   }): JSX.Element
 
   interface RenderOptions {

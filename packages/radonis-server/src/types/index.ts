@@ -23,4 +23,5 @@ export interface DocumentProps {
 export interface HydrationRootProps {
   children: ReactElement<Record<string, any>>
   component: ComponentIdentifier
+  disabled?: boolean
 }

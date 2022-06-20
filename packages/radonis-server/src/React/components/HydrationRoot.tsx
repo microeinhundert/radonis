@@ -15,11 +15,15 @@ import type { HydrationRootProps } from '../../types'
 import { useAssetsManager } from '../hooks/internal/useAssetsManager'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
-export function HydrationRoot({ children, component: componentIdentifier }: HydrationRootProps) {
+export function HydrationRoot({ children, component: componentIdentifier, disabled }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()
   const assetsManager = useAssetsManager()
   const { root: parentHydrationRootIdentifier, component: parentComponentIdentifier } = useHydration()
   const hydrationRootIdentifier = useId()
+
+  if (disabled) {
+    return children
+  }
 
   /*
    * Fail if the HydrationRoot is nested inside another HydrationRoot
