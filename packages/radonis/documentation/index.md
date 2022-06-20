@@ -9,7 +9,7 @@ It's like a traditional monolythic application architecture with modern, SPA-lik
 
 ### 1. Install the packages
 
-Install the packages from your command line:
+Install the two Radonis core packages from your command line:
 
 ```console
 npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
@@ -34,6 +34,8 @@ and
 ```console
 node ace configure @adonisjs/session
 ```
+
+> _Note_: These addons are automatically installed when configuring the Radonis server package.
 
 ### 4. Register generated types (optional)
 
