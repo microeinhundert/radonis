@@ -42,7 +42,7 @@ declare module '@microeinhundert/radonis-types' {
 }
 ```
 
-5. Optional: Create a React hook for retrieving the token from globals:
+5. **Optional:** Create a React hook for retrieving the token from globals:
 
 ```typescript
 // resources/hooks/useCsrfToken.ts
@@ -55,7 +55,7 @@ export function useCsrfToken() {
 }
 ```
 
-6. Optional: Create a React component for the hidden `_csrf` form field:
+6. **Optional:** Create a React component for the hidden `_csrf` form field:
 
 ```tsx
 // resources/components/CsrfField.tsx
