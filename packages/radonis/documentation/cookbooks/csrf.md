@@ -7,7 +7,7 @@ npm install --save @adonisjs/shield
 node ace configure @adonisjs/shield
 ```
 
-> _Note:_ Find more about `@adonisjs/shield` in the [AdonisJS documentation](https://docs.adonisjs.com/guides/security/web-security).
+> **Note**: Find out more about `@adonisjs/shield` in the [AdonisJS documentation](https://docs.adonisjs.com/guides/security/web-security).
 
 2. Create the `CsrfMiddleware` which adds the token to meta and globals:
 
