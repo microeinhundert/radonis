@@ -71,13 +71,14 @@ For documentation about Radonis, take a look at the markdown files located in th
 
 ## Cookbooks
 
-[CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)  
-[Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
+- [CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)
+- [Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/form-input-component.md)
+- [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
 
 ## Official Plugins
 
-[Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)  
-[UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
+- [Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)
+- [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
 
 ## License
 

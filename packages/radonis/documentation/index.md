@@ -417,10 +417,10 @@ const route = useRoute()
 // Get the current route:
 console.log(route.current) // => `{ name: 'users.show', pattern: '/users/:id' }`
 
-// Check if a route is the current route:
+// Check if a route matches the current route:
 console.log(route.isCurrent('users.show')) // => `true` if currently on `users.show` or a child of `users.show`, `false` if not
 
-// Check if a route is exactly the current route:
+// Check if a route matches the current route exactly:
 console.log(route.isCurrent('users.show', true)) // => `true` if currently on `users.show`, `false` if not
 ```
 
@@ -590,14 +590,14 @@ const session = useSession()
 
 ## Cookbooks
 
-[CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)
-[ Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/form-input-component.md)
-[Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
+- [CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)
+- [Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/form-input-component.md)
+- [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
 
 ## Official Plugins
 
-[Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)  
-[UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
+- [Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)
+- [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
 
 ## License
 
