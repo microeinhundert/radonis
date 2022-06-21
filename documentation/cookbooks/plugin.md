@@ -111,6 +111,3 @@ export function contextProviderPlugin() {
 [Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)  
 [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
 
-## License
-
-[MIT](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/LICENSE)

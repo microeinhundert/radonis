@@ -67,13 +67,13 @@ For additional type safety, add the dynamically generated Radonis types to the `
 
 ## Documentation
 
-For documentation about Radonis, take a look at the markdown files located in the documentation directory or [follow this link](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/index.md).
+For documentation about Radonis, take a look at the markdown files located in the documentation directory or [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
 
 ## Cookbooks
 
-- [CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/csrf.md)
-- [Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/form-input-component.md)
-- [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/documentation/cookbooks/plugin.md)
+- [CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/csrf.md)
+- [Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/form-input-component.md)
+- [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/plugin.md)
 
 ## Official Plugins
 

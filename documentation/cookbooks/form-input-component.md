@@ -109,7 +109,3 @@ The language file at `resources/lang/en/shared.json` looks like this:
   }
 }
 ```
-
-## License
-
-[MIT](https://github.com/microeinhundert/radonis/tree/main/packages/radonis/LICENSE)
