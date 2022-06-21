@@ -590,7 +590,7 @@ const session = useSession()
 
 ## Cookbooks
 
-- [CSRF Handling](dcookbooks/csrf.md)
+- [CSRF Handling](cookbooks/csrf.md)
 - [Creating A Form Input Component](cookbooks/form-input-component.md)
 - [Creating A Plugin](cookbooks/plugin.md)
 
