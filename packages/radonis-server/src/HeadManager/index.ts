@@ -8,8 +8,9 @@
  */
 
 import type { HeadMeta, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { generateHTMLAttributesString, separateArray } from '@microeinhundert/radonis-shared'
+import { separateArray } from '@microeinhundert/radonis-shared'
 import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
+import stringifyAttributes from 'stringify-attributes'
 
 /**
  * Build the title
@@ -105,7 +106,7 @@ export class HeadManager implements UniqueBetweenRequests {
 
         return [value].flat().map((content) => {
           if (typeof content !== 'string') {
-            return `<meta ${generateHTMLAttributesString(content)} />`
+            return `<meta ${stringifyAttributes(content)} />`
           }
 
           return `<meta content="${content}" ${isOpenGraphTag ? 'property' : 'name'}="${name}" />`

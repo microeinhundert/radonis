@@ -10,4 +10,4 @@
 export { isClient, isProduction, isServer, isTesting } from './environment'
 export { definePlugin, PluginsManager } from './PluginsManager'
 export type { Plugin } from './types'
-export { generateHTMLAttributesString, invariant, separateArray } from './utils'
+export { invariant, separateArray } from './utils'

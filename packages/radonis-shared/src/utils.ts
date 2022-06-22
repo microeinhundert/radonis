@@ -33,15 +33,3 @@ export function invariant(condition: unknown, message?: string): asserts conditi
 export function separateArray(array: unknown[], separator: unknown) {
   return array.flatMap((item) => [item, separator]).slice(0, -1)
 }
-
-/**
- * Generate a string of HTML attributes
- */
-export function generateHTMLAttributesString(attributes: Record<string, unknown>) {
-  return Object.entries(attributes)
-    .filter(([_, attributeValue]) => attributeValue)
-    .map(([attributeName, attributeValue]) =>
-      typeof attributeValue === 'boolean' ? attributeName : `${attributeName}="${attributeValue}"`
-    )
-    .join(' ')
-}

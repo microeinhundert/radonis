@@ -192,6 +192,7 @@ importers:
       '@types/react-dom': ^18.0.5
       chokidar: ^3.5.3
       flattie: ^1.1.0
+      stringify-attributes: ^3.0.0
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
@@ -202,6 +203,7 @@ importers:
       '@poppinss/utils': 4.0.4
       chokidar: 3.5.3
       flattie: 1.1.0
+      stringify-attributes: 3.0.0
       tslib: 2.4.0
     devDependencies:
       '@types/node': 16.11.41
@@ -2378,6 +2380,11 @@ packages:
   /escape-goat/2.1.1:
     resolution: {integrity: sha512-8/uIhbG12Csjy2JEW7D9pHbreaVaS/OpN3ycnyvElTdwM5n6GY6W6e2IPemfvGZeUMqZ9A/3GqIZMgKnBhAw/Q==}
     engines: {node: '>=8'}
+    dev: false
+
+  /escape-goat/3.0.0:
+    resolution: {integrity: sha512-w3PwNZJwRxlp47QGzhuEBldEqVHHhh8/tIPcl6ecf2Bou99cdAt0knihBV0Ecc7CGxYduXVBDheH1K2oADRlvw==}
+    engines: {node: '>=10'}
     dev: false
 
   /escape-html/1.0.3:
@@ -4749,6 +4756,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       escape-goat: 2.1.1
+    dev: false
+
+  /stringify-attributes/3.0.0:
+    resolution: {integrity: sha512-tJKiThlLfog6ljT7ZTihlMh0iAtjKlu/ss9DMmBE5oOosbMqOMcuxc7zDfxP2lGzSb2Bwvbd3gQTqTSCmXyySw==}
+    engines: {node: '>=12'}
+    dependencies:
+      escape-goat: 3.0.0
     dev: false
 
   /strip-ansi/3.0.1:

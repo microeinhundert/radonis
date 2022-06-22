@@ -14,12 +14,13 @@ import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
 import type { AdonisContextContract, HeadMeta, RenderOptions } from '@ioc:Microeinhundert/Radonis'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
-import { generateHTMLAttributesString, PluginsManager } from '@microeinhundert/radonis-shared'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { Globals, Locale, Route } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import React, { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
+import stringifyAttributes from 'stringify-attributes'
 
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
@@ -85,7 +86,7 @@ export class Renderer {
         src: asset.path,
       }
 
-      return `<script ${generateHTMLAttributesString(attributes)}></script>`
+      return `<script ${stringifyAttributes(attributes)}></script>`
     })
 
     return html.replace(
