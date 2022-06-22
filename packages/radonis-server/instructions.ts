@@ -107,7 +107,7 @@ async function addScripts(sink: typeof sinkStatic, projectRoot: string) {
 }
 
 /**
- * Modify tsconfig
+ * Modifies tsconfig
  */
 function modifyTsconfig(sink: typeof sinkStatic, projectRoot: string) {
   const tsConfigFile = new sink.files.JsonFile(projectRoot, 'tsconfig.json')
