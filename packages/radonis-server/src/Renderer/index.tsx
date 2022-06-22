@@ -159,8 +159,8 @@ export class Renderer {
   /**
    * Add head data for the current request
    */
-  public withHeadData(html: string): this {
-    this.headManager.addData(html)
+  public withHeadData(data: string): this {
+    this.headManager.addData(data)
 
     return this
   }
