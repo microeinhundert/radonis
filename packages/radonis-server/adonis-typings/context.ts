@@ -15,6 +15,7 @@ declare module '@ioc:Adonis/Core/HttpContext' {
   interface RadonisContract {
     withTitle(string: string): RadonisContract
     withMeta(meta: HeadMeta): RadonisContract
+    withHeadData(data: string): RadonisContract
     withGlobals(globals: Globals): RadonisContract
     render<T>(
       Component: ComponentType<T>,
