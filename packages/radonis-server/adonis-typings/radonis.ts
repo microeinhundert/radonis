@@ -40,6 +40,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   interface HeadContract {
     setTitle(title: string): void
     addMeta(meta: HeadMeta): void
+    addData(data: string): void
   }
 
   function useHead(): HeadContract

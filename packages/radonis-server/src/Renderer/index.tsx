@@ -67,7 +67,7 @@ export class Renderer {
   private injectClosingHead(html: string): string {
     const target = '</head>'
 
-    return html.replace(target, [this.headManager.getTags(), target].join('\n'))
+    return html.replace(target, [this.headManager.getHTML(), target].join('\n'))
   }
 
   /**
@@ -152,6 +152,15 @@ export class Renderer {
    */
   public withMeta(meta: HeadMeta): this {
     this.headManager.addMeta(meta)
+
+    return this
+  }
+
+  /**
+   * Add head data for the current request
+   */
+  public withHeadData(html: string): this {
+    this.headManager.addData(html)
 
     return this
   }

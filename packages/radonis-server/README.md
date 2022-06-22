@@ -23,6 +23,10 @@ npm install --save @microeinhundert/radonis-server
 node ace configure @microeinhundert/radonis-server
 ```
 
+## Documentation
+
+For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+
 ## License
 
 [MIT](LICENSE)

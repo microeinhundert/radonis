@@ -27,4 +27,5 @@ export type {
   FlashMessageIdentifier,
   MessageIdentifier,
   RouteIdentifier,
+  RouteParams,
 } from '@microeinhundert/radonis-types'

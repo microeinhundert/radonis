@@ -22,5 +22,8 @@ export function useHead() {
     addMeta: (meta: HeadMeta): void => {
       context.addMeta(meta)
     },
+    addData: (html: string): void => {
+      context.addData(html)
+    },
   }
 }

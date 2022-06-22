@@ -17,6 +17,10 @@ Install the package from your command line:
 npm install --save @microeinhundert/radonis-build
 ```
 
+## Documentation
+
+For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+
 ## License
 
 [MIT](LICENSE)

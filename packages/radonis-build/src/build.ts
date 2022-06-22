@@ -148,9 +148,6 @@ export async function buildEntryFileAndComponents(
   forProduction: boolean,
   buildOptions: BuildOptions
 ): Promise<BuildManifest> {
-  /**
-   * Empty the output directory
-   */
   await emptyDir(outputDir)
 
   /**
@@ -159,15 +156,15 @@ export async function buildEntryFileAndComponents(
   const buildResult = await build({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
+    platform: 'browser',
     metafile: true,
-    write: false,
     bundle: true,
     splitting: true,
     treeShaking: true,
-    platform: 'browser',
     format: 'esm',
     logLevel: 'silent',
     minify: forProduction,
+    write: false,
     ...buildOptions,
     loader: { ...loaders, ...(buildOptions.loader ?? {}) },
     plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],

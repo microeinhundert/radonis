@@ -67,7 +67,7 @@ For additional type safety, add the dynamically generated Radonis types to the `
 
 ## Documentation
 
-For documentation about Radonis, take a look at the markdown files located in the documentation directory or [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
 
 ## Cookbooks
 

@@ -129,7 +129,20 @@ export default class UsersController {
 }
 ```
 
-> **Note**: Data passed to `useHead` is always prioritized over data passed to `render` or `withMeta`.
+You can also add miscellaneous data like tracking scripts to the head the same way by using `withHeadData`:
+
+```typescript
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Index, Show } from 'resources/views/Users.tsx'
+
+export default class UsersController {
+  public index({ radonis }: HttpContextContract) {
+    return radonis.withHeadData('<script>alert("Hello")</script>').render(Index)
+  }
+}
+```
+
+> **Note**: Data passed to methods of the `useHead` hook is always prioritized over data passed to `render` or methods of the HttpContext `radonis` object.
 
 ## The Manifest
 
@@ -262,7 +275,7 @@ function FetchFormDemo() {
         onFailure: ({ error, rollback, input }) => {
           // Do something once the mutation failed,
           // like executing the rollback
-          if (rollback) rollback()
+          rollback?.()
         },
         onSettled: ({ status, error, data, rollback, input }) => {
           switch (status) {

@@ -63,7 +63,7 @@
     "@microeinhundert/radonis-shared": "1.5.5",
     "@microeinhundert/radonis-types": "1.5.5",
     "@poppinss/utils": "^4.0.4",
-    "esbuild": "^0.14.45",
+    "esbuild": "^0.14.47",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"
   }
