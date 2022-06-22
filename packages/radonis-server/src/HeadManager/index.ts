@@ -74,7 +74,7 @@ export class HeadManager implements UniqueBetweenRequests {
    * Add page head data
    */
   public addData(data: string, override?: boolean): void {
-    this.data = override ? [data] : [...this.data, data]
+    this.data = override ? [data.trim()] : [...this.data, data.trim()]
   }
 
   /**
