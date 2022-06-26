@@ -1,20 +1,20 @@
 Follow the following steps to finalize the installation:
 
-## Configure AdonisJS addons
+## Configure the required AdonisJS addons
 
-Configure the required AdonisJS addons if not already done:
+Radonis requires the two official AdonisJS addons @adonisjs/i18n and @adonisjs/session to be installed and configured. Execute the following commands and follow the instructions output to the terminal.
 
-```console
+```shell
 node ace configure @adonisjs/i18n
 ```
 
 and
 
-```console
+```shell
 node ace configure @adonisjs/session
 ```
 
-## Register generated types (Optional)
+## Register generated types _(Optional)_
 
 For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
 
@@ -27,4 +27,4 @@ For additional type safety, add the dynamically generated Radonis types to the `
 
 ## Read the documentation
 
-For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).

@@ -59,6 +59,13 @@ test.group('Head Manager', (group) => {
     assert.equal(headManager.getTitleTag(), '<title>A custom title</title>')
   })
 
+  test('allows adding data', ({ assert }) => {
+    const expectedData = '<script>alert("Hello")</script>'
+
+    headManager.addData(expectedData)
+    assert.equal(headManager.getData(), expectedData)
+  })
+
   test('allows adding meta', ({ assert }) => {
     const expectedMetaTags = [
       '<meta charset="utf-8" />',
@@ -108,6 +115,12 @@ test.group('Head Manager', (group) => {
     headManager.setTitle('A custom title')
     headManager.prepareForNewRequest()
     assert.equal(headManager.getTitleTag(), '<title>Radonis</title>')
+  })
+
+  test('reverts back to default data on new request', ({ assert }) => {
+    headManager.addData('<script>alert("Hello")</script>')
+    headManager.prepareForNewRequest()
+    assert.equal(headManager.getData(), '')
   })
 
   test('reverts back to default meta on new request', ({ assert }) => {

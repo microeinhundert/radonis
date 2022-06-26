@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-hooks",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "description": "Hooks package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -66,9 +66,9 @@
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hydrate": "1.5.6",
-    "@microeinhundert/radonis-shared": "1.5.6",
-    "@microeinhundert/radonis-types": "1.5.6",
+    "@microeinhundert/radonis-hydrate": "1.5.7",
+    "@microeinhundert/radonis-shared": "1.5.7",
+    "@microeinhundert/radonis-types": "1.5.7",
     "intl-messageformat": "^10.1.0",
     "tslib": "^2.4.0"
   }

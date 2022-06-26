@@ -60,7 +60,7 @@ async function installPackages(sink: typeof sinkStatic, projectRoot: string) {
   /**
    * Dependencies
    */
-  packageJsonFile.install('@microeinhundert/radonis-unocss', '^1.5.6', false)
+  packageJsonFile.install('@microeinhundert/radonis-unocss', '^1.5.7', false)
   packageJsonFile.install('@adonisjs/i18n', '^1.5.0', false)
   packageJsonFile.install('@adonisjs/session', '^6.4.0', false)
   packageJsonFile.install('react', '^18.2.0', false)

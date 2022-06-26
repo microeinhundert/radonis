@@ -3,82 +3,22 @@
 ![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis)
 
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
-Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
-
-## Notable Features
-
-- Renders React views directly from AdonisJS routes and controllers.
-- Partially hydrates only the components that require interactivity on the client (Islands Architecture).
-- Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server.
-- Ships with a compiler powered by [esbuild](https://esbuild.github.io/), no Webpack Encore required.
-
-## Required Packages
-
-- @adonisjs/core ^5.8.0
-- @adonisjs/session ^6.4.0
-- @adonisjs/i18n ^1.5.0
-- react ^18.2.0
-- react-dom ^18.2.0
-
-> **Note**: Required packages are installed automatically.
-
-## Getting Started
-
-### 1. Install the packages
-
-Install the two Radonis core packages from your command line:
-
-```console
-npm install --save @microeinhundert/radonis @microeinhundert/radonis-server
-```
-
-### 2. Configure the server package
-
-```console
-node ace configure @microeinhundert/radonis-server
-```
-
-### 3. Configure AdonisJS addons
-
-Configure the required AdonisJS addons if not already done:
-
-```console
-node ace configure @adonisjs/i18n
-```
-
-and
-
-```console
-node ace configure @adonisjs/session
-```
-
-> **Note**: These addons were automatically installed as part of the `node ace configure` command.
-
-### 4. Register generated types (Optional)
-
-For additional type safety, add the dynamically generated Radonis types to the `files` array of your `tsconfig.json` and exclude the `tmp` directory:
-
-```json
-{
-  "exclude": ["tmp"],
-  "files": ["./tmp/types/radonis.d.ts"]
-}
-```
+Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.
 
 ## Documentation
 
-For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
 
-## Cookbooks
+## Guides
 
-- [CSRF Handling](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/csrf.md)
-- [Creating A Form Input Component](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/form-input-component.md)
-- [Creating A Plugin](https://github.com/microeinhundert/radonis/tree/main/documentation/cookbooks/plugin.md)
+- [Handling CSRF](https://radonis.vercel.app/docs/guides/handling-csrf)
+- [Building an Input Component](https://radonis.vercel.app/docs/guides/building-an-input-component)
+- [Building a Plugin](https://radonis.vercel.app/docs/guides/building-a-plugin)
 
 ## Official Plugins
 
-- [Twind](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-twind)
-- [UnoCSS](https://github.com/microeinhundert/radonis/tree/main/packages/radonis-unocss)
+- [Twind](https://radonis.vercel.app/docs/plugins/twind)
+- [UnoCSS](https://radonis.vercel.app/docs/plugins/unocss)
 
 ## License
 

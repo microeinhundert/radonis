@@ -2,24 +2,14 @@
 
 ![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis-types)
 
-> **Note**: This is an internal Radonis package. Consult the README of the main [Radonis](https://github.com/microeinhundert/radonis/tree/main/packages/radonis) package.
+> **Note**: This is a package used by Radonis internally and should not be installed manually.
 
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
-Get DX similar to [Remix](https://remix.run/) while having the power of [AdonisJS](https://adonisjs.com/) at your fingertips.
-
-## Getting Started
-
-### 1. Install the package
-
-Install the package from your command line:
-
-```console
-npm install --save @microeinhundert/radonis-types
-```
+Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.
 
 ## Documentation
 
-For documentation about Radonis, [follow this link](https://github.com/microeinhundert/radonis/tree/main/documentation/index.md).
+Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
 
 ## License
 

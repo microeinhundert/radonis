@@ -8,9 +8,8 @@
  */
 
 import type { HeadMeta, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { separateArray } from '@microeinhundert/radonis-shared'
+import { separateArray, stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
-import stringifyAttributes from 'stringify-attributes'
 
 /**
  * Build the title
@@ -51,7 +50,7 @@ export class HeadManager implements UniqueBetweenRequests {
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
     this.addMeta(this.config.head.defaultMeta, true)
-    this.addData('', true)
+    this.data = []
   }
 
   /**
