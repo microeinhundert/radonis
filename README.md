@@ -3,7 +3,7 @@
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.
 
-## Notable Features
+## Notable features
 
 - Renders React views directly from AdonisJS routes and controllers.
 - Partially hydrates only the components that require interactivity on the client (Islands Architecture).
