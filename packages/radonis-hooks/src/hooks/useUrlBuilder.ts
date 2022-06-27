@@ -7,15 +7,117 @@
  * file that was distributed with this source code.
  */
 
-import { useHydration } from '@microeinhundert/radonis-hydrate'
-import { useMemo } from 'react'
+import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { invariant } from '@microeinhundert/radonis-shared'
+import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
-import { UrlBuilderImpl } from '../implementations/UrlBuilder'
+import type { UrlBuilderOptions } from '../types'
 import { useManifest } from './useManifest'
 
+/**
+ * Hook for building URLs to routes
+ */
 export function useUrlBuilder() {
   const { routes } = useManifest()
   const hydration = useHydration()
 
-  return useMemo(() => new UrlBuilderImpl(routes, !!hydration.root), [routes, hydration])
+  /**
+   * Find the route inside the registered routes and
+   * raise exception when unable to
+   */
+  function findRouteOrFail(identifier: RouteIdentifier) {
+    const route = routes[identifier]
+
+    invariant(route, `Cannot find route for "${identifier}"`)
+
+    if (hydration.root) {
+      HydrationManager.getInstance().requireRouteForHydration(identifier)
+    }
+
+    return route
+  }
+
+  /**
+   * Process the pattern with params
+   */
+  function processPattern(pattern: string, params: RouteParams): string {
+    let url = pattern
+
+    invariant(!url.includes('*'), 'Wildcard routes are not supported')
+
+    if (url.includes(':')) {
+      /*
+       * Split pattern when route has dynamic segments
+       */
+      const tokens = url.split('/')
+
+      /*
+       * Lookup over the route tokens and replace them the params values
+       */
+      url = tokens
+        .map((token) => {
+          if (!token.startsWith(':')) {
+            return token
+          }
+
+          const isOptional = token.endsWith('?')
+          const paramName = token.replace(/^:/, '').replace(/\?$/, '')
+          const paramValue = params[paramName]
+
+          /*
+           * A required param is always required to make the complete URL
+           */
+          invariant(
+            paramValue || isOptional,
+            `The "${paramName}" param is required to make the URL for the "${pattern}" route`
+          )
+
+          return paramValue
+        })
+        .filter(Boolean)
+        .join('/')
+    }
+
+    if (!url.startsWith('/')) {
+      url = `/${url}`
+    }
+
+    return url
+  }
+
+  /**
+   * Suffix the URL with the query string
+   */
+  function suffixQueryString(url: string, queryParams: RouteQueryParams): string {
+    const params = new URLSearchParams()
+
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (Array.isArray(value)) {
+        value.forEach((item) => params.append(key, item.toString()))
+      } else {
+        params.set(key, value.toString())
+      }
+    }
+
+    const encoded = params.toString()
+    url = encoded ? `${url}?${encoded}` : url
+
+    return url
+  }
+
+  /**
+   * Make an URL for the given route
+   */
+  function make(identifier: RouteIdentifier, options?: UrlBuilderOptions) {
+    const route = findRouteOrFail(identifier)
+
+    const url = processPattern(route, options?.params ?? {})
+    const urlWithQueryString = suffixQueryString(url, options?.queryParams ?? {})
+
+    return urlWithQueryString
+  }
+
+  return {
+    make,
+  }
 }

@@ -9,6 +9,9 @@
 
 import { useManifest } from './useManifest'
 
+/**
+ * Hook for retrieving globals from the manifest
+ */
 export function useGlobals() {
   const { globals } = useManifest()
 

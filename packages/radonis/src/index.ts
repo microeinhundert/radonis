@@ -28,4 +28,5 @@ export type {
   MessageIdentifier,
   RouteIdentifier,
   RouteParams,
+  RouteQueryParams,
 } from '@microeinhundert/radonis-types'

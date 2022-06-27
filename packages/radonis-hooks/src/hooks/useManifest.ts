@@ -18,6 +18,9 @@ declare global {
   }
 }
 
+/**
+ * Hook for retrieving the manifest
+ */
 export function useManifest() {
   const manifest = (globalThis ?? window).radonisManifest
 

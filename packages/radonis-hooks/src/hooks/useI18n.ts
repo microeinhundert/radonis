@@ -7,15 +7,58 @@
  * file that was distributed with this source code.
  */
 
-import { useHydration } from '@microeinhundert/radonis-hydrate'
-import { useMemo } from 'react'
+import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { invariant } from '@microeinhundert/radonis-shared'
+import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
+import IntlMessageFormat from 'intl-messageformat'
 
-import { I18nImpl } from '../implementations/I18n'
 import { useManifest } from './useManifest'
 
+/**
+ * Hook for retrieving and formatting translation messages
+ */
 export function useI18n() {
   const { locale, messages } = useManifest()
   const hydration = useHydration()
 
-  return useMemo(() => new I18nImpl(locale, messages, !!hydration.root), [locale, messages, hydration])
+  /**
+   * Find the message inside the registered messages and
+   * raise exception when unable to
+   */
+  function findMessageOrFail(identifier: MessageIdentifier) {
+    const message = messages[identifier]
+
+    invariant(message, `Cannot find message for "${identifier}"`)
+
+    if (hydration.root) {
+      HydrationManager.getInstance().requireMessageForHydration(identifier)
+    }
+
+    return message
+  }
+
+  /**
+   * Format a message
+   */
+  function formatMessage(identifier: MessageIdentifier, data?: MessageData) {
+    const message = findMessageOrFail(identifier)
+
+    return new IntlMessageFormat(
+      message,
+      locale,
+      {},
+      {
+        formatters: {
+          getNumberFormat: (...args) => new Intl.NumberFormat(...args),
+          getDateTimeFormat: (...args) => new Intl.DateTimeFormat(...args),
+          getPluralRules: (...args) => new Intl.PluralRules(...args),
+        },
+        ignoreTag: true,
+      }
+    ).format(data || {})
+  }
+
+  return {
+    formatMessage,
+  }
 }

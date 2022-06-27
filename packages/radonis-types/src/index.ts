@@ -125,6 +125,11 @@ export type Route = { name?: string; pattern?: string }
  */
 export type RouteParams = Record<string, string | number>
 
+/**
+ * Route query params
+ */
+export type RouteQueryParams = Record<string, string | number | (string | number)[]>
+
 /* ---------------------------------------- */
 
 /**

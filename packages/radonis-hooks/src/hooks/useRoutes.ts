@@ -11,6 +11,9 @@ import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate
 
 import { useManifest } from './useManifest'
 
+/**
+ * Hook for retrieving all routes available in the application
+ */
 export function useRoutes() {
   const { routes } = useManifest()
   const hydration = useHydration()

@@ -16,6 +16,9 @@ import type { MutationOptions, MutationResult, MutationStatus } from '../types'
 import { useGetLatest } from './internal/useGetLatest'
 import { useSafeCallback } from './internal/useSafeCallback'
 
+/**
+ * Hook for dispatching mutations
+ */
 export function useMutation<TInput, TData, TError>(
   mutationFunction: (input: TInput) => Promise<TData>,
   {

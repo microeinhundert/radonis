@@ -49,14 +49,11 @@ export function useForm<TData, TError>({
   const form = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
-  urlBuilder.withParams(params)
-  urlBuilder.withQueryParams(queryParams)
-
   /**
    * Because of the URL constructor requiring an absolute URL,
    * we have to pass a fake base URL to it
    */
-  const requestUrl = new URL(urlBuilder.make(action), 'https://example.com')
+  const requestUrl = new URL(urlBuilder.make(action, { params, queryParams }), 'https://example.com')
 
   const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(
     async (formData: FormData) => {

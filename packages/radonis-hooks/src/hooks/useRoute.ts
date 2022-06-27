@@ -12,11 +12,14 @@ import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 
 import { useManifest } from './useManifest'
 
+/**
+ * Hook for retrieving info about the current route
+ */
 export function useRoute() {
   const { route, routes } = useManifest()
   const hydration = useHydration()
 
-  function isCurrent(identifier: RouteIdentifier, exact?: boolean): boolean {
+  function isCurrent(identifier: RouteIdentifier, exact?: boolean) {
     if (exact) {
       return route?.name === identifier
     }
