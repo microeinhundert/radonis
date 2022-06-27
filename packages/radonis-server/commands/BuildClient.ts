@@ -10,9 +10,11 @@
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { BuildManifest } from '@microeinhundert/radonis-build'
 import {
   buildEntryFileAndComponents,
   discoverComponents,
+  generateAssetsManifest,
   writeBuildManifestToDisk,
 } from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
@@ -79,7 +81,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The entry file path
    */
-  private get entryFilePath() {
+  private get entryFilePath(): string {
     let {
       client: { entryFile },
     } = this.config
@@ -94,7 +96,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The components directory path
    */
-  private get componentsDir() {
+  private get componentsDir(): string {
     const {
       client: { componentsDir },
     } = this.config
@@ -107,7 +109,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The output directory path
    */
-  private get environmentAwareOutputDir() {
+  private get environmentAwareOutputDir(): string {
     const {
       client: { outputDir },
     } = this.config
@@ -132,7 +134,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * Run the build
    */
-  private async build() {
+  private async build(): Promise<BuildManifest> {
     const {
       client: { buildOptions },
     } = this.config
@@ -157,12 +159,19 @@ export default class BuildClient extends BaseCommand {
      * (substracting by one to exclude the entry file)
      */
     this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+
+    return buildManifest
   }
 
   /**
    * Generate TypeScript types for components, messages and routes
    */
-  private generateTypes(): void {
+  private async generateTypes(buildManifest: BuildManifest): Promise<void> {
+    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
+    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
+
+    Router.commit()
+
     /**
      * Do not generate types when no output dir is set
      */
@@ -170,18 +179,14 @@ export default class BuildClient extends BaseCommand {
       return
     }
 
-    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
-    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-    const AssetsManager = this.application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
-
-    Router.commit()
+    const assetsManifest = await generateAssetsManifest(buildManifest)
 
     /**
-     * Generate and output types
+     * Generate and write types to disk
      */
     generateAndWriteTypesToDisk(
       {
-        components: AssetsManager.components.all.map(({ identifier }) => identifier),
+        components: assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
         messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
         routes: Object.keys(extractRootRoutes(Router)),
       },
@@ -198,8 +203,8 @@ export default class BuildClient extends BaseCommand {
    * Run the command
    */
   public async run(): Promise<void> {
-    await this.build()
-    this.generateTypes()
+    let buildManifest = await this.build()
+    await this.generateTypes(buildManifest)
 
     if (this.watchDir) {
       /**
@@ -221,8 +226,8 @@ export default class BuildClient extends BaseCommand {
           this.logger.error('rebuilding the client failed')
         })
         .on('all', async () => {
-          await this.build()
-          this.generateTypes()
+          buildManifest = await this.build()
+          await this.generateTypes(buildManifest)
         })
     } else {
       this.exit()
