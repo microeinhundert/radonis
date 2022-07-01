@@ -38,7 +38,7 @@ export function useUrlBuilder() {
   }
 
   /**
-   * Process the pattern with params
+   * Process pattern with params
    */
   function processPattern(pattern: string, params: RouteParams): string {
     let url = pattern
@@ -86,7 +86,7 @@ export function useUrlBuilder() {
   }
 
   /**
-   * Suffix the URL with the query string
+   * Suffix URL with query string
    */
   function suffixQueryString(url: string, queryParams: RouteQueryParams): string {
     const params = new URLSearchParams()
@@ -106,7 +106,7 @@ export function useUrlBuilder() {
   }
 
   /**
-   * Make an URL for the given route
+   * Make URL for given route
    */
   function make(identifier: RouteIdentifier, options?: UrlBuilderOptions) {
     const route = findRouteOrFail(identifier)
