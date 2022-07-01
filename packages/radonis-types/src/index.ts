@@ -169,6 +169,14 @@ export interface UniqueBetweenRequests {
   prepareForNewRequest(): void
 }
 
+/**
+ * Extract controller action return type
+ */
+export type ExtractControllerActionReturnType<
+  Controller extends Record<string, any>,
+  ActionName extends keyof Controller
+> = Awaited<ReturnType<Controller[ActionName]>>
+
 /* ---------------------------------------- */
 
 export function generateAndWriteTypesToDisk(

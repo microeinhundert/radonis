@@ -24,6 +24,7 @@ export type { Plugin } from '@microeinhundert/radonis-shared'
 export { definePlugin } from '@microeinhundert/radonis-shared'
 export type {
   ComponentIdentifier,
+  ExtractControllerActionReturnType,
   FlashMessageIdentifier,
   MessageIdentifier,
   RouteIdentifier,
