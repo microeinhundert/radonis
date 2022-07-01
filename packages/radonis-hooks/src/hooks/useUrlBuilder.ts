@@ -52,7 +52,7 @@ export function useUrlBuilder() {
       const tokens = url.split('/')
 
       /*
-       * Lookup over the route tokens and replace them the params values
+       * Replace tokens with values
        */
       url = tokens
         .map((token) => {
@@ -64,9 +64,6 @@ export function useUrlBuilder() {
           const paramName = token.replace(/^:/, '').replace(/\?$/, '')
           const paramValue = params[paramName]
 
-          /*
-           * A required param is always required to make the complete URL
-           */
           invariant(
             paramValue || isOptional,
             `The "${paramName}" param is required to make the URL for the "${pattern}" route`
