@@ -50,7 +50,7 @@ export interface MutationHooks<TInput, TData, TError> {
   onFailure?(params: { error: TError; rollback: MutationRollbackFunction | void; input: TInput }): MaybePromise<void>
 
   /**
-   * A function to be executed after the mutation has resolves, either
+   * A function to be executed after the mutation has resolved, either
    * successfully or as failure.
    *
    * This function receives the error or the result of the mutation.

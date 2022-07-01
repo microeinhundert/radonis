@@ -19,7 +19,7 @@ export class PluginsManager {
   private static instance?: PluginsManager
 
   /**
-   * Names of the installed plugins
+   * The installed plugins
    */
   private installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }> = new Map()
 
