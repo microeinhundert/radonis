@@ -171,6 +171,7 @@ export default class BuildClient extends BaseCommand {
     const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
 
     Router.commit()
+    await I18n.reloadTranslations()
 
     /**
      * Do not generate types when no output dir is set
