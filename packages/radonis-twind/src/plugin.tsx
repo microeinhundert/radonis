@@ -15,7 +15,6 @@ import { getSheet, inline, install as install$, twind, tx as tx$ } from 'twind'
 
 import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'
-import { minifyTxLiterals } from './utils'
 
 export function twindPlugin(config?: TwindConfig) {
   let tw: Twind
@@ -42,9 +41,6 @@ export function twindPlugin(config?: TwindConfig) {
     // Server hooks
     onBootServer() {
       install()
-    },
-    beforeOutput() {
-      return (source) => minifyTxLiterals(source)
     },
     beforeRender() {
       return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>

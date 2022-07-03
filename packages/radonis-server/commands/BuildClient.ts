@@ -157,7 +157,7 @@ export default class BuildClient extends BaseCommand {
     Router.commit()
 
     /**
-     * Do not generate types when production build
+     * Do not generate types when building for production
      */
     if (this.production) {
       return

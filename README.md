@@ -14,11 +14,12 @@ Get DX similar to [Remix](https://remix.run/) while having the power of a full M
 
 Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
 
-## TODO
+## Nice to have
 
 - [ ] CSS bundling
 - [ ] Customizable document component
 - [ ] Data fetching hooks
+- [ ] Streaming and SSR Suspense
 
 ## License
 
