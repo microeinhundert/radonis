@@ -34,7 +34,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   interface HeadMeta {
     charset?: 'utf-8'
     charSet?: 'utf-8'
-    [name: string]: null | string | undefined | Array<Record<string, string> | string>
+    [name: string]: null | string | undefined | (Record<string, string> | string)[]
   }
 
   interface HeadContract {

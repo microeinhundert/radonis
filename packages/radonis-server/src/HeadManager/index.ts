@@ -49,7 +49,7 @@ export class HeadManager implements UniqueBetweenRequests {
    */
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
-    this.addMeta(this.config.head.defaultMeta, true)
+    this.meta = this.config.head.defaultMeta
     this.data = []
   }
 
@@ -65,15 +65,15 @@ export class HeadManager implements UniqueBetweenRequests {
   /**
    * Add page head meta
    */
-  public addMeta(meta: HeadMeta, override?: boolean): void {
-    this.meta = override ? meta : { ...this.meta, ...meta }
+  public addMeta(meta: HeadMeta): void {
+    this.meta = { ...this.meta, ...meta }
   }
 
   /**
    * Add page head data
    */
-  public addData(data: string, override?: boolean): void {
-    this.data = override ? [data.trim()] : [...this.data, data.trim()]
+  public addData(data: string): void {
+    this.data = [...this.data, data.trim()]
   }
 
   /**
