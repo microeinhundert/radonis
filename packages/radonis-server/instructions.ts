@@ -60,7 +60,7 @@ async function installPackages(sink: typeof sinkStatic, projectRoot: string) {
   /**
    * Dependencies
    */
-  packageJsonFile.install('@microeinhundert/radonis-unocss', '^1.6.4', false)
+  packageJsonFile.install('@microeinhundert/radonis-unocss', '^1.7.0', false)
   packageJsonFile.install('@adonisjs/i18n', '^1.5.0', false)
   packageJsonFile.install('@adonisjs/session', '^6.4.0', false)
   packageJsonFile.install('react', '^18.2.0', false)
@@ -94,13 +94,10 @@ async function addScripts(sink: typeof sinkStatic, projectRoot: string) {
   const packageJsonFile = new sink.files.PackageJsonFile(projectRoot)
 
   packageJsonFile.setScript('dev', "concurrently 'npm:dev:*'")
-  packageJsonFile.setScript(
-    'dev:client',
-    "node ace build:client --types-output-dir './tmp/types' --watch-dir './resources/!(views)/**/*.ts(x)?'"
-  )
+  packageJsonFile.setScript('dev:client', "node ace build:client --watch-dir './resources/!(views)/**/*.ts(x)?'")
   packageJsonFile.setScript('dev:server', 'node ace serve --watch')
   packageJsonFile.setScript('build', "concurrently 'npm:build:*'")
-  packageJsonFile.setScript('build:client', 'node ace build:client --production --output-dir tsconfig-out-dir')
+  packageJsonFile.setScript('build:client', 'node ace build:client --production')
   packageJsonFile.setScript('build:server', 'node ace build --production')
 
   await packageJsonFile.commitAsync()

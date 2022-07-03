@@ -16,13 +16,6 @@ import { join, parse } from 'path'
 import type { BuildManifest } from './types'
 
 /**
- * Strip the public dir from the beginning of a path
- */
-export function stripPublicDir(path: string): string {
-  return join('/', path.replace(/^public\//, ''))
-}
-
-/**
  * Check if the file looks like it contains a component:
  * - Starts with an uppercase letter
  * - Ends with `.ts(x)` or `.js(x)` extension

@@ -62,18 +62,6 @@ export default class BuildClient extends BaseCommand {
   public watchDir: string | undefined
 
   /**
-   * Allows configuring the output directory
-   */
-  @flags.string({ description: 'Directory to output built files to' })
-  public outputDir: 'tsconfig-out-dir' | string | undefined
-
-  /**
-   * Allows configuring the types output directory
-   */
-  @flags.string({ description: 'Directory to output generated types to' })
-  public typesOutputDir: string | undefined
-
-  /**
    * The Radonis config
    */
   private config: RadonisConfig = this.application.config.get('radonis', {})
@@ -94,7 +82,7 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * The components directory path
+   * The components directory
    */
   private get componentsDir(): string {
     const {
@@ -107,28 +95,22 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * The output directory path
+   * The output directory
    */
-  private get environmentAwareOutputDir(): string {
-    const {
-      client: { outputDir },
-    } = this.config
-
-    if (!this.outputDir) {
-      return outputDir
-    }
+  private get outputDir(): string {
+    const publicPath = this.application.publicPath('radonis')
 
     /**
-     * Resolve path using outDir from tsconfig
+     * Resolve path using outDir from tsconfig when building for production
      */
-    if (this.outputDir === 'tsconfig-out-dir') {
+    if (this.production) {
       const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
       const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
 
-      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, outputDir))
+      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, publicPath))
     }
 
-    return resolve(this.application.appRoot, this.outputDir)
+    return publicPath
   }
 
   /**
@@ -140,11 +122,12 @@ export default class BuildClient extends BaseCommand {
     } = this.config
 
     const components = discoverComponents(this.componentsDir)
-
+    const publicDir = this.application.rcFile.directories.public || 'public'
     const buildManifest = await buildEntryFileAndComponents(
       this.entryFilePath,
       components,
-      this.environmentAwareOutputDir,
+      publicDir,
+      this.outputDir,
       !!this.production,
       buildOptions
     )
@@ -152,7 +135,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Write the build manifest
      */
-    writeBuildManifestToDisk(buildManifest, this.environmentAwareOutputDir)
+    writeBuildManifestToDisk(buildManifest, this.outputDir)
 
     /**
      * Output a log message after successful build
@@ -170,13 +153,13 @@ export default class BuildClient extends BaseCommand {
     const Router = this.application.container.resolveBinding('Adonis/Core/Route')
     const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
 
-    Router.commit()
     await I18n.reloadTranslations()
+    Router.commit()
 
     /**
-     * Do not generate types when no output dir is set
+     * Do not generate types when production build
      */
-    if (!this.typesOutputDir) {
+    if (this.production) {
       return
     }
 
@@ -191,7 +174,7 @@ export default class BuildClient extends BaseCommand {
         messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
         routes: Object.keys(extractRootRoutes(Router)),
       },
-      resolve(this.application.appRoot, this.typesOutputDir)
+      this.application.tmpPath('types')
     )
 
     /**
@@ -207,7 +190,7 @@ export default class BuildClient extends BaseCommand {
     let buildManifest = await this.build()
     await this.generateTypes(buildManifest)
 
-    if (this.watchDir) {
+    if (this.watchDir && !this.production) {
       /**
        * Initialize the watcher
        */

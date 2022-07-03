@@ -72,7 +72,6 @@ declare module '@ioc:Microeinhundert/Radonis' {
       entryFile: string
       alwaysIncludeEntryFile: boolean
       componentsDir: string
-      outputDir: string
       limitManifest: boolean
       buildOptions: BuildOptions
     }

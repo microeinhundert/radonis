@@ -125,7 +125,7 @@ export class HydrationManager {
     invariant(
       !this.components.has(identifier),
       `The component "${identifier}" was already registered for hydration.
-      Please make sure to not use the same name for multiple components`
+      Please make sure to not use the same name for multiple components, regardless of which directory they are in`
     )
 
     this.components.set(identifier, Component)

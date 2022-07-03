@@ -12,13 +12,12 @@ import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from 
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
-import { join, parse } from 'path'
+import { join, parse, posix, relative, sep } from 'path'
 
 import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry } from './types'
-import { stripPublicDir } from './utils'
 
 const pluginsManager = PluginsManager.getInstance()
 
@@ -77,6 +76,7 @@ function walkMetafile(
   metafile: Metafile,
   path: string,
   builtFiles: Map<string, string>,
+  publicDir: string,
   type?: BuildManifestEntry['type']
 ): BuildManifestEntry {
   const output = metafile.outputs[path]
@@ -89,11 +89,11 @@ function walkMetafile(
   return {
     type: type ?? 'chunk',
     path: absolutePath,
-    publicPath: stripPublicDir(path),
+    publicPath: relative(publicDir, path).split(sep).filter(Boolean).join(posix.sep),
     flashMessages: extractFlashMessages(builtFileSource),
     messages: extractMessages(builtFileSource),
     routes: extractRoutes(builtFileSource),
-    imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$, builtFiles)),
+    imports: output.imports.map(({ path: path$ }) => walkMetafile(metafile, path$, builtFiles, publicDir)),
   }
 }
 
@@ -103,7 +103,8 @@ function walkMetafile(
 function generateBuildManifest(
   metafile: Metafile,
   entryFilePath: string,
-  builtFiles: Map<string, string>
+  builtFiles: Map<string, string>,
+  publicDir: string
 ): BuildManifest {
   const { name: entryFileName } = parse(entryFilePath)
   const buildManifest = {} as BuildManifest
@@ -124,13 +125,14 @@ function generateBuildManifest(
     invariant(
       !(fileName in buildManifest),
       `A build manifest entry for "${fileName}" already exists.
-      Please make sure to not use the same name for multiple components, regardless of what directory they are in`
+      Please make sure to not use the same name for multiple components, regardless of which directory they are in`
     )
 
     buildManifest[fileName] = walkMetafile(
       metafile,
       path,
       builtFiles,
+      publicDir,
       fileName === entryFileName ? 'entry' : 'component'
     )
   }
@@ -144,6 +146,7 @@ function generateBuildManifest(
 export async function buildEntryFileAndComponents(
   entryFilePath: string,
   components: Map<string, string>,
+  publicDir: string,
   outputDir: string,
   forProduction: boolean,
   buildOptions: BuildOptions
@@ -191,7 +194,7 @@ export async function buildEntryFileAndComponents(
   /**
    * Generate the build manifest
    */
-  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath, builtFiles)
+  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFilePath, builtFiles, publicDir)
 
   return buildManifest
 }

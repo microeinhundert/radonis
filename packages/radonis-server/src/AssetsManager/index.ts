@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { AssetsManifest } from '@microeinhundert/radonis-build'
 import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
@@ -37,7 +38,14 @@ export class AssetsManager implements UniqueBetweenRequests {
   /**
    * Constructor
    */
-  constructor(private config: Pick<RadonisConfig, 'client'>) {}
+  constructor(private application: ApplicationContract, private config: Pick<RadonisConfig, 'client'>) {}
+
+  /**
+   * The output directory
+   */
+  private get outputDir(): string {
+    return this.application.publicPath('radonis')
+  }
 
   /**
    * The components
@@ -62,10 +70,8 @@ export class AssetsManager implements UniqueBetweenRequests {
    * Scan the built files
    */
   private scanBuiltFiles(): void {
-    const { outputDir } = this.config.client
-
-    fsReadAll(outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
-      const absoluteFilePath = join(outputDir, filePath)
+    fsReadAll(this.outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
+      const absoluteFilePath = join(this.outputDir, filePath)
       this.pluginsManager.execute('onScanFile', null, [readFileSync(absoluteFilePath, 'utf8'), absoluteFilePath])
     })
   }
@@ -74,9 +80,7 @@ export class AssetsManager implements UniqueBetweenRequests {
    * Read the build manifest
    */
   public async readBuildManifest(): Promise<void> {
-    const { outputDir } = this.config.client
-
-    const buildManifest = await readBuildManifestFromDisk(outputDir)
+    const buildManifest = await readBuildManifestFromDisk(this.outputDir)
 
     if (!buildManifest) {
       this.assetsManifest = []
