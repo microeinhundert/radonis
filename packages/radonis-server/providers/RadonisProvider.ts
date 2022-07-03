@@ -69,7 +69,7 @@ export default class RadonisProvider {
     this.application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
       const { AssetsManager } = require('../src/AssetsManager')
 
-      return new AssetsManager(radonisConfig)
+      return new AssetsManager(this.application, radonisConfig)
     })
 
     /**

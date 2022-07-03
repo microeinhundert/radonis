@@ -115,6 +115,8 @@ export class Renderer {
     application: ApplicationContract,
     router: RouterContract
   ): this {
+    router.commit()
+
     /**
      * Set context
      */
