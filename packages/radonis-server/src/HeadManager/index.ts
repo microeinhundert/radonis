@@ -23,17 +23,17 @@ function buildTitle(title: string, prefix: string, suffix: string, separator: st
 
 export class HeadManager implements UniqueBetweenRequests {
   /**
-   * The page head title
+   * The title
    */
   private title: string
 
   /**
-   * The page head meta
+   * The meta
    */
   private meta: HeadMeta
 
   /**
-   * The page head data
+   * The data
    */
   private data: string[]
 
@@ -45,7 +45,7 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Set the defaults
+   * Set defaults
    */
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
@@ -54,7 +54,7 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Set the page head title
+   * Set title
    */
   public setTitle(title: string): void {
     const { prefix, suffix, separator } = this.config.head.title
@@ -63,28 +63,28 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Add page head meta
+   * Add meta
    */
   public addMeta(meta: HeadMeta): void {
     this.meta = { ...this.meta, ...meta }
   }
 
   /**
-   * Add page head data
+   * Add data
    */
   public addData(data: string): void {
     this.data = [...this.data, data.trim()]
   }
 
   /**
-   * Get the HTML title tag for the head
+   * Get the HTML title tag
    */
   public getTitleTag(): string {
     return `<title>${this.title}</title>`
   }
 
   /**
-   * Get the HTML meta tags for the head
+   * Get the HTML meta tags
    */
   public getMetaTags(): string {
     return Object.entries(this.meta)
@@ -115,14 +115,14 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Get the data for the head
+   * Get the data
    */
   public getData(): string {
     return this.data.join('\n')
   }
 
   /**
-   * Get all HTML for the head
+   * Get all HTML
    */
   public getHTML(): string {
     return [this.getTitleTag(), this.getMetaTags(), this.getData()].join('\n')
