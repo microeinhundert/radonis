@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Removed unused `path` property from build manifest.
+- Removed `bg-gray-100` class from `body` element.
 - Updated dependencies.
 - Small refactorings of the compiler.
 

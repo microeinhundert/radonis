@@ -16,7 +16,7 @@ export function Document({ children }: DocumentProps) {
   const manifestBuilder = useManifestBuilder()
 
   return (
-    <html className="h-full bg-gray-100" lang={manifestBuilder.locale}>
+    <html className="h-ful" lang={manifestBuilder.locale}>
       <head></head>
       <body className="h-full">{children}</body>
     </html>
