@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "pnpm@7.0.0",
@@ -43,7 +43,7 @@
     "adonis-preset-ts": "^2.1.0",
     "copyfiles": "2.4.1",
     "del-cli": "4.0.1",
-    "eslint": "8.18.0",
+    "eslint": "8.19.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-adonis": "2.1.0",
     "eslint-plugin-prettier": "4.2.1",

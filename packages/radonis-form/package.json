@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-form",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Form package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -66,9 +66,9 @@
     "@types/react-dom": "^18.0.5"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hooks": "1.7.0",
-    "@microeinhundert/radonis-hydrate": "1.7.0",
-    "@microeinhundert/radonis-types": "1.7.0",
+    "@microeinhundert/radonis-hooks": "1.7.1",
+    "@microeinhundert/radonis-hydrate": "1.7.1",
+    "@microeinhundert/radonis-types": "1.7.1",
     "tslib": "^2.4.0"
   }
 }

@@ -11,8 +11,9 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { outputFile } from 'fs-extra'
-import { join, parse } from 'path'
+import { join, parse, posix, sep } from 'path'
 
+import { BUILD_MANIFEST_FILE_NAME } from './constants'
 import type { BuildManifest } from './types'
 
 /**
@@ -45,7 +46,7 @@ export function discoverComponents(directory: string): Map<string, string> {
  */
 export async function readBuildManifestFromDisk(directory: string): Promise<BuildManifest | null> {
   try {
-    const fileContents = await readFile(join(directory, 'build-manifest.json'), 'utf-8')
+    const fileContents = await readFile(join(directory, BUILD_MANIFEST_FILE_NAME), 'utf-8')
 
     return JSON.parse(fileContents)
   } catch {
@@ -56,6 +57,13 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
 /**
  * Write the build manifest to disk
  */
-export function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): void {
-  outputFile(join(directory, 'build-manifest.json'), JSON.stringify(buildManifest, null, 2))
+export async function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): Promise<void> {
+  await outputFile(join(directory, BUILD_MANIFEST_FILE_NAME), JSON.stringify(buildManifest, null, 2))
+}
+
+/**
+ * Convert a file path to a file URL
+ */
+export function filePathToFileUrl(path: string): string {
+  return path.split(sep).filter(Boolean).join(posix.sep)
 }

@@ -135,7 +135,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Write the build manifest
      */
-    writeBuildManifestToDisk(buildManifest, this.outputDir)
+    await writeBuildManifestToDisk(buildManifest, this.outputDir)
 
     /**
      * Output a log message after successful build

@@ -12,12 +12,13 @@ import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from 
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
-import { join, parse, posix, relative, sep } from 'path'
+import { join, parse, relative } from 'path'
 
 import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry } from './types'
+import { filePathToFileUrl } from './utils'
 
 const pluginsManager = PluginsManager.getInstance()
 
@@ -88,8 +89,7 @@ function walkMetafile(
 
   return {
     type: type ?? 'chunk',
-    path: absolutePath,
-    publicPath: relative(publicDir, path).split(sep).filter(Boolean).join(posix.sep),
+    publicPath: filePathToFileUrl(relative(publicDir, path)),
     flashMessages: extractFlashMessages(builtFileSource),
     messages: extractMessages(builtFileSource),
     routes: extractRoutes(builtFileSource),

@@ -14,7 +14,6 @@ import type { HydrationRequirements } from '@microeinhundert/radonis-types'
  */
 export interface BuildManifestEntry extends HydrationRequirements {
   type: 'component' | 'entry' | 'chunk'
-  path: string
   publicPath: string
   imports: BuildManifestEntry[]
 }
