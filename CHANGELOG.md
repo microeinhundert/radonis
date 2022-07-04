@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.7.1] - WIP
+## [1.7.1] - 2022-07-04
 
 ### Changed
 - Removed unused `path` property from build manifest.
