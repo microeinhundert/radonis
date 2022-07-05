@@ -89,7 +89,7 @@ function walkMetafile(
 
   return {
     type: type ?? 'chunk',
-    publicPath: filePathToFileUrl(relative(publicDir, path)),
+    path: filePathToFileUrl(relative(publicDir, path)),
     flashMessages: extractFlashMessages(builtFileSource),
     messages: extractMessages(builtFileSource),
     routes: extractRoutes(builtFileSource),

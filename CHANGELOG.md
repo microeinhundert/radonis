@@ -2,11 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.7.2] - WIP
+## [1.7.2] - 2022-07-05
 
 ### Changed
 - Renamed `--watch-dir` flag to `--watch`. `--watch-dir` will continue to work.
 - Updated dependencies.
+- Internal refinements.
+
+### Fixed
+- Edge case in compiler when default export name does not equal component file name.
 
 ## [1.7.1] - 2022-07-04
 

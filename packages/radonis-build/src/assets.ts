@@ -108,7 +108,7 @@ export function generateAssetsManifest(buildManifest: BuildManifest): AssetsMani
     assetsManifest.push({
       type: buildManifestEntry.type,
       identifier,
-      path: buildManifestEntry.publicPath,
+      path: buildManifestEntry.path,
       ...reduceHydrationRequirements(buildManifestEntry.imports, {
         flashMessages: buildManifestEntry.flashMessages,
         messages: buildManifestEntry.messages,
