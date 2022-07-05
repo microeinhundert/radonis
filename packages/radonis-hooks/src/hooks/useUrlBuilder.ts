@@ -40,7 +40,7 @@ export function useUrlBuilder() {
   /**
    * Process pattern with params
    */
-  function processPattern(pattern: string, params: RouteParams): string {
+  function processPattern(pattern: string, params: RouteParams) {
     let url = pattern
 
     invariant(!url.includes('*'), 'Wildcard routes are not supported')
@@ -85,7 +85,7 @@ export function useUrlBuilder() {
   /**
    * Suffix URL with query string
    */
-  function suffixQueryString(url: string, queryParams: RouteQueryParams): string {
+  function suffixQueryString(url: string, queryParams: RouteQueryParams) {
     const params = new URLSearchParams()
 
     for (const [key, value] of Object.entries(queryParams)) {

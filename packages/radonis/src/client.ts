@@ -27,7 +27,7 @@ let clientInitialized = false
 export async function initClient(config?: ClientConfig): Promise<void> {
   invariant(
     isClient,
-    'The Radonis client can only be initialized on the client. Make sure to only execute "initClient" in the browser'
+    'The Radonis client can only be initialized on the client. Make sure to only call "initClient" in the client bundle'
   )
 
   invariant(
