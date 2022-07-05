@@ -67,8 +67,8 @@
   "dependencies": {
     "@microeinhundert/radonis-shared": "1.7.2",
     "@microeinhundert/radonis-types": "1.7.2",
-    "@unocss/core": "0.43.0",
-    "@unocss/preset-wind": "0.43.0",
+    "@unocss/core": "0.43.1",
+    "@unocss/preset-wind": "0.43.1",
     "mini-svg-data-uri": "^1.4.4",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"
