@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.2] - WIP
+
+### Changed
+- Renamed `--watch-dir` flag to `--watch`. `--watch-dir` will continue to work.
+- Updated dependencies.
+
 ## [1.7.1] - 2022-07-04
 
 ### Changed

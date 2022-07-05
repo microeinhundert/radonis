@@ -56,10 +56,13 @@ export default class BuildClient extends BaseCommand {
   public production: boolean | undefined
 
   /**
-   * Allows watching a directory for file changes
+   * Allows for automatically rebuilding the client on file changes
    */
-  @flags.string({ description: 'Directory to watch for changes' })
-  public watchDir: string | undefined
+  @flags.string({
+    description: 'Glob pattern of files that should automatically trigger a rebuild',
+    alias: 'watch-dir',
+  })
+  public watch: string | undefined
 
   /**
    * The Radonis config
@@ -190,11 +193,11 @@ export default class BuildClient extends BaseCommand {
     let buildManifest = await this.build()
     await this.generateTypes(buildManifest)
 
-    if (this.watchDir && !this.production) {
+    if (this.watch && !this.production) {
       /**
        * Initialize the watcher
        */
-      const watcher = chokidar.watch(resolve(this.application.appRoot, this.watchDir), {
+      const watcher = chokidar.watch(resolve(this.application.appRoot, this.watch), {
         cwd: process.cwd(),
         ignoreInitial: true,
       })
