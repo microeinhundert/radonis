@@ -29,7 +29,7 @@ export type PluginHookWithBuilder<B, I> = (input: I) => (value: B) => Promise<B>
  */
 export interface PluginHooks {
   /**
-   * This plugin hook is called after the client has been initialized
+   * This plugin hook is called on initialization of the client
    */
   onInitClient: PluginHook<null>
 
@@ -39,7 +39,7 @@ export interface PluginHooks {
   beforeHydrate: PluginHookWithBuilder<ReactElement, null>
 
   /**
-   * This plugin hook is called after the server has been booted
+   * This plugin hook is called on boot of the server
    */
   onBootServer: PluginHook<null>
 

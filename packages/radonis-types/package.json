@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-types",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Types package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -58,7 +58,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.14",
+    "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
