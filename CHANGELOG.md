@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.7.5] - 2022-08-27
+## [1.8.0] - 2022-08-27
 
 ### Changed
 - BREAKING: Radonis now uses the automatic JSX transform.
