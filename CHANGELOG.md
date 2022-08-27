@@ -2,18 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.5] - 2022-08-27
+
+### Changed
+- BREAKING: Radonis now uses the automatic JSX transform.
+
+### Migration
+
+- Set `jsx` inside `tsconfig.json` to `react-jsx` and remove `React` imports from your codebase.
+
 ## [1.7.4] - 2022-08-27
 
 ### Added
 - Props passed to hydrated components can now contain non-serializable data (uses [superjson](https://github.com/blitz-js/superjson) under the hood).
 
 ### Changed
-- Updated dependencies
+- Updated dependencies.
 
 ## [1.7.3] - 2022-07-31
 
 ### Changed
-- Updated dependencies
+- Updated dependencies.
 
 ## [1.7.2] - 2022-07-05
 

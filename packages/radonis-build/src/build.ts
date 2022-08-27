@@ -168,6 +168,7 @@ export async function buildEntryFileAndComponents(
     logLevel: 'silent',
     minify: forProduction,
     write: false,
+    jsx: 'automatic',
     ...buildOptions,
     loader: { ...loaders, ...(buildOptions.loader ?? {}) },
     plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],
