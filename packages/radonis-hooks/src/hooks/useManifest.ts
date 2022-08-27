@@ -10,6 +10,7 @@
 import { invariant } from '@microeinhundert/radonis-shared'
 import type { Manifest, Props } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
+import type { SuperJSONResult } from 'superjson/dist/types'
 
 declare global {
   var radonisManifest: Manifest | undefined
@@ -19,14 +20,14 @@ declare global {
   }
 }
 
-let cachedManifest: Manifest | undefined
+let cachedManifest: Readonly<Manifest> | undefined
 
 /**
  * Hook for retrieving the manifest
  */
 export function useManifest() {
   if (cachedManifest) {
-    return cachedManifest as Readonly<Manifest>
+    return cachedManifest
   }
 
   const manifest = (globalThis ?? window).radonisManifest
@@ -35,6 +36,6 @@ export function useManifest() {
 
   return (cachedManifest = {
     ...manifest,
-    props: superjson.deserialize<Props>(manifest.props as any),
+    props: superjson.deserialize<Props>(manifest.props as unknown as SuperJSONResult),
   }) as Readonly<Manifest>
 }

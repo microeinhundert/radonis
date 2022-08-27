@@ -131,12 +131,14 @@ importers:
       '@types/react': ^18.0.15
       '@types/react-dom': ^18.0.6
       intl-messageformat: ^10.1.1
+      superjson: ^1.9.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       intl-messageformat: 10.1.1
+      superjson: 1.9.1
       tslib: 2.4.0
     devDependencies:
       '@types/node': 16.11.41
