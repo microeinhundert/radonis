@@ -8,6 +8,7 @@
  */
 
 import { test } from '@japa/runner'
+import superjson from 'superjson'
 
 import { Builder } from '../src/Builder'
 import { FlashMessagesManager } from '../src/FlashMessagesManager'
@@ -89,11 +90,8 @@ test.group('Props', (group) => {
     assert.deepEqual(builder.props, {})
   })
 
-  test('throws if not serializable', ({ assert }) => {
-    assert.throws(
-      () => builder.registerProps('MyComponent', propsFixtureThree),
-      'The props passed to the component "MyComponent" are not serializable'
-    )
+  test('does not throw if props contain non-serializable data', ({ assert }) => {
+    assert.doesNotThrows(() => builder.registerProps('MyComponent', propsFixtureThree))
   })
 
   test('serializes the client manifest', ({ assert }) => {
@@ -104,10 +102,10 @@ test.group('Props', (group) => {
       builder.getClientManifestAsJSON(),
       JSON.stringify(
         {
-          props: {
+          props: superjson.serialize({
             [propsHashOne as string]: propsFixtureOne,
             [propsHashTwo as string]: propsFixtureTwo,
-          },
+          }),
           globals: {},
           flashMessages: {},
           locale: 'en',
@@ -162,7 +160,7 @@ test.group('Flash Messages', (group) => {
       builder.getClientManifestAsJSON(),
       JSON.stringify(
         {
-          props: {},
+          props: superjson.serialize({}),
           globals: {},
           flashMessages: flashMessagesFixtureOne,
           locale: 'en',
@@ -219,7 +217,7 @@ test.group('I18n', (group) => {
       builder.getClientManifestAsJSON(),
       JSON.stringify(
         {
-          props: {},
+          props: superjson.serialize({}),
           globals: {},
           flashMessages: {},
           locale: 'en',
@@ -274,7 +272,7 @@ test.group('Routes', (group) => {
       builder.getClientManifestAsJSON(),
       JSON.stringify(
         {
-          props: {},
+          props: superjson.serialize({}),
           globals: {},
           flashMessages: {},
           locale: 'en',
