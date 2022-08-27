@@ -30,7 +30,7 @@
     "clean": "del-cli build",
     "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
     "compile:cjs": "tsc --outDir ./build --module commonjs",
-    "compile": "\"$npm_execpath\" run lint && \"$npm_execpath\" run clean && \"$npm_execpath\" run compile:cjs",
+    "compile": "\"$npm_execpath\" run compile:cjs",
     "build": "\"$npm_execpath\" run compile && \"$npm_execpath\" run copyfiles",
     "lint": "TIMING=1 eslint . --ext=.ts,tsx",
     "format": "prettier --write .",
