@@ -29,9 +29,8 @@
   "scripts": {
     "clean": "del-cli build",
     "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
-    "compile:cjs": "tsc --outDir ./build --module commonjs",
-    "compile": "\"$npm_execpath\" run compile:cjs",
-    "build": "\"$npm_execpath\" run compile && \"$npm_execpath\" run copyfiles",
+    "build:cjs": "tsc --outDir ./build --module commonjs",
+    "build": "\"$npm_execpath\" run build:cjs",
     "lint": "TIMING=1 eslint . --ext=.ts,tsx",
     "format": "prettier --write .",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
