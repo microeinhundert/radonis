@@ -8,7 +8,8 @@
  */
 
 import { invariant } from '@microeinhundert/radonis-shared'
-import type { Manifest } from '@microeinhundert/radonis-types'
+import type { Manifest, Props } from '@microeinhundert/radonis-types'
+import superjson from 'superjson'
 
 declare global {
   var radonisManifest: Manifest | undefined
@@ -18,13 +19,19 @@ declare global {
   }
 }
 
+let cachedManifest: Manifest | undefined
+
 /**
  * Get the manifest, fail if it does not exist on the global scope
  */
 export function getManifestOrFail(): Manifest {
+  if (cachedManifest) {
+    return cachedManifest
+  }
+
   const manifest = (globalThis ?? window).radonisManifest
 
   invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
 
-  return manifest
+  return (cachedManifest = { ...manifest, props: superjson.deserialize<Props>(manifest.props as any) })
 }

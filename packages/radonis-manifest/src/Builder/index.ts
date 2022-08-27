@@ -23,6 +23,7 @@ import type {
   ValueOf,
 } from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
+import superjson from 'superjson'
 
 import type { FlashMessagesManager } from '../FlashMessagesManager'
 import type { I18nManager } from '../I18nManager'
@@ -144,7 +145,11 @@ export class Builder implements Manifest, UniqueBetweenRequests {
    */
   public getClientManifestAsJSON(): string {
     try {
-      return JSON.stringify(this.clientManifest, null, isProduction ? 0 : 2)
+      return JSON.stringify(
+        { ...this.clientManifest, props: superjson.serialize(this.clientManifest.props) },
+        null,
+        isProduction ? 0 : 2
+      )
     } catch {
       invariant(false, `The manifest is not serializable`)
     }
@@ -160,17 +165,16 @@ export class Builder implements Manifest, UniqueBetweenRequests {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentIdentifier: ComponentIdentifier, rawProps: ValueOf<Props>): PropsHash | null {
+  public registerProps(componentIdentifier: ComponentIdentifier, props: ValueOf<Props>): PropsHash | null {
     try {
-      const props = JSON.parse(JSON.stringify(rawProps))
       const propsKeys = Object.keys(props)
 
       if (!propsKeys.length) return null
 
-      const propsHash = PROPS_HASHER.hash(rawProps)
+      const propsHash = PROPS_HASHER.hash(props)
 
       if (!(propsHash in this.props)) {
-        this.props[propsHash] = rawProps
+        this.props[propsHash] = props
       }
 
       return propsHash

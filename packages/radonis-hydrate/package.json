@@ -70,6 +70,7 @@
     "@microeinhundert/radonis-build": "1.7.3",
     "@microeinhundert/radonis-shared": "1.7.3",
     "@microeinhundert/radonis-types": "1.7.3",
+    "superjson": "^1.9.1",
     "tslib": "^2.4.0"
   }
 }

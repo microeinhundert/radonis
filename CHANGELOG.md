@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.4] - 2022-08-27
+
+### Added
+- Props passed to hydrated components can now contain non-serializable data (uses [superjson](https://github.com/blitz-js/superjson) under the hood).
+
+### Changed
+- Updated dependencies
+
 ## [1.7.3] - 2022-07-31
 
 ### Changed
