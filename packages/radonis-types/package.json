@@ -28,7 +28,7 @@
     "compile:esm": "tsc --outDir ./build/esm --module esnext",
     "compile": "\"$npm_execpath\" run lint && \"$npm_execpath\" run clean && \"$npm_execpath\" run compile:cjs && \"$npm_execpath\" run compile:esm",
     "build": "\"$npm_execpath\" run compile",
-    "lint": "TIMING=1 eslint . --ext=.ts",
+    "lint": "TIMING=1 eslint . --ext=.ts,tsx",
     "format": "prettier --write .",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
   },
