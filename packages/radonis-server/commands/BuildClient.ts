@@ -153,18 +153,18 @@ export default class BuildClient extends BaseCommand {
    * Generate TypeScript types for components, messages and routes
    */
   private async generateTypes(buildManifest: BuildManifest): Promise<void> {
-    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
-    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-
-    await I18n.reloadTranslations()
-    Router.commit()
-
     /**
      * Do not generate types when building for production
      */
     if (this.production) {
       return
     }
+
+    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
+    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
+
+    await I18n.reloadTranslations()
+    Router.commit()
 
     const assetsManifest = await generateAssetsManifest(buildManifest)
 
