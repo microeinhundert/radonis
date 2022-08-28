@@ -39,6 +39,17 @@ export function useFlashMessages() {
   }
 
   /**
+   * Get all flash messages
+   */
+  function all() {
+    if (hydration.root) {
+      HydrationManager.getInstance().requireFlashMessageForHydration('*')
+    }
+
+    return flashMessages
+  }
+
+  /**
    * Check if a specific flash message exists
    */
   function has(identifier: FlashMessageIdentifier) {
@@ -53,42 +64,10 @@ export function useFlashMessages() {
   }
 
   /**
-   * Check if a specific error flash message exists
-   */
-  function hasError(identifier: FlashMessageIdentifier) {
-    return has(`${ERRORS_NAMESPACE}.${identifier}`)
-  }
-
-  /**
-   * Check if any error flash messages exist
-   */
-  function hasAnyError() {
-    return !!Object.keys(allErrors()).length
-  }
-
-  /**
    * Get a specific flash message
    */
   function get(identifier: FlashMessageIdentifier) {
     return findFlashMessage(identifier)
-  }
-
-  /**
-   * Get a specific error flash message
-   */
-  function getError(identifier: FlashMessageIdentifier) {
-    return get(`${ERRORS_NAMESPACE}.${identifier}`)
-  }
-
-  /**
-   * Get all flash messages
-   */
-  function all() {
-    if (hydration.root) {
-      HydrationManager.getInstance().requireFlashMessageForHydration('*')
-    }
-
-    return flashMessages
   }
 
   /**
@@ -109,14 +88,36 @@ export function useFlashMessages() {
       }, {})
   }
 
+  /**
+   * Check if a specific error flash message exists
+   */
+  function hasError(identifier: FlashMessageIdentifier) {
+    return has(`${ERRORS_NAMESPACE}.${identifier}`)
+  }
+
+  /**
+   * Check if any error flash messages exist
+   */
+  function hasAnyError() {
+    return !!Object.keys(allErrors()).length
+  }
+
+  /**
+   * Get a specific error flash message
+   */
+  function getError(identifier: FlashMessageIdentifier) {
+    return get(`${ERRORS_NAMESPACE}.${identifier}`)
+  }
+
   return {
+    all,
     has,
     hasAny,
+    get,
+    //
+    allErrors,
     hasError,
     hasAnyError,
-    get,
     getError,
-    all,
-    allErrors,
   }
 }
