@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.4] - 2022-08-28
+
+### Added
+- `hasAny` and `hasAnyError` to `useFlashMessages` hook.
+
+### Changed
+- BREAKING: The identifier parameter on `has` and `hasError` on the `useFlashMessages` hook is now required.
+
 ## [1.8.3] - 2022-08-28
 
 ### Changed
