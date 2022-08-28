@@ -101,18 +101,18 @@ test.group('Props', (group) => {
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
-        {
-          props: superjson.serialize({
+        superjson.serialize({
+          props: {
             [propsHashOne as string]: propsFixtureOne,
             [propsHashTwo as string]: propsFixtureTwo,
-          }),
+          },
           globals: {},
           flashMessages: {},
           locale: 'en',
           messages: {},
           routes: {},
           route: null,
-        },
+        }),
         null,
         2
       )
@@ -159,15 +159,15 @@ test.group('Flash Messages', (group) => {
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
-        {
-          props: superjson.serialize({}),
+        superjson.serialize({
+          props: {},
           globals: {},
           flashMessages: flashMessagesFixtureOne,
           locale: 'en',
           messages: {},
           routes: {},
           route: null,
-        },
+        }),
         null,
         2
       )
@@ -216,15 +216,15 @@ test.group('I18n', (group) => {
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
-        {
-          props: superjson.serialize({}),
+        superjson.serialize({
+          props: {},
           globals: {},
           flashMessages: {},
           locale: 'en',
           messages: messagesFixtureOne,
           routes: {},
           route: null,
-        },
+        }),
         null,
         2
       )
@@ -271,15 +271,15 @@ test.group('Routes', (group) => {
     assert.equal(
       builder.getClientManifestAsJSON(),
       JSON.stringify(
-        {
-          props: superjson.serialize({}),
+        superjson.serialize({
+          props: {},
           globals: {},
           flashMessages: {},
           locale: 'en',
           messages: {},
           routes: routesFixtureOne,
           route: null,
-        },
+        }),
         null,
         2
       )

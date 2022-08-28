@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.3] - 2022-08-28
+
+### Changed
+- Use superjson for serialization of the whole client manifest instead of just the props.
+
+### Fixed
+- Server manifest handled incorrectly with superjson serialization.
+
 ## [1.8.2] - 2022-08-28
 
 ### Fixed

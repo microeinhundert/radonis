@@ -144,15 +144,7 @@ export class Builder implements Manifest, UniqueBetweenRequests {
    * Get the client manifest as JSON
    */
   public getClientManifestAsJSON(): string {
-    try {
-      return JSON.stringify(
-        { ...this.clientManifest, props: superjson.serialize(this.clientManifest.props) },
-        null,
-        isProduction ? 0 : 2
-      )
-    } catch {
-      invariant(false, `The manifest is not serializable`)
-    }
+    return JSON.stringify(superjson.serialize(this.clientManifest), null, isProduction ? 0 : 2)
   }
 
   /**
