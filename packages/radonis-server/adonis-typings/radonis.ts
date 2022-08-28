@@ -37,10 +37,16 @@ declare module '@ioc:Microeinhundert/Radonis' {
     [name: string]: null | string | undefined | (Record<string, string> | string)[]
   }
 
+  interface HeadTag {
+    name: string
+    content: string
+    attributes?: Record<string, unknown>
+  }
+
   interface HeadContract {
     setTitle(title: string): void
     addMeta(meta: HeadMeta): void
-    addData(data: string): void
+    addTags(tags: HeadTag[]): void
   }
 
   function useHead(): HeadContract
@@ -54,6 +60,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   interface RenderOptions {
     title?: string
     meta?: HeadMeta
+    tags?: HeadTag[]
     globals?: Globals
   }
 

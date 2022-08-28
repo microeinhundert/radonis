@@ -3,6 +3,7 @@
     "plugin:adonis/typescriptPackage",
     "prettier",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended"
   ],
   "plugins": ["prettier", "simple-import-sort"],

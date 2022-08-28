@@ -9,7 +9,6 @@
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
-import React from 'react'
 import type { Twind, TwindConfig, TxFunction } from 'twind'
 import { getSheet, inline, install as install$, twind, tx as tx$ } from 'twind'
 

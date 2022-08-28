@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { HeadMeta, HeadTag, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { separateArray, stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
@@ -33,9 +33,9 @@ export class HeadManager implements UniqueBetweenRequests {
   private meta: HeadMeta
 
   /**
-   * The data
+   * The tags
    */
-  private data: string[]
+  private tags: HeadTag[]
 
   /**
    * Constructor
@@ -50,7 +50,7 @@ export class HeadManager implements UniqueBetweenRequests {
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
     this.meta = this.config.head.defaultMeta
-    this.data = []
+    this.tags = []
   }
 
   /**
@@ -63,24 +63,17 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Add meta
-   */
-  public addMeta(meta: HeadMeta): void {
-    this.meta = { ...this.meta, ...meta }
-  }
-
-  /**
-   * Add data
-   */
-  public addData(data: string): void {
-    this.data = [...this.data, data.trim()]
-  }
-
-  /**
    * Get the HTML title tag
    */
   public getTitleTag(): string {
     return `<title>${this.title}</title>`
+  }
+
+  /**
+   * Add meta
+   */
+  public addMeta(meta: HeadMeta): void {
+    this.meta = { ...this.meta, ...meta }
   }
 
   /**
@@ -115,17 +108,28 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Get the data
+   * Add tags
    */
-  public getData(): string {
-    return this.data.join('\n')
+  public addTags(tags: HeadTag[]): void {
+    this.tags = [...this.tags, ...tags]
+  }
+
+  /**
+   * Get the HTML tags
+   */
+  public getTags(): string {
+    return this.tags
+      .map(({ name, content, attributes }) => {
+        return `<${name}${attributes ? ` ${stringifyAttributes(attributes)}` : ''}>${content}</${name}>`
+      })
+      .join('\n')
   }
 
   /**
    * Get all HTML
    */
   public getHTML(): string {
-    return [this.getTitleTag(), this.getMetaTags(), this.getData()].join('\n')
+    return [this.getTitleTag(), this.getMetaTags(), this.getTags()].join('\n')
   }
 
   /**

@@ -17,7 +17,6 @@ import type {
 } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
-import React from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../React'

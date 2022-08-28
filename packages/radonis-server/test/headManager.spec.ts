@@ -59,11 +59,17 @@ test.group('Head Manager', (group) => {
     assert.equal(headManager.getTitleTag(), '<title>A custom title</title>')
   })
 
-  test('allows adding data', ({ assert }) => {
-    const expectedData = '<script>alert("Hello")</script>'
-
-    headManager.addData(expectedData)
-    assert.equal(headManager.getData(), expectedData)
+  test('allows adding tags', ({ assert }) => {
+    headManager.addTags([
+      {
+        name: 'script',
+        content: 'alert("Hello")',
+        attributes: {
+          defer: true,
+        },
+      },
+    ])
+    assert.equal(headManager.getTags(), '<script defer>alert("Hello")</script>')
   })
 
   test('allows adding meta', ({ assert }) => {
@@ -117,10 +123,15 @@ test.group('Head Manager', (group) => {
     assert.equal(headManager.getTitleTag(), '<title>Radonis</title>')
   })
 
-  test('reverts back to default data on new request', ({ assert }) => {
-    headManager.addData('<script>alert("Hello")</script>')
+  test('reverts back to default tags on new request', ({ assert }) => {
+    headManager.addTags([
+      {
+        name: 'script',
+        content: 'alert("Hello")',
+      },
+    ])
     headManager.prepareForNewRequest()
-    assert.equal(headManager.getData(), '')
+    assert.equal(headManager.getTags(), '')
   })
 
   test('reverts back to default meta on new request', ({ assert }) => {

@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import React from 'react'
-
 import type { DocumentProps } from '../../types'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 

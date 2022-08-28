@@ -9,7 +9,7 @@
 
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
 import { invariant } from '@microeinhundert/radonis-shared'
-import React, { useId } from 'react'
+import { Children, useId } from 'react'
 
 import type { HydrationRootProps } from '../../types'
 import { useAssetsManager } from '../hooks/internal/useAssetsManager'
@@ -34,7 +34,7 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
     This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
   )
 
-  const { props } = React.Children.only(children)
+  const { props } = Children.only(children)
 
   /*
    * Register the props with the ManifestBuilder

@@ -10,7 +10,6 @@
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
-import React from 'react'
 
 import type { AssetsManager } from '../../AssetsManager'
 import type { HeadManager } from '../../HeadManager'

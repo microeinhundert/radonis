@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta } from '@ioc:Microeinhundert/Radonis'
+import type { HeadMeta, HeadTag } from '@ioc:Microeinhundert/Radonis'
 import { useContext } from 'react'
 
 import { headManagerContext } from '../contexts/headManagerContext'
@@ -22,8 +22,8 @@ export function useHead() {
     addMeta: (meta: HeadMeta): void => {
       context.addMeta(meta)
     },
-    addData: (data: string): void => {
-      context.addData(data)
+    addTags: (tags: HeadTag[]): void => {
+      context.addTags(tags)
     },
   }
 }
