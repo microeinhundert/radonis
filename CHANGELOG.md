@@ -6,10 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - BREAKING: Removed `addData` from the HeadManager in favor of `addTags`. `addTags` expects a configuration object instead of a plain string.
-
-### Migration
-
-- Set `jsx` inside `tsconfig.json` to `react-jsx` and remove `React` imports from your codebase.
+- BREAKING: Renamed `withMeta` on the Radonis contract to `withHeadMeta`.
 
 ## [1.8.0] - 2022-08-27
 
