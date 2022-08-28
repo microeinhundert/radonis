@@ -39,31 +39,31 @@ export function useFlashMessages() {
   }
 
   /**
-   * Check if a flash message exists
+   * Check if a specific flash message exists
    */
-  function has(identifier?: FlashMessageIdentifier) {
-    if (!identifier) {
-      /**
-       * Check if flash messages exist
-       */
-      return !!Object.keys(all()).length
-    }
-
+  function has(identifier: FlashMessageIdentifier) {
     return !!findFlashMessage(identifier)
   }
 
   /**
-   * Check if a error flash message exists
+   * Check if any flash messages exist
    */
-  function hasError(identifier?: FlashMessageIdentifier) {
-    if (!identifier) {
-      /**
-       * Check if error flash messages exist
-       */
-      return !!Object.keys(allErrors()).length
-    }
+  function hasAny() {
+    return !!Object.keys(all()).length
+  }
 
+  /**
+   * Check if a specific error flash message exists
+   */
+  function hasError(identifier: FlashMessageIdentifier) {
     return has(`${ERRORS_NAMESPACE}.${identifier}`)
+  }
+
+  /**
+   * Check if any error flash messages exist
+   */
+  function hasAnyError() {
+    return !!Object.keys(allErrors()).length
   }
 
   /**
@@ -111,7 +111,9 @@ export function useFlashMessages() {
 
   return {
     has,
+    hasAny,
     hasError,
+    hasAnyError,
     get,
     getError,
     all,
