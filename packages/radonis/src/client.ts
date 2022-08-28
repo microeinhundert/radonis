@@ -19,7 +19,7 @@ type ClientConfig = {
   plugins?: Plugin[]
 }
 
-let clientInitialized = false
+let isClientInitialized = false
 
 /**
  * Initialize the client
@@ -31,7 +31,7 @@ export async function initClient(config?: ClientConfig): Promise<void> {
   )
 
   invariant(
-    !clientInitialized,
+    !isClientInitialized,
     'The Radonis client was initialized multiple times. Make sure to only initialize it once in your application'
   )
 
@@ -46,7 +46,7 @@ export async function initClient(config?: ClientConfig): Promise<void> {
     document.querySelector('#rad-manifest')?.remove()
   }
 
-  clientInitialized = true
+  isClientInitialized = true
 }
 
 /**
