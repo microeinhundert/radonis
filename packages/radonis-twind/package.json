@@ -64,7 +64,7 @@
   "devDependencies": {
     "@microeinhundert/radonis": "1.8.1",
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {

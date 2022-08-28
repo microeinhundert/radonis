@@ -61,14 +61,14 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.27",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
     "@microeinhundert/radonis-hydrate": "1.8.1",
     "@microeinhundert/radonis-shared": "1.8.1",
     "@microeinhundert/radonis-types": "1.8.1",
-    "intl-messageformat": "^10.1.1",
+    "intl-messageformat": "^10.1.4",
     "superjson": "^1.9.1",
     "tslib": "^2.4.0"
   }
