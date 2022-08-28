@@ -8,44 +8,47 @@
     "removeComments": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
+    "importHelpers": true,
     "skipLibCheck": true,
     "jsx": "react-jsx"
   },
-  "include": ["./packages/**/*"],
+  "include": [],
   "references": [
     {
-      "path": "./packages/radonis/tsconfig.json"
+      "path": "./packages/radonis"
     },
     {
-      "path": "./packages/radonis-build/tsconfig.json"
+      "path": "./packages/radonis-build"
     },
     {
-      "path": "./packages/radonis-form/tsconfig.json"
+      "path": "./packages/radonis-form"
     },
     {
-      "path": "./packages/radonis-hooks/tsconfig.json"
+      "path": "./packages/radonis-hooks"
     },
     {
-      "path": "./packages/radonis-hydrate/tsconfig.json"
+      "path": "./packages/radonis-hydrate"
     },
     {
-      "path": "./packages/radonis-manifest/tsconfig.json"
+      "path": "./packages/radonis-manifest"
     },
     {
-      "path": "./packages/radonis-server/tsconfig.json"
+      "path": "./packages/radonis-server"
     },
     {
-      "path": "./packages/radonis-shared/tsconfig.json"
+      "path": "./packages/radonis-shared"
     },
     {
-      "path": "./packages/radonis-twind/tsconfig.json"
+      "path": "./packages/radonis-twind"
     },
     {
-      "path": "./packages/radonis-unocss/tsconfig.json"
+      "path": "./packages/radonis-unocss"
     },
     {
-      "path": "./packages/radonis-types/tsconfig.json"
+      "path": "./packages/radonis-types"
     }
   ]
 }

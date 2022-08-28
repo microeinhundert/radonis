@@ -1,15 +1,12 @@
 {
   "extends": "../../tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "rootDir": "./",
     "composite": true,
     "lib": ["esnext"],
     "module": "commonjs",
     "outDir": "build",
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true,
     "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/i18n"]
   },
   "include": ["./**/*"],

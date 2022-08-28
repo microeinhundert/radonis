@@ -1,15 +1,12 @@
 {
   "extends": "../../tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "rootDir": "./",
     "composite": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "commonjs",
-    "outDir": "build",
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true
+    "outDir": "build"
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "build"]
