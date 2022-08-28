@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.2] - 2022-08-28
+
+### Fixed
+- Publish due to problem with previous publish.
+
 ## [1.8.1] - 2022-08-28
 
 ### Changed

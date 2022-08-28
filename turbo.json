@@ -3,13 +3,15 @@
   "pipeline": {
     "build": {
       "outputs": ["build"],
-      "dependsOn": ["^lint", "^clean", "^build"]
+      "dependsOn": ["clean", "^build"]
     },
     "lint": {
-      "outputs": []
+      "outputs": [],
+      "dependsOn": ["^lint"]
     },
     "clean": {
-      "outputs": []
+      "outputs": [],
+      "dependsOn": ["lint", "^clean"]
     },
     "format": {
       "outputs": []
