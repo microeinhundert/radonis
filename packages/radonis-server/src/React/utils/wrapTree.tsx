@@ -19,7 +19,10 @@ import { AssetsManagerContextProvider } from '../contexts/assetsManagerContext'
 import { HeadManagerContextProvider } from '../contexts/headManagerContext'
 import { ManifestBuilderContextProvider } from '../contexts/manifestBuilderContext'
 
-export function wrapWithDocument<T>(
+/**
+ * Wrap the React tree with providers as well as the document
+ */
+export function wrapTree<T>(
   assetsManager: AssetsManager,
   headManager: HeadManager,
   manifestBuilder: ManifestBuilder,

@@ -23,7 +23,7 @@ import { renderToString } from 'react-dom/server'
 
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
-import { wrapWithDocument } from '../React'
+import { wrapTree } from '../React'
 
 /**
  * Transform a RouteNode to the shape expected by the manifest
@@ -230,7 +230,7 @@ export class Renderer {
      */
     const tree = await this.pluginsManager.execute(
       'beforeRender',
-      wrapWithDocument(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
+      wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
       null
     )
     let html = renderToString(<StrictMode>{tree}</StrictMode>)

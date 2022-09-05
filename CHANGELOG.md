@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.5] - 2022-09-05
+
+### Changed
+- `useFormField` now always outputs the description, even if an error exists.
+- Updated dependencies.
+
 ## [1.8.4] - 2022-08-28
 
 ### Added

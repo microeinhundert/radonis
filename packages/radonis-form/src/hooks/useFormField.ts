@@ -71,7 +71,7 @@ export function useFormField<T extends FormFieldProps>(
   return {
     name,
     label,
-    description: error ? undefined : description,
+    description,
     //
     value,
     setValue,
