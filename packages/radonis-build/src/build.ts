@@ -142,6 +142,7 @@ function generateBuildManifest(
 
 /**
  * Build the entry file as well as the components
+ * @internal
  */
 export async function buildEntryFileAndComponents(
   entryFilePath: string,

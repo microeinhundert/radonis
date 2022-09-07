@@ -19,6 +19,9 @@ import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
+/**
+ * @internal
+ */
 export class AssetsManager implements UniqueBetweenRequests {
   /**
    * The PluginsManager instance

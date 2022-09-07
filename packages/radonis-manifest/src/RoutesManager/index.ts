@@ -9,6 +9,9 @@
 
 import type { RouteIdentifier, Routes, UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
+/**
+ * @internal
+ */
 export class RoutesManager implements UniqueBetweenRequests {
   /**
    * The singleton instance

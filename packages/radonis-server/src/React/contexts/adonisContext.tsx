@@ -10,6 +10,12 @@
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import { createContext } from 'react'
 
+/**
+ * @internal
+ */
 export const adonisContext = createContext<AdonisContextContract>(null as any)
 
+/**
+ * @internal
+ */
 export const AdonisContextProvider = adonisContext.Provider

@@ -10,6 +10,12 @@
 import { createContext } from 'react'
 import type { Twind, TxFunction } from 'twind'
 
+/**
+ * @internal
+ */
 export const twindContext = createContext<{ tw: Twind; tx: TxFunction }>(null as any)
 
+/**
+ * @internal
+ */
 export const TwindContextProvider = twindContext.Provider

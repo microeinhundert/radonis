@@ -41,6 +41,7 @@ function warnAboutMissingDefaultExport(path: string) {
 
 /**
  * The esbuild plugin responsible for compiling the components for the client
+ * @internal
  */
 export const radonisClientPlugin = (components: Map<string, string>): Plugin => ({
   name: 'radonis-client',

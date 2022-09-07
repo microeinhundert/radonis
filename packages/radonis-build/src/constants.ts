@@ -7,8 +7,27 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * @internal
+ */
 export const DEFAULT_EXPORT_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
+
+/**
+ * @internal
+ */
 export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(/(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>\S+)["']/g)
+
+/**
+ * @internal
+ */
 export const MESSAGE_IDENTIFIER_REGEX = new RegExp(/formatMessage\((\W+)?["'](?<identifier>\S+)["']/g)
+
+/**
+ * @internal
+ */
 export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(make\(|(action|to|route):)(\W+)?["'](?<identifier>\S+)["']/g)
+
+/**
+ * @internal
+ */
 export const BUILD_MANIFEST_FILE_NAME = 'build-manifest.json'

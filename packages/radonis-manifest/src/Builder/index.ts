@@ -35,6 +35,9 @@ type BuilderConfig = {
   limitClientManifest: boolean
 }
 
+/**
+ * @internal
+ */
 export class Builder implements Manifest, UniqueBetweenRequests {
   /**
    * The props registered with the Builder

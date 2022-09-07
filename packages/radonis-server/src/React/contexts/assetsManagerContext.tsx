@@ -11,6 +11,12 @@ import { createContext } from 'react'
 
 import type { AssetsManager } from '../../AssetsManager'
 
+/**
+ * @internal
+ */
 export const assetsManagerContext = createContext<AssetsManager>(null as any)
 
+/**
+ * @internal
+ */
 export const AssetsManagerContextProvider = assetsManagerContext.Provider

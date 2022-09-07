@@ -10,6 +10,12 @@
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { createContext } from 'react'
 
+/**
+ * @internal
+ */
 export const manifestBuilderContext = createContext<ManifestBuilder>(null as any)
 
+/**
+ * @internal
+ */
 export const ManifestBuilderContextProvider = manifestBuilderContext.Provider

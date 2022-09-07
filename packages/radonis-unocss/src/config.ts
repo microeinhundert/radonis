@@ -12,6 +12,9 @@ import presetWind from '@unocss/preset-wind'
 
 import { basePreflight, formsPreflight } from './preflight'
 
+/**
+ * @internal
+ */
 export const config: UserConfig = {
   presets: [presetWind()],
   preflights: [basePreflight, formsPreflight],

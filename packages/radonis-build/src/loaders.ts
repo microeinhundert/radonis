@@ -11,6 +11,9 @@ import { invariant } from '@microeinhundert/radonis-shared'
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
 
+/**
+ * @internal
+ */
 export const loaders: Record<string, Loader> = {
   '.js': 'js',
   '.jsx': 'jsx',
@@ -18,6 +21,9 @@ export const loaders: Record<string, Loader> = {
   '.tsx': 'tsx',
 }
 
+/**
+ * @internal
+ */
 export function getLoaderForFile(file: string): Loader {
   const ext = extname(file)
 

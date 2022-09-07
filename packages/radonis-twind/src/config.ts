@@ -13,6 +13,9 @@ import presetTailwindForms from '@twind/preset-tailwind-forms'
 import presetTypography from '@twind/preset-typography'
 import { defineConfig } from 'twind'
 
+/**
+ * @internal
+ */
 export const config = defineConfig({
   presets: [presetTailwind(), presetTailwindForms(), presetTypography(), presetAutoprefix()],
 })

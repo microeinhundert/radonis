@@ -9,6 +9,9 @@
 
 import type { FlashMessageIdentifier, FlashMessages, UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
+/**
+ * @internal
+ */
 export class FlashMessagesManager implements UniqueBetweenRequests {
   /**
    * The singleton instance

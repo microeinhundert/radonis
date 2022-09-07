@@ -51,6 +51,7 @@ export async function initClient(config?: ClientConfig): Promise<void> {
 
 /**
  * Imported by the Compiler to register components for hydration
+ * @internal
  */
 export function registerComponentForHydration(identifier: string, Component: ComponentType): void {
   hydrationManager.registerComponent(identifier, Component)

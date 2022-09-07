@@ -10,6 +10,9 @@
 import type { ComponentIdentifier, PropsHash } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
+/**
+ * @internal
+ */
 export const hydrationContext = createContext<{
   hydrated: boolean
   root: string | null
@@ -22,4 +25,7 @@ export const hydrationContext = createContext<{
   propsHash: null,
 })
 
+/**
+ * @internal
+ */
 export const HydrationContextProvider = hydrationContext.Provider

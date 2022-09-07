@@ -24,6 +24,7 @@ let cachedManifest: Readonly<Manifest> | undefined
 
 /**
  * Get the manifest, fail if it does not exist on the global scope
+ * @internal
  */
 export function getManifestOrFail() {
   if (cachedManifest && isClient) {

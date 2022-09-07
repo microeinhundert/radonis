@@ -15,6 +15,10 @@ import { getSheet, inline, install as install$, twind, tx as tx$ } from 'twind'
 import { config as defaultConfig } from './config'
 import { TwindContextProvider } from './contexts/twindContext'
 
+/**
+ * Plugin for integrating {@link https://twind.dev/ Twind} with Radonis
+ * @see {@link https://radonis.vercel.app/docs/plugins/twind}
+ */
 export function twindPlugin(config?: TwindConfig) {
   let tw: Twind
   let tx: TxFunction
@@ -30,14 +34,12 @@ export function twindPlugin(config?: TwindConfig) {
     name: 'twind',
     environments: ['client', 'server'],
     conflictsWith: ['unocss'],
-    // Client hooks
     onInitClient() {
       install()
     },
     beforeHydrate() {
       return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
     },
-    // Server hooks
     onBootServer() {
       install()
     },

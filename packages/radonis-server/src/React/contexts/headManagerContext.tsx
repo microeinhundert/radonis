@@ -11,6 +11,12 @@ import { createContext } from 'react'
 
 import type { HeadManager } from '../../HeadManager'
 
+/**
+ * @internal
+ */
 export const headManagerContext = createContext<HeadManager>(null as any)
 
+/**
+ * @internal
+ */
 export const HeadManagerContextProvider = headManagerContext.Provider

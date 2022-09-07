@@ -21,6 +21,9 @@ function buildTitle(title: string, prefix: string, suffix: string, separator: st
   ).join(' ')
 }
 
+/**
+ * @internal
+ */
 export class HeadManager implements UniqueBetweenRequests {
   /**
    * The title

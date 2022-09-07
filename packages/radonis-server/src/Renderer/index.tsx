@@ -28,13 +28,16 @@ import { wrapTree } from '../React'
 /**
  * Transform a RouteNode to the shape expected by the manifest
  */
-export function transformRoute(routeNode?: RouteNode): Route {
+function transformRoute(routeNode?: RouteNode): Route {
   return {
     name: routeNode?.name,
     pattern: routeNode?.pattern,
   }
 }
 
+/**
+ * @internal
+ */
 export class Renderer {
   /**
    * The PluginsManager instance

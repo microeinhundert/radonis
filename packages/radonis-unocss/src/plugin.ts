@@ -14,6 +14,10 @@ import { createGenerator } from '@unocss/core'
 
 import { config as defaultConfig } from './config'
 
+/**
+ * Plugin for integrating {@link https://github.com/unocss/unocss UnoCSS} with Radonis
+ * @see {@link https://radonis.vercel.app/docs/plugins/unocss}
+ */
 export function unocssPlugin(config?: UserConfig) {
   let generator: UnoGenerator
 
@@ -23,7 +27,6 @@ export function unocssPlugin(config?: UserConfig) {
     name: 'unocss',
     environments: ['server'],
     conflictsWith: ['twind'],
-    // Server hooks
     onBootServer() {
       generator = createGenerator(config ?? defaultConfig)
     },

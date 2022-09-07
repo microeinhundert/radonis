@@ -13,6 +13,7 @@ import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
 
 /**
  * Extract the required assets from the assets manifest
+ * @internal
  */
 export function extractRequiredAssets(
   assetsManifest: AssetsManifest,
@@ -90,6 +91,7 @@ function reduceHydrationRequirements(
 
 /**
  * Generate the assets manifest
+ * @internal
  */
 export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {
   const assetsManifest = [] as AssetsManifest

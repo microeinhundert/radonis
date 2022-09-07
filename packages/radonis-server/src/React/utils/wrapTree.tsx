@@ -21,6 +21,7 @@ import { ManifestBuilderContextProvider } from '../contexts/manifestBuilderConte
 
 /**
  * Wrap the React tree with providers as well as the document
+ * @internal
  */
 export function wrapTree<T>(
   assetsManager: AssetsManager,

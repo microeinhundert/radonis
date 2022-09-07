@@ -11,6 +11,9 @@ import type { Locale, MessageIdentifier, Messages, UniqueBetweenRequests } from 
 
 import { DEFAULT_LOCALE } from './constants'
 
+/**
+ * @internal
+ */
 export class I18nManager implements UniqueBetweenRequests {
   /**
    * The singleton instance

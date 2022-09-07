@@ -179,6 +179,9 @@ export type ExtractControllerActionReturnType<
 
 /* ---------------------------------------- */
 
+/**
+ * @internal
+ */
 export function generateAndWriteTypesToDisk(
   {
     components,

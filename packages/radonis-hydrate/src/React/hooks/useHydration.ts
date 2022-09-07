@@ -11,6 +11,10 @@ import { useContext } from 'react'
 
 import { hydrationContext } from '../contexts/hydrationContext'
 
+/**
+ * Hook for retrieving info about the closest {@link https://radonis.vercel.app/docs/components#hydrating-components HydrationRoot}
+ * @see {@link https://radonis.vercel.app/docs/hooks/use-hydration}
+ */
 export function useHydration() {
   const context = useContext(hydrationContext)
 

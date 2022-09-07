@@ -23,6 +23,9 @@ import { HydrationContextProvider } from '../React'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils'
 
+/**
+ * @internal
+ */
 export class HydrationManager {
   /**
    * The singleton instance

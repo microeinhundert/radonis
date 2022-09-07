@@ -12,6 +12,9 @@ import { invariant } from '../utils'
 
 type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]
 
+/**
+ * @internal
+ */
 export class PluginsManager {
   /**
    * The singleton instance

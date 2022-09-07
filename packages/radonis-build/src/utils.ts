@@ -21,6 +21,7 @@ import type { BuildManifest } from './types'
  * - Starts with an uppercase letter
  * - Ends with `.ts(x)` or `.js(x)` extension
  * - Does not end with `.<something>.<ext>`
+ * @internal
  */
 export function isComponentFile(filePath: string): boolean {
   const { base } = parse(filePath)
@@ -30,6 +31,7 @@ export function isComponentFile(filePath: string): boolean {
 
 /**
  * Discover all components in a specific directory
+ * @internal
  */
 export function discoverComponents(directory: string): Map<string, string> {
   return fsReadAll(directory, (filePath) => isComponentFile(filePath)).reduce<Map<string, string>>(
@@ -43,6 +45,7 @@ export function discoverComponents(directory: string): Map<string, string> {
 
 /**
  * Read the build manifest from disk
+ * @internal
  */
 export async function readBuildManifestFromDisk(directory: string): Promise<BuildManifest | null> {
   try {
@@ -56,6 +59,7 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
 
 /**
  * Write the build manifest to disk
+ * @internal
  */
 export async function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): Promise<void> {
   await outputFile(join(directory, BUILD_MANIFEST_FILE_NAME), JSON.stringify(buildManifest, null, 2))
@@ -63,6 +67,7 @@ export async function writeBuildManifestToDisk(buildManifest: BuildManifest, dir
 
 /**
  * Convert a file path to a file URL
+ * @internal
  */
 export function filePathToFileUrl(path: string): string {
   return path.split(sep).filter(Boolean).join(posix.sep)
