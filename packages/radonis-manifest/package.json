@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-manifest",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "Manifest package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -59,8 +59,8 @@
     "@types/node": "^16.11.56"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:1.8.6",
-    "@microeinhundert/radonis-types": "workspace:1.8.6",
+    "@microeinhundert/radonis-shared": "workspace:1.8.7",
+    "@microeinhundert/radonis-types": "workspace:1.8.7",
     "node-object-hash": "^2.3.10",
     "superjson": "^1.9.1",
     "tslib": "^2.4.0"

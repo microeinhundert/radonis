@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.7] - 2022-09-07
+
+### Changed
+- BREAKING: The `useFormField` hook now takes a single props object as its only param.
+
+### Fixed
+- `onChange` and `onBlur` on form elements controlled by `useFormField` will now not be overridden, but merged.
+
+## Migration
+- Refer to the updated `useFormField` example in the [documentation](https://radonis.vercel.app/docs/guides/building-an-input-component).
+
 ## [1.8.6] - 2022-09-07
 
 ### Changed

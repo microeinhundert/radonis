@@ -28,7 +28,7 @@ export function useFlashMessages() {
   function findFlashMessage(identifier: FlashMessageIdentifier) {
     const flashMessage = flashMessages[identifier]
 
-    if (typeof flashMessage === 'undefined' && !identifier.match(/\.(\d*)$/i)) {
+    if (typeof flashMessage === 'undefined' && identifier && !identifier.match(/\.(\d*)$/i)) {
       return findFlashMessage(`${identifier}.0`)
     }
 

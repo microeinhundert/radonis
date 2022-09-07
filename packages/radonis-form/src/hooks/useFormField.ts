@@ -8,19 +8,25 @@
  */
 
 import { useFlashMessages } from '@microeinhundert/radonis-hooks'
-import type { FormEvent } from 'react'
+import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { useId, useState } from 'react'
-
-import type { FormFieldInputElement, FormFieldProps } from '../types'
 
 /**
  * Hook for managing the state of a form field
  * @see {@link https://radonis.vercel.app/docs/guides/building-an-input-component}
  */
-export function useFormField<T extends FormFieldProps>(
-  name: string,
-  { label, description, id, defaultValue, ...restProps }: T
-) {
+export function useFormField({
+  name,
+  label,
+  description,
+  id,
+  defaultValue,
+  ...restProps
+}: (InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>) & {
+  name: string
+  label: string
+  description?: string
+}) {
   const randomId = useId()
   const flashMessages = useFlashMessages()
 
@@ -43,19 +49,29 @@ export function useFormField<T extends FormFieldProps>(
   const descriptionId = `description-${inputId}`
   const errorId = `error-${inputId}`
 
-  const getInputProps = (type?: string) => ({
+  const getInputProps = (
+    overrides?: InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>
+  ): Record<string, unknown> => ({
     ...restProps,
     name,
-    type,
     'id': inputId,
     'aria-invalid': error ? 'true' : 'false',
     'aria-describedby': error ? errorId : description ? descriptionId : undefined,
-    'onChange': ({ target }: FormEvent<FormFieldInputElement>) => {
+    ...overrides,
+    'onChange': (event) => {
+      overrides?.onChange?.(event)
+
+      if (event.defaultPrevented) return
+
       setDirty(true)
       setError('')
-      setValue((target as FormFieldInputElement).value)
+      setValue(event.target.value)
     },
-    'onBlur': () => {
+    'onBlur': (event) => {
+      overrides?.onBlur?.(event)
+
+      if (event.defaultPrevented) return
+
       setTouched(true)
     },
   })

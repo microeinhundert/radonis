@@ -52,23 +52,3 @@ export type FormChildrenProps<TData, TError> = {
   error: TError | null
   status: MutationStatus
 }
-
-/**
- * Form field value
- */
-export type FormFieldValue = string | number | ReadonlyArray<string> | undefined
-
-/**
- * Form field props
- */
-export interface FormFieldProps {
-  label: string
-  description?: string
-  id?: string
-  defaultValue?: FormFieldValue
-}
-
-/**
- * Form field input element
- */
-export type FormFieldInputElement = HTMLInputElement | HTMLTextAreaElement
