@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.8] - 2022-09-07
+
+### Added
+- Node.js environment variables prefixed with `PUBLIC_` are now available in the client bundle.
+
 ## [1.8.7] - 2022-09-07
 
 ### Changed

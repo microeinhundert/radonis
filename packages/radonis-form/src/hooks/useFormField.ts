@@ -59,6 +59,7 @@ export function useFormField({
     'aria-describedby': error ? errorId : description ? descriptionId : undefined,
     ...overrides,
     'onChange': (event) => {
+      restProps?.onChange?.(event)
       overrides?.onChange?.(event)
 
       if (event.defaultPrevented) return
@@ -68,6 +69,7 @@ export function useFormField({
       setValue(event.target.value)
     },
     'onBlur': (event) => {
+      restProps?.onBlur?.(event)
       overrides?.onBlur?.(event)
 
       if (event.defaultPrevented) return

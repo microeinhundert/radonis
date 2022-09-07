@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-types",
-  "version": "1.8.7",
+  "version": "1.8.8",
   "description": "Types package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",

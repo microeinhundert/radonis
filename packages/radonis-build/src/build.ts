@@ -154,6 +154,14 @@ export async function buildEntryFileAndComponents(
 ): Promise<BuildManifest> {
   await emptyDir(outputDir)
 
+  const environment = {}
+
+  for (const key in process.env) {
+    if (key.startsWith('PUBLIC_')) {
+      environment[`process.env.${key}`] = JSON.stringify(process.env[key])
+    }
+  }
+
   /**
    * Run the build
    */
@@ -179,6 +187,7 @@ export async function buildEntryFileAndComponents(
       ...(buildOptions.external ?? []),
     ],
     define: {
+      ...environment,
       'process.env.NODE_ENV': forProduction ? '"production"' : '"development"',
       ...(buildOptions.define ?? {}),
     },
