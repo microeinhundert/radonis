@@ -9,6 +9,10 @@
 
 import { useHttpContext } from './useHttpContext'
 
+/**
+ * Hook for retrieving the AdonisJS `SessionContract`
+ * @see {@link https://radonis.vercel.app/docs/hooks/use-session}
+ */
 export function useSession() {
   const { session } = useHttpContext()
 

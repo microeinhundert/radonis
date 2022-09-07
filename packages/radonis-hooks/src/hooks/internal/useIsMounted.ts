@@ -11,6 +11,9 @@ import { useRef } from 'react'
 
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
+/**
+ * @internal
+ */
 export function useIsMounted() {
   const isMounted = useRef(false)
 

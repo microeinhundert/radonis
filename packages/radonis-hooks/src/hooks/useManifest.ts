@@ -24,6 +24,7 @@ let cachedManifest: Readonly<Manifest> | undefined
 
 /**
  * Hook for retrieving the manifest
+ * @see {@link https://radonis.vercel.app/docs/hooks/use-manifest}
  */
 export function useManifest() {
   if (cachedManifest && isClient) {

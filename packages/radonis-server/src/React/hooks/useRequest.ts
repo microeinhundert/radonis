@@ -9,6 +9,10 @@
 
 import { useHttpContext } from './useHttpContext'
 
+/**
+ * Hook for retrieving the AdonisJS `RequestContract`
+ * @see {@link https://radonis.vercel.app/docs/hooks/use-request}
+ */
 export function useRequest() {
   const { request } = useHttpContext()
 

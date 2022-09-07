@@ -11,6 +11,9 @@ import { useCallback } from 'react'
 
 import { useIsMounted } from './useIsMounted'
 
+/**
+ * @internal
+ */
 export function useSafeCallback<Arguments extends any[] = any[], ReturnValue = any>(
   callback: (...args: Arguments) => ReturnValue
 ) {

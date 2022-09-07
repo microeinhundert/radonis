@@ -12,6 +12,10 @@ import { useContext } from 'react'
 
 import { headManagerContext } from '../contexts/headManagerContext'
 
+/**
+ * Hook for adding tags to the page <head>
+ * @see {@link https://radonis.vercel.app/docs/page-head}
+ */
 export function useHead() {
   const context = useContext(headManagerContext)
 

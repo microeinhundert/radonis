@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.6] - 2022-09-07
+
+### Changed
+- Improved code documentation.
+- Updated dependencies.
+
 ## [1.8.5] - 2022-09-05
 
 ### Changed

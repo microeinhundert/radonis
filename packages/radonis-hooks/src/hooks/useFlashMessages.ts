@@ -16,6 +16,7 @@ const ERRORS_NAMESPACE = 'errors'
 
 /**
  * Hook for retrieving session flash messages
+ * @see {@link https://radonis.vercel.app/docs/hooks/use-flash-messages}
  */
 export function useFlashMessages() {
   const { flashMessages } = useManifest()

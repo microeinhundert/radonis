@@ -9,6 +9,9 @@
 
 import { useCallback, useRef } from 'react'
 
+/**
+ * @internal
+ */
 export function useGetLatest<Value>(value: Value): () => Value {
   const ref = useRef<Value>(value)
   ref.current = value

@@ -11,6 +11,9 @@ import { useContext } from 'react'
 
 import { assetsManagerContext } from '../../contexts/assetsManagerContext'
 
+/**
+ * @internal
+ */
 export function useAssetsManager() {
   const context = useContext(assetsManagerContext)
 
