@@ -10,6 +10,10 @@
 import type { DocumentProps } from '../../types'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
+/**
+ * The component containing the minimum markup required for an HTML document
+ * @internal
+ */
 export function Document({ children }: DocumentProps) {
   const manifestBuilder = useManifestBuilder()
 

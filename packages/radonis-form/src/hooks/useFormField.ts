@@ -13,6 +13,10 @@ import { useId, useState } from 'react'
 
 import type { FormFieldInputElement, FormFieldProps } from '../types'
 
+/**
+ * Hook for managing the state of a form field
+ * @see {@link https://radonis.vercel.app/docs/guides/building-an-input-component}
+ */
 export function useFormField<T extends FormFieldProps>(
   name: string,
   { label, description, id, defaultValue, ...restProps }: T

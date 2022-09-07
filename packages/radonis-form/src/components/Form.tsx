@@ -10,6 +10,10 @@
 import { useForm } from '../hooks/useForm'
 import type { FormProps } from '../types'
 
+/**
+ * Component extending the default <form> behavior
+ * @see {@link https://radonis.vercel.app/docs/forms}
+ */
 export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm<TData, TError>(props)
 
