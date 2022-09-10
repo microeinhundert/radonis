@@ -21,8 +21,7 @@ export function useTwind() {
 
   invariant(
     context,
-    `The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree.
-    Please make sure the Twind plugin was registered on both the client and the server`
+    `The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree. Please make sure the Twind plugin was registered on both the client and the server`
   )
 
   return context

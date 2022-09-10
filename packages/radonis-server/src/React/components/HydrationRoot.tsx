@@ -35,8 +35,7 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
    */
   invariant(
     !parentHydrationRootIdentifier,
-    `Found HydrationRoot "${hydrationRootIdentifier}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootIdentifier}" for component "${parentComponentIdentifier}".
-    This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
+    `Found HydrationRoot "${hydrationRootIdentifier}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootIdentifier}" for component "${parentComponentIdentifier}". This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
   )
 
   const { props } = Children.only(children)

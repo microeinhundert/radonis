@@ -56,17 +56,14 @@ export class HydrationManager {
 
     invariant(
       hydrationRootIdentifier && componentIdentifier,
-      `Found a HydrationRoot that is missing required hydration data.
-      Please make sure you passed all the required props to all of your HydrationRoots.
-      If everything looks fine to you, this is most likely a bug of Radonis`
+      `Found a HydrationRoot that is missing required hydration data. Please make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis`
     )
 
     const Component = this.components.get(componentIdentifier)
 
     invariant(
       Component,
-      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootIdentifier}", but that component could not be hydrated.
-      Please make sure the component "${componentIdentifier}" exists in the client bundle`
+      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootIdentifier}", but that component could not be hydrated. Please make sure the component "${componentIdentifier}" exists in the client bundle`
     )
 
     const manifest = getManifestOrFail()
@@ -126,8 +123,7 @@ export class HydrationManager {
 
     invariant(
       !this.components.has(identifier),
-      `The component "${identifier}" was already registered for hydration.
-      Please make sure to not use the same name for multiple components, regardless of which directory they are in`
+      `The component "${identifier}" was already registered for hydration. Please make sure to not use the same name for multiple components, regardless of which directory they are in`
     )
 
     this.components.set(identifier, Component)

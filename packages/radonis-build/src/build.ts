@@ -124,8 +124,7 @@ function generateBuildManifest(
 
     invariant(
       !(fileName in buildManifest),
-      `A build manifest entry for "${fileName}" already exists.
-      Please make sure to not use the same name for multiple components, regardless of which directory they are in`
+      `A build manifest entry for "${fileName}" already exists. Please make sure to not use the same name for multiple components, regardless of which directory they are in`
     )
 
     buildManifest[fileName] = walkMetafile(

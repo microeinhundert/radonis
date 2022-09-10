@@ -44,7 +44,7 @@ export function useUrlBuilder() {
   function processPattern(pattern: string, params: RouteParams) {
     let url = pattern
 
-    invariant(!url.includes('*'), 'Wildcard routes are not supported')
+    invariant(!url.includes('*'), 'Wildcard routes are currently not supported')
 
     if (url.includes(':')) {
       /*

@@ -10,12 +10,12 @@
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import type { RouteNode, RouterContract } from '@ioc:Adonis/Core/Route'
+import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { AdonisContextContract, HeadMeta, HeadTag, RenderOptions } from '@ioc:Microeinhundert/Radonis'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager, stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { Globals, Locale, Route } from '@microeinhundert/radonis-types'
+import type { Globals, Locale } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType } from 'react'
 import { StrictMode } from 'react'
@@ -24,16 +24,7 @@ import { renderToString } from 'react-dom/server'
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
 import { wrapTree } from '../React'
-
-/**
- * Transform a RouteNode to the shape expected by the manifest
- */
-function transformRoute(routeNode?: RouteNode): Route {
-  return {
-    name: routeNode?.name,
-    pattern: routeNode?.pattern,
-  }
-}
+import { transformRoute } from './utils'
 
 /**
  * @internal

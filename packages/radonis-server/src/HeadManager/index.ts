@@ -8,18 +8,10 @@
  */
 
 import type { HeadMeta, HeadTag, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { separateArray, stringifyAttributes } from '@microeinhundert/radonis-shared'
+import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
 
-/**
- * Build the title
- */
-function buildTitle(title: string, prefix: string, suffix: string, separator: string): string {
-  return separateArray(
-    [prefix, title, suffix].filter(Boolean).map((part) => part.trim()),
-    separator
-  ).join(' ')
-}
+import { buildTitle } from './utils'
 
 /**
  * @internal
@@ -48,7 +40,7 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Set defaults
+   * Set the defaults
    */
   private setDefaults() {
     this.setTitle(this.config.head.title.default)
@@ -57,7 +49,7 @@ export class HeadManager implements UniqueBetweenRequests {
   }
 
   /**
-   * Set title
+   * Set the title
    */
   public setTitle(title: string): void {
     const { prefix, suffix, separator } = this.config.head.title
@@ -90,7 +82,7 @@ export class HeadManager implements UniqueBetweenRequests {
         }
 
         if (['charset', 'charSet'].includes(name)) {
-          return `<meta charset="${value}" />`
+          return `<meta ${stringifyAttributes({ charset: value })} />`
         }
 
         /*
@@ -104,7 +96,7 @@ export class HeadManager implements UniqueBetweenRequests {
             return `<meta ${stringifyAttributes(content)} />`
           }
 
-          return `<meta content="${content}" ${isOpenGraphTag ? 'property' : 'name'}="${name}" />`
+          return `<meta ${stringifyAttributes({ content, [isOpenGraphTag ? 'property' : 'name']: name })} />`
         })
       })
       .join('\n')
