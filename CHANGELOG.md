@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.8.9]
+## [1.8.9] - 2022-09-10
 
 ### Changed
 - Updated dependencies.
