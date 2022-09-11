@@ -1,7 +1,7 @@
 {
-  "name": "@microeinhundert/radonis",
+  "name": "@microeinhundert/radonis-query",
   "version": "1.9.0",
-  "description": "Bridge the gap between React and AdonisJS",
+  "description": "Query plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
   "types": "./build/cjs/src/index.d.ts",
@@ -50,25 +50,23 @@
   "keywords": [
     "adonisjs",
     "adonis",
-    "radonis"
+    "radonis",
+    "plugin",
+    "query"
   ],
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis-server": "1.9.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@microeinhundert/radonis": "1.9.0"
   },
   "devDependencies": {
+    "@microeinhundert/radonis": "workspace:1.9.0",
     "@types/node": "^16.11.56"
   },
   "dependencies": {
-    "@microeinhundert/radonis-form": "workspace:1.9.0",
-    "@microeinhundert/radonis-hooks": "workspace:1.9.0",
-    "@microeinhundert/radonis-hydrate": "workspace:1.9.0",
-    "@microeinhundert/radonis-manifest": "workspace:1.9.0",
     "@microeinhundert/radonis-shared": "workspace:1.9.0",
     "@microeinhundert/radonis-types": "workspace:1.9.0",
+    "@tanstack/react-query": "^4.2.3",
     "superjson": "^1.9.1",
     "tslib": "^2.4.0"
   }

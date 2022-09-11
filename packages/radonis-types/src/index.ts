@@ -9,7 +9,8 @@
 
 import { outputFile } from 'fs-extra'
 import { join } from 'path'
-import type { ComponentType } from 'react'
+import type { ComponentType, PropsWithoutRef } from 'react'
+import type { SuperJSONResult } from 'superjson/dist/types'
 
 /**
  * Component identifier (overridden by generated type)
@@ -158,9 +159,19 @@ export interface HydrationRequirements {
 /* ---------------------------------------- */
 
 /**
+ * Radonis JSON response
+ */
+export type RadonisJSONResponse = SuperJSONResult
+
+/**
  * Value of
  */
 export type ValueOf<T> = T[keyof T]
+
+/**
+ * Unwrap props
+ */
+export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
 
 /**
  * Unique between requests

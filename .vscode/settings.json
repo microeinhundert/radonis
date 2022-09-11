@@ -46,6 +46,10 @@
     {
       "directory": "packages/radonis-unocss",
       "changeProcessCWD": true
+    },
+    {
+      "directory": "packages/radonis-query",
+      "changeProcessCWD": true
     }
   ],
   "typescript.tsdk": "node_modules/typescript/lib"

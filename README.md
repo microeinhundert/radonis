@@ -18,7 +18,6 @@ Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
 
 - [ ] CSS bundling
 - [ ] Customizable document component
-- [ ] Data fetching hooks
 - [ ] Streaming and SSR Suspense
 
 ## License

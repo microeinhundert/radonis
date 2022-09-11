@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "1.8.9",
+  "version": "1.9.0",
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/providers/RadonisProvider.js",
@@ -96,18 +96,19 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.56",
-    "@types/react": "^18.0.18",
+    "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-build": "workspace:1.8.9",
-    "@microeinhundert/radonis-hydrate": "workspace:1.8.9",
-    "@microeinhundert/radonis-manifest": "workspace:1.8.9",
-    "@microeinhundert/radonis-shared": "workspace:1.8.9",
-    "@microeinhundert/radonis-types": "workspace:1.8.9",
+    "@microeinhundert/radonis-build": "workspace:1.9.0",
+    "@microeinhundert/radonis-hydrate": "workspace:1.9.0",
+    "@microeinhundert/radonis-manifest": "workspace:1.9.0",
+    "@microeinhundert/radonis-shared": "workspace:1.9.0",
+    "@microeinhundert/radonis-types": "workspace:1.9.0",
     "@poppinss/utils": "^5.0.0",
     "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
+    "superjson": "^1.9.1",
     "tslib": "^2.4.0"
   }
 }

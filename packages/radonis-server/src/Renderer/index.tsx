@@ -15,11 +15,12 @@ import type { AdonisContextContract, HeadMeta, HeadTag, RenderOptions } from '@i
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager, stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { Globals, Locale } from '@microeinhundert/radonis-types'
+import type { Globals, Locale, RadonisJSONResponse, UnwrapProps } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
-import type { ComponentPropsWithoutRef, ComponentType } from 'react'
+import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
+import { serialize } from 'superjson'
 
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
@@ -171,79 +172,93 @@ export class Renderer {
   }
 
   /**
+   * Return a JSON response processed by superjson
+   */
+  public json<T>(body: T): RadonisJSONResponse {
+    return serialize(body)
+  }
+
+  /**
    * Render the view and return the full HTML document
    */
-  public async render<T>(
+  public async render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
-  ): Promise<string> {
+  ): Promise<string | UnwrapProps<T> | undefined> {
     /**
-     * Re-read the build manifest on every
-     * render when not in production
+     * If the request accepts HTML, return the rendered view
      */
-    if (!this.context.application.inProduction) {
-      await this.assetsManager.readBuildManifest()
+    if (this.context.httpContext.request.accepts(['html'])) {
+      /**
+       * Re-read the build manifest on every
+       * render when not in production
+       */
+      if (!this.context.application.inProduction) {
+        await this.assetsManager.readBuildManifest()
+      }
+
+      /**
+       * Set the title on the HeadManager
+       */
+      if (options?.title) {
+        this.headManager.setTitle(options.title)
+      }
+
+      /**
+       * Add meta to the HeadManager
+       */
+      if (options?.meta) {
+        this.headManager.addMeta(options.meta)
+      }
+
+      /**
+       * Add tags to the HeadManager
+       */
+      if (options?.tags) {
+        this.headManager.addTags(options.tags)
+      }
+
+      /**
+       * Add globals to the ManifestBuilder
+       */
+      if (options?.globals) {
+        this.manifestBuilder.addGlobals(options.globals)
+      }
+
+      /**
+       * Set the server manifest on the global scope
+       */
+      this.manifestBuilder.setServerManifestOnGlobalScope()
+
+      /**
+       * Render the view
+       */
+      const tree = await this.pluginsManager.execute(
+        'beforeRender',
+        wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
+        null
+      )
+      let html = renderToString(<StrictMode>{tree}</StrictMode>)
+
+      /**
+       * Inject closing head
+       */
+      html = this.injectClosingHead(html)
+
+      /**
+       * Inject closing body
+       */
+      html = this.injectClosingBody(html)
+
+      /**
+       * Execute `afterRender` hooks
+       */
+      html = await this.pluginsManager.execute('afterRender', html, null)
+
+      return `<!DOCTYPE html>\n${html}`
     }
 
-    /**
-     * Set the title on the HeadManager
-     */
-    if (options?.title) {
-      this.headManager.setTitle(options.title)
-    }
-
-    /**
-     * Add meta to the HeadManager
-     */
-    if (options?.meta) {
-      this.headManager.addMeta(options.meta)
-    }
-
-    /**
-     * Add tags to the HeadManager
-     */
-    if (options?.tags) {
-      this.headManager.addTags(options.tags)
-    }
-
-    /**
-     * Add globals to the ManifestBuilder
-     */
-    if (options?.globals) {
-      this.manifestBuilder.addGlobals(options.globals)
-    }
-
-    /**
-     * Set the server manifest on the global scope
-     */
-    this.manifestBuilder.setServerManifestOnGlobalScope()
-
-    /**
-     * Render the view
-     */
-    const tree = await this.pluginsManager.execute(
-      'beforeRender',
-      wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
-      null
-    )
-    let html = renderToString(<StrictMode>{tree}</StrictMode>)
-
-    /**
-     * Inject closing head
-     */
-    html = this.injectClosingHead(html)
-
-    /**
-     * Inject closing body
-     */
-    html = this.injectClosingBody(html)
-
-    /**
-     * Execute `afterRender` hooks
-     */
-    html = await this.pluginsManager.execute('afterRender', html, null)
-
-    return `<!DOCTYPE html>\n${html}`
+    return this.json(props) as UnwrapProps<T>
   }
 }

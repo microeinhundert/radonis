@@ -48,6 +48,9 @@
       "path": "./packages/radonis-unocss"
     },
     {
+      "path": "./packages/radonis-query"
+    },
+    {
       "path": "./packages/radonis-types"
     }
   ]

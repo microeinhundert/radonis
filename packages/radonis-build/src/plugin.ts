@@ -26,20 +26,6 @@ function injectHydrateCall(componentName: string, exportName: string, source: st
 }
 
 /**
- * Warn about a missing default export
- */
-function warnAboutMissingDefaultExport(path: string) {
-  return {
-    errors: [
-      {
-        text: `Found component at "${path}" without default export. All components built for the client must export themselves as default`,
-        pluginName: 'radonis-client',
-      },
-    ],
-  }
-}
-
-/**
  * The esbuild plugin responsible for compiling the components for the client
  * @internal
  */
@@ -73,7 +59,14 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
           }
         }
 
-        return warnAboutMissingDefaultExport(path)
+        return {
+          errors: [
+            {
+              text: `Found component at "${path}" without default export. All components built for the client must export themselves as default`,
+              pluginName: 'radonis-client',
+            },
+          ],
+        }
       } catch (error) {
         return {
           errors: [
