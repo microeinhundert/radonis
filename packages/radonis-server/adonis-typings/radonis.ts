@@ -13,7 +13,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
-  import type { Globals, ComponentIdentifier } from '@microeinhundert/radonis-types'
+  import type { ComponentIdentifier, HeadMeta, HeadContract } from '@microeinhundert/radonis-types'
   import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { Plugin } from '@microeinhundert/radonis-shared'
   import type { ReactElement } from 'react'
@@ -30,25 +30,6 @@ declare module '@ioc:Microeinhundert/Radonis' {
   function useSession(): SessionContract
   function useRequest(): RequestContract
   function useRouter(): RouterContract
-
-  interface HeadMeta {
-    charset?: 'utf-8'
-    charSet?: 'utf-8'
-    [name: string]: null | string | undefined | (Record<string, string> | string)[]
-  }
-
-  interface HeadTag {
-    name: string
-    content: string
-    attributes?: Record<string, unknown>
-  }
-
-  interface HeadContract {
-    setTitle(title: string): void
-    addMeta(meta: HeadMeta): void
-    addTags(tags: HeadTag[]): void
-  }
-
   function useHead(): HeadContract
 
   function HydrationRoot(props: {
@@ -56,13 +37,6 @@ declare module '@ioc:Microeinhundert/Radonis' {
     component: ComponentIdentifier
     disabled?: boolean
   }): JSX.Element
-
-  interface RenderOptions {
-    title?: string
-    meta?: HeadMeta
-    tags?: HeadTag[]
-    globals?: Globals
-  }
 
   interface RadonisConfig {
     plugins: Plugin[]

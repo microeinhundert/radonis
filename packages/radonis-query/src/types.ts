@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteParams } from '@microeinhundert/radonis-types'
+import type { RadonisContract, RouteIdentifier, RouteParams } from '@microeinhundert/radonis-types'
 import type { UseQueryOptions } from '@tanstack/react-query'
 import type { ReactNode } from 'react'
 
@@ -26,4 +26,12 @@ export interface QueryOptions<TData, TError> {
  */
 export interface QueryHydratorProps {
   children: ReactNode
+}
+
+/**
+ * Radonis contract with query prefetcher
+ */
+export interface RadonisContractWithQueryPrefetcher extends RadonisContract {
+  prefetch(queries: Partial<Record<RouteIdentifier, unknown>>): RadonisContract
+  prototype: RadonisContract
 }

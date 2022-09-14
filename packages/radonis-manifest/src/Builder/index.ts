@@ -17,9 +17,9 @@ import type {
   Messages,
   Props,
   PropsHash,
+  ResetBetweenRequests,
   Route,
   Routes,
-  UniqueBetweenRequests,
   ValueOf,
 } from '@microeinhundert/radonis-types'
 import hasher from 'node-object-hash'
@@ -38,7 +38,7 @@ type BuilderConfig = {
 /**
  * @internal
  */
-export class Builder implements Manifest, UniqueBetweenRequests {
+export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * The props registered with the Builder
    */

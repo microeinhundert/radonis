@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta, HeadTag, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
+import type { HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from './utils'
 
 /**
  * @internal
  */
-export class HeadManager implements UniqueBetweenRequests {
+export class HeadManager implements ResetBetweenRequests {
   /**
    * The title
    */

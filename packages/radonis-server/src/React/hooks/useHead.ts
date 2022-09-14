@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { HeadMeta, HeadTag } from '@ioc:Microeinhundert/Radonis'
+import type { HeadMeta, HeadTag } from '@microeinhundert/radonis-types'
 import { useContext } from 'react'
 
 import { headManagerContext } from '../contexts/headManagerContext'

@@ -9,7 +9,7 @@
 
 import { outputFile } from 'fs-extra'
 import { join } from 'path'
-import type { ComponentType, PropsWithoutRef } from 'react'
+import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 
 /**
  * Component identifier (overridden by generated type)
@@ -163,14 +163,24 @@ export interface HydrationRequirements {
 export type ValueOf<T> = T[keyof T]
 
 /**
+ * Pick matching
+ */
+export type PickMatching<T, V> = { [K in keyof T as T[K] extends V ? K : never]: T[K] }
+
+/**
+ * Extract methods
+ */
+export type ExtractMethods<T> = PickMatching<T, Function>
+
+/**
  * Unwrap props
  */
 export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
 
 /**
- * Unique between requests
+ * Reset between requests
  */
-export interface UniqueBetweenRequests {
+export interface ResetBetweenRequests {
   prepareForNewRequest(): void
 }
 
@@ -178,9 +188,63 @@ export interface UniqueBetweenRequests {
  * Extract controller action return type
  */
 export type ExtractControllerActionReturnType<
-  Controller extends Record<string, any>,
-  ActionName extends keyof Controller
-> = Awaited<ReturnType<Controller[ActionName]>>
+  TController extends Record<string, any>,
+  TAction extends keyof ExtractMethods<TController>
+> = Awaited<ReturnType<ExtractMethods<TController>[TAction]>>
+
+/* ---------------------------------------- */
+
+/**
+ * Head meta
+ */
+export interface HeadMeta {
+  charset?: 'utf-8'
+  charSet?: 'utf-8'
+  [name: string]: null | string | undefined | (Record<string, string> | string)[]
+}
+
+/**
+ * Head tag
+ */
+export interface HeadTag {
+  name: string
+  content: string
+  attributes?: Record<string, unknown>
+}
+
+/**
+ * Head contract
+ */
+export interface HeadContract {
+  setTitle(title: string): void
+  addMeta(meta: HeadMeta): void
+  addTags(tags: HeadTag[]): void
+}
+
+/**
+ * Render options
+ */
+export interface RenderOptions {
+  title?: string
+  meta?: HeadMeta
+  tags?: HeadTag[]
+  globals?: Globals
+}
+
+/**
+ * Radonis contract
+ */
+export interface RadonisContract {
+  withTitle(string: string): RadonisContract
+  withHeadMeta(meta: HeadMeta): RadonisContract
+  withHeadTags(tags: HeadTag[]): RadonisContract
+  withGlobals(globals: Globals): RadonisContract
+  render<T extends PropsWithoutRef<any>>(
+    Component: ComponentType<T>,
+    props?: ComponentPropsWithoutRef<ComponentType<T>>,
+    options?: RenderOptions
+  ): Promise<string | UnwrapProps<T> | undefined>
+}
 
 /* ---------------------------------------- */
 

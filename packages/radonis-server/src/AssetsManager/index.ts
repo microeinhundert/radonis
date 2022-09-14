@@ -14,7 +14,7 @@ import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
 import { generateAssetsManifest } from '@microeinhundert/radonis-build'
 import { extractRequiredAssets } from '@microeinhundert/radonis-build'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { UniqueBetweenRequests } from '@microeinhundert/radonis-types'
+import type { ResetBetweenRequests } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { join } from 'path'
@@ -22,7 +22,7 @@ import { join } from 'path'
 /**
  * @internal
  */
-export class AssetsManager implements UniqueBetweenRequests {
+export class AssetsManager implements ResetBetweenRequests {
   /**
    * The PluginsManager instance
    */

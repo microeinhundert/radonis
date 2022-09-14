@@ -35,7 +35,7 @@ export function useQuery<TData = unknown, TError = unknown>(
     queryKey,
     async () => {
       const response = await fetch(url, {
-        headers: { 'Accept': 'application/json', 'X-Radonis-Request': 'true', ...options?.headers },
+        headers: { ...options?.headers, 'Accept': 'application/json', 'X-Radonis-Request': 'true' },
       })
 
       if (!response.ok) {
