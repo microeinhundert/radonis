@@ -2,10 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.9.0] - WIP
+## [1.9.0] - 2022-09-14
 
 ### Added
-- New experimental `query` plugin.
+- New experimental `query` plugin. Docs coming soon.
 - `beforeRequest` and `afterRequest` hooks to plugin API.
 
 ### Changed
