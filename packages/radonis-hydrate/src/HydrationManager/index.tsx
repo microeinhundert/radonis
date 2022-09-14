@@ -108,9 +108,9 @@ export class HydrationManager {
     const hydrationRoots = document.querySelectorAll(HYDRATION_ROOT_SELECTOR)
     const rootObserver = this.createRootObserver()!
 
-    hydrationRoots.forEach((hydrationRoot: HTMLElement) => {
+    for (const hydrationRoot of hydrationRoots) {
       rootObserver.observe(hydrationRoot)
-    })
+    }
 
     return this
   }

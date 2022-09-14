@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { twindContext } from '../contexts/twindContext'
 
 /**
- * Hook for accessing Twinds `tw` and `tx`
+ * Hook for accessing Twind's `tw` as well as `tx`
  * @see {@link https://radonis.vercel.app/docs/plugins/twind}
  */
 export function useTwind() {

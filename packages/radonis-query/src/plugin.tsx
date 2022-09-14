@@ -12,16 +12,11 @@ import type { QueryClientConfig } from '@tanstack/react-query'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 /**
- * The QueryClient
- */
-export let queryClient: QueryClient
-
-/**
  * Plugin for adding asynchronous query utilities powered by {@link https://tanstack.com/query/v4 TanStack Query} to Radonis
  * @see {@link https://radonis.vercel.app/docs/plugins/query}
  */
 export function queryPlugin(config?: QueryClientConfig) {
-  queryClient = new QueryClient(config)
+  let queryClient = new QueryClient(config)
 
   return definePlugin({
     name: 'query',
@@ -30,11 +25,7 @@ export function queryPlugin(config?: QueryClientConfig) {
       return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
     },
     beforeRender() {
-      /**
-       * Create a new QueryClient for every render
-       */
-      queryClient = new QueryClient(config)
-
+      queryClient.clear()
       return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
     },
   })

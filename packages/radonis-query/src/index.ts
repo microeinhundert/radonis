@@ -7,5 +7,5 @@
  * file that was distributed with this source code.
  */
 
-export { createFetcher } from './fetcher'
-export { queryClient, queryPlugin } from './plugin'
+export { useQuery } from './hooks/useQuery'
+export { queryPlugin } from './plugin'

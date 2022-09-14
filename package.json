@@ -38,12 +38,12 @@
     "@adonisjs/require-ts": "^2.0.12",
     "@japa/assert": "^1.3.6",
     "@japa/run-failed-tests": "^1.1.0",
-    "@japa/runner": "^2.1.3",
+    "@japa/runner": "^2.2.1",
     "@japa/spec-reporter": "^1.3.0",
     "adonis-preset-ts": "^2.1.0",
     "copyfiles": "2.4.1",
     "del-cli": "5.0.0",
-    "eslint": "8.23.0",
+    "eslint": "8.23.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-adonis": "2.1.0",
     "eslint-plugin-prettier": "4.2.1",
@@ -69,6 +69,7 @@
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
+        "react",
         "@adonisjs/application"
       ],
       "allowedVersions": {

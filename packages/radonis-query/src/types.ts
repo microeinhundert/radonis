@@ -8,27 +8,14 @@
  */
 
 import type { RouteParams } from '@microeinhundert/radonis-types'
-import type { QueryClient } from '@tanstack/react-query'
+import type { UseQueryOptions } from '@tanstack/react-query'
 
 /**
- * Fetcher options
+ * Query options
  */
-export interface FetcherOptions {
+export interface QueryOptions<TData, TError> {
   params?: RouteParams
   queryParams?: RouteParams
   headers?: Record<string, string>
+  query?: Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
 }
-
-/**
- * URL factory params
- */
-export type UrlFactoryParams = {
-  routeIdentifier: string
-  params?: RouteParams
-  queryParams: RouteParams
-}
-
-/**
- * URL factory
- */
-export type UrlFactory = (this: QueryClient, params: UrlFactoryParams) => string
