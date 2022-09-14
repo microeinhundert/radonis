@@ -10,7 +10,6 @@
 import { outputFile } from 'fs-extra'
 import { join } from 'path'
 import type { ComponentType, PropsWithoutRef } from 'react'
-import type { SuperJSONResult } from 'superjson/dist/types'
 
 /**
  * Component identifier (overridden by generated type)
@@ -157,11 +156,6 @@ export interface HydrationRequirements {
 }
 
 /* ---------------------------------------- */
-
-/**
- * Radonis JSON response
- */
-export type RadonisJSONResponse = SuperJSONResult
 
 /**
  * Value of

@@ -190,13 +190,17 @@ importers:
   packages/radonis-query:
     specifiers:
       '@microeinhundert/radonis': workspace:1.9.0
+      '@microeinhundert/radonis-hooks': workspace:1.9.0
       '@microeinhundert/radonis-shared': workspace:1.9.0
       '@microeinhundert/radonis-types': workspace:1.9.0
       '@tanstack/react-query': ^4.3.4
       '@types/node': ^16.11.56
+      '@types/react': ^18.0.20
+      '@types/react-dom': ^18.0.6
       superjson: ^1.9.1
       tslib: ^2.4.0
     dependencies:
+      '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       '@tanstack/react-query': 4.3.4
@@ -205,6 +209,8 @@ importers:
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
       '@types/node': 16.11.56
+      '@types/react': 18.0.20
+      '@types/react-dom': 18.0.6
 
   packages/radonis-server:
     specifiers:
@@ -1068,6 +1074,8 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^18.2.0
       react-native: '*'
     peerDependenciesMeta:
+      react:
+        optional: true
       react-dom:
         optional: true
       react-native:
@@ -4465,6 +4473,9 @@ packages:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
       react: ^18.2.0
+    peerDependenciesMeta:
+      react:
+        optional: true
     dependencies:
       loose-envify: 1.4.0
       react: 18.2.0
@@ -5401,6 +5412,9 @@ packages:
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^18.2.0
+    peerDependenciesMeta:
+      react:
+        optional: true
     dev: false
 
   /util-deprecate/1.0.2:

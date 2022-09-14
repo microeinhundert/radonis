@@ -10,7 +10,7 @@
 import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
 import { invariant } from '../utils'
 
-type PluginHook<T extends keyof PluginHooks> = PluginHooks[T]
+type PluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
 
 /**
  * @internal
@@ -40,6 +40,16 @@ export class PluginsManager {
    * The registered `onBootServer` hooks
    */
   private onBootServerHooks: PluginHook<'onBootServer'>[] = []
+
+  /**
+   * The registered `beforeRequest` hooks
+   */
+  private beforeRequestHooks: PluginHook<'beforeRequest'>[] = []
+
+  /**
+   * The registered `afterRequest` hooks
+   */
+  private afterRequestHooks: PluginHook<'afterRequest'>[] = []
 
   /**
    * The registered `onScanFile` hooks
@@ -78,6 +88,8 @@ export class PluginsManager {
       }
       case 'server': {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
+        plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest)
+        plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest)
         plugin.onScanFile && this.onScanFileHooks.push(plugin.onScanFile)
         plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
         plugin.afterOutput && this.afterOutputHooks.push(plugin.afterOutput)
@@ -146,12 +158,12 @@ export class PluginsManager {
   /**
    * Execute hooks of a specific type
    */
-  public async execute<T extends keyof PluginHooks, B extends unknown, P extends Parameters<PluginHook<T>>>(
-    type: T,
-    initialBuilderValue: B,
-    ...params: P
-  ): Promise<B> {
-    const hooks = this[`${type}Hooks`] as PluginHook<T>[]
+  public async execute<
+    TType extends keyof PluginHooks,
+    TBuilderValue extends unknown,
+    TParams extends Parameters<PluginHook<TType>>
+  >(type: TType, initialBuilderValue: TBuilderValue, ...params: TParams): Promise<TBuilderValue> {
+    const hooks = this[`${type}Hooks`] as PluginHook<TType>[]
 
     let builderValue = initialBuilderValue
 

@@ -118,6 +118,16 @@ export default class RadonisProvider {
   public async boot() {
     await this.pluginsManager.execute('onBootServer', null, null)
 
+    this.application.container.withBindings(['Adonis/Core/Server'], (Server) => {
+      Server.hooks
+        .before(async () => {
+          await this.pluginsManager.execute('beforeRequest', null, null)
+        })
+        .after(async () => {
+          await this.pluginsManager.execute('afterRequest', null, null)
+        })
+    })
+
     this.application.container.withBindings(
       [
         'Adonis/Core/HttpContext',

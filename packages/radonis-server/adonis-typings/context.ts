@@ -8,7 +8,7 @@
  */
 
 declare module '@ioc:Adonis/Core/HttpContext' {
-  import type { Globals, RadonisJSONResponse, UnwrapProps } from '@microeinhundert/radonis-types'
+  import type { Globals, UnwrapProps } from '@microeinhundert/radonis-types'
   import type { HeadMeta, HeadTag, RenderOptions } from '@ioc:Microeinhundert/Radonis'
   import type { ComponentPropsWithoutRef, PropsWithoutRef, ComponentType } from 'react'
 
@@ -17,7 +17,6 @@ declare module '@ioc:Adonis/Core/HttpContext' {
     withHeadMeta(meta: HeadMeta): RadonisContract
     withHeadTags(tags: HeadTag[]): RadonisContract
     withGlobals(globals: Globals): RadonisContract
-    json<T>(body: T): RadonisJSONResponse
     render<T extends PropsWithoutRef<any>>(
       Component: ComponentType<T>,
       props?: ComponentPropsWithoutRef<ComponentType<T>>,

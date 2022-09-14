@@ -15,8 +15,8 @@ import { deserialize } from 'superjson'
 import type { QueryOptions } from '../types'
 
 /**
- * Hook for querying data in React components
- * @see {@link https://radonis.vercel.app/docs/plugins/query}
+ * Hook for querying data from the server inside of React components
+ * @see {@link https://radonis.vercel.app/docs/plugins/query#querying-data}
  */
 export function useQuery<TData = unknown, TError = unknown>(
   routeIdentifier: RouteIdentifier,
@@ -35,11 +35,11 @@ export function useQuery<TData = unknown, TError = unknown>(
     queryKey,
     async () => {
       const response = await fetch(url, {
-        headers: { Accept: 'application/json', ...options?.headers },
+        headers: { 'Accept': 'application/json', 'X-Radonis-Request': 'true', ...options?.headers },
       })
 
       if (!response.ok) {
-        throw new Error(`The network request to "${routeIdentifier}" failed`)
+        throw new Error(`The network request to route "${routeIdentifier}" failed`)
       }
 
       const json = await response.json()

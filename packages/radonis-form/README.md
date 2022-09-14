@@ -2,7 +2,7 @@
 
 ![npm (scoped)](https://img.shields.io/npm/v/@microeinhundert/radonis-form)
 
-> **Note**: This is a package used by Radonis internally and should not be installed manually.
+> **Note**: This is a package used by Radonis internally and should not be installed directly.
 
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.

@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [1.9.0] - WIP
 
 ### Added
-- `json` method to the `radonis` context.
-- New `query` plugin. Learn more about it in the [documentation](https://radonis.vercel.app/docs/plugins/query).
+- New experimental `query` plugin.
+- `beforeRequest` and `afterRequest` hooks to plugin API.
 
 ### Changed
-- Requests to an endpoint rendering a view will now return the view's props as JSON when the `accept=application/json` header is present in the request.
+- Requests to an endpoint rendering a view will now return the view's props as JSON when the `accept=application/json` header is present on the request.
 - Updated dependencies.
 
 ## [1.8.9] - 2022-09-10

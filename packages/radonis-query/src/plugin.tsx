@@ -9,23 +9,32 @@
 
 import { definePlugin } from '@microeinhundert/radonis'
 import type { QueryClientConfig } from '@tanstack/react-query'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+
+import { QueryHydrator } from './components/QueryHydrator'
+import { getQueryClient } from './queryClient'
 
 /**
  * Plugin for adding asynchronous query utilities powered by {@link https://tanstack.com/query/v4 TanStack Query} to Radonis
  * @see {@link https://radonis.vercel.app/docs/plugins/query}
  */
 export function queryPlugin(config?: QueryClientConfig) {
-  let queryClient = new QueryClient(config)
+  const queryClient = getQueryClient(config)
 
   return definePlugin({
     name: 'query',
     environments: ['client', 'server'],
     beforeHydrate() {
-      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+      return (tree) => (
+        <QueryClientProvider client={queryClient}>
+          <QueryHydrator>{tree}</QueryHydrator>
+        </QueryClientProvider>
+      )
+    },
+    afterRequest() {
+      queryClient.clear()
     },
     beforeRender() {
-      queryClient.clear()
       return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
     },
   })

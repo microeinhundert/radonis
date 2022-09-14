@@ -17,12 +17,14 @@ export type PluginEnvironment = 'client' | 'server'
 /**
  * Plugin hook
  */
-export type PluginHook<I> = (input: I) => Promise<void> | void
+export type PluginHook<TInput> = (input: TInput) => Promise<void> | void
 
 /**
  * Plugin hook with builder
  */
-export type PluginHookWithBuilder<B, I> = (input: I) => (value: B) => Promise<B> | B
+export type PluginHookWithBuilder<TBuilderValue, TInput> = (
+  input: TInput
+) => (value: TBuilderValue) => Promise<TBuilderValue> | TBuilderValue
 
 /**
  * Plugin hooks
@@ -42,6 +44,16 @@ export interface PluginHooks {
    * This plugin hook is called on boot of the server
    */
   onBootServer: PluginHook<null>
+
+  /**
+   * This plugin hook is called before a request
+   */
+  beforeRequest: PluginHook<null>
+
+  /**
+   * This plugin hook is called after a request
+   */
+  afterRequest: PluginHook<null>
 
   /**
    * This plugin hook is called on scan of a previously output file
@@ -84,7 +96,7 @@ export interface Plugin extends Partial<PluginHooks> {
   environments?: PluginEnvironment[]
 
   /**
-   * The names of the plugins this plugin conflicts with
+   * The names of the plugins the plugin conflicts with
    */
   conflictsWith?: string[]
 }

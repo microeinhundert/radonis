@@ -15,7 +15,7 @@ import type { AdonisContextContract, HeadMeta, HeadTag, RenderOptions } from '@i
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager, stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { Globals, Locale, RadonisJSONResponse, UnwrapProps } from '@microeinhundert/radonis-types'
+import type { Globals, Locale, UnwrapProps } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 import { StrictMode } from 'react'
@@ -172,13 +172,6 @@ export class Renderer {
   }
 
   /**
-   * Return a JSON response processed by superjson
-   */
-  public json<T>(body: T): RadonisJSONResponse {
-    return serialize(body)
-  }
-
-  /**
    * Render the view and return the full HTML document
    */
   public async render<T extends PropsWithoutRef<any>>(
@@ -186,10 +179,13 @@ export class Renderer {
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<string | UnwrapProps<T> | undefined> {
+    const request = this.context.httpContext.request
+
     /**
-     * If the request accepts HTML, return the rendered view
+     * If the request accepts HTML,
+     * return the rendered view
      */
-    if (this.context.httpContext.request.accepts(['html'])) {
+    if (request.accepts(['html'])) {
       /**
        * Re-read the build manifest on every
        * render when not in production
@@ -259,6 +255,14 @@ export class Renderer {
       return `<!DOCTYPE html>\n${html}`
     }
 
-    return this.json(props) as UnwrapProps<T>
+    /**
+     * If the request was made by Radonis,
+     * serialize the response with superjson
+     */
+    if (request.header('X-Radonis-Request')) {
+      return serialize(props) as UnwrapProps<T>
+    }
+
+    return props as UnwrapProps<T>
   }
 }

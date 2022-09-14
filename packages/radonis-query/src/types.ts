@@ -9,6 +9,7 @@
 
 import type { RouteParams } from '@microeinhundert/radonis-types'
 import type { UseQueryOptions } from '@tanstack/react-query'
+import type { ReactNode } from 'react'
 
 /**
  * Query options
@@ -18,4 +19,11 @@ export interface QueryOptions<TData, TError> {
   queryParams?: RouteParams
   headers?: Record<string, string>
   query?: Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
+}
+
+/**
+ * Query hydrator props
+ */
+export interface QueryHydratorProps {
+  children: ReactNode
 }
