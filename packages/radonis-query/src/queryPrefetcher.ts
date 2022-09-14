@@ -80,12 +80,12 @@ export function withQueryPrefetcher(context: RadonisContract) {
    */
   const contextWithQueryPrefetcher = context as RadonisContractWithQueryPrefetcher
 
-  Object.defineProperty(contextWithQueryPrefetcher.prototype, 'prefetch', {
+  Object.defineProperty(contextWithQueryPrefetcher, 'prefetch', {
     writable: true,
     enumerable: false,
     value: prefetch,
   })
-  Object.defineProperty(contextWithQueryPrefetcher.prototype, 'render', {
+  Object.defineProperty(contextWithQueryPrefetcher, 'render', {
     writable: true,
     enumerable: false,
     value: render,

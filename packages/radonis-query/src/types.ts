@@ -33,5 +33,4 @@ export interface QueryHydratorProps {
  */
 export interface RadonisContractWithQueryPrefetcher extends RadonisContract {
   prefetch(queries: Partial<Record<RouteIdentifier, unknown>>): RadonisContract
-  prototype: RadonisContract
 }
