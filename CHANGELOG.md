@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.1] - WIP
+
+### Changed
+- Internal improvements to the `query` plugin.
+
 ## [1.9.0] - 2022-09-14
 
 ### Added

@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { invariant, isClient } from '@microeinhundert/radonis-shared'
 import type { Globals, RouteIdentifier } from '@microeinhundert/radonis-types'
 import { dehydrate } from '@tanstack/react-query'
 
@@ -17,6 +18,8 @@ import { getQueryClient } from './queryClient'
  * @see {@link https://radonis.vercel.app/docs/plugins/query#prefetching-data}
  */
 export function createQueryPrefetcher() {
+  invariant(!isClient, 'Prefetching queries is not supported on the client')
+
   const queryClient = getQueryClient()
   const prefetchedQueries: Promise<void>[] = []
 
