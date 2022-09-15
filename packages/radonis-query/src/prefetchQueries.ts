@@ -18,7 +18,7 @@ import { getQueryClient } from './queryClient'
  * @see {@link https://radonis.vercel.app/docs/plugins/query#prefetching-data}
  */
 export function prefetchQueries(queries: Partial<Record<RouteIdentifier, unknown>>) {
-  invariant(!isClient, 'Prefetching queries is not supported client-side')
+  invariant(!isClient, 'Prefetching queries is only supported server-side')
 
   const queryClient = getQueryClient()
   const prefetchedQueries: Promise<void>[] = []
