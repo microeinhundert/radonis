@@ -8,9 +8,9 @@
  */
 
 declare module '@ioc:Adonis/Core/HttpContext' {
-  import type { RadonisContract } from '@microeinhundert/radonis-types'
+  import type { RendererContract } from '@microeinhundert/radonis-types'
 
   interface HttpContextContract {
-    radonis: RadonisContract
+    radonis: RendererContract
   }
 }

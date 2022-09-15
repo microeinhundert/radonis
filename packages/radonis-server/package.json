@@ -108,7 +108,7 @@
     "@poppinss/utils": "^5.0.0",
     "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
-    "superjson": "^1.9.1",
+    "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }
 }

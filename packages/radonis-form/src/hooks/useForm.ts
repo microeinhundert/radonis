@@ -83,7 +83,9 @@ export function useForm<TData, TError>({
 
       const response = await fetch(urlToRelativePath(requestUrl), requestInit)
 
-      if (!response.ok) throw new Error(response.statusText)
+      if (!response.ok) {
+        throw new Error(`The network request to "${action}" failed`)
+      }
 
       return response.json()
     },

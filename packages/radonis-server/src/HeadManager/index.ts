@@ -9,14 +9,14 @@
 
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { HeadContract, HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from './utils'
 
 /**
  * @internal
  */
-export class HeadManager implements ResetBetweenRequests {
+export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * The title
    */
@@ -128,9 +128,9 @@ export class HeadManager implements ResetBetweenRequests {
   }
 
   /**
-   * Prepare for a new request
+   * Reset for a new request
    */
-  public prepareForNewRequest(): void {
+  public resetForNewRequest(): void {
     this.setDefaults()
   }
 }

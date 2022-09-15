@@ -15,7 +15,15 @@ import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import { PluginsManager, stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { Globals, HeadMeta, HeadTag, Locale, RenderOptions, UnwrapProps } from '@microeinhundert/radonis-types'
+import type {
+  Globals,
+  HeadMeta,
+  HeadTag,
+  Locale,
+  RendererContract,
+  RenderOptions,
+  UnwrapProps,
+} from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 import { StrictMode } from 'react'
@@ -25,12 +33,12 @@ import { serialize } from 'superjson'
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
 import { wrapTree } from '../React'
-import { transformRoute } from './utils'
+import { transformRouteNode } from './utils'
 
 /**
  * @internal
  */
-export class Renderer {
+export class Renderer implements RendererContract {
   /**
    * The PluginsManager instance
    */
@@ -42,9 +50,9 @@ export class Renderer {
   private hydrationManager: HydrationManager = HydrationManager.getInstance()
 
   /**
-   * The context
+   * The Adonis context
    */
-  private context: AdonisContextContract = null as any
+  private adonisContext: AdonisContextContract = null as any
 
   /**
    * Constructor
@@ -60,35 +68,33 @@ export class Renderer {
    * Inject closing head
    */
   private injectClosingHead(html: string): string {
-    const target = '</head>'
+    const injectionTarget = '</head>'
 
-    return html.replace(target, [this.headManager.getHTML(), target].join('\n'))
+    return html.replace(injectionTarget, [this.headManager.getHTML(), injectionTarget].join('\n'))
   }
 
   /**
    * Inject closing body
    */
   private injectClosingBody(html: string): string {
-    const target = '</body>'
+    const injectionTarget = '</body>'
 
     const scriptTags = this.assetsManager.components.requiredForHydration.map((asset) => {
       this.hydrationManager.requireAssetForHydration(asset)
 
-      const attributes = {
+      return `<script ${stringifyAttributes({
         type: 'module',
         defer: true,
         src: asset.path,
-      }
-
-      return `<script ${stringifyAttributes(attributes)}></script>`
+      })}></script>`
     })
 
     return html.replace(
-      target,
+      injectionTarget,
       [
         `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`,
         ...scriptTags,
-        target,
+        injectionTarget,
       ].join('\n')
     )
   }
@@ -103,9 +109,9 @@ export class Renderer {
   }
 
   /**
-   * Get the Renderer for a request
+   * Get for request
    */
-  public getRendererForRequest(
+  public getForRequest(
     httpContext: HttpContextContract,
     application: ApplicationContract,
     router: RouterContract
@@ -113,9 +119,9 @@ export class Renderer {
     router.commit()
 
     /**
-     * Set context
+     * Set Adonis context
      */
-    this.context = {
+    this.adonisContext = {
       application,
       httpContext,
       router,
@@ -130,7 +136,7 @@ export class Renderer {
       .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
       .setLocale(locale)
       .setMessages(this.i18n.getTranslationsFor(locale))
-      .setRoute(transformRoute(httpContext.route))
+      .setRoute(transformRouteNode(httpContext.route))
 
     return this
   }
@@ -179,7 +185,7 @@ export class Renderer {
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<string | UnwrapProps<T> | undefined> {
-    const request = this.context.httpContext.request
+    const request = this.adonisContext.httpContext.request
 
     /**
      * If the request accepts HTML,
@@ -190,7 +196,7 @@ export class Renderer {
        * Re-read the build manifest on every
        * render when not in production
        */
-      if (!this.context.application.inProduction) {
+      if (!this.adonisContext.application.inProduction) {
         await this.assetsManager.readBuildManifest()
       }
 
@@ -232,7 +238,7 @@ export class Renderer {
        */
       const tree = await this.pluginsManager.execute(
         'beforeRender',
-        wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.context, Component, props),
+        wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.adonisContext, Component, props),
         null
       )
       let html = renderToString(<StrictMode>{tree}</StrictMode>)

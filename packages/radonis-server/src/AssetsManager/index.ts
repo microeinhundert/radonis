@@ -107,9 +107,9 @@ export class AssetsManager implements ResetBetweenRequests {
   }
 
   /**
-   * Prepare for a new request
+   * Reset for a new request
    */
-  public prepareForNewRequest(): void {
+  public resetForNewRequest(): void {
     this.componentsRequiredForHydration.clear()
   }
 }

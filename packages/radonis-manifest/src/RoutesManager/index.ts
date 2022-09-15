@@ -69,9 +69,9 @@ export class RoutesManager implements ResetBetweenRequests {
   }
 
   /**
-   * Prepare for a new request
+   * Reset for a new request
    */
-  public prepareForNewRequest(): void {
+  public resetForNewRequest(): void {
     this.routesRequiredForHydration.clear()
   }
 

@@ -9,4 +9,4 @@
 
 export { useQuery } from './hooks/useQuery'
 export { queryPlugin } from './plugin'
-export { createQueryPrefetcher, withQueryPrefetcher } from './queryPrefetcher'
+export { createQueryPrefetcher } from './queryPrefetcher'

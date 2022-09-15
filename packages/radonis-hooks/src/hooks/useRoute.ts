@@ -22,7 +22,7 @@ export function useRoute() {
 
   function isCurrent(identifier: RouteIdentifier, exact?: boolean) {
     if (exact) {
-      return route?.name === identifier
+      return route?.identifier === identifier
     }
 
     if (routes[identifier]) {

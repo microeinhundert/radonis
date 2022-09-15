@@ -119,7 +119,7 @@ test.group('Head Manager', (group) => {
 
   test('reverts back to default title on new request', ({ assert }) => {
     headManager.setTitle('A custom title')
-    headManager.prepareForNewRequest()
+    headManager.resetForNewRequest()
     assert.equal(headManager.getTitleTag(), '<title>Radonis</title>')
   })
 
@@ -130,7 +130,7 @@ test.group('Head Manager', (group) => {
         content: 'alert("Hello")',
       },
     ])
-    headManager.prepareForNewRequest()
+    headManager.resetForNewRequest()
     assert.equal(headManager.getTags(), '')
   })
 
@@ -141,7 +141,7 @@ test.group('Head Manager', (group) => {
     ]
 
     headManager.addMeta({ 'theme-color': '#000000' })
-    headManager.prepareForNewRequest()
+    headManager.resetForNewRequest()
     assert.equal(headManager.getMetaTags(), expectedMetaTags.join('\n'))
   })
 })

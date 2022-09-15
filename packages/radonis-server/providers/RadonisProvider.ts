@@ -152,11 +152,11 @@ export default class RadonisProvider {
         HttpContext.getter(
           'radonis',
           function () {
-            ManifestBuilder.prepareForNewRequest()
-            AssetsManager.prepareForNewRequest()
-            HeadManager.prepareForNewRequest()
+            ManifestBuilder.resetForNewRequest()
+            AssetsManager.resetForNewRequest()
+            HeadManager.resetForNewRequest()
 
-            return Renderer.getRendererForRequest(this, Application, Router)
+            return Renderer.getForRequest(this, Application, Router)
           },
           true
         )

@@ -71,7 +71,7 @@
     "@microeinhundert/radonis-shared": "workspace:1.9.1",
     "@microeinhundert/radonis-types": "workspace:1.9.1",
     "@microeinhundert/radonis-hooks": "workspace:1.9.1",
-    "superjson": "^1.9.1",
+    "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }
 }

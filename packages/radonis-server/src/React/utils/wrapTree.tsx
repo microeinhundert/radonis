@@ -27,7 +27,7 @@ export function wrapTree<T>(
   assetsManager: AssetsManager,
   headManager: HeadManager,
   manifestBuilder: ManifestBuilder,
-  context: AdonisContextContract,
+  adonisContext: AdonisContextContract,
   Component: ComponentType<T>,
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
@@ -35,7 +35,7 @@ export function wrapTree<T>(
     <AssetsManagerContextProvider value={assetsManager}>
       <HeadManagerContextProvider value={headManager}>
         <ManifestBuilderContextProvider value={manifestBuilder}>
-          <AdonisContextProvider value={context}>
+          <AdonisContextProvider value={adonisContext}>
             <Document>
               {/* @ts-expect-error Unsure why this errors */}
               <Component {...(props ?? {})} />

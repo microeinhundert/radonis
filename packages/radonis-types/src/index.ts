@@ -118,7 +118,7 @@ export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): str
 /**
  * Route
  */
-export type Route = { name?: string; pattern?: string }
+export type Route = { identifier?: string; pattern?: string }
 
 /**
  * Route params
@@ -181,7 +181,7 @@ export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
  * Reset between requests
  */
 export interface ResetBetweenRequests {
-  prepareForNewRequest(): void
+  resetForNewRequest(): void
 }
 
 /**
@@ -232,13 +232,13 @@ export interface RenderOptions {
 }
 
 /**
- * Radonis contract
+ * Renderer contract
  */
-export interface RadonisContract {
-  withTitle(string: string): RadonisContract
-  withHeadMeta(meta: HeadMeta): RadonisContract
-  withHeadTags(tags: HeadTag[]): RadonisContract
-  withGlobals(globals: Globals): RadonisContract
+export interface RendererContract {
+  withTitle(string: string): RendererContract
+  withHeadMeta(meta: HeadMeta): RendererContract
+  withHeadTags(tags: HeadTag[]): RendererContract
+  withGlobals(globals: Globals): RendererContract
   render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,

@@ -45,7 +45,7 @@ test.group('Globals', (group) => {
 
   test('clears globals on new request', ({ assert }) => {
     builder.addGlobals(globalsFixtureOne)
-    builder.prepareForNewRequest()
+    builder.resetForNewRequest()
     assert.deepEqual(builder.globals, {})
   })
 })
@@ -86,7 +86,7 @@ test.group('Props', (group) => {
 
   test('clears on new request', ({ assert }) => {
     builder.registerProps('MyComponentOne', propsFixtureOne)
-    builder.prepareForNewRequest()
+    builder.resetForNewRequest()
     assert.deepEqual(builder.props, {})
   })
 
@@ -149,7 +149,7 @@ test.group('Flash Messages', (group) => {
 
   test('clears hydration requirements on new request', ({ assert }) => {
     flashMessagesManager.requireFlashMessageForHydration('firstName')
-    builder.prepareForNewRequest()
+    builder.resetForNewRequest()
     assert.deepEqual(builder.flashMessagesRequiredForHydration, {})
     assert.deepEqual(builder.flashMessages, flashMessagesFixtureOne)
   })
@@ -206,7 +206,7 @@ test.group('I18n', (group) => {
 
   test('clears hydration requirements on new request', ({ assert }) => {
     i18nManager.requireMessageForHydration('hello')
-    builder.prepareForNewRequest()
+    builder.resetForNewRequest()
     assert.deepEqual(builder.messagesRequiredForHydration, {})
     assert.deepEqual(builder.messages, messagesFixtureOne)
   })
@@ -261,7 +261,7 @@ test.group('Routes', (group) => {
 
   test('clears hydration requirements on new request', ({ assert }) => {
     routesManager.requireRouteForHydration('drive.local.serve')
-    builder.prepareForNewRequest()
+    builder.resetForNewRequest()
     assert.deepEqual(builder.routesRequiredForHydration, {})
     assert.deepEqual(builder.routes, routesFixtureOne)
   })

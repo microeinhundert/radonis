@@ -90,9 +90,9 @@ export class I18nManager implements ResetBetweenRequests {
   }
 
   /**
-   * Prepare for a new request
+   * Reset for a new request
    */
-  public prepareForNewRequest(): void {
+  public resetForNewRequest(): void {
     this.messagesRequiredForHydration.clear()
   }
 

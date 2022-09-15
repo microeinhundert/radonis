@@ -12,10 +12,11 @@ import type { Route } from '@microeinhundert/radonis-types'
 
 /**
  * Transform a RouteNode to the shape expected by the manifest
+ * @internal
  */
-export function transformRoute(routeNode?: RouteNode): Route {
+export function transformRouteNode(routeNode?: RouteNode): Route {
   return {
-    name: routeNode?.name,
+    identifier: routeNode?.name,
     pattern: routeNode?.pattern,
   }
 }

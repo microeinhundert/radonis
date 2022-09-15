@@ -233,15 +233,15 @@ export class Builder implements Manifest, ResetBetweenRequests {
   }
 
   /**
-   * Prepare for a new request
+   * Reset for a new request
    */
-  public prepareForNewRequest(): void {
+  public resetForNewRequest(): void {
     this.props = {}
     this.globals = {}
     this.route = null
 
-    this.flashMessagesManager.prepareForNewRequest()
-    this.i18nManager.prepareForNewRequest()
-    this.routesManager.prepareForNewRequest()
+    this.flashMessagesManager.resetForNewRequest()
+    this.i18nManager.resetForNewRequest()
+    this.routesManager.resetForNewRequest()
   }
 }
