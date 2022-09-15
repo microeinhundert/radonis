@@ -23,6 +23,7 @@ export type Components = Map<ComponentIdentifier, ComponentType>
 
 /**
  * Generate a union type of all components
+ * @internal
  */
 export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
   if (!components.length) return 'type ComponentIdentifier = never'
@@ -85,6 +86,7 @@ export type Messages = Record<MessageIdentifier, string>
 
 /**
  * Generate a union type of all available messages
+ * @internal
  */
 export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
   if (!messages.length) return 'type MessageIdentifier = never'
@@ -106,6 +108,7 @@ export type Routes = Record<RouteIdentifier, string>
 
 /**
  * Generate a union type of all available routes
+ * @internal
  */
 export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
   if (!routes.length) return 'type RouteIdentifier = never'

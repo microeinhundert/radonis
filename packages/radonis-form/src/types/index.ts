@@ -33,7 +33,7 @@ export interface FormOptions<TData, TError> {
   reloadDocument?: boolean
   throwOnFailure?: boolean
   useErrorBoundary?: boolean
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**
