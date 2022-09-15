@@ -14,37 +14,29 @@ import { dehydrate } from '@tanstack/react-query'
 import { getQueryClient } from './queryClient'
 
 /**
- * Create a prefetcher for prefetching queries server-side
+ * Prefetch queries server-side
  * @see {@link https://radonis.vercel.app/docs/plugins/query#prefetching-data}
  */
-export function createQueryPrefetcher() {
+export function prefetchQueries(queries: Partial<Record<RouteIdentifier, unknown>>) {
   invariant(!isClient, 'Prefetching queries is not supported client-side')
 
   const queryClient = getQueryClient()
   const prefetchedQueries: Promise<void>[] = []
 
+  for (const [routeIdentifier, data] of Object.entries(queries)) {
+    prefetchedQueries.push(queryClient.prefetchQuery([routeIdentifier], () => data))
+  }
+
   /**
    * Attach the dehydrated query state to the renderer
    */
-  async function attach(renderer: RendererContract) {
+  async function attachState(renderer: RendererContract) {
     await Promise.all(prefetchedQueries)
 
     renderer.withGlobals({ dehydratedQueryState: dehydrate(queryClient) })
   }
 
-  /**
-   * Prefetch a query
-   */
-  function prefetch(routeIdentifier: RouteIdentifier, data: unknown) {
-    prefetchedQueries.push(queryClient.prefetchQuery([routeIdentifier], () => data))
-
-    return {
-      prefetch,
-      attach,
-    }
-  }
-
   return {
-    prefetch,
+    attachState,
   }
 }
