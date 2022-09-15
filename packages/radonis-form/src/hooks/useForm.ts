@@ -9,6 +9,7 @@
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { invariant } from '@microeinhundert/radonis-shared'
 import type { FormEvent } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
@@ -83,9 +84,7 @@ export function useForm<TData, TError>({
 
       const response = await fetch(urlToRelativePath(requestUrl), requestInit)
 
-      if (!response.ok) {
-        throw new Error(`The network request to "${action}" failed`)
-      }
+      invariant(response.ok, `The network request to "${action}" failed`)
 
       return response.json()
     },

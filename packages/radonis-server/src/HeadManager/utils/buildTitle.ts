@@ -10,7 +10,7 @@
 import { separateArray } from '@microeinhundert/radonis-shared'
 
 /**
- * Build the title
+ * Build the title for the head's <title> tag
  */
 export function buildTitle(title: string, prefix: string, suffix: string, separator: string): string {
   return separateArray(

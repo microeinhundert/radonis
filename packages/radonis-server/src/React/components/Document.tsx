@@ -24,3 +24,5 @@ export function Document({ children }: DocumentProps) {
     </html>
   )
 }
+
+Document.displayName = 'RadonisDocument'

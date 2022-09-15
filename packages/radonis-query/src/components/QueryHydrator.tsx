@@ -20,3 +20,5 @@ export function QueryHydrator({ children }: QueryHydratorProps) {
 
   return <Hydrate state={(globals as any).dehydratedQueryState}>{children}</Hydrate>
 }
+
+QueryHydrator.displayName = 'RadonisQueryHydrator'

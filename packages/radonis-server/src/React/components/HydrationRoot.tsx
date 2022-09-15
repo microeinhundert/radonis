@@ -60,3 +60,5 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
     </HydrationContextProvider>
   )
 }
+
+HydrationRoot.displayName = 'RadonisHydrationRoot'

@@ -11,7 +11,7 @@ import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { HeadContract, HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
 
-import { buildTitle } from './utils'
+import { buildTitle } from './utils/buildTitle'
 
 /**
  * @internal

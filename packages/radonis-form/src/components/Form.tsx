@@ -29,3 +29,5 @@ export function Form<TData, TError>({ children, ...props }: FormProps<TData, TEr
     </form>
   )
 }
+
+Form.displayName = 'RadonisForm'

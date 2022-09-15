@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "pnpm@7.0.0",
@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --no-cache",
+    "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "turbo run format",
     "test": "turbo run test",

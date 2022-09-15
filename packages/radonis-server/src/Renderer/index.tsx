@@ -33,7 +33,7 @@ import { serialize } from 'superjson'
 import type { AssetsManager } from '../AssetsManager'
 import type { HeadManager } from '../HeadManager'
 import { wrapTree } from '../React'
-import { transformRouteNode } from './utils'
+import { transformRouteNode } from './utils/transformRouteNode'
 
 /**
  * @internal
