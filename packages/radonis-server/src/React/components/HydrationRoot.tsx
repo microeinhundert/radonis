@@ -43,7 +43,7 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
   /*
    * Register the props with the ManifestBuilder
    */
-  const propsHash = manifestBuilder.registerProps(componentIdentifier, props)
+  const propsHash = manifestBuilder.registerProps(props)
 
   /*
    * Require the component for hydration on the AssetsManager

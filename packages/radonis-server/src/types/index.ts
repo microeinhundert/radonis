@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier } from '@microeinhundert/radonis-types'
+import type { AvailableComponents } from '@microeinhundert/radonis-types'
 import type { ReactElement, ReactNode } from 'react'
 
 /**
@@ -22,6 +22,6 @@ export interface DocumentProps {
  */
 export interface HydrationRootProps {
   children: ReactElement<Record<string, any>>
-  component: ComponentIdentifier
+  component: AvailableComponents['value']
   disabled?: boolean
 }

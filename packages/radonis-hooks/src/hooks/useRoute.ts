@@ -8,7 +8,7 @@
  */
 
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
-import type { RouteIdentifier } from '@microeinhundert/radonis-types'
+import type { AvailableRoutes } from '@microeinhundert/radonis-types'
 
 import { useManifest } from './useManifest'
 
@@ -20,7 +20,7 @@ export function useRoute() {
   const { route, routes } = useManifest()
   const hydration = useHydration()
 
-  function isCurrent(identifier: RouteIdentifier, exact?: boolean) {
+  function isCurrent(identifier: AvailableRoutes['value'], exact?: boolean) {
     if (exact) {
       return route?.identifier === identifier
     }

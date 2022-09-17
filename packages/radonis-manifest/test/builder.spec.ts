@@ -69,13 +69,13 @@ test.group('Props', (group) => {
   })
 
   test('stores', ({ assert }) => {
-    const propsHashOne = builder.registerProps('MyComponentOne', propsFixtureOne)
+    const propsHashOne = builder.registerProps(propsFixtureOne)
     assert.isString(propsHashOne)
 
-    const propsHashTwo = builder.registerProps('MyComponentTwo', propsFixtureTwo)
+    const propsHashTwo = builder.registerProps(propsFixtureTwo)
     assert.isString(propsHashTwo)
 
-    const propsHashThree = builder.registerProps('MyComponentThree', {})
+    const propsHashThree = builder.registerProps({})
     assert.isNull(propsHashThree)
 
     assert.deepEqual(builder.props, {
@@ -85,18 +85,18 @@ test.group('Props', (group) => {
   })
 
   test('clears on new request', ({ assert }) => {
-    builder.registerProps('MyComponentOne', propsFixtureOne)
+    builder.registerProps(propsFixtureOne)
     builder.resetForNewRequest()
     assert.deepEqual(builder.props, {})
   })
 
   test('does not throw if props contain non-serializable data', ({ assert }) => {
-    assert.doesNotThrows(() => builder.registerProps('MyComponent', propsFixtureThree))
+    assert.doesNotThrows(() => builder.registerProps(propsFixtureThree))
   })
 
   test('serializes the client manifest', ({ assert }) => {
-    const propsHashOne = builder.registerProps('MyComponentOne', propsFixtureOne)
-    const propsHashTwo = builder.registerProps('MyComponentTwo', propsFixtureTwo)
+    const propsHashOne = builder.registerProps(propsFixtureOne)
+    const propsHashTwo = builder.registerProps(propsFixtureTwo)
 
     assert.equal(
       builder.getClientManifestAsJSON(),

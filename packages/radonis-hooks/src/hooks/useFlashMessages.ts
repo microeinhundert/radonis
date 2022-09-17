@@ -8,7 +8,7 @@
  */
 
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
-import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
+import type { AvailableFlashMessages, FlashMessages } from '@microeinhundert/radonis-types'
 
 import { useManifest } from './useManifest'
 
@@ -25,7 +25,7 @@ export function useFlashMessages() {
   /**
    * Find the flash message inside the registered flash messages
    */
-  function findFlashMessage(identifier: FlashMessageIdentifier) {
+  function findFlashMessage(identifier: AvailableFlashMessages['value']) {
     const flashMessage = flashMessages[identifier]
 
     if (typeof flashMessage === 'undefined' && identifier && !identifier.match(/\.(\d*)$/i)) {
@@ -53,7 +53,7 @@ export function useFlashMessages() {
   /**
    * Check if a specific flash message exists
    */
-  function has(identifier: FlashMessageIdentifier) {
+  function has(identifier: AvailableFlashMessages['value']) {
     return !!findFlashMessage(identifier)
   }
 
@@ -67,7 +67,7 @@ export function useFlashMessages() {
   /**
    * Get a specific flash message
    */
-  function get(identifier: FlashMessageIdentifier) {
+  function get(identifier: AvailableFlashMessages['value']) {
     return findFlashMessage(identifier)
   }
 
@@ -92,7 +92,7 @@ export function useFlashMessages() {
   /**
    * Check if a specific error flash message exists
    */
-  function hasError(identifier: FlashMessageIdentifier) {
+  function hasError(identifier: AvailableFlashMessages['value']) {
     return has(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 
@@ -106,7 +106,7 @@ export function useFlashMessages() {
   /**
    * Get a specific error flash message
    */
-  function getError(identifier: FlashMessageIdentifier) {
+  function getError(identifier: AvailableFlashMessages['value']) {
     return get(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 

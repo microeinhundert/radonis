@@ -23,11 +23,11 @@ export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
 export type { Plugin } from '@microeinhundert/radonis-shared'
 export { definePlugin } from '@microeinhundert/radonis-shared'
 export type {
-  ComponentIdentifier,
+  AvailableComponents,
+  AvailableFlashMessages,
+  AvailableMessages,
+  AvailableRoutes,
   ExtractControllerActionReturnType,
-  FlashMessageIdentifier,
-  MessageIdentifier,
-  RouteIdentifier,
   RouteParams,
   RouteQueryParams,
 } from '@microeinhundert/radonis-types'

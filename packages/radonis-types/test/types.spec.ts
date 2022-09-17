@@ -10,42 +10,45 @@
 import { test } from '@japa/runner'
 
 import {
-  generateComponentIdentifierUnionType,
-  generateMessageIdentifierUnionType,
-  generateRouteIdentifierUnionType,
+  generateAvailableComponentsInterface,
+  generateAvailableMessagesInterface,
+  generateAvailableRoutesInterface,
 } from '../src'
 
 /**
  * Type Generators
  */
 test.group('Type Generators', () => {
-  test('generates component identifier union', ({ assert }) => {
-    const declaration = generateComponentIdentifierUnionType(['ComponentOne', 'ComponentTwo', 'ComponentThree'])
-    assert.equal(declaration, `type ComponentIdentifier = 'ComponentOne' | 'ComponentTwo' | 'ComponentThree'`)
+  test('generates `AvailableComponents` interface', ({ assert }) => {
+    const declaration = generateAvailableComponentsInterface(['ComponentOne', 'ComponentTwo', 'ComponentThree'])
+    assert.equal(
+      declaration,
+      `interface AvailableComponents { value: 'ComponentOne' | 'ComponentTwo' | 'ComponentThree' }`
+    )
   })
 
-  test('generates empty component identifier union', ({ assert }) => {
-    const emptyDeclaration = generateComponentIdentifierUnionType([])
-    assert.equal(emptyDeclaration, `type ComponentIdentifier = never`)
+  test('generates empty `AvailableComponents` interface', ({ assert }) => {
+    const emptyDeclaration = generateAvailableComponentsInterface([])
+    assert.equal(emptyDeclaration, `interface AvailableComponents { value: never }`)
   })
 
-  test('generates message identifier union', ({ assert }) => {
-    const declaration = generateMessageIdentifierUnionType(['message.one', 'message.two', 'welcome'])
-    assert.equal(declaration, `type MessageIdentifier = 'message.one' | 'message.two' | 'welcome'`)
+  test('generates `AvailableMessages` interface', ({ assert }) => {
+    const declaration = generateAvailableMessagesInterface(['message.one', 'message.two', 'welcome'])
+    assert.equal(declaration, `interface AvailableMessages { value: 'message.one' | 'message.two' | 'welcome' }`)
   })
 
-  test('generates empty message identifier union', ({ assert }) => {
-    const emptyDeclaration = generateMessageIdentifierUnionType([])
-    assert.equal(emptyDeclaration, `type MessageIdentifier = never`)
+  test('generates empty `AvailableMessages` interface', ({ assert }) => {
+    const emptyDeclaration = generateAvailableMessagesInterface([])
+    assert.equal(emptyDeclaration, `interface AvailableMessages { value: never }`)
   })
 
-  test('generates route identifier union', ({ assert }) => {
-    const declaration = generateRouteIdentifierUnionType(['drive.local.serve', 'home', 'dashboard'])
-    assert.equal(declaration, `type RouteIdentifier = 'drive.local.serve' | 'home' | 'dashboard'`)
+  test('generates `AvailableRoutes` interface', ({ assert }) => {
+    const declaration = generateAvailableRoutesInterface(['drive.local.serve', 'home', 'dashboard'])
+    assert.equal(declaration, `interface AvailableRoutes { value: 'drive.local.serve' | 'home' | 'dashboard' }`)
   })
 
-  test('generates empty route identifier union', ({ assert }) => {
-    const emptyDeclaration = generateRouteIdentifierUnionType([])
-    assert.equal(emptyDeclaration, `type RouteIdentifier = never`)
+  test('generates empty `AvailableRoutes` interface', ({ assert }) => {
+    const emptyDeclaration = generateAvailableRoutesInterface([])
+    assert.equal(emptyDeclaration, `interface AvailableRoutes { value: never }`)
   })
 })

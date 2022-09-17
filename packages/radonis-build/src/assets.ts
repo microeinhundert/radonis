@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { AvailableComponents, HydrationRequirements } from '@microeinhundert/radonis-types'
 
 import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
 
@@ -17,7 +17,7 @@ import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
  */
 export function extractRequiredAssets(
   assetsManifest: AssetsManifest,
-  requiredAssets: { components: Set<ComponentIdentifier> },
+  requiredAssets: { components: Set<AvailableComponents['value']> },
   canOmitEntryFile?: boolean
 ): AssetsManifest {
   const extractedAssets = assetsManifest.reduce<AssetsManifest>((assets, asset) => {

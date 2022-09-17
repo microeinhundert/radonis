@@ -13,7 +13,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
-  import type { ComponentIdentifier, HeadMeta, HeadContract } from '@microeinhundert/radonis-types'
+  import type { AvailableComponents, HeadMeta, HeadContract } from '@microeinhundert/radonis-types'
   import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { Plugin } from '@microeinhundert/radonis-shared'
   import type { ReactElement } from 'react'
@@ -34,7 +34,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
 
   function HydrationRoot(props: {
     children: ReactElement<Record<string, any>>
-    component: ComponentIdentifier
+    component: AvailableComponents['value']
     disabled?: boolean
   }): JSX.Element
 

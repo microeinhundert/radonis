@@ -10,10 +10,10 @@
 import type { AssetsManifestEntry } from '@microeinhundert/radonis-build'
 import { invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type {
+  AvailableFlashMessages,
+  AvailableMessages,
+  AvailableRoutes,
   Components,
-  FlashMessageIdentifier,
-  MessageIdentifier,
-  RouteIdentifier,
 } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
@@ -134,7 +134,7 @@ export class HydrationManager {
   /**
    * Require a flash message for hydration
    */
-  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | FlashMessageIdentifier): this {
+  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | AvailableFlashMessages['value']): this {
     if (isClient) return this
 
     const { FlashMessagesManager } = require('@microeinhundert/radonis-manifest')
@@ -147,7 +147,7 @@ export class HydrationManager {
   /**
    * Require a message for hydration
    */
-  public requireMessageForHydration(identifier: '*' | MessageIdentifier): this {
+  public requireMessageForHydration(identifier: '*' | AvailableMessages['value']): this {
     if (isClient) return this
 
     const { I18nManager } = require('@microeinhundert/radonis-manifest')
@@ -160,7 +160,7 @@ export class HydrationManager {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: '*' | RouteIdentifier): this {
+  public requireRouteForHydration(identifier: '*' | AvailableRoutes['value']): this {
     if (isClient) return this
 
     const { RoutesManager } = require('@microeinhundert/radonis-manifest')

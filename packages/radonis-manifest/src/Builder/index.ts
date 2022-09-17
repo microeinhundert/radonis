@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { invariant, isProduction } from '@microeinhundert/radonis-shared'
+import { isProduction } from '@microeinhundert/radonis-shared'
 import type {
-  ComponentIdentifier,
   FlashMessages,
   Globals,
   Locale,
@@ -160,22 +159,18 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Register props with the Builder
    */
-  public registerProps(componentIdentifier: ComponentIdentifier, props: ValueOf<Props>): PropsHash | null {
-    try {
-      const propsKeys = Object.keys(props)
+  public registerProps(props: ValueOf<Props>): PropsHash | null {
+    const propsKeys = Object.keys(props)
 
-      if (!propsKeys.length) return null
+    if (!propsKeys.length) return null
 
-      const propsHash = PROPS_HASHER.hash(props)
+    const propsHash = PROPS_HASHER.hash(props)
 
-      if (!(propsHash in this.props)) {
-        this.props[propsHash] = props
-      }
-
-      return propsHash
-    } catch {
-      invariant(false, `The props passed to the component "${componentIdentifier}" are not serializable`)
+    if (!(propsHash in this.props)) {
+      this.props[propsHash] = props
     }
+
+    return propsHash
   }
 
   /**

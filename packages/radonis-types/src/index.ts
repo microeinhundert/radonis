@@ -12,23 +12,25 @@ import { join } from 'path'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 
 /**
- * Component identifier (overridden by generated type)
+ * Available components (overridden by generated type)
  */
-export type ComponentIdentifier = string
+export interface AvailableComponents {
+  value: string
+}
 
 /**
  * Components
  */
-export type Components = Map<ComponentIdentifier, ComponentType>
+export type Components = Map<AvailableComponents['value'], ComponentType>
 
 /**
- * Generate a union type of all components
+ * Generate an interface of all available components
  * @internal
  */
-export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
-  if (!components.length) return 'type ComponentIdentifier = never'
+export function generateAvailableComponentsInterface(components: AvailableComponents['value'][]): string {
+  if (!components.length) return 'interface AvailableComponents { value: never }'
 
-  return `type ComponentIdentifier = ${components.map((value) => `'${value}'`).join(' | ')}`
+  return `interface AvailableComponents { value: ${components.map((value) => `'${value}'`).join(' | ')} }`
 }
 
 /* ---------------------------------------- */
@@ -53,14 +55,16 @@ export interface Globals {}
 /* ---------------------------------------- */
 
 /**
- * Flash message identifier
+ * Available flash messages
  */
-export type FlashMessageIdentifier = string
+export interface AvailableFlashMessages {
+  value: string
+}
 
 /**
  * Flash messages
  */
-export type FlashMessages = Record<FlashMessageIdentifier, any>
+export type FlashMessages = Record<AvailableFlashMessages['value'], any>
 
 /* ---------------------------------------- */
 
@@ -70,9 +74,11 @@ export type FlashMessages = Record<FlashMessageIdentifier, any>
 export type Locale = string
 
 /**
- * Message identifier (overridden by generated type)
+ * Available messages (overridden by generated type)
  */
-export type MessageIdentifier = string
+export interface AvailableMessages {
+  value: string
+}
 
 /**
  * Message data
@@ -82,38 +88,40 @@ export type MessageData = Record<string, any>
 /**
  * Messages
  */
-export type Messages = Record<MessageIdentifier, string>
+export type Messages = Record<AvailableMessages['value'], string>
 
 /**
- * Generate a union type of all available messages
+ * Generate an interface of all available messages
  * @internal
  */
-export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
-  if (!messages.length) return 'type MessageIdentifier = never'
+export function generateAvailableMessagesInterface(messages: AvailableMessages['value'][]): string {
+  if (!messages.length) return 'interface AvailableMessages { value: never }'
 
-  return `type MessageIdentifier = ${messages.map((value) => `'${value}'`).join(' | ')}`
+  return `interface AvailableMessages { value: ${messages.map((value) => `'${value}'`).join(' | ')} }`
 }
 
 /* ---------------------------------------- */
 
 /**
- * Route identifier (overridden by generated type)
+ * Available routes (overridden by generated type)
  */
-export type RouteIdentifier = string
+export interface AvailableRoutes {
+  value: string
+}
 
 /**
  * Routes
  */
-export type Routes = Record<RouteIdentifier, string>
+export type Routes = Record<AvailableRoutes['value'], string>
 
 /**
- * Generate a union type of all available routes
+ * Generate an interface of all available routes
  * @internal
  */
-export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
-  if (!routes.length) return 'type RouteIdentifier = never'
+export function generateAvailableRoutesInterface(routes: AvailableRoutes['value'][]): string {
+  if (!routes.length) return 'interface AvailableRoutes { value: never }'
 
-  return `type RouteIdentifier = ${routes.map((value) => `'${value}'`).join(' | ')}`
+  return `interface AvailableRoutes { value: ${routes.map((value) => `'${value}'`).join(' | ')} }`
 }
 
 /* ---------------------------------------- */
@@ -153,9 +161,9 @@ export type Manifest = {
  * Hydration requirements
  */
 export interface HydrationRequirements {
-  flashMessages: FlashMessageIdentifier[]
-  messages: MessageIdentifier[]
-  routes: RouteIdentifier[]
+  flashMessages: AvailableFlashMessages['value'][]
+  messages: AvailableMessages['value'][]
+  routes: AvailableRoutes['value'][]
 }
 
 /* ---------------------------------------- */
@@ -260,16 +268,16 @@ export function generateAndWriteTypesToDisk(
     messages,
     routes,
   }: {
-    components: ComponentIdentifier[]
-    messages: MessageIdentifier[]
-    routes: RouteIdentifier[]
+    components: AvailableComponents['value'][]
+    messages: AvailableMessages['value'][]
+    routes: AvailableRoutes['value'][]
   },
   outputDir: string
 ): void {
   const typeDeclarations = [
-    generateComponentIdentifierUnionType(components),
-    generateMessageIdentifierUnionType(messages),
-    generateRouteIdentifierUnionType(routes),
+    generateAvailableComponentsInterface(components),
+    generateAvailableMessagesInterface(messages),
+    generateAvailableRoutesInterface(routes),
   ].join('\n')
 
   outputFile(
