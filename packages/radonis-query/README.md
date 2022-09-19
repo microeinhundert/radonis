@@ -4,9 +4,11 @@
 
 Add asynchronous query utilities powered by [TanStack Query](https://tanstack.com/query/v4) to your Radonis application.
 
+> This plugin is experimental and subject to changes.
+
 ## Documentation
 
-Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/docs/plugins/query).
+Documentation is coming soon.
 
 ## License
 

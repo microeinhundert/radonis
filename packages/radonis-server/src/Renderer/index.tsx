@@ -30,9 +30,9 @@ import { StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
 import { serialize } from 'superjson'
 
-import type { AssetsManager } from '../AssetsManager'
-import type { HeadManager } from '../HeadManager'
-import { wrapTree } from '../React'
+import type { AssetsManager } from '../assetsManager'
+import type { HeadManager } from '../headManager'
+import { wrapTree } from '../react'
 import { transformRouteNode } from './utils/transformRouteNode'
 
 /**

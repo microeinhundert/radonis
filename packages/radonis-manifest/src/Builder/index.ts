@@ -24,9 +24,9 @@ import type {
 import hasher from 'node-object-hash'
 import superjson from 'superjson'
 
-import type { FlashMessagesManager } from '../FlashMessagesManager'
-import type { I18nManager } from '../I18nManager'
-import type { RoutesManager } from '../RoutesManager'
+import type { FlashMessagesManager } from '../flashMessagesManager'
+import type { I18nManager } from '../i18nManager'
+import type { RoutesManager } from '../routesManager'
 
 const PROPS_HASHER = hasher({ sort: true, coerce: false, alg: 'md5' })
 

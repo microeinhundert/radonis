@@ -9,9 +9,9 @@
 
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 
-import type { AssetsManager } from '../src/AssetsManager'
-import type { HeadManager } from '../src/HeadManager'
-import type { Renderer } from '../src/Renderer'
+import type { AssetsManager } from '../src/assetsManager'
+import type { HeadManager } from '../src/headManager'
+import type { Renderer } from '../src/renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {

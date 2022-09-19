@@ -16,7 +16,7 @@ import { config as defaultConfig } from './config'
 
 /**
  * Plugin for integrating {@link https://github.com/unocss/unocss UnoCSS} with Radonis
- * @see {@link https://radonis.vercel.app/docs/plugins/unocss}
+ * @see https://radonis.vercel.app/docs/plugins/unocss
  */
 export function unocssPlugin(config?: UserConfig) {
   let generator: UnoGenerator

@@ -11,7 +11,7 @@ import { useAdonis } from './useAdonis'
 
 /**
  * Hook for retrieving the AdonisJS `ApplicationContract`
- * @see {@link https://radonis.vercel.app/docs/hooks/use-application}
+ * @see https://radonis.vercel.app/docs/hooks/use-application
  */
 export function useApplication() {
   const { application } = useAdonis()

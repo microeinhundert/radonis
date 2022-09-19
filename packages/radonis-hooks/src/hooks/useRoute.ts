@@ -14,7 +14,7 @@ import { useManifest } from './useManifest'
 
 /**
  * Hook for retrieving info about the current route
- * @see {@link https://radonis.vercel.app/docs/hooks/use-route}
+ * @see https://radonis.vercel.app/docs/hooks/use-route
  */
 export function useRoute() {
   const { route, routes } = useManifest()

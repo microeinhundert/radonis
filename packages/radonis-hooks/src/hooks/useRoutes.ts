@@ -13,7 +13,7 @@ import { useManifest } from './useManifest'
 
 /**
  * Hook for retrieving all routes available in the application
- * @see {@link https://radonis.vercel.app/docs/hooks/use-routes}
+ * @see https://radonis.vercel.app/docs/hooks/use-routes
  */
 export function useRoutes() {
   const { routes } = useManifest()

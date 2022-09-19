@@ -11,7 +11,7 @@ import { useAdonis } from './useAdonis'
 
 /**
  * Hook for retrieving the AdonisJS `HttpContextContract`
- * @see {@link https://radonis.vercel.app/docs/hooks/use-http-context}
+ * @see https://radonis.vercel.app/docs/hooks/use-http-context
  */
 export function useHttpContext() {
   const { httpContext } = useAdonis()

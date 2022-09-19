@@ -27,7 +27,6 @@ export type {
   AvailableFlashMessages,
   AvailableMessages,
   AvailableRoutes,
-  ExtractControllerActionReturnType,
   RouteParams,
   RouteQueryParams,
 } from '@microeinhundert/radonis-types'

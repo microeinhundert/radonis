@@ -32,7 +32,7 @@ export function urlToRelativePath(url: URL): string {
 
 /**
  * Hook for submitting a form via fetch
- * @see {@link https://radonis.vercel.app/docs/forms}
+ * @see https://radonis.vercel.app/docs/forms
  */
 export function useForm<TData, TError>({
   action,

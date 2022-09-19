@@ -9,7 +9,7 @@
 
 import { test } from '@japa/runner'
 
-import { HeadManager } from '../src/HeadManager'
+import { HeadManager } from '../src/headManager'
 import { headManagerConfigFixture } from './fixtures/headManagerConfig'
 
 /**

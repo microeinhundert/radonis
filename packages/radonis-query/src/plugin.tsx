@@ -16,7 +16,7 @@ import { getQueryClient } from './queryClient'
 
 /**
  * Plugin for integrating {@link https://tanstack.com/query/v4 TanStack Query} with Radonis
- * @see {@link https://radonis.vercel.app/docs/plugins/query}
+ * @see https://radonis.vercel.app/docs/plugins/query
  */
 export function queryPlugin(config?: QueryClientConfig) {
   const queryClient = getQueryClient(config)

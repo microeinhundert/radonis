@@ -18,7 +18,7 @@ import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 /**
  * The component for drawing the line between parts of the page
  * that should and should not be hydrated client-side
- * @see {@link https://radonis.vercel.app/docs/components#hydrating-components}
+ * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
 export function HydrationRoot({ children, component: componentIdentifier, disabled }: HydrationRootProps) {
   const manifestBuilder = useManifestBuilder()

@@ -13,7 +13,7 @@ import { adonisContext } from '../contexts/adonisContext'
 
 /**
  * Hook for retrieving data from the AdonisJS instance
- * @see {@link https://radonis.vercel.app/docs/hooks/use-adonis}
+ * @see https://radonis.vercel.app/docs/hooks/use-adonis
  */
 export function useAdonis() {
   const context = useContext(adonisContext)

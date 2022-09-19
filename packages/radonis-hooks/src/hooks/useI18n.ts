@@ -16,7 +16,7 @@ import { useManifest } from './useManifest'
 
 /**
  * Hook for retrieving and formatting translation messages
- * @see {@link https://radonis.vercel.app/docs/hooks/use-i18n}
+ * @see https://radonis.vercel.app/docs/hooks/use-i18n
  */
 export function useI18n() {
   const { locale, messages } = useManifest()

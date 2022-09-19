@@ -13,7 +13,7 @@ import { useHydration } from './useHydration'
 
 /**
  * Hook for checking if a component was hydrated client-side
- * @see {@link https://radonis.vercel.app/docs/hooks/use-hydrated}
+ * @see https://radonis.vercel.app/docs/hooks/use-hydrated
  */
 export function useHydrated() {
   const hydration = useHydration()

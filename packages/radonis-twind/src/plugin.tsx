@@ -17,7 +17,7 @@ import { TwindContextProvider } from './contexts/twindContext'
 
 /**
  * Plugin for integrating {@link https://twind.dev/ Twind} with Radonis
- * @see {@link https://radonis.vercel.app/docs/plugins/twind}
+ * @see https://radonis.vercel.app/docs/plugins/twind
  */
 export function twindPlugin(config?: TwindConfig) {
   let tw: Twind

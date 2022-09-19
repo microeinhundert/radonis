@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.2] - WIP
+
+### Changed
+- BREAKING: Removed `ExtractControllerActionReturnType` type utility.
+
 ## [1.9.1] - 2022-09-15
 
 ### Changed

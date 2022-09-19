@@ -20,7 +20,7 @@ import { useSafeCallback } from './internal/useSafeCallback'
 
 /**
  * Hook for dispatching mutations
- * @see {@link https://radonis.vercel.app/docs/hooks/use-mutation}
+ * @see https://radonis.vercel.app/docs/hooks/use-mutation
  */
 export function useMutation<TInput, TData, TError>(
   mutationFunction: (input: TInput) => Promise<TData>,

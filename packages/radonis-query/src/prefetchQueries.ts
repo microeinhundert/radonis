@@ -15,7 +15,7 @@ import { getQueryClient } from './queryClient'
 
 /**
  * Prefetch queries server-side
- * @see {@link https://radonis.vercel.app/docs/plugins/query#prefetching-data}
+ * @see https://radonis.vercel.app/docs/plugins/query#prefetching-data
  */
 export function prefetchQueries(queries: Partial<Record<AvailableRoutes['value'], unknown>>) {
   invariant(!isClient, 'Prefetching queries is only supported server-side')

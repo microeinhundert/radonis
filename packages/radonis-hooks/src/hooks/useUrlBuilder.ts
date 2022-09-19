@@ -16,7 +16,7 @@ import { useManifest } from './useManifest'
 
 /**
  * Hook for building URLs to routes
- * @see {@link https://radonis.vercel.app/docs/hooks/use-url-builder}
+ * @see https://radonis.vercel.app/docs/hooks/use-url-builder
  */
 export function useUrlBuilder() {
   const { routes } = useManifest()

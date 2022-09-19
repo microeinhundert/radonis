@@ -9,7 +9,7 @@
 
 import { createContext } from 'react'
 
-import type { AssetsManager } from '../../AssetsManager'
+import type { AssetsManager } from '../../assetsManager'
 
 /**
  * @internal

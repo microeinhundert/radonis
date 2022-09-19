@@ -11,7 +11,7 @@ import { useAdonis } from './useAdonis'
 
 /**
  * Hook for retrieving the AdonisJS `RouterContract`
- * @see {@link https://radonis.vercel.app/docs/hooks/use-router}
+ * @see https://radonis.vercel.app/docs/hooks/use-router
  */
 export function useRouter() {
   const { router } = useAdonis()

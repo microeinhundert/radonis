@@ -11,7 +11,7 @@ import { useManifest } from './useManifest'
 
 /**
  * Hook for retrieving globals from the manifest
- * @see {@link https://radonis.vercel.app/docs/hooks/use-globals}
+ * @see https://radonis.vercel.app/docs/hooks/use-globals
  */
 export function useGlobals() {
   const { globals } = useManifest()

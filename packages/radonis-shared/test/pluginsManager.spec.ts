@@ -9,7 +9,7 @@
 
 import { test } from '@japa/runner'
 
-import { definePlugin, PluginsManager } from '../src/PluginsManager'
+import { definePlugin, PluginsManager } from '../src/pluginsManager'
 
 /**
  * Plugins Manager

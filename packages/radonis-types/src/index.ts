@@ -174,16 +174,6 @@ export interface HydrationRequirements {
 export type ValueOf<T> = T[keyof T]
 
 /**
- * Pick matching
- */
-export type PickMatching<T, V> = { [K in keyof T as T[K] extends V ? K : never]: T[K] }
-
-/**
- * Extract methods
- */
-export type ExtractMethods<T> = PickMatching<T, Function>
-
-/**
  * Unwrap props
  */
 export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
@@ -194,14 +184,6 @@ export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
 export interface ResetBetweenRequests {
   resetForNewRequest(): void
 }
-
-/**
- * Extract controller action return type
- */
-export type ExtractControllerActionReturnType<
-  TController extends Record<string, any>,
-  TAction extends keyof ExtractMethods<TController>
-> = Awaited<ReturnType<ExtractMethods<TController>[TAction]>>
 
 /* ---------------------------------------- */
 

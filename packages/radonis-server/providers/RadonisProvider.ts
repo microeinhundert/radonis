@@ -21,7 +21,7 @@ import {
   useRequest,
   useRouter,
   useSession,
-} from '../src/React'
+} from '../src/react'
 import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 
 export default class RadonisProvider {

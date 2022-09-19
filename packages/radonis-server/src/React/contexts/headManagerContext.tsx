@@ -9,7 +9,7 @@
 
 import { createContext } from 'react'
 
-import type { HeadManager } from '../../HeadManager'
+import type { HeadManager } from '../../headManager'
 
 /**
  * @internal

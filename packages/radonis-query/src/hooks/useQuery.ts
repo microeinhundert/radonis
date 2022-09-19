@@ -17,7 +17,7 @@ import type { QueryOptions } from '../types'
 
 /**
  * Hook for querying data from the server inside of React components
- * @see {@link https://radonis.vercel.app/docs/plugins/query#querying-data}
+ * @see https://radonis.vercel.app/docs/plugins/query#querying-data
  */
 export function useQuery<TData = unknown, TError = unknown>(
   routeIdentifier: AvailableRoutes['value'],

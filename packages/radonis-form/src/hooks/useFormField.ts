@@ -13,7 +13,7 @@ import { useId, useState } from 'react'
 
 /**
  * Hook for managing the state of a form field
- * @see {@link https://radonis.vercel.app/docs/guides/building-an-input-component}
+ * @see https://radonis.vercel.app/docs/guides/building-an-input-component
  */
 export function useFormField({
   name,
