@@ -9,7 +9,7 @@
 
 import { useUrlBuilder } from '@microeinhundert/radonis'
 import { invariant } from '@microeinhundert/radonis-shared'
-import type { AvailableRoutes } from '@microeinhundert/radonis-types'
+import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 import { useQuery as useQuery$ } from '@tanstack/react-query'
 import { deserialize } from 'superjson'
 
@@ -20,7 +20,7 @@ import type { QueryOptions } from '../types'
  * @see https://radonis.vercel.app/docs/plugins/query#querying-data
  */
 export function useQuery<TData = unknown, TError = unknown>(
-  routeIdentifier: AvailableRoutes['value'],
+  routeIdentifier: RouteIdentifier,
   options?: QueryOptions<TData, TError>
 ) {
   const urlBuilder = useUrlBuilder()

@@ -9,7 +9,7 @@
 
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import { invariant } from '@microeinhundert/radonis-shared'
-import type { AvailableMessages, MessageData } from '@microeinhundert/radonis-types'
+import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
 import { useManifest } from './useManifest'
@@ -26,7 +26,7 @@ export function useI18n() {
    * Find the message inside the registered messages and
    * raise exception when unable to
    */
-  function findMessageOrFail(identifier: AvailableMessages['value']) {
+  function findMessageOrFail(identifier: MessageIdentifier) {
     const message = messages[identifier]
 
     invariant(message, `Cannot find message for "${identifier}"`)
@@ -41,7 +41,7 @@ export function useI18n() {
   /**
    * Format a message
    */
-  function formatMessage(identifier: AvailableMessages['value'], data?: MessageData) {
+  function formatMessage(identifier: MessageIdentifier, data?: MessageData) {
     const message = findMessageOrFail(identifier)
 
     return new IntlMessageFormat(

@@ -10,16 +10,16 @@
 import type { AssetsManifestEntry } from '@microeinhundert/radonis-build'
 import { invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type {
-  AvailableFlashMessages,
-  AvailableMessages,
-  AvailableRoutes,
   Components,
+  FlashMessageIdentifier,
+  MessageIdentifier,
+  RouteIdentifier,
 } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
-import { HydrationContextProvider } from '../React'
+import { HydrationContextProvider } from '../react'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils'
 
@@ -134,7 +134,7 @@ export class HydrationManager {
   /**
    * Require a flash message for hydration
    */
-  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | AvailableFlashMessages['value']): this {
+  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | FlashMessageIdentifier): this {
     if (isClient) return this
 
     const { FlashMessagesManager } = require('@microeinhundert/radonis-manifest')
@@ -147,7 +147,7 @@ export class HydrationManager {
   /**
    * Require a message for hydration
    */
-  public requireMessageForHydration(identifier: '*' | AvailableMessages['value']): this {
+  public requireMessageForHydration(identifier: '*' | MessageIdentifier): this {
     if (isClient) return this
 
     const { I18nManager } = require('@microeinhundert/radonis-manifest')
@@ -160,7 +160,7 @@ export class HydrationManager {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: '*' | AvailableRoutes['value']): this {
+  public requireRouteForHydration(identifier: '*' | RouteIdentifier): this {
     if (isClient) return this
 
     const { RoutesManager } = require('@microeinhundert/radonis-manifest')

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AvailableRoutes, ResetBetweenRequests, Routes } from '@microeinhundert/radonis-types'
+import type { ResetBetweenRequests, RouteIdentifier, Routes } from '@microeinhundert/radonis-types'
 
 /**
  * @internal
@@ -26,7 +26,7 @@ export class RoutesManager implements ResetBetweenRequests {
   /**
    * The routes required for hydration
    */
-  private routesRequiredForHydration: Set<AvailableRoutes['value']> = new Set()
+  private routesRequiredForHydration: Set<RouteIdentifier> = new Set()
 
   /**
    * Set the routes
@@ -57,7 +57,7 @@ export class RoutesManager implements ResetBetweenRequests {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: '*' | AvailableRoutes['value']): void {
+  public requireRouteForHydration(identifier: '*' | RouteIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all routes

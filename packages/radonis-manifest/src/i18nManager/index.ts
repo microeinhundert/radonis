@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AvailableMessages, Locale, Messages, ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { Locale, MessageIdentifier, Messages, ResetBetweenRequests } from '@microeinhundert/radonis-types'
 
 import { DEFAULT_LOCALE } from './constants'
 
@@ -33,7 +33,7 @@ export class I18nManager implements ResetBetweenRequests {
   /**
    * The messages required for hydration
    */
-  private messagesRequiredForHydration: Set<AvailableMessages['value']> = new Set()
+  private messagesRequiredForHydration: Set<MessageIdentifier> = new Set()
 
   /**
    * Set the locale
@@ -78,7 +78,7 @@ export class I18nManager implements ResetBetweenRequests {
   /**
    * Require a message for hydration
    */
-  public requireMessageForHydration(identifier: '*' | AvailableMessages['value']): void {
+  public requireMessageForHydration(identifier: '*' | MessageIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all messages

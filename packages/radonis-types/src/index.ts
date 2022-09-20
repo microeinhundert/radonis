@@ -7,30 +7,30 @@
  * file that was distributed with this source code.
  */
 
-import { outputFile } from 'fs-extra'
-import { join } from 'path'
+import { readFile } from 'fs/promises'
+import { emptyDir, outputFile } from 'fs-extra'
+import { dirname, join } from 'path'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 
+const MODULE_NAME = '@microeinhundert/radonis-types'
+
 /**
- * Available components (overridden by generated type)
+ * Component identifier
  */
-export interface AvailableComponents {
-  value: string
-}
+export type ComponentIdentifier = string
 
 /**
  * Components
  */
-export type Components = Map<AvailableComponents['value'], ComponentType>
+export type Components = Map<ComponentIdentifier, ComponentType>
 
 /**
- * Generate an interface of all available components
- * @internal
+ * Generate a union type of all components
  */
-export function generateAvailableComponentsInterface(components: AvailableComponents['value'][]): string {
-  if (!components.length) return 'interface AvailableComponents { value: never }'
+export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
+  if (!components.length) return 'type ComponentIdentifier = never'
 
-  return `interface AvailableComponents { value: ${components.map((value) => `'${value}'`).join(' | ')} }`
+  return `type ComponentIdentifier = ${components.map((value) => `'${value}'`).join(' | ')}`
 }
 
 /* ---------------------------------------- */
@@ -48,23 +48,21 @@ export type Props = Record<PropsHash, Record<string, any>>
 /* ---------------------------------------- */
 
 /**
- * Globals (must be an interface for declaration merging, overridden by consumer)
+ * Globals (must be an interface for declaration merging from userland)
  */
 export interface Globals {}
 
 /* ---------------------------------------- */
 
 /**
- * Available flash messages
+ * Flash message identifier
  */
-export interface AvailableFlashMessages {
-  value: string
-}
+export type FlashMessageIdentifier = string
 
 /**
  * Flash messages
  */
-export type FlashMessages = Record<AvailableFlashMessages['value'], any>
+export type FlashMessages = Record<FlashMessageIdentifier, any>
 
 /* ---------------------------------------- */
 
@@ -74,11 +72,9 @@ export type FlashMessages = Record<AvailableFlashMessages['value'], any>
 export type Locale = string
 
 /**
- * Available messages (overridden by generated type)
+ * Message identifier
  */
-export interface AvailableMessages {
-  value: string
-}
+export type MessageIdentifier = string
 
 /**
  * Message data
@@ -88,40 +84,36 @@ export type MessageData = Record<string, any>
 /**
  * Messages
  */
-export type Messages = Record<AvailableMessages['value'], string>
+export type Messages = Record<MessageIdentifier, string>
 
 /**
- * Generate an interface of all available messages
- * @internal
+ * Generate a union type of all available messages
  */
-export function generateAvailableMessagesInterface(messages: AvailableMessages['value'][]): string {
-  if (!messages.length) return 'interface AvailableMessages { value: never }'
+export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
+  if (!messages.length) return 'type MessageIdentifier = never'
 
-  return `interface AvailableMessages { value: ${messages.map((value) => `'${value}'`).join(' | ')} }`
+  return `type MessageIdentifier = ${messages.map((value) => `'${value}'`).join(' | ')}`
 }
 
 /* ---------------------------------------- */
 
 /**
- * Available routes (overridden by generated type)
+ * Route identifier
  */
-export interface AvailableRoutes {
-  value: string
-}
+export type RouteIdentifier = string
 
 /**
  * Routes
  */
-export type Routes = Record<AvailableRoutes['value'], string>
+export type Routes = Record<RouteIdentifier, string>
 
 /**
- * Generate an interface of all available routes
- * @internal
+ * Generate a union type of all available routes
  */
-export function generateAvailableRoutesInterface(routes: AvailableRoutes['value'][]): string {
-  if (!routes.length) return 'interface AvailableRoutes { value: never }'
+export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
+  if (!routes.length) return 'type RouteIdentifier = never'
 
-  return `interface AvailableRoutes { value: ${routes.map((value) => `'${value}'`).join(' | ')} }`
+  return `type RouteIdentifier = ${routes.map((value) => `'${value}'`).join(' | ')}`
 }
 
 /* ---------------------------------------- */
@@ -161,9 +153,9 @@ export type Manifest = {
  * Hydration requirements
  */
 export interface HydrationRequirements {
-  flashMessages: AvailableFlashMessages['value'][]
-  messages: AvailableMessages['value'][]
-  routes: AvailableRoutes['value'][]
+  flashMessages: FlashMessageIdentifier[]
+  messages: MessageIdentifier[]
+  routes: RouteIdentifier[]
 }
 
 /* ---------------------------------------- */
@@ -244,26 +236,51 @@ export interface RendererContract {
 /**
  * @internal
  */
-export function generateAndWriteTypesToDisk(
+export async function readTypeDeclarationFileFromDisk(): Promise<string | null> {
+  try {
+    const modulePath = dirname(require.resolve(MODULE_NAME))
+    const filePath = join(modulePath, 'index.d.ts')
+    const fileContents = await readFile(filePath, 'utf-8')
+
+    return fileContents
+  } catch {
+    return null
+  }
+}
+
+/**
+ * @internal
+ */
+export async function generateAndWriteTypeDeclarationFileToDisk(
   {
     components,
     messages,
     routes,
   }: {
-    components: AvailableComponents['value'][]
-    messages: AvailableMessages['value'][]
-    routes: AvailableRoutes['value'][]
+    components: ComponentIdentifier[]
+    messages: MessageIdentifier[]
+    routes: RouteIdentifier[]
   },
   outputDir: string
-): void {
-  const typeDeclarations = [
-    generateAvailableComponentsInterface(components),
-    generateAvailableMessagesInterface(messages),
-    generateAvailableRoutesInterface(routes),
-  ].join('\n')
+): Promise<void> {
+  await emptyDir(outputDir)
 
-  outputFile(
+  const originalTypes = await readTypeDeclarationFileFromDisk()
+
+  if (!originalTypes) {
+    throw new Error('Could not get original types')
+  }
+
+  const generatedTypes = Object.entries({
+    ComponentIdentifier: generateComponentIdentifierUnionType(components),
+    MessageIdentifier: generateMessageIdentifierUnionType(messages),
+    RouteIdentifier: generateRouteIdentifierUnionType(routes),
+  }).reduce((types, [typeName, typeValue]) => {
+    return types.replace(`type ${typeName} = string`, typeValue)
+  }, originalTypes)
+
+  await outputFile(
     join(outputDir, 'radonis.d.ts'),
-    `// This file is auto-generated, DO NOT EDIT\ndeclare module '@microeinhundert/radonis-types' {\n${typeDeclarations}\n}`
+    `// This file is auto-generated, DO NOT EDIT\ndeclare module '${MODULE_NAME}' {\n${generatedTypes}\n}`
   )
 }

@@ -8,7 +8,7 @@
  */
 
 import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
-import type { AvailableFlashMessages, AvailableMessages, AvailableRoutes } from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { BuildOptions, Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
@@ -25,9 +25,9 @@ const pluginsManager = PluginsManager.getInstance()
 /**
  * Extract identifiers from usage of `.has(Error)?` and `.get(Error)?` from the source code
  */
-function extractFlashMessages(source: string): AvailableFlashMessages['value'][] {
+function extractFlashMessages(source: string): FlashMessageIdentifier[] {
   const matches = source.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<AvailableFlashMessages['value']>()
+  const identifiers = new Set<FlashMessageIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -41,9 +41,9 @@ function extractFlashMessages(source: string): AvailableFlashMessages['value'][]
 /**
  * Extract identifiers from usage of `.formatMessage` from the source code
  */
-function extractMessages(source: string): AvailableMessages['value'][] {
+function extractMessages(source: string): MessageIdentifier[] {
   const matches = source.matchAll(MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<AvailableMessages['value']>()
+  const identifiers = new Set<MessageIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -57,9 +57,9 @@ function extractMessages(source: string): AvailableMessages['value'][] {
 /**
  * Extract identifiers from usage of `.make` as well as specific component props from the source code
  */
-function extractRoutes(source: string): AvailableRoutes['value'][] {
+function extractRoutes(source: string): RouteIdentifier[] {
   const matches = source.matchAll(ROUTE_IDENTIFIER_REGEX)
-  const identifiers = new Set<AvailableRoutes['value']>()
+  const identifiers = new Set<RouteIdentifier>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {

@@ -18,7 +18,7 @@ import {
   writeBuildManifestToDisk,
 } from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
-import { generateAndWriteTypesToDisk } from '@microeinhundert/radonis-types'
+import { generateAndWriteTypeDeclarationFileToDisk } from '@microeinhundert/radonis-types'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { parse, relative, resolve } from 'path'
@@ -168,22 +168,20 @@ export default class BuildClient extends BaseCommand {
 
     const assetsManifest = await generateAssetsManifest(buildManifest)
 
-    /**
-     * Generate and write types to disk
-     */
-    generateAndWriteTypesToDisk(
-      {
-        components: assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
-        messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
-        routes: Object.keys(extractRootRoutes(Router)),
-      },
-      this.application.tmpPath('types')
-    )
+    try {
+      await generateAndWriteTypeDeclarationFileToDisk(
+        {
+          components: assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
+          messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
+          routes: Object.keys(extractRootRoutes(Router)),
+        },
+        this.application.tmpPath('types')
+      )
 
-    /**
-     * Output a log message after successful generation
-     */
-    this.logger.success('successfully generated types')
+      this.logger.success('successfully generated types')
+    } catch {
+      this.logger.error('error generating types')
+    }
   }
 
   /**

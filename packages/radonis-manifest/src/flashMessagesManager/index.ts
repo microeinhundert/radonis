@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AvailableFlashMessages, FlashMessages, ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { FlashMessageIdentifier, FlashMessages, ResetBetweenRequests } from '@microeinhundert/radonis-types'
 
 /**
  * @internal
@@ -26,7 +26,7 @@ export class FlashMessagesManager implements ResetBetweenRequests {
   /**
    * The flash messages required for hydration
    */
-  private flashMessagesRequiredForHydration: Set<AvailableFlashMessages['value']> = new Set()
+  private flashMessagesRequiredForHydration: Set<FlashMessageIdentifier> = new Set()
 
   /**
    * Set the flash messages
@@ -57,7 +57,7 @@ export class FlashMessagesManager implements ResetBetweenRequests {
   /**
    * Require a flash message for hydration
    */
-  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | AvailableFlashMessages['value']): void {
+  public requireFlashMessageForHydration(identifier: '*' | 'errors.*' | FlashMessageIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all flash messages

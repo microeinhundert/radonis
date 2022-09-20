@@ -8,4 +8,4 @@
  */
 
 export { HydrationManager } from './hydrationManager'
-export { hydrationContext, HydrationContextProvider, useHydrated, useHydration } from './React'
+export { hydrationContext, HydrationContextProvider, useHydrated, useHydration } from './react'

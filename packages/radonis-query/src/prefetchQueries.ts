@@ -8,7 +8,7 @@
  */
 
 import { invariant, isClient } from '@microeinhundert/radonis-shared'
-import type { AvailableRoutes, RendererContract } from '@microeinhundert/radonis-types'
+import type { RendererContract, RouteIdentifier } from '@microeinhundert/radonis-types'
 import { dehydrate } from '@tanstack/react-query'
 
 import { getQueryClient } from './queryClient'
@@ -17,7 +17,7 @@ import { getQueryClient } from './queryClient'
  * Prefetch queries server-side
  * @see https://radonis.vercel.app/docs/plugins/query#prefetching-data
  */
-export function prefetchQueries(queries: Partial<Record<AvailableRoutes['value'], unknown>>) {
+export function prefetchQueries(queries: Partial<Record<RouteIdentifier, unknown>>) {
   invariant(!isClient, 'Prefetching queries is only supported server-side')
 
   const queryClient = getQueryClient()

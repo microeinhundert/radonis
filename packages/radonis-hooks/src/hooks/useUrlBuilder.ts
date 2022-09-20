@@ -9,7 +9,7 @@
 
 import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
 import { invariant } from '@microeinhundert/radonis-shared'
-import type { AvailableRoutes, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
+import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
 import type { UrlBuilderOptions } from '../types'
 import { useManifest } from './useManifest'
@@ -26,7 +26,7 @@ export function useUrlBuilder() {
    * Find the route inside the registered routes and
    * raise exception when unable to
    */
-  function findRouteOrFail(identifier: AvailableRoutes['value']) {
+  function findRouteOrFail(identifier: RouteIdentifier) {
     const route = routes[identifier]
 
     invariant(route, `Cannot find route for "${identifier}"`)
@@ -106,7 +106,7 @@ export function useUrlBuilder() {
   /**
    * Make URL for given route
    */
-  function make(identifier: AvailableRoutes['value'], options?: UrlBuilderOptions) {
+  function make(identifier: RouteIdentifier, options?: UrlBuilderOptions) {
     const route = findRouteOrFail(identifier)
 
     const url = processPattern(route, options?.params ?? {})
