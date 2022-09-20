@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Type generation.
 
+> Please note: After new routes are added to the application, the dev server must be restarted once before newly added routes are included in the generated types.
+
 ## [1.9.1] - 2022-09-15
 
 ### Changed
