@@ -67,7 +67,7 @@ export default class RadonisProvider {
      * AssetsManager
      */
     this.application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
-      const { AssetsManager } = require('../src/AssetsManager')
+      const { AssetsManager } = require('../src/assetsManager')
 
       return new AssetsManager(this.application, radonisConfig)
     })
@@ -76,7 +76,7 @@ export default class RadonisProvider {
      * HeadManager
      */
     this.application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
-      const { HeadManager } = require('../src/HeadManager')
+      const { HeadManager } = require('../src/headManager')
 
       return new HeadManager(radonisConfig)
     })
@@ -90,7 +90,7 @@ export default class RadonisProvider {
       const HeadManager = this.application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
       const ManifestBuilder = this.application.container.resolveBinding('Microeinhundert/Radonis/ManifestBuilder')
 
-      const { Renderer } = require('../src/Renderer')
+      const { Renderer } = require('../src/renderer')
 
       return new Renderer(I18n, AssetsManager, HeadManager, ManifestBuilder)
     })

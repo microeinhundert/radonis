@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.3] - 2022-09-20
+
+### Fixed
+- Error because of wrong folder casing on non Unix systems.
+
 ## [1.9.2] - 2022-09-20
 
 ### Changed

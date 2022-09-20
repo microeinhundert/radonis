@@ -67,12 +67,12 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-form': workspace:1.9.2
-      '@microeinhundert/radonis-hooks': workspace:1.9.2
-      '@microeinhundert/radonis-hydrate': workspace:1.9.2
-      '@microeinhundert/radonis-manifest': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-form': workspace:1.9.3
+      '@microeinhundert/radonis-hooks': workspace:1.9.3
+      '@microeinhundert/radonis-hydrate': workspace:1.9.3
+      '@microeinhundert/radonis-manifest': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       superjson: ^1.10.0
       tslib: ^2.4.0
@@ -90,8 +90,8 @@ importers:
 
   packages/radonis-build:
     specifiers:
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@poppinss/utils': ^5.0.0
       '@types/node': ^16.11.56
       esbuild: ^0.15.8
@@ -109,10 +109,10 @@ importers:
 
   packages/radonis-form:
     specifiers:
-      '@microeinhundert/radonis-hooks': workspace:1.9.2
-      '@microeinhundert/radonis-hydrate': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-hooks': workspace:1.9.3
+      '@microeinhundert/radonis-hydrate': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
@@ -130,9 +130,9 @@ importers:
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-hydrate': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
@@ -153,10 +153,10 @@ importers:
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-build': workspace:1.9.2
-      '@microeinhundert/radonis-manifest': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-build': workspace:1.9.3
+      '@microeinhundert/radonis-manifest': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
@@ -176,8 +176,8 @@ importers:
 
   packages/radonis-manifest:
     specifiers:
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       node-object-hash: ^2.3.10
       superjson: ^1.10.0
@@ -193,10 +193,10 @@ importers:
 
   packages/radonis-query:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.9.2
-      '@microeinhundert/radonis-hooks': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis': workspace:1.9.3
+      '@microeinhundert/radonis-hooks': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@tanstack/react-query': ^4.3.9
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
@@ -218,11 +218,11 @@ importers:
 
   packages/radonis-server:
     specifiers:
-      '@microeinhundert/radonis-build': workspace:1.9.2
-      '@microeinhundert/radonis-hydrate': workspace:1.9.2
-      '@microeinhundert/radonis-manifest': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-build': workspace:1.9.3
+      '@microeinhundert/radonis-hydrate': workspace:1.9.3
+      '@microeinhundert/radonis-manifest': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@poppinss/utils': ^5.0.0
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
@@ -249,7 +249,7 @@ importers:
 
   packages/radonis-shared:
     specifiers:
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       '@types/react': ^18.0.20
       '@types/react-dom': ^18.0.6
@@ -264,9 +264,9 @@ importers:
 
   packages/radonis-twind:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@twind/preset-autoprefix': 1.0.0-next.37
       '@twind/preset-tailwind': 1.0.0-next.37
       '@twind/preset-tailwind-forms': 1.0.0-next.37
@@ -310,9 +310,9 @@ importers:
 
   packages/radonis-unocss:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.9.2
-      '@microeinhundert/radonis-shared': workspace:1.9.2
-      '@microeinhundert/radonis-types': workspace:1.9.2
+      '@microeinhundert/radonis': workspace:1.9.3
+      '@microeinhundert/radonis-shared': workspace:1.9.3
+      '@microeinhundert/radonis-types': workspace:1.9.3
       '@types/node': ^16.11.56
       '@unocss/core': 0.45.21
       '@unocss/preset-wind': 0.45.21
