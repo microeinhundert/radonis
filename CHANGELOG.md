@@ -8,9 +8,7 @@ All notable changes to this project will be documented in this file.
 - BREAKING: Removed `ExtractControllerActionReturnType` type utility.
 
 ### Fixed
-- Type generation.
-
-> Please note: After new routes are added to the application, the dev server must be restarted once before newly added routes are included in the generated types.
+- Type generation. Learn more in the [docs](https://radonis.vercel.app/docs/type-generation).
 
 ## [1.9.1] - 2022-09-15
 
