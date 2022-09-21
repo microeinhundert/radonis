@@ -14,6 +14,10 @@ Get DX similar to [Remix](https://remix.run/) while having the power of a full M
 
 Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
 
+## Example
+
+For an example app, take a look into the `example` directory.
+
 ## Nice to have
 
 - [ ] CSS bundling

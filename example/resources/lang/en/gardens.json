@@ -1,0 +1,52 @@
+{
+  "form": {
+    "name": {
+      "label": "Name"
+    },
+    "zip": {
+      "label": "ZIP Code"
+    },
+    "city": {
+      "label": "City"
+    },
+    "actions": {
+      "create": "Create Garden",
+      "update": "Update Garden"
+    }
+  },
+  "index": {
+    "title": "Gardens",
+    "actions": {
+      "create": "Create Garden"
+    }
+  },
+  "create": {
+    "title": "Create Garden"
+  },
+  "show": {
+    "title": "{ name }"
+  },
+  "edit": {
+    "title": "Edit \"{ name }\""
+  },
+  "list": {
+    "actions": {
+      "edit": "Edit Garden",
+      "delete": "Delete Garden"
+    },
+    "modals": {
+      "delete": {
+        "title": "Are you sure you want to delete the garden \"{ name }\"?",
+        "description": "This action cannot be undone!",
+        "actions": {
+          "cancel": "Cancel",
+          "confirm": "Delete Garden"
+        }
+      }
+    },
+    "noData": {
+      "headline": "No Gardens Added",
+      "text": "Click the button in the upper right to add your first garden."
+    }
+  }
+}

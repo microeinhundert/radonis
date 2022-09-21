@@ -1,0 +1,28 @@
+{
+  "input": {
+    "showValue": "Show value",
+    "hideValue": "Hide value"
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search for something"
+  },
+  "sidebar": {
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "modals": {
+      "signOut": {
+        "title": "Are you sure you want to sign out?",
+        "description": "You can of course sign in again at any time.",
+        "actions": {
+          "cancel": "Cancel",
+          "confirm": "Sign Out"
+        }
+      }
+    }
+  },
+  "modal": {
+    "close": "Close modal"
+  }
+}

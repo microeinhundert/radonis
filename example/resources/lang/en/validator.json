@@ -1,0 +1,14 @@
+{
+  "invalidEmailOrPassword": "Either the email or the password you entered is incorrect.",
+  "shared": {
+    "required": "This field is required.",
+    "unique": "The value of this field must be unique.",
+    "minLength": "This field must have { minLength } items.",
+
+    "email.email": "This field must contain a valid email.",
+    "email.unique": "This email is already in use.",
+
+    "password.minLength": "The password must contain at least { minLength } characters.",
+    "passwordConfirmation.confirmed": "The passwords do not match."
+  }
+}
