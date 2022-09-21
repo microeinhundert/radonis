@@ -2,7 +2,7 @@ import { useI18n } from '@microeinhundert/radonis';
 import Header from 'Components/Header';
 import { BaseLayout } from 'Layouts/Base';
 
-function Dashboard() {
+function Index() {
   const { formatMessage } = useI18n();
 
   const messages = {
@@ -17,4 +17,4 @@ function Dashboard() {
   );
 }
 
-export { Dashboard };
+export { Index };
