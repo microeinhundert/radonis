@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.4] - 2022-09-21
+
+### Changed
+- Updated dependencies.
+
+### Fixed
+- Injected asset URLs not relative to root.
+
 ## [1.9.3] - 2022-09-20
 
 ### Fixed
