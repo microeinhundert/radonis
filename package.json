@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
-    "test": "turbo run test",
+    "build": "turbo run build --filter=./packages/*",
+    "lint": "turbo run lint --filter=./packages/*",
+    "format": "turbo run format --filter=./packages/*",
+    "test": "turbo run test --filter=./packages/*",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },

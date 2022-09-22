@@ -14,29 +14,14 @@ import type { BuildManifest } from '@microeinhundert/radonis-build'
 import {
   buildEntryFileAndComponents,
   discoverComponents,
-  generateAssetsManifest,
   writeBuildManifestToDisk,
 } from '@microeinhundert/radonis-build'
 import { invariant } from '@microeinhundert/radonis-shared'
-import { generateAndWriteTypeDeclarationFileToDisk } from '@microeinhundert/radonis-types'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
-import { parse, relative, resolve } from 'path'
+import { relative, resolve } from 'path'
 
-import { extractRootRoutes } from '../src/utils/extractRootRoutes'
-
-/**
- * Yield a script path
- */
-function yieldScriptPath(path: string): string {
-  if (existsSync(path)) {
-    return path
-  }
-
-  const { ext } = parse(path)
-
-  return ext ? path.replace(ext, '.js') : yieldScriptPath(`${path}.ts`)
-}
+import { yieldScriptPath } from '../src/utils/yieldScriptPath'
 
 /**
  * A command to build the client
@@ -126,14 +111,14 @@ export default class BuildClient extends BaseCommand {
 
     const components = discoverComponents(this.componentsDir)
     const publicDir = this.application.rcFile.directories.public || 'public'
-    const buildManifest = await buildEntryFileAndComponents(
-      this.entryFilePath,
+    const buildManifest = await buildEntryFileAndComponents({
+      entryFilePath: this.entryFilePath,
       components,
       publicDir,
-      this.outputDir,
-      !!this.production,
-      buildOptions
-    )
+      outputDir: this.outputDir,
+      forProduction: !!this.production,
+      esbuildOptions: buildOptions,
+    })
 
     /**
      * Write the build manifest
@@ -150,46 +135,10 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * Generate TypeScript types for components, messages and routes
-   */
-  private async generateTypes(buildManifest: BuildManifest): Promise<void> {
-    /**
-     * Do not generate types when building for production
-     */
-    if (this.production) {
-      return
-    }
-
-    const Router = this.application.container.resolveBinding('Adonis/Core/Route')
-    const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-
-    await I18n.reloadTranslations()
-    Router.commit()
-
-    const assetsManifest = await generateAssetsManifest(buildManifest)
-
-    try {
-      await generateAndWriteTypeDeclarationFileToDisk(
-        {
-          components: assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
-          messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
-          routes: Object.keys(extractRootRoutes(Router)),
-        },
-        this.application.tmpPath('types')
-      )
-
-      this.logger.success('successfully generated types')
-    } catch {
-      this.logger.error('error generating types')
-    }
-  }
-
-  /**
    * Run the command
    */
   public async run(): Promise<void> {
-    let buildManifest = await this.build()
-    await this.generateTypes(buildManifest)
+    await this.build()
 
     if (this.watch && !this.production) {
       /**
@@ -211,8 +160,7 @@ export default class BuildClient extends BaseCommand {
           this.logger.error('rebuilding the client failed')
         })
         .on('all', async () => {
-          buildManifest = await this.build()
-          await this.generateTypes(buildManifest)
+          await this.build()
         })
     } else {
       this.exit()

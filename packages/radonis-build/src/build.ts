@@ -9,7 +9,7 @@
 
 import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
-import type { BuildOptions, Metafile } from 'esbuild'
+import type { Metafile } from 'esbuild'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 import { join, parse, relative } from 'path'
@@ -17,7 +17,7 @@ import { join, parse, relative } from 'path'
 import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugin'
-import type { BuildManifest, BuildManifestEntry } from './types'
+import type { BuildManifest, BuildManifestEntry, BuildOptions } from './types'
 import { filePathToFileUrl } from './utils'
 
 const pluginsManager = PluginsManager.getInstance()
@@ -143,15 +143,18 @@ function generateBuildManifest(
  * Build the entry file as well as the components
  * @internal
  */
-export async function buildEntryFileAndComponents(
-  entryFilePath: string,
-  components: Map<string, string>,
-  publicDir: string,
-  outputDir: string,
-  forProduction: boolean,
-  buildOptions: BuildOptions
-): Promise<BuildManifest> {
-  await emptyDir(outputDir)
+export async function buildEntryFileAndComponents({
+  entryFilePath,
+  components,
+  publicDir,
+  outputDir,
+  writeOutput,
+  forProduction,
+  esbuildOptions,
+}: BuildOptions): Promise<BuildManifest> {
+  if (writeOutput) {
+    await emptyDir(outputDir)
+  }
 
   const environment = {}
 
@@ -177,18 +180,18 @@ export async function buildEntryFileAndComponents(
     minify: forProduction,
     write: false,
     jsx: 'automatic',
-    ...buildOptions,
-    loader: { ...loaders, ...(buildOptions.loader ?? {}) },
-    plugins: [radonisClientPlugin(components), ...(buildOptions.plugins ?? [])],
+    ...esbuildOptions,
+    loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
+    plugins: [radonisClientPlugin(components), ...(esbuildOptions?.plugins ?? [])],
     external: [
       '@microeinhundert/radonis-manifest',
       '@microeinhundert/radonis-server',
-      ...(buildOptions.external ?? []),
+      ...(esbuildOptions?.external ?? []),
     ],
     define: {
       ...environment,
       'process.env.NODE_ENV': forProduction ? '"production"' : '"development"',
-      ...(buildOptions.define ?? {}),
+      ...(esbuildOptions?.define ?? {}),
     },
   })
 
@@ -196,10 +199,14 @@ export async function buildEntryFileAndComponents(
 
   for (const { path, text, contents } of buildResult.outputFiles ?? []) {
     builtFiles.set(path, text)
-    outputFile(path, contents)
+    if (writeOutput) {
+      outputFile(path, contents)
+    }
   }
 
-  await pluginsManager.execute('afterOutput', null, builtFiles)
+  if (writeOutput) {
+    await pluginsManager.execute('afterOutput', null, builtFiles)
+  }
 
   /**
    * Generate the build manifest

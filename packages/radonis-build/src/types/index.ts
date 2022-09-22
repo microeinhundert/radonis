@@ -8,6 +8,20 @@
  */
 
 import type { HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { BuildOptions as EsbuildOptions } from 'esbuild'
+
+/**
+ * Build options
+ */
+export interface BuildOptions {
+  entryFilePath: string
+  components: Map<string, string>
+  publicDir: string
+  outputDir: string
+  writeOutput?: boolean
+  forProduction?: boolean
+  esbuildOptions?: EsbuildOptions
+}
 
 /**
  * Build manifest entry

@@ -12,8 +12,10 @@
     },
     "./commands": "./build/commands/index.js",
     "./commands/BuildClient": "./build/commands/BuildClient.js",
+    "./commands/GenerateTypes": "./build/commands/GenerateTypes.js",
     "./build/commands": "./build/commands/index.js",
     "./build/commands/BuildClient": "./build/commands/BuildClient.js",
+    "./build/commands/GenerateTypes": "./build/commands/GenerateTypes.js",
     "./*": "./*"
   },
   "sideEffects": false,
