@@ -9,12 +9,11 @@ interface LinkProps extends HTMLProps<'a'> {
   children?: ReactNode;
 }
 
-function Link({ children, href, className, ...restProps }: LinkProps) {
+function Link({ children, className, ...restProps }: LinkProps) {
   return (
     <a
       {...restProps}
       className={clsx('font-medium text-emerald-600 hover:text-emerald-500', className)}
-      href={href}
     >
       {children}
     </a>
