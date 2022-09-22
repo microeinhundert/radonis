@@ -72,7 +72,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The components directory
    */
-  get componentsDir(): string {
+  get #componentsDir(): string {
     const {
       client: { componentsDir },
     } = this.#config
@@ -109,7 +109,7 @@ export default class BuildClient extends BaseCommand {
       client: { buildOptions },
     } = this.#config
 
-    const components = discoverComponents(this.componentsDir)
+    const components = discoverComponents(this.#componentsDir)
     const publicDir = this.application.rcFile.directories.public || 'public'
     const buildManifest = await buildEntryFileAndComponents({
       entryFilePath: this.#entryFilePath,
