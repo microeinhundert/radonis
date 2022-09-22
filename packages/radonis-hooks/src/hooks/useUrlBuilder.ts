@@ -32,7 +32,7 @@ export function useUrlBuilder() {
     invariant(route, `Cannot find route for "${identifier}"`)
 
     if (hydration.root) {
-      HydrationManager.getInstance().requireRouteForHydration(identifier)
+      HydrationManager.getSingletonInstance().requireRouteForHydration(identifier)
     }
 
     return route

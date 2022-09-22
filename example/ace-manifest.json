@@ -586,24 +586,25 @@
           "description": "Build for production"
         },
         {
-          "name": "watch-dir",
-          "propertyName": "watchDir",
+          "name": "watch",
+          "propertyName": "watch",
           "type": "string",
-          "description": "Directory to watch for changes"
-        },
-        {
-          "name": "output-dir",
-          "propertyName": "outputDir",
-          "type": "string",
-          "description": "Directory to output built files to"
-        },
-        {
-          "name": "types-output-dir",
-          "propertyName": "typesOutputDir",
-          "type": "string",
-          "description": "Directory to output generated types to"
+          "description": "Glob pattern of files that should automatically trigger a rebuild",
+          "alias": "watch-dir"
         }
       ]
+    },
+    "generate:types": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "@microeinhundert/radonis-server/build/commands/GenerateTypes",
+      "commandName": "generate:types",
+      "description": "Generate the Radonis types",
+      "args": [],
+      "aliases": [],
+      "flags": []
     }
   },
   "aliases": {}

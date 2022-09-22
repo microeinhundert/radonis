@@ -48,7 +48,7 @@ export function useForm<TData, TError>({
   const hydration = useHydration()
 
   if (hydration.root) {
-    HydrationManager.getInstance().requireRouteForHydration(action)
+    HydrationManager.getSingletonInstance().requireRouteForHydration(action)
   }
 
   const form = useRef<HTMLFormElement | null>(null)

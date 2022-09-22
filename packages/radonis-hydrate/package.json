@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-hydrate",
-  "version": "1.9.4",
+  "version": "1.10.0",
   "description": "Hydration package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -65,10 +65,10 @@
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-build": "workspace:1.9.4",
-    "@microeinhundert/radonis-manifest": "workspace:1.9.4",
-    "@microeinhundert/radonis-shared": "workspace:1.9.4",
-    "@microeinhundert/radonis-types": "workspace:1.9.4",
+    "@microeinhundert/radonis-build": "workspace:1.10.0",
+    "@microeinhundert/radonis-manifest": "workspace:1.10.0",
+    "@microeinhundert/radonis-shared": "workspace:1.10.0",
+    "@microeinhundert/radonis-types": "workspace:1.10.0",
     "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }

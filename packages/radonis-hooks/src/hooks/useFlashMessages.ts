@@ -33,7 +33,7 @@ export function useFlashMessages() {
     }
 
     if (hydration.root && flashMessage) {
-      HydrationManager.getInstance().requireFlashMessageForHydration(identifier)
+      HydrationManager.getSingletonInstance().requireFlashMessageForHydration(identifier)
     }
 
     return flashMessage
@@ -44,7 +44,7 @@ export function useFlashMessages() {
    */
   function all() {
     if (hydration.root) {
-      HydrationManager.getInstance().requireFlashMessageForHydration('*')
+      HydrationManager.getSingletonInstance().requireFlashMessageForHydration('*')
     }
 
     return flashMessages
@@ -76,7 +76,7 @@ export function useFlashMessages() {
    */
   function allErrors() {
     if (hydration.root) {
-      HydrationManager.getInstance().requireFlashMessageForHydration(`${ERRORS_NAMESPACE}.*`)
+      HydrationManager.getSingletonInstance().requireFlashMessageForHydration(`${ERRORS_NAMESPACE}.*`)
     }
 
     return Object.entries(flashMessages)

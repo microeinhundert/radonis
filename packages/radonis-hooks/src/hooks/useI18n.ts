@@ -32,7 +32,7 @@ export function useI18n() {
     invariant(message, `Cannot find message for "${identifier}"`)
 
     if (hydration.root) {
-      HydrationManager.getInstance().requireMessageForHydration(identifier)
+      HydrationManager.getSingletonInstance().requireMessageForHydration(identifier)
     }
 
     return message

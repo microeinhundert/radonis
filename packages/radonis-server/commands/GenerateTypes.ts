@@ -21,9 +21,9 @@ import { yieldScriptPath } from '../src/utils/yieldScriptPath'
  * A command to generate the types
  */
 export default class GenerateTypes extends BaseCommand {
-  public static commandName = 'generate:types'
-  public static description = 'Generate the Radonis types'
-  public static settings = {
+  static commandName = 'generate:types'
+  static description = 'Generate the Radonis types'
+  static settings = {
     loadApp: true,
     stayAlive: false,
   }
@@ -31,15 +31,15 @@ export default class GenerateTypes extends BaseCommand {
   /**
    * The Radonis config
    */
-  private config: RadonisConfig = this.application.config.get('radonis', {})
+  #config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
    * The entry file path
    */
-  private get entryFilePath(): string {
+  get #entryFilePath(): string {
     let {
       client: { entryFile },
-    } = this.config
+    } = this.#config
 
     entryFile = yieldScriptPath(entryFile)
 
@@ -51,10 +51,10 @@ export default class GenerateTypes extends BaseCommand {
   /**
    * The components directory
    */
-  private get componentsDir(): string {
+  get #componentsDir(): string {
     const {
       client: { componentsDir },
-    } = this.config
+    } = this.#config
 
     invariant(existsSync(componentsDir), `The Radonis components directory does not exist at "${componentsDir}"`)
 
@@ -64,30 +64,30 @@ export default class GenerateTypes extends BaseCommand {
   /**
    * The output directory
    */
-  private get outputDir(): string {
+  get #outputDir(): string {
     return this.application.publicPath('radonis')
   }
 
   /**
    * Generate TypeScript types for components, messages and routes
    */
-  private async generateTypes(): Promise<void> {
+  async #generateTypes(): Promise<void> {
     const {
       client: { buildOptions },
-    } = this.config
+    } = this.#config
 
     const Router = this.application.container.resolveBinding('Adonis/Core/Route')
     const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
 
     Router.commit()
 
-    const components = discoverComponents(this.componentsDir)
+    const components = discoverComponents(this.#componentsDir)
     const publicDir = this.application.rcFile.directories.public || 'public'
     const buildManifest = await buildEntryFileAndComponents({
-      entryFilePath: this.entryFilePath,
+      entryFilePath: this.#entryFilePath,
       components,
       publicDir,
-      outputDir: this.outputDir,
+      outputDir: this.#outputDir,
       esbuildOptions: buildOptions,
     })
 
@@ -112,7 +112,7 @@ export default class GenerateTypes extends BaseCommand {
   /**
    * Run the command
    */
-  public async run(): Promise<void> {
-    await this.generateTypes()
+  async run(): Promise<void> {
+    await this.#generateTypes()
   }
 }

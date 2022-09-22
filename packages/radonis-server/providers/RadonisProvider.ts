@@ -25,80 +25,91 @@ import {
 import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 
 export default class RadonisProvider {
-  public static needsApplication = true
+  static needsApplication = true
 
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager = PluginsManager.getInstance()
+  #pluginsManager: PluginsManager
+
+  /**
+   * The application
+   */
+  #application: ApplicationContract
+
+  /**
+   * The Radonis config
+   */
+  #config: RadonisConfig
 
   /**
    * Constructor
    */
-  constructor(private application: ApplicationContract) {}
+  constructor(application: ApplicationContract) {
+    this.#pluginsManager = PluginsManager.getSingletonInstance()
+    this.#application = application
+    this.#config = this.#application.config.get('radonis', {})
+  }
 
   /**
    * Register
    */
-  public register() {
-    const radonisConfig: RadonisConfig = this.application.config.get('radonis', {})
-
+  register() {
     /**
      * Install plugins
      */
-    this.pluginsManager.install('server', ...radonisConfig.plugins)
+    this.#pluginsManager.install('server', ...this.#config.plugins)
 
     /**
      * ManifestBuilder
      */
-    this.application.container.singleton('Microeinhundert/Radonis/ManifestBuilder', () => {
+    this.#application.container.singleton('Microeinhundert/Radonis/ManifestBuilder', () => {
       const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
 
-      const flashMessagesManager = FlashMessagesManager.getInstance()
-      const i18nManager = I18nManager.getInstance()
-      const routesManager = RoutesManager.getInstance()
+      const flashMessagesManager = FlashMessagesManager.getSingletonInstance()
+      const i18nManager = I18nManager.getSingletonInstance()
+      const routesManager = RoutesManager.getSingletonInstance()
 
       return new ManifestBuilder(flashMessagesManager, i18nManager, routesManager, {
-        limitClientManifest: radonisConfig.client.limitManifest,
+        limitClientManifest: this.#config.client.limitManifest,
       })
     })
 
     /**
      * AssetsManager
      */
-    this.application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
+    this.#application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
       const { AssetsManager } = require('../src/assetsManager')
 
-      return new AssetsManager(this.application, radonisConfig)
+      return new AssetsManager(this.#application, this.#config)
     })
 
     /**
      * HeadManager
      */
-    this.application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
+    this.#application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
       const { HeadManager } = require('../src/headManager')
 
-      return new HeadManager(radonisConfig)
+      return new HeadManager(this.#config)
     })
 
     /**
      * Renderer
      */
-    this.application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
-      const I18n = this.application.container.resolveBinding('Adonis/Addons/I18n')
-      const AssetsManager = this.application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
-      const HeadManager = this.application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
-      const ManifestBuilder = this.application.container.resolveBinding('Microeinhundert/Radonis/ManifestBuilder')
+    this.#application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
+      const AssetsManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
+      const HeadManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
+      const ManifestBuilder = this.#application.container.resolveBinding('Microeinhundert/Radonis/ManifestBuilder')
 
       const { Renderer } = require('../src/renderer')
 
-      return new Renderer(I18n, AssetsManager, HeadManager, ManifestBuilder)
+      return new Renderer(AssetsManager, HeadManager, ManifestBuilder)
     })
 
     /**
      * Main
      */
-    this.application.container.singleton('Microeinhundert/Radonis', () => {
+    this.#application.container.singleton('Microeinhundert/Radonis', () => {
       return {
         useAdonis,
         useApplication,
@@ -115,36 +126,37 @@ export default class RadonisProvider {
   /**
    * Boot
    */
-  public async boot() {
-    await this.pluginsManager.execute('onBootServer', null, null)
+  async boot() {
+    await this.#pluginsManager.execute('onBootServer', null, null)
 
-    this.application.container.withBindings(['Adonis/Core/Server'], (Server) => {
+    this.#application.container.withBindings(['Adonis/Core/Server'], (Server) => {
       Server.hooks
         .before(async () => {
-          await this.pluginsManager.execute('beforeRequest', null, null)
+          await this.#pluginsManager.execute('beforeRequest', null, null)
         })
         .after(async () => {
-          await this.pluginsManager.execute('afterRequest', null, null)
+          await this.#pluginsManager.execute('afterRequest', null, null)
         })
     })
 
-    this.application.container.withBindings(
+    this.#application.container.withBindings(
       [
         'Adonis/Core/HttpContext',
         'Adonis/Core/Application',
         'Adonis/Core/Route',
+        'Adonis/Addons/I18n',
         'Microeinhundert/Radonis/ManifestBuilder',
         'Microeinhundert/Radonis/AssetsManager',
         'Microeinhundert/Radonis/HeadManager',
         'Microeinhundert/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Router, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+      async (HttpContext, Application, Route, I18n, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
         await AssetsManager.readBuildManifest()
 
         /**
          * Set routes on the ManifestBuilder
          */
-        ManifestBuilder.setRoutes(extractRootRoutes(Router))
+        ManifestBuilder.setRoutes(extractRootRoutes(Route))
 
         /**
          * Define getter
@@ -156,7 +168,7 @@ export default class RadonisProvider {
             AssetsManager.resetForNewRequest()
             HeadManager.resetForNewRequest()
 
-            return Renderer.getForRequest(this, Application, Router)
+            return Renderer.getForRequest(this, Application, Route, I18n)
           },
           true
         )

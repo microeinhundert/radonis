@@ -18,64 +18,70 @@ import { buildTitle } from './utils/buildTitle'
  */
 export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
+   * The Radonis config
+   */
+  #config: Pick<RadonisConfig, 'head'>
+
+  /**
    * The title
    */
-  private title: string
+  #title: string
 
   /**
    * The meta
    */
-  private meta: HeadMeta
+  #meta: HeadMeta
 
   /**
    * The tags
    */
-  private tags: HeadTag[]
+  #tags: HeadTag[]
 
   /**
    * Constructor
    */
-  constructor(private config: Pick<RadonisConfig, 'head'>) {
-    this.setDefaults()
+  constructor(config: Pick<RadonisConfig, 'head'>) {
+    this.#config = config
+    this.#setDefaults()
   }
 
   /**
    * Set the defaults
    */
-  private setDefaults() {
-    this.setTitle(this.config.head.title.default)
-    this.meta = this.config.head.defaultMeta
-    this.tags = []
+  #setDefaults() {
+    this.setTitle(this.#config.head.title.default)
+    this.#meta = this.#config.head.defaultMeta
+    this.#tags = []
   }
 
   /**
    * Set the title
    */
-  public setTitle(title: string): void {
-    const { prefix, suffix, separator } = this.config.head.title
+  setTitle(title: string): void {
+    const { prefix, suffix, separator } = this.#config.head.title
 
-    this.title = buildTitle(title, prefix, suffix, separator)
+    this.#title = buildTitle(title, prefix, suffix, separator)
   }
 
   /**
    * Get the HTML title tag
    */
-  public getTitleTag(): string {
-    return `<title>${this.title}</title>`
+  getTitleTag(): string {
+    return `<title>${this.#title}</title>`
   }
 
   /**
    * Add meta
    */
-  public addMeta(meta: HeadMeta): void {
-    this.meta = { ...this.meta, ...meta }
+  addMeta(meta: HeadMeta): void {
+    this.#meta = { ...this.#meta, ...meta }
   }
 
   /**
    * Get the HTML meta tags
    */
-  public getMetaTags(): string {
-    return Object.entries(this.meta)
+  getMetaTags(): string {
+    return Object.entries(this.#meta)
       .map(([name, value]) => {
         if (!value) {
           return null
@@ -105,15 +111,15 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * Add tags
    */
-  public addTags(tags: HeadTag[]): void {
-    this.tags = [...this.tags, ...tags]
+  addTags(tags: HeadTag[]): void {
+    this.#tags = [...this.#tags, ...tags]
   }
 
   /**
    * Get the HTML tags
    */
-  public getTags(): string {
-    return this.tags
+  getTags(): string {
+    return this.#tags
       .map(({ name, content, attributes }) => {
         return `<${name}${attributes ? ` ${stringifyAttributes(attributes)}` : ''}>${content}</${name}>`
       })
@@ -123,14 +129,14 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * Get all HTML
    */
-  public getHTML(): string {
+  getHTML(): string {
     return [this.getTitleTag(), this.getMetaTags(), this.getTags()].join('\n')
   }
 
   /**
    * Reset for a new request
    */
-  public resetForNewRequest(): void {
-    this.setDefaults()
+  resetForNewRequest(): void {
+    this.#setDefaults()
   }
 }

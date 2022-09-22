@@ -20,7 +20,7 @@ import { radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry, BuildOptions } from './types'
 import { filePathToFileUrl } from './utils'
 
-const pluginsManager = PluginsManager.getInstance()
+const pluginsManager = PluginsManager.getSingletonInstance()
 
 /**
  * Extract identifiers from usage of `.has(Error)?` and `.get(Error)?` from the source code

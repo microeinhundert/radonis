@@ -16,38 +16,53 @@ export class RoutesManager implements ResetBetweenRequests {
   /**
    * The singleton instance
    */
-  private static instance?: RoutesManager
+  static instance?: RoutesManager
+
+  /**
+   * Get the singleton instance
+   */
+  static getSingletonInstance(): RoutesManager {
+    return (RoutesManager.instance = RoutesManager.instance ?? new RoutesManager())
+  }
 
   /**
    * The routes
    */
-  private routes: Routes = {}
+  #routes: Routes
 
   /**
    * The routes required for hydration
    */
-  private routesRequiredForHydration: Set<RouteIdentifier> = new Set()
+  #routesRequiredForHydration: Set<RouteIdentifier>
+
+  /**
+   * Constructor
+   */
+  constructor() {
+    this.#routes = {}
+    this.#routesRequiredForHydration = new Set()
+  }
 
   /**
    * Set the routes
    */
-  public setRoutes(routes: Routes): void {
-    this.routes = routes
+  setRoutes(routes: Routes): void {
+    this.#routes = routes
   }
 
   /**
    * Get the routes
    */
-  public getRoutes(all?: boolean): Routes {
+  getRoutes(all?: boolean): Routes {
     if (all) {
-      return this.routes
+      return this.#routes
     }
 
     const routes = {} as Routes
 
-    for (const identifier of this.routesRequiredForHydration) {
-      if (identifier in this.routes) {
-        routes[identifier] = this.routes[identifier]
+    for (const identifier of this.#routesRequiredForHydration) {
+      if (identifier in this.#routes) {
+        routes[identifier] = this.#routes[identifier]
       }
     }
 
@@ -57,28 +72,21 @@ export class RoutesManager implements ResetBetweenRequests {
   /**
    * Require a route for hydration
    */
-  public requireRouteForHydration(identifier: '*' | RouteIdentifier): void {
+  requireRouteForHydration(identifier: '*' | RouteIdentifier): void {
     if (identifier === '*') {
       /**
        * Require all routes
        */
-      this.routesRequiredForHydration = new Set(Object.keys(this.routes))
-    } else if (identifier in this.routes) {
-      this.routesRequiredForHydration.add(identifier)
+      this.#routesRequiredForHydration = new Set(Object.keys(this.#routes))
+    } else if (identifier in this.#routes) {
+      this.#routesRequiredForHydration.add(identifier)
     }
   }
 
   /**
    * Reset for a new request
    */
-  public resetForNewRequest(): void {
-    this.routesRequiredForHydration.clear()
-  }
-
-  /**
-   * Get the singleton instance
-   */
-  public static getInstance(): RoutesManager {
-    return (RoutesManager.instance = RoutesManager.instance ?? new RoutesManager())
+  resetForNewRequest(): void {
+    this.#routesRequiredForHydration.clear()
   }
 }

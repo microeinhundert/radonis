@@ -27,9 +27,9 @@ import { yieldScriptPath } from '../src/utils/yieldScriptPath'
  * A command to build the client
  */
 export default class BuildClient extends BaseCommand {
-  public static commandName = 'build:client'
-  public static description = 'Build the Radonis client'
-  public static settings = {
+  static commandName = 'build:client'
+  static description = 'Build the Radonis client'
+  static settings = {
     loadApp: true,
     stayAlive: true,
   }
@@ -38,7 +38,7 @@ export default class BuildClient extends BaseCommand {
    * Build for production
    */
   @flags.boolean({ description: 'Build for production' })
-  public production: boolean | undefined
+  production: boolean | undefined
 
   /**
    * Allows for automatically rebuilding the client on file changes
@@ -47,20 +47,20 @@ export default class BuildClient extends BaseCommand {
     description: 'Glob pattern of files that should automatically trigger a rebuild',
     alias: 'watch-dir',
   })
-  public watch: string | undefined
+  watch: string | undefined
 
   /**
    * The Radonis config
    */
-  private config: RadonisConfig = this.application.config.get('radonis', {})
+  #config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
    * The entry file path
    */
-  private get entryFilePath(): string {
+  get #entryFilePath(): string {
     let {
       client: { entryFile },
-    } = this.config
+    } = this.#config
 
     entryFile = yieldScriptPath(entryFile)
 
@@ -72,10 +72,10 @@ export default class BuildClient extends BaseCommand {
   /**
    * The components directory
    */
-  private get componentsDir(): string {
+  get componentsDir(): string {
     const {
       client: { componentsDir },
-    } = this.config
+    } = this.#config
 
     invariant(existsSync(componentsDir), `The Radonis components directory does not exist at "${componentsDir}"`)
 
@@ -85,7 +85,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The output directory
    */
-  private get outputDir(): string {
+  get #outputDir(): string {
     const publicPath = this.application.publicPath('radonis')
 
     /**
@@ -104,18 +104,18 @@ export default class BuildClient extends BaseCommand {
   /**
    * Run the build
    */
-  private async build(): Promise<BuildManifest> {
+  async #build(): Promise<BuildManifest> {
     const {
       client: { buildOptions },
-    } = this.config
+    } = this.#config
 
     const components = discoverComponents(this.componentsDir)
     const publicDir = this.application.rcFile.directories.public || 'public'
     const buildManifest = await buildEntryFileAndComponents({
-      entryFilePath: this.entryFilePath,
+      entryFilePath: this.#entryFilePath,
       components,
       publicDir,
-      outputDir: this.outputDir,
+      outputDir: this.#outputDir,
       forProduction: !!this.production,
       esbuildOptions: buildOptions,
     })
@@ -123,7 +123,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Write the build manifest
      */
-    await writeBuildManifestToDisk(buildManifest, this.outputDir)
+    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
 
     /**
      * Output a log message after successful build
@@ -137,8 +137,8 @@ export default class BuildClient extends BaseCommand {
   /**
    * Run the command
    */
-  public async run(): Promise<void> {
-    await this.build()
+  async run(): Promise<void> {
+    await this.#build()
 
     if (this.watch && !this.production) {
       /**
@@ -160,7 +160,7 @@ export default class BuildClient extends BaseCommand {
           this.logger.error('rebuilding the client failed')
         })
         .on('all', async () => {
-          await this.build()
+          await this.#build()
         })
     } else {
       this.exit()

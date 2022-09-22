@@ -20,7 +20,7 @@ export function useRoutes() {
   const hydration = useHydration()
 
   if (hydration.root) {
-    HydrationManager.getInstance().requireRouteForHydration('*')
+    HydrationManager.getSingletonInstance().requireRouteForHydration('*')
   }
 
   return routes

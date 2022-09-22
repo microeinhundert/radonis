@@ -39,83 +39,63 @@ type BuilderConfig = {
  */
 export class Builder implements Manifest, ResetBetweenRequests {
   /**
+   * The FlashMessagesManager instance
+   */
+  #flashMessagesManager: FlashMessagesManager
+
+  /**
+   * The I18nManager instance
+   */
+  #i18nManager: I18nManager
+
+  /**
+   * The RoutesManager instance
+   */
+  #routesManager: RoutesManager
+
+  /**
+   * The Builder config
+   */
+  #config: BuilderConfig
+
+  /**
    * The props registered with the Builder
    */
-  public props: Props = {}
+  props: Props
 
   /**
    * The globals added to the Builder
    */
-  public globals: Globals = {}
+  globals: Globals
 
   /**
    * The current route set on the Builder
    */
-  public route: Route | null = null
+  route: Route | null
 
   /**
    * Constructor
    */
   constructor(
-    private flashMessagesManager: FlashMessagesManager,
-    private i18nManager: I18nManager,
-    private routesManager: RoutesManager,
-    private config: BuilderConfig
-  ) {}
+    flashMessagesManager: FlashMessagesManager,
+    i18nManager: I18nManager,
+    routesManager: RoutesManager,
+    config: BuilderConfig
+  ) {
+    this.#flashMessagesManager = flashMessagesManager
+    this.#i18nManager = i18nManager
+    this.#routesManager = routesManager
+    this.#config = config
 
-  /**
-   * The flash messages
-   */
-  public get flashMessages(): FlashMessages {
-    return this.flashMessagesManager.getFlashMessages(true)
-  }
-
-  /**
-   * The flash messages required for hydration
-   */
-  public get flashMessagesRequiredForHydration(): FlashMessages {
-    return this.flashMessagesManager.getFlashMessages()
-  }
-
-  /**
-   * The locale
-   */
-  public get locale(): Locale {
-    return this.i18nManager.getLocale()
-  }
-
-  /**
-   * The messages
-   */
-  public get messages(): Messages {
-    return this.i18nManager.getMessages(true)
-  }
-
-  /**
-   * The messages required for hydration
-   */
-  public get messagesRequiredForHydration(): Messages {
-    return this.i18nManager.getMessages()
-  }
-
-  /**
-   * The routes
-   */
-  public get routes(): Routes {
-    return this.routesManager.getRoutes(true)
-  }
-
-  /**
-   * The routes required for hydration
-   */
-  public get routesRequiredForHydration(): Routes {
-    return this.routesManager.getRoutes()
+    this.props = {}
+    this.globals = {}
+    this.route = null
   }
 
   /**
    * The server manifest
    */
-  private get serverManifest(): Manifest {
+  get #serverManifest(): Manifest {
     return {
       props: this.props,
       globals: this.globals,
@@ -130,36 +110,85 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * The client manifest
    */
-  private get clientManifest(): Manifest {
+  get #clientManifest(): Manifest {
     return {
       props: this.props,
       globals: this.globals,
-      flashMessages: this.config.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
+      flashMessages: this.#config.limitClientManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       locale: this.locale,
-      messages: this.config.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
-      routes: this.config.limitClientManifest ? this.routesRequiredForHydration : this.routes,
+      messages: this.#config.limitClientManifest ? this.messagesRequiredForHydration : this.messages,
+      routes: this.#config.limitClientManifest ? this.routesRequiredForHydration : this.routes,
       route: this.route,
     }
   }
 
   /**
+   * The flash messages
+   */
+  get flashMessages(): FlashMessages {
+    return this.#flashMessagesManager.getFlashMessages(true)
+  }
+
+  /**
+   * The flash messages required for hydration
+   */
+  get flashMessagesRequiredForHydration(): FlashMessages {
+    return this.#flashMessagesManager.getFlashMessages()
+  }
+
+  /**
+   * The locale
+   */
+  get locale(): Locale {
+    return this.#i18nManager.getLocale()
+  }
+
+  /**
+   * The messages
+   */
+  get messages(): Messages {
+    return this.#i18nManager.getMessages(true)
+  }
+
+  /**
+   * The messages required for hydration
+   */
+  get messagesRequiredForHydration(): Messages {
+    return this.#i18nManager.getMessages()
+  }
+
+  /**
+   * The routes
+   */
+  get routes(): Routes {
+    return this.#routesManager.getRoutes(true)
+  }
+
+  /**
+   * The routes required for hydration
+   */
+  get routesRequiredForHydration(): Routes {
+    return this.#routesManager.getRoutes()
+  }
+
+  /**
    * Get the client manifest as JSON
    */
-  public getClientManifestAsJSON(): string {
-    return JSON.stringify(superjson.serialize(this.clientManifest), null, isProduction ? 0 : 2)
+  getClientManifestAsJSON(): string {
+    return JSON.stringify(superjson.serialize(this.#clientManifest), null, isProduction ? 0 : 2)
   }
 
   /**
    * Set the server manifest on the global scope
    */
-  public setServerManifestOnGlobalScope(): void {
-    globalThis.radonisManifest = this.serverManifest
+  setServerManifestOnGlobalScope(): void {
+    globalThis.radonisManifest = this.#serverManifest
   }
 
   /**
    * Register props with the Builder
    */
-  public registerProps(props: ValueOf<Props>): PropsHash | null {
+  registerProps(props: ValueOf<Props>): PropsHash | null {
     const propsKeys = Object.keys(props)
 
     if (!propsKeys.length) return null
@@ -176,7 +205,7 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Add globals to the Builder
    */
-  public addGlobals(globals: Globals): this {
+  addGlobals(globals: Globals): this {
     this.globals = { ...this.globals, ...globals }
 
     return this
@@ -185,8 +214,8 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Set the flash messages on the FlashMessagesManager
    */
-  public setFlashMessages(flashMessages: FlashMessages): this {
-    this.flashMessagesManager.setFlashMessages(flashMessages)
+  setFlashMessages(flashMessages: FlashMessages): this {
+    this.#flashMessagesManager.setFlashMessages(flashMessages)
 
     return this
   }
@@ -194,8 +223,8 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Set the locale on the I18nManager
    */
-  public setLocale(locale: Locale): this {
-    this.i18nManager.setLocale(locale)
+  setLocale(locale: Locale): this {
+    this.#i18nManager.setLocale(locale)
 
     return this
   }
@@ -203,8 +232,8 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Set the messages on the I18nManager
    */
-  public setMessages(messages: Messages): this {
-    this.i18nManager.setMessages(messages)
+  setMessages(messages: Messages): this {
+    this.#i18nManager.setMessages(messages)
 
     return this
   }
@@ -212,8 +241,8 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Set the routes on the RoutesManager
    */
-  public setRoutes(routes: Routes): this {
-    this.routesManager.setRoutes(routes)
+  setRoutes(routes: Routes): this {
+    this.#routesManager.setRoutes(routes)
 
     return this
   }
@@ -221,7 +250,7 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Set the current route on the Builder
    */
-  public setRoute(route: Route): this {
+  setRoute(route: Route): this {
     this.route = route
 
     return this
@@ -230,13 +259,13 @@ export class Builder implements Manifest, ResetBetweenRequests {
   /**
    * Reset for a new request
    */
-  public resetForNewRequest(): void {
+  resetForNewRequest(): void {
     this.props = {}
     this.globals = {}
     this.route = null
 
-    this.flashMessagesManager.resetForNewRequest()
-    this.i18nManager.resetForNewRequest()
-    this.routesManager.resetForNewRequest()
+    this.#flashMessagesManager.resetForNewRequest()
+    this.#i18nManager.resetForNewRequest()
+    this.#routesManager.resetForNewRequest()
   }
 }

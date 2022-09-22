@@ -27,7 +27,7 @@ export function useRoute() {
 
     if (routes[identifier]) {
       if (hydration.root) {
-        HydrationManager.getInstance().requireRouteForHydration(identifier)
+        HydrationManager.getSingletonInstance().requireRouteForHydration(identifier)
       }
 
       return !!route?.pattern?.startsWith(routes[identifier])

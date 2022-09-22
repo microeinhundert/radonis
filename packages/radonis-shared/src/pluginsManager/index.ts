@@ -19,67 +19,92 @@ export class PluginsManager {
   /**
    * The singleton instance
    */
-  private static instance?: PluginsManager
+  static instance?: PluginsManager
+
+  /**
+   * Get the singleton instance
+   */
+  static getSingletonInstance(): PluginsManager {
+    return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager())
+  }
 
   /**
    * The installed plugins
    */
-  private installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }> = new Map()
+  #installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }>
 
   /**
    * The registered `onInitClient` hooks
    */
-  private onInitClientHooks: PluginHook<'onInitClient'>[] = []
+  onInitClientHooks: PluginHook<'onInitClient'>[]
 
   /**
    * The registered `beforeHydrate` hooks
    */
-  private beforeHydrateHooks: PluginHook<'beforeHydrate'>[] = []
+  beforeHydrateHooks: PluginHook<'beforeHydrate'>[]
 
   /**
    * The registered `onBootServer` hooks
    */
-  private onBootServerHooks: PluginHook<'onBootServer'>[] = []
+  onBootServerHooks: PluginHook<'onBootServer'>[]
 
   /**
    * The registered `beforeRequest` hooks
    */
-  private beforeRequestHooks: PluginHook<'beforeRequest'>[] = []
+  beforeRequestHooks: PluginHook<'beforeRequest'>[]
 
   /**
    * The registered `afterRequest` hooks
    */
-  private afterRequestHooks: PluginHook<'afterRequest'>[] = []
+  afterRequestHooks: PluginHook<'afterRequest'>[]
 
   /**
    * The registered `onScanFile` hooks
    */
-  private onScanFileHooks: PluginHook<'onScanFile'>[] = []
+  onScanFileHooks: PluginHook<'onScanFile'>[]
 
   /**
    * The registered `beforeOutput` hooks
    */
-  private beforeOutputHooks: PluginHook<'beforeOutput'>[] = []
+  beforeOutputHooks: PluginHook<'beforeOutput'>[]
 
   /**
    * The registered `afterOutput` hooks
    */
-  private afterOutputHooks: PluginHook<'afterOutput'>[] = []
+  afterOutputHooks: PluginHook<'afterOutput'>[]
 
   /**
    * The registered `beforeRender` hooks
    */
-  private beforeRenderHooks: PluginHook<'beforeRender'>[] = []
+  beforeRenderHooks: PluginHook<'beforeRender'>[]
 
   /**
    * The registered `afterRender` hooks
    */
-  private afterRenderHooks: PluginHook<'afterRender'>[] = []
+  afterRenderHooks: PluginHook<'afterRender'>[]
+
+  /**
+   * Constructor
+   */
+  constructor() {
+    this.#installedPlugins = new Map()
+
+    this.onInitClientHooks = []
+    this.beforeHydrateHooks = []
+    this.onBootServerHooks = []
+    this.beforeRequestHooks = []
+    this.afterRequestHooks = []
+    this.onScanFileHooks = []
+    this.beforeOutputHooks = []
+    this.afterOutputHooks = []
+    this.beforeRenderHooks = []
+    this.afterRenderHooks = []
+  }
 
   /**
    * Register the hooks of a plugin
    */
-  private registerHooks(targetEnvironment: PluginEnvironment, plugin: Plugin): void {
+  #registerHooks(targetEnvironment: PluginEnvironment, plugin: Plugin): void {
     switch (targetEnvironment) {
       case 'client': {
         plugin.onInitClient && this.onInitClientHooks.push(plugin.onInitClient)
@@ -102,14 +127,14 @@ export class PluginsManager {
   /**
    * Check for conflicts between installed plugins
    */
-  private checkForConflicts(targetEnvironment: PluginEnvironment): void {
-    for (const [pluginName, { environments, conflictsWith }] of this.installedPlugins) {
+  #checkForConflicts(targetEnvironment: PluginEnvironment): void {
+    for (const [pluginName, { environments, conflictsWith }] of this.#installedPlugins) {
       if (!environments?.includes(targetEnvironment)) {
         continue
       }
 
       const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
-        this.installedPlugins.has(conflictingPlugin)
+        this.#installedPlugins.has(conflictingPlugin)
       )
 
       if (conflictingPlugins?.length) {
@@ -124,11 +149,11 @@ export class PluginsManager {
   /**
    * Install a plugin or fail if it is incompatible
    */
-  private installOrFail(
+  #installOrFail(
     targetEnvironment: PluginEnvironment,
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
-    invariant(!this.installedPlugins.has(pluginName), `The plugin "${pluginName}" is already installed`)
+    invariant(!this.#installedPlugins.has(pluginName), `The plugin "${pluginName}" is already installed`)
 
     if (environments?.length) {
       for (const environment of ['server', 'client']) {
@@ -141,24 +166,24 @@ export class PluginsManager {
       }
     }
 
-    this.installedPlugins.set(pluginName, { environments, conflictsWith })
+    this.#installedPlugins.set(pluginName, { environments, conflictsWith })
   }
 
   /**
    * Install one or multiple plugins
    */
-  public install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
+  install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
     for (const plugin of plugins) {
-      this.installOrFail(targetEnvironment, plugin)
-      this.checkForConflicts(targetEnvironment)
-      this.registerHooks(targetEnvironment, plugin)
+      this.#installOrFail(targetEnvironment, plugin)
+      this.#checkForConflicts(targetEnvironment)
+      this.#registerHooks(targetEnvironment, plugin)
     }
   }
 
   /**
    * Execute hooks of a specific type
    */
-  public async execute<
+  async execute<
     TType extends keyof PluginHooks,
     TBuilderValue extends unknown,
     TParams extends Parameters<PluginHook<TType>>
@@ -176,13 +201,6 @@ export class PluginsManager {
     }
 
     return builderValue
-  }
-
-  /**
-   * Get the singleton instance
-   */
-  public static getInstance(): PluginsManager {
-    return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager())
   }
 }
 

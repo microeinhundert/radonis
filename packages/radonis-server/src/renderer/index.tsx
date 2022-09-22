@@ -42,45 +42,62 @@ export class Renderer implements RendererContract {
   /**
    * The PluginsManager instance
    */
-  private pluginsManager: PluginsManager = PluginsManager.getInstance()
+  #pluginsManager: PluginsManager
 
   /**
    * The HydrationManager instance
    */
-  private hydrationManager: HydrationManager = HydrationManager.getInstance()
+  #hydrationManager: HydrationManager
+
+  /**
+   * The AssetsManager instance
+   */
+  #assetsManager: AssetsManager
+
+  /**
+   * The HeadManager instance
+   */
+  #headManager: HeadManager
+
+  /**
+   * The ManifestBuilder instance
+   */
+  #manifestBuilder: ManifestBuilder
 
   /**
    * The Adonis context
    */
-  private adonisContext: AdonisContextContract = null as any
+  #adonisContext: AdonisContextContract
 
   /**
    * Constructor
    */
-  constructor(
-    private i18n: I18nManagerContract,
-    private assetsManager: AssetsManager,
-    private headManager: HeadManager,
-    private manifestBuilder: ManifestBuilder
-  ) {}
+  constructor(assetsManager: AssetsManager, headManager: HeadManager, manifestBuilder: ManifestBuilder) {
+    this.#pluginsManager = PluginsManager.getSingletonInstance()
+    this.#hydrationManager = HydrationManager.getSingletonInstance()
+    this.#assetsManager = assetsManager
+    this.#headManager = headManager
+    this.#manifestBuilder = manifestBuilder
+    this.#adonisContext = null as any
+  }
 
   /**
    * Inject closing head
    */
-  private injectClosingHead(html: string): string {
+  #injectClosingHead(html: string): string {
     const injectionTarget = '</head>'
 
-    return html.replace(injectionTarget, [this.headManager.getHTML(), injectionTarget].join('\n'))
+    return html.replace(injectionTarget, [this.#headManager.getHTML(), injectionTarget].join('\n'))
   }
 
   /**
    * Inject closing body
    */
-  private injectClosingBody(html: string): string {
+  #injectClosingBody(html: string): string {
     const injectionTarget = '</body>'
 
-    const scriptTags = this.assetsManager.components.requiredForHydration.map((asset) => {
-      this.hydrationManager.requireAssetForHydration(asset)
+    const scriptTags = this.#assetsManager.components.requiredForHydration.map((asset) => {
+      this.#hydrationManager.requireAssetForHydration(asset)
 
       return `<script ${stringifyAttributes({
         type: 'module',
@@ -92,7 +109,7 @@ export class Renderer implements RendererContract {
     return html.replace(
       injectionTarget,
       [
-        `<script id="rad-manifest">window.radonisManifest = ${this.manifestBuilder.getClientManifestAsJSON()}</script>`,
+        `<script id="rad-manifest">window.radonisManifest = ${this.#manifestBuilder.getClientManifestAsJSON()}</script>`,
         ...scriptTags,
         injectionTarget,
       ].join('\n')
@@ -102,40 +119,41 @@ export class Renderer implements RendererContract {
   /**
    * Extract the user locale from the http context
    */
-  private extractUserLocale({ request }: HttpContextContract): Locale {
-    const supportedLocales = this.i18n.supportedLocales()
+  #extractUserLocale({ request }: HttpContextContract, i18nManager: I18nManagerContract): Locale {
+    const supportedLocales = i18nManager.supportedLocales()
 
-    return request.language(supportedLocales) || request.input('lang') || this.i18n.defaultLocale
+    return request.language(supportedLocales) || request.input('lang') || i18nManager.defaultLocale
   }
 
   /**
    * Get for request
    */
-  public getForRequest(
+  getForRequest(
     httpContext: HttpContextContract,
     application: ApplicationContract,
-    router: RouterContract
+    router: RouterContract,
+    i18nManager: I18nManagerContract
   ): this {
     router.commit()
 
     /**
      * Set Adonis context
      */
-    this.adonisContext = {
+    this.#adonisContext = {
       application,
       httpContext,
       router,
     }
 
-    const locale = this.extractUserLocale(httpContext)
+    const locale = this.#extractUserLocale(httpContext, i18nManager)
 
     /**
      * Set manifest
      */
-    this.manifestBuilder
+    this.#manifestBuilder
       .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
       .setLocale(locale)
-      .setMessages(this.i18n.getTranslationsFor(locale))
+      .setMessages(i18nManager.getTranslationsFor(locale))
       .setRoute(transformRouteNode(httpContext.route))
 
     return this
@@ -144,8 +162,8 @@ export class Renderer implements RendererContract {
   /**
    * Set title for the current request
    */
-  public withTitle(title: string): this {
-    this.headManager.setTitle(title)
+  withTitle(title: string): this {
+    this.#headManager.setTitle(title)
 
     return this
   }
@@ -153,8 +171,8 @@ export class Renderer implements RendererContract {
   /**
    * Add head meta for the current request
    */
-  public withHeadMeta(meta: HeadMeta): this {
-    this.headManager.addMeta(meta)
+  withHeadMeta(meta: HeadMeta): this {
+    this.#headManager.addMeta(meta)
 
     return this
   }
@@ -162,8 +180,8 @@ export class Renderer implements RendererContract {
   /**
    * Add head tags for the current request
    */
-  public withHeadTags(tags: HeadTag[]): this {
-    this.headManager.addTags(tags)
+  withHeadTags(tags: HeadTag[]): this {
+    this.#headManager.addTags(tags)
 
     return this
   }
@@ -171,8 +189,8 @@ export class Renderer implements RendererContract {
   /**
    * Add globals for the current request
    */
-  public withGlobals(globals: Globals): this {
-    this.manifestBuilder.addGlobals(globals)
+  withGlobals(globals: Globals): this {
+    this.#manifestBuilder.addGlobals(globals)
 
     return this
   }
@@ -180,12 +198,12 @@ export class Renderer implements RendererContract {
   /**
    * Render the view and return the full HTML document
    */
-  public async render<T extends PropsWithoutRef<any>>(
+  async render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<string | UnwrapProps<T> | undefined> {
-    const request = this.adonisContext.httpContext.request
+    const request = this.#adonisContext.httpContext.request
 
     /**
      * If the request accepts HTML,
@@ -196,49 +214,49 @@ export class Renderer implements RendererContract {
        * Re-read the build manifest on every
        * render when not in production
        */
-      if (!this.adonisContext.application.inProduction) {
-        await this.assetsManager.readBuildManifest()
+      if (!this.#adonisContext.application.inProduction) {
+        await this.#assetsManager.readBuildManifest()
       }
 
       /**
        * Set the title on the HeadManager
        */
       if (options?.title) {
-        this.headManager.setTitle(options.title)
+        this.#headManager.setTitle(options.title)
       }
 
       /**
        * Add meta to the HeadManager
        */
       if (options?.meta) {
-        this.headManager.addMeta(options.meta)
+        this.#headManager.addMeta(options.meta)
       }
 
       /**
        * Add tags to the HeadManager
        */
       if (options?.tags) {
-        this.headManager.addTags(options.tags)
+        this.#headManager.addTags(options.tags)
       }
 
       /**
        * Add globals to the ManifestBuilder
        */
       if (options?.globals) {
-        this.manifestBuilder.addGlobals(options.globals)
+        this.#manifestBuilder.addGlobals(options.globals)
       }
 
       /**
        * Set the server manifest on the global scope
        */
-      this.manifestBuilder.setServerManifestOnGlobalScope()
+      this.#manifestBuilder.setServerManifestOnGlobalScope()
 
       /**
        * Render the view
        */
-      const tree = await this.pluginsManager.execute(
+      const tree = await this.#pluginsManager.execute(
         'beforeRender',
-        wrapTree(this.assetsManager, this.headManager, this.manifestBuilder, this.adonisContext, Component, props),
+        wrapTree(this.#assetsManager, this.#headManager, this.#manifestBuilder, this.#adonisContext, Component, props),
         null
       )
       let html = renderToString(<StrictMode>{tree}</StrictMode>)
@@ -246,17 +264,17 @@ export class Renderer implements RendererContract {
       /**
        * Inject closing head
        */
-      html = this.injectClosingHead(html)
+      html = this.#injectClosingHead(html)
 
       /**
        * Inject closing body
        */
-      html = this.injectClosingBody(html)
+      html = this.#injectClosingBody(html)
 
       /**
        * Execute `afterRender` hooks
        */
-      html = await this.pluginsManager.execute('afterRender', html, null)
+      html = await this.#pluginsManager.execute('afterRender', html, null)
 
       return `<!DOCTYPE html>\n${html}`
     }

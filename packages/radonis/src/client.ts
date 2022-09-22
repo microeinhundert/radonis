@@ -12,8 +12,8 @@ import type { Plugin } from '@microeinhundert/radonis-shared'
 import { invariant, isClient, isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 
-const pluginsManager = PluginsManager.getInstance()
-const hydrationManager = HydrationManager.getInstance()
+const pluginsManager = PluginsManager.getSingletonInstance()
+const hydrationManager = HydrationManager.getSingletonInstance()
 
 type ClientConfig = {
   plugins?: Plugin[]
