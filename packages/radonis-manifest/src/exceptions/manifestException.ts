@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-manifest
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hydrate
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *

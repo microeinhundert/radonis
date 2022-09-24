@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { PluginException } from 'src/exceptions/pluginException'
-
+import { PluginException } from '../exceptions/pluginException'
 import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
 
 type PluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
@@ -157,7 +156,7 @@ export class PluginsManager {
 
     if (environments?.length) {
       for (const environment of ['server', 'client']) {
-        if (targetEnvironment === environment) {
+        if (targetEnvironment === environment && !environments.includes(environment)) {
           throw PluginException.pluginNotInstallable(pluginName, environment)
         }
       }

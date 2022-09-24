@@ -10,9 +10,9 @@
 import { useUrlBuilder } from '@microeinhundert/radonis'
 import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 import { useQuery as useQuery$ } from '@tanstack/react-query'
-import { QueryException } from 'src/exceptions/queryException'
 import { deserialize } from 'superjson'
 
+import { QueryException } from '../exceptions/queryException'
 import type { QueryOptions } from '../types'
 
 /**
