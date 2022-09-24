@@ -9,8 +9,10 @@
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Plugin } from '@microeinhundert/radonis-shared'
-import { invariant, isClient, isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
+import { isProduction, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
+
+import { ClientException } from './exceptions/clientException'
 
 const pluginsManager = PluginsManager.getSingletonInstance()
 const hydrationManager = HydrationManager.getSingletonInstance()
@@ -25,15 +27,12 @@ let isClientInitialized = false
  * Initialize the client
  */
 export async function initClient(config?: ClientConfig): Promise<void> {
-  invariant(
-    isClient,
-    'The Radonis client can only be initialized on the client. Make sure to only call "initClient" in the client bundle'
-  )
-
-  invariant(
-    !isClientInitialized,
-    'The Radonis client was initialized multiple times. Make sure to only initialize it once in your application'
-  )
+  if (isServer) {
+    throw ClientException.cannotInitClientOnServer()
+  }
+  if (isClientInitialized) {
+    throw ClientException.cannotInitClientMultipleTimes()
+  }
 
   if (config?.plugins?.length) {
     pluginsManager.install('client', ...config.plugins)

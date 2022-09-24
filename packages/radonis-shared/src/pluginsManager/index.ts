@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { PluginException } from 'src/exceptions/pluginException'
+
 import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
-import { invariant } from '../utils'
 
 type PluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
 
@@ -138,10 +139,7 @@ export class PluginsManager {
       )
 
       if (conflictingPlugins?.length) {
-        invariant(
-          false,
-          `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`
-        )
+        throw PluginException.conflictingPlugins(pluginName, conflictingPlugins)
       }
     }
   }
@@ -153,15 +151,14 @@ export class PluginsManager {
     targetEnvironment: PluginEnvironment,
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
-    invariant(!this.#installedPlugins.has(pluginName), `The plugin "${pluginName}" is already installed`)
+    if (this.#installedPlugins.has(pluginName)) {
+      throw PluginException.pluginAlreadyInstalled(pluginName)
+    }
 
     if (environments?.length) {
       for (const environment of ['server', 'client']) {
         if (targetEnvironment === environment) {
-          invariant(
-            environments.includes(environment),
-            `The plugin "${pluginName}" is not installable in the "${environment}" environment`
-          )
+          throw PluginException.pluginNotInstallable(pluginName, environment)
         }
       }
     }

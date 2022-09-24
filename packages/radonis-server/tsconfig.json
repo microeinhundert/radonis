@@ -9,6 +9,6 @@
     "outDir": "build",
     "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/i18n"]
   },
-  "include": ["./**/*"],
+  "include": ["./**/*", "./exceptions.json"],
   "exclude": ["node_modules", "build"]
 }

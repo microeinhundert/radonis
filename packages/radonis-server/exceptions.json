@@ -1,0 +1,18 @@
+{
+  "E_MISSING_CLIENT_ENTRY_FILE": {
+    "message": "The Radonis client entry file does not exist at \"{{ path }}\"",
+    "code": "E_MISSING_CLIENT_ENTRY_FILE",
+    "status": 500
+  },
+  "E_MISSING_COMPONENTS_DIRECTORY": {
+    "message": "The Radonis components directory does not exist at \"{{ path }}\"",
+    "code": "E_MISSING_COMPONENTS_DIRECTORY",
+    "status": 500
+  },
+  "E_CANNOT_NEST_HYDRATION_ROOT": {
+    "message": "Found `HydrationRoot` \"{{ hydrationRootIdentifier }}\" for component \"{{ componentIdentifier }}\" nested inside `HydrationRoot` \"{{ parentHydrationRootIdentifier }}\" for component \"{{ parentComponentIdentifier }}\"",
+    "code": "E_CANNOT_NEST_HYDRATION_ROOT",
+    "status": 500,
+    "help": ["This is not allowed, as each `HydrationRoot` acts as root for a React app when hydrated on the client"]
+  }
+}

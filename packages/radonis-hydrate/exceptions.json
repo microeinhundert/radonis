@@ -1,0 +1,28 @@
+{
+  "E_MISSING_HYDRATION_DATA": {
+    "message": "Found a `HydrationRoot` that is missing required hydration data",
+    "code": "E_MISSING_HYDRATION_DATA",
+    "status": 500,
+    "help": [
+      "Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis"
+    ]
+  },
+  "E_CANNOT_HYDRATE": {
+    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootIdentifier }}\", but that component could not be hydrated",
+    "code": "E_CANNOT_HYDRATE",
+    "status": 500,
+    "help": ["Make sure the component exists in the client bundle"]
+  },
+  "E_COMPONENT_ALREADY_REGISTERED": {
+    "message": "The component \"{{ componentIdentifier }}\" was already registered for hydration",
+    "code": "E_COMPONENT_ALREADY_REGISTERED",
+    "status": 500,
+    "help": ["Make sure to not use the same name for multiple components,", "regardless of which directory they are in"]
+  },
+  "E_MANIFEST_UNAVAILABLE": {
+    "message": "Cannot get the Radonis manifest",
+    "code": "E_MANIFEST_UNAVAILABLE",
+    "status": 500,
+    "help": ["Make sure the server provider was configured properly"]
+  }
+}

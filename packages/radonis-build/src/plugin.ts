@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '@microeinhundert/radonis-shared'
 import type { Plugin } from 'esbuild'
 import { dirname, parse } from 'path'
 
 import { DEFAULT_EXPORT_REGEX } from './constants'
+import { BuildException } from './exceptions/buildException'
 import { getLoaderForFile } from './loaders'
 
 /**
@@ -42,7 +42,9 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
       try {
         const componentSource = components.get(path)
 
-        invariant(componentSource, `Could not statically analyze source for component at "${path}"`)
+        if (!componentSource) {
+          throw BuildException.cannotAnalyzeSource(path)
+        }
 
         const { name: componentName } = parse(path)
 

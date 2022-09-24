@@ -8,7 +8,7 @@
  */
 
 import type { AssetsManifestEntry } from '@microeinhundert/radonis-build'
-import { invariant, isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import { isClient, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
 import type {
   Components,
   FlashMessageIdentifier,
@@ -19,6 +19,7 @@ import type { ComponentType } from 'react'
 import { StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
+import { HydrateException } from '../exceptions/hydrateException'
 import { HydrationContextProvider } from '../react'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils'
@@ -69,17 +70,15 @@ export class HydrationManager {
       props: propsHash = '0',
     } = hydrationRoot.dataset
 
-    invariant(
-      hydrationRootIdentifier && componentIdentifier,
-      `Found a HydrationRoot that is missing required hydration data. Please make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis`
-    )
+    if (!hydrationRootIdentifier || !componentIdentifier) {
+      throw HydrateException.missingHydrationData()
+    }
 
     const Component = this.#components.get(componentIdentifier)
 
-    invariant(
-      Component,
-      `Found the server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootIdentifier}", but that component could not be hydrated. Please make sure the component "${componentIdentifier}" exists in the client bundle`
-    )
+    if (!Component) {
+      throw HydrateException.cannotHydrate(componentIdentifier, componentIdentifier)
+    }
 
     const manifest = getManifestOrFail()
 
@@ -136,10 +135,9 @@ export class HydrationManager {
   registerComponent(identifier: string, Component: ComponentType): this {
     if (isServer) return this
 
-    invariant(
-      !this.#components.has(identifier),
-      `The component "${identifier}" was already registered for hydration. Please make sure to not use the same name for multiple components, regardless of which directory they are in`
-    )
+    if (this.#components.has(identifier)) {
+      throw HydrateException.componentAlreadyRegistered(identifier)
+    }
 
     this.#components.set(identifier, Component)
 

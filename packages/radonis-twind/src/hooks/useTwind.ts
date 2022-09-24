@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '@microeinhundert/radonis-shared'
 import { useContext } from 'react'
 
 import { twindContext } from '../contexts/twindContext'
+import { TwindException } from '../exceptions/twindException'
 
 /**
  * Hook for accessing Twind's `tw` as well as `tx`
@@ -19,10 +19,9 @@ import { twindContext } from '../contexts/twindContext'
 export function useTwind() {
   const context = useContext(twindContext)
 
-  invariant(
-    context,
-    `The "useTwind" hook requires the "TwindContextProvider" to be present in the component tree. Please make sure the Twind plugin was registered on both the client and the server`
-  )
+  if (!context) {
+    throw TwindException.contextUnavailable()
+  }
 
   return context
 }

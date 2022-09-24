@@ -8,9 +8,9 @@
  */
 
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
-import { invariant } from '@microeinhundert/radonis-shared'
 import { Children, useId } from 'react'
 
+import { ServerException } from '../../exceptions/serverException'
 import type { HydrationRootProps } from '../../types'
 import { useAssetsManager } from '../hooks/internal/useAssetsManager'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
@@ -33,10 +33,14 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
   /*
    * Fail if the HydrationRoot is nested inside another HydrationRoot
    */
-  invariant(
-    !parentHydrationRootIdentifier,
-    `Found HydrationRoot "${hydrationRootIdentifier}" for component "${componentIdentifier}" nested inside HydrationRoot "${parentHydrationRootIdentifier}" for component "${parentComponentIdentifier}". This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client`
-  )
+  if (parentHydrationRootIdentifier) {
+    throw ServerException.cannotNestHydrationRoot(
+      hydrationRootIdentifier,
+      componentIdentifier,
+      parentHydrationRootIdentifier,
+      parentComponentIdentifier ?? 'unknown'
+    )
+  }
 
   const { props } = Children.only(children)
 

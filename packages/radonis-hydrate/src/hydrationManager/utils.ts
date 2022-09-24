@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { invariant, isClient } from '@microeinhundert/radonis-shared'
+import { isClient } from '@microeinhundert/radonis-shared'
 import type { Manifest } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
+
+import { HydrateException } from '../exceptions/hydrateException'
 
 declare global {
   var radonisManifest: Manifest | undefined
@@ -33,7 +35,9 @@ export function getManifestOrFail() {
 
   const manifest = (globalThis ?? window).radonisManifest
 
-  invariant(manifest, 'Could not get the Radonis manifest. Make sure the server provider was configured properly')
+  if (!manifest) {
+    throw HydrateException.manifestUnavailable()
+  }
 
   return (cachedManifest = isClient
     ? superjson.deserialize(manifest as unknown as SuperJSONResult)

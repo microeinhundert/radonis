@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { invariant } from '@microeinhundert/radonis-shared'
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
+
+import { BuildException } from './exceptions/buildException'
 
 /**
  * @internal
@@ -24,10 +25,12 @@ export const loaders: Record<string, Loader> = {
 /**
  * @internal
  */
-export function getLoaderForFile(file: string): Loader {
-  const ext = extname(file)
+export function getLoaderForFile(fileNameOrPath: string): Loader {
+  const ext = extname(fileNameOrPath)
 
-  invariant(ext in loaders, `Cannot get loader for file at "${file}"`)
+  if (!(ext in loaders)) {
+    throw BuildException.cannotGetFileLoader(fileNameOrPath)
+  }
 
   return loaders[ext]
 }

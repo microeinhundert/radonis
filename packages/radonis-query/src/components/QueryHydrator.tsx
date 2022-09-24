@@ -9,7 +9,8 @@
 
 import { useGlobals } from '@microeinhundert/radonis-hooks'
 import { Hydrate } from '@tanstack/react-query'
-import type { QueryHydratorProps } from 'src/types'
+
+import type { QueryHydratorProps } from '../types'
 
 /**
  * The component for hydrating the queries client-side

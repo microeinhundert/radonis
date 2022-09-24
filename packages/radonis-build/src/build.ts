@@ -7,14 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { invariant, PluginsManager } from '@microeinhundert/radonis-shared'
+import { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
 import type { Metafile } from 'esbuild'
-import { build } from 'esbuild'
+import { build as build$ } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 import { join, parse, relative } from 'path'
 
 import { FLASH_MESSAGE_IDENTIFIER_REGEX, MESSAGE_IDENTIFIER_REGEX, ROUTE_IDENTIFIER_REGEX } from './constants'
+import { BuildException } from './exceptions/buildException'
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugin'
 import type { BuildManifest, BuildManifestEntry, BuildOptions } from './types'
@@ -82,7 +83,9 @@ function walkMetafile(
 ): BuildManifestEntry {
   const output = metafile.outputs[path]
 
-  invariant(output, `Could not find metafile output entry for path "${path}"`)
+  if (!output) {
+    throw BuildException.cannotFindMetafileOutputEntry(path)
+  }
 
   const absolutePath = join(process.cwd(), path)
   const builtFileSource = builtFiles.get(absolutePath) ?? ''
@@ -122,10 +125,9 @@ function generateBuildManifest(
 
     const { name: fileName } = parse(path)
 
-    invariant(
-      !(fileName in buildManifest),
-      `A build manifest entry for "${fileName}" already exists. Please make sure to not use the same name for multiple components, regardless of which directory they are in`
-    )
+    if (fileName in buildManifest) {
+      throw BuildException.duplicateBuildManifestEntry(fileName)
+    }
 
     buildManifest[fileName] = walkMetafile(
       metafile,
@@ -143,7 +145,7 @@ function generateBuildManifest(
  * Build the entry file as well as the components
  * @internal
  */
-export async function buildEntryFileAndComponents({
+export async function build({
   entryFilePath,
   components,
   publicDir,
@@ -167,7 +169,7 @@ export async function buildEntryFileAndComponents({
   /**
    * Run the build
    */
-  const buildResult = await build({
+  const buildResult = await build$({
     entryPoints: [...components.keys(), entryFilePath],
     outdir: outputDir,
     platform: 'browser',
