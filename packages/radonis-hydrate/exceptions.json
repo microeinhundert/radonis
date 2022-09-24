@@ -4,7 +4,8 @@
     "code": "E_MISSING_HYDRATION_DATA",
     "status": 500,
     "help": [
-      "Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis"
+      "Make sure you passed all the required props to all of your HydrationRoots.",
+      "If everything looks fine to you, this is most likely a bug of Radonis"
     ]
   },
   "E_CANNOT_HYDRATE": {
