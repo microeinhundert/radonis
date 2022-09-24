@@ -13,6 +13,8 @@
     "message": "Found `HydrationRoot` \"{{ hydrationRootIdentifier }}\" for component \"{{ componentIdentifier }}\" nested inside `HydrationRoot` \"{{ parentHydrationRootIdentifier }}\" for component \"{{ parentComponentIdentifier }}\"",
     "code": "E_CANNOT_NEST_HYDRATION_ROOT",
     "status": 500,
-    "help": ["This is not allowed, as each `HydrationRoot` acts as root for a React app when hydrated on the client"]
+    "help": [
+      "This is not allowed, as each `HydrationRoot` acts as root for a React app when hydrated on the client"
+    ]
   }
 }

@@ -8,6 +8,9 @@
     "module": "commonjs",
     "outDir": "build"
   },
-  "include": ["./**/*", "./exceptions.json"],
+  "include": [
+    "./**/*",
+    "./exceptions.json"
+  ],
   "exclude": ["node_modules", "build"]
 }

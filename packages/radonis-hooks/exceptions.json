@@ -21,13 +21,17 @@
     "message": "The \"{{ paramName }}\" param is required to make the URL for the \"{{ pattern }}\" route",
     "code": "E_MISSING_ROUTE_PARAM",
     "status": 500,
-    "help": ["Make sure to supply all required params to `useUrlBuilder().make()`"]
+    "help": [
+      "Make sure to supply all required params to `useUrlBuilder().make()`"
+    ]
   },
   "E_MANIFEST_UNAVAILABLE": {
     "message": "Cannot get the Radonis manifest",
     "code": "E_MANIFEST_UNAVAILABLE",
     "status": 500,
-    "help": ["Make sure the server provider was configured properly"]
+    "help": [
+      "Make sure the server provider was configured properly"
+    ]
   },
   "E_WILDCARD_ROUTES_NOT_SUPPORTED": {
     "message": "Wildcard routes are currently not supported",

@@ -3,7 +3,10 @@
     "message": "The Radonis client cannot be initialized server-side",
     "code": "E_CANNOT_INIT_CLIENT_ON_SERVER",
     "status": 500,
-    "help": ["Make sure to only call `initClient` in the client bundle,", "typically in your `entry.client.ts` file"]
+    "help": [
+      "Make sure to only call `initClient` in the client bundle,",
+      "typically in your `entry.client.ts` file"
+    ]
   },
   "E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES": {
     "message": "The Radonis client cannot be initialized multiple times",
