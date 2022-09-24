@@ -8,30 +8,9 @@
  */
 
 /**
- * Separate items of an array with a specific value
- * @internal
- */
-export function separateArray(array: unknown[], separator: unknown) {
-  return array.flatMap((item) => [item, separator]).slice(0, -1)
-}
-
-/**
- * Stringify attributes
- * @internal
- */
-export function stringifyAttributes(attributes: Record<string, unknown>) {
-  return Object.entries(attributes)
-    .filter(([_, attributeValue]) => attributeValue)
-    .map(([attributeName, attributeValue]) =>
-      typeof attributeValue === 'boolean' ? attributeName : `${attributeName}="${attributeValue}"`
-    )
-    .join(' ')
-}
-
-/**
  * Uncurry a function
  */
-function uncurryThis(fn: any) {
+function uncurry(fn: any) {
   return function (...args: any[]) {
     return Function.call.apply(fn, args)
   }
@@ -47,7 +26,7 @@ function parseProp(data: any, key: string) {
       return
     }
     const token = tokens.shift()!
-    data = uncurryThis(Object.prototype.hasOwnProperty)(data, token) ? data[token] : undefined
+    data = uncurry(Object.prototype.hasOwnProperty)(data, token) ? data[token] : undefined
   }
   return data
 }

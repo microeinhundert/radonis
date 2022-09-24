@@ -9,7 +9,7 @@
 
 import { E_CONFLICTING_PLUGINS, E_PLUGIN_ALREADY_INSTALLED, E_PLUGIN_NOT_INSTALLABLE } from '../../exceptions.json'
 import { Exception } from '../exception'
-import { interpolate } from '../utils'
+import { interpolate } from '../utils/interpolate'
 
 /**
  * Exceptions related to plugins
