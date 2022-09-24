@@ -11,6 +11,7 @@
 
 /**
  * Extended Error object with the option to set error `status` and `code`
+ * @internal
  */
 export class Exception extends Error {
   name: string
