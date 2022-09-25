@@ -10,6 +10,7 @@
 import type { I18nManagerContract } from '@ioc:Adonis/Addons/I18n'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
@@ -26,8 +27,9 @@ import type {
 } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
-import { StrictMode } from 'react'
+import { createElement as h, StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
+import { ServerException } from 'src/exceptions/serverException'
 import { serialize } from 'superjson'
 
 import type { AssetsManager } from '../assetsManager'
@@ -65,6 +67,11 @@ export class Renderer implements RendererContract {
   #manifestBuilder: ManifestBuilder
 
   /**
+   * The Logger instance
+   */
+  #logger: LoggerContract
+
+  /**
    * The Adonis context
    */
   #adonisContext: AdonisContextContract
@@ -72,12 +79,18 @@ export class Renderer implements RendererContract {
   /**
    * Constructor
    */
-  constructor(assetsManager: AssetsManager, headManager: HeadManager, manifestBuilder: ManifestBuilder) {
+  constructor(
+    assetsManager: AssetsManager,
+    headManager: HeadManager,
+    manifestBuilder: ManifestBuilder,
+    logger: LoggerContract
+  ) {
     this.#pluginsManager = PluginsManager.getSingletonInstance()
     this.#hydrationManager = HydrationManager.getSingletonInstance()
     this.#assetsManager = assetsManager
     this.#headManager = headManager
     this.#manifestBuilder = manifestBuilder
+    this.#logger = logger
     this.#adonisContext = null as any
   }
 
@@ -251,32 +264,44 @@ export class Renderer implements RendererContract {
        */
       this.#manifestBuilder.setServerManifestOnGlobalScope()
 
-      /**
-       * Render the view
-       */
-      const tree = await this.#pluginsManager.execute(
-        'beforeRender',
-        wrapTree(this.#assetsManager, this.#headManager, this.#manifestBuilder, this.#adonisContext, Component, props),
-        null
-      )
-      let html = renderToString(<StrictMode>{tree}</StrictMode>)
+      try {
+        /**
+         * Render the view
+         */
+        const tree = await this.#pluginsManager.execute(
+          'beforeRender',
+          wrapTree(
+            this.#assetsManager,
+            this.#headManager,
+            this.#manifestBuilder,
+            this.#adonisContext,
+            Component,
+            props
+          ),
+          null
+        )
+        let html = renderToString(h(StrictMode, null, tree))
 
-      /**
-       * Inject closing head
-       */
-      html = this.#injectClosingHead(html)
+        /**
+         * Inject closing head
+         */
+        html = this.#injectClosingHead(html)
 
-      /**
-       * Inject closing body
-       */
-      html = this.#injectClosingBody(html)
+        /**
+         * Inject closing body
+         */
+        html = this.#injectClosingBody(html)
 
-      /**
-       * Execute `afterRender` hooks
-       */
-      html = await this.#pluginsManager.execute('afterRender', html, null)
+        /**
+         * Execute `afterRender` hooks
+         */
+        html = await this.#pluginsManager.execute('afterRender', html, null)
 
-      return `<!DOCTYPE html>\n${html}`
+        return `<!DOCTYPE html>\n${html}`
+      } catch (error) {
+        this.#logger.error(error)
+        throw ServerException.cannotRenderView()
+      }
     }
 
     /**

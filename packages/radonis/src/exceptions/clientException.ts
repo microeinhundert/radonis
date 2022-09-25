@@ -9,10 +9,14 @@
 
 import { Exception } from '@microeinhundert/radonis-shared'
 
-import { E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES, E_CANNOT_INIT_CLIENT_ON_SERVER } from '../../exceptions.json'
+import {
+  E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES,
+  E_CANNOT_INIT_CLIENT_ON_SERVER,
+} from '../../exceptions.json'
 
 /**
  * Exceptions related to the client
+ * @internal
  */
 export class ClientException extends Exception {
   static cannotInitClientOnServer() {
@@ -22,7 +26,8 @@ export class ClientException extends Exception {
       E_CANNOT_INIT_CLIENT_ON_SERVER.code
     )
 
-    error.help = E_CANNOT_INIT_CLIENT_ON_SERVER.help.join('\n')
+    error.help =
+      E_CANNOT_INIT_CLIENT_ON_SERVER.help.join('\n')
 
     throw error
   }
@@ -33,7 +38,8 @@ export class ClientException extends Exception {
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.code
     )
 
-    error.help = E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.help.join('\n')
+    error.help =
+      E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.help.join('\n')
 
     throw error
   }

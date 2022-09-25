@@ -13,8 +13,7 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "jsx": "react-jsx"
+    "resolveJsonModule": true
   },
   "include": [],
   "references": [

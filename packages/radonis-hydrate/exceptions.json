@@ -1,6 +1,6 @@
 {
   "E_MISSING_HYDRATION_DATA": {
-    "message": "Found a `HydrationRoot` that is missing required hydration data",
+    "message": "Found a HydrationRoot that is missing required hydration data",
     "code": "E_MISSING_HYDRATION_DATA",
     "status": 500,
     "help": [

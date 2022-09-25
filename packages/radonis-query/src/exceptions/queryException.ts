@@ -7,12 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import { Exception, interpolate } from '@microeinhundert/radonis-shared'
+import {
+  Exception,
+  interpolate,
+} from '@microeinhundert/radonis-shared'
 
-import { E_CANNOT_PREFETCH_ON_CLIENT, E_REQUEST_FAILED } from '../../exceptions.json'
+import {
+  E_CANNOT_PREFETCH_ON_CLIENT,
+  E_REQUEST_FAILED,
+} from '../../exceptions.json'
 
 /**
  * Exceptions related to querying
+ * @internal
  */
 export class QueryException extends Exception {
   static cannotPrefetchOnClient() {
@@ -26,9 +33,14 @@ export class QueryException extends Exception {
 
     throw error
   }
-  static requestFailed(routeIdentifier: string, status: number) {
+  static requestFailed(
+    routeIdentifier: string,
+    status: number
+  ) {
     const error = new this(
-      interpolate(E_REQUEST_FAILED.message, { routeIdentifier }),
+      interpolate(E_REQUEST_FAILED.message, {
+        routeIdentifier,
+      }),
       status || E_REQUEST_FAILED.status,
       E_REQUEST_FAILED.code
     )

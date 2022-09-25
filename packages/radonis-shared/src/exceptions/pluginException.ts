@@ -7,17 +7,28 @@
  * file that was distributed with this source code.
  */
 
-import { E_CONFLICTING_PLUGINS, E_PLUGIN_ALREADY_INSTALLED, E_PLUGIN_NOT_INSTALLABLE } from '../../exceptions.json'
+import {
+  E_CONFLICTING_PLUGINS,
+  E_PLUGIN_ALREADY_INSTALLED,
+  E_PLUGIN_NOT_INSTALLABLE,
+} from '../../exceptions.json'
 import { Exception } from '../utils/exception'
 import { interpolate } from '../utils/interpolate'
 
 /**
  * Exceptions related to plugins
+ * @internal
  */
 export class PluginException extends Exception {
-  static conflictingPlugins(pluginName: string, conflictingPlugins: string[]) {
+  static conflictingPlugins(
+    pluginName: string,
+    conflictingPlugins: string[]
+  ) {
     const error = new this(
-      interpolate(E_CONFLICTING_PLUGINS.message, { pluginName, conflictingPlugins: conflictingPlugins.join(', ') }),
+      interpolate(E_CONFLICTING_PLUGINS.message, {
+        pluginName,
+        conflictingPlugins: conflictingPlugins.join(', '),
+      }),
       E_CONFLICTING_PLUGINS.status,
       E_CONFLICTING_PLUGINS.code
     )
@@ -26,16 +37,24 @@ export class PluginException extends Exception {
   }
   static pluginAlreadyInstalled(pluginName: string) {
     const error = new this(
-      interpolate(E_PLUGIN_ALREADY_INSTALLED.message, { pluginName }),
+      interpolate(E_PLUGIN_ALREADY_INSTALLED.message, {
+        pluginName,
+      }),
       E_PLUGIN_ALREADY_INSTALLED.status,
       E_PLUGIN_ALREADY_INSTALLED.code
     )
 
     throw error
   }
-  static pluginNotInstallable(pluginName: string, environment: string) {
+  static pluginNotInstallable(
+    pluginName: string,
+    environment: string
+  ) {
     const error = new this(
-      interpolate(E_PLUGIN_NOT_INSTALLABLE.message, { pluginName, environment }),
+      interpolate(E_PLUGIN_NOT_INSTALLABLE.message, {
+        pluginName,
+        environment,
+      }),
       E_PLUGIN_NOT_INSTALLABLE.status,
       E_PLUGIN_NOT_INSTALLABLE.code
     )

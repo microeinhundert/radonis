@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { createElement as h } from 'react'
+
 import { useForm } from '../hooks/useForm'
 import type { FormProps } from '../types'
 
@@ -17,17 +19,15 @@ import type { FormProps } from '../types'
 export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm<TData, TError>(props)
 
-  return (
-    <form {...form.getFormProps()}>
-      {typeof children === 'function'
-        ? children({
-            data: form.data ?? null,
-            error: form.error ?? null,
-            status: form.status,
-          })
-        : children}
-    </form>
-  )
+  return h('form', form.getFormProps(), [
+    typeof children === 'function'
+      ? children({
+          data: form.data ?? null,
+          error: form.error ?? null,
+          status: form.status,
+        })
+      : children,
+  ])
 }
 
 Form.displayName = 'RadonisForm'

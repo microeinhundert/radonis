@@ -7,7 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { Exception, interpolate } from '@microeinhundert/radonis-shared'
+import {
+  Exception,
+  interpolate,
+} from '@microeinhundert/radonis-shared'
 
 import {
   E_CANNOT_COMBINE_RELOAD_WITH_HOOKS,
@@ -17,6 +20,7 @@ import {
 
 /**
  * Exceptions related to forms
+ * @internal
  */
 export class FormException extends Exception {
   static cannotCombineReloadWithHooks() {
@@ -26,7 +30,8 @@ export class FormException extends Exception {
       E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.code
     )
 
-    error.help = E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.help.join('\n')
+    error.help =
+      E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.help.join('\n')
 
     throw error
   }
@@ -37,13 +42,19 @@ export class FormException extends Exception {
       E_CANNOT_FETCH_WITHOUT_HYDRATION.code
     )
 
-    error.help = E_CANNOT_FETCH_WITHOUT_HYDRATION.help.join('\n')
+    error.help =
+      E_CANNOT_FETCH_WITHOUT_HYDRATION.help.join('\n')
 
     throw error
   }
-  static requestFailed(routeIdentifier: string, status: number) {
+  static requestFailed(
+    routeIdentifier: string,
+    status: number
+  ) {
     const error = new this(
-      interpolate(E_REQUEST_FAILED.message, { routeIdentifier }),
+      interpolate(E_REQUEST_FAILED.message, {
+        routeIdentifier,
+      }),
       status || E_REQUEST_FAILED.status,
       E_REQUEST_FAILED.code
     )

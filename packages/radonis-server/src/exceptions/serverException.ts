@@ -7,21 +7,28 @@
  * file that was distributed with this source code.
  */
 
-import { Exception, interpolate } from '@microeinhundert/radonis-shared'
+import {
+  Exception,
+  interpolate,
+} from '@microeinhundert/radonis-shared'
 
 import {
   E_CANNOT_NEST_HYDRATION_ROOT,
+  E_CANNOT_RENDER_VIEW,
   E_MISSING_CLIENT_ENTRY_FILE,
   E_MISSING_COMPONENTS_DIRECTORY,
 } from '../../exceptions.json'
 
 /**
  * Exceptions related to the server
+ * @internal
  */
 export class ServerException extends Exception {
   static missingClientEntryFile(path: string) {
     const error = new this(
-      interpolate(E_MISSING_CLIENT_ENTRY_FILE.message, { path }),
+      interpolate(E_MISSING_CLIENT_ENTRY_FILE.message, {
+        path,
+      }),
       E_MISSING_CLIENT_ENTRY_FILE.status,
       E_MISSING_CLIENT_ENTRY_FILE.code
     )
@@ -30,7 +37,9 @@ export class ServerException extends Exception {
   }
   static missingComponentsDirectory(path: string) {
     const error = new this(
-      interpolate(E_MISSING_COMPONENTS_DIRECTORY.message, { path }),
+      interpolate(E_MISSING_COMPONENTS_DIRECTORY.message, {
+        path,
+      }),
       E_MISSING_COMPONENTS_DIRECTORY.status,
       E_MISSING_COMPONENTS_DIRECTORY.code
     )
@@ -54,7 +63,19 @@ export class ServerException extends Exception {
       E_CANNOT_NEST_HYDRATION_ROOT.code
     )
 
-    error.help = E_CANNOT_NEST_HYDRATION_ROOT.help.join('\n')
+    error.help =
+      E_CANNOT_NEST_HYDRATION_ROOT.help.join('\n')
+
+    throw error
+  }
+  static cannotRenderView() {
+    const error = new this(
+      E_CANNOT_RENDER_VIEW.message,
+      E_CANNOT_RENDER_VIEW.status,
+      E_CANNOT_RENDER_VIEW.code
+    )
+
+    error.help = E_CANNOT_RENDER_VIEW.help.join('\n')
 
     throw error
   }

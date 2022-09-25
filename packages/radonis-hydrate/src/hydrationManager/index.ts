@@ -16,7 +16,7 @@ import type {
   RouteIdentifier,
 } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
-import { StrictMode } from 'react'
+import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrateException } from '../exceptions/hydrateException'
@@ -84,15 +84,22 @@ export class HydrationManager {
 
     const tree = await this.#pluginsManager.execute(
       'beforeHydrate',
-      <HydrationContextProvider
-        value={{ hydrated: true, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}
-      >
-        <Component {...(manifest.props[propsHash] ?? {})} />
-      </HydrationContextProvider>,
+      h(
+        HydrationContextProvider,
+        {
+          value: {
+            hydrated: true,
+            root: hydrationRootIdentifier,
+            component: componentIdentifier,
+            propsHash,
+          },
+        },
+        [h(Component, manifest.props[propsHash])]
+      ),
       null
     )
 
-    hydrateRoot(hydrationRoot, <StrictMode>{tree}</StrictMode>)
+    hydrateRoot(hydrationRoot, h(StrictMode, null, tree))
   }
 
   /**

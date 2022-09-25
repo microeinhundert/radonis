@@ -10,6 +10,7 @@
 import { definePlugin } from '@microeinhundert/radonis'
 import type { QueryClientConfig } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
+import { createElement as h } from 'react'
 
 import { QueryHydrator } from './components/QueryHydrator'
 import { getQueryClient } from './queryClient'
@@ -25,17 +26,13 @@ export function queryPlugin(config?: QueryClientConfig) {
     name: 'query',
     environments: ['client', 'server'],
     beforeHydrate() {
-      return (tree) => (
-        <QueryClientProvider client={queryClient}>
-          <QueryHydrator>{tree}</QueryHydrator>
-        </QueryClientProvider>
-      )
+      return (tree) => h(QueryClientProvider, { client: queryClient }, [h(QueryHydrator, null, tree)])
     },
     afterRequest() {
       queryClient.clear()
     },
     beforeRender() {
-      return (tree) => <QueryClientProvider client={queryClient}>{tree}</QueryClientProvider>
+      return (tree) => h(QueryClientProvider, { client: queryClient }, tree)
     },
   })
 }

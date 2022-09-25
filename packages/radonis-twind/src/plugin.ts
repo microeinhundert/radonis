@@ -9,6 +9,7 @@
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
+import { createElement as h } from 'react'
 import type { Twind, TwindConfig, TxFunction } from 'twind'
 import { getSheet, inline, install as install$, twind, tx as tx$ } from 'twind'
 
@@ -38,13 +39,13 @@ export function twindPlugin(config?: TwindConfig) {
       install()
     },
     beforeHydrate() {
-      return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
+      return (tree) => h(TwindContextProvider, { value: { tw, tx } }, tree)
     },
     onBootServer() {
       install()
     },
     beforeRender() {
-      return (tree) => <TwindContextProvider value={{ tw, tx }}>{tree}</TwindContextProvider>
+      return (tree) => h(TwindContextProvider, { value: { tw, tx } }, tree)
     },
     afterRender() {
       return (html) => inline(html)

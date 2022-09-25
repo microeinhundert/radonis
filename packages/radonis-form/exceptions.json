@@ -13,7 +13,7 @@
     "code": "E_CANNOT_FETCH_WITHOUT_HYDRATION",
     "status": 500,
     "help": [
-      "Either add an `HydrationRoot` somewhere up in the component tree,",
+      "Either add an HydrationRoot somewhere up in the component tree,",
       "or add the `reloadDocument` prop to the form to submit it traditionally"
     ]
   },
