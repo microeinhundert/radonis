@@ -11,7 +11,7 @@ This version includes a lot of internal restructuring in preparation for the nex
 - BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
 - BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
 - Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
-- Improved errors.
+- Improved exceptions.
 - Internal refactorings related to dependency injection.
 
 ## [1.10.0] - 2022-09-22
