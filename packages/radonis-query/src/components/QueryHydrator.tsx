@@ -9,7 +9,6 @@
 
 import { useGlobals } from '@microeinhundert/radonis-hooks'
 import { Hydrate } from '@tanstack/react-query'
-import { createElement as h } from 'react'
 
 import type { QueryHydratorProps } from '../types'
 
@@ -20,7 +19,7 @@ import type { QueryHydratorProps } from '../types'
 export function QueryHydrator({ children }: QueryHydratorProps) {
   const globals = useGlobals()
 
-  return h(Hydrate, { state: globals as any }, children)
+  return <Hydrate state={(globals as any).dehydratedQueryState}>{children}</Hydrate>
 }
 
 QueryHydrator.displayName = 'RadonisQueryHydrator'

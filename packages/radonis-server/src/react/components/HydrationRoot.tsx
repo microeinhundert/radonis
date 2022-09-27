@@ -8,7 +8,7 @@
  */
 
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
-import { Children, createElement as h, useId } from 'react'
+import { Children, useId } from 'react'
 
 import { ServerException } from '../../exceptions/serverException'
 import type { HydrationRootProps } from '../../types'
@@ -54,27 +54,14 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
    */
   assetsManager.requireComponentForHydration(componentIdentifier)
 
-  return h(
-    HydrationContextProvider,
-    {
-      value: {
-        hydrated: false,
-        root: hydrationRootIdentifier,
-        component: componentIdentifier,
-        propsHash,
-      },
-    },
-    [
-      h(
-        'div',
-        {
-          'data-component': componentIdentifier,
-          'data-hydration-root': hydrationRootIdentifier,
-          'data-props': propsHash,
-        },
-        children
-      ),
-    ]
+  return (
+    <HydrationContextProvider
+      value={{ hydrated: false, root: hydrationRootIdentifier, component: componentIdentifier, propsHash }}
+    >
+      <div data-component={componentIdentifier} data-hydration-root={hydrationRootIdentifier} data-props={propsHash}>
+        {children}
+      </div>
+    </HydrationContextProvider>
   )
 }
 

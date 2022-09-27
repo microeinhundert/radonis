@@ -27,7 +27,7 @@
     "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
     "build:esm": "tsc --outDir ./build/esm --module esnext",
     "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm",
-    "lint": "TIMING=1 eslint . --ext=.ts",
+    "lint": "TIMING=1 eslint . --ext=.ts,.tsx",
     "format": "prettier --write .",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
   },
@@ -62,7 +62,7 @@
     "@microeinhundert/radonis-shared": "workspace:1.10.1",
     "@microeinhundert/radonis-types": "workspace:1.10.1",
     "@poppinss/utils": "^5.0.0",
-    "esbuild": "^0.15.9",
+    "esbuild": "^0.15.8",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"
   }

@@ -27,7 +27,7 @@
     "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
     "build:esm": "tsc --outDir ./build/esm --module esnext",
     "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm",
-    "lint": "TIMING=1 eslint . --ext=.ts",
+    "lint": "TIMING=1 eslint . --ext=.ts,.tsx",
     "format": "prettier --write .",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
   },

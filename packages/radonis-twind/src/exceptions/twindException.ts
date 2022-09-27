@@ -13,15 +13,10 @@ import { E_CONTEXT_UNAVAILABLE } from '../../exceptions.json'
 
 /**
  * Exceptions related to Twind
- * @internal
  */
 export class TwindException extends Exception {
   static contextUnavailable() {
-    const error = new this(
-      E_CONTEXT_UNAVAILABLE.message,
-      E_CONTEXT_UNAVAILABLE.status,
-      E_CONTEXT_UNAVAILABLE.code
-    )
+    const error = new this(E_CONTEXT_UNAVAILABLE.message, E_CONTEXT_UNAVAILABLE.status, E_CONTEXT_UNAVAILABLE.code)
 
     error.help = E_CONTEXT_UNAVAILABLE.help.join('\n')
 

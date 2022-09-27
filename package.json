@@ -35,7 +35,7 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@adonisjs/require-ts": "^2.0.13",
+    "@adonisjs/require-ts": "^2.0.12",
     "@japa/assert": "^1.3.6",
     "@japa/core": "^7.2.0",
     "@japa/run-failed-tests": "^1.1.0",
@@ -44,7 +44,7 @@
     "adonis-preset-ts": "^2.1.0",
     "copyfiles": "2.4.1",
     "del-cli": "5.0.0",
-    "eslint": "8.24.0",
+    "eslint": "8.23.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-adonis": "2.1.1",
     "eslint-plugin-prettier": "4.2.1",
@@ -55,7 +55,7 @@
     "lint-staged": "^13.0.3",
     "openapi-types": "^12.0.2",
     "prettier": "2.7.1",
-    "turbo": "^1.5.3",
+    "turbo": "^1.4.7",
     "typescript": "4.8.3"
   },
   "dependencies": {
@@ -63,7 +63,7 @@
     "@adonisjs/core": "^5.8.6",
     "@adonisjs/i18n": "^1.5.6",
     "@adonisjs/session": "^6.4.0",
-    "@adonisjs/sink": "^5.4.1",
+    "@adonisjs/sink": "^5.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -10,19 +10,11 @@
     "status": 500
   },
   "E_CANNOT_NEST_HYDRATION_ROOT": {
-    "message": "Found HydrationRoot \"{{ hydrationRootIdentifier }}\" for component \"{{ componentIdentifier }}\" nested inside HydrationRoot \"{{ parentHydrationRootIdentifier }}\" for component \"{{ parentComponentIdentifier }}\"",
+    "message": "Found `HydrationRoot` \"{{ hydrationRootIdentifier }}\" for component \"{{ componentIdentifier }}\" nested inside `HydrationRoot` \"{{ parentHydrationRootIdentifier }}\" for component \"{{ parentComponentIdentifier }}\"",
     "code": "E_CANNOT_NEST_HYDRATION_ROOT",
     "status": 500,
     "help": [
-      "This is not allowed, as each HydrationRoot acts as root for a React app when hydrated on the client"
-    ]
-  },
-  "E_CANNOT_RENDER_VIEW": {
-    "message": "There was an error rendering the view",
-    "code": "E_CANNOT_RENDER_VIEW",
-    "status": 500,
-    "help": [
-      "Check the console for more info"
+      "This is not allowed, as each `HydrationRoot` acts as root for a React app when hydrated on the client"
     ]
   }
 }

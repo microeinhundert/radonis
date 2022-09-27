@@ -1,4 +1,4 @@
 module.exports = {
-  '*.ts': ['npm run lint -- --fix'],
+  '*.{ts,tsx}': ['npm run lint -- --fix'],
   '*.{json,md}': ['npm run format'],
 }

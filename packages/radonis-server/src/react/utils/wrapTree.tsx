@@ -10,7 +10,6 @@
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
 import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'react'
-import { createElement as h } from 'react'
 
 import type { AssetsManager } from '../../assetsManager'
 import type { HeadManager } from '../../headManager'
@@ -32,16 +31,18 @@ export function wrapTree<T>(
   Component: ComponentType<T>,
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
-  return h(AssetsManagerContextProvider, { value: assetsManager }, [
-    h(HeadManagerContextProvider, { value: headManager }, [
-      h(ManifestBuilderContextProvider, { value: manifestBuilder }, [
-        h(AdonisContextProvider, { value: adonisContext }, [
-          h(Document, null, [
-            /* @ts-expect-error Unsure why this errors */
-            h(Component, props),
-          ]),
-        ]),
-      ]),
-    ]),
-  ])
+  return (
+    <AssetsManagerContextProvider value={assetsManager}>
+      <HeadManagerContextProvider value={headManager}>
+        <ManifestBuilderContextProvider value={manifestBuilder}>
+          <AdonisContextProvider value={adonisContext}>
+            <Document>
+              {/* @ts-expect-error Unsure why this errors */}
+              <Component {...(props ?? {})} />
+            </Document>
+          </AdonisContextProvider>
+        </ManifestBuilderContextProvider>
+      </HeadManagerContextProvider>
+    </AssetsManagerContextProvider>
+  )
 }

@@ -7,10 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import {
-  Exception,
-  interpolate,
-} from '@microeinhundert/radonis-shared'
+import { Exception, interpolate } from '@microeinhundert/radonis-shared'
 
 import {
   E_CANNOT_HYDRATE,
@@ -21,7 +18,6 @@ import {
 
 /**
  * Exceptions related to hydration
- * @internal
  */
 export class HydrateException extends Exception {
   static missingHydrationData() {
@@ -35,15 +31,9 @@ export class HydrateException extends Exception {
 
     throw error
   }
-  static cannotHydrate(
-    componentIdentifier: string,
-    hydrationRootIdentifier: string
-  ) {
+  static cannotHydrate(componentIdentifier: string, hydrationRootIdentifier: string) {
     const error = new this(
-      interpolate(E_CANNOT_HYDRATE.message, {
-        componentIdentifier,
-        hydrationRootIdentifier,
-      }),
+      interpolate(E_CANNOT_HYDRATE.message, { componentIdentifier, hydrationRootIdentifier }),
       E_CANNOT_HYDRATE.status,
       E_CANNOT_HYDRATE.code
     )
@@ -52,28 +42,19 @@ export class HydrateException extends Exception {
 
     throw error
   }
-  static componentAlreadyRegistered(
-    componentIdentifier: string
-  ) {
+  static componentAlreadyRegistered(componentIdentifier: string) {
     const error = new this(
-      interpolate(E_COMPONENT_ALREADY_REGISTERED.message, {
-        componentIdentifier,
-      }),
+      interpolate(E_COMPONENT_ALREADY_REGISTERED.message, { componentIdentifier }),
       E_COMPONENT_ALREADY_REGISTERED.status,
       E_COMPONENT_ALREADY_REGISTERED.code
     )
 
-    error.help =
-      E_COMPONENT_ALREADY_REGISTERED.help.join('\n')
+    error.help = E_COMPONENT_ALREADY_REGISTERED.help.join('\n')
 
     throw error
   }
   static manifestUnavailable() {
-    const error = new this(
-      E_MANIFEST_UNAVAILABLE.message,
-      E_MANIFEST_UNAVAILABLE.status,
-      E_MANIFEST_UNAVAILABLE.code
-    )
+    const error = new this(E_MANIFEST_UNAVAILABLE.message, E_MANIFEST_UNAVAILABLE.status, E_MANIFEST_UNAVAILABLE.code)
 
     error.help = E_MANIFEST_UNAVAILABLE.help.join('\n')
 

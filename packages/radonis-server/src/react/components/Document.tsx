@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import { createElement as h } from 'react'
-
 import type { DocumentProps } from '../../types'
 import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 
@@ -19,10 +17,12 @@ import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
 export function Document({ children }: DocumentProps) {
   const manifestBuilder = useManifestBuilder()
 
-  return h('html', { className: 'h-full', lang: manifestBuilder.locale }, [
-    h('head'),
-    h('body', { className: 'h-full' }, children),
-  ])
+  return (
+    <html className="h-full" lang={manifestBuilder.locale}>
+      <head></head>
+      <body className="h-full">{children}</body>
+    </html>
+  )
 }
 
 Document.displayName = 'RadonisDocument'

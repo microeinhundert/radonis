@@ -13,12 +13,6 @@
       "options": {
         "printWidth": 40
       }
-    },
-    {
-      "files": "*Exception.ts",
-      "options": {
-        "printWidth": 60
-      }
     }
   ]
 }

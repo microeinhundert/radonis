@@ -2,10 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.10.1] - WIP
+## [1.10.1] - 2022-09-27
 
-### Changed
-- Improved errors.
+### Fixed
+- Client components written to disk.
 
 ## [1.10.0] - 2022-09-22
 
