@@ -15,7 +15,7 @@ import {
   generateAssetsManifest,
   readBuildManifestFromDisk,
 } from '@microeinhundert/radonis-build'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
+import type { PluginsManager } from '@microeinhundert/radonis-shared'
 import type { ResetBetweenRequests } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
@@ -26,19 +26,19 @@ import { join } from 'path'
  */
 export class AssetsManager implements ResetBetweenRequests {
   /**
-   * The PluginsManager instance
+   * The application
    */
-  #pluginsManager: PluginsManager
+  #application: ApplicationContract
 
   /**
    * The Radonis config
    */
-  #config: Pick<RadonisConfig, 'client'>
+  #config: RadonisConfig
 
   /**
-   * The application
+   * The PluginsManager instance
    */
-  #application: ApplicationContract
+  #pluginsManager: PluginsManager
 
   /**
    * The assets manifest
@@ -46,19 +46,35 @@ export class AssetsManager implements ResetBetweenRequests {
   #assetsManifest: AssetsManifest
 
   /**
-   * The components required for hydration
+   * The required components
    */
-  #componentsRequiredForHydration: Set<string>
+  #requiredComponents: Set<string>
 
   /**
    * Constructor
    */
-  constructor(application: ApplicationContract, config: Pick<RadonisConfig, 'client'>) {
-    this.#pluginsManager = PluginsManager.getSingletonInstance()
+  constructor(application: ApplicationContract) {
     this.#application = application
-    this.#config = config
+
+    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
+    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
+
     this.#assetsManifest = []
-    this.#componentsRequiredForHydration = new Set()
+
+    this.#requiredComponents = new Set()
+  }
+
+  /**
+   * The required assets
+   */
+  get requiredAssets(): AssetsManifest {
+    return extractRequiredAssets(
+      this.#assetsManifest,
+      {
+        components: this.#requiredComponents,
+      },
+      !this.#config.client.alwaysIncludeEntryFile
+    )
   }
 
   /**
@@ -66,35 +82,6 @@ export class AssetsManager implements ResetBetweenRequests {
    */
   get #outputDir(): string {
     return this.#application.publicPath('radonis')
-  }
-
-  /**
-   * The components
-   */
-  get components(): {
-    all: AssetsManifest
-    requiredForHydration: AssetsManifest
-  } {
-    return {
-      all: this.#assetsManifest.filter(({ type }) => type === 'component'),
-      requiredForHydration: extractRequiredAssets(
-        this.#assetsManifest,
-        {
-          components: this.#componentsRequiredForHydration,
-        },
-        !this.#config.client.alwaysIncludeEntryFile
-      ),
-    }
-  }
-
-  /**
-   * Scan the built files
-   */
-  #scanBuiltFiles(): void {
-    fsReadAll(this.#outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
-      const absoluteFilePath = join(this.#outputDir, filePath)
-      this.#pluginsManager.execute('onScanFile', null, [readFileSync(absoluteFilePath, 'utf8'), absoluteFilePath])
-    })
   }
 
   /**
@@ -111,23 +98,33 @@ export class AssetsManager implements ResetBetweenRequests {
     try {
       const assetsManifest = await generateAssetsManifest(buildManifest)
       this.#assetsManifest = assetsManifest
-      this.#scanBuiltFiles()
+      this.#scanAssets()
     } catch {
       this.#assetsManifest = []
     }
   }
 
   /**
-   * Require a component for hydration
+   * Require a component
    */
-  requireComponentForHydration(identifier: string): void {
-    this.#componentsRequiredForHydration.add(identifier)
+  requireComponent(identifier: string): void {
+    this.#requiredComponents.add(identifier)
   }
 
   /**
    * Reset for a new request
    */
   resetForNewRequest(): void {
-    this.#componentsRequiredForHydration.clear()
+    this.#requiredComponents.clear()
+  }
+
+  /**
+   * Scan the assets
+   */
+  #scanAssets(): void {
+    fsReadAll(this.#outputDir, (assetPath) => assetPath.endsWith('.js')).forEach((assetPath) => {
+      const absoluteAssetPath = join(this.#outputDir, assetPath)
+      this.#pluginsManager.execute('onScanAsset', null, [readFileSync(absoluteAssetPath, 'utf8'), absoluteAssetPath])
+    })
   }
 }

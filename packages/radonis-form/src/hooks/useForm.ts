@@ -8,12 +8,13 @@
  */
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 
 import { FormException } from '../exceptions/formException'
+import { hydrationManager } from '../singletons'
 import type { FormOptions } from '../types'
 
 /**
@@ -48,7 +49,7 @@ export function useForm<TData, TError>({
   const hydration = useHydration()
 
   if (hydration.root) {
-    HydrationManager.getSingletonInstance().requireRouteForHydration(action)
+    hydrationManager.requireRoute(action)
   }
 
   if (hooks && reloadDocument) {

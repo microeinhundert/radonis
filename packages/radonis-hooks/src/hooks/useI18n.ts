@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
 import { HookException } from '../exceptions/hookException'
+import { hydrationManager } from '../singletons'
 import { useManifest } from './useManifest'
 
 /**
@@ -34,7 +35,7 @@ export function useI18n() {
     }
 
     if (hydration.root) {
-      HydrationManager.getSingletonInstance().requireMessageForHydration(identifier)
+      hydrationManager.requireMessage(identifier)
     }
 
     return message

@@ -33,9 +33,6 @@
       "path": "./packages/radonis-hydrate"
     },
     {
-      "path": "./packages/radonis-manifest"
-    },
-    {
       "path": "./packages/radonis-server"
     },
     {

@@ -18,8 +18,8 @@ export interface BuildOptions {
   components: Map<string, string>
   publicDir: string
   outputDir: string
-  writeOutput?: boolean
-  forProduction?: boolean
+  outputToDisk?: boolean
+  outputForProduction?: boolean
   esbuildOptions?: EsbuildOptions
 }
 

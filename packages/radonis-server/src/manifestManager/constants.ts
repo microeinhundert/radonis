@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-server
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export const globalsFixtureOne = {
-  lorem: 'ipsum',
-  test: 123,
-  hello: { to: 'world' },
-}
+/**
+ * @internal
+ */
+export const DEFAULT_LOCALE = 'en'

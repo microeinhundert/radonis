@@ -30,8 +30,8 @@ export function unocssPlugin(config?: UserConfig) {
     onBootServer() {
       generator = createGenerator(config ?? defaultConfig)
     },
-    async onScanFile(file) {
-      await generator.applyExtractors(...file, tokensFromStaticAnalysis)
+    async onScanAsset(asset) {
+      await generator.applyExtractors(...asset, tokensFromStaticAnalysis)
     },
     afterRender() {
       const tokensFromRender = new Set(tokensFromStaticAnalysis)

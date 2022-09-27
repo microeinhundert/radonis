@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { HeadContract, HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
@@ -20,7 +21,7 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * The Radonis config
    */
-  #config: Pick<RadonisConfig, 'head'>
+  #config: RadonisConfig
 
   /**
    * The title
@@ -40,18 +41,10 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * Constructor
    */
-  constructor(config: Pick<RadonisConfig, 'head'>) {
-    this.#config = config
-    this.#setDefaults()
-  }
+  constructor(application: ApplicationContract) {
+    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
 
-  /**
-   * Set the defaults
-   */
-  #setDefaults() {
-    this.setTitle(this.#config.head.title.default)
-    this.#meta = this.#config.head.defaultMeta
-    this.#tags = []
+    this.#setDefaults()
   }
 
   /**
@@ -138,5 +131,14 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
    */
   resetForNewRequest(): void {
     this.#setDefaults()
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.setTitle(this.#config.head.title.default)
+    this.#meta = this.#config.head.defaultMeta
+    this.#tags = []
   }
 }

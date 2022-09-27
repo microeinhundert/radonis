@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export const messagesFixtureOne = {
-  'hello': 'Hello { name }',
-  'shared.sidebar.signOut': 'Sign Out',
-  'shared.sidebar.signIn': 'Sign In',
-}
+import { PluginsManager } from '@microeinhundert/radonis-shared'
+
+/**
+ * @internal
+ */
+export const pluginsManager = PluginsManager.getSingletonInstance()

@@ -10,16 +10,16 @@
 import { createElement as h } from 'react'
 
 import type { DocumentProps } from '../../types'
-import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
+import { useManifestManager } from '../hooks/internal/useManifestManager'
 
 /**
- * The component containing the minimum markup required for an HTML document
+ * The component containing the HTML document markup
  * @internal
  */
 export function Document({ children }: DocumentProps) {
-  const manifestBuilder = useManifestBuilder()
+  const manifestManager = useManifestManager()
 
-  return h('html', { className: 'h-full', lang: manifestBuilder.locale }, [
+  return h('html', { className: 'h-full', lang: manifestManager.locale }, [
     h('head'),
     h('body', { className: 'h-full' }, children),
   ])

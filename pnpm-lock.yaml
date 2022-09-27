@@ -67,33 +67,31 @@ importers:
 
   packages/radonis:
     specifiers:
-      '@microeinhundert/radonis-form': workspace:1.10.1
-      '@microeinhundert/radonis-hooks': workspace:1.10.1
-      '@microeinhundert/radonis-hydrate': workspace:1.10.1
-      '@microeinhundert/radonis-manifest': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis-form': workspace:1.11.0
+      '@microeinhundert/radonis-hooks': workspace:1.11.0
+      '@microeinhundert/radonis-hydrate': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       superjson: ^1.10.0
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-form': link:../radonis-form
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
-      '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
 
   packages/radonis-build:
     specifiers:
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
       '@poppinss/utils': ^5.0.0
-      '@types/node': ^16.11.56
+      '@types/node': ^18.7.21
       esbuild: ^0.15.9
       fs-extra: ^10.1.0
       tslib: ^2.4.0
@@ -105,15 +103,15 @@ importers:
       fs-extra: 10.1.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
 
   packages/radonis-form:
     specifiers:
-      '@microeinhundert/radonis-hooks': workspace:1.10.1
-      '@microeinhundert/radonis-hydrate': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis-hooks': workspace:1.11.0
+      '@microeinhundert/radonis-hydrate': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       tslib: ^2.4.0
@@ -124,16 +122,16 @@ importers:
       '@microeinhundert/radonis-types': link:../radonis-types
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-hooks:
     specifiers:
-      '@microeinhundert/radonis-hydrate': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis-hydrate': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       intl-messageformat: ^10.1.4
@@ -147,58 +145,39 @@ importers:
       superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-hydrate:
     specifiers:
-      '@microeinhundert/radonis-build': workspace:1.10.1
-      '@microeinhundert/radonis-manifest': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis-build': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       superjson: ^1.10.0
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
-      '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
-  packages/radonis-manifest:
-    specifiers:
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
-      node-object-hash: ^2.3.10
-      superjson: ^1.10.0
-      tslib: ^2.4.0
-    dependencies:
-      '@microeinhundert/radonis-shared': link:../radonis-shared
-      '@microeinhundert/radonis-types': link:../radonis-types
-      node-object-hash: 2.3.10
-      superjson: 1.10.0
-      tslib: 2.4.0
-    devDependencies:
-      '@types/node': 16.11.59
-
   packages/radonis-query:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.10.1
-      '@microeinhundert/radonis-hooks': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
+      '@microeinhundert/radonis': workspace:1.11.0
+      '@microeinhundert/radonis-hooks': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
       '@tanstack/react-query': ^4.6.0
-      '@types/node': ^16.11.56
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       superjson: ^1.10.0
@@ -212,45 +191,45 @@ importers:
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
       '@tanstack/react-query': 4.6.0
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-server:
     specifiers:
-      '@microeinhundert/radonis-build': workspace:1.10.1
-      '@microeinhundert/radonis-hydrate': workspace:1.10.1
-      '@microeinhundert/radonis-manifest': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
+      '@microeinhundert/radonis-build': workspace:1.11.0
+      '@microeinhundert/radonis-hydrate': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
       '@poppinss/utils': ^5.0.0
-      '@types/node': ^16.11.56
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       chokidar: ^3.5.3
       flattie: ^1.1.0
+      node-object-hash: ^2.3.10
       superjson: ^1.10.0
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
-      '@microeinhundert/radonis-manifest': link:../radonis-manifest
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       '@poppinss/utils': 5.0.0
       chokidar: 3.5.3
       flattie: 1.1.0
+      node-object-hash: 2.3.10
       superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-shared:
     specifiers:
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       tslib: ^2.4.0
@@ -258,20 +237,20 @@ importers:
       tslib: 2.4.0
     devDependencies:
       '@microeinhundert/radonis-types': link:../radonis-types
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-twind:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
+      '@microeinhundert/radonis': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
       '@twind/preset-autoprefix': 1.0.0-next.37
       '@twind/preset-tailwind': 1.0.0-next.37
       '@twind/preset-tailwind-forms': 1.0.0-next.37
       '@twind/preset-typography': 1.0.0-next.37
-      '@types/node': ^16.11.56
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       tslib: ^2.4.0
@@ -287,13 +266,13 @@ importers:
       twind: 1.0.0-next.37
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-types:
     specifiers:
-      '@types/node': ^16.11.56
+      '@types/node': ^18.7.21
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       fs-extra: ^10.1.0
@@ -304,16 +283,16 @@ importers:
       superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
   packages/radonis-unocss:
     specifiers:
-      '@microeinhundert/radonis': workspace:1.10.1
-      '@microeinhundert/radonis-shared': workspace:1.10.1
-      '@microeinhundert/radonis-types': workspace:1.10.1
-      '@types/node': ^16.11.56
+      '@microeinhundert/radonis': workspace:1.11.0
+      '@microeinhundert/radonis-shared': workspace:1.11.0
+      '@microeinhundert/radonis-types': workspace:1.11.0
+      '@types/node': ^18.7.21
       '@unocss/core': 0.45.22
       '@unocss/preset-wind': 0.45.22
       fs-extra: ^10.1.0
@@ -329,7 +308,7 @@ importers:
       tslib: 2.4.0
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
-      '@types/node': 16.11.59
+      '@types/node': 18.7.21
 
 packages:
 
@@ -1163,7 +1142,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 18.7.18
+      '@types/node': 18.7.21
     dev: false
 
   /@types/he/1.1.2:
@@ -1198,13 +1177,8 @@ packages:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
     dev: true
 
-  /@types/node/16.11.59:
-    resolution: {integrity: sha512-6u+36Dj3aDzhfBVUf/mfmc92OEdzQ2kx2jcXGdigfl70E/neV21ZHE6UCz4MDzTRcVqGAM27fk+DLXvyDsn3Jw==}
-    dev: true
-
-  /@types/node/18.7.18:
-    resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
-    dev: false
+  /@types/node/18.7.21:
+    resolution: {integrity: sha512-rLFzK5bhM0YPyCoTC8bolBjMk7bwnZ8qeZUBslBfjZQou2ssJdWslx9CZ8DGM+Dx7QXQiiTVZ/6QO6kwtHkZCA==}
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -1213,20 +1187,20 @@ packages:
   /@types/pino-pretty/4.7.5:
     resolution: {integrity: sha512-rfHe6VIknk14DymxGqc9maGsRe8/HQSvM2u46EAz2XrS92qsAJnW16dpdFejBuZKD8cRJX6Aw6uVZqIQctMpAg==}
     dependencies:
-      '@types/node': 18.7.18
+      '@types/node': 18.7.21
       '@types/pino': 6.3.12
     dev: false
 
   /@types/pino-std-serializers/2.4.1:
     resolution: {integrity: sha512-17XcksO47M24IVTVKPeAByWUd3Oez7EbIjXpSbzMPhXVzgjGtrOa49gKBwxH9hb8dKv58OelsWQ+A1G1l9S3wQ==}
     dependencies:
-      '@types/node': 18.7.18
+      '@types/node': 18.7.21
     dev: false
 
   /@types/pino/6.3.12:
     resolution: {integrity: sha512-dsLRTq8/4UtVSpJgl9aeqHvbh6pzdmjYD3C092SYgLD2TyoCqHpTJk6vp8DvCTGGc7iowZ2MoiYiVUUCcu7muw==}
     dependencies:
-      '@types/node': 18.7.18
+      '@types/node': 18.7.21
       '@types/pino-pretty': 4.7.5
       '@types/pino-std-serializers': 2.4.1
       sonic-boom: 2.8.0
@@ -3496,7 +3470,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.7.18
+      '@types/node': 18.7.21
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-manifest
+ * @microeinhundert/radonis-server
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-/**
- * @internal
- */
-export const DEFAULT_LOCALE = 'en'
+export function nonNullable<T>(value: T): value is NonNullable<T> {
+  return value !== null && value !== undefined
+}

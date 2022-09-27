@@ -56,19 +56,19 @@ export interface PluginHooks {
   afterRequest: PluginHook<null>
 
   /**
-   * This plugin hook is called on scan of a previously output file
+   * This plugin hook is called on scan of an asset
    */
-  onScanFile: PluginHook<[string, string]>
+  onScanAsset: PluginHook<[string, string]>
 
   /**
-   * This plugin hook is called before a file is output
+   * This plugin hook is called before an asset is output
    */
-  beforeOutput: PluginHookWithBuilder<string, null>
+  beforeOutputAsset: PluginHookWithBuilder<string, null>
 
   /**
-   * This plugin hook is called after all files have been output
+   * This plugin hook is called after all assets have been output
    */
-  afterOutput: PluginHook<Map<string, string>>
+  afterOutputAssets: PluginHook<Map<string, string>>
 
   /**
    * This plugin hook is called before the page is rendered

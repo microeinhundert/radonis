@@ -13,7 +13,7 @@ import { Children, createElement as h, useId } from 'react'
 import { ServerException } from '../../exceptions/serverException'
 import type { HydrationRootProps } from '../../types'
 import { useAssetsManager } from '../hooks/internal/useAssetsManager'
-import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
+import { useManifestManager } from '../hooks/internal/useManifestManager'
 
 /**
  * The component for drawing the line between parts of the page
@@ -21,7 +21,7 @@ import { useManifestBuilder } from '../hooks/internal/useManifestBuilder'
  * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
 export function HydrationRoot({ children, component: componentIdentifier, disabled }: HydrationRootProps) {
-  const manifestBuilder = useManifestBuilder()
+  const manifestManager = useManifestManager()
   const assetsManager = useAssetsManager()
   const { root: parentHydrationRootIdentifier, component: parentComponentIdentifier } = useHydration()
   const hydrationRootIdentifier = useId()
@@ -45,14 +45,14 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
   const { props } = Children.only(children)
 
   /*
-   * Register the props with the ManifestBuilder
+   * Register the props with the ManifestManager
    */
-  const propsHash = manifestBuilder.registerProps(props)
+  const propsHash = manifestManager.registerProps(props)
 
   /*
-   * Require the component for hydration on the AssetsManager
+   * Require the component on the AssetsManager
    */
-  assetsManager.requireComponentForHydration(componentIdentifier)
+  assetsManager.requireComponent(componentIdentifier)
 
   return h(
     HydrationContextProvider,

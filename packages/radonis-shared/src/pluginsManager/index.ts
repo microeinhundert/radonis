@@ -25,7 +25,7 @@ export class PluginsManager {
    * Get the singleton instance
    */
   static getSingletonInstance(): PluginsManager {
-    return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager())
+    return PluginsManager.instance ?? new PluginsManager()
   }
 
   /**
@@ -59,19 +59,19 @@ export class PluginsManager {
   afterRequestHooks: PluginHook<'afterRequest'>[]
 
   /**
-   * The registered `onScanFile` hooks
+   * The registered `onScanAsset` hooks
    */
-  onScanFileHooks: PluginHook<'onScanFile'>[]
+  onScanAssetHooks: PluginHook<'onScanAsset'>[]
 
   /**
-   * The registered `beforeOutput` hooks
+   * The registered `beforeOutputAsset` hooks
    */
-  beforeOutputHooks: PluginHook<'beforeOutput'>[]
+  beforeOutputAssetHooks: PluginHook<'beforeOutputAsset'>[]
 
   /**
-   * The registered `afterOutput` hooks
+   * The registered `afterOutputAssets` hooks
    */
-  afterOutputHooks: PluginHook<'afterOutput'>[]
+  afterOutputAssetsHooks: PluginHook<'afterOutputAssets'>[]
 
   /**
    * The registered `beforeRender` hooks
@@ -87,6 +87,8 @@ export class PluginsManager {
    * Constructor
    */
   constructor() {
+    PluginsManager.instance = this
+
     this.#installedPlugins = new Map()
 
     this.onInitClientHooks = []
@@ -94,9 +96,9 @@ export class PluginsManager {
     this.onBootServerHooks = []
     this.beforeRequestHooks = []
     this.afterRequestHooks = []
-    this.onScanFileHooks = []
-    this.beforeOutputHooks = []
-    this.afterOutputHooks = []
+    this.onScanAssetHooks = []
+    this.beforeOutputAssetHooks = []
+    this.afterOutputAssetsHooks = []
     this.beforeRenderHooks = []
     this.afterRenderHooks = []
   }
@@ -115,13 +117,47 @@ export class PluginsManager {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
         plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest)
         plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest)
-        plugin.onScanFile && this.onScanFileHooks.push(plugin.onScanFile)
-        plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
-        plugin.afterOutput && this.afterOutputHooks.push(plugin.afterOutput)
+        plugin.onScanAsset && this.onScanAssetHooks.push(plugin.onScanAsset)
+        plugin.beforeOutputAsset && this.beforeOutputAssetHooks.push(plugin.beforeOutputAsset)
+        plugin.afterOutputAssets && this.afterOutputAssetsHooks.push(plugin.afterOutputAssets)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
       }
     }
+  }
+
+  /**
+   * Install one or multiple plugins
+   */
+  install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
+    for (const plugin of plugins) {
+      this.#installOrFail(targetEnvironment, plugin)
+      this.#checkForConflicts(targetEnvironment)
+      this.#registerHooks(targetEnvironment, plugin)
+    }
+  }
+
+  /**
+   * Execute hooks of a specific type
+   */
+  async execute<
+    TType extends keyof PluginHooks,
+    TBuilderValue extends unknown,
+    TParams extends Parameters<PluginHook<TType>>
+  >(type: TType, initialBuilderValue: TBuilderValue, ...params: TParams): Promise<TBuilderValue> {
+    const hooks = this[`${type}Hooks`] as PluginHook<TType>[]
+
+    let builderValue = initialBuilderValue
+
+    for (const hook of hooks) {
+      const builderOrVoid = await hook.apply(null, params)
+
+      if (typeof builderOrVoid === 'function') {
+        builderValue = await builderOrVoid.apply(null, [builderValue])
+      }
+    }
+
+    return builderValue
   }
 
   /**
@@ -163,40 +199,6 @@ export class PluginsManager {
     }
 
     this.#installedPlugins.set(pluginName, { environments, conflictsWith })
-  }
-
-  /**
-   * Install one or multiple plugins
-   */
-  install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void {
-    for (const plugin of plugins) {
-      this.#installOrFail(targetEnvironment, plugin)
-      this.#checkForConflicts(targetEnvironment)
-      this.#registerHooks(targetEnvironment, plugin)
-    }
-  }
-
-  /**
-   * Execute hooks of a specific type
-   */
-  async execute<
-    TType extends keyof PluginHooks,
-    TBuilderValue extends unknown,
-    TParams extends Parameters<PluginHook<TType>>
-  >(type: TType, initialBuilderValue: TBuilderValue, ...params: TParams): Promise<TBuilderValue> {
-    const hooks = this[`${type}Hooks`] as PluginHook<TType>[]
-
-    let builderValue = initialBuilderValue
-
-    for (const hook of hooks) {
-      const builderOrVoid = await hook.apply(null, params)
-
-      if (typeof builderOrVoid === 'function') {
-        builderValue = await builderOrVoid.apply(null, [builderValue])
-      }
-    }
-
-    return builderValue
   }
 }
 

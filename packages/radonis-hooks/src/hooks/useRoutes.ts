@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 
+import { hydrationManager } from '../singletons'
 import { useManifest } from './useManifest'
 
 /**
@@ -20,7 +21,7 @@ export function useRoutes() {
   const hydration = useHydration()
 
   if (hydration.root) {
-    HydrationManager.getSingletonInstance().requireRouteForHydration('*')
+    hydrationManager.requireRoute('*')
   }
 
   return routes

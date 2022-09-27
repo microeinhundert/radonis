@@ -11,3 +11,8 @@
  * @internal
  */
 export const HYDRATION_ROOT_SELECTOR = '[data-hydration-root]'
+
+/**
+ * @internal
+ */
+export const ERRORS_NAMESPACE = 'errors'

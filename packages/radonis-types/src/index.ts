@@ -139,9 +139,9 @@ export type RouteQueryParams = Record<string, string | number | (string | number
  * Manifest
  */
 export type Manifest = {
+  locale: Locale
   props: Props
   flashMessages: FlashMessages
-  locale: Locale
   messages: Messages
   routes: Routes
   route: Route | null

@@ -12,7 +12,7 @@ import type { Manifest } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
-import { HydrateException } from '../exceptions/hydrateException'
+import { HydrateException } from '../../exceptions/hydrateException'
 
 declare global {
   var radonisManifest: Manifest | undefined

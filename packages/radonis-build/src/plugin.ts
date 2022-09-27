@@ -74,7 +74,7 @@ export const radonisClientPlugin = (components: Map<string, string>): Plugin => 
           errors: [
             {
               detail: error.message,
-              text: `Error compiling component at "${path}"`,
+              text: `Cannot compile component at "${path}"`,
               pluginName: 'radonis-client',
             },
           ],

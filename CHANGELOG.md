@@ -2,10 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.10.1] - WIP
+## [1.11.0] - WIP
+
+This version includes a lot of internal restructuring in preparation for the next major release, which will include support for React Streaming SSR.
 
 ### Changed
+- BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
+- BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
+- BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
+- Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
 - Improved errors.
+- Internal refactorings related to dependency injection.
 
 ## [1.10.0] - 2022-09-22
 

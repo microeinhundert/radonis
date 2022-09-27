@@ -7,15 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Plugin } from '@microeinhundert/radonis-shared'
-import { isProduction, isServer, PluginsManager } from '@microeinhundert/radonis-shared'
+import { isProduction, isServer } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 
 import { ClientException } from './exceptions/clientException'
-
-const pluginsManager = PluginsManager.getSingletonInstance()
-const hydrationManager = HydrationManager.getSingletonInstance()
+import { hydrationManager, pluginsManager } from './singletons'
 
 type ClientConfig = {
   plugins?: Plugin[]
@@ -34,6 +31,8 @@ export async function initClient(config?: ClientConfig): Promise<void> {
     throw ClientException.cannotInitClientMultipleTimes()
   }
 
+  isClientInitialized = true
+
   if (config?.plugins?.length) {
     pluginsManager.install('client', ...config.plugins)
     await pluginsManager.execute('onInitClient', null, null)
@@ -44,8 +43,6 @@ export async function initClient(config?: ClientConfig): Promise<void> {
   if (isProduction) {
     document.querySelector('#rad-manifest')?.remove()
   }
-
-  isClientInitialized = true
 }
 
 /**

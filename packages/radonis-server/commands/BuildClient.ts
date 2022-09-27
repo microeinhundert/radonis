@@ -102,39 +102,6 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * Run the build
-   */
-  async #build(): Promise<BuildManifest> {
-    const {
-      client: { buildOptions },
-    } = this.#config
-
-    const components = discoverComponents(this.#componentsDir)
-    const publicDir = this.application.rcFile.directories.public || 'public'
-    const buildManifest = await build({
-      entryFilePath: this.#entryFilePath,
-      components,
-      publicDir,
-      outputDir: this.#outputDir,
-      forProduction: !!this.production,
-      esbuildOptions: buildOptions,
-    })
-
-    /**
-     * Write the build manifest
-     */
-    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
-
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
-
-    return buildManifest
-  }
-
-  /**
    * Run the command
    */
   async run(): Promise<void> {
@@ -165,5 +132,39 @@ export default class BuildClient extends BaseCommand {
     } else {
       this.exit()
     }
+  }
+
+  /**
+   * Run the build
+   */
+  async #build(): Promise<BuildManifest> {
+    const {
+      client: { buildOptions },
+    } = this.#config
+
+    const components = discoverComponents(this.#componentsDir)
+    const publicDir = this.application.rcFile.directories.public || 'public'
+    const buildManifest = await build({
+      entryFilePath: this.#entryFilePath,
+      components,
+      publicDir,
+      outputDir: this.#outputDir,
+      outputToDisk: true,
+      outputForProduction: !!this.production,
+      esbuildOptions: buildOptions,
+    })
+
+    /**
+     * Write the build manifest
+     */
+    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
+
+    /**
+     * Output a log message after successful build
+     * (substracting by one to exclude the entry file)
+     */
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+
+    return buildManifest
   }
 }

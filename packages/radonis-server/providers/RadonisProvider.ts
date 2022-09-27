@@ -8,9 +8,6 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { FlashMessagesManager, I18nManager, RoutesManager } from '@microeinhundert/radonis-manifest'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 import {
   HydrationRoot,
@@ -22,15 +19,9 @@ import {
   useRouter,
   useSession,
 } from '../src/react'
-import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 
 export default class RadonisProvider {
   static needsApplication = true
-
-  /**
-   * The PluginsManager instance
-   */
-  #pluginsManager: PluginsManager
 
   /**
    * The application
@@ -38,17 +29,10 @@ export default class RadonisProvider {
   #application: ApplicationContract
 
   /**
-   * The Radonis config
-   */
-  #config: RadonisConfig
-
-  /**
    * Constructor
    */
   constructor(application: ApplicationContract) {
-    this.#pluginsManager = PluginsManager.getSingletonInstance()
     this.#application = application
-    this.#config = this.#application.config.get('radonis', {})
   }
 
   /**
@@ -56,23 +40,30 @@ export default class RadonisProvider {
    */
   register() {
     /**
-     * Install plugins
+     * Config
      */
-    this.#pluginsManager.install('server', ...this.#config.plugins)
+    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
+      return this.#application.config.get('radonis', {})
+    })
 
     /**
-     * ManifestBuilder
+     * PluginsManager
      */
-    this.#application.container.singleton('Microeinhundert/Radonis/ManifestBuilder', () => {
-      const { Builder: ManifestBuilder } = require('@microeinhundert/radonis-manifest')
+    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
+      const { PluginsManager } = require('@microeinhundert/radonis-shared')
 
-      const flashMessagesManager = FlashMessagesManager.getSingletonInstance()
-      const i18nManager = I18nManager.getSingletonInstance()
-      const routesManager = RoutesManager.getSingletonInstance()
+      return new PluginsManager()
+    })
 
-      return new ManifestBuilder(flashMessagesManager, i18nManager, routesManager, {
-        limitClientManifest: this.#config.client.limitManifest,
-      })
+    /**
+     * HydrationManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
+      const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
+
+      const pluginsManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
+
+      return new HydrationManager(pluginsManager)
     })
 
     /**
@@ -81,7 +72,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
       const { AssetsManager } = require('../src/assetsManager')
 
-      return new AssetsManager(this.#application, this.#config)
+      return new AssetsManager(this.#application)
     })
 
     /**
@@ -90,20 +81,25 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
       const { HeadManager } = require('../src/headManager')
 
-      return new HeadManager(this.#config)
+      return new HeadManager(this.#application)
+    })
+
+    /**
+     * ManifestManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/ManifestManager', () => {
+      const { ManifestManager } = require('../src/manifestManager')
+
+      return new ManifestManager(this.#application)
     })
 
     /**
      * Renderer
      */
     this.#application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
-      const AssetsManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
-      const HeadManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
-      const ManifestBuilder = this.#application.container.resolveBinding('Microeinhundert/Radonis/ManifestBuilder')
-
       const { Renderer } = require('../src/renderer')
 
-      return new Renderer(AssetsManager, HeadManager, ManifestBuilder)
+      return new Renderer(this.#application)
     })
 
     /**
@@ -127,36 +123,47 @@ export default class RadonisProvider {
    * Boot
    */
   async boot() {
-    await this.#pluginsManager.execute('onBootServer', null, null)
+    this.#application.container.withBindings(
+      ['Microeinhundert/Radonis/Config', 'Microeinhundert/Radonis/PluginsManager'],
+      async (Config, PluginsManager) => {
+        /**
+         * Install plugins
+         */
+        PluginsManager.install('server', ...Config.plugins)
 
-    this.#application.container.withBindings(['Adonis/Core/Server'], (Server) => {
-      Server.hooks
-        .before(async () => {
-          await this.#pluginsManager.execute('beforeRequest', null, null)
-        })
-        .after(async () => {
-          await this.#pluginsManager.execute('afterRequest', null, null)
-        })
-    })
+        /**
+         * Execute `onBootServer` plugin hook
+         */
+        await PluginsManager.execute('onBootServer', null, null)
+      }
+    )
+
+    this.#application.container.withBindings(
+      ['Adonis/Core/Server', 'Microeinhundert/Radonis/PluginsManager'],
+      async (Server, PluginsManager) => {
+        /**
+         * Register server hooks
+         */
+        Server.hooks
+          .before(async () => {
+            await PluginsManager.execute('beforeRequest', null, null)
+          })
+          .after(async () => {
+            await PluginsManager.execute('afterRequest', null, null)
+          })
+      }
+    )
 
     this.#application.container.withBindings(
       [
         'Adonis/Core/HttpContext',
-        'Adonis/Core/Application',
-        'Adonis/Core/Route',
-        'Adonis/Addons/I18n',
-        'Microeinhundert/Radonis/ManifestBuilder',
         'Microeinhundert/Radonis/AssetsManager',
         'Microeinhundert/Radonis/HeadManager',
+        'Microeinhundert/Radonis/ManifestManager',
         'Microeinhundert/Radonis/Renderer',
       ],
-      async (HttpContext, Application, Route, I18n, ManifestBuilder, AssetsManager, HeadManager, Renderer) => {
+      async (HttpContext, AssetsManager, HeadManager, ManifestManager, Renderer) => {
         await AssetsManager.readBuildManifest()
-
-        /**
-         * Set routes on the ManifestBuilder
-         */
-        ManifestBuilder.setRoutes(extractRootRoutes(Route))
 
         /**
          * Define getter
@@ -164,11 +171,11 @@ export default class RadonisProvider {
         HttpContext.getter(
           'radonis',
           function () {
-            ManifestBuilder.resetForNewRequest()
             AssetsManager.resetForNewRequest()
             HeadManager.resetForNewRequest()
+            ManifestManager.resetForNewRequest()
 
-            return Renderer.getForRequest(this, Application, Route, I18n)
+            return Renderer.getForRequest(this)
           },
           true
         )

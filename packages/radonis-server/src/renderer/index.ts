@@ -13,9 +13,9 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
-import { PluginsManager, stringifyAttributes } from '@microeinhundert/radonis-shared'
+import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import type { PluginsManager } from '@microeinhundert/radonis-shared'
+import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type {
   Globals,
   HeadMeta,
@@ -29,18 +29,40 @@ import { flattie } from 'flattie'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { renderToString } from 'react-dom/server'
-import { ServerException } from 'src/exceptions/serverException'
 import { serialize } from 'superjson'
 
 import type { AssetsManager } from '../assetsManager'
+import { ServerException } from '../exceptions/serverException'
 import type { HeadManager } from '../headManager'
+import type { ManifestManager } from '../manifestManager'
 import { wrapTree } from '../react'
+import { extractRootRoutes } from '../utils/extractRootRoutes'
 import { transformRouteNode } from './utils/transformRouteNode'
 
 /**
  * @internal
  */
 export class Renderer implements RendererContract {
+  /**
+   * The application
+   */
+  #application: ApplicationContract
+
+  /**
+   * The Logger instance
+   */
+  #logger: LoggerContract
+
+  /**
+   * The Router instance
+   */
+  #router: RouterContract
+
+  /**
+   * The I18nManager instance
+   */
+  #i18nManager: I18nManagerContract
+
   /**
    * The PluginsManager instance
    */
@@ -62,14 +84,9 @@ export class Renderer implements RendererContract {
   #headManager: HeadManager
 
   /**
-   * The ManifestBuilder instance
+   * The ManifestManager instance
    */
-  #manifestBuilder: ManifestBuilder
-
-  /**
-   * The Logger instance
-   */
-  #logger: LoggerContract
+  #manifestManager: ManifestManager
 
   /**
    * The Adonis context
@@ -79,94 +96,47 @@ export class Renderer implements RendererContract {
   /**
    * Constructor
    */
-  constructor(
-    assetsManager: AssetsManager,
-    headManager: HeadManager,
-    manifestBuilder: ManifestBuilder,
-    logger: LoggerContract
-  ) {
-    this.#pluginsManager = PluginsManager.getSingletonInstance()
-    this.#hydrationManager = HydrationManager.getSingletonInstance()
-    this.#assetsManager = assetsManager
-    this.#headManager = headManager
-    this.#manifestBuilder = manifestBuilder
-    this.#logger = logger
+  constructor(application: ApplicationContract) {
+    this.#application = application
+
+    this.#logger = application.container.resolveBinding('Adonis/Core/Logger')
+    this.#router = application.container.resolveBinding('Adonis/Core/Route')
+    this.#i18nManager = application.container.resolveBinding('Adonis/Addons/I18n')
+
+    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
+    this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
+    this.#assetsManager = application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
+    this.#headManager = application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
+    this.#manifestManager = application.container.resolveBinding('Microeinhundert/Radonis/ManifestManager')
+
     this.#adonisContext = null as any
-  }
-
-  /**
-   * Inject closing head
-   */
-  #injectClosingHead(html: string): string {
-    const injectionTarget = '</head>'
-
-    return html.replace(injectionTarget, [this.#headManager.getHTML(), injectionTarget].join('\n'))
-  }
-
-  /**
-   * Inject closing body
-   */
-  #injectClosingBody(html: string): string {
-    const injectionTarget = '</body>'
-
-    const scriptTags = this.#assetsManager.components.requiredForHydration.map((asset) => {
-      this.#hydrationManager.requireAssetForHydration(asset)
-
-      return `<script ${stringifyAttributes({
-        type: 'module',
-        defer: true,
-        src: asset.path,
-      })}></script>`
-    })
-
-    return html.replace(
-      injectionTarget,
-      [
-        `<script id="rad-manifest">window.radonisManifest = ${this.#manifestBuilder.getClientManifestAsJSON()}</script>`,
-        ...scriptTags,
-        injectionTarget,
-      ].join('\n')
-    )
-  }
-
-  /**
-   * Extract the user locale from the http context
-   */
-  #extractUserLocale({ request }: HttpContextContract, i18nManager: I18nManagerContract): Locale {
-    const supportedLocales = i18nManager.supportedLocales()
-
-    return request.language(supportedLocales) || request.input('lang') || i18nManager.defaultLocale
   }
 
   /**
    * Get for request
    */
-  getForRequest(
-    httpContext: HttpContextContract,
-    application: ApplicationContract,
-    router: RouterContract,
-    i18nManager: I18nManagerContract
-  ): this {
-    router.commit()
+  getForRequest(httpContext: HttpContextContract): this {
+    this.#router.commit()
 
     /**
      * Set Adonis context
      */
     this.#adonisContext = {
-      application,
+      application: this.#application,
       httpContext,
-      router,
+      router: this.#router,
     }
 
-    const locale = this.#extractUserLocale(httpContext, i18nManager)
+    const locale = this.#extractUserLocale(httpContext)
 
     /**
      * Set manifest
      */
-    this.#manifestBuilder
-      .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
+    this.#manifestManager
       .setLocale(locale)
-      .setMessages(i18nManager.getTranslationsFor(locale))
+      .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
+      .setMessages(this.#i18nManager.getTranslationsFor(locale))
+      .setRoutes(extractRootRoutes(this.#router))
       .setRoute(transformRouteNode(httpContext.route))
 
     return this
@@ -203,7 +173,7 @@ export class Renderer implements RendererContract {
    * Add globals for the current request
    */
   withGlobals(globals: Globals): this {
-    this.#manifestBuilder.addGlobals(globals)
+    this.#manifestManager.addGlobals(globals)
 
     return this
   }
@@ -253,16 +223,16 @@ export class Renderer implements RendererContract {
       }
 
       /**
-       * Add globals to the ManifestBuilder
+       * Add globals to the ManifestManager
        */
       if (options?.globals) {
-        this.#manifestBuilder.addGlobals(options.globals)
+        this.#manifestManager.addGlobals(options.globals)
       }
 
       /**
        * Set the server manifest on the global scope
        */
-      this.#manifestBuilder.setServerManifestOnGlobalScope()
+      this.#manifestManager.setServerManifestOnGlobalScope()
 
       try {
         /**
@@ -271,9 +241,10 @@ export class Renderer implements RendererContract {
         const tree = await this.#pluginsManager.execute(
           'beforeRender',
           wrapTree(
+            this.#hydrationManager,
             this.#assetsManager,
             this.#headManager,
-            this.#manifestBuilder,
+            this.#manifestManager,
             this.#adonisContext,
             Component,
             props
@@ -313,5 +284,49 @@ export class Renderer implements RendererContract {
     }
 
     return props as UnwrapProps<T>
+  }
+
+  /**
+   * Inject closing head
+   */
+  #injectClosingHead(html: string): string {
+    const injectionTarget = '</head>'
+
+    return html.replace(injectionTarget, [this.#headManager.getHTML(), injectionTarget].join('\n'))
+  }
+
+  /**
+   * Inject closing body
+   */
+  #injectClosingBody(html: string): string {
+    const injectionTarget = '</body>'
+
+    const scriptTags = this.#assetsManager.requiredAssets.map((asset) => {
+      this.#hydrationManager.requireAsset(asset)
+
+      return `<script ${stringifyAttributes({
+        type: 'module',
+        defer: true,
+        src: asset.path,
+      })}></script>`
+    })
+
+    return html.replace(
+      injectionTarget,
+      [
+        `<script id="rad-manifest">window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}</script>`,
+        ...scriptTags,
+        injectionTarget,
+      ].join('\n')
+    )
+  }
+
+  /**
+   * Extract the user locale from the http context
+   */
+  #extractUserLocale({ request }: HttpContextContract): Locale {
+    const supportedLocales = this.#i18nManager.supportedLocales()
+
+    return request.language(supportedLocales) || request.input('lang') || this.#i18nManager.defaultLocale
   }
 }

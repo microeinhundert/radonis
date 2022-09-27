@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { Builder as ManifestBuilder } from '@microeinhundert/radonis-manifest'
+import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { createContext } from 'react'
 
 /**
  * @internal
  */
-export const manifestBuilderContext = createContext<ManifestBuilder>(null as any)
+export const hydrationManagerContext = createContext<HydrationManager>(null as any)
 
 /**
  * @internal
  */
-export const ManifestBuilderContextProvider = manifestBuilderContext.Provider
+export const HydrationManagerContextProvider = hydrationManagerContext.Provider
