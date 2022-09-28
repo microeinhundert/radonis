@@ -117,6 +117,7 @@ export default class BuildClient extends BaseCommand {
       publicDir,
       outputDir: this.#outputDir,
       forProduction: !!this.production,
+      writeOutput: true,
       esbuildOptions: buildOptions,
     })
 

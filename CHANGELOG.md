@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10.0] - 2022-09-26
+
+### Changed
+- Updated dependencies.
+
+### Fixed
+- Built client bundle not written to disk.
+
 ## [1.10.0] - 2022-09-22
 
 ### Changed
