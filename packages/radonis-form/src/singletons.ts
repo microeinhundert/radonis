@@ -8,14 +8,8 @@
  */
 
 import { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export const pluginsManager = PluginsManager.getSingletonInstance()
-
-/**
- * @internal
- */
-export const hydrationManager = HydrationManager.getSingletonInstance(pluginsManager)
+export const hydrationManager = HydrationManager.getSingletonInstance()

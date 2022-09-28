@@ -21,9 +21,9 @@ declare module '@ioc:Adonis/Core/Application' {
     'Microeinhundert/Radonis/Config': RadonisConfig
     'Microeinhundert/Radonis/PluginsManager': PluginsManager
     'Microeinhundert/Radonis/HydrationManager': HydrationManager
+    'Microeinhundert/Radonis/ManifestManager': ManifestManager
     'Microeinhundert/Radonis/AssetsManager': AssetsManager
     'Microeinhundert/Radonis/HeadManager': HeadManager
-    'Microeinhundert/Radonis/ManifestManager': ManifestManager
     'Microeinhundert/Radonis/Renderer': Renderer
   }
 }

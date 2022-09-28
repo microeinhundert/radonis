@@ -26,11 +26,6 @@ import { join } from 'path'
  */
 export class AssetsManager implements ResetBetweenRequests {
   /**
-   * The application
-   */
-  #application: ApplicationContract
-
-  /**
    * The Radonis config
    */
   #config: RadonisConfig
@@ -39,6 +34,11 @@ export class AssetsManager implements ResetBetweenRequests {
    * The PluginsManager instance
    */
   #pluginsManager: PluginsManager
+
+  /**
+   * The public path
+   */
+  #publicPath: string
 
   /**
    * The assets manifest
@@ -54,10 +54,10 @@ export class AssetsManager implements ResetBetweenRequests {
    * Constructor
    */
   constructor(application: ApplicationContract) {
-    this.#application = application
-
     this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
     this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
+
+    this.#publicPath = application.publicPath('radonis')
 
     this.#assetsManifest = []
 
@@ -78,17 +78,24 @@ export class AssetsManager implements ResetBetweenRequests {
   }
 
   /**
-   * The output directory
+   * Require a component
    */
-  get #outputDir(): string {
-    return this.#application.publicPath('radonis')
+  requireComponent(identifier: string): void {
+    this.#requiredComponents.add(identifier)
+  }
+
+  /**
+   * Reset for a new request
+   */
+  resetForNewRequest(): void {
+    this.#requiredComponents.clear()
   }
 
   /**
    * Read the build manifest
    */
   async readBuildManifest(): Promise<void> {
-    const buildManifest = await readBuildManifestFromDisk(this.#outputDir)
+    const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
 
     if (!buildManifest) {
       this.#assetsManifest = []
@@ -105,25 +112,11 @@ export class AssetsManager implements ResetBetweenRequests {
   }
 
   /**
-   * Require a component
-   */
-  requireComponent(identifier: string): void {
-    this.#requiredComponents.add(identifier)
-  }
-
-  /**
-   * Reset for a new request
-   */
-  resetForNewRequest(): void {
-    this.#requiredComponents.clear()
-  }
-
-  /**
    * Scan the assets
    */
   #scanAssets(): void {
-    fsReadAll(this.#outputDir, (assetPath) => assetPath.endsWith('.js')).forEach((assetPath) => {
-      const absoluteAssetPath = join(this.#outputDir, assetPath)
+    fsReadAll(this.#publicPath, (assetPath) => assetPath.endsWith('.js')).forEach((assetPath) => {
+      const absoluteAssetPath = join(this.#publicPath, assetPath)
       this.#pluginsManager.execute('onScanAsset', null, [readFileSync(absoluteAssetPath, 'utf8'), absoluteAssetPath])
     })
   }

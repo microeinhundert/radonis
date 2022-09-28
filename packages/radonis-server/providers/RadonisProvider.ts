@@ -61,9 +61,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
       const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
 
-      const pluginsManager = this.#application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
-
-      return new HydrationManager(pluginsManager)
+      return new HydrationManager()
     })
 
     /**

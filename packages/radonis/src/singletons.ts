@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import { Hydrator } from '@microeinhundert/radonis-hydrate'
 import { PluginsManager } from '@microeinhundert/radonis-shared'
 
 /**
@@ -18,4 +18,4 @@ export const pluginsManager = PluginsManager.getSingletonInstance()
 /**
  * @internal
  */
-export const hydrationManager = HydrationManager.getSingletonInstance(pluginsManager)
+export const hydrator = Hydrator.getSingletonInstance(pluginsManager)

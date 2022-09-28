@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.11.0] - WIP
+## [2.0.0] - WIP
 
-This version includes a lot of internal restructuring in preparation for the next major release, which will include support for React Streaming SSR.
+This major release includes internal restructuring as well as new features.
 
 ### Changed
 - BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.

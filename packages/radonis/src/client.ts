@@ -12,7 +12,7 @@ import { isProduction, isServer } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 
 import { ClientException } from './exceptions/clientException'
-import { hydrationManager, pluginsManager } from './singletons'
+import { hydrator, pluginsManager } from './singletons'
 
 type ClientConfig = {
   plugins?: Plugin[]
@@ -38,7 +38,7 @@ export async function initClient(config?: ClientConfig): Promise<void> {
     await pluginsManager.execute('onInitClient', null, null)
   }
 
-  hydrationManager.hydrateRoots()
+  hydrator.hydrateRoots()
 
   if (isProduction) {
     document.querySelector('#rad-manifest')?.remove()
@@ -50,5 +50,5 @@ export async function initClient(config?: ClientConfig): Promise<void> {
  * @internal
  */
 export function registerComponentForHydration(identifier: string, Component: ComponentType): void {
-  hydrationManager.registerComponent(identifier, Component)
+  hydrator.registerComponent(identifier, Component)
 }
