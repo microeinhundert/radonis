@@ -72,10 +72,7 @@ export class ManifestManager implements ResetBetweenRequests {
     this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
     this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
 
-    this.#props = {}
-    this.#globals = {}
-    this.#locale = DEFAULT_LOCALE
-    this.#route = null
+    this.#setDefaults()
   }
 
   /**
@@ -246,11 +243,17 @@ export class ManifestManager implements ResetBetweenRequests {
    * Reset for a new request
    */
   resetForNewRequest(): void {
+    this.#setDefaults()
+    this.#hydrationManager.resetForNewRequest()
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
     this.#props = {}
     this.#globals = {}
     this.#locale = DEFAULT_LOCALE
     this.#route = null
-
-    this.#hydrationManager.resetForNewRequest()
   }
 }

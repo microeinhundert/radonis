@@ -57,9 +57,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML title tag
+   * Get the title HTML
    */
-  getTitleTag(): string {
+  getTitleHTML(): string {
     return `<title>${this.#title}</title>`
   }
 
@@ -71,9 +71,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML meta tags
+   * Get the meta HTML
    */
-  getMetaTags(): string {
+  getMetaHTML(): string {
     return Object.entries(this.#meta)
       .map(([name, value]) => {
         if (!value) {
@@ -109,9 +109,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML tags
+   * Get the tags HTML
    */
-  getTags(): string {
+  getTagsHTML(): string {
     return this.#tags
       .map(({ name, content, attributes }) => {
         return `<${name}${attributes ? ` ${stringifyAttributes(attributes)}` : ''}>${content}</${name}>`
@@ -123,7 +123,7 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
    * Get all HTML
    */
   getHTML(): string {
-    return [this.getTitleTag(), this.getMetaTags(), this.getTags()].join('\n')
+    return [this.getTitleHTML(), this.getMetaHTML(), this.getTagsHTML()].join('\n')
   }
 
   /**

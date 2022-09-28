@@ -58,14 +58,7 @@ export class HydrationManager implements ResetBetweenRequests {
    * Constructor
    */
   constructor() {
-    this.#flashMessages = {}
-    this.#requiredFlashMessages = new Set()
-
-    this.#messages = {}
-    this.#requiredMessages = new Set()
-
-    this.#routes = {}
-    this.#requiredRoutes = new Set()
+    this.#setDefaults()
   }
 
   /**
@@ -229,13 +222,20 @@ export class HydrationManager implements ResetBetweenRequests {
    * Reset for a new request
    */
   resetForNewRequest(): void {
+    this.#setDefaults()
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
     this.#flashMessages = {}
-    this.#requiredFlashMessages.clear()
+    this.#requiredFlashMessages = new Set()
 
     this.#messages = {}
-    this.#requiredMessages.clear()
+    this.#requiredMessages = new Set()
 
     this.#routes = {}
-    this.#requiredRoutes.clear()
+    this.#requiredRoutes = new Set()
   }
 }

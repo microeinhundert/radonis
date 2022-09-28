@@ -59,11 +59,11 @@ export class Hydrator {
    * Register a component
    */
   registerComponent(identifier: string, Component: ComponentType): this {
-    if (identifier in this.#components) {
+    if (this.#components.has(identifier)) {
       throw HydrateException.componentAlreadyRegistered(identifier)
     }
 
-    this.#components[identifier] = Component
+    this.#components.set(identifier, Component)
 
     return this
   }

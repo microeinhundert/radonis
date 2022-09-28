@@ -61,7 +61,7 @@ export class AssetsManager implements ResetBetweenRequests {
 
     this.#assetsManifest = []
 
-    this.#requiredComponents = new Set()
+    this.#setDefaults()
   }
 
   /**
@@ -85,13 +85,6 @@ export class AssetsManager implements ResetBetweenRequests {
   }
 
   /**
-   * Reset for a new request
-   */
-  resetForNewRequest(): void {
-    this.#requiredComponents.clear()
-  }
-
-  /**
    * Read the build manifest
    */
   async readBuildManifest(): Promise<void> {
@@ -112,6 +105,13 @@ export class AssetsManager implements ResetBetweenRequests {
   }
 
   /**
+   * Reset for a new request
+   */
+  resetForNewRequest(): void {
+    this.#setDefaults()
+  }
+
+  /**
    * Scan the assets
    */
   #scanAssets(): void {
@@ -119,5 +119,12 @@ export class AssetsManager implements ResetBetweenRequests {
       const absoluteAssetPath = join(this.#publicPath, assetPath)
       this.#pluginsManager.execute('onScanAsset', null, [readFileSync(absoluteAssetPath, 'utf8'), absoluteAssetPath])
     })
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.#requiredComponents = new Set()
   }
 }
