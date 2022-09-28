@@ -52,7 +52,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
       const { PluginsManager } = require('@microeinhundert/radonis-shared')
 
-      return new PluginsManager()
+      return PluginsManager.getSingletonInstance()
     })
 
     /**
@@ -61,7 +61,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
       const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
 
-      return new HydrationManager()
+      return HydrationManager.getSingletonInstance()
     })
 
     /**

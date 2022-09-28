@@ -2,7 +2,7 @@
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
     "rootDir": "./",
-    "target": "es2021",
+    "target": "es2022",
     "module": "commonjs",
     "incremental": true,
     "removeComments": false,

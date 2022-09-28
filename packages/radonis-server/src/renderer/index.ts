@@ -186,7 +186,7 @@ export class Renderer implements RendererContract {
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<string | UnwrapProps<T> | undefined> {
-    const request = this.#adonisContext.httpContext.request
+    const { request } = this.#adonisContext.httpContext
 
     /**
      * If the request accepts HTML,

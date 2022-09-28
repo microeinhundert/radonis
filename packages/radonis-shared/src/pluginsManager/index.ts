@@ -25,7 +25,7 @@ export class PluginsManager {
    * Get the singleton instance
    */
   static getSingletonInstance(): PluginsManager {
-    return PluginsManager.instance ?? new PluginsManager()
+    return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager())
   }
 
   /**
@@ -87,20 +87,7 @@ export class PluginsManager {
    * Constructor
    */
   constructor() {
-    PluginsManager.instance = this
-
-    this.#installedPlugins = new Map()
-
-    this.onInitClientHooks = []
-    this.beforeHydrateHooks = []
-    this.onBootServerHooks = []
-    this.beforeRequestHooks = []
-    this.afterRequestHooks = []
-    this.onScanAssetHooks = []
-    this.beforeOutputAssetHooks = []
-    this.afterOutputAssetsHooks = []
-    this.beforeRenderHooks = []
-    this.afterRenderHooks = []
+    this.#setDefaults()
   }
 
   /**
@@ -199,6 +186,24 @@ export class PluginsManager {
     }
 
     this.#installedPlugins.set(pluginName, { environments, conflictsWith })
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.#installedPlugins = new Map()
+
+    this.onInitClientHooks = []
+    this.beforeHydrateHooks = []
+    this.onBootServerHooks = []
+    this.beforeRequestHooks = []
+    this.afterRequestHooks = []
+    this.onScanAssetHooks = []
+    this.beforeOutputAssetHooks = []
+    this.afterOutputAssetsHooks = []
+    this.beforeRenderHooks = []
+    this.afterRenderHooks = []
   }
 }
 

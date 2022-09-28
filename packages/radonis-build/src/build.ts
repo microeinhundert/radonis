@@ -22,7 +22,7 @@ import { extractFlashMessages, extractMessages, extractRoutes, filePathToFileUrl
 /**
  * Create a metafile walker
  */
-function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, string>, publicDir: string) {
+function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, string>, publicPath: string) {
   function walk(assetPath: string, assetType: BuildManifestEntry['type']): BuildManifestEntry {
     const output = metafile.outputs[assetPath]
 
@@ -35,7 +35,7 @@ function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, strin
 
     return {
       type: assetType,
-      path: join('/', filePathToFileUrl(relative(publicDir, assetPath))),
+      path: join('/', filePathToFileUrl(relative(publicPath, assetPath))),
       flashMessages: extractFlashMessages(builtAsset),
       messages: extractMessages(builtAsset),
       routes: extractRoutes(builtAsset),
@@ -53,7 +53,7 @@ function generateBuildManifest(
   metafile: Metafile,
   entryFileName: string,
   builtAssets: Map<string, string>,
-  publicDir: string
+  publicPath: string
 ): BuildManifest {
   const buildManifest = {} as BuildManifest
 
@@ -74,7 +74,7 @@ function generateBuildManifest(
       throw BuildException.duplicateBuildManifestEntry(assetFileName)
     }
 
-    buildManifest[assetFileName] = createMetafileWalker(metafile, builtAssets, publicDir).walk(
+    buildManifest[assetFileName] = createMetafileWalker(metafile, builtAssets, publicPath).walk(
       assetPath,
       assetFileName === entryFileName ? 'entry' : 'component'
     )
@@ -90,7 +90,7 @@ function generateBuildManifest(
 export async function build({
   entryFilePath,
   components,
-  publicDir,
+  publicPath,
   outputDir,
   outputToDisk,
   outputForProduction,
@@ -153,7 +153,7 @@ export async function build({
   /**
    * Generate the build manifest
    */
-  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFileName, builtAssets, publicDir)
+  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFileName, builtAssets, publicPath)
 
   return buildManifest
 }

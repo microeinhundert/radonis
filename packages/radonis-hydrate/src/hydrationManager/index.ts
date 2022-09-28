@@ -33,7 +33,7 @@ export class HydrationManager implements ResetBetweenRequests {
    * Get the singleton instance
    */
   static getSingletonInstance(): HydrationManager {
-    return HydrationManager.instance ?? new HydrationManager()
+    return (HydrationManager.instance = HydrationManager.instance ?? new HydrationManager())
   }
 
   /**

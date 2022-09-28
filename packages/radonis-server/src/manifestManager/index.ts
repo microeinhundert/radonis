@@ -24,12 +24,9 @@ import type {
   Routes,
   ValueOf,
 } from '@microeinhundert/radonis-types'
-import hasher from 'node-object-hash'
 import superjson from 'superjson'
 
-import { DEFAULT_LOCALE } from './constants'
-
-const PROPS_HASHER = hasher({ sort: true, coerce: false, alg: 'md5' })
+import { DEFAULT_LOCALE, PROPS_HASHER } from './constants'
 
 /**
  * @internal
@@ -106,24 +103,22 @@ export class ManifestManager implements ResetBetweenRequests {
   }
 
   /**
-   * The locale
-   */
-  get locale(): Locale {
-    return this.#locale
-  }
-
-  /**
    * The flash messages
    */
   get flashMessages(): FlashMessages {
     return this.#hydrationManager.flashMessages
   }
-
-  /**
-   * The flash messages required for hydration
-   */
   get flashMessagesRequiredForHydration(): FlashMessages {
     return this.#hydrationManager.requiredFlashMessages
+  }
+
+  /**
+   * Set the flash messages
+   */
+  setFlashMessages(flashMessages: FlashMessages): this {
+    this.#hydrationManager.setFlashMessages(flashMessages)
+
+    return this
   }
 
   /**
@@ -132,12 +127,17 @@ export class ManifestManager implements ResetBetweenRequests {
   get messages(): Messages {
     return this.#hydrationManager.messages
   }
-
-  /**
-   * The messages required for hydration
-   */
   get messagesRequiredForHydration(): Messages {
     return this.#hydrationManager.requiredMessages
+  }
+
+  /**
+   * Set the messages
+   */
+  setMessages(messages: Messages): this {
+    this.#hydrationManager.setMessages(messages)
+
+    return this
   }
 
   /**
@@ -146,12 +146,24 @@ export class ManifestManager implements ResetBetweenRequests {
   get routes(): Routes {
     return this.#hydrationManager.routes
   }
-
-  /**
-   * The routes required for hydration
-   */
   get routesRequiredForHydration(): Routes {
     return this.#hydrationManager.requiredRoutes
+  }
+
+  /**
+   * Set the routes
+   */
+  setRoutes(routes: Routes): this {
+    this.#hydrationManager.setRoutes(routes)
+
+    return this
+  }
+
+  /**
+   * The props
+   */
+  get props(): Props {
+    return this.#props
   }
 
   /**
@@ -172,12 +184,26 @@ export class ManifestManager implements ResetBetweenRequests {
   }
 
   /**
+   * The globals
+   */
+  get globals(): Globals {
+    return this.#globals
+  }
+
+  /**
    * Add globals
    */
   addGlobals(globals: Globals): this {
     this.#globals = { ...this.#globals, ...globals }
 
     return this
+  }
+
+  /**
+   * The locale
+   */
+  get locale(): Locale {
+    return this.#locale
   }
 
   /**
@@ -190,37 +216,17 @@ export class ManifestManager implements ResetBetweenRequests {
   }
 
   /**
+   * The current route
+   */
+  get route(): Route | null {
+    return this.#route
+  }
+
+  /**
    * Set the current route
    */
   setRoute(route: Route): this {
     this.#route = route
-
-    return this
-  }
-
-  /**
-   * Set the flash messages
-   */
-  setFlashMessages(flashMessages: FlashMessages): this {
-    this.#hydrationManager.setFlashMessages(flashMessages)
-
-    return this
-  }
-
-  /**
-   * Set the messages
-   */
-  setMessages(messages: Messages): this {
-    this.#hydrationManager.setMessages(messages)
-
-    return this
-  }
-
-  /**
-   * Set the routes
-   */
-  setRoutes(routes: Routes): this {
-    this.#hydrationManager.setRoutes(routes)
 
     return this
   }

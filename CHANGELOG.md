@@ -10,9 +10,18 @@ This major release includes internal restructuring as well as new features.
 - BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
 - BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
 - BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
+- BREAKING: Increased minimum supported ECMAScript version to `ES2022`.
 - Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
 - Improved exceptions.
 - Internal refactorings related to dependency injection.
+
+## [1.10.1] - 2022-09-28
+
+### Changed
+- Updated dependencies.
+
+### Fixed
+- Built client bundle not written to disk.
 
 ## [1.10.0] - 2022-09-22
 

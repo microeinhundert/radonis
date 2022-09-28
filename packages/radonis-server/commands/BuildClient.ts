@@ -143,11 +143,11 @@ export default class BuildClient extends BaseCommand {
     } = this.#config
 
     const components = discoverComponents(this.#componentsDir)
-    const publicDir = this.application.rcFile.directories.public || 'public'
+    const publicPath = this.application.rcFile.directories.public || 'public'
     const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
       components,
-      publicDir,
+      publicPath,
       outputDir: this.#outputDir,
       outputToDisk: true,
       outputForProduction: !!this.production,

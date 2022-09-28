@@ -1,5 +1,7 @@
 # Radonis
 
+> You are on the `next` branch for the next major version of Radonis.
+
 Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
 Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.
 

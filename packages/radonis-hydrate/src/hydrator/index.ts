@@ -31,7 +31,7 @@ export class Hydrator {
    * Get the singleton instance
    */
   static getSingletonInstance(...params: ConstructorParameters<typeof Hydrator>): Hydrator {
-    return Hydrator.instance ?? new Hydrator(...params)
+    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...params))
   }
 
   /**
@@ -48,8 +48,6 @@ export class Hydrator {
    * Constructor
    */
   constructor(pluginsManager: PluginsManager) {
-    Hydrator.instance = this
-
     this.#pluginsManager = pluginsManager
 
     this.#components = new Map()

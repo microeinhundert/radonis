@@ -86,11 +86,11 @@ export default class GenerateTypes extends BaseCommand {
     Router.commit()
 
     const components = discoverComponents(this.#componentsDir)
-    const publicDir = this.application.rcFile.directories.public || 'public'
+    const publicPath = this.application.rcFile.directories.public || 'public'
     const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
       components,
-      publicDir,
+      publicPath,
       outputDir: this.#outputDir,
       esbuildOptions: buildOptions,
     })
