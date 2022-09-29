@@ -16,7 +16,7 @@ import {
   readBuildManifestFromDisk,
 } from '@microeinhundert/radonis-build'
 import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { Resettable } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { join } from 'path'
@@ -24,7 +24,7 @@ import { join } from 'path'
 /**
  * @internal
  */
-export class AssetsManager implements ResetBetweenRequests {
+export class AssetsManager implements Resettable {
   /**
    * The Radonis config
    */
@@ -107,7 +107,7 @@ export class AssetsManager implements ResetBetweenRequests {
   /**
    * Reset for a new request
    */
-  resetForNewRequest(): void {
+  reset(): void {
     this.#setDefaults()
   }
 

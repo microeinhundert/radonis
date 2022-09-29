@@ -2,15 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - WIP
-
-This major release includes internal restructuring as well as new features.
+## [1.11.0] - 2022-09-29
 
 ### Changed
 - BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
 - BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
 - BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
-- BREAKING: Increased minimum supported ECMAScript version to `ES2022`.
+- BREAKING: Increased minimum supported ECMAScript version to `ES2022` (NodeJS 16 and up).
 - Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
 - Improved exceptions.
 - Internal refactorings related to dependency injection.

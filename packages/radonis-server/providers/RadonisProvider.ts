@@ -153,14 +153,8 @@ export default class RadonisProvider {
     )
 
     this.#application.container.withBindings(
-      [
-        'Adonis/Core/HttpContext',
-        'Microeinhundert/Radonis/AssetsManager',
-        'Microeinhundert/Radonis/HeadManager',
-        'Microeinhundert/Radonis/ManifestManager',
-        'Microeinhundert/Radonis/Renderer',
-      ],
-      async (HttpContext, AssetsManager, HeadManager, ManifestManager, Renderer) => {
+      ['Adonis/Core/HttpContext', 'Microeinhundert/Radonis/AssetsManager', 'Microeinhundert/Radonis/Renderer'],
+      async (HttpContext, AssetsManager, Renderer) => {
         await AssetsManager.readBuildManifest()
 
         /**
@@ -169,10 +163,6 @@ export default class RadonisProvider {
         HttpContext.getter(
           'radonis',
           function () {
-            AssetsManager.resetForNewRequest()
-            HeadManager.resetForNewRequest()
-            ManifestManager.resetForNewRequest()
-
             return Renderer.getForRequest(this)
           },
           true

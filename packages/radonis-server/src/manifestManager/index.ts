@@ -19,7 +19,7 @@ import type {
   Messages,
   Props,
   PropsHash,
-  ResetBetweenRequests,
+  Resettable,
   Route,
   Routes,
   ValueOf,
@@ -31,7 +31,7 @@ import { DEFAULT_LOCALE, PROPS_HASHER } from './constants'
 /**
  * @internal
  */
-export class ManifestManager implements ResetBetweenRequests {
+export class ManifestManager implements Resettable {
   /**
    * The Radonis config
    */
@@ -248,9 +248,9 @@ export class ManifestManager implements ResetBetweenRequests {
   /**
    * Reset for a new request
    */
-  resetForNewRequest(): void {
+  reset(): void {
     this.#setDefaults()
-    this.#hydrationManager.resetForNewRequest()
+    this.#hydrationManager.reset()
   }
 
   /**

@@ -10,7 +10,7 @@
 import { useUrlBuilder } from '@microeinhundert/radonis'
 import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 import { useQuery as useQuery$ } from '@tanstack/react-query'
-import { deserialize } from 'superjson'
+import superjson from 'superjson'
 
 import { QueryException } from '../exceptions/queryException'
 import type { QueryOptions } from '../types'
@@ -45,7 +45,7 @@ export function useQuery<TData = unknown, TError = unknown>(
 
       const json = await response.json()
 
-      return deserialize<TData>(json)
+      return superjson.deserialize<TData>(json)
     },
     options?.query
   )

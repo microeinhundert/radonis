@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis
+ * @microeinhundert/radonis-form
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *

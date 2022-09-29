@@ -13,7 +13,7 @@ import type {
   FlashMessages,
   MessageIdentifier,
   Messages,
-  ResetBetweenRequests,
+  Resettable,
   RouteIdentifier,
   Routes,
 } from '@microeinhundert/radonis-types'
@@ -23,7 +23,7 @@ import { ERRORS_NAMESPACE } from './constants'
 /**
  * @internal
  */
-export class HydrationManager implements ResetBetweenRequests {
+export class HydrationManager implements Resettable {
   /**
    * The singleton instance
    */
@@ -221,7 +221,7 @@ export class HydrationManager implements ResetBetweenRequests {
   /**
    * Reset for a new request
    */
-  resetForNewRequest(): void {
+  reset(): void {
     this.#setDefaults()
   }
 

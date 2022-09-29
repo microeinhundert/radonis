@@ -10,14 +10,14 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { HeadContract, HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { HeadContract, HeadMeta, HeadTag, Resettable } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from './utils/buildTitle'
 
 /**
  * @internal
  */
-export class HeadManager implements HeadContract, ResetBetweenRequests {
+export class HeadManager implements HeadContract, Resettable {
   /**
    * The Radonis config
    */
@@ -129,7 +129,7 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * Reset for a new request
    */
-  resetForNewRequest(): void {
+  reset(): void {
     this.#setDefaults()
   }
 

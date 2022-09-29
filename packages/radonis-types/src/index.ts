@@ -171,10 +171,10 @@ export type ValueOf<T> = T[keyof T]
 export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
 
 /**
- * Reset between requests
+ * Resettable
  */
-export interface ResetBetweenRequests {
-  resetForNewRequest(): void
+export interface Resettable {
+  reset(): void
 }
 
 /* ---------------------------------------- */

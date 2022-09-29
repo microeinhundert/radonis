@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-query",
-  "version": "2.0.0",
+  "version": "1.11.0",
   "description": "Query plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -44,7 +44,6 @@
   "engines": {
     "node": ">= 16.0.0",
     "npm": ">= 8.0.0",
-    "yarn": ">= 2.0.0",
     "pnpm": ">= 7.0.0"
   },
   "keywords": [
@@ -57,20 +56,20 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "2.0.0",
-    "@tanstack/react-query": "^4.7.1"
+    "@microeinhundert/radonis": "1.11.0",
+    "@tanstack/react-query": "^4.7.2"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "workspace:2.0.0",
-    "@tanstack/react-query": "^4.7.1",
+    "@microeinhundert/radonis": "workspace:1.11.0",
+    "@tanstack/react-query": "^4.7.2",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-hooks": "workspace:2.0.0",
-    "@microeinhundert/radonis-shared": "workspace:2.0.0",
-    "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-hooks": "workspace:1.11.0",
+    "@microeinhundert/radonis-shared": "workspace:1.11.0",
+    "@microeinhundert/radonis-types": "workspace:1.11.0",
     "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }

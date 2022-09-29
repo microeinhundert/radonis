@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis",
-  "version": "2.0.0",
+  "version": "1.11.0",
   "description": "Bridge the gap between React and AdonisJS",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -44,7 +44,6 @@
   "engines": {
     "node": ">= 16.0.0",
     "npm": ">= 8.0.0",
-    "yarn": ">= 2.0.0",
     "pnpm": ">= 7.0.0"
   },
   "keywords": [
@@ -55,7 +54,7 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis-server": "2.0.0",
+    "@microeinhundert/radonis-server": "1.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -63,11 +62,11 @@
     "@types/node": "^18.7.23"
   },
   "dependencies": {
-    "@microeinhundert/radonis-form": "workspace:2.0.0",
-    "@microeinhundert/radonis-hooks": "workspace:2.0.0",
-    "@microeinhundert/radonis-hydrate": "workspace:2.0.0",
-    "@microeinhundert/radonis-shared": "workspace:2.0.0",
-    "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-form": "workspace:1.11.0",
+    "@microeinhundert/radonis-hooks": "workspace:1.11.0",
+    "@microeinhundert/radonis-hydrate": "workspace:1.11.0",
+    "@microeinhundert/radonis-shared": "workspace:1.11.0",
+    "@microeinhundert/radonis-types": "workspace:1.11.0",
     "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }

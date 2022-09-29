@@ -116,6 +116,10 @@ export class Renderer implements RendererContract {
    * Get for request
    */
   getForRequest(httpContext: HttpContextContract): this {
+    this.#assetsManager.reset()
+    this.#headManager.reset()
+    this.#manifestManager.reset()
+    this.#router.commit()
     this.#router.commit()
 
     /**
@@ -251,6 +255,7 @@ export class Renderer implements RendererContract {
           ),
           null
         )
+
         let html = renderToString(h(StrictMode, null, tree))
 
         /**
