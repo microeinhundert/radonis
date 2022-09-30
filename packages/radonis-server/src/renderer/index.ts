@@ -15,6 +15,7 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
 import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { PluginsManager } from '@microeinhundert/radonis-shared'
+import { Exception } from '@microeinhundert/radonis-shared'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type {
   Globals,
@@ -119,7 +120,6 @@ export class Renderer implements RendererContract {
     this.#assetsManager.reset()
     this.#headManager.reset()
     this.#manifestManager.reset()
-    this.#router.commit()
     this.#router.commit()
 
     /**
@@ -275,6 +275,9 @@ export class Renderer implements RendererContract {
 
         return `<!DOCTYPE html>\n${html}`
       } catch (error) {
+        if (error instanceof Exception) {
+          throw error
+        }
         this.#logger.error(error)
         throw ServerException.cannotRenderView()
       }

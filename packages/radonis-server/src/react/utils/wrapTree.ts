@@ -35,18 +35,21 @@ export function wrapTree<T>(
   Component: ComponentType<T>,
   props?: ComponentPropsWithoutRef<ComponentType<T>>
 ): ReactElement {
-  return h(HydrationManagerContextProvider, { value: hydrationManager }, [
-    h(AssetsManagerContextProvider, { value: assetsManager }, [
-      h(HeadManagerContextProvider, { value: headManager }, [
-        h(ManifestManagerContextProvider, { value: manifestManager }, [
-          h(AdonisContextProvider, { value: adonisContext }, [
-            h(Document, null, [
-              /* @ts-expect-error Unsure why this errors */
-              h(Component, props),
-            ]),
-          ]),
-        ]),
-      ]),
-    ]),
-  ])
+  return h(
+    HydrationManagerContextProvider,
+    { value: hydrationManager },
+    h(
+      AssetsManagerContextProvider,
+      { value: assetsManager },
+      h(
+        HeadManagerContextProvider,
+        { value: headManager },
+        h(
+          ManifestManagerContextProvider,
+          { value: manifestManager } /* @ts-expect-error Unsure why this errors */,
+          h(AdonisContextProvider, { value: adonisContext }, h(Document, null, h(Component, props)))
+        )
+      )
+    )
+  )
 }

@@ -34,9 +34,6 @@ export class BuildException extends Exception {
       E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.code
     )
 
-    error.help =
-      E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.help.join('\n')
-
     throw error
   }
   static duplicateBuildManifestEntry(fileName: string) {
@@ -49,9 +46,6 @@ export class BuildException extends Exception {
       E_DUPLICATE_BUILD_MANIFEST_ENTRY.code
     )
 
-    error.help =
-      E_DUPLICATE_BUILD_MANIFEST_ENTRY.help.join('\n')
-
     throw error
   }
   static cannotGetFileLoader(filePath: string) {
@@ -63,8 +57,6 @@ export class BuildException extends Exception {
       E_CANNOT_GET_FILE_LOADER.code
     )
 
-    error.help = E_CANNOT_GET_FILE_LOADER.help.join('\n')
-
     throw error
   }
   static cannotAnalyzeSource(filePath: string) {
@@ -75,8 +67,6 @@ export class BuildException extends Exception {
       E_CANNOT_ANALYZE_SOURCE.status,
       E_CANNOT_ANALYZE_SOURCE.code
     )
-
-    error.help = E_CANNOT_ANALYZE_SOURCE.help.join('\n')
 
     throw error
   }

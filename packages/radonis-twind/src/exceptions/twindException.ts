@@ -23,8 +23,6 @@ export class TwindException extends Exception {
       E_CONTEXT_UNAVAILABLE.code
     )
 
-    error.help = E_CONTEXT_UNAVAILABLE.help.join('\n')
-
     throw error
   }
 }

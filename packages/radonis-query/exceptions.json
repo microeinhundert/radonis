@@ -1,11 +1,8 @@
 {
   "E_CANNOT_PREFETCH_ON_CLIENT": {
-    "message": "Prefetching queries is only supported server-side",
+    "message": "Prefetching queries is only supported server-side. Make sure to only call `prefetchQueries` in route handlers",
     "code": "E_CANNOT_PREFETCH_ON_CLIENT",
-    "status": 500,
-    "help": [
-      "Make sure to only call `prefetchQueries` in route handlers"
-    ]
+    "status": 500
   },
   "E_REQUEST_FAILED": {
     "message": "The network request to route \"{{ routeIdentifier }}\" failed",

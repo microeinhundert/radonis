@@ -64,17 +64,15 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
         propsHash,
       },
     },
-    [
-      h(
-        'div',
-        {
-          'data-component': componentIdentifier,
-          'data-hydration-root': hydrationRootIdentifier,
-          'data-props': propsHash,
-        },
-        children
-      ),
-    ]
+    h(
+      'div',
+      {
+        'data-component': componentIdentifier,
+        'data-hydration-root': hydrationRootIdentifier,
+        'data-props': propsHash,
+      },
+      children
+    )
   )
 }
 

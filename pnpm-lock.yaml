@@ -17,7 +17,7 @@ importers:
       '@japa/spec-reporter': ^1.3.1
       adonis-preset-ts: ^2.1.0
       copyfiles: 2.4.1
-      del-cli: 5.0.0
+      del-cli: ^5.0.0
       eslint: 8.24.0
       eslint-config-prettier: 8.5.0
       eslint-plugin-adonis: 2.1.1
@@ -31,7 +31,7 @@ importers:
       prettier: 2.7.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      turbo: ^1.5.4
+      turbo: ^1.5.5
       typescript: 4.8.4
     dependencies:
       '@adonisjs/ace': 11.3.1
@@ -62,7 +62,7 @@ importers:
       lint-staged: 13.0.3
       openapi-types: 12.0.2
       prettier: 2.7.1
-      turbo: 1.5.4
+      turbo: 1.5.5
       typescript: 4.8.4
 
   packages/radonis:
@@ -176,7 +176,7 @@ importers:
       '@microeinhundert/radonis-hooks': workspace:1.11.0
       '@microeinhundert/radonis-shared': workspace:1.11.0
       '@microeinhundert/radonis-types': workspace:1.11.0
-      '@tanstack/react-query': ^4.7.2
+      '@tanstack/react-query': ^4.8.0
       '@types/node': ^18.7.23
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
@@ -190,7 +190,7 @@ importers:
       tslib: 2.4.0
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
-      '@tanstack/react-query': 4.7.2
+      '@tanstack/react-query': 4.8.0
       '@types/node': 18.7.23
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -1047,12 +1047,12 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@tanstack/query-core/4.7.2:
-    resolution: {integrity: sha512-1zQuFsKShMhLY6rQYBEmkYiK9Zcb3lQcCVOTIgQcvliKIxPyZFaE/8LMtaITEEfgGF5qwYqHdm61+BUtpyNsrg==}
+  /@tanstack/query-core/4.8.0:
+    resolution: {integrity: sha512-PVcSqAWboFA86eNgtHTOjfHjBkNuFGAM6kPH82p1ibx1R76f7EjedZ+LZi4ZnW4ppoSl/+hUtCgWsiNQ2ViLTw==}
     dev: true
 
-  /@tanstack/react-query/4.7.2:
-    resolution: {integrity: sha512-4nJ0HxU2kxkaHZ/swJw39io3Bb3liiggJBsCCdFOydZOl8AJDRCor1E3GsOBrtn53HT01R9EIP4PY/6fyYdKsw==}
+  /@tanstack/react-query/4.8.0:
+    resolution: {integrity: sha512-e3QzL/S8XeA5MYqOUUABet4oZDBc1MbeUIo32r0cxEDoDJS+9oqx0az9AbBxacZ7SjM/Fy4u/eXQFBjsKGFQ6A==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^18.2.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^18.2.0
@@ -1065,7 +1065,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.7.2
+      '@tanstack/query-core': 4.8.0
       use-sync-external-store: 1.2.0
     dev: true
 
@@ -2119,7 +2119,7 @@ packages:
     hasBin: true
     dependencies:
       del: 7.0.0
-      meow: 10.1.3
+      meow: 10.1.4
     dev: true
 
   /del/7.0.0:
@@ -3784,8 +3784,8 @@ packages:
     resolution: {integrity: sha512-OcjA+jzjOYzKmKS6IQVALHLVz+rNTMPoJvCztFaZxwG14wtAW7VRZjwTQu06vKCYOxh4jVnik7ya0SXTB0W+xA==}
     dev: true
 
-  /meow/10.1.3:
-    resolution: {integrity: sha512-0WL7RMCPPdUTE00+GxJjL4d5Dm6eUbmAzxlzywJWiRUKCW093owmZ7/q74tH9VI91vxw9KJJNxAcvdpxb2G4iA==}
+  /meow/10.1.4:
+    resolution: {integrity: sha512-FAlXANqPxtd6Od1kTzm39cHbhYn5t/TI0pP5yV9bmzteII7+couYcU+T9sgbzCgi0KVdiw85aRie9UBUfucYvQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       '@types/minimist': 1.2.2
@@ -5142,65 +5142,65 @@ packages:
       typescript: 4.8.4
     dev: true
 
-  /turbo-darwin-64/1.5.4:
-    resolution: {integrity: sha512-Bdxnwf+m0bnRb5HsVZLe+GRer+MOUgLNjOxluwD7POETgH8CTWu99DXfIMAVDWNILVmPCZbWv8Qh2XwhmPlBqw==}
+  /turbo-darwin-64/1.5.5:
+    resolution: {integrity: sha512-HvEn6P2B+NXDekq9LRpRgUjcT9/oygLTcK47U0qsAJZXRBSq/2hvD7lx4nAwgY/4W3rhYJeWtHTzbhoN6BXqGQ==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64/1.5.4:
-    resolution: {integrity: sha512-1Jdv6bl0v9TITEYDxwNFXdWMlYOifWdnrzkTDyaUV/IM0iL1oGiuD4ZdM9VfbR1D7y573dCmVPvbzgV3GQbJZA==}
+  /turbo-darwin-arm64/1.5.5:
+    resolution: {integrity: sha512-Dmxr09IUy6M0nc7/xWod9galIO2DD500B75sJSkHeT+CCdJOWnlinux0ZPF8CSygNqymwYO8AO2l15/6yxcycg==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64/1.5.4:
-    resolution: {integrity: sha512-FbsXHOIkFnjX4Qu7ZtoCimmy5GlnTYuy66TO2re3i+jy+a59XOAnhU8tT/+FcA73oDAnSv/SAbz1gbsknCU4PA==}
+  /turbo-linux-64/1.5.5:
+    resolution: {integrity: sha512-wd07TZ4zXXWjzZE00FcFMLmkybQQK/NV9ff66vvAV0vdiuacSMBCNLrD6Mm4ncfrUPW/rwFW5kU/7hyuEqqtDw==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64/1.5.4:
-    resolution: {integrity: sha512-dYX2ekvYsHGSEsLI+NdoYskr1IEmUES+rup3vc9fFziYX+qOoQuttB7VYA9z6+E4fPpLCxAShPwzxmaXhplCNg==}
+  /turbo-linux-arm64/1.5.5:
+    resolution: {integrity: sha512-q3q33tuo74R7gicnfvFbnZZvqmlq7Vakcvx0eshifnJw4PR+oMnTCb4w8ElVFx070zsb8DVTibq99y8NJH8T1Q==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64/1.5.4:
-    resolution: {integrity: sha512-xMmmfplaPrN2Bac+tmOo7bncKhcjv2a/6UGXobNspWzwf6dEboHtxbsP0kIfqoi/22gyj66jg/K/gFJgX08pnw==}
+  /turbo-windows-64/1.5.5:
+    resolution: {integrity: sha512-lPp9kHonNFfqgovbaW+UAPO5cLmoAN+m3G3FzqcrRPnlzt97vXYsDhDd/4Zy3oAKoAcprtP4CGy0ddisqsKTVw==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-arm64/1.5.4:
-    resolution: {integrity: sha512-6/DfBdUK+FrbRavQQY9XnxW+1SHPMsuooVjrW8nSh9KFXxTccbFvslUO38usl/lZ0EMKu7MC8D7Vf/zQ9pYGyw==}
+  /turbo-windows-arm64/1.5.5:
+    resolution: {integrity: sha512-3AfGULKNZiZVrEzsIE+W79ZRW1+f5r4nM4wLlJ1PTBHyRxBZdD6KTH1tijGfy/uTlcV5acYnKHEkDc6Q9PAXGQ==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo/1.5.4:
-    resolution: {integrity: sha512-8txVfU6J4H5ZkSxr6N6Qn7H+W2Cpr0Uh67VeCH4/ZIbH4u24qPFZA9emlGcss0tI1pZHKGJ0+KjoSzC7vWqN2g==}
+  /turbo/1.5.5:
+    resolution: {integrity: sha512-PVQSDl0STC9WXIyHcYUWs9gXsf8JjQig/FuHfuB8N6+XlgCGB3mPbfMEE6zrChGz2hufH4/guKRX1XJuNL6XTA==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.5.4
-      turbo-darwin-arm64: 1.5.4
-      turbo-linux-64: 1.5.4
-      turbo-linux-arm64: 1.5.4
-      turbo-windows-64: 1.5.4
-      turbo-windows-arm64: 1.5.4
+      turbo-darwin-64: 1.5.5
+      turbo-darwin-arm64: 1.5.5
+      turbo-linux-64: 1.5.5
+      turbo-linux-arm64: 1.5.5
+      turbo-windows-64: 1.5.5
+      turbo-windows-arm64: 1.5.5
     dev: true
 
   /twind/1.0.0-next.37:

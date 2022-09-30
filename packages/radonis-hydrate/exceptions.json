@@ -1,36 +1,22 @@
 {
   "E_MISSING_HYDRATION_DATA": {
-    "message": "Found a HydrationRoot that is missing required hydration data",
+    "message": "Found a HydrationRoot that is missing required hydration data. Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis",
     "code": "E_MISSING_HYDRATION_DATA",
-    "status": 500,
-    "help": [
-      "Make sure you passed all the required props to all of your HydrationRoots.",
-      "If everything looks fine to you, this is most likely a bug of Radonis"
-    ]
+    "status": 500
   },
   "E_CANNOT_HYDRATE": {
-    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootIdentifier }}\", but that component could not be hydrated",
+    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootIdentifier }}\", but that component could not be hydrated. Make sure the component exists in the client bundle",
     "code": "E_CANNOT_HYDRATE",
-    "status": 500,
-    "help": [
-      "Make sure the component exists in the client bundle"
-    ]
+    "status": 500
   },
   "E_COMPONENT_ALREADY_REGISTERED": {
-    "message": "The component \"{{ componentIdentifier }}\" was already registered for hydration",
+    "message": "The component \"{{ componentIdentifier }}\" was already registered for hydration. Make sure to not use the same name for multiple components, regardless of which directory they are in",
     "code": "E_COMPONENT_ALREADY_REGISTERED",
-    "status": 500,
-    "help": [
-      "Make sure to not use the same name for multiple components,",
-      "regardless of which directory they are in"
-    ]
+    "status": 500
   },
   "E_MANIFEST_UNAVAILABLE": {
-    "message": "Cannot get the Radonis manifest",
+    "message": "Cannot get the Radonis manifest. Make sure the server provider was configured properly",
     "code": "E_MANIFEST_UNAVAILABLE",
-    "status": 500,
-    "help": [
-      "Make sure the server provider was configured properly"
-    ]
+    "status": 500
   }
 }

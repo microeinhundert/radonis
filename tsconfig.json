@@ -13,6 +13,7 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "skipLibCheck": true,
+    "sourceMap": true,
     "resolveJsonModule": true
   },
   "include": [],

@@ -14,11 +14,10 @@
  * @internal
  */
 export class Exception extends Error {
-  name: string
   message: string
-  help?: string
-  code?: string
+  name: string
   status: number
+  code?: string
 
   /**
    * Constructor

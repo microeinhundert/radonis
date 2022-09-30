@@ -34,8 +34,6 @@ export class HookException extends Exception {
       E_CANNOT_FIND_MESSAGE.code
     )
 
-    error.help = E_CANNOT_FIND_MESSAGE.help.join('\n')
-
     throw error
   }
   static cannotFindRoute(identifier: string) {
@@ -46,8 +44,6 @@ export class HookException extends Exception {
       E_CANNOT_FIND_ROUTE.status,
       E_CANNOT_FIND_ROUTE.code
     )
-
-    error.help = E_CANNOT_FIND_ROUTE.help.join('\n')
 
     throw error
   }
@@ -64,8 +60,6 @@ export class HookException extends Exception {
       E_MISSING_ROUTE_PARAM.code
     )
 
-    error.help = E_MISSING_ROUTE_PARAM.help.join('\n')
-
     throw error
   }
   static manifestUnavailable() {
@@ -74,8 +68,6 @@ export class HookException extends Exception {
       E_MANIFEST_UNAVAILABLE.status,
       E_MANIFEST_UNAVAILABLE.code
     )
-
-    error.help = E_MANIFEST_UNAVAILABLE.help.join('\n')
 
     throw error
   }

@@ -57,11 +57,11 @@
   "license": "MIT",
   "peerDependencies": {
     "@microeinhundert/radonis": "1.11.0",
-    "@tanstack/react-query": "^4.7.2"
+    "@tanstack/react-query": "^4.8.0"
   },
   "devDependencies": {
     "@microeinhundert/radonis": "workspace:1.11.0",
-    "@tanstack/react-query": "^4.7.2",
+    "@tanstack/react-query": "^4.8.0",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"

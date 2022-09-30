@@ -30,9 +30,6 @@ export class FormException extends Exception {
       E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.code
     )
 
-    error.help =
-      E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.help.join('\n')
-
     throw error
   }
   static cannotFetchWithoutHydration() {
@@ -41,9 +38,6 @@ export class FormException extends Exception {
       E_CANNOT_FETCH_WITHOUT_HYDRATION.status,
       E_CANNOT_FETCH_WITHOUT_HYDRATION.code
     )
-
-    error.help =
-      E_CANNOT_FETCH_WITHOUT_HYDRATION.help.join('\n')
 
     throw error
   }

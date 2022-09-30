@@ -19,10 +19,12 @@ import { useManifestManager } from '../hooks/internal/useManifestManager'
 export function Document({ children }: DocumentProps) {
   const manifestManager = useManifestManager()
 
-  return h('html', { className: 'h-full', lang: manifestManager.locale }, [
+  return h(
+    'html',
+    { className: 'h-full', lang: manifestManager.locale },
     h('head'),
-    h('body', { className: 'h-full' }, children),
-  ])
+    h('body', { className: 'h-full' }, children)
+  )
 }
 
 Document.displayName = 'RadonisDocument'

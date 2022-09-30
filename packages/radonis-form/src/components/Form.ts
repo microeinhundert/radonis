@@ -19,15 +19,17 @@ import type { FormProps } from '../types'
 export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm<TData, TError>(props)
 
-  return h('form', form.getFormProps(), [
+  return h(
+    'form',
+    form.getFormProps(),
     typeof children === 'function'
       ? children({
           data: form.data ?? null,
           error: form.error ?? null,
           status: form.status,
         })
-      : children,
-  ])
+      : children
+  )
 }
 
 Form.displayName = 'RadonisForm'

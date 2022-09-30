@@ -31,8 +31,6 @@ export class HydrateException extends Exception {
       E_MISSING_HYDRATION_DATA.code
     )
 
-    error.help = E_MISSING_HYDRATION_DATA.help.join('\n')
-
     throw error
   }
   static cannotHydrate(
@@ -48,8 +46,6 @@ export class HydrateException extends Exception {
       E_CANNOT_HYDRATE.code
     )
 
-    error.help = E_CANNOT_HYDRATE.help.join('\n')
-
     throw error
   }
   static componentAlreadyRegistered(
@@ -63,9 +59,6 @@ export class HydrateException extends Exception {
       E_COMPONENT_ALREADY_REGISTERED.code
     )
 
-    error.help =
-      E_COMPONENT_ALREADY_REGISTERED.help.join('\n')
-
     throw error
   }
   static manifestUnavailable() {
@@ -74,8 +67,6 @@ export class HydrateException extends Exception {
       E_MANIFEST_UNAVAILABLE.status,
       E_MANIFEST_UNAVAILABLE.code
     )
-
-    error.help = E_MANIFEST_UNAVAILABLE.help.join('\n')
 
     throw error
   }

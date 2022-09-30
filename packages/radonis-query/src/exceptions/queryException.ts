@@ -29,8 +29,6 @@ export class QueryException extends Exception {
       E_CANNOT_PREFETCH_ON_CLIENT.code
     )
 
-    error.help = E_CANNOT_PREFETCH_ON_CLIENT.help.join('\n')
-
     throw error
   }
   static requestFailed(

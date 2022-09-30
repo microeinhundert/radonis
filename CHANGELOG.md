@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.11.0] - 2022-09-29
+## [1.11.0] - 2022-10-01
 
 ### Changed
 - BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
 - Improved exceptions.
 - Internal refactorings related to dependency injection.
+- Ship radonis packages with source maps.
 
 ## [1.10.1] - 2022-09-28
 

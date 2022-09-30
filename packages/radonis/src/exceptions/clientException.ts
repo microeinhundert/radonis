@@ -26,9 +26,6 @@ export class ClientException extends Exception {
       E_CANNOT_INIT_CLIENT_ON_SERVER.code
     )
 
-    error.help =
-      E_CANNOT_INIT_CLIENT_ON_SERVER.help.join('\n')
-
     throw error
   }
   static cannotInitClientMultipleTimes() {
@@ -37,9 +34,6 @@ export class ClientException extends Exception {
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.status,
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.code
     )
-
-    error.help =
-      E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.help.join('\n')
 
     throw error
   }

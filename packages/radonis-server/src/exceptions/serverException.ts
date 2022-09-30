@@ -63,9 +63,6 @@ export class ServerException extends Exception {
       E_CANNOT_NEST_HYDRATION_ROOT.code
     )
 
-    error.help =
-      E_CANNOT_NEST_HYDRATION_ROOT.help.join('\n')
-
     throw error
   }
   static cannotRenderView() {
@@ -74,8 +71,6 @@ export class ServerException extends Exception {
       E_CANNOT_RENDER_VIEW.status,
       E_CANNOT_RENDER_VIEW.code
     )
-
-    error.help = E_CANNOT_RENDER_VIEW.help.join('\n')
 
     throw error
   }

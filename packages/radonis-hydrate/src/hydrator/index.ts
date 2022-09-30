@@ -114,7 +114,7 @@ export class Hydrator {
             propsHash,
           },
         },
-        [h(Component, manifest.props[propsHash])]
+        h(Component, manifest.props[propsHash])
       ),
       null
     )
