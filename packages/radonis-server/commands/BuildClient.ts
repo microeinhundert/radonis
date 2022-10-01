@@ -11,16 +11,12 @@ import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { BuildManifest } from '@microeinhundert/radonis-build'
-import {
-  buildEntryFileAndComponents,
-  discoverComponents,
-  writeBuildManifestToDisk,
-} from '@microeinhundert/radonis-build'
-import { invariant } from '@microeinhundert/radonis-shared'
+import { build, discoverComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { relative, resolve } from 'path'
 
+import { ServerException } from '../src/exceptions/serverException'
 import { yieldScriptPath } from '../src/utils/yieldScriptPath'
 
 /**
@@ -64,7 +60,9 @@ export default class BuildClient extends BaseCommand {
 
     entryFile = yieldScriptPath(entryFile)
 
-    invariant(existsSync(entryFile), `The Radonis entry file does not exist at "${entryFile}"`)
+    if (!existsSync(entryFile)) {
+      throw ServerException.missingClientEntryFile(entryFile)
+    }
 
     return entryFile
   }
@@ -77,7 +75,9 @@ export default class BuildClient extends BaseCommand {
       client: { componentsDir },
     } = this.#config
 
-    invariant(existsSync(componentsDir), `The Radonis components directory does not exist at "${componentsDir}"`)
+    if (!existsSync(componentsDir)) {
+      throw ServerException.missingComponentsDirectory(componentsDir)
+    }
 
     return componentsDir
   }
@@ -99,40 +99,6 @@ export default class BuildClient extends BaseCommand {
     }
 
     return publicPath
-  }
-
-  /**
-   * Run the build
-   */
-  async #build(): Promise<BuildManifest> {
-    const {
-      client: { buildOptions },
-    } = this.#config
-
-    const components = discoverComponents(this.#componentsDir)
-    const publicDir = this.application.rcFile.directories.public || 'public'
-    const buildManifest = await buildEntryFileAndComponents({
-      entryFilePath: this.#entryFilePath,
-      components,
-      publicDir,
-      outputDir: this.#outputDir,
-      forProduction: !!this.production,
-      writeOutput: true,
-      esbuildOptions: buildOptions,
-    })
-
-    /**
-     * Write the build manifest
-     */
-    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
-
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
-
-    return buildManifest
   }
 
   /**
@@ -166,5 +132,39 @@ export default class BuildClient extends BaseCommand {
     } else {
       this.exit()
     }
+  }
+
+  /**
+   * Run the build
+   */
+  async #build(): Promise<BuildManifest> {
+    const {
+      client: { buildOptions },
+    } = this.#config
+
+    const components = discoverComponents(this.#componentsDir)
+    const publicPath = this.application.rcFile.directories.public || 'public'
+    const buildManifest = await build({
+      entryFilePath: this.#entryFilePath,
+      components,
+      publicPath,
+      outputDir: this.#outputDir,
+      outputToDisk: true,
+      outputForProduction: !!this.production,
+      esbuildOptions: buildOptions,
+    })
+
+    /**
+     * Write the build manifest
+     */
+    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
+
+    /**
+     * Output a log message after successful build
+     * (substracting by one to exclude the entry file)
+     */
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+
+    return buildManifest
   }
 }

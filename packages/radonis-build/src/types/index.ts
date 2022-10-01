@@ -16,10 +16,10 @@ import type { BuildOptions as EsbuildOptions } from 'esbuild'
 export interface BuildOptions {
   entryFilePath: string
   components: Map<string, string>
-  publicDir: string
+  publicPath: string
   outputDir: string
-  writeOutput?: boolean
-  forProduction?: boolean
+  outputToDisk?: boolean
+  outputForProduction?: boolean
   esbuildOptions?: EsbuildOptions
 }
 

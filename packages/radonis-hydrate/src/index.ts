@@ -8,4 +8,5 @@
  */
 
 export { HydrationManager } from './hydrationManager'
+export { Hydrator } from './hydrator'
 export { hydrationContext, HydrationContextProvider, useHydrated, useHydration } from './react'

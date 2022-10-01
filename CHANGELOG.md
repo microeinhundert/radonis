@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.10.1] - 2022-09-26
+## [1.11.0] - 2022-10-01
+
+### Changed
+- BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
+- BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
+- BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
+- BREAKING: Increased minimum supported ECMAScript version to `ES2022` (NodeJS 16 and up).
+- Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
+- Radonis packages now ship with source maps.
+- HydrationRoots now accept the `className` prop.
+- Nested HydrationRoots are now ignored instead of throwing an error.
+- Improved exceptions.
+- Internal refactorings related to dependency injection.
+
+## [1.10.1] - 2022-09-28
 
 ### Changed
 - Updated dependencies.

@@ -4,10 +4,17 @@
     "baseUrl": "./",
     "rootDir": "./",
     "composite": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "commonjs",
     "outDir": "build"
   },
-  "include": ["./**/*"],
+  "include": [
+    "./**/*",
+    "./exceptions.json"
+  ],
   "exclude": ["node_modules", "build"]
 }

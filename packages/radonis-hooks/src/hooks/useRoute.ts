@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 
+import { hydrationManager } from '../singletons'
 import { useManifest } from './useManifest'
 
 /**
@@ -27,7 +28,7 @@ export function useRoute() {
 
     if (routes[identifier]) {
       if (hydration.root) {
-        HydrationManager.getSingletonInstance().requireRouteForHydration(identifier)
+        hydrationManager.requireRoute(identifier)
       }
 
       return !!route?.pattern?.startsWith(routes[identifier])

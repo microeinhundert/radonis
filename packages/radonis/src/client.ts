@@ -7,13 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { Plugin } from '@microeinhundert/radonis-shared'
-import { invariant, isClient, isProduction, PluginsManager } from '@microeinhundert/radonis-shared'
+import { isProduction, isServer } from '@microeinhundert/radonis-shared'
 import type { ComponentType } from 'react'
 
-const pluginsManager = PluginsManager.getSingletonInstance()
-const hydrationManager = HydrationManager.getSingletonInstance()
+import { ClientException } from './exceptions/clientException'
+import { hydrator, pluginsManager } from './singletons'
 
 type ClientConfig = {
   plugins?: Plugin[]
@@ -25,28 +24,25 @@ let isClientInitialized = false
  * Initialize the client
  */
 export async function initClient(config?: ClientConfig): Promise<void> {
-  invariant(
-    isClient,
-    'The Radonis client can only be initialized on the client. Make sure to only call "initClient" in the client bundle'
-  )
+  if (isServer) {
+    throw ClientException.cannotInitClientOnServer()
+  }
+  if (isClientInitialized) {
+    throw ClientException.cannotInitClientMultipleTimes()
+  }
 
-  invariant(
-    !isClientInitialized,
-    'The Radonis client was initialized multiple times. Make sure to only initialize it once in your application'
-  )
+  isClientInitialized = true
 
   if (config?.plugins?.length) {
     pluginsManager.install('client', ...config.plugins)
     await pluginsManager.execute('onInitClient', null, null)
   }
 
-  hydrationManager.hydrateRoots()
+  hydrator.hydrateRoots()
 
   if (isProduction) {
     document.querySelector('#rad-manifest')?.remove()
   }
-
-  isClientInitialized = true
 }
 
 /**
@@ -54,5 +50,5 @@ export async function initClient(config?: ClientConfig): Promise<void> {
  * @internal
  */
 export function registerComponentForHydration(identifier: string, Component: ComponentType): void {
-  hydrationManager.registerComponent(identifier, Component)
+  hydrator.registerComponent(identifier, Component)
 }

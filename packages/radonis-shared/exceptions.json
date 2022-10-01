@@ -1,0 +1,17 @@
+{
+  "E_CONFLICTING_PLUGINS": {
+    "message": "The plugin \"{{ pluginName }}\" conflicts with the following installed plugins: {{ conflictingPlugins }}",
+    "code": "E_CONFLICTING_PLUGINS",
+    "status": 500
+  },
+  "E_PLUGIN_ALREADY_INSTALLED": {
+    "message": "The plugin \"{{ pluginName }}\" is already installed",
+    "code": "E_PLUGIN_ALREADY_INSTALLED",
+    "status": 500
+  },
+  "E_PLUGIN_NOT_INSTALLABLE": {
+    "message": "The plugin \"{{ pluginName }}\" is not installable in the \"{{ environment }}\" environment",
+    "code": "E_PLUGIN_NOT_INSTALLABLE",
+    "status": 500
+  }
+}

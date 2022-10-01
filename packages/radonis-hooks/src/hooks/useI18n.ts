@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
-import { invariant } from '@microeinhundert/radonis-shared'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
+import { HookException } from '../exceptions/hookException'
+import { hydrationManager } from '../singletons'
 import { useManifest } from './useManifest'
 
 /**
@@ -29,10 +30,12 @@ export function useI18n() {
   function findMessageOrFail(identifier: MessageIdentifier) {
     const message = messages[identifier]
 
-    invariant(message, `Cannot find message for "${identifier}"`)
+    if (!message) {
+      throw HookException.cannotFindMessage(identifier)
+    }
 
     if (hydration.root) {
-      HydrationManager.getSingletonInstance().requireMessageForHydration(identifier)
+      hydrationManager.requireMessage(identifier)
     }
 
     return message

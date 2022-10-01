@@ -1,0 +1,32 @@
+{
+  "E_MISSING_CLIENT_ENTRY_FILE": {
+    "message": "The Radonis client entry file does not exist at \"{{ path }}\"",
+    "code": "E_MISSING_CLIENT_ENTRY_FILE",
+    "status": 500
+  },
+  "E_MISSING_COMPONENTS_DIRECTORY": {
+    "message": "The Radonis components directory does not exist at \"{{ path }}\"",
+    "code": "E_MISSING_COMPONENTS_DIRECTORY",
+    "status": 500
+  },
+  "E_CANNOT_SERIALIZE_MANIFEST": {
+    "message": "The Radonis manifest cannot be serialized. Make sure to only pass data serializable by superjson to components hydrated client-side",
+    "code": "E_CANNOT_SERIALIZE_MANIFEST",
+    "status": 500
+  },
+  "E_CANNOT_HYDRATE_COMPONENT": {
+    "message": "Cannot hydrate the component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootIdentifier }}\". Make sure the component is a custom React component",
+    "code": "E_CANNOT_HYDRATE_COMPONENT",
+    "status": 500
+  },
+  "E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN": {
+    "message": "The component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootIdentifier }}\" has children. This is not supported",
+    "code": "E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN",
+    "status": 500
+  },
+  "E_CANNOT_RENDER_VIEW": {
+    "message": "There was an error rendering the view. Check the console for more info",
+    "code": "E_CANNOT_RENDER_VIEW",
+    "status": 500
+  }
+}

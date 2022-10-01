@@ -1,0 +1,7 @@
+{
+  "E_CONTEXT_UNAVAILABLE": {
+    "message": "The `useTwind` hook requires the `TwindContextProvider` to be present in the component tree. Make sure the Twind plugin was registered on both the client and the server",
+    "code": "E_CONTEXT_UNAVAILABLE",
+    "status": 500
+  }
+}

@@ -10,11 +10,13 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { AssetsManifest } from '@microeinhundert/radonis-build'
-import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
-import { generateAssetsManifest } from '@microeinhundert/radonis-build'
-import { extractRequiredAssets } from '@microeinhundert/radonis-build'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import {
+  extractRequiredAssets,
+  generateAssetsManifest,
+  readBuildManifestFromDisk,
+} from '@microeinhundert/radonis-build'
+import type { PluginsManager } from '@microeinhundert/radonis-shared'
+import type { Resettable } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import { readFileSync } from 'fs'
 import { join } from 'path'
@@ -22,21 +24,21 @@ import { join } from 'path'
 /**
  * @internal
  */
-export class AssetsManager implements ResetBetweenRequests {
+export class AssetsManager implements Resettable {
+  /**
+   * The Radonis config
+   */
+  #config: RadonisConfig
+
   /**
    * The PluginsManager instance
    */
   #pluginsManager: PluginsManager
 
   /**
-   * The Radonis config
+   * The public path
    */
-  #config: Pick<RadonisConfig, 'client'>
-
-  /**
-   * The application
-   */
-  #application: ApplicationContract
+  #publicPath: string
 
   /**
    * The assets manifest
@@ -44,62 +46,49 @@ export class AssetsManager implements ResetBetweenRequests {
   #assetsManifest: AssetsManifest
 
   /**
-   * The components required for hydration
+   * The required components
    */
-  #componentsRequiredForHydration: Set<string>
+  #requiredComponents: Set<string>
 
   /**
    * Constructor
    */
-  constructor(application: ApplicationContract, config: Pick<RadonisConfig, 'client'>) {
-    this.#pluginsManager = PluginsManager.getSingletonInstance()
-    this.#application = application
-    this.#config = config
+  constructor(application: ApplicationContract) {
+    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
+    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
+
+    this.#publicPath = application.publicPath('radonis')
+
     this.#assetsManifest = []
-    this.#componentsRequiredForHydration = new Set()
+
+    this.#setDefaults()
   }
 
   /**
-   * The output directory
+   * The required assets
    */
-  get #outputDir(): string {
-    return this.#application.publicPath('radonis')
+  get requiredAssets(): AssetsManifest {
+    return extractRequiredAssets(
+      this.#assetsManifest,
+      {
+        components: this.#requiredComponents,
+      },
+      !this.#config.client.alwaysIncludeEntryFile
+    )
   }
 
   /**
-   * The components
+   * Require a component
    */
-  get components(): {
-    all: AssetsManifest
-    requiredForHydration: AssetsManifest
-  } {
-    return {
-      all: this.#assetsManifest.filter(({ type }) => type === 'component'),
-      requiredForHydration: extractRequiredAssets(
-        this.#assetsManifest,
-        {
-          components: this.#componentsRequiredForHydration,
-        },
-        !this.#config.client.alwaysIncludeEntryFile
-      ),
-    }
-  }
-
-  /**
-   * Scan the built files
-   */
-  #scanBuiltFiles(): void {
-    fsReadAll(this.#outputDir, (filePath) => filePath.endsWith('.js')).forEach((filePath) => {
-      const absoluteFilePath = join(this.#outputDir, filePath)
-      this.#pluginsManager.execute('onScanFile', null, [readFileSync(absoluteFilePath, 'utf8'), absoluteFilePath])
-    })
+  requireComponent(identifier: string): void {
+    this.#requiredComponents.add(identifier)
   }
 
   /**
    * Read the build manifest
    */
   async readBuildManifest(): Promise<void> {
-    const buildManifest = await readBuildManifestFromDisk(this.#outputDir)
+    const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
 
     if (!buildManifest) {
       this.#assetsManifest = []
@@ -109,23 +98,33 @@ export class AssetsManager implements ResetBetweenRequests {
     try {
       const assetsManifest = await generateAssetsManifest(buildManifest)
       this.#assetsManifest = assetsManifest
-      this.#scanBuiltFiles()
+      this.#scanAssets()
     } catch {
       this.#assetsManifest = []
     }
   }
 
   /**
-   * Require a component for hydration
+   * Reset for a new request
    */
-  requireComponentForHydration(identifier: string): void {
-    this.#componentsRequiredForHydration.add(identifier)
+  reset(): void {
+    this.#setDefaults()
   }
 
   /**
-   * Reset for a new request
+   * Scan the assets
    */
-  resetForNewRequest(): void {
-    this.#componentsRequiredForHydration.clear()
+  #scanAssets(): void {
+    fsReadAll(this.#publicPath, (assetPath) => assetPath.endsWith('.js')).forEach((assetPath) => {
+      const absoluteAssetPath = join(this.#publicPath, assetPath)
+      this.#pluginsManager.execute('onScanAsset', null, [readFileSync(absoluteAssetPath, 'utf8'), absoluteAssetPath])
+    })
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.#requiredComponents = new Set()
   }
 }

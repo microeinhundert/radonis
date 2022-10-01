@@ -2,7 +2,7 @@
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
     "rootDir": "./",
-    "target": "es2021",
+    "target": "es2022",
     "module": "commonjs",
     "incremental": true,
     "removeComments": false,
@@ -13,7 +13,8 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx"
+    "sourceMap": true,
+    "resolveJsonModule": true
   },
   "include": [],
   "references": [
@@ -31,9 +32,6 @@
     },
     {
       "path": "./packages/radonis-hydrate"
-    },
-    {
-      "path": "./packages/radonis-manifest"
     },
     {
       "path": "./packages/radonis-server"

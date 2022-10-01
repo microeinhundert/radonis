@@ -139,9 +139,9 @@ export type RouteQueryParams = Record<string, string | number | (string | number
  * Manifest
  */
 export type Manifest = {
+  locale: Locale
   props: Props
   flashMessages: FlashMessages
-  locale: Locale
   messages: Messages
   routes: Routes
   route: Route | null
@@ -171,10 +171,10 @@ export type ValueOf<T> = T[keyof T]
 export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
 
 /**
- * Reset between requests
+ * Resettable
  */
-export interface ResetBetweenRequests {
-  resetForNewRequest(): void
+export interface Resettable {
+  reset(): void
 }
 
 /* ---------------------------------------- */

@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-twind",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "Twind plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -27,7 +27,7 @@
     "build:cjs": "tsc --outDir ./build/cjs --module commonjs",
     "build:esm": "tsc --outDir ./build/esm --module esnext",
     "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm",
-    "lint": "TIMING=1 eslint . --ext=.ts,.tsx",
+    "lint": "TIMING=1 eslint . --ext=.ts",
     "format": "prettier --write .",
     "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
   },
@@ -44,7 +44,6 @@
   "engines": {
     "node": ">= 16.0.0",
     "npm": ">= 8.0.0",
-    "yarn": ">= 2.0.0",
     "pnpm": ">= 7.0.0"
   },
   "keywords": [
@@ -57,19 +56,19 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "1.10.1",
+    "@microeinhundert/radonis": "1.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "workspace:1.10.1",
-    "@types/node": "^16.11.56",
+    "@microeinhundert/radonis": "workspace:1.11.0",
+    "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:1.10.1",
-    "@microeinhundert/radonis-types": "workspace:1.10.1",
+    "@microeinhundert/radonis-shared": "workspace:1.11.0",
+    "@microeinhundert/radonis-types": "workspace:1.11.0",
     "@twind/preset-autoprefix": "1.0.0-next.37",
     "@twind/preset-tailwind": "1.0.0-next.37",
     "@twind/preset-tailwind-forms": "1.0.0-next.37",

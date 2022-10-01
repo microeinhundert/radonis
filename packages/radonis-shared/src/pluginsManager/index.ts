@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { PluginException } from '../exceptions/pluginException'
 import type { Plugin, PluginEnvironment, PluginHooks } from '../types'
-import { invariant } from '../utils'
 
 type PluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
 
@@ -59,19 +59,19 @@ export class PluginsManager {
   afterRequestHooks: PluginHook<'afterRequest'>[]
 
   /**
-   * The registered `onScanFile` hooks
+   * The registered `onScanAsset` hooks
    */
-  onScanFileHooks: PluginHook<'onScanFile'>[]
+  onScanAssetHooks: PluginHook<'onScanAsset'>[]
 
   /**
-   * The registered `beforeOutput` hooks
+   * The registered `beforeOutputAsset` hooks
    */
-  beforeOutputHooks: PluginHook<'beforeOutput'>[]
+  beforeOutputAssetHooks: PluginHook<'beforeOutputAsset'>[]
 
   /**
-   * The registered `afterOutput` hooks
+   * The registered `afterOutputAssets` hooks
    */
-  afterOutputHooks: PluginHook<'afterOutput'>[]
+  afterOutputAssetsHooks: PluginHook<'afterOutputAssets'>[]
 
   /**
    * The registered `beforeRender` hooks
@@ -87,18 +87,7 @@ export class PluginsManager {
    * Constructor
    */
   constructor() {
-    this.#installedPlugins = new Map()
-
-    this.onInitClientHooks = []
-    this.beforeHydrateHooks = []
-    this.onBootServerHooks = []
-    this.beforeRequestHooks = []
-    this.afterRequestHooks = []
-    this.onScanFileHooks = []
-    this.beforeOutputHooks = []
-    this.afterOutputHooks = []
-    this.beforeRenderHooks = []
-    this.afterRenderHooks = []
+    this.#setDefaults()
   }
 
   /**
@@ -115,58 +104,13 @@ export class PluginsManager {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
         plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest)
         plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest)
-        plugin.onScanFile && this.onScanFileHooks.push(plugin.onScanFile)
-        plugin.beforeOutput && this.beforeOutputHooks.push(plugin.beforeOutput)
-        plugin.afterOutput && this.afterOutputHooks.push(plugin.afterOutput)
+        plugin.onScanAsset && this.onScanAssetHooks.push(plugin.onScanAsset)
+        plugin.beforeOutputAsset && this.beforeOutputAssetHooks.push(plugin.beforeOutputAsset)
+        plugin.afterOutputAssets && this.afterOutputAssetsHooks.push(plugin.afterOutputAssets)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
       }
     }
-  }
-
-  /**
-   * Check for conflicts between installed plugins
-   */
-  #checkForConflicts(targetEnvironment: PluginEnvironment): void {
-    for (const [pluginName, { environments, conflictsWith }] of this.#installedPlugins) {
-      if (!environments?.includes(targetEnvironment)) {
-        continue
-      }
-
-      const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
-        this.#installedPlugins.has(conflictingPlugin)
-      )
-
-      if (conflictingPlugins?.length) {
-        invariant(
-          false,
-          `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`
-        )
-      }
-    }
-  }
-
-  /**
-   * Install a plugin or fail if it is incompatible
-   */
-  #installOrFail(
-    targetEnvironment: PluginEnvironment,
-    { name: pluginName, environments, conflictsWith }: Plugin
-  ): void {
-    invariant(!this.#installedPlugins.has(pluginName), `The plugin "${pluginName}" is already installed`)
-
-    if (environments?.length) {
-      for (const environment of ['server', 'client']) {
-        if (targetEnvironment === environment) {
-          invariant(
-            environments.includes(environment),
-            `The plugin "${pluginName}" is not installable in the "${environment}" environment`
-          )
-        }
-      }
-    }
-
-    this.#installedPlugins.set(pluginName, { environments, conflictsWith })
   }
 
   /**
@@ -201,6 +145,65 @@ export class PluginsManager {
     }
 
     return builderValue
+  }
+
+  /**
+   * Check for conflicts between installed plugins
+   */
+  #checkForConflicts(targetEnvironment: PluginEnvironment): void {
+    for (const [pluginName, { environments, conflictsWith }] of this.#installedPlugins) {
+      if (!environments?.includes(targetEnvironment)) {
+        continue
+      }
+
+      const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
+        this.#installedPlugins.has(conflictingPlugin)
+      )
+
+      if (conflictingPlugins?.length) {
+        throw PluginException.conflictingPlugins(pluginName, conflictingPlugins)
+      }
+    }
+  }
+
+  /**
+   * Install a plugin or fail if it is incompatible
+   */
+  #installOrFail(
+    targetEnvironment: PluginEnvironment,
+    { name: pluginName, environments, conflictsWith }: Plugin
+  ): void {
+    if (this.#installedPlugins.has(pluginName)) {
+      throw PluginException.pluginAlreadyInstalled(pluginName)
+    }
+
+    if (environments?.length) {
+      for (const environment of ['server', 'client']) {
+        if (targetEnvironment === environment && !environments.includes(environment)) {
+          throw PluginException.pluginNotInstallable(pluginName, environment)
+        }
+      }
+    }
+
+    this.#installedPlugins.set(pluginName, { environments, conflictsWith })
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.#installedPlugins = new Map()
+
+    this.onInitClientHooks = []
+    this.beforeHydrateHooks = []
+    this.onBootServerHooks = []
+    this.beforeRequestHooks = []
+    this.afterRequestHooks = []
+    this.onScanAssetHooks = []
+    this.beforeOutputAssetHooks = []
+    this.afterOutputAssetsHooks = []
+    this.beforeRenderHooks = []
+    this.afterRenderHooks = []
   }
 }
 

@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
 
+import { hydrationManager } from '../singletons'
 import { useManifest } from './useManifest'
 
 const ERRORS_NAMESPACE = 'errors'
@@ -28,12 +29,15 @@ export function useFlashMessages() {
   function findFlashMessage(identifier: FlashMessageIdentifier) {
     const flashMessage = flashMessages[identifier]
 
+    /**
+     * If the flash message does not exist, check if it exists on the zero index
+     */
     if (typeof flashMessage === 'undefined' && identifier && !identifier.match(/\.(\d*)$/i)) {
       return findFlashMessage(`${identifier}.0`)
     }
 
     if (hydration.root && flashMessage) {
-      HydrationManager.getSingletonInstance().requireFlashMessageForHydration(identifier)
+      hydrationManager.requireFlashMessage(identifier)
     }
 
     return flashMessage
@@ -44,7 +48,7 @@ export function useFlashMessages() {
    */
   function all() {
     if (hydration.root) {
-      HydrationManager.getSingletonInstance().requireFlashMessageForHydration('*')
+      hydrationManager.requireFlashMessage('*')
     }
 
     return flashMessages
@@ -76,7 +80,7 @@ export function useFlashMessages() {
    */
   function allErrors() {
     if (hydration.root) {
-      HydrationManager.getSingletonInstance().requireFlashMessageForHydration(`${ERRORS_NAMESPACE}.*`)
+      hydrationManager.requireFlashMessage(`${ERRORS_NAMESPACE}.*`)
     }
 
     return Object.entries(flashMessages)

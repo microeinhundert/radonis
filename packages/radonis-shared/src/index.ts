@@ -7,7 +7,10 @@
  * file that was distributed with this source code.
  */
 
-export { isClient, isProduction, isServer, isTesting } from './environment'
 export { definePlugin, PluginsManager } from './pluginsManager'
 export type { Plugin } from './types'
-export { invariant, separateArray, stringifyAttributes } from './utils'
+export { isClient, isProduction, isServer } from './utils/environment'
+export { Exception } from './utils/exception'
+export { interpolate } from './utils/interpolate'
+export { separateArray } from './utils/separateArray'
+export { stringifyAttributes } from './utils/stringifyAttributes'

@@ -8,11 +8,11 @@
  */
 
 import { useUrlBuilder } from '@microeinhundert/radonis'
-import { invariant } from '@microeinhundert/radonis-shared'
 import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 import { useQuery as useQuery$ } from '@tanstack/react-query'
-import { deserialize } from 'superjson'
+import superjson from 'superjson'
 
+import { QueryException } from '../exceptions/queryException'
 import type { QueryOptions } from '../types'
 
 /**
@@ -39,11 +39,13 @@ export function useQuery<TData = unknown, TError = unknown>(
         headers: { ...options?.headers, 'Accept': 'application/json', 'X-Radonis-Request': 'true' },
       })
 
-      invariant(response.ok, `The network request to route "${routeIdentifier}" failed`)
+      if (!response.ok) {
+        throw QueryException.requestFailed(routeIdentifier, response.status)
+      }
 
       const json = await response.json()
 
-      return deserialize<TData>(json)
+      return superjson.deserialize<TData>(json)
     },
     options?.query
   )

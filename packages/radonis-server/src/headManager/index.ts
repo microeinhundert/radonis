@@ -7,20 +7,21 @@
  * file that was distributed with this source code.
  */
 
+import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { HeadContract, HeadMeta, HeadTag, ResetBetweenRequests } from '@microeinhundert/radonis-types'
+import type { HeadContract, HeadMeta, HeadTag, Resettable } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from './utils/buildTitle'
 
 /**
  * @internal
  */
-export class HeadManager implements HeadContract, ResetBetweenRequests {
+export class HeadManager implements HeadContract, Resettable {
   /**
    * The Radonis config
    */
-  #config: Pick<RadonisConfig, 'head'>
+  #config: RadonisConfig
 
   /**
    * The title
@@ -40,18 +41,10 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   /**
    * Constructor
    */
-  constructor(config: Pick<RadonisConfig, 'head'>) {
-    this.#config = config
-    this.#setDefaults()
-  }
+  constructor(application: ApplicationContract) {
+    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
 
-  /**
-   * Set the defaults
-   */
-  #setDefaults() {
-    this.setTitle(this.#config.head.title.default)
-    this.#meta = this.#config.head.defaultMeta
-    this.#tags = []
+    this.#setDefaults()
   }
 
   /**
@@ -64,9 +57,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML title tag
+   * Get the title HTML
    */
-  getTitleTag(): string {
+  getTitleHTML(): string {
     return `<title>${this.#title}</title>`
   }
 
@@ -78,9 +71,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML meta tags
+   * Get the meta HTML
    */
-  getMetaTags(): string {
+  getMetaHTML(): string {
     return Object.entries(this.#meta)
       .map(([name, value]) => {
         if (!value) {
@@ -116,9 +109,9 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
   }
 
   /**
-   * Get the HTML tags
+   * Get the tags HTML
    */
-  getTags(): string {
+  getTagsHTML(): string {
     return this.#tags
       .map(({ name, content, attributes }) => {
         return `<${name}${attributes ? ` ${stringifyAttributes(attributes)}` : ''}>${content}</${name}>`
@@ -130,13 +123,22 @@ export class HeadManager implements HeadContract, ResetBetweenRequests {
    * Get all HTML
    */
   getHTML(): string {
-    return [this.getTitleTag(), this.getMetaTags(), this.getTags()].join('\n')
+    return [this.getTitleHTML(), this.getMetaHTML(), this.getTagsHTML()].join('\n')
   }
 
   /**
    * Reset for a new request
    */
-  resetForNewRequest(): void {
+  reset(): void {
     this.#setDefaults()
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults() {
+    this.setTitle(this.#config.head.title.default)
+    this.#meta = this.#config.head.defaultMeta
+    this.#tags = []
   }
 }

@@ -7,10 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
-import { invariant } from '@microeinhundert/radonis-shared'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
+import { HookException } from '../exceptions/hookException'
+import { hydrationManager } from '../singletons'
 import type { UrlBuilderOptions } from '../types'
 import { useManifest } from './useManifest'
 
@@ -29,10 +30,12 @@ export function useUrlBuilder() {
   function findRouteOrFail(identifier: RouteIdentifier) {
     const route = routes[identifier]
 
-    invariant(route, `Cannot find route for "${identifier}"`)
+    if (!route) {
+      throw HookException.cannotFindRoute(identifier)
+    }
 
     if (hydration.root) {
-      HydrationManager.getSingletonInstance().requireRouteForHydration(identifier)
+      hydrationManager.requireRoute(identifier)
     }
 
     return route
@@ -44,7 +47,9 @@ export function useUrlBuilder() {
   function processPattern(pattern: string, params: RouteParams) {
     let url = pattern
 
-    invariant(!url.includes('*'), 'Wildcard routes are currently not supported')
+    if (url.includes('*')) {
+      throw HookException.wildcardRoutesNotSupported()
+    }
 
     if (url.includes(':')) {
       /*
@@ -65,10 +70,9 @@ export function useUrlBuilder() {
           const paramName = token.replace(/^:/, '').replace(/\?$/, '')
           const paramValue = params[paramName]
 
-          invariant(
-            paramValue || isOptional,
-            `The "${paramName}" param is required to make the URL for the "${pattern}" route`
-          )
+          if (!paramValue && !isOptional) {
+            throw HookException.missingRouteParam(paramName, pattern)
+          }
 
           return paramValue
         })

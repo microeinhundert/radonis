@@ -9,11 +9,11 @@
 
 import { BaseCommand } from '@adonisjs/ace'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { buildEntryFileAndComponents, discoverComponents, generateAssetsManifest } from '@microeinhundert/radonis-build'
-import { invariant } from '@microeinhundert/radonis-shared'
+import { build, discoverComponents, generateAssetsManifest } from '@microeinhundert/radonis-build'
 import { generateAndWriteTypeDeclarationFileToDisk } from '@microeinhundert/radonis-types'
 import { existsSync } from 'fs'
 
+import { ServerException } from '../src/exceptions/serverException'
 import { extractRootRoutes } from '../src/utils/extractRootRoutes'
 import { yieldScriptPath } from '../src/utils/yieldScriptPath'
 
@@ -43,7 +43,9 @@ export default class GenerateTypes extends BaseCommand {
 
     entryFile = yieldScriptPath(entryFile)
 
-    invariant(existsSync(entryFile), `The Radonis entry file does not exist at "${entryFile}"`)
+    if (!existsSync(entryFile)) {
+      throw ServerException.missingClientEntryFile(entryFile)
+    }
 
     return entryFile
   }
@@ -56,7 +58,9 @@ export default class GenerateTypes extends BaseCommand {
       client: { componentsDir },
     } = this.#config
 
-    invariant(existsSync(componentsDir), `The Radonis components directory does not exist at "${componentsDir}"`)
+    if (!existsSync(componentsDir)) {
+      throw ServerException.missingComponentsDirectory(componentsDir)
+    }
 
     return componentsDir
   }
@@ -82,11 +86,11 @@ export default class GenerateTypes extends BaseCommand {
     Router.commit()
 
     const components = discoverComponents(this.#componentsDir)
-    const publicDir = this.application.rcFile.directories.public || 'public'
-    const buildManifest = await buildEntryFileAndComponents({
+    const publicPath = this.application.rcFile.directories.public || 'public'
+    const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
       components,
-      publicDir,
+      publicPath,
       outputDir: this.#outputDir,
       esbuildOptions: buildOptions,
     })

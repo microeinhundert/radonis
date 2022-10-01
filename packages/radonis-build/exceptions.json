@@ -1,0 +1,22 @@
+{
+  "E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY": {
+    "message": "Cannot find metafile output entry for path \"{{ filePath }}\". Make sure the latest client build was successful",
+    "code": "E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY",
+    "status": 500
+  },
+  "E_DUPLICATE_BUILD_MANIFEST_ENTRY": {
+    "message": "A build manifest entry for \"{{ fileName }}\" already exists. Make sure to not use the same name for multiple components, regardless of which directory they are i",
+    "code": "E_DUPLICATE_BUILD_MANIFEST_ENTRY",
+    "status": 500
+  },
+  "E_CANNOT_GET_FILE_LOADER": {
+    "message": "Cannot get loader for file at \"{{ filePath }}\". This most likely means the file type you tried importing is currently not supported by Radonis",
+    "code": "E_CANNOT_GET_FILE_LOADER",
+    "status": 500
+  },
+  "E_CANNOT_ANALYZE_SOURCE": {
+    "message": "Cannot statically analyze source for component at \"{{ filePath }}\". This is most likely a bug of Radonis",
+    "code": "E_CANNOT_ANALYZE_SOURCE",
+    "status": 500
+  }
+}

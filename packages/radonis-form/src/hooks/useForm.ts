@@ -8,12 +8,13 @@
  */
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
-import { HydrationManager, useHydration } from '@microeinhundert/radonis-hydrate'
-import { invariant } from '@microeinhundert/radonis-shared'
+import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 
+import { FormException } from '../exceptions/formException'
+import { hydrationManager } from '../singletons'
 import type { FormOptions } from '../types'
 
 /**
@@ -48,7 +49,14 @@ export function useForm<TData, TError>({
   const hydration = useHydration()
 
   if (hydration.root) {
-    HydrationManager.getSingletonInstance().requireRouteForHydration(action)
+    hydrationManager.requireRoute(action)
+  }
+
+  if (hooks && reloadDocument) {
+    throw FormException.cannotCombineReloadWithHooks()
+  }
+  if (!reloadDocument && !hydration.root) {
+    throw FormException.cannotFetchWithoutHydration()
   }
 
   const form = useRef<HTMLFormElement | null>(null)
@@ -84,7 +92,9 @@ export function useForm<TData, TError>({
 
       const response = await fetch(urlToRelativePath(requestUrl), requestInit)
 
-      invariant(response.ok, `The network request to "${action}" failed`)
+      if (!response.ok) {
+        throw FormException.requestFailed(action, response.status)
+      }
 
       return response.json()
     },

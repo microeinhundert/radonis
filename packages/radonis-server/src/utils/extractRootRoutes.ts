@@ -10,11 +10,11 @@
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
 
 /**
- * Extract the root routes from a Router instance
+ * Extract the root routes
  * @internal
  */
-export function extractRootRoutes(Router: RouterContract): Record<string, any> {
-  const rootRoutes = Router.toJSON()?.['root'] ?? []
+export function extractRootRoutes(router: RouterContract): Record<string, any> {
+  const rootRoutes = router.toJSON()?.['root'] ?? []
 
   return rootRoutes.reduce<Record<string, any>>((routes, route) => {
     if (route.name) {
