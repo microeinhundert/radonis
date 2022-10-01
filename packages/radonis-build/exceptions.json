@@ -5,7 +5,7 @@
     "status": 500
   },
   "E_DUPLICATE_BUILD_MANIFEST_ENTRY": {
-    "message": "A build manifest entry for \"{{ fileName }}\" already exists. Make sure to not use the same name for multiple components, regardless of which directory they are i",
+    "message": "A build manifest entry for \"{{ fileName }}\" already exists. Make sure to not use the same name for multiple components, regardless of which directory they are in",
     "code": "E_DUPLICATE_BUILD_MANIFEST_ENTRY",
     "status": 500
   },
