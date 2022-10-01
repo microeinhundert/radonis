@@ -136,7 +136,7 @@ export class HeadManager implements HeadContract, Resettable {
   /**
    * Set the defaults
    */
-  #setDefaults() {
+  #setDefaults(): void {
     this.setTitle(this.#config.head.title.default)
     this.#meta = this.#config.head.defaultMeta
     this.#tags = []

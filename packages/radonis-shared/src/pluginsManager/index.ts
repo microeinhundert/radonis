@@ -191,7 +191,7 @@ export class PluginsManager {
   /**
    * Set the defaults
    */
-  #setDefaults() {
+  #setDefaults(): void {
     this.#installedPlugins = new Map()
 
     this.onInitClientHooks = []

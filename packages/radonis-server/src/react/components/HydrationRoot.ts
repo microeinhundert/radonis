@@ -25,17 +25,6 @@ export function HydrationRoot({ children, component: componentIdentifier, classN
   const { root: parentHydrationRootIdentifier } = useHydration()
   const hydrationRootIdentifier = useId()
 
-  if (disabled || parentHydrationRootIdentifier) {
-    return h(
-      'div',
-      {
-        className,
-        'data-parent-hydration-root': parentHydrationRootIdentifier,
-      },
-      children
-    )
-  }
-
   const component = Children.only(children)
 
   if (!isValidElement(component) || typeof component.type !== 'function') {
@@ -44,6 +33,16 @@ export function HydrationRoot({ children, component: componentIdentifier, classN
 
   if (component.props.children) {
     throw ServerException.cannotHydrateComponentWithChildren(componentIdentifier, hydrationRootIdentifier)
+  }
+
+  if (disabled || parentHydrationRootIdentifier) {
+    return h(
+      'div',
+      {
+        className,
+      },
+      component
+    )
   }
 
   /*
@@ -74,7 +73,7 @@ export function HydrationRoot({ children, component: componentIdentifier, classN
         'data-hydration-root': hydrationRootIdentifier,
         'data-props': propsHash,
       },
-      children
+      component
     )
   )
 }

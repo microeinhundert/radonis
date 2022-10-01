@@ -124,7 +124,7 @@ export class AssetsManager implements Resettable {
   /**
    * Set the defaults
    */
-  #setDefaults() {
+  #setDefaults(): void {
     this.#requiredComponents = new Set()
   }
 }

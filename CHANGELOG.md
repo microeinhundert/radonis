@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.2] - WIP
+
+# Changed
+- HydrationRoot enhancements.
+
 ## [1.11.1] - 2022-10-01
 
 ### Fixed

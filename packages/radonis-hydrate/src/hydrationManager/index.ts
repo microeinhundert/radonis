@@ -228,7 +228,7 @@ export class HydrationManager implements Resettable {
   /**
    * Set the defaults
    */
-  #setDefaults() {
+  #setDefaults(): void {
     this.#flashMessages = {}
     this.#requiredFlashMessages = new Set()
 

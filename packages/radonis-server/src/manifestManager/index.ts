@@ -262,7 +262,7 @@ export class ManifestManager implements Resettable {
   /**
    * Set the defaults
    */
-  #setDefaults() {
+  #setDefaults(): void {
     this.#props = {}
     this.#globals = {}
     this.#locale = DEFAULT_LOCALE
