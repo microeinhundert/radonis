@@ -8,7 +8,7 @@
  */
 
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
-import { Children, createElement as h, useId } from 'react'
+import { Children, createElement as h, isValidElement, useId } from 'react'
 
 import { ServerException } from '../../exceptions/serverException'
 import type { HydrationRootProps } from '../../types'
@@ -16,38 +16,40 @@ import { useAssetsManager } from '../hooks/internal/useAssetsManager'
 import { useManifestManager } from '../hooks/internal/useManifestManager'
 
 /**
- * The component for drawing the line between parts of the page
- * that should and should not be hydrated client-side
+ * The component for marking components for client-side hydration
  * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
-export function HydrationRoot({ children, component: componentIdentifier, disabled }: HydrationRootProps) {
+export function HydrationRoot({ children, component: componentIdentifier, className, disabled }: HydrationRootProps) {
   const manifestManager = useManifestManager()
   const assetsManager = useAssetsManager()
-  const { root: parentHydrationRootIdentifier, component: parentComponentIdentifier } = useHydration()
+  const { root: parentHydrationRootIdentifier } = useHydration()
   const hydrationRootIdentifier = useId()
 
-  if (disabled) {
-    return children
-  }
-
-  /*
-   * Fail if the HydrationRoot is nested inside another HydrationRoot
-   */
-  if (parentHydrationRootIdentifier) {
-    throw ServerException.cannotNestHydrationRoot(
-      hydrationRootIdentifier,
-      componentIdentifier,
-      parentHydrationRootIdentifier,
-      parentComponentIdentifier ?? 'unknown'
+  if (disabled || parentHydrationRootIdentifier) {
+    return h(
+      'div',
+      {
+        className,
+        'data-parent-hydration-root': parentHydrationRootIdentifier,
+      },
+      children
     )
   }
 
-  const { props } = Children.only(children)
+  const component = Children.only(children)
+
+  if (!isValidElement(component) || typeof component.type !== 'function') {
+    throw ServerException.cannotHydrateComponent(componentIdentifier, hydrationRootIdentifier)
+  }
+
+  if (component.props.children) {
+    throw ServerException.cannotHydrateComponentWithChildren(componentIdentifier, hydrationRootIdentifier)
+  }
 
   /*
    * Register the props with the ManifestManager
    */
-  const propsHash = manifestManager.registerProps(props)
+  const propsHash = manifestManager.registerProps(component.props)
 
   /*
    * Require the component on the AssetsManager
@@ -67,6 +69,7 @@ export function HydrationRoot({ children, component: componentIdentifier, disabl
     h(
       'div',
       {
+        className,
         'data-component': componentIdentifier,
         'data-hydration-root': hydrationRootIdentifier,
         'data-props': propsHash,

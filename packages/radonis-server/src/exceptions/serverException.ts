@@ -13,8 +13,10 @@ import {
 } from '@microeinhundert/radonis-shared'
 
 import {
-  E_CANNOT_NEST_HYDRATION_ROOT,
+  E_CANNOT_HYDRATE_COMPONENT,
+  E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN,
   E_CANNOT_RENDER_VIEW,
+  E_CANNOT_SERIALIZE_MANIFEST,
   E_MISSING_CLIENT_ENTRY_FILE,
   E_MISSING_COMPONENTS_DIRECTORY,
 } from '../../exceptions.json'
@@ -46,21 +48,44 @@ export class ServerException extends Exception {
 
     throw error
   }
-  static cannotNestHydrationRoot(
-    hydrationRootIdentifier: string,
+  static cannotSerializeManifest() {
+    const error = new this(
+      E_CANNOT_SERIALIZE_MANIFEST.message,
+      E_CANNOT_SERIALIZE_MANIFEST.status,
+      E_CANNOT_SERIALIZE_MANIFEST.code
+    )
+
+    throw error
+  }
+  static cannotHydrateComponent(
     componentIdentifier: string,
-    parentHydrationRootIdentifier: string,
-    parentComponentIdentifier: string
+    hydrationRootIdentifier: string
   ) {
     const error = new this(
-      interpolate(E_CANNOT_NEST_HYDRATION_ROOT.message, {
-        hydrationRootIdentifier,
+      interpolate(E_CANNOT_HYDRATE_COMPONENT.message, {
         componentIdentifier,
-        parentHydrationRootIdentifier,
-        parentComponentIdentifier,
+        hydrationRootIdentifier,
       }),
-      E_CANNOT_NEST_HYDRATION_ROOT.status,
-      E_CANNOT_NEST_HYDRATION_ROOT.code
+      E_CANNOT_HYDRATE_COMPONENT.status,
+      E_CANNOT_HYDRATE_COMPONENT.code
+    )
+
+    throw error
+  }
+  static cannotHydrateComponentWithChildren(
+    componentIdentifier: string,
+    hydrationRootIdentifier: string
+  ) {
+    const error = new this(
+      interpolate(
+        E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.message,
+        {
+          componentIdentifier,
+          hydrationRootIdentifier,
+        }
+      ),
+      E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.status,
+      E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.code
     )
 
     throw error

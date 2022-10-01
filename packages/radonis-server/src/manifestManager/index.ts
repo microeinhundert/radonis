@@ -26,6 +26,7 @@ import type {
 } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 
+import { ServerException } from '../exceptions/serverException'
 import { DEFAULT_LOCALE, PROPS_HASHER } from './constants'
 
 /**
@@ -235,7 +236,12 @@ export class ManifestManager implements Resettable {
    * Get the client manifest as JSON
    */
   getClientManifestAsJSON(): string {
-    return JSON.stringify(superjson.serialize(this.#clientManifest), null, isProduction ? 0 : 2)
+    try {
+      const serializedManifest = superjson.serialize(this.#clientManifest)
+      return JSON.stringify(serializedManifest, null, isProduction ? 0 : 2)
+    } catch {
+      throw ServerException.cannotSerializeManifest()
+    }
   }
 
   /**
