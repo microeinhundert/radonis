@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-twind",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "Twind plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -56,19 +56,19 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "1.11.2",
+    "@microeinhundert/radonis": "1.11.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "workspace:1.11.2",
+    "@microeinhundert/radonis": "workspace:1.11.3",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:1.11.2",
-    "@microeinhundert/radonis-types": "workspace:1.11.2",
+    "@microeinhundert/radonis-shared": "workspace:1.11.3",
+    "@microeinhundert/radonis-types": "workspace:1.11.3",
     "@twind/preset-autoprefix": "1.0.0-next.37",
     "@twind/preset-tailwind": "1.0.0-next.37",
     "@twind/preset-tailwind-forms": "1.0.0-next.37",

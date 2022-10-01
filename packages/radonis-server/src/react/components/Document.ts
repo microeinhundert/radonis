@@ -9,8 +9,8 @@
 
 import { createElement as h } from 'react'
 
-import type { DocumentProps } from '../../types'
 import { useManifestManager } from '../hooks/internal/useManifestManager'
+import type { DocumentProps } from '../types'
 
 /**
  * The component containing the HTML document markup

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.3] - 2022-10-01
+
+# Fixed
+- Missing prop type `className` on HydrationRoot.
+
 ## [1.11.2] - 2022-10-01
 
 # Changed

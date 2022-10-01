@@ -8,15 +8,15 @@
  */
 
 declare module '@ioc:Microeinhundert/Radonis' {
+  import type { ReactElement } from 'react'
   import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
   import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
-  import type { ComponentIdentifier, HeadMeta, HeadContract } from '@microeinhundert/radonis-types'
+  import type { HeadMeta, HeadContract, ComponentIdentifier } from '@microeinhundert/radonis-types'
   import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { Plugin } from '@microeinhundert/radonis-shared'
-  import type { ReactElement } from 'react'
 
   interface AdonisContextContract {
     application: ApplicationContract
@@ -35,6 +35,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   function HydrationRoot(props: {
     children: ReactElement<Record<string, any>>
     component: ComponentIdentifier
+    className?: string
     disabled?: boolean
   }): JSX.Element
 

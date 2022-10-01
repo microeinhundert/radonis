@@ -11,9 +11,9 @@ import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis
 import { Children, createElement as h, isValidElement, useId } from 'react'
 
 import { ServerException } from '../../exceptions/serverException'
-import type { HydrationRootProps } from '../../types'
 import { useAssetsManager } from '../hooks/internal/useAssetsManager'
 import { useManifestManager } from '../hooks/internal/useManifestManager'
+import type { HydrationRootProps } from '../types'
 
 /**
  * The component for marking components for client-side hydration
