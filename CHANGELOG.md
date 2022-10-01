@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.1] - 2022-10-01
+
+### Fixed
+- `exceptions.json` not in tarball published to npm.
+
+### Changed
+- Updated dependencies.
+
 ## [1.11.0] - 2022-10-01
 
 ### Changed
