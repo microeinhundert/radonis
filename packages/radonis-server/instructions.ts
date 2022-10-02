@@ -24,16 +24,16 @@ function getStub(...relativePaths: string[]) {
  * Creates the entry file
  */
 async function createEntryFile(app: ApplicationContract, sink: typeof sinkStatic, projectRoot: string) {
-  const resourceDir = app.directoriesMap.get('resources') || 'resources'
+  const resourcesDir = app.directoriesMap.get('resources') || 'resources'
 
   const entryFilePath = app.resourcesPath('entry.client.ts')
   const entryFileTemplate = new sink.files.MustacheFile(projectRoot, entryFilePath, getStub('entry.client.txt'))
 
   if (entryFileTemplate.exists()) {
-    sink.logger.action('create').skipped(`${resourceDir}/entry.client.ts`)
+    sink.logger.action('create').skipped(`${resourcesDir}/entry.client.ts`)
   } else {
     entryFileTemplate.apply({}).commit()
-    sink.logger.action('create').succeeded(`${resourceDir}/entry.client.ts`)
+    sink.logger.action('create').succeeded(`${resourcesDir}/entry.client.ts`)
   }
 }
 
@@ -45,10 +45,10 @@ async function createComponentsDir(app: ApplicationContract, sink: typeof sinkSt
     return
   }
 
-  const resourceDir = app.directoriesMap.get('resources') || 'resources'
+  const resourcesDir = app.directoriesMap.get('resources') || 'resources'
 
   mkdirSync(app.resourcesPath('components'), { recursive: true })
-  sink.logger.action('create').succeeded(`${resourceDir}/components`)
+  sink.logger.action('create').succeeded(`${resourcesDir}/components`)
 }
 
 /**

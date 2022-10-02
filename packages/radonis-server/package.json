@@ -38,7 +38,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git",
+    "directory": "packages/radonis-server"
   },
   "bugs": {
     "url": "https://github.com/microeinhundert/radonis/issues"

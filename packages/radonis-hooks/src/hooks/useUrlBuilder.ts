@@ -101,8 +101,8 @@ export function useUrlBuilder() {
       }
     }
 
-    const encoded = params.toString()
-    url = encoded ? `${url}?${encoded}` : url
+    const encodedParams = params.toString()
+    url = encodedParams ? `${url}?${encodedParams}` : url
 
     return url
   }
