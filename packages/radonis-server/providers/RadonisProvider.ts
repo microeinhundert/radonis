@@ -38,7 +38,7 @@ export default class RadonisProvider {
   /**
    * Register
    */
-  register() {
+  register(): void {
     /**
      * Config
      */
@@ -120,7 +120,7 @@ export default class RadonisProvider {
   /**
    * Boot
    */
-  async boot() {
+  async boot(): Promise<void> {
     this.#application.container.withBindings(
       ['Microeinhundert/Radonis/Config', 'Microeinhundert/Radonis/PluginsManager'],
       async (Config, PluginsManager) => {

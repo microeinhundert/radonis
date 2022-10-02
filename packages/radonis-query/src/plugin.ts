@@ -26,7 +26,7 @@ export function queryPlugin(config?: QueryClientConfig) {
     name: 'query',
     environments: ['client', 'server'],
     beforeHydrate() {
-      return (tree) => h(QueryClientProvider, { client: queryClient }, [h(QueryHydrator, null, tree)])
+      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, tree))
     },
     afterRequest() {
       queryClient.clear()
