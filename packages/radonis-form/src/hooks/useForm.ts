@@ -20,14 +20,14 @@ import type { FormOptions } from '../types'
 /**
  * Check if a method is natively supported by the <form> element
  */
-export function isNativeFormMethod(method: string): boolean {
+function isNativeFormMethod(method: string): boolean {
   return ['get', 'post'].includes(method)
 }
 
 /**
  * Convert an URL to a relative path
  */
-export function urlToRelativePath(url: URL): string {
+function urlToRelativePath(url: URL): string {
   return url.toString().replace(url.origin, '')
 }
 

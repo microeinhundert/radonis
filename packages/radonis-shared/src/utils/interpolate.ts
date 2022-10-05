@@ -33,7 +33,6 @@ function parseProp(data: any, key: string) {
 
 /**
  * Interpolate values inside curly braces
- *
  * @internal
  */
 export function interpolate(input: string, data: any) {
