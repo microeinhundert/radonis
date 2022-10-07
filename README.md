@@ -18,12 +18,6 @@ Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).
 
 For an example application, take a look into the `example` directory.
 
-## Nice to have
-
-- [ ] CSS bundling
-- [ ] Customizable document component
-- [ ] Streaming and SSR Suspense
-
 ## License
 
 [MIT](LICENSE)
