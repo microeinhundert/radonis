@@ -14,9 +14,9 @@ Get DX similar to [Remix](https://remix.run/) while having the power of a full M
 
 Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).
 
-## Example
+## Example application
 
-For an example app, take a look into the `example` directory.
+For an example application, take a look into the `example` directory.
 
 ## Nice to have
 
