@@ -11,7 +11,7 @@
  * Whether the current environment is a server or not
  * @internal
  */
-export const isServer = typeof document === 'undefined' && typeof globalThis !== 'undefined'
+export const isServer = typeof window === 'undefined'
 
 /**
  * Whether the current environment is a client or not

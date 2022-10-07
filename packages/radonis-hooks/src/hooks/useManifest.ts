@@ -16,10 +16,6 @@ import { HookException } from '../exceptions/hookException'
 
 declare global {
   var radonisManifest: Manifest | undefined
-
-  interface Window {
-    radonisManifest: Manifest | undefined
-  }
 }
 
 let cachedManifest: Readonly<Manifest> | undefined
@@ -33,7 +29,7 @@ export function useManifest() {
     return cachedManifest
   }
 
-  const manifest = (globalThis ?? window).radonisManifest
+  const manifest = globalThis.radonisManifest
 
   if (!manifest) {
     throw HookException.manifestUnavailable()

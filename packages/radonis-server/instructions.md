@@ -16,4 +16,4 @@ node ace configure @adonisjs/session
 
 ## Read the documentation
 
-Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
+Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).

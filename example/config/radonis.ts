@@ -131,7 +131,7 @@ const radonisConfig: RadonisConfig = {
     |
     | Limit the client manifest to only include data required for client-side
     | hydration. Disable this if you have some use case that requires
-    | all data to be available at all times.
+    | all data to be available on all times.
     |
     */
     limitManifest: true,

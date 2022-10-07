@@ -12,7 +12,7 @@ Get DX similar to [Remix](https://remix.run/) while having the power of a full M
 
 ## Documentation
 
-Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/).
+Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).
 
 ## Example
 

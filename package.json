@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "pnpm@7.0.0",
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@adonisjs/ace": "^11.3.1",
-    "@adonisjs/core": "^5.8.6",
+    "@adonisjs/core": "^5.8.7",
     "@adonisjs/i18n": "^1.5.6",
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/sink": "^5.4.1",

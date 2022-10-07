@@ -6,7 +6,7 @@ Add styling powered by [UnoCSS](https://github.com/unocss/unocss) to your Radoni
 
 ## Documentation
 
-Documentation is available at [radonis.vercel.app](https://radonis.vercel.app/docs/plugins/unocss).
+Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/docs/plugins/unocss).
 
 ## License
 

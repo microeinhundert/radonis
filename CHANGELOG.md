@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.4] - 2022-10-07
+
+# Changed
+- BREAKING: The `isCurrent` method on the `useRoute` hook now takes an options object as second argument.
+- Updated dependencies.
+
 ## [1.11.3] - 2022-10-01
 
 # Fixed

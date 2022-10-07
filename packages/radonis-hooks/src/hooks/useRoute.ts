@@ -21,8 +21,8 @@ export function useRoute() {
   const { route, routes } = useManifest()
   const hydration = useHydration()
 
-  function isCurrent(identifier: RouteIdentifier, exact?: boolean) {
-    if (exact) {
+  function isCurrent(identifier: RouteIdentifier, options?: { exact?: boolean }) {
+    if (options?.exact) {
       return route?.identifier === identifier
     }
 

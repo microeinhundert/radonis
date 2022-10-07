@@ -16,10 +16,6 @@ import { HydrateException } from '../../exceptions/hydrateException'
 
 declare global {
   var radonisManifest: Manifest | undefined
-
-  interface Window {
-    radonisManifest: Manifest | undefined
-  }
 }
 
 let cachedManifest: Readonly<Manifest> | undefined
@@ -33,7 +29,7 @@ export function getManifestOrFail() {
     return cachedManifest
   }
 
-  const manifest = (globalThis ?? window).radonisManifest
+  const manifest = globalThis.radonisManifest
 
   if (!manifest) {
     throw HydrateException.manifestUnavailable()
