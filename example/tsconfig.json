@@ -58,5 +58,5 @@
       "@japa/preset-adonis/build/adonis-typings",
       "@microeinhundert/radonis-server"
     ]
-  },
+  }
 }
