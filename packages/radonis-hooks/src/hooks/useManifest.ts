@@ -8,17 +8,17 @@
  */
 
 import { isClient } from '@microeinhundert/radonis-shared'
-import type { Manifest } from '@microeinhundert/radonis-types'
+import type { ManifestContract } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
 import { HookException } from '../exceptions/hookException'
 
 declare global {
-  var radonisManifest: Manifest | undefined
+  var radonisManifest: ManifestContract | undefined
 }
 
-let cachedManifest: Readonly<Manifest> | undefined
+let cachedManifest: Readonly<ManifestContract> | undefined
 
 /**
  * Hook for retrieving the manifest
@@ -37,5 +37,5 @@ export function useManifest() {
 
   return (cachedManifest = isClient
     ? superjson.deserialize(manifest as unknown as SuperJSONResult)
-    : manifest) as Readonly<Manifest>
+    : manifest) as Readonly<ManifestContract>
 }

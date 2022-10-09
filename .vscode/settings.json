@@ -1,4 +1,4 @@
-{
+#{
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
@@ -33,10 +33,6 @@
     },
     {
       "directory": "packages/radonis-shared",
-      "changeProcessCWD": true
-    },
-    {
-      "directory": "packages/radonis-twind",
       "changeProcessCWD": true
     },
     {

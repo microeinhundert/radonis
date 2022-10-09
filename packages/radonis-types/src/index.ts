@@ -131,16 +131,17 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 /* ---------------------------------------- */
 
 /**
- * Manifest
+ * ManifestContract contract
  */
-export type Manifest = {
-  locale: Locale
+export type ManifestContract = {
   hydration: Hydration
+  globals: Globals
+  locale: Locale
+  route: Route | null
   flashMessages: FlashMessages
   messages: Messages
   routes: Routes
-  route: Route | null
-} & { globals: Globals }
+}
 
 /* ---------------------------------------- */
 

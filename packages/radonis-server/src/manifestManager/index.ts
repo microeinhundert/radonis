@@ -17,7 +17,7 @@ import type {
   Globals,
   Hydration,
   Locale,
-  Manifest,
+  ManifestContract,
   Messages,
   Resettable,
   Route,
@@ -31,7 +31,7 @@ import { DEFAULT_LOCALE } from './constants'
 /**
  * @internal
  */
-export class ManifestManager implements Resettable {
+export class ManifestManager implements ManifestContract, Resettable {
   /**
    * The Radonis config
    */
@@ -75,7 +75,7 @@ export class ManifestManager implements Resettable {
   /**
    * The server manifest
    */
-  get #serverManifest(): Manifest {
+  get #serverManifest(): ManifestContract {
     return {
       hydration: this.#hydration,
       globals: this.#globals,
@@ -90,7 +90,7 @@ export class ManifestManager implements Resettable {
   /**
    * The client manifest
    */
-  get #clientManifest(): Manifest {
+  get #clientManifest(): ManifestContract {
     return {
       hydration: this.#hydration,
       globals: this.#globals,
