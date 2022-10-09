@@ -43,7 +43,7 @@ export interface PluginHooks {
   /**
    * This plugin hook is called on boot of the server
    */
-  onBootServer: PluginHook<null>
+  onBootServer: PluginHook<{ appRoot: string; resourcesPath: string }>
 
   /**
    * This plugin hook is called before a request
@@ -56,27 +56,12 @@ export interface PluginHooks {
   afterRequest: PluginHook<null>
 
   /**
-   * This plugin hook is called on scan of an asset
-   */
-  onScanAsset: PluginHook<[string, string]>
-
-  /**
-   * This plugin hook is called before an asset is output
-   */
-  beforeOutputAsset: PluginHookWithBuilder<string, null>
-
-  /**
-   * This plugin hook is called after all assets have been output
-   */
-  afterOutputAssets: PluginHook<Map<string, string>>
-
-  /**
    * This plugin hook is called before the page is rendered
    */
   beforeRender: PluginHookWithBuilder<ReactElement, null>
 
   /**
-   * This plugin hook is called after the page has been rendered
+   * This plugin hook is called after a chunk of the page has been rendered
    */
   afterRender: PluginHookWithBuilder<string, null>
 }

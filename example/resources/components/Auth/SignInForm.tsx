@@ -32,7 +32,7 @@ function SignInForm() {
   };
 
   return (
-    <Form action="AuthController.signIn" method="post" noValidate reloadDocument>
+    <Form action="AuthController.signIn" method="post" noValidate>
       <div className="flex flex-col gap-5">
         <CsrfField />
         <Input

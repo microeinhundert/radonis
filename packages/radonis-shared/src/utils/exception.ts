@@ -3,7 +3,7 @@
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
- * Copied from https://github.com/poppinss/utils
+ * Adapted from https://github.com/poppinss/utils
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.

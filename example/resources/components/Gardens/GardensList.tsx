@@ -48,6 +48,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
   return (
     <Form
       action="gardens.destroy"
+      noReload
       hooks={{
         onMutate: () => {
           setDeleteConfirmationModalOpen(false);

@@ -36,14 +36,9 @@ export function generateComponentIdentifierUnionType(components: ComponentIdenti
 /* ---------------------------------------- */
 
 /**
- * Props hash
+ * Hydration
  */
-export type PropsHash = string
-
-/**
- * Props
- */
-export type Props = Record<PropsHash, Record<string, any>>
+export type Hydration = Record<string, { componentIdentifier: string; props: Record<string, any> }>
 
 /* ---------------------------------------- */
 
@@ -140,7 +135,7 @@ export type RouteQueryParams = Record<string, string | number | (string | number
  */
 export type Manifest = {
   locale: Locale
-  props: Props
+  hydration: Hydration
   flashMessages: FlashMessages
   messages: Messages
   routes: Routes
@@ -207,6 +202,13 @@ export interface HeadContract {
 }
 
 /**
+ * Custom error pages
+ */
+export interface CustomErrorPages {
+  500?: ComponentType<{ error: unknown }>
+}
+
+/**
  * Render options
  */
 export interface RenderOptions {
@@ -224,11 +226,12 @@ export interface RendererContract {
   withHeadMeta(meta: HeadMeta): RendererContract
   withHeadTags(tags: HeadTag[]): RendererContract
   withGlobals(globals: Globals): RendererContract
+  withCustomErrorPages(pages: CustomErrorPages): RendererContract
   render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
-  ): Promise<string | UnwrapProps<T> | undefined>
+  ): Promise<UnwrapProps<T>>
 }
 
 /* ---------------------------------------- */

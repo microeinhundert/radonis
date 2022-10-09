@@ -8,12 +8,12 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import superjson from 'superjson'
 
 import {
   HydrationRoot,
   useAdonis,
   useApplication,
-  useHead,
   useHttpContext,
   useRequest,
   useRouter,
@@ -111,7 +111,6 @@ export default class RadonisProvider {
         useSession,
         useRequest,
         useRouter,
-        useHead,
         HydrationRoot,
       }
     })
@@ -132,7 +131,10 @@ export default class RadonisProvider {
         /**
          * Execute `onBootServer` plugin hook
          */
-        await PluginsManager.execute('onBootServer', null, null)
+        await PluginsManager.execute('onBootServer', null, {
+          appRoot: this.#application.appRoot,
+          resourcesPath: this.#application.resourcesPath(),
+        })
       }
     )
 
@@ -146,7 +148,20 @@ export default class RadonisProvider {
           .before(async () => {
             await PluginsManager.execute('beforeRequest', null, null)
           })
-          .after(async () => {
+          .after(async ({ request, response }) => {
+            /**
+             * If the request was made by Radonis,
+             * serialize the response with superjson
+             */
+            if (
+              !response.finished &&
+              !response.isStreamResponse &&
+              request.accepts(['json']) &&
+              request.header('X-Radonis-Request') === 'true'
+            ) {
+              response.json(superjson.serialize(response.getBody()))
+            }
+
             await PluginsManager.execute('afterRequest', null, null)
           })
       }

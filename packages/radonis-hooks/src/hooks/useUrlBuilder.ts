@@ -34,7 +34,7 @@ export function useUrlBuilder() {
       throw HookException.cannotFindRoute(identifier)
     }
 
-    if (hydration.root) {
+    if (hydration.id) {
       hydrationManager.requireRoute(identifier)
     }
 

@@ -13,8 +13,8 @@ import {
 } from '@microeinhundert/radonis-shared'
 
 import {
-  E_CANNOT_COMBINE_RELOAD_WITH_HOOKS,
   E_CANNOT_FETCH_WITHOUT_HYDRATION,
+  E_CANNOT_USE_HOOKS_WHEN_RELOADING,
   E_REQUEST_FAILED,
 } from '../../exceptions.json'
 
@@ -23,18 +23,24 @@ import {
  * @internal
  */
 export class FormException extends Exception {
-  static cannotCombineReloadWithHooks() {
+  static cannotUseHooksWhenReloading(action: string) {
     const error = new this(
-      E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.message,
-      E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.status,
-      E_CANNOT_COMBINE_RELOAD_WITH_HOOKS.code
+      interpolate(
+        E_CANNOT_USE_HOOKS_WHEN_RELOADING.message,
+        { action }
+      ),
+      E_CANNOT_USE_HOOKS_WHEN_RELOADING.status,
+      E_CANNOT_USE_HOOKS_WHEN_RELOADING.code
     )
 
     throw error
   }
-  static cannotFetchWithoutHydration() {
+  static cannotFetchWithoutHydration(action: string) {
     const error = new this(
-      E_CANNOT_FETCH_WITHOUT_HYDRATION.message,
+      interpolate(
+        E_CANNOT_FETCH_WITHOUT_HYDRATION.message,
+        { action }
+      ),
       E_CANNOT_FETCH_WITHOUT_HYDRATION.status,
       E_CANNOT_FETCH_WITHOUT_HYDRATION.code
     )

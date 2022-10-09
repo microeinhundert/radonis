@@ -41,22 +41,23 @@ export function useForm<TData, TError>({
   queryParams,
   method,
   hooks,
-  reloadDocument,
+  noReload,
   throwOnFailure,
   useErrorBoundary,
   ...props
 }: FormOptions<TData, TError>) {
   const hydration = useHydration()
 
-  if (hydration.root) {
+  if (hydration.id) {
     hydrationManager.requireRoute(action)
   }
 
-  if (hooks && reloadDocument) {
-    throw FormException.cannotCombineReloadWithHooks()
+  if (!noReload && hooks) {
+    throw FormException.cannotUseHooksWhenReloading(action)
   }
-  if (!reloadDocument && !hydration.root) {
-    throw FormException.cannotFetchWithoutHydration()
+
+  if (noReload && !hydration.id) {
+    throw FormException.cannotFetchWithoutHydration(action)
   }
 
   const form = useRef<HTMLFormElement | null>(null)
@@ -112,7 +113,7 @@ export function useForm<TData, TError>({
   )
 
   const getFormProps = () => ({
-    onSubmit: reloadDocument ? undefined : submitHandler,
+    onSubmit: noReload ? submitHandler : undefined,
     ref: form,
     ...props,
     get action() {

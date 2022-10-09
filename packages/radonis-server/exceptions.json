@@ -15,18 +15,13 @@
     "status": 500
   },
   "E_CANNOT_HYDRATE_COMPONENT": {
-    "message": "Cannot hydrate the component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootIdentifier }}\". Make sure the component is a custom React component",
+    "message": "Cannot hydrate the component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootId }}\". Make sure the component is a custom React component",
     "code": "E_CANNOT_HYDRATE_COMPONENT",
     "status": 500
   },
   "E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN": {
-    "message": "The component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootIdentifier }}\" has children. This is not supported",
+    "message": "The component \"{{ componentIdentifier }}\" passed to HydrationRoot \"{{ hydrationRootId }}\" has children. This is not supported",
     "code": "E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN",
-    "status": 500
-  },
-  "E_CANNOT_RENDER_VIEW": {
-    "message": "There was an error rendering the view. Check the console for more info",
-    "code": "E_CANNOT_RENDER_VIEW",
     "status": 500
   }
 }

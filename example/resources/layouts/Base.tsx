@@ -9,7 +9,7 @@ interface BaseLayoutProps {
 
 function BaseLayout({ children }: BaseLayoutProps) {
   return (
-    <div className="min-h-full bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="fixed inset-y-0 hidden w-64 lg:block">
         <Sidebar />
       </div>

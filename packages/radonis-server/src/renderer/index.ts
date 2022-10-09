@@ -12,38 +12,40 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
-import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
+import type { AdonisContextContract, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import { Exception } from '@microeinhundert/radonis-shared'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type {
+  CustomErrorPages,
   Globals,
   HeadMeta,
   HeadTag,
   Locale,
   RendererContract,
   RenderOptions,
+  Resettable,
   UnwrapProps,
 } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
-import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
+import type { ContiguousData } from 'minipass'
+import type Minipass from 'minipass'
+import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement } from 'react'
 import { createElement as h, StrictMode } from 'react'
-import { renderToString } from 'react-dom/server'
-import { serialize } from 'superjson'
+import { Readable, Transform } from 'stream'
 
 import type { AssetsManager } from '../assetsManager'
-import { ServerException } from '../exceptions/serverException'
 import type { HeadManager } from '../headManager'
 import type { ManifestManager } from '../manifestManager'
-import { wrapTree } from '../react'
+import { withContextProviders } from '../react'
 import { extractRootRoutes } from '../utils/extractRootRoutes'
+import { generateHtmlStream, onAllReady, onShellReady } from './utils/stream'
 import { transformRouteNode } from './utils/transformRouteNode'
 
 /**
  * @internal
  */
-export class Renderer implements RendererContract {
+export class Renderer implements RendererContract, Resettable {
   /**
    * The application
    */
@@ -58,6 +60,11 @@ export class Renderer implements RendererContract {
    * The Router instance
    */
   #router: RouterContract
+
+  /**
+   * The Radonis config
+   */
+  #config: RadonisConfig
 
   /**
    * The I18nManager instance
@@ -95,6 +102,11 @@ export class Renderer implements RendererContract {
   #adonisContext: AdonisContextContract
 
   /**
+   * The registered custom error pages
+   */
+  #customErrorPages: CustomErrorPages
+
+  /**
    * Constructor
    */
   constructor(application: ApplicationContract) {
@@ -104,22 +116,21 @@ export class Renderer implements RendererContract {
     this.#router = application.container.resolveBinding('Adonis/Core/Route')
     this.#i18nManager = application.container.resolveBinding('Adonis/Addons/I18n')
 
+    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
     this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
     this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
     this.#assetsManager = application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
     this.#headManager = application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
     this.#manifestManager = application.container.resolveBinding('Microeinhundert/Radonis/ManifestManager')
 
-    this.#adonisContext = null as any
+    this.#setDefaults()
   }
 
   /**
    * Get for request
    */
   getForRequest(httpContext: HttpContextContract): this {
-    this.#assetsManager.reset()
-    this.#headManager.reset()
-    this.#manifestManager.reset()
+    this.reset()
     this.#router.commit()
 
     /**
@@ -183,13 +194,22 @@ export class Renderer implements RendererContract {
   }
 
   /**
+   * Register custom error pages for the current request
+   */
+  withCustomErrorPages(pages: CustomErrorPages): this {
+    this.#customErrorPages = { ...this.#customErrorPages, ...pages }
+
+    return this
+  }
+
+  /**
    * Render the view and return the full HTML document
    */
   async render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
-  ): Promise<string | UnwrapProps<T> | undefined> {
+  ): Promise<UnwrapProps<T>> {
     const { request } = this.#adonisContext.httpContext
 
     /**
@@ -239,77 +259,59 @@ export class Renderer implements RendererContract {
       this.#manifestManager.setServerManifestOnGlobalScope()
 
       try {
-        /**
-         * Render the view
-         */
-        const tree = await this.#pluginsManager.execute(
-          'beforeRender',
-          wrapTree(
-            this.#hydrationManager,
-            this.#assetsManager,
-            this.#headManager,
-            this.#manifestManager,
-            this.#adonisContext,
-            Component,
-            props
-          ),
-          null
-        )
-
-        let html = renderToString(h(StrictMode, null, tree))
-
-        /**
-         * Inject closing head
-         */
-        html = this.#injectClosingHead(html)
-
-        /**
-         * Inject closing body
-         */
-        html = this.#injectClosingBody(html)
-
-        /**
-         * Execute `afterRender` hooks
-         */
-        html = await this.#pluginsManager.execute('afterRender', html, null)
-
-        return `<!DOCTYPE html>\n${html}`
+        await this.#renderAndStreamComponent(Component, props)
       } catch (error) {
-        if (error instanceof Exception) {
+        /**
+         * Render a custom error page if one was registered, else rethrow the error
+         */
+        if (this.#customErrorPages[500]) {
+          this.#logger.error(error)
+          await this.#renderAndStreamComponent(this.#customErrorPages[500], { error })
+        } else {
           throw error
         }
-        this.#logger.error(error)
-        throw ServerException.cannotRenderView()
       }
-    }
-
-    /**
-     * If the request was made by Radonis,
-     * serialize the response with superjson
-     */
-    if (request.header('X-Radonis-Request')) {
-      return serialize(props) as UnwrapProps<T>
     }
 
     return props as UnwrapProps<T>
   }
 
   /**
-   * Inject closing head
+   * Reset for a new request
    */
-  #injectClosingHead(html: string): string {
-    const injectionTarget = '</head>'
+  reset(): void {
+    this.#assetsManager.reset()
+    this.#headManager.reset()
+    this.#manifestManager.reset()
 
-    return html.replace(injectionTarget, [this.#headManager.getHTML(), injectionTarget].join('\n'))
+    this.#setDefaults()
   }
 
   /**
-   * Inject closing body
+   * Get the string containing the <head> as well as the opening <html>
    */
-  #injectClosingBody(html: string): string {
-    const injectionTarget = '</body>'
+  #getHeadString(): string {
+    return [
+      '<!DOCTYPE html>',
+      `<html ${stringifyAttributes({ lang: this.#manifestManager.locale })}>`,
+      this.#headManager.getHTML(),
+    ].join('\n')
+  }
 
-    const scriptTags = this.#assetsManager.requiredAssets.map((asset) => {
+  /**
+   * Get the stream containing the <body>
+   */
+  #getBodyStream(tree: ReactElement): Promise<Minipass<Buffer, ContiguousData>> {
+    const renderToStream = this.#config.server.streaming ? onShellReady : onAllReady
+
+    return renderToStream(h(StrictMode, null, h('body', null, tree)))
+  }
+
+  /**
+   * Get the string containing the <footer> as well as the closing <html>
+   */
+  #getFooterString(): string {
+    const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)
 
       return `<script ${stringifyAttributes({
@@ -319,14 +321,64 @@ export class Renderer implements RendererContract {
       })}></script>`
     })
 
-    return html.replace(
-      injectionTarget,
-      [
-        `<script id="rad-manifest">window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}</script>`,
-        ...scriptTags,
-        injectionTarget,
-      ].join('\n')
+    return [
+      `<script id="rad-manifest">window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}</script>`,
+      ...scripts,
+      '</html>',
+    ].join('\n')
+  }
+
+  /**
+   * Render and stream a component
+   */
+  async #renderAndStreamComponent<T>(
+    Component: ComponentType<T>,
+    props?: ComponentPropsWithoutRef<ComponentType<T>>
+  ): Promise<void> {
+    /**
+     * The fully contstructed tree of React elements
+     */
+    const tree = await this.#pluginsManager.execute(
+      'beforeRender',
+      withContextProviders(
+        this.#hydrationManager,
+        this.#assetsManager,
+        this.#manifestManager,
+        this.#adonisContext,
+        Component,
+        props
+      ),
+      null
     )
+
+    /**
+     * The readable containing head, body and footer
+     */
+    const htmlStreamReadable = Readable.from(
+      generateHtmlStream({
+        head: () => this.#getHeadString(),
+        body: () => this.#getBodyStream(tree),
+        footer: () => this.#getFooterString(),
+      })
+    )
+
+    this.#adonisContext.httpContext.response
+      .header('Content-Type', 'text/html')
+      .header('Connection', 'Transfer-Encoding')
+      .header('Transfer-Encoding', 'chunked')
+      .stream(htmlStreamReadable.pipe(this.#createAfterRenderTransform()))
+  }
+
+  /**
+   * Create a Transform calling the `afterRender`
+   * plugin hook for every chunk of rendered HTML
+   */
+  #createAfterRenderTransform() {
+    return new Transform({
+      transform: async (chunk, _, callback) => {
+        callback(null, await this.#pluginsManager.execute('afterRender', chunk.toString(), null))
+      },
+    })
   }
 
   /**
@@ -336,5 +388,13 @@ export class Renderer implements RendererContract {
     const supportedLocales = this.#i18nManager.supportedLocales()
 
     return request.language(supportedLocales) || request.input('lang') || this.#i18nManager.defaultLocale
+  }
+
+  /**
+   * Set the defaults
+   */
+  #setDefaults(): void {
+    this.#adonisContext = null as any
+    this.#customErrorPages = {}
   }
 }

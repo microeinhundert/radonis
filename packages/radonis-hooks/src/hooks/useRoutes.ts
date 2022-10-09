@@ -20,7 +20,7 @@ export function useRoutes() {
   const { routes } = useManifest()
   const hydration = useHydration()
 
-  if (hydration.root) {
+  if (hydration.id) {
     hydrationManager.requireRoute('*')
   }
 

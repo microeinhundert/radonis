@@ -36,7 +36,7 @@ export function useFlashMessages() {
       return findFlashMessage(`${identifier}.0`)
     }
 
-    if (hydration.root && flashMessage) {
+    if (hydration.id && flashMessage) {
       hydrationManager.requireFlashMessage(identifier)
     }
 
@@ -47,7 +47,7 @@ export function useFlashMessages() {
    * Get all flash messages
    */
   function all() {
-    if (hydration.root) {
+    if (hydration.id) {
       hydrationManager.requireFlashMessage('*')
     }
 
@@ -79,7 +79,7 @@ export function useFlashMessages() {
    * Get all error flash messages
    */
   function allErrors() {
-    if (hydration.root) {
+    if (hydration.id) {
       hydrationManager.requireFlashMessage(`${ERRORS_NAMESPACE}.*`)
     }
 

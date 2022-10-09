@@ -12,22 +12,21 @@ import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import { isProduction } from '@microeinhundert/radonis-shared'
 import type {
+  ComponentIdentifier,
   FlashMessages,
   Globals,
+  Hydration,
   Locale,
   Manifest,
   Messages,
-  Props,
-  PropsHash,
   Resettable,
   Route,
   Routes,
-  ValueOf,
 } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 
 import { ServerException } from '../exceptions/serverException'
-import { DEFAULT_LOCALE, PROPS_HASHER } from './constants'
+import { DEFAULT_LOCALE } from './constants'
 
 /**
  * @internal
@@ -44,9 +43,9 @@ export class ManifestManager implements Resettable {
   #hydrationManager: HydrationManager
 
   /**
-   * The props
+   * The hydration
    */
-  #props: Props
+  #hydration: Hydration
 
   /**
    * The globals
@@ -78,7 +77,7 @@ export class ManifestManager implements Resettable {
    */
   get #serverManifest(): Manifest {
     return {
-      props: this.#props,
+      hydration: this.#hydration,
       globals: this.#globals,
       locale: this.locale,
       route: this.#route,
@@ -93,7 +92,7 @@ export class ManifestManager implements Resettable {
    */
   get #clientManifest(): Manifest {
     return {
-      props: this.#props,
+      hydration: this.#hydration,
       globals: this.#globals,
       locale: this.locale,
       route: this.#route,
@@ -161,27 +160,26 @@ export class ManifestManager implements Resettable {
   }
 
   /**
-   * The props
+   * The hydration
    */
-  get props(): Props {
-    return this.#props
+  get hydration(): Hydration {
+    return this.#hydration
   }
 
   /**
-   * Register props
+   * Register hydration
    */
-  registerProps(props: ValueOf<Props>): PropsHash | null {
-    const propsKeys = Object.keys(props)
-
-    if (!propsKeys.length) return null
-
-    const propsHash = PROPS_HASHER.hash(props)
-
-    if (!(propsHash in this.#props)) {
-      this.#props[propsHash] = props
+  registerHydration(
+    hydrationRootId: string,
+    componentIdentifier: ComponentIdentifier,
+    props: Record<string, any>
+  ): this {
+    this.#hydration = {
+      ...this.#hydration,
+      [hydrationRootId]: { componentIdentifier, props },
     }
 
-    return propsHash
+    return this
   }
 
   /**
@@ -263,7 +261,7 @@ export class ManifestManager implements Resettable {
    * Set the defaults
    */
   #setDefaults(): void {
-    this.#props = {}
+    this.#hydration = {}
     this.#globals = {}
     this.#locale = DEFAULT_LOCALE
     this.#route = null

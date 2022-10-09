@@ -30,7 +30,7 @@ export interface FormOptions<TData, TError> {
   queryParams?: RouteQueryParams
   method: FormMethod
   hooks?: FormHooks<TData, TError>
-  reloadDocument?: boolean
+  noReload?: boolean
   throwOnFailure?: boolean
   useErrorBoundary?: boolean
   [key: string]: unknown

@@ -14,7 +14,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
   import type { RequestContract } from '@ioc:Adonis/Core/Request'
   import type { RouterContract } from '@ioc:Adonis/Core/Route'
   import type { SessionContract } from '@ioc:Adonis/Addons/Session'
-  import type { HeadMeta, HeadContract, ComponentIdentifier } from '@microeinhundert/radonis-types'
+  import type { HeadMeta, ComponentIdentifier } from '@microeinhundert/radonis-types'
   import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { Plugin } from '@microeinhundert/radonis-shared'
 
@@ -30,7 +30,6 @@ declare module '@ioc:Microeinhundert/Radonis' {
   function useSession(): SessionContract
   function useRequest(): RequestContract
   function useRouter(): RouterContract
-  function useHead(): HeadContract
 
   function HydrationRoot(props: {
     children: ReactElement<Record<string, any>>
@@ -49,6 +48,9 @@ declare module '@ioc:Microeinhundert/Radonis' {
         separator: string
       }
       defaultMeta: HeadMeta
+    }
+    server: {
+      streaming: boolean
     }
     client: {
       entryFile: string

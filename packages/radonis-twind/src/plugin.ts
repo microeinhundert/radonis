@@ -23,6 +23,7 @@ import { TwindContextProvider } from './contexts/twindContext'
 export function twindPlugin(config?: TwindConfig) {
   let tw: Twind
   let tx: TxFunction
+  let cssInjected = false
 
   function install(): void {
     tw = twind(config ?? defaultConfig, getSheet(false))
@@ -44,11 +45,24 @@ export function twindPlugin(config?: TwindConfig) {
     onBootServer() {
       install()
     },
+    beforeRequest() {
+      cssInjected = false
+    },
     beforeRender() {
       return (tree) => h(TwindContextProvider, { value: { tw, tx } }, tree)
     },
     afterRender() {
-      return (html) => inline(html)
+      return (html) => {
+        const headIndex = html.indexOf('</head>')
+
+        if (!cssInjected && headIndex !== -1) {
+          cssInjected = true
+
+          return inline(html)
+        }
+
+        return html
+      }
     },
   })
 }

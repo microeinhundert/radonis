@@ -1,11 +1,11 @@
 {
   "E_MISSING_HYDRATION_DATA": {
-    "message": "Found a HydrationRoot that is missing required hydration data. Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis",
+    "message": "Found HydrationRoot \"{{ hydrationRootId }}\" which is missing hydration data. Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis",
     "code": "E_MISSING_HYDRATION_DATA",
     "status": 500
   },
   "E_CANNOT_HYDRATE": {
-    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootIdentifier }}\", but that component could not be hydrated. Make sure the component exists in the client bundle",
+    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootId }}\", but that component could not be hydrated. Make sure the component exists in the client bundle",
     "code": "E_CANNOT_HYDRATE",
     "status": 500
   },

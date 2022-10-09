@@ -15,7 +15,6 @@ import { join, parse, relative } from 'path'
 import { BuildException } from './exceptions/buildException'
 import { loaders } from './loaders'
 import { radonisClientPlugin } from './plugin'
-import { pluginsManager } from './singletons'
 import type { BuildManifest, BuildManifestEntry, BuildOptions } from './types'
 import { extractFlashMessages, extractMessages, extractRoutes, filePathToFileUrl } from './utils'
 
@@ -142,10 +141,6 @@ export async function build({
     if (outputToDisk) {
       outputFile(path, contents)
     }
-  }
-
-  if (outputToDisk) {
-    await pluginsManager.execute('afterOutputAssets', null, builtAssets)
   }
 
   const { name: entryFileName } = parse(entryFilePath)

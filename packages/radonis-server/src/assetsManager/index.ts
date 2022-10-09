@@ -15,11 +15,7 @@ import {
   generateAssetsManifest,
   readBuildManifestFromDisk,
 } from '@microeinhundert/radonis-build'
-import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Resettable } from '@microeinhundert/radonis-types'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import type { ComponentIdentifier, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * @internal
@@ -29,11 +25,6 @@ export class AssetsManager implements Resettable {
    * The Radonis config
    */
   #config: RadonisConfig
-
-  /**
-   * The PluginsManager instance
-   */
-  #pluginsManager: PluginsManager
 
   /**
    * The public path
@@ -48,14 +39,13 @@ export class AssetsManager implements Resettable {
   /**
    * The required components
    */
-  #requiredComponents: Set<string>
+  #requiredComponents: Set<ComponentIdentifier>
 
   /**
    * Constructor
    */
   constructor(application: ApplicationContract) {
     this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
-    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
 
     this.#publicPath = application.publicPath('radonis')
 
@@ -80,7 +70,7 @@ export class AssetsManager implements Resettable {
   /**
    * Require a component
    */
-  requireComponent(identifier: string): void {
+  requireComponent(identifier: ComponentIdentifier): void {
     this.#requiredComponents.add(identifier)
   }
 
@@ -98,7 +88,6 @@ export class AssetsManager implements Resettable {
     try {
       const assetsManifest = await generateAssetsManifest(buildManifest)
       this.#assetsManifest = assetsManifest
-      this.#scanAssets()
     } catch {
       this.#assetsManifest = []
     }
@@ -109,16 +98,6 @@ export class AssetsManager implements Resettable {
    */
   reset(): void {
     this.#setDefaults()
-  }
-
-  /**
-   * Scan the assets
-   */
-  #scanAssets(): void {
-    fsReadAll(this.#publicPath, (assetPath) => assetPath.endsWith('.js')).forEach((assetPath) => {
-      const absoluteAssetPath = join(this.#publicPath, assetPath)
-      this.#pluginsManager.execute('onScanAsset', null, [readFileSync(absoluteAssetPath, 'utf8'), absoluteAssetPath])
-    })
   }
 
   /**

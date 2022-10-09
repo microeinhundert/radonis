@@ -150,7 +150,7 @@ function Modal({ open, onClose, ...restProps }: ModalProps) {
         static
         onClose={onClose}
       >
-        <div className="flex min-h-screen items-center justify-center px-4 text-center">
+        <div className="min-h-screen flex items-center justify-center px-4 text-center">
           <ModalOverlay />
           <ModalContent {...restProps} onClose={onClose} />
         </div>

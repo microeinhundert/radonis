@@ -8,14 +8,7 @@
  */
 
 import type { ComponentIdentifier } from '@microeinhundert/radonis-types'
-import type { ReactElement, ReactNode } from 'react'
-
-/**
- * Document props
- */
-export interface DocumentProps {
-  children: ReactNode
-}
+import type { ReactElement } from 'react'
 
 /**
  * Hydration root props

@@ -22,20 +22,23 @@ import type { HydrationRootProps } from '../types'
 export function HydrationRoot({ children, component: componentIdentifier, className, disabled }: HydrationRootProps) {
   const manifestManager = useManifestManager()
   const assetsManager = useAssetsManager()
-  const { root: parentHydrationRootIdentifier } = useHydration()
-  const hydrationRootIdentifier = useId()
+  const { id: parentHydrationRootId } = useHydration()
+  const hydrationRootId = useId()
 
   const component = Children.only(children)
 
   if (!isValidElement(component) || typeof component.type !== 'function') {
-    throw ServerException.cannotHydrateComponent(componentIdentifier, hydrationRootIdentifier)
+    throw ServerException.cannotHydrateComponent(hydrationRootId, componentIdentifier)
   }
 
   if (component.props.children) {
-    throw ServerException.cannotHydrateComponentWithChildren(componentIdentifier, hydrationRootIdentifier)
+    throw ServerException.cannotHydrateComponentWithChildren(hydrationRootId, componentIdentifier)
   }
 
-  if (disabled || parentHydrationRootIdentifier) {
+  /*
+   * Ignore if disabled or child of another HydrationRoot
+   */
+  if (disabled || parentHydrationRootId) {
     return h(
       'div',
       {
@@ -46,9 +49,9 @@ export function HydrationRoot({ children, component: componentIdentifier, classN
   }
 
   /*
-   * Register the props with the ManifestManager
+   * Register the hydration on the ManifestManager
    */
-  const propsHash = manifestManager.registerProps(component.props)
+  manifestManager.registerHydration(hydrationRootId, componentIdentifier, component.props)
 
   /*
    * Require the component on the AssetsManager
@@ -60,18 +63,14 @@ export function HydrationRoot({ children, component: componentIdentifier, classN
     {
       value: {
         hydrated: false,
-        root: hydrationRootIdentifier,
-        component: componentIdentifier,
-        propsHash,
+        id: hydrationRootId,
       },
     },
     h(
       'div',
       {
         className,
-        'data-component': componentIdentifier,
-        'data-hydration-root': hydrationRootIdentifier,
-        'data-props': propsHash,
+        'data-hydration-root': hydrationRootId,
       },
       component
     )

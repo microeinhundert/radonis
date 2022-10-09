@@ -123,7 +123,7 @@ export class HeadManager implements HeadContract, Resettable {
    * Get all HTML
    */
   getHTML(): string {
-    return [this.getTitleHTML(), this.getMetaHTML(), this.getTagsHTML()].join('\n')
+    return ['<head>', this.getTitleHTML(), this.getMetaHTML(), this.getTagsHTML(), '</head>'].join('\n')
   }
 
   /**

@@ -35,7 +35,7 @@ function SignUpForm() {
   };
 
   return (
-    <Form action="AuthController.signUp" method="post" noValidate reloadDocument>
+    <Form action="AuthController.signUp" method="post" noValidate>
       <div className="flex flex-col gap-5">
         <CsrfField />
         <Input

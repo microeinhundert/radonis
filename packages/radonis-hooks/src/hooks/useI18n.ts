@@ -34,7 +34,7 @@ export function useI18n() {
       throw HookException.cannotFindMessage(identifier)
     }
 
-    if (hydration.root) {
+    if (hydration.id) {
       hydrationManager.requireMessage(identifier)
     }
 

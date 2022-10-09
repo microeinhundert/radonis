@@ -59,21 +59,6 @@ export class PluginsManager {
   afterRequestHooks: PluginHook<'afterRequest'>[]
 
   /**
-   * The registered `onScanAsset` hooks
-   */
-  onScanAssetHooks: PluginHook<'onScanAsset'>[]
-
-  /**
-   * The registered `beforeOutputAsset` hooks
-   */
-  beforeOutputAssetHooks: PluginHook<'beforeOutputAsset'>[]
-
-  /**
-   * The registered `afterOutputAssets` hooks
-   */
-  afterOutputAssetsHooks: PluginHook<'afterOutputAssets'>[]
-
-  /**
    * The registered `beforeRender` hooks
    */
   beforeRenderHooks: PluginHook<'beforeRender'>[]
@@ -104,9 +89,6 @@ export class PluginsManager {
         plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer)
         plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest)
         plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest)
-        plugin.onScanAsset && this.onScanAssetHooks.push(plugin.onScanAsset)
-        plugin.beforeOutputAsset && this.beforeOutputAssetHooks.push(plugin.beforeOutputAsset)
-        plugin.afterOutputAssets && this.afterOutputAssetsHooks.push(plugin.afterOutputAssets)
         plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender)
         plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender)
       }
@@ -199,9 +181,6 @@ export class PluginsManager {
     this.onBootServerHooks = []
     this.beforeRequestHooks = []
     this.afterRequestHooks = []
-    this.onScanAssetHooks = []
-    this.beforeOutputAssetHooks = []
-    this.afterOutputAssetsHooks = []
     this.beforeRenderHooks = []
     this.afterRenderHooks = []
   }

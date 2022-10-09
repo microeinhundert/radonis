@@ -37,7 +37,6 @@ function GardenForm({ garden }: GardenFormProps) {
       method={garden ? 'put' : 'post'}
       params={garden ? { id: garden.id } : undefined}
       noValidate
-      reloadDocument
     >
       <div className="flex flex-col gap-5">
         <CsrfField />

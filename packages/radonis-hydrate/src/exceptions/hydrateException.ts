@@ -24,9 +24,11 @@ import {
  * @internal
  */
 export class HydrateException extends Exception {
-  static missingHydrationData() {
+  static missingHydrationData(hydrationRootId: string) {
     const error = new this(
-      E_MISSING_HYDRATION_DATA.message,
+      interpolate(E_MISSING_HYDRATION_DATA.message, {
+        hydrationRootId,
+      }),
       E_MISSING_HYDRATION_DATA.status,
       E_MISSING_HYDRATION_DATA.code
     )
@@ -35,12 +37,12 @@ export class HydrateException extends Exception {
   }
   static cannotHydrate(
     componentIdentifier: string,
-    hydrationRootIdentifier: string
+    hydrationRootId: string
   ) {
     const error = new this(
       interpolate(E_CANNOT_HYDRATE.message, {
         componentIdentifier,
-        hydrationRootIdentifier,
+        hydrationRootId,
       }),
       E_CANNOT_HYDRATE.status,
       E_CANNOT_HYDRATE.code

@@ -15,7 +15,6 @@ import {
 import {
   E_CANNOT_HYDRATE_COMPONENT,
   E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN,
-  E_CANNOT_RENDER_VIEW,
   E_CANNOT_SERIALIZE_MANIFEST,
   E_MISSING_CLIENT_ENTRY_FILE,
   E_MISSING_COMPONENTS_DIRECTORY,
@@ -58,13 +57,13 @@ export class ServerException extends Exception {
     throw error
   }
   static cannotHydrateComponent(
-    componentIdentifier: string,
-    hydrationRootIdentifier: string
+    hydrationRootId: string,
+    componentIdentifier: string
   ) {
     const error = new this(
       interpolate(E_CANNOT_HYDRATE_COMPONENT.message, {
+        hydrationRootId,
         componentIdentifier,
-        hydrationRootIdentifier,
       }),
       E_CANNOT_HYDRATE_COMPONENT.status,
       E_CANNOT_HYDRATE_COMPONENT.code
@@ -73,28 +72,19 @@ export class ServerException extends Exception {
     throw error
   }
   static cannotHydrateComponentWithChildren(
-    componentIdentifier: string,
-    hydrationRootIdentifier: string
+    hydrationRootId: string,
+    componentIdentifier: string
   ) {
     const error = new this(
       interpolate(
         E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.message,
         {
+          hydrationRootId,
           componentIdentifier,
-          hydrationRootIdentifier,
         }
       ),
       E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.status,
       E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.code
-    )
-
-    throw error
-  }
-  static cannotRenderView() {
-    const error = new this(
-      E_CANNOT_RENDER_VIEW.message,
-      E_CANNOT_RENDER_VIEW.status,
-      E_CANNOT_RENDER_VIEW.code
     )
 
     throw error

@@ -9,8 +9,11 @@
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
-import type { UnoGenerator, UserConfig } from '@unocss/core'
+import { fsReadAll } from '@poppinss/utils/build/helpers'
+import type { UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 import { config as defaultConfig } from './config'
 
@@ -19,27 +22,50 @@ import { config as defaultConfig } from './config'
  * @see https://radonis.vercel.app/docs/plugins/unocss
  */
 export function unocssPlugin(config?: UserConfig) {
-  let generator: UnoGenerator
+  let cssInjected = false
+  let css: string
 
-  const tokensFromStaticAnalysis = new Set<string>()
+  const tokens = new Set<string>()
 
   return definePlugin({
     name: 'unocss',
     environments: ['server'],
     conflictsWith: ['twind'],
-    onBootServer() {
-      generator = createGenerator(config ?? defaultConfig)
+    async onBootServer({ resourcesPath }) {
+      const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json']
+      const generator = createGenerator(config ?? defaultConfig)
+      const filePaths = fsReadAll(resourcesPath, (filePath) =>
+        extensions.some((extension) => filePath.endsWith(extension))
+      )
+
+      /**
+       * Look for classes in files
+       */
+      for (const filePath of filePaths) {
+        const fileContents = readFileSync(join(resourcesPath, filePath), 'utf8')
+        await generator.applyExtractors(fileContents, filePath, tokens)
+      }
+
+      const generatorResult = await generator.generate(tokens, {
+        minify: isProduction,
+      })
+
+      css = generatorResult.css
     },
-    async onScanAsset(asset) {
-      await generator.applyExtractors(...asset, tokensFromStaticAnalysis)
+    beforeRequest() {
+      cssInjected = false
     },
     afterRender() {
-      const tokensFromRender = new Set(tokensFromStaticAnalysis)
+      return (html: string) => {
+        const headIndex = html.indexOf('</head>')
 
-      return async (html) => {
-        await generator.applyExtractors(html, undefined, tokensFromRender)
-        const { css } = await generator.generate(tokensFromRender, { minify: isProduction })
-        return html.replace(/<\/head>/, `<style>${css}</style>\n</head>`)
+        if (!cssInjected && css && headIndex !== -1) {
+          cssInjected = true
+
+          return html.replace('</head>', `\n<style>${css}</style>\n</head>`)
+        }
+
+        return html
       }
     },
   })

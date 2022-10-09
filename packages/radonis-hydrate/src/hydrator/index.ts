@@ -8,7 +8,7 @@
  */
 
 import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Components } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier, Components } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
@@ -56,7 +56,7 @@ export class Hydrator {
   /**
    * Register a component
    */
-  registerComponent(identifier: string, Component: ComponentType): this {
+  registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
     if (this.#components.has(identifier)) {
       throw HydrateException.componentAlreadyRegistered(identifier)
     }
@@ -84,23 +84,19 @@ export class Hydrator {
    * Hydrate a specific HydrationRoot
    */
   async #hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
-    const {
-      hydrationRoot: hydrationRootIdentifier,
-      component: componentIdentifier,
-      props: propsHash = '0',
-    } = hydrationRoot.dataset
+    const manifest = getManifestOrFail()
+    const hydrationRootId = hydrationRoot.dataset.hydrationRoot!
+    const hydration = manifest.hydration[hydrationRootId]
 
-    if (!hydrationRootIdentifier || !componentIdentifier) {
-      throw HydrateException.missingHydrationData()
+    if (!hydration) {
+      throw HydrateException.missingHydrationData(hydrationRootId)
     }
 
-    const Component = this.#components.get(componentIdentifier)
+    const Component = this.#components.get(hydration.componentIdentifier)
 
     if (!Component) {
-      throw HydrateException.cannotHydrate(componentIdentifier, componentIdentifier)
+      throw HydrateException.cannotHydrate(hydration.componentIdentifier, hydrationRootId)
     }
-
-    const manifest = getManifestOrFail()
 
     const tree = await this.#pluginsManager.execute(
       'beforeHydrate',
@@ -109,12 +105,10 @@ export class Hydrator {
         {
           value: {
             hydrated: true,
-            root: hydrationRootIdentifier,
-            component: componentIdentifier,
-            propsHash,
+            id: hydrationRootId,
           },
         },
-        h(Component, manifest.props[propsHash])
+        h(Component, hydration.props)
       ),
       null
     )

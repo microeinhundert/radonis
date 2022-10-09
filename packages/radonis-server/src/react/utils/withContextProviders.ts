@@ -13,23 +13,19 @@ import type { ComponentPropsWithoutRef, ComponentType, ReactElement } from 'reac
 import { createElement as h } from 'react'
 
 import type { AssetsManager } from '../../assetsManager'
-import type { HeadManager } from '../../headManager'
 import type { ManifestManager } from '../../manifestManager'
-import { Document } from '../components/Document'
 import { AdonisContextProvider } from '../contexts/adonisContext'
 import { AssetsManagerContextProvider } from '../contexts/assetsManagerContext'
-import { HeadManagerContextProvider } from '../contexts/headManagerContext'
 import { HydrationManagerContextProvider } from '../contexts/hydrationManagerContext'
 import { ManifestManagerContextProvider } from '../contexts/manifestManagerContext'
 
 /**
- * Wrap the React tree with providers as well as the document
+ * Wrap a React component with the required context providers
  * @internal
  */
-export function wrapTree<T>(
+export function withContextProviders<T>(
   hydrationManager: HydrationManager,
   assetsManager: AssetsManager,
-  headManager: HeadManager,
   manifestManager: ManifestManager,
   adonisContext: AdonisContextContract,
   Component: ComponentType<T>,
@@ -42,13 +38,9 @@ export function wrapTree<T>(
       AssetsManagerContextProvider,
       { value: assetsManager },
       h(
-        HeadManagerContextProvider,
-        { value: headManager },
-        h(
-          ManifestManagerContextProvider,
-          { value: manifestManager } /* @ts-expect-error Unsure why this errors */,
-          h(AdonisContextProvider, { value: adonisContext }, h(Document, null, h(Component, props)))
-        )
+        ManifestManagerContextProvider,
+        { value: manifestManager } /* @ts-expect-error Unsure why this errors */,
+        h(AdonisContextProvider, { value: adonisContext }, h(Component, props))
       )
     )
   )

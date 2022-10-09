@@ -2,20 +2,99 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - WIP
+
+This is the next major release of Radonis. See below for new features and breaking changes.
+
+### Added
+- Streaming SSR support by using `renderToPipeableStream` under the hood.
+- `withCustomErrorPages` method to the Radonis contract. This method allows registering custom error pages.
+
+### Changed
+- **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
+- Refactored how hydration works under the hood. Instead of storing all hydration data apart from the actual component props as data attributes on the HydrationRoot DOM element, only a unique hydration id is now stored on the DOM element which references the data, which is now stored in a new `hydration` property on the manifest.
+- Updated dependencies.
+
+**Hooks**
+- **BREAKING:** Removed the `useHead` hook. The head must now be set from inside the controller. This is because modifying the head while rendering makes streaming unnecessarily hard, as the head will not be available until rendering finished.
+- **BREAKING:** Renamed `root` on the `useHydration` hook to `id`. 
+- **BREAKING:** Removed `component` and `propsHash` from the `useHydration` hook. These properties are now available by combining `useHydration` with the new `hydration` property on the `useManifest` hook.
+
+**Plugins**
+- **BREAKING:** The `afterRender` plugin hook now only gets passed one chunk of the rendered HTML instead of the whole document. The hook is now called once for every chunk of rendered HTML.
+- **BREAKING:** Removed `beforeOutputAsset` plugin hook.
+- **BREAKING:** Removed `afterOutputAssets` plugin hook.
+- **BREAKING:** Removed `onScanFile` plugin hook.
+
+### Migration
+
+Add the following `server` block to `config/radonis.ts`:
+
+```ts
+{
+  server: {
+    /*
+    |--------------------------------------------------------------------------
+    | Streaming
+    |--------------------------------------------------------------------------
+    |
+    | Stream the rendered view to the client instead of 
+    | waiting for the full view to finish rendering.
+    | This will enable Streaming SSR features from React 18.
+    |
+    */
+    streaming: true,
+  },
+}
+```
+
+If you use the combination of `useManifest` and `useHydration` to get the props of the closest HydrationRoot, this now works like this:
+
+```ts
+import { useManifest, useHydration } from '@microeinhundert/radonis'
+
+const manifest = useManifest()
+const hydration = useHydration()
+
+console.log(manifest.hydration[hydration.id].props) // => `{ someProp: 'test' }`
+```
+
+Remove the `reloadDocument` prop from all `Form` components. Forms which didn't use the `reloadDocument` prop before should now use the new `noReload` prop.
+
+```tsx
+function TraditionalForm() {
+  return (
+    <Form
+      reloadDocument // <- Remove this prop
+    >
+    </Form>
+  )
+}
+
+function FetchForm() {
+  return (
+    <Form
+      noReload // <- Add this prop
+    >
+    </Form>
+  )
+}
+```
+
 ## [1.11.4] - 2022-10-07
 
-# Changed
-- BREAKING: The `isCurrent` method on the `useRoute` hook now takes an options object as second argument.
+### Changed
+- **BREAKING:** The `isCurrent` method on the `useRoute` hook now takes an options object as second argument.
 - Updated dependencies.
 
 ## [1.11.3] - 2022-10-01
 
-# Fixed
+### Fixed
 - Missing prop type `className` on HydrationRoot.
 
 ## [1.11.2] - 2022-10-01
 
-# Changed
+### Changed
 - HydrationRoot enhancements.
 
 ## [1.11.1] - 2022-10-01
@@ -29,10 +108,10 @@ All notable changes to this project will be documented in this file.
 ## [1.11.0] - 2022-10-01
 
 ### Changed
-- BREAKING: Renamed `onScanFile` plugin hook to `onScanAsset`.
-- BREAKING: Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
-- BREAKING: Renamed `afterOutput` plugin hook to `afterOutputAssets`.
-- BREAKING: Increased minimum supported ECMAScript version to `ES2022` (NodeJS 16 and up).
+- **BREAKING:** Renamed `onScanFile` plugin hook to `onScanAsset`.
+- **BREAKING:** Renamed `beforeOutput` plugin hook to `beforeOutputAsset`.
+- **BREAKING:** Renamed `afterOutput` plugin hook to `afterOutputAssets`.
+- **BREAKING:** Increased minimum supported ECMAScript version to `ES2022` (NodeJS 16 and up).
 - Removed and deprecated internal package `@microeinhundert/radonis-manifest`.
 - Radonis packages now ship with source maps.
 - HydrationRoots now accept the `className` prop.
@@ -75,7 +154,7 @@ Run `node ace generate:types` manually or don't use the generated types until th
 ## [1.9.2] - 2022-09-20
 
 ### Changed
-- BREAKING: Removed `ExtractControllerActionReturnType` type utility.
+- **BREAKING:** Removed `ExtractControllerActionReturnType` type utility.
 
 ### Fixed
 - Type generation. Learn more in the [docs](https://radonis.vercel.app/docs/type-generation).
@@ -108,7 +187,7 @@ Run `node ace generate:types` manually or don't use the generated types until th
 ## [1.8.7] - 2022-09-07
 
 ### Changed
-- BREAKING: The `useFormField` hook now takes a single props object as its only param.
+- **BREAKING:** The `useFormField` hook now takes a single props object as its only param.
 
 ### Fixed
 - `onChange` and `onBlur` on form elements controlled by `useFormField` will now not be overridden, but merged.
@@ -134,7 +213,7 @@ Run `node ace generate:types` manually or don't use the generated types until th
 - `hasAny` and `hasAnyError` to `useFlashMessages` hook.
 
 ### Changed
-- BREAKING: The identifier parameter on `has` and `hasError` on the `useFlashMessages` hook is now required.
+- **BREAKING:** The identifier parameter on `has` and `hasError` on the `useFlashMessages` hook is now required.
 
 ## [1.8.3] - 2022-08-28
 
@@ -152,14 +231,14 @@ Run `node ace generate:types` manually or don't use the generated types until th
 ## [1.8.1] - 2022-08-28
 
 ### Changed
-- BREAKING: Removed `addData` from the HeadManager in favor of `addTags`. `addTags` expects a configuration object instead of a plain string.
-- BREAKING: Renamed `withMeta` on the Radonis contract to `withHeadMeta`.
+- **BREAKING:** Removed `addData` from the HeadManager in favor of `addTags`. `addTags` expects a configuration object instead of a plain string.
+- **BREAKING:** Renamed `withMeta` on the Radonis contract to `withHeadMeta`.
 - Updated dependencies.
 
 ## [1.8.0] - 2022-08-27
 
 ### Changed
-- BREAKING: Radonis now uses the automatic JSX transform.
+- **BREAKING:** Radonis now uses the automatic JSX transform.
 
 ### Migration
 
@@ -202,8 +281,8 @@ Run `node ace generate:types` manually or don't use the generated types until th
 - The `publicPath` in the generated buildManifest is now valid on Windows.
 
 ### Changed
-- BREAKING: Removed the `outputDir` option from config. See below for migration. The output dir is now automatically red from `.adonisrc.json` and falls back to `public` if not set.
-- BREAKING: Removed `--types-output-dir` and `--output-dir` flags from the `build:client` Ace command. The types are now always output to `tmp/types` if not building for production.
+- **BREAKING:** Removed the `outputDir` option from config. See below for migration. The output dir is now automatically red from `.adonisrc.json` and falls back to `public` if not set.
+- **BREAKING:** Removed `--types-output-dir` and `--output-dir` flags from the `build:client` Ace command. The types are now always output to `tmp/types` if not building for production.
 - Removed `tx` template literal minification from Twind plugin.
 
 ### Migration
