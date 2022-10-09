@@ -30,7 +30,6 @@ export function unocssPlugin(config?: UserConfig) {
   return definePlugin({
     name: 'unocss',
     environments: ['server'],
-    conflictsWith: ['twind'],
     async onBootServer({ resourcesPath }) {
       const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json']
       const generator = createGenerator(config ?? defaultConfig)
