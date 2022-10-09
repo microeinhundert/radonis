@@ -11,6 +11,8 @@ This is the next major release of Radonis. See below for new features and breaki
 - `withCustomErrorPages` method to the Radonis contract. This method allows registering custom error pages.
 
 ### Changed
+
+**General**
 - **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
 - Refactored how hydration works under the hood. Instead of storing all hydration data apart from the actual component props as data attributes on the HydrationRoot DOM element, only a unique hydration id is now stored on the DOM element which references the data, which is now stored in a new `hydration` property on the manifest.
 - Updated dependencies.
@@ -21,10 +23,13 @@ This is the next major release of Radonis. See below for new features and breaki
 - **BREAKING:** Removed `component` and `propsHash` from the `useHydration` hook. These properties are now available by combining `useHydration` with the new `hydration` property on the `useManifest` hook.
 
 **Plugins**
+- **BREAKING:** Deprecated the `twind` plugin in favor of the more streaming friendly `unocss`. Please migrate to the `unocss` plugin, which offers better performance, no runtime bloat and 100% compatibility with Tailwind CSS.
+
+**Plugin API**
 - **BREAKING:** The `afterRender` plugin hook now only gets passed one chunk of the rendered HTML instead of the whole document. The hook is now called once for every chunk of rendered HTML.
 - **BREAKING:** Removed `beforeOutputAsset` plugin hook.
 - **BREAKING:** Removed `afterOutputAssets` plugin hook.
-- **BREAKING:** Removed `onScanFile` plugin hook.
+- **BREAKING:** Removed `onScanAsset` plugin hook.
 
 ### Migration
 
@@ -59,7 +64,7 @@ const hydration = useHydration()
 console.log(manifest.hydration[hydration.id].props) // => `{ someProp: 'test' }`
 ```
 
-Remove the `reloadDocument` prop from all `Form` components. Forms which didn't use the `reloadDocument` prop before should now use the new `noReload` prop.
+If you use forms, remove the `reloadDocument` prop from all `Form` components. Forms which didn't use the `reloadDocument` prop before should now use the new `noReload` prop.
 
 ```tsx
 function TraditionalForm() {
@@ -80,6 +85,8 @@ function FetchForm() {
   )
 }
 ```
+
+If you use the `twind` plugin for styling, please migrate to the `unocss` plugin. The `unocss` plugin offers better performance, no runtime bloat and 100% compatibility with Tailwind CSS.
 
 ## [1.11.4] - 2022-10-07
 
