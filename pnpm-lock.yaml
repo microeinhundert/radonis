@@ -239,35 +239,6 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
-  packages/radonis-twind:
-    specifiers:
-      '@microeinhundert/radonis': workspace:2.0.0
-      '@microeinhundert/radonis-shared': workspace:2.0.0
-      '@microeinhundert/radonis-types': workspace:2.0.0
-      '@twind/preset-autoprefix': 1.0.0-next.37
-      '@twind/preset-tailwind': 1.0.0-next.37
-      '@twind/preset-tailwind-forms': 1.0.0-next.37
-      '@twind/preset-typography': 1.0.0-next.37
-      '@types/node': ^18.8.3
-      '@types/react': ^18.0.21
-      '@types/react-dom': ^18.0.6
-      tslib: ^2.4.0
-      twind: 1.0.0-next.37
-    dependencies:
-      '@microeinhundert/radonis-shared': link:../radonis-shared
-      '@microeinhundert/radonis-types': link:../radonis-types
-      '@twind/preset-autoprefix': 1.0.0-next.37_twind@1.0.0-next.37
-      '@twind/preset-tailwind': 1.0.0-next.37_twind@1.0.0-next.37
-      '@twind/preset-tailwind-forms': 1.0.0-next.37_bugkfu3cbm76zvzlo4oa7mziaa
-      '@twind/preset-typography': 1.0.0-next.37_twind@1.0.0-next.37
-      tslib: 2.4.0
-      twind: 1.0.0-next.37
-    devDependencies:
-      '@microeinhundert/radonis': link:../radonis
-      '@types/node': 18.8.3
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-
   packages/radonis-types:
     specifiers:
       '@types/node': ^18.8.3
@@ -1056,12 +1027,6 @@ packages:
     resolution: {integrity: sha512-d+2AtrHGyWek2u2ITF0lHRIv6Tt7X0dEHW+0rP+5aDCEjC3fiN2RBjrLD0yU0at52BcZbRGxLbAtXiR0hFCjYw==}
     dev: true
 
-  /@swc/helpers/0.3.17:
-    resolution: {integrity: sha512-tb7Iu+oZ+zWJZ3HJqwx8oNwSDIU440hmVMDPhpACWQWnrZHK99Bxs70gT1L2dnr5Hg50ZRWEFkQCAnOVVV0z1Q==}
-    dependencies:
-      tslib: 2.4.0
-    dev: false
-
   /@tanstack/query-core/4.10.3:
     resolution: {integrity: sha512-+ME02sUmBfx3Pjd+0XtEthK8/4rVMD2jcxvnW9DSgFONpKtpjzfRzjY4ykzpDw1QEo2eoPvl7NS8J5mNI199aA==}
     dev: true
@@ -1086,65 +1051,6 @@ packages:
 
   /@tokenizer/token/0.3.0:
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
-    dev: false
-
-  /@twind/preset-autoprefix/1.0.0-next.37_twind@1.0.0-next.37:
-    resolution: {integrity: sha512-eZkZVZZ+psdC9/2sZVLBRVpbMFvbxfU6t/1JgOKCzPPHvGjmLIsGM++HAHimSoyxjwYqKWHk0Q0S6+5xQfAkTQ==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      twind: 1.0.0-next.37
-      typescript: ^4.4.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@swc/helpers': 0.3.17
-      style-vendorizer: 2.2.3
-      twind: 1.0.0-next.37
-    dev: false
-
-  /@twind/preset-tailwind-forms/1.0.0-next.37_bugkfu3cbm76zvzlo4oa7mziaa:
-    resolution: {integrity: sha512-TiReCqhsro71iOW5Wk9OyGLS4pqE4rlikpW7ba8sKtaf3pgY0GmLLTmepuzs/RccX7baDOKAEm2Y4oodMc7hqw==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      '@twind/preset-tailwind': 1.0.0-next.37
-      twind: 1.0.0-next.37
-      typescript: ^4.4.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@swc/helpers': 0.3.17
-      '@twind/preset-tailwind': 1.0.0-next.37_twind@1.0.0-next.37
-      twind: 1.0.0-next.37
-    dev: false
-
-  /@twind/preset-tailwind/1.0.0-next.37_twind@1.0.0-next.37:
-    resolution: {integrity: sha512-cp+M/Vkrh6Bx/O9Djd++goYcm/Z5kNnleY/jKHx57eMVTwYsdud6n9pYCp0sVN6mO5HM7XqY3fyEhzlLO66Gxw==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      twind: 1.0.0-next.37
-      typescript: ^4.4.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@swc/helpers': 0.3.17
-      twind: 1.0.0-next.37
-    dev: false
-
-  /@twind/preset-typography/1.0.0-next.37_twind@1.0.0-next.37:
-    resolution: {integrity: sha512-zPWEM3kK0jreho0kmy15eqXeaseLo5RpUdKzDjxA/joPjLE5L1rPfJrYV5bDKIV3nUjmgJxLT2Tui/RyWmGerw==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      twind: 1.0.0-next.37
-      typescript: ^4.4.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@swc/helpers': 0.3.17
-      twind: 1.0.0-next.37
     dev: false
 
   /@types/bytes/3.1.1:
@@ -2036,6 +1942,7 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: true
 
   /cuid/2.1.8:
     resolution: {integrity: sha512-xiEMER6E7TlTPnDxrM4eRiC6TRgjNX9xzEZ5U/Se2YJKr7Mq4pJn/2XEHjl3STcSh96GmkHPcBXLES8M29wyyg==}
@@ -5016,10 +4923,6 @@ packages:
       peek-readable: 4.1.0
     dev: false
 
-  /style-vendorizer/2.2.3:
-    resolution: {integrity: sha512-/VDRsWvQAgspVy9eATN3z6itKTuyg+jW1q6UoTCQCFRqPDw8bi3E1hXIKnGw5LvXS2AQPuJ7Af4auTLYeBOLEg==}
-    dev: false
-
   /superjson/1.10.0:
     resolution: {integrity: sha512-ks6I5fm5KXUbDqt4Epe1VwkKDaC9+kIj5HF7yhiHjChFne0EkFqsnTv1mdHE2IT6fq2CzLC3zeA/fw0BRIoNwA==}
     engines: {node: '>=10'}
@@ -5218,19 +5121,6 @@ packages:
       turbo-windows-64: 1.5.5
       turbo-windows-arm64: 1.5.5
     dev: true
-
-  /twind/1.0.0-next.37:
-    resolution: {integrity: sha512-+aHzdV+u2Ttyun6a0ug2Qmj/+J/zgIJFJnITj4A4hdXnjAdE7lQoBng9eKWrogatscfiDXWoW/ntfYg1BO7Bsg==}
-    engines: {node: '>=12.4'}
-    peerDependencies:
-      typescript: ^4.4.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@swc/helpers': 0.3.17
-      csstype: 3.1.1
-    dev: false
 
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
