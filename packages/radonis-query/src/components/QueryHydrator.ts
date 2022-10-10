@@ -14,7 +14,7 @@ import { createElement as h } from 'react'
 import type { QueryHydratorProps } from '../types'
 
 /**
- * The component for hydrating the queries client-side
+ * The component for hydrating queries
  * @internal
  */
 export function QueryHydrator({ children }: QueryHydratorProps) {

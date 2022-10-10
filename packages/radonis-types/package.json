@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "superjson": "^1.10.0",
     "tslib": "^2.4.0"
   }
 }

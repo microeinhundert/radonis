@@ -62,14 +62,14 @@ export class Renderer implements RendererContract, Resettable {
   #router: RouterContract
 
   /**
-   * The Radonis config
-   */
-  #config: RadonisConfig
-
-  /**
    * The I18nManager instance
    */
   #i18nManager: I18nManagerContract
+
+  /**
+   * The Radonis config
+   */
+  #config: RadonisConfig
 
   /**
    * The PluginsManager instance
@@ -203,7 +203,7 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Render the view and return the full HTML document
+   * Render the view and stream the response
    */
   async render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,

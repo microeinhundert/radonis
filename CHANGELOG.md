@@ -23,7 +23,7 @@ This is the next major release of Radonis. See below for new features and breaki
 - **BREAKING:** Removed `component` and `propsHash` from the `useHydration` hook. These properties are now available by combining `useHydration` with the new `hydration` property on the `useManifest` hook.
 
 **Plugins**
-- **BREAKING:** Deprecated the `twind` plugin in favor of the more streaming friendly `unocss`. Please migrate to the `unocss` plugin, which offers better performance, no runtime bloat and 100% compatibility with Tailwind CSS.
+- **BREAKING:** Deprecated the `twind` plugin in favor of the more streaming friendly `unocss`. Please migrate to the `unocss` plugin, which offers better performance, no runtime bloat and better compatibility with Tailwind CSS.
 
 **Plugin API**
 - **BREAKING:** The `afterRender` plugin hook now only gets passed one chunk of the rendered HTML instead of the whole document. The hook is now called once for every chunk of rendered HTML.
@@ -86,7 +86,7 @@ function FetchForm() {
 }
 ```
 
-If you use the `twind` plugin for styling, please migrate to the `unocss` plugin. The `unocss` plugin offers better performance, no runtime bloat and 100% compatibility with Tailwind CSS.
+If you use the `twind` plugin for styling, please migrate to the `unocss` plugin. The `unocss` plugin offers better performance, no runtime bloat and better compatibility with Tailwind CSS.
 
 ## [1.11.4] - 2022-10-07
 

@@ -15,7 +15,6 @@ import type { ReactNode } from 'react'
 import { renderToPipeableStream } from 'react-dom/server'
 
 /**
- * Helper function to prepend and append chunks the body stream
  * @internal
  */
 export async function* generateHtmlStream({
@@ -39,8 +38,8 @@ export async function* generateHtmlStream({
 }
 
 /**
- * Helper function to get an AsyncIterable (via PassThrough)
- * from the renderToPipeableStream() onShellReady event
+ * Helper function to get an AsyncIterable (via Minipass)
+ * from the `renderToPipeableStream` `onShellReady` event
  * @internal
  */
 export function onShellReady(tree: ReactNode) {
@@ -69,7 +68,7 @@ export function onShellReady(tree: ReactNode) {
 
 /**
  * Helper function to get an AsyncIterable (via Minipass)
- * from the renderToPipeableStream() onAllReady event
+ * from the `renderToPipeableStream` `onAllReady` event
  * @internal
  */
 export function onAllReady(tree: ReactNode) {

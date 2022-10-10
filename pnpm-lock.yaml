@@ -22,7 +22,7 @@ importers:
       eslint-config-prettier: 8.5.0
       eslint-plugin-adonis: 2.1.1
       eslint-plugin-prettier: 4.2.1
-      eslint-plugin-react: ^7.31.8
+      eslint-plugin-react: ^7.31.9
       eslint-plugin-react-hooks: ^4.6.0
       eslint-plugin-simple-import-sort: ^8.0.0
       husky: ^8.0.1
@@ -55,7 +55,7 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.25.0
       eslint-plugin-adonis: 2.1.1_z4bbprzjrhnsfa24uvmcbu7f5q
       eslint-plugin-prettier: 4.2.1_hvbqyfstm4urdpm6ffpwfka4e4
-      eslint-plugin-react: 7.31.8_eslint@8.25.0
+      eslint-plugin-react: 7.31.9_eslint@8.25.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.25.0
       eslint-plugin-simple-import-sort: 8.0.0_eslint@8.25.0
       husky: 8.0.1
@@ -73,7 +73,6 @@ importers:
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.8.3
-      superjson: ^1.10.0
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-form': link:../radonis-form
@@ -81,7 +80,6 @@ importers:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
-      superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
       '@types/node': 18.8.3
@@ -135,14 +133,14 @@ importers:
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       intl-messageformat: ^10.1.5
-      superjson: ^1.10.0
+      superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       intl-messageformat: 10.1.5
-      superjson: 1.10.0
+      superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
       '@types/node': 18.8.3
@@ -157,13 +155,13 @@ importers:
       '@types/node': ^18.8.3
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
-      superjson: ^1.10.0
+      superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
-      superjson: 1.10.0
+      superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
       '@types/node': 18.8.3
@@ -180,13 +178,13 @@ importers:
       '@types/node': ^18.8.3
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
-      superjson: ^1.10.0
+      superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
-      superjson: 1.10.0
+      superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
       '@microeinhundert/radonis': link:../radonis
@@ -207,7 +205,7 @@ importers:
       chokidar: ^3.5.3
       flattie: ^1.1.0
       minipass: ^3.3.4
-      superjson: ^1.10.0
+      superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
@@ -217,7 +215,7 @@ importers:
       chokidar: 3.5.3
       flattie: 1.1.0
       minipass: 3.3.4
-      superjson: 1.10.0
+      superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
       '@types/node': 18.8.3
@@ -245,11 +243,9 @@ importers:
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       fs-extra: ^10.1.0
-      superjson: ^1.10.0
       tslib: ^2.4.0
     dependencies:
       fs-extra: 10.1.0
-      superjson: 1.10.0
       tslib: 2.4.0
     devDependencies:
       '@types/node': 18.8.3
@@ -2505,8 +2501,8 @@ packages:
       eslint: 8.25.0
     dev: true
 
-  /eslint-plugin-react/7.31.8_eslint@8.25.0:
-    resolution: {integrity: sha512-5lBTZmgQmARLLSYiwI71tiGVTLUuqXantZM6vlSY39OaDSV0M7+32K5DnLkmFrwTe+Ksz0ffuLUC91RUviVZfw==}
+  /eslint-plugin-react/7.31.9_eslint@8.25.0:
+    resolution: {integrity: sha512-vrVJwusIw4L99lyfXjtCw8HWdloajsiYslMavogrBe2Gl8gr95TJsJnOMRasN4b4N24I3XuJf6aAV6MhyGmjqw==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
@@ -4923,8 +4919,8 @@ packages:
       peek-readable: 4.1.0
     dev: false
 
-  /superjson/1.10.0:
-    resolution: {integrity: sha512-ks6I5fm5KXUbDqt4Epe1VwkKDaC9+kIj5HF7yhiHjChFne0EkFqsnTv1mdHE2IT6fq2CzLC3zeA/fw0BRIoNwA==}
+  /superjson/1.10.1:
+    resolution: {integrity: sha512-7fvPVDHmkTKg6641B9c6vr6Zz5CwPtF9j0XFExeLxJxrMaeLU2sqebY3/yrI3l0K5zJ+H9QA3H+lIYj5ooCOkg==}
     engines: {node: '>=10'}
     dependencies:
       copy-anything: 3.0.2

@@ -32,7 +32,7 @@ export function queryPlugin(config?: QueryClientConfig) {
       queryClient.clear()
     },
     beforeRender() {
-      return (tree) => h(QueryClientProvider, { client: queryClient }, tree)
+      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, tree))
     },
   })
 }
