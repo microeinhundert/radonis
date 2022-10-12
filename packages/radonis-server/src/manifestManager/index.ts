@@ -18,6 +18,7 @@ import type {
   Hydration,
   Locale,
   ManifestContract,
+  ManifestManagerContract,
   Messages,
   Resettable,
   Route,
@@ -31,7 +32,7 @@ import { DEFAULT_LOCALE } from './constants'
 /**
  * @internal
  */
-export class ManifestManager implements ManifestContract, Resettable {
+export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The Radonis config
    */

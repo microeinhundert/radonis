@@ -10,15 +10,7 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import superjson from 'superjson'
 
-import {
-  HydrationRoot,
-  useAdonis,
-  useApplication,
-  useHttpContext,
-  useRequest,
-  useRouter,
-  useSession,
-} from '../src/react'
+import { HydrationRoot } from '../src/components/HydrationRoot'
 
 export default class RadonisProvider {
   static needsApplication = true
@@ -105,12 +97,6 @@ export default class RadonisProvider {
      */
     this.#application.container.singleton('Microeinhundert/Radonis', () => {
       return {
-        useAdonis,
-        useApplication,
-        useHttpContext,
-        useSession,
-        useRequest,
-        useRouter,
         HydrationRoot,
       }
     })

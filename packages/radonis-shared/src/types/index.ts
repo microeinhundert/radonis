@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import type { MaybePromise } from '@microeinhundert/radonis-types'
 import type { ReactElement } from 'react'
 
 /**
@@ -24,7 +25,7 @@ export type PluginHook<TInput> = (input: TInput) => Promise<void> | void
  */
 export type PluginHookWithBuilder<TBuilderValue, TInput> = (
   input: TInput
-) => (value: TBuilderValue) => Promise<TBuilderValue> | TBuilderValue
+) => (value: TBuilderValue) => MaybePromise<TBuilderValue>
 
 /**
  * Plugin hooks

@@ -10,7 +10,7 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 
-import { hydrationManager } from '../singletons'
+import { hydrationManager } from '../../singletons'
 import { useManifest } from './useManifest'
 
 /**

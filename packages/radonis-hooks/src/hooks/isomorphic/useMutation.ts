@@ -14,7 +14,7 @@
 import type { Reducer } from 'react'
 import { useCallback, useReducer, useRef } from 'react'
 
-import type { MutationOptions, MutationResult, MutationStatus } from '../types'
+import type { MutationOptions, MutationResult, MutationStatus } from '../../types'
 import { useGetLatest } from './internal/useGetLatest'
 import { useSafeCallback } from './internal/useSafeCallback'
 

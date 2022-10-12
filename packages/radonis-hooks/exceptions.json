@@ -23,5 +23,10 @@
     "message": "Wildcard routes are currently not supported",
     "code": "E_WILDCARD_ROUTES_NOT_SUPPORTED",
     "status": 500
+  },
+  "E_CANNOT_USE_ON_CLIENT": {
+    "message": "The `{{ hookName }}()` hook cannot be used client-side",
+    "code": "E_CANNOT_USE_ON_CLIENT",
+    "status": 500
   }
 }

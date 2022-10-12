@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,14 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import { useAdonis } from './useAdonis'
+import { HookException } from '../../exceptions/hookException'
+import { useServer } from './useServer'
 
 /**
  * Hook for retrieving the AdonisJS `HttpContextContract`
  * @see https://radonis.vercel.app/docs/hooks/use-http-context
  */
 export function useHttpContext() {
-  const { httpContext } = useAdonis()
+  try {
+    const { httpContext } = useServer()
 
-  return httpContext
+    return httpContext
+  } catch {
+    throw HookException.cannotUseOnClient('useHttpContext')
+  }
 }

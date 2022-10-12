@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,14 +7,13 @@
  * file that was distributed with this source code.
  */
 
+import type { AssetsManagerContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
-
-import type { AssetsManager } from '../../assetsManager'
 
 /**
  * @internal
  */
-export const assetsManagerContext = createContext<AssetsManager>(null as any)
+export const assetsManagerContext = createContext<AssetsManagerContract>(null as any)
 
 /**
  * @internal

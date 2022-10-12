@@ -12,7 +12,7 @@ import type { ManifestContract } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
-import { HookException } from '../exceptions/hookException'
+import { HookException } from '../../exceptions/hookException'
 
 declare global {
   var radonisManifest: ManifestContract | undefined

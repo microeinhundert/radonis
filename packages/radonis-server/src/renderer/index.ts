@@ -12,12 +12,12 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import type { LoggerContract } from '@ioc:Adonis/Core/Logger'
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
-import type { AdonisContextContract, RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
 import type { PluginsManager } from '@microeinhundert/radonis-shared'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type {
-  CustomErrorPages,
+  ErrorPages,
   Globals,
   HeadMeta,
   HeadTag,
@@ -25,8 +25,10 @@ import type {
   RendererContract,
   RenderOptions,
   Resettable,
+  ServerContract as ContextContract,
   UnwrapProps,
 } from '@microeinhundert/radonis-types'
+import type { FlushCallback } from '@microeinhundert/radonis-types/src'
 import { flattie } from 'flattie'
 import type { ContiguousData } from 'minipass'
 import type Minipass from 'minipass'
@@ -37,8 +39,8 @@ import { Readable, Transform } from 'stream'
 import type { AssetsManager } from '../assetsManager'
 import type { HeadManager } from '../headManager'
 import type { ManifestManager } from '../manifestManager'
-import { withContextProviders } from '../react'
 import { extractRootRoutes } from '../utils/extractRootRoutes'
+import { withContextProviders } from '../utils/withContextProviders'
 import { generateHtmlStream, onAllReady, onShellReady } from './utils/stream'
 import { transformRouteNode } from './utils/transformRouteNode'
 
@@ -47,23 +49,11 @@ import { transformRouteNode } from './utils/transformRouteNode'
  */
 export class Renderer implements RendererContract, Resettable {
   /**
-   * The application
+   * The Adonis services
    */
   #application: ApplicationContract
-
-  /**
-   * The Logger instance
-   */
   #logger: LoggerContract
-
-  /**
-   * The Router instance
-   */
   #router: RouterContract
-
-  /**
-   * The I18nManager instance
-   */
   #i18nManager: I18nManagerContract
 
   /**
@@ -72,39 +62,28 @@ export class Renderer implements RendererContract, Resettable {
   #config: RadonisConfig
 
   /**
-   * The PluginsManager instance
+   * The Radonis services
    */
   #pluginsManager: PluginsManager
-
-  /**
-   * The HydrationManager instance
-   */
   #hydrationManager: HydrationManager
-
-  /**
-   * The AssetsManager instance
-   */
   #assetsManager: AssetsManager
-
-  /**
-   * The HeadManager instance
-   */
   #headManager: HeadManager
-
-  /**
-   * The ManifestManager instance
-   */
   #manifestManager: ManifestManager
 
   /**
-   * The Adonis context
+   * The error pages
    */
-  #adonisContext: AdonisContextContract
+  #errorPages: ErrorPages
 
   /**
-   * The registered custom error pages
+   * The context
    */
-  #customErrorPages: CustomErrorPages
+  #context: ContextContract
+
+  /**
+   * The flush callbacks
+   */
+  #flushCallbacks: FlushCallback[]
 
   /**
    * Constructor
@@ -134,9 +113,9 @@ export class Renderer implements RendererContract, Resettable {
     this.#router.commit()
 
     /**
-     * Set Adonis context
+     * Set the context
      */
-    this.#adonisContext = {
+    this.#context = {
       application: this.#application,
       httpContext,
       router: this.#router,
@@ -194,10 +173,20 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Register custom error pages for the current request
+   * Add error pages for the current request
    */
-  withCustomErrorPages(pages: CustomErrorPages): this {
-    this.#customErrorPages = { ...this.#customErrorPages, ...pages }
+  withErrorPages(errorPages: ErrorPages): this {
+    this.#errorPages = { ...this.#errorPages, ...errorPages }
+
+    return this
+  }
+
+  /**
+   * Add flush callbacks to be executed after
+   * rendering the view for the current request
+   */
+  withFlushCallbacks(flushCallbacks: FlushCallback[]): this {
+    this.#flushCallbacks = [...this.#flushCallbacks, ...flushCallbacks]
 
     return this
   }
@@ -210,7 +199,7 @@ export class Renderer implements RendererContract, Resettable {
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<UnwrapProps<T>> {
-    const { request } = this.#adonisContext.httpContext
+    const { request } = this.#context.httpContext
 
     /**
      * If the request accepts HTML,
@@ -221,7 +210,7 @@ export class Renderer implements RendererContract, Resettable {
        * Re-read the build manifest on every
        * render when not in production
        */
-      if (!this.#adonisContext.application.inProduction) {
+      if (!this.#context.application.inProduction) {
         await this.#assetsManager.readBuildManifest()
       }
 
@@ -262,11 +251,11 @@ export class Renderer implements RendererContract, Resettable {
         await this.#renderAndStreamComponent(Component, props)
       } catch (error) {
         /**
-         * Render a custom error page if one was registered, else rethrow the error
+         * Render error page if one was registered, else rethrow the error
          */
-        if (this.#customErrorPages[500]) {
+        if (this.#errorPages[500]) {
           this.#logger.error(error)
-          await this.#renderAndStreamComponent(this.#customErrorPages[500], { error })
+          await this.#renderAndStreamComponent(this.#errorPages[500], { error })
         } else {
           throw error
         }
@@ -310,7 +299,10 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * Get the string containing the <footer> as well as the closing <html>
    */
-  #getFooterString(): string {
+  async #getFooterString(): Promise<string> {
+    // TODO
+    console.log(await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback.apply(this))))
+
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)
 
@@ -335,25 +327,15 @@ export class Renderer implements RendererContract, Resettable {
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>
   ): Promise<void> {
-    /**
-     * The fully contstructed tree of React elements
-     */
-    const tree = await this.#pluginsManager.execute(
-      'beforeRender',
-      withContextProviders(
-        this.#hydrationManager,
-        this.#assetsManager,
-        this.#manifestManager,
-        this.#adonisContext,
-        Component,
-        props
-      ),
-      null
+    const tree = withContextProviders(
+      this,
+      this.#assetsManager,
+      this.#manifestManager,
+      this.#context,
+      /* @ts-ignore Unsure why this errors */
+      await this.#pluginsManager.execute('beforeRender', h(Component, props), null)
     )
 
-    /**
-     * The readable containing head, body and footer
-     */
     const htmlStreamReadable = Readable.from(
       generateHtmlStream({
         head: () => this.#getHeadString(),
@@ -362,7 +344,7 @@ export class Renderer implements RendererContract, Resettable {
       })
     )
 
-    this.#adonisContext.httpContext.response
+    this.#context.httpContext.response
       .header('Content-Type', 'text/html')
       .header('Connection', 'Transfer-Encoding')
       .header('Transfer-Encoding', 'chunked')
@@ -394,7 +376,8 @@ export class Renderer implements RendererContract, Resettable {
    * Set the defaults
    */
   #setDefaults(): void {
-    this.#adonisContext = null as any
-    this.#customErrorPages = {}
+    this.#context = null as any
+    this.#errorPages = {}
+    this.#flushCallbacks = []
   }
 }

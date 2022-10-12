@@ -8,7 +8,9 @@ This is the next major release of Radonis. See below for new features and breaki
 
 ### Added
 - Streaming SSR support by using `renderToPipeableStream` under the hood.
-- `withCustomErrorPages` method to the Radonis contract. This method allows registering custom error pages.
+- `withErrorPages` method to the Radonis contract. This method allows adding custom error pages.
+- `useAssetsManager`, `useManifestManager` and `useRenderer` hooks for directly accessing Radonis internals
+- `useFlushEffect` hook for integrating 3rd party libraries with React 18 and Suspense.
 
 ### Changed
 
@@ -18,6 +20,8 @@ This is the next major release of Radonis. See below for new features and breaki
 - Updated dependencies.
 
 **Hooks**
+- **BREAKING:** All hooks are now exported from the `@microeinhundert/radonis` package.
+- **BREAKING:** Renamed the `useAdonis` hook to `useServer`.
 - **BREAKING:** Removed the `useHead` hook. The head must now be set from inside the controller. This is because modifying the head while rendering makes streaming unnecessarily hard, as the head will not be available until rendering finished.
 - **BREAKING:** Renamed `root` on the `useHydration` hook to `id`. 
 - **BREAKING:** Removed `component` and `propsHash` from the `useHydration` hook. These properties are now available by combining `useHydration` with the new `hydration` property on the `useManifest` hook.

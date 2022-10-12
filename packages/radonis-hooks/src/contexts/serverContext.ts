@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,16 +7,15 @@
  * file that was distributed with this source code.
  */
 
+import type { ServerContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
-import type { ManifestManager } from '../../manifestManager'
+/**
+ * @internal
+ */
+export const serverContext = createContext<ServerContract>(null as any)
 
 /**
  * @internal
  */
-export const manifestManagerContext = createContext<ManifestManager>(null as any)
-
-/**
- * @internal
- */
-export const ManifestManagerContextProvider = manifestManagerContext.Provider
+export const ServerContextProvider = serverContext.Provider

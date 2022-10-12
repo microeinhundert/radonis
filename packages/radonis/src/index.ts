@@ -10,13 +10,22 @@
 export { initClient, registerComponentForHydration } from './client'
 export { Form, useForm, useFormField } from '@microeinhundert/radonis-form'
 export {
+  useApplication,
+  useAssetsManager,
   useFlashMessages,
   useGlobals,
+  useHttpContext,
   useI18n,
   useManifest,
+  useManifestManager,
   useMutation,
+  useRenderer,
+  useRequest,
   useRoute,
+  useRouter,
   useRoutes,
+  useServer,
+  useSession,
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
 export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'

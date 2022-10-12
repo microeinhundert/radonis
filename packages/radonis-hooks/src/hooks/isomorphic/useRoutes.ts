@@ -9,7 +9,7 @@
 
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 
-import { hydrationManager } from '../singletons'
+import { hydrationManager } from '../../singletons'
 import { useManifest } from './useManifest'
 
 /**

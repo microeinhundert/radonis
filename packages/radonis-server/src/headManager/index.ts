@@ -10,14 +10,14 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
-import type { HeadContract, HeadMeta, HeadTag, Resettable } from '@microeinhundert/radonis-types'
+import type { HeadManagerContract, HeadMeta, HeadTag, Resettable } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from './utils/buildTitle'
 
 /**
  * @internal
  */
-export class HeadManager implements HeadContract, Resettable {
+export class HeadManager implements HeadManagerContract, Resettable {
   /**
    * The Radonis config
    */

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -10,12 +10,18 @@
 import { useContext } from 'react'
 
 import { assetsManagerContext } from '../../contexts/assetsManagerContext'
+import { HookException } from '../../exceptions/hookException'
 
 /**
- * @internal
+ * Hook for retrieving the Radonis `AssetsManager` instance
+ * @see https://radonis.vercel.app/docs/hooks/use-assets-manager
  */
 export function useAssetsManager() {
   const context = useContext(assetsManagerContext)
+
+  if (!context) {
+    throw HookException.cannotUseOnClient('useAssetsManager')
+  }
 
   return context
 }

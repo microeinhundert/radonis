@@ -15,6 +15,7 @@ import {
 import {
   E_CANNOT_FIND_MESSAGE,
   E_CANNOT_FIND_ROUTE,
+  E_CANNOT_USE_ON_CLIENT,
   E_MANIFEST_UNAVAILABLE,
   E_MISSING_ROUTE_PARAM,
   E_WILDCARD_ROUTES_NOT_SUPPORTED,
@@ -76,6 +77,17 @@ export class HookException extends Exception {
       E_WILDCARD_ROUTES_NOT_SUPPORTED.message,
       E_WILDCARD_ROUTES_NOT_SUPPORTED.status,
       E_WILDCARD_ROUTES_NOT_SUPPORTED.code
+    )
+
+    throw error
+  }
+  static cannotUseOnClient(hookName: string) {
+    const error = new this(
+      interpolate(E_CANNOT_USE_ON_CLIENT.message, {
+        hookName,
+      }),
+      E_CANNOT_USE_ON_CLIENT.status,
+      E_CANNOT_USE_ON_CLIENT.code
     )
 
     throw error

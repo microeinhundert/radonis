@@ -102,6 +102,7 @@
   },
   "dependencies": {
     "@microeinhundert/radonis-build": "workspace:2.0.0",
+    "@microeinhundert/radonis-hooks": "workspace:2.0.0",
     "@microeinhundert/radonis-hydrate": "workspace:2.0.0",
     "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@microeinhundert/radonis-types": "workspace:2.0.0",

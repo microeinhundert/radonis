@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { HookException } from '../../exceptions/hookException'
 import { useHttpContext } from './useHttpContext'
 
 /**
@@ -14,7 +15,11 @@ import { useHttpContext } from './useHttpContext'
  * @see https://radonis.vercel.app/docs/hooks/use-request
  */
 export function useRequest() {
-  const { request } = useHttpContext()
+  try {
+    const { request } = useHttpContext()
 
-  return request
+    return request
+  } catch {
+    throw HookException.cannotUseOnClient('useRequest')
+  }
 }

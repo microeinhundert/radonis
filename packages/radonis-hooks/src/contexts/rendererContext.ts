@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { AdonisContextContract } from '@ioc:Microeinhundert/Radonis'
+import type { RendererContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
 /**
  * @internal
  */
-export const adonisContext = createContext<AdonisContextContract>(null as any)
+export const rendererContext = createContext<RendererContract>(null as any)
 
 /**
  * @internal
  */
-export const AdonisContextProvider = adonisContext.Provider
+export const RendererContextProvider = rendererContext.Provider

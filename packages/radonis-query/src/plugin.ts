@@ -12,6 +12,7 @@ import type { QueryClientConfig } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createElement as h } from 'react'
 
+import { QueryDehydrator } from './components/QueryDehydrator'
 import { QueryHydrator } from './components/QueryHydrator'
 import { getQueryClient } from './queryClient'
 
@@ -26,13 +27,14 @@ export function queryPlugin(config?: QueryClientConfig) {
     name: 'query',
     environments: ['client', 'server'],
     beforeHydrate() {
-      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, tree))
+      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, { children: tree }))
     },
     afterRequest() {
       queryClient.clear()
     },
     beforeRender() {
-      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, tree))
+      return (tree) =>
+        h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, h(QueryDehydrator, { children: tree })))
     },
   })
 }

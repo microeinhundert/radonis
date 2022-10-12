@@ -10,7 +10,7 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
 
-import { hydrationManager } from '../singletons'
+import { hydrationManager } from '../../singletons'
 import { useManifest } from './useManifest'
 
 const ERRORS_NAMESPACE = 'errors'

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis-hooks
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -7,14 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import { useAdonis } from './useAdonis'
+import { HookException } from '../../exceptions/hookException'
+import { useServer } from './useServer'
 
 /**
  * Hook for retrieving the AdonisJS `ApplicationContract`
  * @see https://radonis.vercel.app/docs/hooks/use-application
  */
 export function useApplication() {
-  const { application } = useAdonis()
+  try {
+    const { application } = useServer()
 
-  return application
+    return application
+  } catch {
+    throw HookException.cannotUseOnClient('useApplication')
+  }
 }

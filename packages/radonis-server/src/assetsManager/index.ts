@@ -15,12 +15,12 @@ import {
   generateAssetsManifest,
   readBuildManifestFromDisk,
 } from '@microeinhundert/radonis-build'
-import type { ComponentIdentifier, Resettable } from '@microeinhundert/radonis-types'
+import type { AssetsManagerContract, ComponentIdentifier, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * @internal
  */
-export class AssetsManager implements Resettable {
+export class AssetsManager implements AssetsManagerContract, Resettable {
   /**
    * The Radonis config
    */

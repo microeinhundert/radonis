@@ -7,12 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import { useAssetsManager, useManifestManager } from '@microeinhundert/radonis-hooks'
 import { HydrationContextProvider, useHydration } from '@microeinhundert/radonis-hydrate'
 import { Children, createElement as h, isValidElement, useId } from 'react'
 
-import { ServerException } from '../../exceptions/serverException'
-import { useAssetsManager } from '../hooks/internal/useAssetsManager'
-import { useManifestManager } from '../hooks/internal/useManifestManager'
+import { ServerException } from '../exceptions/serverException'
 import type { HydrationRootProps } from '../types'
 
 /**

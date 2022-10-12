@@ -1,6 +1,7 @@
 import Application from '@ioc:Adonis/Core/Application';
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis';
 import { unocssPlugin } from '@microeinhundert/radonis-unocss';
+import { queryPlugin } from '@microeinhundert/radonis-query';
 
 const radonisConfig: RadonisConfig = {
   /*
@@ -12,7 +13,7 @@ const radonisConfig: RadonisConfig = {
   | separately inside the client entry file.
   |
   */
-  plugins: [unocssPlugin()],
+  plugins: [unocssPlugin(), queryPlugin()],
 
   /*
   |--------------------------------------------------------------------------

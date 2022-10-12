@@ -4,13 +4,10 @@
     "baseUrl": "./",
     "rootDir": "./",
     "composite": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "module": "commonjs",
-    "outDir": "build"
+    "outDir": "build",
+    "types": ["@adonisjs/core"]
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "build"]

@@ -11,8 +11,8 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
-import { HookException } from '../exceptions/hookException'
-import { hydrationManager } from '../singletons'
+import { HookException } from '../../exceptions/hookException'
+import { hydrationManager } from '../../singletons'
 import { useManifest } from './useManifest'
 
 /**

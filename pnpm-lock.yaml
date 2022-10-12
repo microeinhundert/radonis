@@ -196,6 +196,7 @@ importers:
   packages/radonis-server:
     specifiers:
       '@microeinhundert/radonis-build': workspace:2.0.0
+      '@microeinhundert/radonis-hooks': workspace:2.0.0
       '@microeinhundert/radonis-hydrate': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
@@ -209,6 +210,7 @@ importers:
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
+      '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types

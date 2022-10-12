@@ -10,9 +10,9 @@
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
-import { HookException } from '../exceptions/hookException'
-import { hydrationManager } from '../singletons'
-import type { UrlBuilderOptions } from '../types'
+import { HookException } from '../../exceptions/hookException'
+import { hydrationManager } from '../../singletons'
+import type { UrlBuilderOptions } from '../../types'
 import { useManifest } from './useManifest'
 
 /**

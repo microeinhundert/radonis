@@ -7,12 +7,39 @@
  * file that was distributed with this source code.
  */
 
+import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import { readFile } from 'fs/promises'
 import { emptyDir, outputFile } from 'fs-extra'
 import { dirname, join } from 'path'
-import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
+import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactNode } from 'react'
 
 const MODULE_NAME = '@microeinhundert/radonis-types'
+
+/**
+ * Value of
+ */
+export type ValueOf<T> = T[keyof T]
+
+/**
+ * Unwrap props
+ */
+export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
+
+/**
+ * Maybe promise
+ */
+export type MaybePromise<T> = Promise<T> | T
+
+/**
+ * Resettable
+ */
+export interface Resettable {
+  reset(): void
+}
+
+/* ---------------------------------------- */
 
 /**
  * Component identifier
@@ -39,6 +66,15 @@ export function generateComponentIdentifierUnionType(components: ComponentIdenti
  * Hydration
  */
 export type Hydration = Record<string, { componentIdentifier: string; props: Record<string, any> }>
+
+/**
+ * Hydration requirements
+ */
+export interface HydrationRequirements {
+  flashMessages: FlashMessageIdentifier[]
+  messages: MessageIdentifier[]
+  routes: RouteIdentifier[]
+}
 
 /* ---------------------------------------- */
 
@@ -131,51 +167,6 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 /* ---------------------------------------- */
 
 /**
- * ManifestContract contract
- */
-export type ManifestContract = {
-  hydration: Hydration
-  globals: Globals
-  locale: Locale
-  route: Route | null
-  flashMessages: FlashMessages
-  messages: Messages
-  routes: Routes
-}
-
-/* ---------------------------------------- */
-
-/**
- * Hydration requirements
- */
-export interface HydrationRequirements {
-  flashMessages: FlashMessageIdentifier[]
-  messages: MessageIdentifier[]
-  routes: RouteIdentifier[]
-}
-
-/* ---------------------------------------- */
-
-/**
- * Value of
- */
-export type ValueOf<T> = T[keyof T]
-
-/**
- * Unwrap props
- */
-export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
-
-/**
- * Resettable
- */
-export interface Resettable {
-  reset(): void
-}
-
-/* ---------------------------------------- */
-
-/**
  * Head meta
  */
 export interface HeadMeta {
@@ -194,19 +185,50 @@ export interface HeadTag {
 }
 
 /**
- * Head contract
+ * Error pages
  */
-export interface HeadContract {
-  setTitle(title: string): void
-  addMeta(meta: HeadMeta): void
-  addTags(tags: HeadTag[]): void
+export interface ErrorPages {
+  500?: ComponentType<{ error: unknown }>
 }
 
 /**
- * Custom error pages
+ * Flush callback
  */
-export interface CustomErrorPages {
-  500?: ComponentType<{ error: unknown }>
+export type FlushCallback = () => MaybePromise<ReactNode | void>
+
+/* ---------------------------------------- */
+
+/**
+ * AssetsManager contract
+ */
+export interface AssetsManagerContract {
+  requireComponent(identifier: ComponentIdentifier): void
+}
+
+/**
+ * ManifestContract contract
+ */
+export type ManifestContract = {
+  hydration: Hydration
+  globals: Globals
+  locale: Locale
+  route: Route | null
+  flashMessages: FlashMessages
+  messages: Messages
+  routes: Routes
+}
+
+/**
+ *  ManifestManager contract
+ */
+export interface ManifestManagerContract extends ManifestContract {
+  registerHydration(hydrationRootId: string, componentIdentifier: ComponentIdentifier, props: Record<string, any>): this
+  addGlobals(globals: Globals): this
+  setLocale(locale: Locale): this
+  setRoute(route: Route): this
+  setFlashMessages(flashMessages: FlashMessages): this
+  setMessages(messages: Messages): this
+  setRoutes(routes: Routes): this
 }
 
 /**
@@ -227,12 +249,31 @@ export interface RendererContract {
   withHeadMeta(meta: HeadMeta): RendererContract
   withHeadTags(tags: HeadTag[]): RendererContract
   withGlobals(globals: Globals): RendererContract
-  withCustomErrorPages(pages: CustomErrorPages): RendererContract
+  withErrorPages(errorPages: ErrorPages): RendererContract
+  withFlushCallbacks(flushCallbacks: FlushCallback[]): RendererContract
   render<T extends PropsWithoutRef<any>>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>,
     options?: RenderOptions
   ): Promise<UnwrapProps<T>>
+}
+
+/**
+ * HeadManager contract
+ */
+export interface HeadManagerContract {
+  setTitle(title: string): void
+  addMeta(meta: HeadMeta): void
+  addTags(tags: HeadTag[]): void
+}
+
+/**
+ * Server contract
+ */
+export interface ServerContract {
+  application: ApplicationContract
+  httpContext: HttpContextContract
+  router: RouterContract
 }
 
 /* ---------------------------------------- */
