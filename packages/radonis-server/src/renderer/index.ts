@@ -25,7 +25,7 @@ import type {
   RendererContract,
   RenderOptions,
   Resettable,
-  ServerContract as ContextContract,
+  ServerContract as Context,
   UnwrapProps,
 } from '@microeinhundert/radonis-types'
 import type { FlushCallback } from '@microeinhundert/radonis-types/src'
@@ -78,7 +78,7 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * The context
    */
-  #context: ContextContract
+  #context: Context
 
   /**
    * The flush callbacks

@@ -92,6 +92,24 @@ function FetchForm() {
 
 If you use the `twind` plugin for styling, please migrate to the `unocss` plugin. The `unocss` plugin offers better performance, no runtime bloat and better compatibility with Tailwind CSS.
 
+If you use the `useAdonis` hook, rename it to `useServer` and change imports from `@ioc:Microeinhundert/Radonis` to `@microeinhundert/radonis` for all hooks.
+
+```tsx
+// Before
+import { useAdonis } from '@ioc:Microeinhundert/Radonis'
+
+function View() {
+  const adonis = useAdonis()
+}
+
+// After
+import { useServer } from '@microeinhundert/radonis'
+
+function View() {
+  const server = useServer()
+}
+```
+
 ## [1.11.4] - 2022-10-07
 
 ### Changed
