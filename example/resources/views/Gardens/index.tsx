@@ -1,7 +1,6 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
 import { useI18n } from '@microeinhundert/radonis';
-import { useQuery } from '@microeinhundert/radonis-query';
 import type Garden from 'App/Models/Garden';
 import Button, { ButtonColor } from 'Components/Button';
 import GardensList from 'Components/Gardens/GardensList';
@@ -14,7 +13,6 @@ interface IndexProps {
 
 function Index({ gardens }: IndexProps) {
   const { formatMessage } = useI18n();
-  const { data } = useQuery('gardens.index');
 
   const messages = {
     title: formatMessage('gardens.index.title'),
@@ -22,8 +20,6 @@ function Index({ gardens }: IndexProps) {
       create: formatMessage('gardens.index.actions.create'),
     },
   };
-
-  console.log(data);
 
   return (
     <BaseLayout>

@@ -29,12 +29,11 @@ export function queryPlugin(config?: QueryClientConfig) {
     beforeHydrate() {
       return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, { children: tree }))
     },
-    afterRequest() {
+    beforeRequest() {
       queryClient.clear()
     },
     beforeRender() {
-      return (tree) =>
-        h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, null, h(QueryDehydrator, { children: tree })))
+      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryDehydrator, { children: tree }))
     },
   })
 }

@@ -63,7 +63,7 @@
   "devDependencies": {
     "@microeinhundert/radonis": "workspace:2.0.0",
     "@tanstack/react-query": "^4.10.3",
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.8.5",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },

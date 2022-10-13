@@ -1,5 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { prefetchQueries } from '@microeinhundert/radonis-query';
 import Garden from 'App/Models/Garden';
 import GardenValidator from 'App/Validators/GardenValidator';
 import { Create, Edit, Index, Show } from 'Views/Gardens';
@@ -12,10 +11,6 @@ export default class GardensController {
     await bouncer.with('GardenPolicy').authorize('list');
 
     const gardens = await Garden.query().where('user_id', auth.user!.id).select('*');
-
-    prefetchQueries({
-      'gardens.index': gardens,
-    }).attachState(radonis);
 
     return radonis.withTitle(i18n.formatMessage('gardens.index.title')).render(Index, { gardens });
   }

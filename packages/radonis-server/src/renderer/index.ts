@@ -300,8 +300,8 @@ export class Renderer implements RendererContract, Resettable {
    * Get the string containing the <footer> as well as the closing <html>
    */
   async #getFooterString(): Promise<string> {
-    // TODO
-    console.log(await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback.apply(this))))
+    // TODO: Inject returned ReactNodes into footer
+    await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback.apply(this)))
 
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)

@@ -16,7 +16,7 @@ import { QueryException } from '../exceptions/queryException'
 import type { QueryOptions } from '../types'
 
 /**
- * Hook for querying data from the server inside of React components
+ * Hook for querying server data in React components
  * @see https://radonis.vercel.app/docs/plugins/query#querying-data
  */
 export function useQuery<TData = unknown, TError = unknown>(

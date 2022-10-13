@@ -12,25 +12,13 @@ import {
   interpolate,
 } from '@microeinhundert/radonis-shared'
 
-import {
-  E_CANNOT_PREFETCH_ON_CLIENT,
-  E_REQUEST_FAILED,
-} from '../../exceptions.json'
+import { E_REQUEST_FAILED } from '../../exceptions.json'
 
 /**
  * Exceptions related to querying
  * @internal
  */
 export class QueryException extends Exception {
-  static cannotPrefetchOnClient() {
-    const error = new this(
-      E_CANNOT_PREFETCH_ON_CLIENT.message,
-      E_CANNOT_PREFETCH_ON_CLIENT.status,
-      E_CANNOT_PREFETCH_ON_CLIENT.code
-    )
-
-    throw error
-  }
   static requestFailed(
     routeIdentifier: string,
     status: number
