@@ -109,18 +109,20 @@ importers:
       '@microeinhundert/radonis-hydrate': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
-      '@types/node': ^18.8.3
+      '@types/node': ^18.8.5
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
+      superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
+      superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
-      '@types/node': 18.8.3
+      '@types/node': 18.8.5
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
 
@@ -1098,6 +1100,10 @@ packages:
 
   /@types/node/18.8.3:
     resolution: {integrity: sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==}
+
+  /@types/node/18.8.5:
+    resolution: {integrity: sha512-Bq7G3AErwe5A/Zki5fdD3O6+0zDChhg671NfPjtIcbtzDNZTv4NPKMRFr7gtYPG7y+B8uTiNK4Ngd9T0FTar6Q==}
+    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}

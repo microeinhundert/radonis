@@ -12,6 +12,7 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
+import superjson from 'superjson'
 
 import { FormException } from '../exceptions/formException'
 import { hydrationManager } from '../singletons'
@@ -74,7 +75,8 @@ export function useForm<TData, TError>({
       const requestInit: RequestInit = {
         method,
         headers: {
-          Accept: 'application/json',
+          'Accept': 'application/json',
+          'X-Radonis-Request': 'true',
         },
       }
 
@@ -97,7 +99,9 @@ export function useForm<TData, TError>({
         throw FormException.requestFailed(action, response.status)
       }
 
-      return response.json()
+      const json = await response.json()
+
+      return superjson.deserialize(json)
     },
     { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
   )

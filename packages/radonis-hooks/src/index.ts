@@ -16,6 +16,11 @@ export { rendererContext, RendererContextProvider } from './contexts/rendererCon
 export { serverContext, ServerContextProvider } from './contexts/serverContext'
 
 /*
+ * Client-side hooks
+ */
+export { useMutation } from './hooks/client/useMutation'
+
+/*
  * Isomorphic hooks
  */
 export { useFlashMessages } from './hooks/isomorphic/useFlashMessages'
@@ -23,7 +28,6 @@ export { useFlushEffect } from './hooks/isomorphic/useFlushEffect'
 export { useGlobals } from './hooks/isomorphic/useGlobals'
 export { useI18n } from './hooks/isomorphic/useI18n'
 export { useManifest } from './hooks/isomorphic/useManifest'
-export { useMutation } from './hooks/isomorphic/useMutation'
 export { useRoute } from './hooks/isomorphic/useRoute'
 export { useRoutes } from './hooks/isomorphic/useRoutes'
 export { useUrlBuilder } from './hooks/isomorphic/useUrlBuilder'

@@ -45,7 +45,7 @@ export function useQuery<TData = unknown, TError = unknown>(
 
       const json = await response.json()
 
-      return superjson.deserialize<TData>(json)
+      return superjson.deserialize(json)
     },
     options?.query
   )
