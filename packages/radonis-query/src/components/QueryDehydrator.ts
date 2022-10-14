@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { useFlushEffect, useRenderer } from '@microeinhundert/radonis-hooks'
+import { useFlushEffect, useRenderer } from '@microeinhundert/radonis'
 import { dehydrate, useQueryClient } from '@tanstack/react-query'
 
 import type { QueryDehydratorProps } from '../types'

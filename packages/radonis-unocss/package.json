@@ -65,7 +65,6 @@
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:2.0.0",
-    "@microeinhundert/radonis-types": "workspace:2.0.0",
     "@unocss/core": "0.45.29",
     "@unocss/preset-wind": "0.45.29",
     "@poppinss/utils": "^5.0.0",

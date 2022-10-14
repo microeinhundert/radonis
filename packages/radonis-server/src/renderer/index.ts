@@ -32,8 +32,10 @@ import type { FlushCallback } from '@microeinhundert/radonis-types/src'
 import { flattie } from 'flattie'
 import type { ContiguousData } from 'minipass'
 import type Minipass from 'minipass'
-import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement } from 'react'
+import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement, ReactNode } from 'react'
+import { Fragment } from 'react'
 import { createElement as h, StrictMode } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { Readable, Transform } from 'stream'
 
 import type { AssetsManager } from '../assetsManager'
@@ -71,14 +73,14 @@ export class Renderer implements RendererContract, Resettable {
   #manifestManager: ManifestManager
 
   /**
-   * The error pages
-   */
-  #errorPages: ErrorPages
-
-  /**
    * The context
    */
   #context: Context
+
+  /**
+   * The error pages
+   */
+  #errorPages: ErrorPages
 
   /**
    * The flush callbacks
@@ -124,7 +126,7 @@ export class Renderer implements RendererContract, Resettable {
     const locale = this.#extractUserLocale(httpContext)
 
     /**
-     * Set manifest
+     * Initialize the manifest
      */
     this.#manifestManager
       .setLocale(locale)
@@ -207,14 +209,6 @@ export class Renderer implements RendererContract, Resettable {
      */
     if (request.accepts(['html'])) {
       /**
-       * Re-read the build manifest on every
-       * render when not in production
-       */
-      if (!this.#context.application.inProduction) {
-        await this.#assetsManager.readBuildManifest()
-      }
-
-      /**
        * Set the title on the HeadManager
        */
       if (options?.title) {
@@ -269,17 +263,13 @@ export class Renderer implements RendererContract, Resettable {
    * Reset for a new request
    */
   reset(): void {
-    this.#assetsManager.reset()
-    this.#headManager.reset()
-    this.#manifestManager.reset()
-
     this.#setDefaults()
   }
 
   /**
-   * Get the string containing the <head> as well as the opening <html>
+   * Get the markup containing the <head> as well as the opening <html>
    */
-  #getHeadString(): string {
+  #getHeadMarkup(): string {
     return [
       '<!DOCTYPE html>',
       `<html ${stringifyAttributes({ lang: this.#manifestManager.locale })}>`,
@@ -297,27 +287,36 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Get the string containing the <footer> as well as the closing <html>
+   * Get the markup containing the <footer> as well as the closing <html>
    */
-  async #getFooterString(): Promise<string> {
-    // TODO: Inject returned ReactNodes into footer
-    await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback.apply(this)))
-
+  async #getFooterMarkup(): Promise<string> {
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)
 
-      return `<script ${stringifyAttributes({
+      return h('script', {
         type: 'module',
         defer: true,
         src: asset.path,
-      })}></script>`
+      })
     })
 
-    return [
-      `<script id="rad-manifest">window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}</script>`,
+    const resolvedFlushCallbacks = await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback()))
+    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => !!value)
+
+    const tree = h(
+      Fragment,
+      null,
+      h('script', {
+        id: 'rad-manifest',
+        dangerouslySetInnerHTML: {
+          __html: `window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}`,
+        },
+      }),
       ...scripts,
-      '</html>',
-    ].join('\n')
+      ...flushCallbackInjects
+    )
+
+    return [renderToStaticMarkup(tree), '</html>'].join('\n')
   }
 
   /**
@@ -338,9 +337,9 @@ export class Renderer implements RendererContract, Resettable {
 
     const htmlStreamReadable = Readable.from(
       generateHtmlStream({
-        head: () => this.#getHeadString(),
+        head: () => this.#getHeadMarkup(),
         body: () => this.#getBodyStream(tree),
-        footer: () => this.#getFooterString(),
+        footer: () => this.#getFooterMarkup(),
       })
     )
 
@@ -348,14 +347,14 @@ export class Renderer implements RendererContract, Resettable {
       .header('Content-Type', 'text/html')
       .header('Connection', 'Transfer-Encoding')
       .header('Transfer-Encoding', 'chunked')
-      .stream(htmlStreamReadable.pipe(this.#createAfterRenderTransform()))
+      .stream(htmlStreamReadable.pipe(this.#getAfterRenderTransform()))
   }
 
   /**
-   * Create a Transform calling the `afterRender`
+   * Get a Transform calling the `afterRender`
    * plugin hook for every chunk of rendered HTML
    */
-  #createAfterRenderTransform() {
+  #getAfterRenderTransform() {
     return new Transform({
       transform: async (chunk, _, callback) => {
         callback(null, await this.#pluginsManager.execute('afterRender', chunk.toString(), null))
@@ -364,7 +363,7 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Extract the user locale from the http context
+   * Extract the user locale from the HttpContext
    */
   #extractUserLocale({ request }: HttpContextContract): Locale {
     const supportedLocales = this.#i18nManager.supportedLocales()

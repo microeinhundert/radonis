@@ -56,7 +56,7 @@
     "@microeinhundert/radonis-server": "1.11.4",
     "@microeinhundert/radonis-unocss": "1.11.4",
     "@microeinhundert/radonis-query": "1.11.4",
-    "aws-sdk": "^2.1231.0",
+    "aws-sdk": "^2.1232.0",
     "luxon": "^3.0.4",
     "pg": "^8.8.0",
     "phc-argon2": "^1.1.3",

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteParams } from '@microeinhundert/radonis-types'
+import type { RouteParams } from '@microeinhundert/radonis'
 import type { UseQueryOptions } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
 

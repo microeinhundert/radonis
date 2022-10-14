@@ -13,6 +13,7 @@ export {
   useApplication,
   useAssetsManager,
   useFlashMessages,
+  useFlushEffect,
   useGlobals,
   useHttpContext,
   useI18n,

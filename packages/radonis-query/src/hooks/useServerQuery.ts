@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import type { RouteIdentifier } from '@microeinhundert/radonis'
 import { useUrlBuilder } from '@microeinhundert/radonis'
-import type { RouteIdentifier } from '@microeinhundert/radonis-types'
-import { useQuery as useQuery$ } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import superjson from 'superjson'
 
 import { QueryException } from '../exceptions/queryException'
@@ -19,7 +19,7 @@ import type { QueryOptions } from '../types'
  * Hook for querying server data in React components
  * @see https://radonis.vercel.app/docs/plugins/query#querying-data
  */
-export function useQuery<TData = unknown, TError = unknown>(
+export function useServerQuery<TData = unknown, TError = unknown>(
   routeIdentifier: RouteIdentifier,
   options?: QueryOptions<TData, TError>
 ) {
@@ -32,7 +32,7 @@ export function useQuery<TData = unknown, TError = unknown>(
 
   const queryKey = [routeIdentifier, options?.params, options?.queryParams]
 
-  return useQuery$<TData, TError>(
+  return useQuery<TData, TError>(
     queryKey,
     async () => {
       const response = await fetch(url, {

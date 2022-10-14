@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { useGlobals } from '@microeinhundert/radonis-hooks'
+import { useGlobals } from '@microeinhundert/radonis'
 import { Hydrate } from '@tanstack/react-query'
 import { createElement as h } from 'react'
 

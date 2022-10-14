@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Form, useHydrated, useI18n } from '@microeinhundert/radonis';
-import { useQuery } from '@microeinhundert/radonis-query';
+import { useServerQuery } from '@microeinhundert/radonis-query';
 import type GardensController  from 'App/Controllers/Http/GardensController';
 import type Garden from 'App/Models/Garden';
 import { useState } from 'react';
@@ -30,8 +30,6 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
   const hydrated = useHydrated();
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = useState(false);
 
-  const { data, isLoading } = useQuery<Awaited<ReturnType<GardensController['index']>>>('gardens.index');
-
   const messages = {
     actions: {
       edit: formatMessage('gardens.list.actions.edit'),
@@ -48,8 +46,6 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
       },
     },
   };
-
-  console.log(isLoading, data);
 
   return (
     <Form
@@ -146,6 +142,7 @@ function GardensList({ gardens }: GardensListProps) {
   const { formatMessage } = useI18n();
   const user = useAuthenticatedUser();
   const [gardensListItems, setGardensListItems] = useState<Garden[]>(gardens);
+  const { data } = useServerQuery<Awaited<ReturnType<GardensController['index']>>>('gardens.index');
 
   const messages = {
     noData: {
@@ -153,6 +150,8 @@ function GardensList({ gardens }: GardensListProps) {
       text: formatMessage('gardens.list.noData.text'),
     },
   };
+
+  console.log(data);
 
   return (
     <>

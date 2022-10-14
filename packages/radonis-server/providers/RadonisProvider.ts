@@ -125,14 +125,41 @@ export default class RadonisProvider {
     )
 
     this.#application.container.withBindings(
-      ['Adonis/Core/Server', 'Microeinhundert/Radonis/PluginsManager'],
-      async (Server, PluginsManager) => {
+      [
+        'Adonis/Core/Server',
+        'Microeinhundert/Radonis/AssetsManager',
+        'Microeinhundert/Radonis/HeadManager',
+        'Microeinhundert/Radonis/ManifestManager',
+        'Microeinhundert/Radonis/Renderer',
+        'Microeinhundert/Radonis/PluginsManager',
+      ],
+      async (Server, AssetsManager, HeadManager, ManifestManager, Renderer, PluginsManager) => {
         /**
          * Register server hooks
          */
         Server.hooks
-          .before(async () => {
+          .before(async ({ request }) => {
+            /**
+             * Reset, so incoming requests don't accidentally
+             * get data from the previous request
+             */
+            Renderer.reset()
+            ManifestManager.reset()
+            AssetsManager.reset()
+            HeadManager.reset()
+
+            /**
+             * Execute `beforeRequest` plugin hooks
+             */
             await PluginsManager.execute('beforeRequest', null, null)
+
+            /**
+             * Read the build manifest on incoming HTML
+             * requests when not in production
+             */
+            if (request.accepts(['html']) && !this.#application.inProduction) {
+              await AssetsManager.readBuildManifest()
+            }
           })
           .after(async ({ request, response }) => {
             /**
@@ -148,6 +175,9 @@ export default class RadonisProvider {
               response.json(superjson.serialize(response.getBody()))
             }
 
+            /**
+             * Execute `afterRequest` plugin hooks
+             */
             await PluginsManager.execute('afterRequest', null, null)
           })
       }
