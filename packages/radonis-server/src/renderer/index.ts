@@ -139,9 +139,9 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Set title for the current request
+   * Set the head title for the current request
    */
-  withTitle(title: string): this {
+  withHeadTitle(title: string): this {
     this.#headManager.setTitle(title)
 
     return this
@@ -211,22 +211,22 @@ export class Renderer implements RendererContract, Resettable {
       /**
        * Set the title on the HeadManager
        */
-      if (options?.title) {
-        this.#headManager.setTitle(options.title)
+      if (options?.head?.title) {
+        this.#headManager.setTitle(options.head.title)
       }
 
       /**
        * Add meta to the HeadManager
        */
-      if (options?.meta) {
-        this.#headManager.addMeta(options.meta)
+      if (options?.head?.meta) {
+        this.#headManager.addMeta(options.head.meta)
       }
 
       /**
        * Add tags to the HeadManager
        */
-      if (options?.tags) {
-        this.#headManager.addTags(options.tags)
+      if (options?.head?.tags) {
+        this.#headManager.addTags(options.head.tags)
       }
 
       /**
@@ -273,7 +273,7 @@ export class Renderer implements RendererContract, Resettable {
     return [
       '<!DOCTYPE html>',
       `<html ${stringifyAttributes({ lang: this.#manifestManager.locale })}>`,
-      this.#headManager.getHTML(),
+      this.#headManager.getMarkup(),
     ].join('\n')
   }
 
@@ -290,6 +290,9 @@ export class Renderer implements RendererContract, Resettable {
    * Get the markup containing the <footer> as well as the closing <html>
    */
   async #getFooterMarkup(): Promise<string> {
+    const resolvedFlushCallbacks = await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback()))
+    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => !!value)
+
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)
 
@@ -300,9 +303,6 @@ export class Renderer implements RendererContract, Resettable {
       })
     })
 
-    const resolvedFlushCallbacks = await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback()))
-    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => !!value)
-
     const tree = h(
       Fragment,
       null,
@@ -312,8 +312,8 @@ export class Renderer implements RendererContract, Resettable {
           __html: `window.radonisManifest = ${this.#manifestManager.getClientManifestAsJSON()}`,
         },
       }),
-      ...scripts,
-      ...flushCallbackInjects
+      ...flushCallbackInjects,
+      ...scripts
     )
 
     return [renderToStaticMarkup(tree), '</html>'].join('\n')
@@ -332,7 +332,11 @@ export class Renderer implements RendererContract, Resettable {
       this.#manifestManager,
       this.#context,
       /* @ts-ignore Unsure why this errors */
-      await this.#pluginsManager.execute('beforeRender', h(Component, props), null)
+      await this.#pluginsManager.execute('beforeRender', h(Component, props), {
+        ctx: this.#context.httpContext,
+        manifest: this.#manifestManager,
+        props: props as any,
+      })
     )
 
     const htmlStreamReadable = Readable.from(
@@ -357,7 +361,10 @@ export class Renderer implements RendererContract, Resettable {
   #getAfterRenderTransform() {
     return new Transform({
       transform: async (chunk, _, callback) => {
-        callback(null, await this.#pluginsManager.execute('afterRender', chunk.toString(), null))
+        callback(
+          null,
+          await this.#pluginsManager.execute('afterRender', chunk.toString(), { ctx: this.#context.httpContext })
+        )
       },
     })
   }

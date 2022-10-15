@@ -18,9 +18,9 @@ import type { QueryHydratorProps } from '../types'
  * @internal
  */
 export function QueryHydrator({ children }: QueryHydratorProps) {
-  const globals = useGlobals()
+  const globals = useGlobals() as any
 
-  return h(Hydrate, { state: globals as any }, children)
+  return h(Hydrate, { state: globals.dehydratedQueryState }, children)
 }
 
 QueryHydrator.displayName = 'RadonisQueryHydrator'

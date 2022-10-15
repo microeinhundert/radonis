@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
-
-type MaybePromise<T> = T | Promise<T>
+import type { MaybePromise } from '@microeinhundert/radonis-types'
 
 export type MutationResetFunction = () => void
 
@@ -81,9 +79,4 @@ export interface MutationOptions<TInput, TData, TError> extends MutationHooks<TI
    * throw at render time, making error boundaries catch the error.
    */
   useErrorBoundary?: boolean
-}
-
-export interface UrlBuilderOptions {
-  params?: RouteParams
-  queryParams?: RouteQueryParams
 }

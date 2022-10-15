@@ -134,14 +134,14 @@ importers:
       '@types/node': ^18.8.5
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
-      intl-messageformat: ^10.2.0
+      intl-messageformat: 10.1.5
       superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
-      intl-messageformat: 10.2.0
+      intl-messageformat: 10.1.5
       superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
@@ -178,10 +178,12 @@ importers:
       '@types/node': ^18.8.5
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
+      node-fetch: ^3.2.10
       superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-shared': link:../radonis-shared
+      node-fetch: 3.2.10
       superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
@@ -204,6 +206,7 @@ importers:
       chokidar: ^3.5.3
       flattie: ^1.1.0
       minipass: ^3.3.4
+      node-fetch: ^3.2.10
       superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
@@ -215,6 +218,7 @@ importers:
       chokidar: 3.5.3
       flattie: 1.1.0
       minipass: 3.3.4
+      node-fetch: 3.2.10
       superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:
@@ -687,6 +691,13 @@ packages:
       - supports-color
     dev: true
 
+  /@formatjs/ecma402-abstract/1.12.0:
+    resolution: {integrity: sha512-0/wm9b7brUD40kx7KSE0S532T8EfH06Zc41rGlinoNyYXnuusR6ull2x63iFJgVXgwahm42hAW7dcYdZ+llZzA==}
+    dependencies:
+      '@formatjs/intl-localematcher': 0.2.31
+      tslib: 2.4.0
+    dev: false
+
   /@formatjs/ecma402-abstract/1.13.0:
     resolution: {integrity: sha512-CQ8Ykd51jYD1n05dtoX6ns6B9n/+6ZAxnWUAonvHC4kkuAemROYBhHkEB4tm1uVrRlE7gLDqXkAnY51Y0pRCWQ==}
     dependencies:
@@ -700,11 +711,26 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@formatjs/icu-messageformat-parser/2.1.8:
+    resolution: {integrity: sha512-T1R/UtPSCdznwjlfIJDl9XnjZdcFap+rPJrKC9uATr/sUdziVad3SfRQFf50JOuHptbk6knz+VdiYdApek4Sag==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.12.0
+      '@formatjs/icu-skeleton-parser': 1.3.13
+      tslib: 2.4.0
+    dev: false
+
   /@formatjs/icu-messageformat-parser/2.1.9:
     resolution: {integrity: sha512-KFwi1cDZ6sFbsZ6xuXpg/UtdVtcwmpEt2WY355k33Z+3fpzRe1EulwX65qEoho0af3+ZsiJxuhIvUIlSSFWASg==}
     dependencies:
       '@formatjs/ecma402-abstract': 1.13.0
       '@formatjs/icu-skeleton-parser': 1.3.14
+      tslib: 2.4.0
+    dev: false
+
+  /@formatjs/icu-skeleton-parser/1.3.13:
+    resolution: {integrity: sha512-qb1kxnA4ep76rV+d9JICvZBThBpK5X+nh1dLmmIReX72QyglicsaOmKEcdcbp7/giCWfhVs6CXPVA2JJ5/ZvAw==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.12.0
       tslib: 2.4.0
     dev: false
 
@@ -1949,6 +1975,11 @@ packages:
     resolution: {integrity: sha512-ND9qDTLc6diwj+Xe5cdAgVTbLVdXbtxTJRXRhli8Mowuaan+0EJOtdqJ0QCHNSSPyoXGx9HX2/VMnKeC34AChA==}
     dev: true
 
+  /data-uri-to-buffer/4.0.0:
+    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
+    engines: {node: '>= 12'}
+    dev: false
+
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -2725,6 +2756,14 @@ packages:
       reusify: 1.0.4
     dev: true
 
+  /fetch-blob/3.2.0:
+    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
+    engines: {node: ^12.20 || >= 14.13}
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 3.2.1
+    dev: false
+
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -2790,6 +2829,13 @@ packages:
   /flattie/1.1.0:
     resolution: {integrity: sha512-xU99gDEnciIwJdGcBmNHnzTJ/w5AT+VFJOu6sTB6WM8diOYNA3Sa+K1DiEBQ7XH4QikQq3iFW1U+jRVcotQnBw==}
     engines: {node: '>=8'}
+
+  /formdata-polyfill/4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
+    dependencies:
+      fetch-blob: 3.2.0
+    dev: false
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -3122,6 +3168,15 @@ packages:
       has: 1.0.3
       side-channel: 1.0.4
     dev: true
+
+  /intl-messageformat/10.1.5:
+    resolution: {integrity: sha512-bDQz81oQ6TkQp1pSnlBK36ahGL5/tLb0+3hSiG/1/SnVbz5NWPQTqaPx2cT7nmGujDrPn9pQ0ik8RWE8v1lzEw==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.12.0
+      '@formatjs/fast-memoize': 1.2.6
+      '@formatjs/icu-messageformat-parser': 2.1.8
+      tslib: 2.4.0
+    dev: false
 
   /intl-messageformat/10.2.0:
     resolution: {integrity: sha512-VndSbrryShPRnFvEB81rt2DvbEmygRfuM9+6gdu9TXxTFX0m3Pyk8EvKUEBNhZ1/19JyOvFsRhvg+p6K64ohKA==}
@@ -3873,10 +3928,24 @@ packages:
       lower-case: 2.0.2
       tslib: 2.4.0
 
+  /node-domexception/1.0.0:
+    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
+    engines: {node: '>=10.5.0'}
+    dev: false
+
   /node-emoji/1.11.0:
     resolution: {integrity: sha512-wo2DpQkQp7Sjm2A0cq+sN7EHKO6Sl0ctXeBdFZrL9T9+UywORbufTcTZxom8YqpLQt/FqNMUkOpkZrJVYSKD3A==}
     dependencies:
       lodash: 4.17.21
+    dev: false
+
+  /node-fetch/3.2.10:
+    resolution: {integrity: sha512-MhuzNwdURnZ1Cp4XTazr69K0BTizsBroX7Zx3UgDSVcZYKF/6p0CBe4EUb/hLqmzVhl0UpYfgRljQ4yxE+iCxA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      data-uri-to-buffer: 4.0.0
+      fetch-blob: 3.2.0
+      formdata-polyfill: 4.0.10
     dev: false
 
   /noms/0.0.0:
@@ -5249,6 +5318,11 @@ packages:
     dependencies:
       defaults: 1.0.3
     dev: true
+
+  /web-streams-polyfill/3.2.1:
+    resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
+    engines: {node: '>= 8'}
+    dev: false
 
   /webpack-merge/4.2.2:
     resolution: {integrity: sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==}

@@ -113,13 +113,13 @@ export class PluginsManager {
     TType extends keyof PluginHooks,
     TBuilderValue extends unknown,
     TParams extends Parameters<PluginHook<TType>>
-  >(type: TType, initialBuilderValue: TBuilderValue, ...params: TParams): Promise<TBuilderValue> {
+  >(type: TType, initialBuilderValue: TBuilderValue, ...args: TParams): Promise<TBuilderValue> {
     const hooks = this[`${type}Hooks`] as PluginHook<TType>[]
 
     let builderValue = initialBuilderValue
 
     for (const hook of hooks) {
-      const builderOrVoid = await hook.apply(null, params)
+      const builderOrVoid = await hook.apply(null, args)
 
       if (typeof builderOrVoid === 'function') {
         builderValue = await builderOrVoid.apply(null, [builderValue])

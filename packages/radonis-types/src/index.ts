@@ -235,9 +235,11 @@ export interface ManifestManagerContract extends ManifestContract {
  * Render options
  */
 export interface RenderOptions {
-  title?: string
-  meta?: HeadMeta
-  tags?: HeadTag[]
+  head?: {
+    title?: string
+    meta?: HeadMeta
+    tags?: HeadTag[]
+  }
   globals?: Globals
 }
 
@@ -245,7 +247,7 @@ export interface RenderOptions {
  * Renderer contract
  */
 export interface RendererContract {
-  withTitle(string: string): RendererContract
+  withHeadTitle(title: string): RendererContract
   withHeadMeta(meta: HeadMeta): RendererContract
   withHeadTags(tags: HeadTag[]): RendererContract
   withGlobals(globals: Globals): RendererContract

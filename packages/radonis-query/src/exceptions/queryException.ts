@@ -12,13 +12,25 @@ import {
   interpolate,
 } from '@microeinhundert/radonis-shared'
 
-import { E_REQUEST_FAILED } from '../../exceptions.json'
+import {
+  E_MISSING_HOST_HEADER,
+  E_REQUEST_FAILED,
+} from '../../exceptions.json'
 
 /**
  * Exceptions related to querying
  * @internal
  */
 export class QueryException extends Exception {
+  static missingHostHeader() {
+    const error = new this(
+      E_MISSING_HOST_HEADER.message,
+      E_MISSING_HOST_HEADER.status,
+      E_MISSING_HOST_HEADER.code
+    )
+
+    throw error
+  }
   static requestFailed(
     routeIdentifier: string,
     status: number

@@ -109,6 +109,7 @@
     "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
     "minipass": "^3.3.4",
+    "node-fetch": "^3.2.10",
     "superjson": "^1.10.1",
     "tslib": "^2.4.0"
   }

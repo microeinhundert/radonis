@@ -6,6 +6,6 @@ export default class SettingsController {
    * index action
    */
   public index({ radonis, i18n }: HttpContextContract) {
-    return radonis.withTitle(i18n.formatMessage('settings.index.title')).render(Index);
+    return radonis.withHeadTitle(i18n.formatMessage('settings.index.title')).render(Index);
   }
 }

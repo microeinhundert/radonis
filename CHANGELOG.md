@@ -4,21 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - WIP
 
-This is the new major release of Radonis. It features React Streaming SSR support, a new plugin integrating [TanStack Query](https://tanstack.com/query/v4) into Radonis, as well as lots of improvements.
-See below for new features and breaking changes. Follow the migration guide at the end for an easier upgrade.
+This is the new major release of Radonis. It features React Streaming SSR support as well as lots of improvements.
+See below for new features and breaking changes. Follow the [migration guide](https://radonis.vercel.app/migrating-to-v2) for an easier upgrade.
 
 ### Added
 - Streaming SSR support by using `renderToPipeableStream` under the hood.
 - `withErrorPages` method to the Radonis contract. This method allows adding custom error pages.
-- `useAssetsManager`, `useManifestManager` and `useRenderer` hooks for directly accessing Radonis internals
+- `useAssetsManager`, `useManifestManager` and `useRenderer` hooks for directly accessing Radonis internals.
 - `useFlushEffect` hook for integrating 3rd party libraries with React 18 and Suspense.
+- Standalone URL builder exported as `UrlBuilder` from `@microeinhundert/radonis`.
 
 ### Changed
 
 **General**
+- **BREAKING:** Routes are now always identified by their route handler in the format `ControllerName.action`.
+- **BREAKING:** Renamed `withTitle` on the Radonis contract to `withHeadTitle`.
+- **BREAKING:** Moved the head options on the third argument of the `render` method to a `head` subproperty.
 - **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
-- Refactored how hydration works under the hood. Instead of storing all hydration data apart from the actual component props as data attributes on the HydrationRoot DOM element, only a unique hydration id is now stored on the DOM element which references the data, which is now stored in a new `hydration` property on the manifest.
+- Changed how hydration works under the hood. Instead of storing all hydration data apart from the actual component props as data attributes on the HydrationRoot DOM node, only a unique hydration id is now stored on the DOM node which references the data now stored in a new `hydration` property on the manifest.
 - Updated dependencies.
+- Improved documentation.
 
 **Hooks**
 - **BREAKING:** All hooks are now exported from the `@microeinhundert/radonis` package.
@@ -35,81 +40,8 @@ See below for new features and breaking changes. Follow the migration guide at t
 - **BREAKING:** Removed `beforeOutputAsset` plugin hook.
 - **BREAKING:** Removed `afterOutputAssets` plugin hook.
 - **BREAKING:** Removed `onScanAsset` plugin hook.
-
-### Migration
-
-Add the following `server` block to `config/radonis.ts`:
-
-```ts
-{
-  server: {
-    /*
-    |--------------------------------------------------------------------------
-    | Streaming
-    |--------------------------------------------------------------------------
-    |
-    | Stream the rendered view to the client instead of 
-    | waiting for the full view to finish rendering.
-    | This will enable Streaming SSR features from React 18.
-    |
-    */
-    streaming: true,
-  },
-}
-```
-
-If you use the combination of `useManifest` and `useHydration` to get the props of the closest HydrationRoot, this now works like this:
-
-```ts
-import { useManifest, useHydration } from '@microeinhundert/radonis'
-
-const manifest = useManifest()
-const hydration = useHydration()
-
-console.log(manifest.hydration[hydration.id].props) // => `{ someProp: 'test' }`
-```
-
-If you use forms, remove the `reloadDocument` prop from all `Form` components. Forms which didn't use the `reloadDocument` prop before should now use the new `noReload` prop.
-
-```tsx
-function TraditionalForm() {
-  return (
-    <Form
-      reloadDocument // <- Remove this prop
-    >
-    </Form>
-  )
-}
-
-function FetchForm() {
-  return (
-    <Form
-      noReload // <- Add this prop
-    >
-    </Form>
-  )
-}
-```
-
-If you use the `twind` plugin for styling, please migrate to the `unocss` plugin. The `unocss` plugin offers better performance, no runtime bloat and better compatibility with Tailwind CSS.
-
-If you use the `useAdonis` hook, rename it to `useServer` and change imports from `@ioc:Microeinhundert/Radonis` to `@microeinhundert/radonis` for all hooks.
-
-```tsx
-// Before
-import { useAdonis } from '@ioc:Microeinhundert/Radonis'
-
-function View() {
-  const adonis = useAdonis()
-}
-
-// After
-import { useServer } from '@microeinhundert/radonis'
-
-function View() {
-  const server = useServer()
-}
-```
+- The `beforeRender` plugin hook now gets passed an object with `ctx`, `props` and `manifest` attributes.
+- The `afterRender` plugin hook now gets passed an object with an `ctx` attribute.
 
 ## [1.11.4] - 2022-10-07
 

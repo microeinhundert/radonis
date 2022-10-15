@@ -9,6 +9,7 @@
 
 export { definePlugin, PluginsManager } from './pluginsManager'
 export type { Plugin } from './types'
+export { UrlBuilder } from './urlBuilder'
 export { isClient, isProduction, isServer } from './utils/environment'
 export { Exception } from './utils/exception'
 export { interpolate } from './utils/interpolate'

@@ -13,8 +13,8 @@ import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
+import { HydrationContextProvider } from '../contexts/hydrationContext'
 import { HydrateException } from '../exceptions/hydrateException'
-import { HydrationContextProvider } from '../react'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils/getManifestOrFail'
 
@@ -30,8 +30,8 @@ export class Hydrator {
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...params: ConstructorParameters<typeof Hydrator>): Hydrator {
-    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...params))
+  static getSingletonInstance(...args: ConstructorParameters<typeof Hydrator>): Hydrator {
+    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...args))
   }
 
   /**

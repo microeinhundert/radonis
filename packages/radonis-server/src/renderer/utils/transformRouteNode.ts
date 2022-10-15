@@ -10,13 +10,15 @@
 import type { RouteNode } from '@ioc:Adonis/Core/Route'
 import type { Route } from '@microeinhundert/radonis-types'
 
+import { getRouteIdentifier } from '../../utils/getRouteIdentifier'
+
 /**
  * Transform a RouteNode to the shape expected by the manifest
  * @internal
  */
 export function transformRouteNode(routeNode?: RouteNode): Route {
   return {
-    identifier: routeNode?.name,
+    identifier: getRouteIdentifier(routeNode),
     pattern: routeNode?.pattern,
   }
 }

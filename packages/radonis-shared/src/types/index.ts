@@ -7,7 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import type { MaybePromise } from '@microeinhundert/radonis-types'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type {
+  ManifestContract,
+  MaybePromise,
+  RouteIdentifier,
+  RouteParams,
+  RouteQueryParams,
+} from '@microeinhundert/radonis-types'
 import type { ReactElement } from 'react'
 
 /**
@@ -59,12 +66,15 @@ export interface PluginHooks {
   /**
    * This plugin hook is called before the page is rendered
    */
-  beforeRender: PluginHookWithBuilder<ReactElement, null>
+  beforeRender: PluginHookWithBuilder<
+    ReactElement,
+    { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, any> }
+  >
 
   /**
    * This plugin hook is called after a chunk of the page has been rendered
    */
-  afterRender: PluginHookWithBuilder<string, null>
+  afterRender: PluginHookWithBuilder<string, { ctx: HttpContextContract }>
 }
 
 /**
@@ -85,4 +95,20 @@ export interface Plugin extends Partial<PluginHooks> {
    * The names of the plugins the plugin conflicts with
    */
   conflictsWith?: string[]
+}
+
+/**
+ * URL builder options
+ */
+export interface UrlBuilderOptions {
+  onFoundRoute: (routeIdentifier: RouteIdentifier) => void
+}
+
+/**
+ * URL builder make options
+ */
+export interface UrlBuilderMakeOptions {
+  baseUrl?: string
+  params?: RouteParams
+  queryParams?: RouteQueryParams
 }

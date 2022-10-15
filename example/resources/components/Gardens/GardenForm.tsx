@@ -33,7 +33,7 @@ function GardenForm({ garden }: GardenFormProps) {
 
   return (
     <Form
-      action={garden ? 'gardens.update' : 'gardens.store'}
+      action={garden ? 'GardensController.update' : 'GardensController.store'}
       method={garden ? 'put' : 'post'}
       params={garden ? { id: garden.id } : undefined}
       noValidate

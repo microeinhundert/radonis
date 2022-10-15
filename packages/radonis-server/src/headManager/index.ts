@@ -57,9 +57,9 @@ export class HeadManager implements HeadManagerContract, Resettable {
   }
 
   /**
-   * Get the title HTML
+   * Get the title markup
    */
-  getTitleHTML(): string {
+  #getTitleMarkup(): string {
     return `<title>${this.#title}</title>`
   }
 
@@ -71,9 +71,9 @@ export class HeadManager implements HeadManagerContract, Resettable {
   }
 
   /**
-   * Get the meta HTML
+   * Get the meta markup
    */
-  getMetaHTML(): string {
+  #getMetaMarkup(): string {
     return Object.entries(this.#meta)
       .map(([name, value]) => {
         if (!value) {
@@ -109,9 +109,9 @@ export class HeadManager implements HeadManagerContract, Resettable {
   }
 
   /**
-   * Get the tags HTML
+   * Get the tags markup
    */
-  getTagsHTML(): string {
+  #getTagsMarkup(): string {
     return this.#tags
       .map(({ name, content, attributes }) => {
         return `<${name}${attributes ? ` ${stringifyAttributes(attributes)}` : ''}>${content}</${name}>`
@@ -120,10 +120,10 @@ export class HeadManager implements HeadManagerContract, Resettable {
   }
 
   /**
-   * Get all HTML
+   * Get the markup, including opening and closing <head> tags
    */
-  getHTML(): string {
-    return ['<head>', this.getTitleHTML(), this.getMetaHTML(), this.getTagsHTML(), '</head>'].join('\n')
+  getMarkup(): string {
+    return ['<head>', this.#getTitleMarkup(), this.#getMetaMarkup(), this.#getTagsMarkup(), '</head>'].join('\n')
   }
 
   /**

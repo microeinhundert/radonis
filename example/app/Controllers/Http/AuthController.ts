@@ -9,7 +9,7 @@ export default class AuthController {
    * signUpShow action
    */
   public signUpShow({ radonis, i18n }: HttpContextContract) {
-    return radonis.withTitle(i18n.formatMessage('auth.signUp.title')).render(SignUp);
+    return radonis.withHeadTitle(i18n.formatMessage('auth.signUp.title')).render(SignUp);
   }
 
   /*
@@ -29,7 +29,7 @@ export default class AuthController {
    * signInShow action
    */
   public signInShow({ radonis, i18n }: HttpContextContract) {
-    return radonis.withTitle(i18n.formatMessage('auth.signIn.title')).render(SignIn);
+    return radonis.withHeadTitle(i18n.formatMessage('auth.signIn.title')).render(SignIn);
   }
 
   /*

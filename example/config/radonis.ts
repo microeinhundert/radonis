@@ -13,7 +13,17 @@ const radonisConfig: RadonisConfig = {
   | separately inside the client entry file.
   |
   */
-  plugins: [unocssPlugin(), queryPlugin()],
+  plugins: [
+    unocssPlugin(),
+    queryPlugin({
+      baseUrl: 'http://127.0.0.1:3333',
+      defaultOptions: {
+        queries: {
+          suspense: true,
+        },
+      },
+    }),
+  ],
 
   /*
   |--------------------------------------------------------------------------

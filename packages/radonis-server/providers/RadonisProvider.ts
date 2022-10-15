@@ -8,6 +8,7 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import fetch from 'node-fetch'
 import superjson from 'superjson'
 
 import { HydrationRoot } from '../src/components/HydrationRoot'
@@ -28,34 +29,18 @@ export default class RadonisProvider {
   }
 
   /**
-   * Register
+   * Register polyfills
    */
-  register(): void {
-    /**
-     * Config
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
-      return this.#application.config.get('radonis', {})
-    })
+  #registerPolyfills(): void {
+    if (!globalThis.fetch) {
+      globalThis.fetch = fetch
+    }
+  }
 
-    /**
-     * PluginsManager
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
-      const { PluginsManager } = require('@microeinhundert/radonis-shared')
-
-      return PluginsManager.getSingletonInstance()
-    })
-
-    /**
-     * HydrationManager
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
-      const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
-
-      return HydrationManager.getSingletonInstance()
-    })
-
+  /**
+   * Register services
+   */
+  #registerServices(): void {
     /**
      * AssetsManager
      */
@@ -90,6 +75,39 @@ export default class RadonisProvider {
       const { Renderer } = require('../src/renderer')
 
       return new Renderer(this.#application)
+    })
+  }
+
+  /**
+   * Register
+   */
+  register(): void {
+    this.#registerPolyfills()
+    this.#registerServices()
+
+    /**
+     * Config
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
+      return this.#application.config.get('radonis', {})
+    })
+
+    /**
+     * PluginsManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
+      const { PluginsManager } = require('@microeinhundert/radonis-shared')
+
+      return PluginsManager.getSingletonInstance()
+    })
+
+    /**
+     * HydrationManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
+      const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
+
+      return HydrationManager.getSingletonInstance()
     })
 
     /**
@@ -140,7 +158,7 @@ export default class RadonisProvider {
         Server.hooks
           .before(async ({ request }) => {
             /**
-             * Reset, so incoming requests don't accidentally
+             * Reset everything, so incoming requests don't accidentally
              * get data from the previous request
              */
             Renderer.reset()
