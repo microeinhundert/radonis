@@ -52,11 +52,9 @@ export function onShellReady(tree: ReactNode) {
           resolve(pipeable.pipe(duplex))
         },
         onShellError: (error) => {
-          pipeable.abort()
           reject(error)
         },
         onError: (error) => {
-          pipeable.abort()
           reject(error)
         },
       })
@@ -81,11 +79,9 @@ export function onAllReady(tree: ReactNode) {
           resolve(pipeable.pipe(duplex))
         },
         onShellError: (error) => {
-          pipeable.abort()
           reject(error)
         },
         onError: (error) => {
-          pipeable.abort()
           reject(error)
         },
       })

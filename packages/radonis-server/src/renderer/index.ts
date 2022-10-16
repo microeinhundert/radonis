@@ -31,7 +31,7 @@ import type {
 import type { FlushCallback } from '@microeinhundert/radonis-types/src'
 import { flattie } from 'flattie'
 import type { ContiguousData } from 'minipass'
-import type Minipass from 'minipass'
+import Minipass from 'minipass'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement, ReactNode } from 'react'
 import { Fragment } from 'react'
 import { createElement as h, StrictMode } from 'react'
@@ -39,6 +39,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { Readable, Transform } from 'stream'
 
 import type { AssetsManager } from '../assetsManager'
+import { DefaultErrorPage } from '../components/DefaultErrorPage'
 import type { HeadManager } from '../headManager'
 import type { ManifestManager } from '../manifestManager'
 import { extractRootRoutes } from '../utils/extractRootRoutes'
@@ -203,6 +204,8 @@ export class Renderer implements RendererContract, Resettable {
   ): Promise<UnwrapProps<T>> {
     const { request } = this.#context.httpContext
 
+    const duplex = new Minipass()
+
     /**
      * If the request accepts HTML,
      * return the rendered view
@@ -242,19 +245,25 @@ export class Renderer implements RendererContract, Resettable {
       this.#manifestManager.setServerManifestOnGlobalScope()
 
       try {
-        await this.#renderAndStreamComponent(Component, props)
-      } catch (error) {
         /**
-         * Render error page if one was registered, else rethrow the error
+         * Render view
          */
-        if (this.#errorPages[500]) {
-          this.#logger.error(error)
-          await this.#renderAndStreamComponent(this.#errorPages[500], { error })
-        } else {
-          throw error
-        }
+        const readable = await this.#renderToReadable(Component, props)
+        readable.pipe(duplex)
+      } catch (error) {
+        this.#logger.error(error)
+
+        /**
+         * Render error page
+         */
+        const readable = await this.#renderToReadable(this.#errorPages[500] ?? DefaultErrorPage, { error })
+        readable.pipe(duplex)
       }
     }
+
+    this.#context.httpContext.response
+      .header('Content-Type', 'text/html')
+      .stream(duplex.pipe(this.#getAfterRenderTransform()))
 
     return props as UnwrapProps<T>
   }
@@ -320,12 +329,12 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Render and stream a component
+   * Render to a Readable
    */
-  async #renderAndStreamComponent<T>(
+  async #renderToReadable<T>(
     Component: ComponentType<T>,
     props?: ComponentPropsWithoutRef<ComponentType<T>>
-  ): Promise<void> {
+  ): Promise<Readable> {
     const tree = withContextProviders(
       this,
       this.#assetsManager,
@@ -339,19 +348,13 @@ export class Renderer implements RendererContract, Resettable {
       })
     )
 
-    const htmlStreamReadable = Readable.from(
+    return Readable.from(
       generateHtmlStream({
         head: () => this.#getHeadMarkup(),
         body: () => this.#getBodyStream(tree),
         footer: () => this.#getFooterMarkup(),
       })
     )
-
-    this.#context.httpContext.response
-      .header('Content-Type', 'text/html')
-      .header('Connection', 'Transfer-Encoding')
-      .header('Transfer-Encoding', 'chunked')
-      .stream(htmlStreamReadable.pipe(this.#getAfterRenderTransform()))
   }
 
   /**

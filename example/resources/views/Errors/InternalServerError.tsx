@@ -14,7 +14,11 @@ function InternalServerError({ error }: InternalServerErrorProps) {
     text: formatMessage('errors.internalServerError.text', { message: error instanceof Error ? error.message : '-' }),
   };
 
-  return <Fallback {...messages} icon={ErrorIllustration} />;
+  return (
+    <div className="h-screen">
+      <Fallback {...messages} icon={ErrorIllustration} />
+    </div>
+  );
 }
 
 export { InternalServerError };

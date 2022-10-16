@@ -42,6 +42,7 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Removed `onScanAsset` plugin hook.
 - The `beforeRender` plugin hook now gets passed an object with `ctx`, `props` and `manifest` attributes.
 - The `afterRender` plugin hook now gets passed an object with an `ctx` attribute.
+- The `beforeRequest` and `afterRequest` plugin hooks now get passed an object with an `ctx` attribute.
 
 ## [1.11.4] - 2022-10-07
 

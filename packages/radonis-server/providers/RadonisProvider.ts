@@ -156,7 +156,9 @@ export default class RadonisProvider {
          * Register server hooks
          */
         Server.hooks
-          .before(async ({ request }) => {
+          .before(async (ctx) => {
+            const { request } = ctx
+
             /**
              * Reset everything, so incoming requests don't accidentally
              * get data from the previous request
@@ -169,7 +171,7 @@ export default class RadonisProvider {
             /**
              * Execute `beforeRequest` plugin hooks
              */
-            await PluginsManager.execute('beforeRequest', null, null)
+            await PluginsManager.execute('beforeRequest', null, { ctx })
 
             /**
              * Read the build manifest on incoming HTML
@@ -179,7 +181,9 @@ export default class RadonisProvider {
               await AssetsManager.readBuildManifest()
             }
           })
-          .after(async ({ request, response }) => {
+          .after(async (ctx) => {
+            const { request, response } = ctx
+
             /**
              * If the request was made by Radonis,
              * serialize the response with superjson
@@ -196,7 +200,7 @@ export default class RadonisProvider {
             /**
              * Execute `afterRequest` plugin hooks
              */
-            await PluginsManager.execute('afterRequest', null, null)
+            await PluginsManager.execute('afterRequest', null, { ctx })
           })
       }
     )

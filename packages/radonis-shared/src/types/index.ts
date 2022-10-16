@@ -56,12 +56,12 @@ export interface PluginHooks {
   /**
    * This plugin hook is called before a request
    */
-  beforeRequest: PluginHook<null>
+  beforeRequest: PluginHook<{ ctx: HttpContextContract }>
 
   /**
    * This plugin hook is called after a request
    */
-  afterRequest: PluginHook<null>
+  afterRequest: PluginHook<{ ctx: HttpContextContract }>
 
   /**
    * This plugin hook is called before the page is rendered

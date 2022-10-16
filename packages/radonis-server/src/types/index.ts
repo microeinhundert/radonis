@@ -11,6 +11,13 @@ import type { ComponentIdentifier } from '@microeinhundert/radonis-types'
 import type { ReactElement } from 'react'
 
 /**
+ * Default error page props
+ */
+export interface DefaultErrorPageProps {
+  error: unknown
+}
+
+/**
  * Hydration root props
  */
 export interface HydrationRootProps {
