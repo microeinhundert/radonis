@@ -23,7 +23,7 @@ export async function* generateHtmlStream({
   footer,
 }: {
   head: () => string
-  body: () => Promise<Minipass<Buffer, ContiguousData>>
+  body: () => Minipass<Buffer, ContiguousData>
   footer: () => Promise<string>
 }) {
   yield head()

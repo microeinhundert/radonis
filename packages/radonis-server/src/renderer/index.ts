@@ -276,7 +276,7 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Get the markup containing the <head> as well as the opening <html>
+   * Get the markup containing the head as well as the opening html tag
    */
   #getHeadMarkup(): string {
     return [
@@ -287,7 +287,7 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Get the stream containing the <body>
+   * Get the stream containing the body
    */
   #getBodyStream(tree: ReactElement): Promise<Minipass<Buffer, ContiguousData>> {
     const renderToStream = this.#config.server.streaming ? onShellReady : onAllReady
@@ -296,7 +296,7 @@ export class Renderer implements RendererContract, Resettable {
   }
 
   /**
-   * Get the markup containing the <footer> as well as the closing <html>
+   * Get the markup containing the footer scripts as well as the closing html tag
    */
   async #getFooterMarkup(): Promise<string> {
     const resolvedFlushCallbacks = await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback()))
@@ -348,13 +348,14 @@ export class Renderer implements RendererContract, Resettable {
       })
     )
 
-    return Readable.from(
-      generateHtmlStream({
-        head: () => this.#getHeadMarkup(),
-        body: () => this.#getBodyStream(tree),
-        footer: () => this.#getFooterMarkup(),
-      })
-    )
+    const bodyStream = await this.#getBodyStream(tree)
+    const htmlStream = generateHtmlStream({
+      head: () => this.#getHeadMarkup(),
+      body: () => bodyStream,
+      footer: () => this.#getFooterMarkup(),
+    })
+
+    return Readable.from(htmlStream)
   }
 
   /**

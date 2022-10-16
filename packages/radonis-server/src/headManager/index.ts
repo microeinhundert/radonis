@@ -120,7 +120,7 @@ export class HeadManager implements HeadManagerContract, Resettable {
   }
 
   /**
-   * Get the markup, including opening and closing <head> tags
+   * Get the markup, including the opening and closing head tags
    */
   getMarkup(): string {
     return ['<head>', this.#getTitleMarkup(), this.#getMetaMarkup(), this.#getTagsMarkup(), '</head>'].join('\n')

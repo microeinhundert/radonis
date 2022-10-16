@@ -60,7 +60,7 @@ export function DefaultErrorPage({ error }: DefaultErrorPageProps) {
             fontFamily: 'sans-serif',
           },
         },
-        'An error occured during route handling or page rendering.'
+        'An error occured during rendering.'
       ),
       message &&
         h(

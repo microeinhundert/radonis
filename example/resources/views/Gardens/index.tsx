@@ -1,12 +1,17 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
 import { useI18n } from '@microeinhundert/radonis';
+import type Garden from 'App/Models/Garden';
 import Button, { ButtonColor } from 'Components/Button';
 import GardensList from 'Components/Gardens/GardensList';
 import Header from 'Components/Header';
 import { BaseLayout } from 'Layouts/Base';
 
-function Index() {
+interface IndexProps {
+  gardens: Garden[];
+}
+
+function Index({ gardens }: IndexProps) {
   const { formatMessage } = useI18n();
 
   const messages = {
@@ -29,7 +34,7 @@ function Index() {
         title={messages.title}
       />
       <HydrationRoot component="GardensList">
-        <GardensList />
+        <GardensList gardens={gardens} />
       </HydrationRoot>
     </BaseLayout>
   );
