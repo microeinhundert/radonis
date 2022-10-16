@@ -23,11 +23,11 @@ import {
  * @internal
  */
 export class FormException extends Exception {
-  static cannotUseHooksWhenReloading(action: string) {
+  static cannotUseHooksWhenReloading(formAction: string) {
     const error = new this(
       interpolate(
         E_CANNOT_USE_HOOKS_WHEN_RELOADING.message,
-        { action }
+        { formAction }
       ),
       E_CANNOT_USE_HOOKS_WHEN_RELOADING.status,
       E_CANNOT_USE_HOOKS_WHEN_RELOADING.code
@@ -35,11 +35,11 @@ export class FormException extends Exception {
 
     throw error
   }
-  static cannotFetchWithoutHydration(action: string) {
+  static cannotFetchWithoutHydration(formAction: string) {
     const error = new this(
       interpolate(
         E_CANNOT_FETCH_WITHOUT_HYDRATION.message,
-        { action }
+        { formAction }
       ),
       E_CANNOT_FETCH_WITHOUT_HYDRATION.status,
       E_CANNOT_FETCH_WITHOUT_HYDRATION.code

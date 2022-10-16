@@ -10,7 +10,7 @@
 /**
  * @internal
  */
-export const DEFAULT_EXPORT_REGEX = new RegExp(/export\s+default\s+(function\s+)?(?<name>\w+)/g)
+export const COMPONENT_IDENTIFIER_REGEX = new RegExp(/hydratable\((\W+)?["'](?<identifier>\S+)["']/g)
 
 /**
  * @internal

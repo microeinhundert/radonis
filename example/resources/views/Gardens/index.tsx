@@ -1,6 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
-import { useI18n } from '@microeinhundert/radonis';
+import { HydrationRoot, useI18n } from '@microeinhundert/radonis';
 import type Garden from 'App/Models/Garden';
 import Button, { ButtonColor } from 'Components/Button';
 import GardensList from 'Components/Gardens/GardensList';
@@ -33,7 +32,7 @@ function Index({ gardens }: IndexProps) {
         }
         title={messages.title}
       />
-      <HydrationRoot component="GardensList">
+      <HydrationRoot>
         <GardensList gardens={gardens} />
       </HydrationRoot>
     </BaseLayout>

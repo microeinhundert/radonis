@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { Form, useHydrated, useI18n } from '@microeinhundert/radonis';
+import { Form, hydratable, useHydrated, useI18n } from '@microeinhundert/radonis';
 import type Garden from 'App/Models/Garden';
 import { useState } from 'react';
 
@@ -175,4 +175,4 @@ function GardensList({ gardens }: GardensListProps) {
   );
 }
 
-export default GardensList;
+export default hydratable('GardensList', GardensList);

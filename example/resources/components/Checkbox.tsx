@@ -1,4 +1,4 @@
-import { useFormField } from '@microeinhundert/radonis';
+import { hydratable, useFormField } from '@microeinhundert/radonis';
 
 import { clsx } from '../utils/string';
 
@@ -54,4 +54,4 @@ function Checkbox({ className, ...restProps }: CheckboxProps) {
   );
 }
 
-export default Checkbox;
+export default hydratable('Checkbox', Checkbox);

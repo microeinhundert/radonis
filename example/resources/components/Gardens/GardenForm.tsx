@@ -1,4 +1,4 @@
-import { Form, useI18n } from '@microeinhundert/radonis';
+import { Form, hydratable, useI18n } from '@microeinhundert/radonis';
 import type Garden from 'App/Models/Garden';
 
 import Button from '../Button';
@@ -69,4 +69,4 @@ function GardenForm({ garden }: GardenFormProps) {
   );
 }
 
-export default GardenForm;
+export default hydratable('GardenForm', GardenForm);

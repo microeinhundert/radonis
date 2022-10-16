@@ -8,17 +8,8 @@
  */
 
 declare module '@ioc:Microeinhundert/Radonis' {
-  import type { ReactElement } from 'react'
-  import type { HeadMeta, ComponentIdentifier } from '@microeinhundert/radonis-types'
+  import type { HeadMeta, Plugin } from '@microeinhundert/radonis-types'
   import type { BuildOptions } from '@microeinhundert/radonis-build'
-  import type { Plugin } from '@microeinhundert/radonis-shared'
-
-  function HydrationRoot(props: {
-    children: ReactElement<Record<string, any>>
-    component: ComponentIdentifier
-    className?: string
-    disabled?: boolean
-  }): JSX.Element
 
   interface RadonisConfig {
     plugins: Plugin[]

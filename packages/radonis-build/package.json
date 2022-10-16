@@ -59,8 +59,8 @@
     "@types/node": "^18.11.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@poppinss/utils": "^5.0.0",
     "esbuild": "^0.15.11",
     "fs-extra": "^10.1.0",

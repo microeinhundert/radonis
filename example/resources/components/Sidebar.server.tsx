@@ -1,4 +1,4 @@
-import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
+import { HydrationRoot } from '@microeinhundert/radonis';
 
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { useNavigation } from '../hooks/useNavigation';
@@ -79,7 +79,7 @@ function Sidebar() {
           )}
         </nav>
       </div>
-      <HydrationRoot component="SidebarUserInfo" disabled={!user}>
+      <HydrationRoot disabled={!user}>
         <SidebarUserInfo />
       </HydrationRoot>
     </div>

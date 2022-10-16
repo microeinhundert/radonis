@@ -1,3 +1,4 @@
+import { hydratable } from '@microeinhundert/radonis';
 import { forwardRef, ReactNode } from 'react';
 
 import { clsx } from '../utils/string';
@@ -36,4 +37,4 @@ const Grid = forwardRef<HTMLDivElement, GridProps>(function ({ children, type = 
   );
 })
 
-export default Grid;
+export default hydratable('Grid', Grid);

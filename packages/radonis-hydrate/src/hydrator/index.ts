@@ -7,14 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { ComponentIdentifier, Components } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier, Components, PluginsManagerContract } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydrationContext'
-import { HydrateException } from '../exceptions/hydrateException'
+import { HydrationException } from '../exceptions/hydrationException'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils/getManifestOrFail'
 
@@ -37,7 +36,7 @@ export class Hydrator {
   /**
    * The PluginsManager instance
    */
-  #pluginsManager: PluginsManager
+  #pluginsManager: PluginsManagerContract
 
   /**
    * The components
@@ -47,7 +46,7 @@ export class Hydrator {
   /**
    * Constructor
    */
-  constructor(pluginsManager: PluginsManager) {
+  constructor(pluginsManager: PluginsManagerContract) {
     this.#pluginsManager = pluginsManager
 
     this.#components = new Map()
@@ -58,7 +57,7 @@ export class Hydrator {
    */
   registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
     if (this.#components.has(identifier)) {
-      throw HydrateException.componentAlreadyRegistered(identifier)
+      throw HydrationException.componentAlreadyRegistered(identifier)
     }
 
     this.#components.set(identifier, Component)
@@ -89,13 +88,13 @@ export class Hydrator {
     const hydration = manifest.hydration[hydrationRootId]
 
     if (!hydration) {
-      throw HydrateException.missingHydrationData(hydrationRootId)
+      throw HydrationException.missingHydrationData(hydrationRootId)
     }
 
     const Component = this.#components.get(hydration.componentIdentifier)
 
     if (!Component) {
-      throw HydrateException.cannotHydrate(hydration.componentIdentifier, hydrationRootId)
+      throw HydrationException.cannotHydrate(hydrationRootId, hydration.componentIdentifier)
     }
 
     const tree = await this.#pluginsManager.execute(

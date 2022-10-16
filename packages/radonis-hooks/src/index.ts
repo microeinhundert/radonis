@@ -8,14 +8,6 @@
  */
 
 /*
- * Contexts
- */
-export { assetsManagerContext, AssetsManagerContextProvider } from './contexts/assetsManagerContext'
-export { manifestManagerContext, ManifestManagerContextProvider } from './contexts/manifestManagerContext'
-export { rendererContext, RendererContextProvider } from './contexts/rendererContext'
-export { serverContext, ServerContextProvider } from './contexts/serverContext'
-
-/*
  * Client-side hooks
  */
 export { useMutation } from './hooks/client/useMutation'

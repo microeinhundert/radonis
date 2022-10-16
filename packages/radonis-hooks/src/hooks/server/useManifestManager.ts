@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { manifestManagerContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { manifestManagerContext } from '../../contexts/manifestManagerContext'
 import { HookException } from '../../exceptions/hookException'
 
 /**

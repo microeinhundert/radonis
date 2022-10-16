@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { assetsManagerContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { assetsManagerContext } from '../../contexts/assetsManagerContext'
 import { HookException } from '../../exceptions/hookException'
 
 /**

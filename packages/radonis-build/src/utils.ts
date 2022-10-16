@@ -7,15 +7,20 @@
  * file that was distributed with this source code.
  */
 
-import type { FlashMessageIdentifier, MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis-types'
+import type {
+  ComponentIdentifier,
+  FlashMessageIdentifier,
+  MessageIdentifier,
+  RouteIdentifier,
+} from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
-import { readFileSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { outputFile } from 'fs-extra'
 import { join, parse, posix, sep } from 'path'
 
 import {
   BUILD_MANIFEST_FILE_NAME,
+  COMPONENT_IDENTIFIER_REGEX,
   FLASH_MESSAGE_IDENTIFIER_REGEX,
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
@@ -23,29 +28,27 @@ import {
 import type { BuildManifest } from './types'
 
 /**
- * Check if the file looks like it contains a component:
+ * Check if a file looks like it contains a client component:
  * - Starts with an uppercase letter
- * - Ends with `.ts(x)` or `.js(x)` extension
- * - Does not end with `.<something>.<ext>`
+ * - Ends with `.ts(x)` or `.js(x)`
+ * - Does not end with `.server.<ext>`
  * @internal
  */
-export function isComponentFile(filePath: string): boolean {
+export function isClientComponentFile(filePath: string): boolean {
   const { base } = parse(filePath)
+  const isComponentFile = /^[A-Z]\S+(ts(x)?|js(x)?)$/.test(base)
+  const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base)
 
-  return base.match(/^[A-Z]\w+\.(ts(x)?|js(x)?)$/) !== null
+  return !isServerComponentFile && isComponentFile
 }
 
 /**
  * Discover all components in a specific directory
  * @internal
  */
-export function discoverComponents(directory: string): Map<string, string> {
-  return fsReadAll(directory, (filePath) => isComponentFile(filePath)).reduce<Map<string, string>>(
-    (components, componentPath) => {
-      const absoluteComponentPath = join(directory, componentPath)
-      return components.set(absoluteComponentPath, readFileSync(absoluteComponentPath, 'utf8'))
-    },
-    new Map<string, string>()
+export function discoverComponents(directory: string): string[] {
+  return fsReadAll(directory, (filePath) => isClientComponentFile(filePath)).map((filePath) =>
+    join(directory, filePath)
   )
 }
 
@@ -77,6 +80,16 @@ export async function writeBuildManifestToDisk(buildManifest: BuildManifest, dir
  */
 export function filePathToFileUrl(path: string): string {
   return path.split(sep).filter(Boolean).join(posix.sep)
+}
+
+/**
+ * Extract the component identifier
+ * @internal
+ */
+export function extractComponentIdentifier(haystack: string): ComponentIdentifier | null {
+  const [match] = haystack.matchAll(COMPONENT_IDENTIFIER_REGEX)
+
+  return match?.groups?.identifier ?? null
 }
 
 /**

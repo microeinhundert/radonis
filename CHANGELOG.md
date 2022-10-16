@@ -20,10 +20,16 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Routes are now always identified by their route handler in the format `ControllerName.action`.
 - **BREAKING:** Renamed `withTitle` on the Radonis contract to `withHeadTitle`.
 - **BREAKING:** Moved the head options on the third argument of the `render` method to a `head` subproperty.
-- **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
-- Changed how hydration works under the hood. Instead of storing all hydration data apart from the actual component props as data attributes on the HydrationRoot DOM node, only a unique hydration id is now stored on the DOM node which references the data now stored in a new `hydration` property on the manifest.
 - Updated dependencies.
 - Improved documentation.
+
+**Hydration**
+- **BREAKING:** Components must now be explicitly marked as hydratable by wrapping them with the new `hydratable` function exported from `@microeinhundert/radonis`.
+- **BREAKING:** The `HydrationRoot` component is now exported from `@microeinhundert/radonis`.
+- **BREAKING:** The component identifier is no longer required to be passed to the `HydrationRoot` component.
+- **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
+- HydrationRoots now ignored when used client-side.
+- Changed how hydration works under the hood.
 
 **Hooks**
 - **BREAKING:** All hooks are now exported from the `@microeinhundert/radonis` package.
@@ -33,7 +39,7 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Removed `component` and `propsHash` from the `useHydration` hook. These properties are now available by combining `useHydration` with the new `hydration` property on the `useManifest` hook.
 
 **Plugins**
-- **BREAKING:** Deprecated the `twind` plugin in favor of the more streaming friendly `unocss`. Please migrate to the `unocss` plugin, which offers better performance, no runtime bloat and better compatibility with Tailwind CSS.
+- **BREAKING:** Deprecated the `twind` plugin in favor of the more streaming friendly `unocss`.
 
 **Plugin API**
 - **BREAKING:** The `afterRender` plugin hook now only gets passed one chunk of the rendered HTML instead of the whole document. The hook is now called once for every chunk of rendered HTML.

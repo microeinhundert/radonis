@@ -12,7 +12,7 @@ import type { ComponentIdentifier, HydrationRequirements } from '@microeinhunder
 import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
 
 /**
- * Extract the required assets from the assets manifest
+ * Extract the required assets from an assets manifest
  * @internal
  */
 export function extractRequiredAssets(
@@ -90,7 +90,7 @@ function reduceHydrationRequirements(
 }
 
 /**
- * Generate the assets manifest
+ * Generate an assets manifest
  * @internal
  */
 export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {

@@ -13,8 +13,6 @@ import {
 } from '@microeinhundert/radonis-shared'
 
 import {
-  E_CANNOT_HYDRATE_COMPONENT,
-  E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN,
   E_CANNOT_SERIALIZE_MANIFEST,
   E_MISSING_CLIENT_ENTRY_FILE,
   E_MISSING_COMPONENTS_DIRECTORY,
@@ -52,39 +50,6 @@ export class ServerException extends Exception {
       E_CANNOT_SERIALIZE_MANIFEST.message,
       E_CANNOT_SERIALIZE_MANIFEST.status,
       E_CANNOT_SERIALIZE_MANIFEST.code
-    )
-
-    throw error
-  }
-  static cannotHydrateComponent(
-    hydrationRootId: string,
-    componentIdentifier: string
-  ) {
-    const error = new this(
-      interpolate(E_CANNOT_HYDRATE_COMPONENT.message, {
-        hydrationRootId,
-        componentIdentifier,
-      }),
-      E_CANNOT_HYDRATE_COMPONENT.status,
-      E_CANNOT_HYDRATE_COMPONENT.code
-    )
-
-    throw error
-  }
-  static cannotHydrateComponentWithChildren(
-    hydrationRootId: string,
-    componentIdentifier: string
-  ) {
-    const error = new this(
-      interpolate(
-        E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.message,
-        {
-          hydrationRootId,
-          componentIdentifier,
-        }
-      ),
-      E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.status,
-      E_CANNOT_HYDRATE_COMPONENT_WITH_CHILDREN.code
     )
 
     throw error

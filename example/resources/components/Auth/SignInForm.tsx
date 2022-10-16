@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Form, useFlashMessages, useI18n, useUrlBuilder } from '@microeinhundert/radonis';
+import { Form, hydratable, useFlashMessages, useI18n, useUrlBuilder } from '@microeinhundert/radonis';
 
 import Button from '../Button';
 import Checkbox from '../Checkbox';
@@ -67,4 +67,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default hydratable('SignInForm', SignInForm);

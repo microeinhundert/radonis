@@ -7,15 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import type { RouterContract } from '@ioc:Adonis/Core/Route'
-import { readFile } from 'fs/promises'
-import { emptyDir, outputFile } from 'fs-extra'
-import { dirname, join } from 'path'
-import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactNode } from 'react'
+import type { ComponentType, PropsWithoutRef, ReactElement, ReactNode } from 'react'
 
-const MODULE_NAME = '@microeinhundert/radonis-types'
+import type { ManifestContract } from './contracts'
 
 /**
  * Value of
@@ -50,15 +45,6 @@ export type ComponentIdentifier = string
  * Components
  */
 export type Components = Map<ComponentIdentifier, ComponentType>
-
-/**
- * Generate a union type of all components
- */
-export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
-  if (!components.length) return 'type ComponentIdentifier = never'
-
-  return `type ComponentIdentifier = ${components.map((value) => `'${value}'`).join(' | ')}`
-}
 
 /* ---------------------------------------- */
 
@@ -117,15 +103,6 @@ export type MessageData = Record<string, any>
  */
 export type Messages = Record<MessageIdentifier, string>
 
-/**
- * Generate a union type of all available messages
- */
-export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
-  if (!messages.length) return 'type MessageIdentifier = never'
-
-  return `type MessageIdentifier = ${messages.map((value) => `'${value}'`).join(' | ')}`
-}
-
 /* ---------------------------------------- */
 
 /**
@@ -137,15 +114,6 @@ export type RouteIdentifier = string
  * Routes
  */
 export type Routes = Record<RouteIdentifier, string>
-
-/**
- * Generate a union type of all available routes
- */
-export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
-  if (!routes.length) return 'type RouteIdentifier = never'
-
-  return `type RouteIdentifier = ${routes.map((value) => `'${value}'`).join(' | ')}`
-}
 
 /* ---------------------------------------- */
 
@@ -196,41 +164,6 @@ export interface ErrorPages {
  */
 export type FlushCallback = () => MaybePromise<ReactNode | void>
 
-/* ---------------------------------------- */
-
-/**
- * AssetsManager contract
- */
-export interface AssetsManagerContract {
-  requireComponent(identifier: ComponentIdentifier): void
-}
-
-/**
- * ManifestContract contract
- */
-export type ManifestContract = {
-  hydration: Hydration
-  globals: Globals
-  locale: Locale
-  route: Route | null
-  flashMessages: FlashMessages
-  messages: Messages
-  routes: Routes
-}
-
-/**
- *  ManifestManager contract
- */
-export interface ManifestManagerContract extends ManifestContract {
-  registerHydration(hydrationRootId: string, componentIdentifier: ComponentIdentifier, props: Record<string, any>): this
-  addGlobals(globals: Globals): this
-  setLocale(locale: Locale): this
-  setRoute(route: Route): this
-  setFlashMessages(flashMessages: FlashMessages): this
-  setMessages(messages: Messages): this
-  setRoutes(routes: Routes): this
-}
-
 /**
  * Render options
  */
@@ -243,91 +176,101 @@ export interface RenderOptions {
   globals?: Globals
 }
 
-/**
- * Renderer contract
- */
-export interface RendererContract {
-  withHeadTitle(title: string): RendererContract
-  withHeadMeta(meta: HeadMeta): RendererContract
-  withHeadTags(tags: HeadTag[]): RendererContract
-  withGlobals(globals: Globals): RendererContract
-  withErrorPages(errorPages: ErrorPages): RendererContract
-  withFlushCallbacks(flushCallbacks: FlushCallback[]): RendererContract
-  render<T extends PropsWithoutRef<any>>(
-    Component: ComponentType<T>,
-    props?: ComponentPropsWithoutRef<ComponentType<T>>,
-    options?: RenderOptions
-  ): Promise<UnwrapProps<T>>
-}
-
-/**
- * HeadManager contract
- */
-export interface HeadManagerContract {
-  setTitle(title: string): void
-  addMeta(meta: HeadMeta): void
-  addTags(tags: HeadTag[]): void
-}
-
-/**
- * Server contract
- */
-export interface ServerContract {
-  application: ApplicationContract
-  httpContext: HttpContextContract
-  router: RouterContract
-}
-
 /* ---------------------------------------- */
 
 /**
- * @internal
+ * Plugin environment
  */
-export async function readTypeDeclarationFileFromDisk(): Promise<string | null> {
-  try {
-    const modulePath = dirname(require.resolve(MODULE_NAME))
-    const filePath = join(modulePath, 'index.d.ts')
-    const fileContents = await readFile(filePath, 'utf-8')
+export type PluginEnvironment = 'client' | 'server'
 
-    return fileContents
-  } catch {
-    return null
-  }
+/**
+ * Plugin hook
+ */
+export type PluginHook<TInput> = (input: TInput) => Promise<void> | void
+
+/**
+ * Extract plugin hook
+ */
+export type ExtractPluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
+
+/**
+ * Plugin hook with builder
+ */
+export type PluginHookWithBuilder<TBuilderValue, TInput> = (
+  input: TInput
+) => (value: TBuilderValue) => MaybePromise<TBuilderValue>
+
+/**
+ * Plugin hooks
+ */
+export interface PluginHooks {
+  /**
+   * This plugin hook is called on initialization of the client
+   */
+  onInitClient: PluginHook<null>
+
+  /**
+   * This plugin hook is called before a component is hydrated
+   */
+  beforeHydrate: PluginHookWithBuilder<ReactElement, null>
+
+  /**
+   * This plugin hook is called on boot of the server
+   */
+  onBootServer: PluginHook<{ appRoot: string; resourcesPath: string }>
+
+  /**
+   * This plugin hook is called before a request
+   */
+  beforeRequest: PluginHook<{ ctx: HttpContextContract }>
+
+  /**
+   * This plugin hook is called after a request
+   */
+  afterRequest: PluginHook<{ ctx: HttpContextContract }>
+
+  /**
+   * This plugin hook is called before the page is rendered
+   */
+  beforeRender: PluginHookWithBuilder<
+    ReactElement,
+    { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, any> }
+  >
+
+  /**
+   * This plugin hook is called after a chunk of the page has been rendered
+   */
+  afterRender: PluginHookWithBuilder<string, { ctx: HttpContextContract }>
 }
 
 /**
- * @internal
+ * Plugin
  */
-export async function generateAndWriteTypeDeclarationFileToDisk(
-  {
-    components,
-    messages,
-    routes,
-  }: {
-    components: ComponentIdentifier[]
-    messages: MessageIdentifier[]
-    routes: RouteIdentifier[]
-  },
-  outputDir: string
-): Promise<void> {
-  await emptyDir(outputDir)
+export interface Plugin extends Partial<PluginHooks> {
+  /**
+   * The name of the plugin
+   */
+  name: string
 
-  const originalTypes = await readTypeDeclarationFileFromDisk()
+  /**
+   * The environments the plugin is compatible with
+   */
+  environments?: PluginEnvironment[]
 
-  if (!originalTypes) {
-    throw new Error('Could not get original types')
-  }
-
-  const generatedTypes = Object.entries({
-    ComponentIdentifier: generateComponentIdentifierUnionType(components),
-    MessageIdentifier: generateMessageIdentifierUnionType(messages),
-    RouteIdentifier: generateRouteIdentifierUnionType(routes),
-  }).reduce((types, [typeName, typeValue]) => {
-    return types.replace(`type ${typeName} = string`, typeValue)
-  }, originalTypes)
-
-  await outputFile(
-    join(outputDir, 'radonis.d.ts'),
-    `// This file is auto-generated, DO NOT EDIT\ndeclare module '${MODULE_NAME}' {\n${generatedTypes}\n}`
-  )
+  /**
+   * The names of the plugins the plugin conflicts with
+   */
+  conflictsWith?: string[]
 }
+
+export {
+  AssetsManagerContract,
+  HeadManagerContract,
+  HydrationManagerContract,
+  ManifestContract,
+  ManifestManagerContract,
+  PluginsManagerContract,
+  RendererContract,
+  ServerContract,
+} from './contracts'
+export { generateAndWriteTypeDeclarationFileToDisk } from './generate'

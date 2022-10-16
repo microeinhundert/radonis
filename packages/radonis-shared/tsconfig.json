@@ -10,8 +10,7 @@
       "esnext"
     ],
     "module": "commonjs",
-    "outDir": "build",
-    "types": ["@adonisjs/core"]
+    "outDir": "build"
   },
   "include": [
     "./**/*",

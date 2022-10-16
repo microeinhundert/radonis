@@ -1,3 +1,5 @@
+import { hydratable } from "@microeinhundert/radonis";
+
 /*
  * Logo
  */
@@ -20,4 +22,4 @@ function Logo(props: LogoProps) {
   );
 }
 
-export default Logo;
+export default hydratable('Logo', Logo);

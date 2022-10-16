@@ -12,7 +12,7 @@ import type { ManifestContract } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
-import { HydrateException } from '../../exceptions/hydrateException'
+import { HydrationException } from '../../exceptions/hydrationException'
 
 declare global {
   var radonisManifest: ManifestContract | undefined
@@ -32,7 +32,7 @@ export function getManifestOrFail() {
   const manifest = globalThis.radonisManifest
 
   if (!manifest) {
-    throw HydrateException.manifestUnavailable()
+    throw HydrationException.missingManifest()
   }
 
   return (cachedManifest = isClient

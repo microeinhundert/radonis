@@ -70,6 +70,7 @@ importers:
       '@microeinhundert/radonis-form': workspace:2.0.0
       '@microeinhundert/radonis-hooks': workspace:2.0.0
       '@microeinhundert/radonis-hydrate': workspace:2.0.0
+      '@microeinhundert/radonis-server': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.11.0
@@ -78,6 +79,7 @@ importers:
       '@microeinhundert/radonis-form': link:../radonis-form
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
+      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       tslib: 2.4.0
@@ -107,6 +109,7 @@ importers:
     specifiers:
       '@microeinhundert/radonis-hooks': workspace:2.0.0
       '@microeinhundert/radonis-hydrate': workspace:2.0.0
+      '@microeinhundert/radonis-server': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.11.0
@@ -117,6 +120,7 @@ importers:
     dependencies:
       '@microeinhundert/radonis-hooks': link:../radonis-hooks
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
+      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       superjson: 1.10.1
@@ -129,6 +133,7 @@ importers:
   packages/radonis-hooks:
     specifiers:
       '@microeinhundert/radonis-hydrate': workspace:2.0.0
+      '@microeinhundert/radonis-server': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.11.0
@@ -139,6 +144,7 @@ importers:
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
+      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       intl-messageformat: 10.1.5
@@ -152,6 +158,7 @@ importers:
   packages/radonis-hydrate:
     specifiers:
       '@microeinhundert/radonis-build': workspace:2.0.0
+      '@microeinhundert/radonis-server': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.11.0
@@ -161,6 +168,7 @@ importers:
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
+      '@microeinhundert/radonis-server': link:../radonis-server
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       superjson: 1.10.1
@@ -196,8 +204,6 @@ importers:
   packages/radonis-server:
     specifiers:
       '@microeinhundert/radonis-build': workspace:2.0.0
-      '@microeinhundert/radonis-hooks': workspace:2.0.0
-      '@microeinhundert/radonis-hydrate': workspace:2.0.0
       '@microeinhundert/radonis-shared': workspace:2.0.0
       '@microeinhundert/radonis-types': workspace:2.0.0
       '@types/node': ^18.11.0
@@ -206,19 +212,15 @@ importers:
       chokidar: ^3.5.3
       flattie: ^1.1.0
       minipass: ^3.3.4
-      node-fetch: ^3.2.10
       superjson: ^1.10.1
       tslib: ^2.4.0
     dependencies:
       '@microeinhundert/radonis-build': link:../radonis-build
-      '@microeinhundert/radonis-hooks': link:../radonis-hooks
-      '@microeinhundert/radonis-hydrate': link:../radonis-hydrate
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
       chokidar: 3.5.3
       flattie: 1.1.0
       minipass: 3.3.4
-      node-fetch: 3.2.10
       superjson: 1.10.1
       tslib: 2.4.0
     devDependencies:

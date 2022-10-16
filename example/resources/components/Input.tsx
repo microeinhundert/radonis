@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { useFormField, useHydrated, useI18n } from '@microeinhundert/radonis';
+import { hydratable, useFormField, useHydrated, useI18n } from '@microeinhundert/radonis';
 import type { HTMLInputTypeAttribute } from 'react';
 import { useState } from 'react';
 
@@ -86,4 +86,4 @@ function Input({ type: initialType = 'text', className, ...restProps }: InputPro
   );
 }
 
-export default Input;
+export default hydratable('Input', Input);

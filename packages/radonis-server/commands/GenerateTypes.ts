@@ -85,22 +85,24 @@ export default class GenerateTypes extends BaseCommand {
 
     Router.commit()
 
-    const components = discoverComponents(this.#componentsDir)
     const publicPath = this.application.rcFile.directories.public || 'public'
+
+    /**
+     * Execute the build
+     */
     const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
-      components,
+      entryPoints: discoverComponents(this.#componentsDir),
       publicPath,
       outputDir: this.#outputDir,
       esbuildOptions: buildOptions,
     })
 
-    const assetsManifest = await generateAssetsManifest(buildManifest)
+    await generateAssetsManifest(buildManifest)
 
     try {
       await generateAndWriteTypeDeclarationFileToDisk(
         {
-          components: assetsManifest.filter(({ type }) => type === 'component').map(({ identifier }) => identifier),
           messages: Object.keys(I18n.getTranslationsFor(I18n.defaultLocale)),
           routes: Object.keys(extractRootRoutes(Router)),
         },

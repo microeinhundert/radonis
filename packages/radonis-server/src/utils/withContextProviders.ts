@@ -7,12 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import {
-  AssetsManagerContextProvider,
-  ManifestManagerContextProvider,
-  RendererContextProvider,
-  ServerContextProvider,
-} from '@microeinhundert/radonis-hooks'
 import type {
   AssetsManagerContract,
   ManifestManagerContract,
@@ -21,6 +15,11 @@ import type {
 } from '@microeinhundert/radonis-types'
 import type { ReactElement } from 'react'
 import { createElement as h } from 'react'
+
+import { AssetsManagerContextProvider } from '../contexts/assetsManagerContext'
+import { ManifestManagerContextProvider } from '../contexts/manifestManagerContext'
+import { RendererContextProvider } from '../contexts/rendererContext'
+import { ServerContextProvider } from '../contexts/serverContext'
 
 /**
  * Wrap a ReactElement with the required context providers

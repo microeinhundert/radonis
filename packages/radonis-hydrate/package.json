@@ -65,9 +65,10 @@
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-build": "workspace:2.0.0",
-    "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-shared": "workspace:2.0.0",
+    "@microeinhundert/radonis-server": "workspace:2.0.0",
+    "@microeinhundert/radonis-build": "workspace:2.0.0",
     "superjson": "^1.10.1",
     "tslib": "^2.4.0"
   }

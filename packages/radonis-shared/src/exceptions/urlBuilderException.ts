@@ -20,10 +20,10 @@ import { interpolate } from '../utils/interpolate'
  * @internal
  */
 export class UrlBuilderException extends Exception {
-  static cannotFindRoute(identifier: string) {
+  static cannotFindRoute(routeIdentifier: string) {
     const error = new this(
       interpolate(E_CANNOT_FIND_ROUTE.message, {
-        identifier,
+        routeIdentifier,
       }),
       E_CANNOT_FIND_ROUTE.status,
       E_CANNOT_FIND_ROUTE.code

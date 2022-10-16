@@ -12,13 +12,11 @@
 import { isProduction } from '@microeinhundert/radonis-shared'
 import { createElement as h } from 'react'
 
-import type { DefaultErrorPageProps } from '../types'
-
 /**
  * The default error page
  * @internal
  */
-export function DefaultErrorPage({ error }: DefaultErrorPageProps) {
+export function DefaultErrorPage({ error }: { error: unknown }) {
   let message
 
   if (!isProduction) {

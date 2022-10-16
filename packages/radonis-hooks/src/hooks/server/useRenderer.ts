@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { rendererContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { rendererContext } from '../../contexts/rendererContext'
 import { HookException } from '../../exceptions/hookException'
 
 /**

@@ -63,11 +63,12 @@
     "@types/node": "^18.11.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-form": "workspace:2.0.0",
-    "@microeinhundert/radonis-hooks": "workspace:2.0.0",
-    "@microeinhundert/radonis-hydrate": "workspace:2.0.0",
-    "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-shared": "workspace:2.0.0",
+    "@microeinhundert/radonis-server": "workspace:2.0.0",
+    "@microeinhundert/radonis-hydrate": "workspace:2.0.0",
+    "@microeinhundert/radonis-hooks": "workspace:2.0.0",
+    "@microeinhundert/radonis-form": "workspace:2.0.0",
     "tslib": "^2.4.0"
   }
 }

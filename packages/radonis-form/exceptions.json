@@ -1,11 +1,11 @@
 {
   "E_CANNOT_USE_HOOKS_WHEN_RELOADING": {
-    "message": "The form with action \"{{ action }}\" cannot use the `hooks` prop without the `noReload` prop also being set",
+    "message": "The form with action \"{{ formAction }}\" cannot use the `hooks` prop without the `noReload` prop also being set",
     "code": "E_CANNOT_USE_HOOKS_WHEN_RELOADING",
     "status": 500
   },
   "E_CANNOT_FETCH_WITHOUT_HYDRATION": {
-    "message": "The form with action \"{{ action }}\" and the `noReload` prop set can't work without being hydrated client-side. Wrap the component containing this form with an HydrationRoot",
+    "message": "The form with action \"{{ formAction }}\" and the `noReload` prop set can't work without being hydrated client-side. Wrap the component containing this form with an HydrationRoot",
     "code": "E_CANNOT_FETCH_WITHOUT_HYDRATION",
     "status": 500
   },

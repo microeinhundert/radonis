@@ -1,21 +1,6 @@
 {
-  "E_CONFLICTING_PLUGINS": {
-    "message": "The plugin \"{{ pluginName }}\" conflicts with the following installed plugins: {{ conflictingPlugins }}",
-    "code": "E_CONFLICTING_PLUGINS",
-    "status": 500
-  },
-  "E_PLUGIN_ALREADY_INSTALLED": {
-    "message": "The plugin \"{{ pluginName }}\" is already installed",
-    "code": "E_PLUGIN_ALREADY_INSTALLED",
-    "status": 500
-  },
-  "E_PLUGIN_NOT_INSTALLABLE": {
-    "message": "The plugin \"{{ pluginName }}\" is not installable in the \"{{ environment }}\" environment",
-    "code": "E_PLUGIN_NOT_INSTALLABLE",
-    "status": 500
-  },
   "E_CANNOT_FIND_ROUTE": {
-    "message": "Cannot find route \"{{ identifier }}\". Make sure the route exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis",
+    "message": "Cannot find route \"{{ routeIdentifier }}\". Make sure the route exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis",
     "code": "E_CANNOT_FIND_ROUTE",
     "status": 404
   },

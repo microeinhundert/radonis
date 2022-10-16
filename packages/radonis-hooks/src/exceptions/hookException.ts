@@ -15,7 +15,7 @@ import {
 import {
   E_CANNOT_FIND_MESSAGE,
   E_CANNOT_USE_ON_CLIENT,
-  E_MANIFEST_UNAVAILABLE,
+  E_MISSING_MANIFEST,
 } from '../../exceptions.json'
 
 /**
@@ -23,10 +23,10 @@ import {
  * @internal
  */
 export class HookException extends Exception {
-  static cannotFindMessage(identifier: string) {
+  static cannotFindMessage(messageIdentifier: string) {
     const error = new this(
       interpolate(E_CANNOT_FIND_MESSAGE.message, {
-        identifier,
+        messageIdentifier,
       }),
       E_CANNOT_FIND_MESSAGE.status,
       E_CANNOT_FIND_MESSAGE.code
@@ -34,11 +34,11 @@ export class HookException extends Exception {
 
     throw error
   }
-  static manifestUnavailable() {
+  static missingManifest() {
     const error = new this(
-      E_MANIFEST_UNAVAILABLE.message,
-      E_MANIFEST_UNAVAILABLE.status,
-      E_MANIFEST_UNAVAILABLE.code
+      E_MISSING_MANIFEST.message,
+      E_MISSING_MANIFEST.status,
+      E_MISSING_MANIFEST.code
     )
 
     throw error

@@ -1,3 +1,5 @@
+import { hydratable } from "@microeinhundert/radonis";
+
 /*
  * Fallback
  */
@@ -19,4 +21,4 @@ function Fallback({ icon: Icon, headline, text }: FallbackProps) {
   );
 }
 
-export default Fallback;
+export default hydratable('Fallback', Fallback);

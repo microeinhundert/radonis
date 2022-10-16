@@ -1,3 +1,5 @@
+import { hydratable } from '@microeinhundert/radonis';
+
 import { useCsrfToken } from '../hooks/useCsrfToken';
 
 /*
@@ -9,4 +11,4 @@ function CsrfField() {
   return csrfToken ? <input name="_csrf" type="hidden" value={csrfToken} /> : null;
 }
 
-export default CsrfField;
+export default hydratable('CsrfField', CsrfField);

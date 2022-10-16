@@ -1,5 +1,4 @@
-import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
-import { useI18n } from '@microeinhundert/radonis';
+import { HydrationRoot, useI18n } from '@microeinhundert/radonis';
 import SignUpForm from 'Components/Auth/SignUpForm';
 import { AuthLayout } from 'Layouts/Auth';
 
@@ -12,7 +11,7 @@ function SignUp() {
 
   return (
     <AuthLayout title={messages.title}>
-      <HydrationRoot component="SignUpForm">
+      <HydrationRoot>
         <SignUpForm />
       </HydrationRoot>
     </AuthLayout>

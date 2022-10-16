@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-export { initClient, registerComponentForHydration } from './client'
+export { definePlugin } from './definePlugin'
+export { initClient } from './initClient'
 export { Form, useForm, useFormField } from '@microeinhundert/radonis-form'
 export {
   useApplication,
@@ -29,14 +30,14 @@ export {
   useSession,
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
-export { useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
-export type { Plugin } from '@microeinhundert/radonis-shared'
-export { definePlugin, UrlBuilder } from '@microeinhundert/radonis-shared'
+export { hydratable, HydrationRoot, useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
+export { UrlBuilder } from '@microeinhundert/radonis-shared'
 export type {
   ComponentIdentifier,
   FlashMessageIdentifier,
   ManifestContract,
   MessageIdentifier,
+  Plugin,
   RouteIdentifier,
   RouteParams,
   RouteQueryParams,

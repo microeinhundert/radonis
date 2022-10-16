@@ -1,5 +1,5 @@
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
-import { useI18n } from '@microeinhundert/radonis';
+import { hydratable, useI18n } from '@microeinhundert/radonis';
 import { useState } from 'react';
 
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
@@ -97,4 +97,4 @@ function SidebarUserInfo() {
   );
 }
 
-export default SidebarUserInfo;
+export default hydratable('SidebarUserInfo', SidebarUserInfo);

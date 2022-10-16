@@ -32,7 +32,7 @@ export function useManifest() {
   const manifest = globalThis.radonisManifest
 
   if (!manifest) {
-    throw HookException.manifestUnavailable()
+    throw HookException.missingManifest()
   }
 
   return (cachedManifest = isClient
