@@ -8,19 +8,22 @@
  */
 
 import type { RouterContract } from '@ioc:Adonis/Core/Route'
+import type { Routes } from '@microeinhundert/radonis-types'
+
+import { getRouteIdentifier } from './getRouteIdentifier'
 
 /**
  * Extract the root routes
  * @internal
  */
-export function extractRootRoutes(router: RouterContract): Record<string, any> {
+export function extractRootRoutes(router: RouterContract): Routes {
   const rootRoutes = router.toJSON()?.['root'] ?? []
 
-  return rootRoutes.reduce<Record<string, any>>((routes, route) => {
-    if (route.name) {
-      routes[route.name] = route.pattern
-    } else if (typeof route.handler === 'string') {
-      routes[route.handler] = route.pattern
+  return rootRoutes.reduce<Routes>((routes, route) => {
+    const routeIdentifier = getRouteIdentifier(route)
+
+    if (routeIdentifier) {
+      routes[routeIdentifier] = route.pattern
     }
 
     return routes

@@ -1,4 +1,4 @@
-import { Form, useI18n, useUrlBuilder } from '@microeinhundert/radonis';
+import { Form, hydratable, useI18n, useUrlBuilder } from '@microeinhundert/radonis';
 
 import Button from '../Button';
 import CsrfField from '../CsrfField';
@@ -35,7 +35,7 @@ function SignUpForm() {
   };
 
   return (
-    <Form action="AuthController.signUp" method="post" noValidate reloadDocument>
+    <Form action="AuthController.signUp" method="post" noValidate>
       <div className="flex flex-col gap-5">
         <CsrfField />
         <Input
@@ -87,4 +87,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default hydratable('SignUpForm', SignUpForm);

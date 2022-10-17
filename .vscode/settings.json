@@ -36,10 +36,6 @@
       "changeProcessCWD": true
     },
     {
-      "directory": "packages/radonis-twind",
-      "changeProcessCWD": true
-    },
-    {
       "directory": "packages/radonis-types",
       "changeProcessCWD": true
     },

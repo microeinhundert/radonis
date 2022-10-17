@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { useI18n } from '@microeinhundert/radonis';
+import { hydratable, useI18n } from '@microeinhundert/radonis';
 import { useId } from 'react';
 
 import { clsx } from '../utils/string';
@@ -40,4 +40,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default hydratable('Search', Search);

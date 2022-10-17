@@ -14,10 +14,8 @@ import {
 
 import {
   E_CANNOT_FIND_MESSAGE,
-  E_CANNOT_FIND_ROUTE,
-  E_MANIFEST_UNAVAILABLE,
-  E_MISSING_ROUTE_PARAM,
-  E_WILDCARD_ROUTES_NOT_SUPPORTED,
+  E_CANNOT_USE_ON_CLIENT,
+  E_MISSING_MANIFEST,
 } from '../../exceptions.json'
 
 /**
@@ -25,10 +23,10 @@ import {
  * @internal
  */
 export class HookException extends Exception {
-  static cannotFindMessage(identifier: string) {
+  static cannotFindMessage(messageIdentifier: string) {
     const error = new this(
       interpolate(E_CANNOT_FIND_MESSAGE.message, {
-        identifier,
+        messageIdentifier,
       }),
       E_CANNOT_FIND_MESSAGE.status,
       E_CANNOT_FIND_MESSAGE.code
@@ -36,46 +34,22 @@ export class HookException extends Exception {
 
     throw error
   }
-  static cannotFindRoute(identifier: string) {
+  static missingManifest() {
     const error = new this(
-      interpolate(E_CANNOT_FIND_ROUTE.message, {
-        identifier,
+      E_MISSING_MANIFEST.message,
+      E_MISSING_MANIFEST.status,
+      E_MISSING_MANIFEST.code
+    )
+
+    throw error
+  }
+  static cannotUseOnClient(hookName: string) {
+    const error = new this(
+      interpolate(E_CANNOT_USE_ON_CLIENT.message, {
+        hookName,
       }),
-      E_CANNOT_FIND_ROUTE.status,
-      E_CANNOT_FIND_ROUTE.code
-    )
-
-    throw error
-  }
-  static missingRouteParam(
-    paramName: string,
-    pattern: string
-  ) {
-    const error = new this(
-      interpolate(E_MISSING_ROUTE_PARAM.message, {
-        paramName,
-        pattern,
-      }),
-      E_MISSING_ROUTE_PARAM.status,
-      E_MISSING_ROUTE_PARAM.code
-    )
-
-    throw error
-  }
-  static manifestUnavailable() {
-    const error = new this(
-      E_MANIFEST_UNAVAILABLE.message,
-      E_MANIFEST_UNAVAILABLE.status,
-      E_MANIFEST_UNAVAILABLE.code
-    )
-
-    throw error
-  }
-  static wildcardRoutesNotSupported() {
-    const error = new this(
-      E_WILDCARD_ROUTES_NOT_SUPPORTED.message,
-      E_WILDCARD_ROUTES_NOT_SUPPORTED.status,
-      E_WILDCARD_ROUTES_NOT_SUPPORTED.code
+      E_CANNOT_USE_ON_CLIENT.status,
+      E_CANNOT_USE_ON_CLIENT.code
     )
 
     throw error

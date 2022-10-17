@@ -7,20 +7,20 @@
  * file that was distributed with this source code.
  */
 
-import { useGlobals } from '@microeinhundert/radonis-hooks'
+import { useGlobals } from '@microeinhundert/radonis'
 import { Hydrate } from '@tanstack/react-query'
 import { createElement as h } from 'react'
 
 import type { QueryHydratorProps } from '../types'
 
 /**
- * The component for hydrating the queries client-side
+ * The component for hydrating queries
  * @internal
  */
 export function QueryHydrator({ children }: QueryHydratorProps) {
-  const globals = useGlobals()
+  const globals = useGlobals() as any
 
-  return h(Hydrate, { state: globals as any }, children)
+  return h(Hydrate, { state: globals.dehydratedQueryState }, children)
 }
 
 QueryHydrator.displayName = 'RadonisQueryHydrator'

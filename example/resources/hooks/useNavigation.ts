@@ -23,7 +23,7 @@ export function useNavigation() {
       },
       {
         identifier: 'gardens',
-        routeIdentifier: 'gardens.index',
+        routeIdentifier: 'GardensController.index',
         icon: CubeIcon,
         canAccess: () => !!user,
       },

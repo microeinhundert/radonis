@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-build",
-  "version": "1.11.4",
+  "version": "2.0.0",
   "description": "Build package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -56,13 +56,13 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.8.3"
+    "@types/node": "^18.11.0"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:1.11.4",
-    "@microeinhundert/radonis-types": "workspace:1.11.4",
+    "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-shared": "workspace:2.0.0",
     "@poppinss/utils": "^5.0.0",
-    "esbuild": "^0.15.10",
+    "esbuild": "^0.15.11",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.0"
   }

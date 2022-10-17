@@ -8,7 +8,7 @@
  */
 
 import { Hydrator } from '@microeinhundert/radonis-hydrate'
-import { PluginsManager } from '@microeinhundert/radonis-shared'
+import { PluginsManager } from '@microeinhundert/radonis-server/standalone'
 
 /**
  * @internal

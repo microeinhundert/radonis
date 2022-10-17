@@ -1,0 +1,6 @@
+{
+  "internalServerError": {
+    "headline": "Internal Server Error",
+    "text": "Something is not right. Please try again later. Cause: { message }"
+  }
+}

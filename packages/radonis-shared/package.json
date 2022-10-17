@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-shared",
-  "version": "1.11.4",
+  "version": "2.0.0",
   "description": "Shared package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -56,8 +56,8 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@microeinhundert/radonis-types": "workspace:1.11.4",
-    "@types/node": "^18.8.3",
+    "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@types/node": "^18.11.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },

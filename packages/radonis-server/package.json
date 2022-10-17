@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "1.11.4",
+  "version": "2.0.0",
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/providers/RadonisProvider.js",
@@ -10,9 +10,9 @@
       "types": "./build/adonis-typings/index.d.ts",
       "require": "./build/providers/RadonisProvider.js"
     },
+    "./standalone": "./build/standalone.js",
     "./build/commands": "./build/commands/index.js",
     "./build/commands/BuildClient": "./build/commands/BuildClient.js",
-    "./build/commands/GenerateTypes": "./build/commands/GenerateTypes.js",
     "./*": "./*"
   },
   "sideEffects": false,
@@ -22,8 +22,14 @@
     "build/templates",
     "build/providers",
     "build/src",
+    "build/standalone.js",
+    "build/standalone.js.map",
+    "build/standalone.d.ts",
+    "build/standalone.d.ts.map",
     "build/instructions.js",
     "build/instructions.js.map",
+    "build/instructions.d.ts",
+    "build/instructions.d.ts.map",
     "build/instructions.md",
     "build/exceptions.json"
   ],
@@ -96,20 +102,18 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.11.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-build": "workspace:1.11.4",
-    "@microeinhundert/radonis-hydrate": "workspace:1.11.4",
-    "@microeinhundert/radonis-shared": "workspace:1.11.4",
-    "@microeinhundert/radonis-types": "workspace:1.11.4",
-    "@poppinss/utils": "^5.0.0",
+    "@microeinhundert/radonis-types": "workspace:2.0.0",
+    "@microeinhundert/radonis-shared": "workspace:2.0.0",
+    "@microeinhundert/radonis-build": "workspace:2.0.0",
     "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
-    "node-object-hash": "^2.3.10",
-    "superjson": "^1.10.0",
+    "minipass": "^3.3.4",
+    "superjson": "^1.10.1",
     "tslib": "^2.4.0"
   }
 }

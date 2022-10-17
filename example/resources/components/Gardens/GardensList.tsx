@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { Form, useHydrated, useI18n } from '@microeinhundert/radonis';
+import { Form, hydratable, useHydrated, useI18n } from '@microeinhundert/radonis';
 import type Garden from 'App/Models/Garden';
 import { useState } from 'react';
 
@@ -47,7 +47,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
 
   return (
     <Form
-      action="gardens.destroy"
+      action="GardensController.destroy"
       hooks={{
         onMutate: () => {
           setDeleteConfirmationModalOpen(false);
@@ -58,6 +58,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
           rollback?.();
         },
       }}
+      noReload
       id={`delete-garden-${garden.id}`}
       method="delete"
       params={{ id: garden.id }}
@@ -72,7 +73,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
                   icon={PencilIcon}
                   params={{ id: garden.id }}
                   title={messages.actions.edit}
-                  to="gardens.edit"
+                  to="GardensController.edit"
                   round
                   small
                 />
@@ -174,4 +175,4 @@ function GardensList({ gardens }: GardensListProps) {
   );
 }
 
-export default GardensList;
+export default hydratable('GardensList', GardensList);

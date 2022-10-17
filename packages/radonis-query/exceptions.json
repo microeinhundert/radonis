@@ -1,7 +1,7 @@
 {
-  "E_CANNOT_PREFETCH_ON_CLIENT": {
-    "message": "Prefetching queries is only supported server-side. Make sure to only call `prefetchQueries` in route handlers",
-    "code": "E_CANNOT_PREFETCH_ON_CLIENT",
+  "E_MISSING_HOST_HEADER": {
+    "message": "The request is missing the host header. Without the host header set, server-side fetching does not work",
+    "code": "E_MISSING_HOST_HEADER",
     "status": 500
   },
   "E_REQUEST_FAILED": {

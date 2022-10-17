@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { hydratable } from '@microeinhundert/radonis';
+import { forwardRef, ReactNode } from 'react';
 
 import { clsx } from '../utils/string';
 
@@ -17,9 +18,10 @@ interface GridProps {
   type?: GridType;
 }
 
-function Grid({ children, type = GridType.ThreeColumns }: GridProps) {
+const Grid = forwardRef<HTMLDivElement, GridProps>(function ({ children, type = GridType.ThreeColumns }, ref) {
   return (
     <div
+      ref={ref}
       className={clsx(
         'grid gap-8',
         {
@@ -33,6 +35,6 @@ function Grid({ children, type = GridType.ThreeColumns }: GridProps) {
       {children}
     </div>
   );
-}
+})
 
-export default Grid;
+export default hydratable('Grid', Grid);

@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useI18n } from '@microeinhundert/radonis';
+import { hydratable, useI18n } from '@microeinhundert/radonis';
 import type { ReactNode } from 'react';
 import { Fragment } from 'react';
 
@@ -150,7 +150,7 @@ function Modal({ open, onClose, ...restProps }: ModalProps) {
         static
         onClose={onClose}
       >
-        <div className="flex min-h-screen items-center justify-center px-4 text-center">
+        <div className="min-h-screen flex items-center justify-center px-4 text-center">
           <ModalOverlay />
           <ModalContent {...restProps} onClose={onClose} />
         </div>
@@ -164,4 +164,4 @@ Modal.Body = ModalBody;
 Modal.Title = ModalTitle;
 Modal.Description = ModalDescription;
 
-export default Modal;
+export default hydratable('Modal', Modal);

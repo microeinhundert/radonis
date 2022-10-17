@@ -7,12 +7,34 @@
  * file that was distributed with this source code.
  */
 
-import { readFile } from 'fs/promises'
-import { emptyDir, outputFile } from 'fs-extra'
-import { dirname, join } from 'path'
-import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { ComponentType, PropsWithoutRef, ReactElement, ReactNode } from 'react'
 
-const MODULE_NAME = '@microeinhundert/radonis-types'
+import type { ManifestContract } from './contracts'
+
+/**
+ * Value of
+ */
+export type ValueOf<T> = T[keyof T]
+
+/**
+ * Unwrap props
+ */
+export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
+
+/**
+ * Maybe promise
+ */
+export type MaybePromise<T> = Promise<T> | T
+
+/**
+ * Resettable
+ */
+export interface Resettable {
+  reset(): void
+}
+
+/* ---------------------------------------- */
 
 /**
  * Component identifier
@@ -24,26 +46,21 @@ export type ComponentIdentifier = string
  */
 export type Components = Map<ComponentIdentifier, ComponentType>
 
-/**
- * Generate a union type of all components
- */
-export function generateComponentIdentifierUnionType(components: ComponentIdentifier[]): string {
-  if (!components.length) return 'type ComponentIdentifier = never'
-
-  return `type ComponentIdentifier = ${components.map((value) => `'${value}'`).join(' | ')}`
-}
-
 /* ---------------------------------------- */
 
 /**
- * Props hash
+ * Hydration
  */
-export type PropsHash = string
+export type Hydration = Record<string, { componentIdentifier: string; props: Record<string, any> }>
 
 /**
- * Props
+ * Hydration requirements
  */
-export type Props = Record<PropsHash, Record<string, any>>
+export interface HydrationRequirements {
+  flashMessages: FlashMessageIdentifier[]
+  messages: MessageIdentifier[]
+  routes: RouteIdentifier[]
+}
 
 /* ---------------------------------------- */
 
@@ -86,15 +103,6 @@ export type MessageData = Record<string, any>
  */
 export type Messages = Record<MessageIdentifier, string>
 
-/**
- * Generate a union type of all available messages
- */
-export function generateMessageIdentifierUnionType(messages: MessageIdentifier[]): string {
-  if (!messages.length) return 'type MessageIdentifier = never'
-
-  return `type MessageIdentifier = ${messages.map((value) => `'${value}'`).join(' | ')}`
-}
-
 /* ---------------------------------------- */
 
 /**
@@ -106,15 +114,6 @@ export type RouteIdentifier = string
  * Routes
  */
 export type Routes = Record<RouteIdentifier, string>
-
-/**
- * Generate a union type of all available routes
- */
-export function generateRouteIdentifierUnionType(routes: RouteIdentifier[]): string {
-  if (!routes.length) return 'type RouteIdentifier = never'
-
-  return `type RouteIdentifier = ${routes.map((value) => `'${value}'`).join(' | ')}`
-}
 
 /* ---------------------------------------- */
 
@@ -132,50 +131,6 @@ export type RouteParams = Record<string, string | number>
  * Route query params
  */
 export type RouteQueryParams = Record<string, string | number | (string | number)[]>
-
-/* ---------------------------------------- */
-
-/**
- * Manifest
- */
-export type Manifest = {
-  locale: Locale
-  props: Props
-  flashMessages: FlashMessages
-  messages: Messages
-  routes: Routes
-  route: Route | null
-} & { globals: Globals }
-
-/* ---------------------------------------- */
-
-/**
- * Hydration requirements
- */
-export interface HydrationRequirements {
-  flashMessages: FlashMessageIdentifier[]
-  messages: MessageIdentifier[]
-  routes: RouteIdentifier[]
-}
-
-/* ---------------------------------------- */
-
-/**
- * Value of
- */
-export type ValueOf<T> = T[keyof T]
-
-/**
- * Unwrap props
- */
-export type UnwrapProps<T> = T extends PropsWithoutRef<infer P> ? P : T
-
-/**
- * Resettable
- */
-export interface Resettable {
-  reset(): void
-}
 
 /* ---------------------------------------- */
 
@@ -198,89 +153,123 @@ export interface HeadTag {
 }
 
 /**
- * Head contract
+ * Error pages
  */
-export interface HeadContract {
-  setTitle(title: string): void
-  addMeta(meta: HeadMeta): void
-  addTags(tags: HeadTag[]): void
+export interface ErrorPages {
+  500?: ComponentType<{ error: unknown }>
 }
+
+/**
+ * Flush callback
+ */
+export type FlushCallback = () => MaybePromise<ReactNode | void>
 
 /**
  * Render options
  */
 export interface RenderOptions {
-  title?: string
-  meta?: HeadMeta
-  tags?: HeadTag[]
+  head?: {
+    title?: string
+    meta?: HeadMeta
+    tags?: HeadTag[]
+  }
   globals?: Globals
-}
-
-/**
- * Renderer contract
- */
-export interface RendererContract {
-  withTitle(string: string): RendererContract
-  withHeadMeta(meta: HeadMeta): RendererContract
-  withHeadTags(tags: HeadTag[]): RendererContract
-  withGlobals(globals: Globals): RendererContract
-  render<T extends PropsWithoutRef<any>>(
-    Component: ComponentType<T>,
-    props?: ComponentPropsWithoutRef<ComponentType<T>>,
-    options?: RenderOptions
-  ): Promise<string | UnwrapProps<T> | undefined>
 }
 
 /* ---------------------------------------- */
 
 /**
- * @internal
+ * Plugin environment
  */
-export async function readTypeDeclarationFileFromDisk(): Promise<string | null> {
-  try {
-    const modulePath = dirname(require.resolve(MODULE_NAME))
-    const filePath = join(modulePath, 'index.d.ts')
-    const fileContents = await readFile(filePath, 'utf-8')
+export type PluginEnvironment = 'client' | 'server'
 
-    return fileContents
-  } catch {
-    return null
-  }
+/**
+ * Plugin hook
+ */
+export type PluginHook<TInput> = (input: TInput) => Promise<void> | void
+
+/**
+ * Extract plugin hook
+ */
+export type ExtractPluginHook<TType extends keyof PluginHooks> = PluginHooks[TType]
+
+/**
+ * Plugin hook with builder
+ */
+export type PluginHookWithBuilder<TBuilderValue, TInput> = (
+  input: TInput
+) => (value: TBuilderValue) => MaybePromise<TBuilderValue>
+
+/**
+ * Plugin hooks
+ */
+export interface PluginHooks {
+  /**
+   * This plugin hook is called on initialization of the client
+   */
+  onInitClient: PluginHook<null>
+
+  /**
+   * This plugin hook is called before a component is hydrated
+   */
+  beforeHydrate: PluginHookWithBuilder<ReactElement, null>
+
+  /**
+   * This plugin hook is called on boot of the server
+   */
+  onBootServer: PluginHook<{ appRoot: string; resourcesPath: string }>
+
+  /**
+   * This plugin hook is called before a request
+   */
+  beforeRequest: PluginHook<{ ctx: HttpContextContract }>
+
+  /**
+   * This plugin hook is called after a request
+   */
+  afterRequest: PluginHook<{ ctx: HttpContextContract }>
+
+  /**
+   * This plugin hook is called before the page is rendered
+   */
+  beforeRender: PluginHookWithBuilder<
+    ReactElement,
+    { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, any> }
+  >
+
+  /**
+   * This plugin hook is called after a chunk of the page has been rendered
+   */
+  afterRender: PluginHookWithBuilder<string, { ctx: HttpContextContract }>
 }
 
 /**
- * @internal
+ * Plugin
  */
-export async function generateAndWriteTypeDeclarationFileToDisk(
-  {
-    components,
-    messages,
-    routes,
-  }: {
-    components: ComponentIdentifier[]
-    messages: MessageIdentifier[]
-    routes: RouteIdentifier[]
-  },
-  outputDir: string
-): Promise<void> {
-  await emptyDir(outputDir)
+export interface Plugin extends Partial<PluginHooks> {
+  /**
+   * The name of the plugin
+   */
+  name: string
 
-  const originalTypes = await readTypeDeclarationFileFromDisk()
+  /**
+   * The environments the plugin is compatible with
+   */
+  environments?: PluginEnvironment[]
 
-  if (!originalTypes) {
-    throw new Error('Could not get original types')
-  }
-
-  const generatedTypes = Object.entries({
-    ComponentIdentifier: generateComponentIdentifierUnionType(components),
-    MessageIdentifier: generateMessageIdentifierUnionType(messages),
-    RouteIdentifier: generateRouteIdentifierUnionType(routes),
-  }).reduce((types, [typeName, typeValue]) => {
-    return types.replace(`type ${typeName} = string`, typeValue)
-  }, originalTypes)
-
-  await outputFile(
-    join(outputDir, 'radonis.d.ts'),
-    `// This file is auto-generated, DO NOT EDIT\ndeclare module '${MODULE_NAME}' {\n${generatedTypes}\n}`
-  )
+  /**
+   * The names of the plugins the plugin conflicts with
+   */
+  conflictsWith?: string[]
 }
+
+export {
+  AssetsManagerContract,
+  HeadManagerContract,
+  HydrationManagerContract,
+  ManifestContract,
+  ManifestManagerContract,
+  PluginsManagerContract,
+  RendererContract,
+  ServerContract,
+} from './contracts'

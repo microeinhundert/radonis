@@ -12,6 +12,7 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
+import superjson from 'superjson'
 
 import { FormException } from '../exceptions/formException'
 import { hydrationManager } from '../singletons'
@@ -41,22 +42,23 @@ export function useForm<TData, TError>({
   queryParams,
   method,
   hooks,
-  reloadDocument,
+  noReload,
   throwOnFailure,
   useErrorBoundary,
   ...props
 }: FormOptions<TData, TError>) {
   const hydration = useHydration()
 
-  if (hydration.root) {
+  if (hydration.id) {
     hydrationManager.requireRoute(action)
   }
 
-  if (hooks && reloadDocument) {
-    throw FormException.cannotCombineReloadWithHooks()
+  if (!noReload && hooks) {
+    throw FormException.cannotUseHooksWhenReloading(action)
   }
-  if (!reloadDocument && !hydration.root) {
-    throw FormException.cannotFetchWithoutHydration()
+
+  if (noReload && !hydration.id) {
+    throw FormException.cannotFetchWithoutHydration(action)
   }
 
   const form = useRef<HTMLFormElement | null>(null)
@@ -73,7 +75,8 @@ export function useForm<TData, TError>({
       const requestInit: RequestInit = {
         method,
         headers: {
-          Accept: 'application/json',
+          'Accept': 'application/json',
+          'X-Radonis-Request': 'true',
         },
       }
 
@@ -96,7 +99,9 @@ export function useForm<TData, TError>({
         throw FormException.requestFailed(action, response.status)
       }
 
-      return response.json()
+      const json = await response.json()
+
+      return superjson.deserialize(json)
     },
     { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
   )
@@ -112,7 +117,7 @@ export function useForm<TData, TError>({
   )
 
   const getFormProps = () => ({
-    onSubmit: reloadDocument ? undefined : submitHandler,
+    onSubmit: noReload ? submitHandler : undefined,
     ref: form,
     ...props,
     get action() {

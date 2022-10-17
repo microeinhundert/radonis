@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { HydrationManager } from '@microeinhundert/radonis-hydrate'
+import { HydrationManager } from '@microeinhundert/radonis-server/standalone'
 
 /**
  * @internal

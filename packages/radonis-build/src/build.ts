@@ -7,22 +7,26 @@
  * file that was distributed with this source code.
  */
 
-import type { Metafile } from 'esbuild'
+import { Exception } from '@microeinhundert/radonis-shared'
 import { build as build$ } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 import { join, parse, relative } from 'path'
 
 import { BuildException } from './exceptions/buildException'
 import { loaders } from './loaders'
-import { radonisClientPlugin } from './plugin'
-import { pluginsManager } from './singletons'
-import type { BuildManifest, BuildManifestEntry, BuildOptions } from './types'
+import type {
+  BuildManifest,
+  BuildManifestEntry,
+  BuildOptions,
+  GenerateBuildManifestOptions,
+  MetafileWalkerOptions,
+} from './types'
 import { extractFlashMessages, extractMessages, extractRoutes, filePathToFileUrl } from './utils'
 
 /**
  * Create a metafile walker
  */
-function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, string>, publicPath: string) {
+function createMetafileWalker({ metafile, builtAssets, publicPath }: MetafileWalkerOptions) {
   function walk(assetPath: string, assetType: BuildManifestEntry['type']): BuildManifestEntry {
     const output = metafile.outputs[assetPath]
 
@@ -31,14 +35,14 @@ function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, strin
     }
 
     const absoluteAssetPath = join(process.cwd(), assetPath)
-    const builtAsset = builtAssets.get(absoluteAssetPath) ?? ''
+    const builtAssetSource = builtAssets.get(absoluteAssetPath) ?? ''
 
     return {
       type: assetType,
       path: join('/', filePathToFileUrl(relative(publicPath, assetPath))),
-      flashMessages: extractFlashMessages(builtAsset),
-      messages: extractMessages(builtAsset),
-      routes: extractRoutes(builtAsset),
+      flashMessages: extractFlashMessages(builtAssetSource),
+      messages: extractMessages(builtAssetSource),
+      routes: extractRoutes(builtAssetSource),
       imports: output.imports.map(({ path: path$ }) => walk(path$, 'chunk')),
     }
   }
@@ -47,25 +51,21 @@ function createMetafileWalker(metafile: Metafile, builtAssets: Map<string, strin
 }
 
 /**
- * Generate the build manifest
+ * Generate a build manifest
  */
-function generateBuildManifest(
-  metafile: Metafile,
-  entryFileName: string,
-  builtAssets: Map<string, string>,
-  publicPath: string
-): BuildManifest {
-  const buildManifest = {} as BuildManifest
-
-  for (let assetPath in metafile.outputs) {
-    const outputs = metafile.outputs[assetPath]
-
-    if (!outputs.entryPoint) {
+function generateBuildManifest({
+  metafile,
+  entryFileName,
+  builtAssets,
+  publicPath,
+}: GenerateBuildManifestOptions): BuildManifest {
+  return Object.entries(metafile.outputs).reduce<BuildManifest>((buildManifest, [assetPath, { entryPoint }]) => {
+    if (!entryPoint) {
       /**
        * We only want entry points
        * on the topmost level
        */
-      continue
+      return buildManifest
     }
 
     const { name: assetFileName } = parse(assetPath)
@@ -74,13 +74,14 @@ function generateBuildManifest(
       throw BuildException.duplicateBuildManifestEntry(assetFileName)
     }
 
-    buildManifest[assetFileName] = createMetafileWalker(metafile, builtAssets, publicPath).walk(
-      assetPath,
-      assetFileName === entryFileName ? 'entry' : 'component'
-    )
-  }
-
-  return buildManifest
+    return {
+      ...buildManifest,
+      [assetFileName]: createMetafileWalker({ metafile, builtAssets, publicPath }).walk(
+        assetPath,
+        assetFileName === entryFileName ? 'entry' : 'component'
+      ),
+    }
+  }, {})
 }
 
 /**
@@ -89,7 +90,7 @@ function generateBuildManifest(
  */
 export async function build({
   entryFilePath,
-  components,
+  entryPoints,
   publicPath,
   outputDir,
   outputToDisk,
@@ -108,52 +109,59 @@ export async function build({
     }
   }
 
-  /**
-   * Run the build
-   */
-  const buildResult = await build$({
-    entryPoints: [...components.keys(), entryFilePath],
-    outdir: outputDir,
-    platform: 'browser',
-    metafile: true,
-    bundle: true,
-    splitting: true,
-    treeShaking: true,
-    format: 'esm',
-    logLevel: 'silent',
-    minify: outputForProduction,
-    write: false,
-    jsx: 'automatic',
-    ...esbuildOptions,
-    loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
-    plugins: [radonisClientPlugin(components), ...(esbuildOptions?.plugins ?? [])],
-    external: ['@microeinhundert/radonis-server', ...(esbuildOptions?.external ?? [])],
-    define: {
-      ...environment,
-      'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
-      ...(esbuildOptions?.define ?? {}),
-    },
-  })
+  try {
+    /**
+     * Run the build
+     */
+    const buildResult = await build$({
+      entryPoints: [...entryPoints, entryFilePath],
+      outdir: outputDir,
+      platform: 'browser',
+      metafile: true,
+      bundle: true,
+      splitting: true,
+      treeShaking: true,
+      format: 'esm',
+      logLevel: 'silent',
+      minify: outputForProduction,
+      write: false,
+      jsx: 'automatic',
+      ...esbuildOptions,
+      loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
+      define: {
+        ...environment,
+        'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
+        ...(esbuildOptions?.define ?? {}),
+      },
+    })
 
-  const builtAssets = new Map<string, string>()
+    const builtAssets = new Map<string, string>()
 
-  for (const { path, text, contents } of buildResult.outputFiles ?? []) {
-    builtAssets.set(path, text)
-    if (outputToDisk) {
-      outputFile(path, contents)
+    for (const { path, text, contents } of buildResult.outputFiles ?? []) {
+      builtAssets.set(path, text)
+      if (outputToDisk) {
+        outputFile(path, contents)
+      }
     }
+
+    const { name: entryFileName } = parse(entryFilePath)
+
+    /**
+     * Generate the build manifest
+     */
+    const buildManifest = generateBuildManifest({
+      metafile: buildResult.metafile!,
+      entryFileName,
+      builtAssets,
+      publicPath,
+    })
+
+    return buildManifest
+  } catch (error) {
+    if (error instanceof Exception) {
+      throw error
+    }
+
+    throw BuildException.cannotBuild()
   }
-
-  if (outputToDisk) {
-    await pluginsManager.execute('afterOutputAssets', null, builtAssets)
-  }
-
-  const { name: entryFileName } = parse(entryFilePath)
-
-  /**
-   * Generate the build manifest
-   */
-  const buildManifest = generateBuildManifest(buildResult.metafile!, entryFileName, builtAssets, publicPath)
-
-  return buildManifest
 }

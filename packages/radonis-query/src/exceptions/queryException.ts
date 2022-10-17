@@ -13,7 +13,7 @@ import {
 } from '@microeinhundert/radonis-shared'
 
 import {
-  E_CANNOT_PREFETCH_ON_CLIENT,
+  E_MISSING_HOST_HEADER,
   E_REQUEST_FAILED,
 } from '../../exceptions.json'
 
@@ -22,11 +22,11 @@ import {
  * @internal
  */
 export class QueryException extends Exception {
-  static cannotPrefetchOnClient() {
+  static missingHostHeader() {
     const error = new this(
-      E_CANNOT_PREFETCH_ON_CLIENT.message,
-      E_CANNOT_PREFETCH_ON_CLIENT.status,
-      E_CANNOT_PREFETCH_ON_CLIENT.code
+      E_MISSING_HOST_HEADER.message,
+      E_MISSING_HOST_HEADER.status,
+      E_MISSING_HOST_HEADER.code
     )
 
     throw error

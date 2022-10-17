@@ -7,14 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { PluginsManager } from '@microeinhundert/radonis-shared'
-import type { Components } from '@microeinhundert/radonis-types'
+import type { ComponentIdentifier, Components, PluginsManagerContract } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
-import { HydrateException } from '../exceptions/hydrateException'
-import { HydrationContextProvider } from '../react'
+import { HydrationContextProvider } from '../contexts/hydrationContext'
+import { HydrationException } from '../exceptions/hydrationException'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 import { getManifestOrFail } from './utils/getManifestOrFail'
 
@@ -30,14 +29,14 @@ export class Hydrator {
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...params: ConstructorParameters<typeof Hydrator>): Hydrator {
-    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...params))
+  static getSingletonInstance(...args: ConstructorParameters<typeof Hydrator>): Hydrator {
+    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...args))
   }
 
   /**
    * The PluginsManager instance
    */
-  #pluginsManager: PluginsManager
+  #pluginsManager: PluginsManagerContract
 
   /**
    * The components
@@ -47,7 +46,7 @@ export class Hydrator {
   /**
    * Constructor
    */
-  constructor(pluginsManager: PluginsManager) {
+  constructor(pluginsManager: PluginsManagerContract) {
     this.#pluginsManager = pluginsManager
 
     this.#components = new Map()
@@ -56,9 +55,9 @@ export class Hydrator {
   /**
    * Register a component
    */
-  registerComponent(identifier: string, Component: ComponentType): this {
+  registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
     if (this.#components.has(identifier)) {
-      throw HydrateException.componentAlreadyRegistered(identifier)
+      throw HydrationException.componentAlreadyRegistered(identifier)
     }
 
     this.#components.set(identifier, Component)
@@ -84,23 +83,19 @@ export class Hydrator {
    * Hydrate a specific HydrationRoot
    */
   async #hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
-    const {
-      hydrationRoot: hydrationRootIdentifier,
-      component: componentIdentifier,
-      props: propsHash = '0',
-    } = hydrationRoot.dataset
+    const manifest = getManifestOrFail()
+    const hydrationRootId = hydrationRoot.dataset.hydrationRoot!
+    const hydration = manifest.hydration[hydrationRootId]
 
-    if (!hydrationRootIdentifier || !componentIdentifier) {
-      throw HydrateException.missingHydrationData()
+    if (!hydration) {
+      throw HydrationException.missingHydrationData(hydrationRootId)
     }
 
-    const Component = this.#components.get(componentIdentifier)
+    const Component = this.#components.get(hydration.componentIdentifier)
 
     if (!Component) {
-      throw HydrateException.cannotHydrate(componentIdentifier, componentIdentifier)
+      throw HydrationException.cannotHydrate(hydrationRootId, hydration.componentIdentifier)
     }
-
-    const manifest = getManifestOrFail()
 
     const tree = await this.#pluginsManager.execute(
       'beforeHydrate',
@@ -109,12 +104,10 @@ export class Hydrator {
         {
           value: {
             hydrated: true,
-            root: hydrationRootIdentifier,
-            component: componentIdentifier,
-            propsHash,
+            id: hydrationRootId,
           },
         },
-        h(Component, manifest.props[propsHash])
+        h(Component, hydration.props)
       ),
       null
     )

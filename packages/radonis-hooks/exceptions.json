@@ -1,27 +1,17 @@
 {
   "E_CANNOT_FIND_MESSAGE": {
-    "message": "Cannot find message for \"{{ identifier }}\". Make sure the message exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis",
+    "message": "Cannot find message for \"{{ messageIdentifier }}\". Make sure the message exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis",
     "code": "E_CANNOT_FIND_MESSAGE",
     "status": 404
   },
-  "E_CANNOT_FIND_ROUTE": {
-    "message": "Cannot find route \"{{ identifier }}\". Make sure the route exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis",
-    "code": "E_CANNOT_FIND_ROUTE",
-    "status": 404
-  },
-  "E_MISSING_ROUTE_PARAM": {
-    "message": "The \"{{ paramName }}\" param is required to make the URL for the \"{{ pattern }}\" route. Make sure to supply all required params to `useUrlBuilder().make()`",
-    "code": "E_MISSING_ROUTE_PARAM",
-    "status": 500
-  },
-  "E_MANIFEST_UNAVAILABLE": {
+  "E_MISSING_MANIFEST": {
     "message": "Cannot get the Radonis manifest. Make sure the server provider was configured properly",
-    "code": "E_MANIFEST_UNAVAILABLE",
+    "code": "E_MISSING_MANIFEST",
     "status": 500
   },
-  "E_WILDCARD_ROUTES_NOT_SUPPORTED": {
-    "message": "Wildcard routes are currently not supported",
-    "code": "E_WILDCARD_ROUTES_NOT_SUPPORTED",
+  "E_CANNOT_USE_ON_CLIENT": {
+    "message": "The `{{ hookName }}()` hook cannot be used client-side",
+    "code": "E_CANNOT_USE_ON_CLIENT",
     "status": 500
   }
 }

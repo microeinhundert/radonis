@@ -12,7 +12,7 @@ import type { ComponentIdentifier, HydrationRequirements } from '@microeinhunder
 import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
 
 /**
- * Extract the required assets from the assets manifest
+ * Extract the required assets from an assets manifest
  * @internal
  */
 export function extractRequiredAssets(
@@ -90,34 +90,31 @@ function reduceHydrationRequirements(
 }
 
 /**
- * Generate the assets manifest
+ * Generate an assets manifest
  * @internal
  */
 export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {
-  const assetsManifest = [] as AssetsManifest
-
-  for (const identifier in buildManifest) {
-    const buildManifestEntry = buildManifest[identifier]
-
-    if (buildManifestEntry.type === 'chunk') {
+  return Object.entries(buildManifest).reduce<AssetsManifest>((assetsManifest, [identifier, entry]) => {
+    if (entry.type === 'chunk') {
       /**
        * Should never occur since chunks
        * are not on the topmost level
        */
-      continue
+      return assetsManifest
     }
 
-    assetsManifest.push({
-      type: buildManifestEntry.type,
-      identifier,
-      path: buildManifestEntry.path,
-      ...reduceHydrationRequirements(buildManifestEntry.imports, {
-        flashMessages: buildManifestEntry.flashMessages,
-        messages: buildManifestEntry.messages,
-        routes: buildManifestEntry.routes,
-      }),
-    })
-  }
-
-  return assetsManifest
+    return [
+      ...assetsManifest,
+      {
+        type: entry.type,
+        identifier,
+        path: entry.path,
+        ...reduceHydrationRequirements(entry.imports, {
+          flashMessages: entry.flashMessages,
+          messages: entry.messages,
+          routes: entry.routes,
+        }),
+      },
+    ]
+  }, [])
 }

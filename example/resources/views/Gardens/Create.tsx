@@ -1,5 +1,4 @@
-import { HydrationRoot } from '@ioc:Microeinhundert/Radonis';
-import { useI18n } from '@microeinhundert/radonis';
+import { HydrationRoot, useI18n } from '@microeinhundert/radonis';
 import GardenForm from 'Components/Gardens/GardenForm';
 import Header from 'Components/Header';
 import { BaseLayout } from 'Layouts/Base';
@@ -14,7 +13,7 @@ function Create() {
   return (
     <BaseLayout>
       <Header title={messages.title} />
-      <HydrationRoot component="GardenForm">
+      <HydrationRoot>
         <GardenForm />
       </HydrationRoot>
     </BaseLayout>

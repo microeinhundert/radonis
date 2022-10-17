@@ -1,4 +1,4 @@
-import { Form, useI18n } from '@microeinhundert/radonis';
+import { Form, hydratable, useI18n } from '@microeinhundert/radonis';
 import type Garden from 'App/Models/Garden';
 
 import Button from '../Button';
@@ -33,11 +33,10 @@ function GardenForm({ garden }: GardenFormProps) {
 
   return (
     <Form
-      action={garden ? 'gardens.update' : 'gardens.store'}
+      action={garden ? 'GardensController.update' : 'GardensController.store'}
       method={garden ? 'put' : 'post'}
       params={garden ? { id: garden.id } : undefined}
       noValidate
-      reloadDocument
     >
       <div className="flex flex-col gap-5">
         <CsrfField />
@@ -70,4 +69,4 @@ function GardenForm({ garden }: GardenFormProps) {
   );
 }
 
-export default GardenForm;
+export default hydratable('GardenForm', GardenForm);

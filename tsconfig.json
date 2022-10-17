@@ -40,9 +40,6 @@
       "path": "./packages/radonis-shared"
     },
     {
-      "path": "./packages/radonis-twind"
-    },
-    {
       "path": "./packages/radonis-unocss"
     },
     {

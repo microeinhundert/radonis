@@ -11,7 +11,7 @@ import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { BuildManifest } from '@microeinhundert/radonis-build'
-import { build, discoverComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
+import { build, discoverHydratableComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { relative, resolve } from 'path'
@@ -39,10 +39,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * Allows for automatically rebuilding the client on file changes
    */
-  @flags.string({
-    description: 'Glob pattern of files that should automatically trigger a rebuild',
-    alias: 'watch-dir',
-  })
+  @flags.string({ description: 'Glob pattern of files that should automatically trigger a rebuild' })
   watch: string | undefined
 
   /**
@@ -102,10 +99,47 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
+   * Build the client
+   */
+  async #buildClient(): Promise<BuildManifest> {
+    const {
+      client: { buildOptions },
+    } = this.#config
+
+    const publicPath = this.application.rcFile.directories.public || 'public'
+
+    /**
+     * Execute the build
+     */
+    const buildManifest = await build({
+      entryFilePath: this.#entryFilePath,
+      entryPoints: discoverHydratableComponents(this.#componentsDir),
+      publicPath,
+      outputDir: this.#outputDir,
+      outputToDisk: true,
+      outputForProduction: this.production,
+      esbuildOptions: buildOptions,
+    })
+
+    /**
+     * Write the build manifest
+     */
+    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
+
+    /**
+     * Output a log message after successful build
+     * (substracting by one to exclude the entry file)
+     */
+    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+
+    return buildManifest
+  }
+
+  /**
    * Run the command
    */
   async run(): Promise<void> {
-    await this.#build()
+    await this.#buildClient()
 
     if (this.watch && !this.production) {
       /**
@@ -127,44 +161,10 @@ export default class BuildClient extends BaseCommand {
           this.logger.error('rebuilding the client failed')
         })
         .on('all', async () => {
-          await this.#build()
+          await this.#buildClient()
         })
     } else {
       this.exit()
     }
-  }
-
-  /**
-   * Run the build
-   */
-  async #build(): Promise<BuildManifest> {
-    const {
-      client: { buildOptions },
-    } = this.#config
-
-    const components = discoverComponents(this.#componentsDir)
-    const publicPath = this.application.rcFile.directories.public || 'public'
-    const buildManifest = await build({
-      entryFilePath: this.#entryFilePath,
-      components,
-      publicPath,
-      outputDir: this.#outputDir,
-      outputToDisk: true,
-      outputForProduction: !!this.production,
-      esbuildOptions: buildOptions,
-    })
-
-    /**
-     * Write the build manifest
-     */
-    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
-
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
-
-    return buildManifest
   }
 }

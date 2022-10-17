@@ -8,17 +8,7 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-
-import {
-  HydrationRoot,
-  useAdonis,
-  useApplication,
-  useHead,
-  useHttpContext,
-  useRequest,
-  useRouter,
-  useSession,
-} from '../src/react'
+import superjson from 'superjson'
 
 export default class RadonisProvider {
   static needsApplication = true
@@ -36,84 +26,75 @@ export default class RadonisProvider {
   }
 
   /**
-   * Register
+   * Register services
    */
-  register(): void {
-    /**
-     * Config
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
-      return this.#application.config.get('radonis', {})
-    })
-
-    /**
-     * PluginsManager
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
-      const { PluginsManager } = require('@microeinhundert/radonis-shared')
-
-      return PluginsManager.getSingletonInstance()
-    })
-
-    /**
-     * HydrationManager
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
-      const { HydrationManager } = require('@microeinhundert/radonis-hydrate')
-
-      return HydrationManager.getSingletonInstance()
-    })
-
+  #registerServices(): void {
     /**
      * AssetsManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
-      const { AssetsManager } = require('../src/assetsManager')
+      const { AssetsManager } = require('../src/services/assetsManager')
 
-      return new AssetsManager(this.#application)
+      return AssetsManager.getSingletonInstance(this.#application)
     })
 
     /**
      * HeadManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
-      const { HeadManager } = require('../src/headManager')
+      const { HeadManager } = require('../src/services/headManager')
 
-      return new HeadManager(this.#application)
+      return HeadManager.getSingletonInstance(this.#application)
+    })
+
+    /**
+     * HydrationManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
+      const { HydrationManager } = require('../src/services/hydrationManager')
+
+      return HydrationManager.getSingletonInstance(this.#application)
+    })
+
+    /**
+     * PluginsManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
+      const { PluginsManager } = require('../src/services/pluginsManager')
+
+      return PluginsManager.getSingletonInstance(this.#application)
     })
 
     /**
      * ManifestManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/ManifestManager', () => {
-      const { ManifestManager } = require('../src/manifestManager')
+      const { ManifestManager } = require('../src/services/manifestManager')
 
-      return new ManifestManager(this.#application)
+      return ManifestManager.getSingletonInstance(this.#application)
     })
 
     /**
      * Renderer
      */
     this.#application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
-      const { Renderer } = require('../src/renderer')
+      const { Renderer } = require('../src/services/renderer')
 
-      return new Renderer(this.#application)
+      return Renderer.getSingletonInstance(this.#application)
     })
+  }
+
+  /**
+   * Register
+   */
+  register(): void {
+    this.#registerServices()
 
     /**
-     * Main
+     * Config
      */
-    this.#application.container.singleton('Microeinhundert/Radonis', () => {
-      return {
-        useAdonis,
-        useApplication,
-        useHttpContext,
-        useSession,
-        useRequest,
-        useRouter,
-        useHead,
-        HydrationRoot,
-      }
+    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
+      return this.#application.config.get('radonis', {})
     })
   }
 
@@ -132,22 +113,74 @@ export default class RadonisProvider {
         /**
          * Execute `onBootServer` plugin hook
          */
-        await PluginsManager.execute('onBootServer', null, null)
+        await PluginsManager.execute('onBootServer', null, {
+          appRoot: this.#application.appRoot,
+          resourcesPath: this.#application.resourcesPath(),
+        })
       }
     )
 
     this.#application.container.withBindings(
-      ['Adonis/Core/Server', 'Microeinhundert/Radonis/PluginsManager'],
-      async (Server, PluginsManager) => {
+      [
+        'Adonis/Core/Server',
+        'Microeinhundert/Radonis/AssetsManager',
+        'Microeinhundert/Radonis/HeadManager',
+        'Microeinhundert/Radonis/HydrationManager',
+        'Microeinhundert/Radonis/PluginsManager',
+        'Microeinhundert/Radonis/ManifestManager',
+        'Microeinhundert/Radonis/Renderer',
+      ],
+      async (Server, AssetsManager, HeadManager, HydrationManager, PluginsManager, ManifestManager, Renderer) => {
         /**
          * Register server hooks
          */
         Server.hooks
-          .before(async () => {
-            await PluginsManager.execute('beforeRequest', null, null)
+          .before(async (ctx) => {
+            const { request } = ctx
+
+            /**
+             * Reset everything, so incoming requests don't accidentally
+             * get data from the previous request
+             */
+            Renderer.reset()
+            HydrationManager.reset()
+            ManifestManager.reset()
+            HeadManager.reset()
+            AssetsManager.reset()
+
+            /**
+             * Execute `beforeRequest` plugin hooks
+             */
+            await PluginsManager.execute('beforeRequest', null, { ctx })
+
+            /**
+             * Read the build manifest on incoming HTML
+             * requests when not in production
+             */
+            if (request.accepts(['html']) && !this.#application.inProduction) {
+              await AssetsManager.readBuildManifest()
+            }
           })
-          .after(async () => {
-            await PluginsManager.execute('afterRequest', null, null)
+          .after(async (ctx) => {
+            const { request, response } = ctx
+
+            /**
+             * If the request was made by Radonis,
+             * serialize the response with superjson
+             */
+            if (
+              !response.finished &&
+              !response.isStreamResponse &&
+              request.accepts(['json']) &&
+              request.header('X-Radonis-Request') === 'true'
+            ) {
+              response.json(superjson.serialize(response.getBody()))
+            }
+
+            /**
+             * Execute `afterRequest` plugin hooks
+             */
+            await PluginsManager.execute('afterRequest', null, { ctx })
           })
       }
     )

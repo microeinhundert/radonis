@@ -88,6 +88,20 @@ const radonisConfig: RadonisConfig = {
     },
   },
 
+  server: {
+    /*
+    |--------------------------------------------------------------------------
+    | Streaming
+    |--------------------------------------------------------------------------
+    |
+    | Stream the rendered view to the client instead of 
+    | waiting for the full view to finish rendering.
+    | This will enable Streaming SSR features from React 18.
+    |
+    */
+    streaming: true,
+  },
+
   client: {
     /*
     |--------------------------------------------------------------------------

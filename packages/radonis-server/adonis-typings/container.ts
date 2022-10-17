@@ -8,22 +8,22 @@
  */
 
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import type { HydrationManager } from '@microeinhundert/radonis-hydrate'
-import type { PluginsManager } from '@microeinhundert/radonis-shared'
 
-import type { AssetsManager } from '../src/assetsManager'
-import type { HeadManager } from '../src/headManager'
-import type { ManifestManager } from '../src/manifestManager'
-import type { Renderer } from '../src/renderer'
+import type { AssetsManager } from '../src/services/assetsManager'
+import type { HeadManager } from '../src/services/headManager'
+import type { HydrationManager } from '../src/services/hydrationManager'
+import type { ManifestManager } from '../src/services/manifestManager'
+import type { PluginsManager } from '../src/services/pluginsManager'
+import type { Renderer } from '../src/services/renderer'
 
 declare module '@ioc:Adonis/Core/Application' {
   interface ContainerBindings {
     'Microeinhundert/Radonis/Config': RadonisConfig
-    'Microeinhundert/Radonis/PluginsManager': PluginsManager
-    'Microeinhundert/Radonis/HydrationManager': HydrationManager
-    'Microeinhundert/Radonis/ManifestManager': ManifestManager
     'Microeinhundert/Radonis/AssetsManager': AssetsManager
     'Microeinhundert/Radonis/HeadManager': HeadManager
+    'Microeinhundert/Radonis/HydrationManager': HydrationManager
+    'Microeinhundert/Radonis/PluginsManager': PluginsManager
+    'Microeinhundert/Radonis/ManifestManager': ManifestManager
     'Microeinhundert/Radonis/Renderer': Renderer
   }
 }

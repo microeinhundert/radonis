@@ -7,23 +7,30 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteParams } from '@microeinhundert/radonis-types'
+import type { RouteParams } from '@microeinhundert/radonis'
 import type { UseQueryOptions } from '@tanstack/react-query'
-import type { ReactNode } from 'react'
+import type { ReactElement } from 'react'
 
 /**
- * Query options
+ * Server query options
  */
-export interface QueryOptions<TData, TError> {
+export interface ServerQueryOptions<TData, TError> {
   params?: RouteParams
   queryParams?: RouteParams
   headers?: Record<string, string>
-  query?: Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
+  query?: Omit<UseQueryOptions<TData, TError>, 'queryFn'>
+}
+
+/**
+ * Query dehydrator props
+ */
+export interface QueryDehydratorProps {
+  children: ReactElement
 }
 
 /**
  * Query hydrator props
  */
 export interface QueryHydratorProps {
-  children: ReactNode
+  children: ReactElement
 }

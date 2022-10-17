@@ -21,6 +21,7 @@
 import Route from '@ioc:Adonis/Core/Route';
 
 Route.get('/', 'HomeController.index');
+Route.get('/greet', 'HomeController.greet');
 
 Route.group(() => {
   Route.get('/dashboard', 'DashboardController.index');

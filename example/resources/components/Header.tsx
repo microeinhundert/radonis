@@ -1,3 +1,4 @@
+import { hydratable } from '@microeinhundert/radonis';
 import type { ReactNode } from 'react';
 
 /*
@@ -19,4 +20,4 @@ function Header({ title, actions }: HeaderProps) {
   );
 }
 
-export default Header;
+export default hydratable('Header', Header);

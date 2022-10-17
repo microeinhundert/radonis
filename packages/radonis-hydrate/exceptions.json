@@ -1,11 +1,21 @@
 {
+  "E_NOT_HYDRATABLE": {
+    "message": "The component inside HydrationRoot \"{{ hydrationRootId }}\" is not hydratable. Make sure the component was wrapped with the `hydratable` function",
+    "code": "E_NOT_HYDRATABLE",
+    "status": 500
+  },
+  "E_CANNOT_HYDRATE_WITH_CHILDREN": {
+    "message": "The component \"{{ componentIdentifier }}\" inside HydrationRoot \"{{ hydrationRootId }}\" has children. This is not supported",
+    "code": "E_CANNOT_HYDRATE_WITH_CHILDREN",
+    "status": 500
+  },
   "E_MISSING_HYDRATION_DATA": {
-    "message": "Found a HydrationRoot that is missing required hydration data. Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis",
+    "message": "Found HydrationRoot \"{{ hydrationRootId }}\" which is missing hydration data. Make sure you passed all the required props to all of your HydrationRoots. If everything looks fine to you, this is most likely a bug of Radonis",
     "code": "E_MISSING_HYDRATION_DATA",
     "status": 500
   },
   "E_CANNOT_HYDRATE": {
-    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootIdentifier }}\", but that component could not be hydrated. Make sure the component exists in the client bundle",
+    "message": "Found the server-rendered component \"{{ componentIdentifier }}\" inside of HydrationRoot \"{{ hydrationRootId }}\", but that component could not be hydrated. Make sure the component exists in the client bundle",
     "code": "E_CANNOT_HYDRATE",
     "status": 500
   },
@@ -14,9 +24,9 @@
     "code": "E_COMPONENT_ALREADY_REGISTERED",
     "status": 500
   },
-  "E_MANIFEST_UNAVAILABLE": {
+  "E_MISSING_MANIFEST": {
     "message": "Cannot get the Radonis manifest. Make sure the server provider was configured properly",
-    "code": "E_MANIFEST_UNAVAILABLE",
+    "code": "E_MISSING_MANIFEST",
     "status": 500
   }
 }
