@@ -162,6 +162,6 @@ export async function build({
       throw error
     }
 
-    throw BuildException.cannotBuild()
+    throw BuildException.cannotBuild(error instanceof Error ? error.message : 'Unknown error')
   }
 }

@@ -130,7 +130,9 @@ export default class BuildClient extends BaseCommand {
      * Output a log message after successful build
      * (substracting by one to exclude the entry file)
      */
-    this.logger.success(`successfully built the client for ${Object.keys(buildManifest).length - 1} component(s)`)
+    this.logger.success(
+      `successfully built the client for ${Object.keys(buildManifest).length - 1} hydratable component(s)`
+    )
 
     return buildManifest
   }

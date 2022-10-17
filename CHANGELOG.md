@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.1] - WIP
+## [2.0.1] - 2022-10-17
 
 ### Changed
 
+- Made error message on build errors more specific.
 - Cleanup exported types.
 
 ## [2.0.0] - 2022-10-17

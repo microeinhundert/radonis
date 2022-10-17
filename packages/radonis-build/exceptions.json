@@ -1,6 +1,6 @@
 {
   "E_CANNOT_BUILD": {
-    "message": "Cannot build the Radonis client bundle",
+    "message": "Cannot build the Radonis client bundle: {{ message }}",
     "code": "E_CANNOT_BUILD",
     "status": 500
   },

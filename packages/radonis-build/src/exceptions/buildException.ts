@@ -24,9 +24,9 @@ import {
  * @internal
  */
 export class BuildException extends Exception {
-  static cannotBuild() {
+  static cannotBuild(message: string) {
     const error = new this(
-      E_CANNOT_BUILD.message,
+      interpolate(E_CANNOT_BUILD.message, { message }),
       E_CANNOT_BUILD.status,
       E_CANNOT_BUILD.code
     )
