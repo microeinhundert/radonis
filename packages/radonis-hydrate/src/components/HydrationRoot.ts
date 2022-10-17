@@ -25,7 +25,7 @@ export function HydrationRoot({
   className,
   disabled,
 }: {
-  children: ReactElement<Record<string, any>>
+  children: ReactElement
   className?: string
   disabled?: boolean
 }) {

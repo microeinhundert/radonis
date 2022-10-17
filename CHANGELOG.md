@@ -20,6 +20,7 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Routes are now always identified by their route handler in the format `ControllerName.action`.
 - **BREAKING:** Renamed `withTitle` on the Radonis contract to `withHeadTitle`.
 - **BREAKING:** Moved the head options on the third argument of the `render` method to a `head` subproperty.
+- **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
 - Updated dependencies.
 - Improved documentation.
 
@@ -27,7 +28,6 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Components must now be explicitly marked as hydratable by wrapping them with the new `hydratable` function exported from `@microeinhundert/radonis`.
 - **BREAKING:** The `HydrationRoot` component is now exported from `@microeinhundert/radonis`.
 - **BREAKING:** The component identifier is no longer required to be passed to the `HydrationRoot` component.
-- **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
 - HydrationRoots now ignored when used client-side.
 - Changed how hydration works under the hood.
 

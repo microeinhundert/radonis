@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-shared
+ * @microeinhundert/radonis-server
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
