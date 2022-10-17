@@ -28,7 +28,7 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 - **BREAKING:** Components must now be explicitly marked as hydratable by wrapping them with the new `hydratable` function exported from `@microeinhundert/radonis`.
 - **BREAKING:** The `HydrationRoot` component is now exported from `@microeinhundert/radonis`.
 - **BREAKING:** The component identifier is no longer required to be passed to the `HydrationRoot` component.
-- HydrationRoots now ignored when used client-side.
+- HydrationRoots are now ignored when used client-side.
 - Changed how hydration works under the hood.
 
 **Hooks**

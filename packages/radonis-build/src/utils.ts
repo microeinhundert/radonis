@@ -14,6 +14,7 @@ import type {
   RouteIdentifier,
 } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
+import { readFileSync } from 'fs'
 import { readFile } from 'fs/promises'
 import { outputFile } from 'fs-extra'
 import { join, parse, posix, sep } from 'path'
@@ -29,27 +30,38 @@ import type { BuildManifest } from './types'
 
 /**
  * Check if a file looks like it contains a client component:
- * - Starts with an uppercase letter
  * - Ends with `.ts(x)` or `.js(x)`
  * - Does not end with `.server.<ext>`
  * @internal
  */
 export function isClientComponentFile(filePath: string): boolean {
   const { base } = parse(filePath)
-  const isComponentFile = /^[A-Z]\S+(ts(x)?|js(x)?)$/.test(base)
+  const isComponentFile = /(ts(x)?|js(x)?)$/.test(base)
   const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base)
 
   return !isServerComponentFile && isComponentFile
 }
 
 /**
- * Discover all components in a specific directory
+ * Check if a file contains a hydratable component:
+ * - Contains a valid call to the `hydratable` function
  * @internal
  */
-export function discoverComponents(directory: string): string[] {
-  return fsReadAll(directory, (filePath) => isClientComponentFile(filePath)).map((filePath) =>
-    join(directory, filePath)
-  )
+export function containsHydratableComponentFile(filePath: string): boolean {
+  const fileContents = readFileSync(filePath, 'utf8')
+  const componentIdentifier = extractComponentIdentifier(fileContents)
+
+  return !!componentIdentifier
+}
+
+/**
+ * Discover all hydratable components in a specific directory
+ * @internal
+ */
+export function discoverHydratableComponents(directory: string): string[] {
+  return fsReadAll(directory, (filePath) => isClientComponentFile(filePath))
+    .map((filePath) => join(directory, filePath))
+    .filter((filePath) => containsHydratableComponentFile(filePath))
 }
 
 /**

@@ -11,7 +11,7 @@ import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import type { BuildManifest } from '@microeinhundert/radonis-build'
-import { build, discoverComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
+import { build, discoverHydratableComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { relative, resolve } from 'path'
@@ -113,7 +113,7 @@ export default class BuildClient extends BaseCommand {
      */
     const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
-      entryPoints: discoverComponents(this.#componentsDir),
+      entryPoints: discoverHydratableComponents(this.#componentsDir),
       publicPath,
       outputDir: this.#outputDir,
       outputToDisk: true,

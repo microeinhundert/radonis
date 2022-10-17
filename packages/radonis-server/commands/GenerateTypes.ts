@@ -9,7 +9,7 @@
 
 import { BaseCommand } from '@adonisjs/ace'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { build, discoverComponents, generateAssetsManifest } from '@microeinhundert/radonis-build'
+import { build, discoverHydratableComponents, generateAssetsManifest } from '@microeinhundert/radonis-build'
 import { generateAndWriteTypeDeclarationFileToDisk } from '@microeinhundert/radonis-types'
 import { existsSync } from 'fs'
 
@@ -92,7 +92,7 @@ export default class GenerateTypes extends BaseCommand {
      */
     const buildManifest = await build({
       entryFilePath: this.#entryFilePath,
-      entryPoints: discoverComponents(this.#componentsDir),
+      entryPoints: discoverHydratableComponents(this.#componentsDir),
       publicPath,
       outputDir: this.#outputDir,
       esbuildOptions: buildOptions,
