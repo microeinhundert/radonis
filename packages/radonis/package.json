@@ -55,7 +55,6 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis-server": "2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

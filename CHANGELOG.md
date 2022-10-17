@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - WIP
+
+### Changed
+
+- Cleanup exported types.
+
 ## [2.0.0] - 2022-10-17
 
 This is the new major release of Radonis. It features React Streaming SSR support as well as lots of improvements.

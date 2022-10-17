@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { HookException } from '../../exceptions/hookException'
 
 /**
- * Hook for retrieving the Radonis `ManifestManager` instance
+ * Hook for retrieving the Radonis `ManifestManagerContract`
  * @see https://radonis.vercel.app/docs/hooks/use-manifest-manager
  */
 export function useManifestManager() {

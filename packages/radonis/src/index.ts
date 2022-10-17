@@ -35,7 +35,6 @@ export { UrlBuilder } from '@microeinhundert/radonis-shared'
 export type {
   ComponentIdentifier,
   FlashMessageIdentifier,
-  ManifestContract,
   MessageIdentifier,
   Plugin,
   RouteIdentifier,

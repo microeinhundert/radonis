@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { HookException } from '../../exceptions/hookException'
 
 /**
- * Hook for retrieving the Radonis `AssetsManager` instance
+ * Hook for retrieving the Radonis `AssetsManagerContract`
  * @see https://radonis.vercel.app/docs/hooks/use-assets-manager
  */
 export function useAssetsManager() {

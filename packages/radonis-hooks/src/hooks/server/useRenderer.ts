@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { HookException } from '../../exceptions/hookException'
 
 /**
- * Hook for retrieving the Radonis `Renderer` instance
+ * Hook for retrieving the Radonis `RendererContract`
  * @see https://radonis.vercel.app/docs/hooks/use-renderer
  */
 export function useRenderer() {

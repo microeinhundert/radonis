@@ -1,5 +1,4 @@
-import type { MessageIdentifier, RouteIdentifier } from '@microeinhundert/radonis';
-import { useI18n, useRoute, useUrlBuilder } from '@microeinhundert/radonis';
+import { RouteIdentifier, useI18n, useRoute, useUrlBuilder } from '@microeinhundert/radonis';
 
 interface NavigationBuilderItem {
   identifier: string;
@@ -24,7 +23,7 @@ export function useNavigationBuilder() {
     return items
       .filter(({ canAccess }) => canAccess?.() ?? true)
       .map<NavigationItem>(({ identifier, routeIdentifier, icon }) => ({
-        name: formatMessage(`navigation.${identifier}` as MessageIdentifier),
+        name: formatMessage(`navigation.${identifier}`),
         href: urlBuilder.make(routeIdentifier),
         current: route.isCurrent(routeIdentifier),
         icon,
