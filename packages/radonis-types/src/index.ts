@@ -230,7 +230,7 @@ export interface PluginHooks {
   afterRequest: PluginHook<{ ctx: HttpContextContract }>
 
   /**
-   * This plugin hook is called before the page is rendered
+   * This plugin hook is called before a page is rendered
    */
   beforeRender: PluginHookWithBuilder<
     ReactElement,
@@ -238,7 +238,7 @@ export interface PluginHooks {
   >
 
   /**
-   * This plugin hook is called after a chunk of the page has been rendered
+   * This plugin hook is called after a chunk of a page has been rendered
    */
   afterRender: PluginHookWithBuilder<string, { ctx: HttpContextContract }>
 }
