@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - WIP
+## [2.0.0] - 2022-10-17
 
 This is the new major release of Radonis. It features React Streaming SSR support as well as lots of improvements.
 See below for new features and breaking changes. Follow the [migration guide](https://radonis.vercel.app/migrating-to-v2) for an easier upgrade.
@@ -44,12 +44,11 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 
 **Plugin API**
 - **BREAKING:** The `afterRender` plugin hook now only gets passed one chunk of the rendered HTML instead of the whole document. The hook is now called once for every chunk of rendered HTML.
-- **BREAKING:** Removed `beforeOutputAsset` plugin hook.
-- **BREAKING:** Removed `afterOutputAssets` plugin hook.
-- **BREAKING:** Removed `onScanAsset` plugin hook.
+- **BREAKING:** Removed the `beforeOutputAsset` plugin hook.
+- **BREAKING:** Removed the `afterOutputAssets` plugin hook.
+- **BREAKING:** Removed the `onScanAsset` plugin hook.
 - The `beforeRender` plugin hook now gets passed an object with `ctx`, `props` and `manifest` attributes.
-- The `afterRender` plugin hook now gets passed an object with an `ctx` attribute.
-- The `beforeRequest` and `afterRequest` plugin hooks now get passed an object with an `ctx` attribute.
+- The `afterRender`, `beforeRequest` and `afterRequest` plugin hooks now get passed an object with an `ctx` attribute.
 
 ## [1.11.4] - 2022-10-07
 
