@@ -17,7 +17,7 @@
   "devDependencies": {
     "@adonisjs/assembler": "^5.9.3",
     "@japa/preset-adonis": "^1.2.0",
-    "@japa/runner": "^2.2.1",
+    "@japa/runner": "^2.2.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "adonis-preset-ts": "^2.1.0",
