@@ -19,8 +19,9 @@ See below for new features and breaking changes. Follow the [migration guide](ht
 **General**
 - **BREAKING:** Routes are now always identified by their route handler in the format `ControllerName.action`.
 - **BREAKING:** Renamed `withTitle` on the Radonis contract to `withHeadTitle`.
-- **BREAKING:** Moved the head options on the third argument of the `render` method to a `head` subproperty.
+- **BREAKING:** Moved the head options on the `render` method to a `head` subproperty.
 - **BREAKING:** To better align with the model of optional hydration, the `Form` component now reloads the page by default. Use the `noReload` prop to opt out and use fetch instead. The `reloadDocument` prop was removed.
+- **BREAKING:** Removed type generation.
 - Updated dependencies.
 - Improved documentation.
 

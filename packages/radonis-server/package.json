@@ -13,7 +13,6 @@
     "./standalone": "./build/standalone.js",
     "./build/commands": "./build/commands/index.js",
     "./build/commands/BuildClient": "./build/commands/BuildClient.js",
-    "./build/commands/GenerateTypes": "./build/commands/GenerateTypes.js",
     "./*": "./*"
   },
   "sideEffects": false,

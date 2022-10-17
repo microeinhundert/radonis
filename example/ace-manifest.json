@@ -589,22 +589,9 @@
           "name": "watch",
           "propertyName": "watch",
           "type": "string",
-          "description": "Glob pattern of files that should automatically trigger a rebuild",
-          "alias": "watch-dir"
+          "description": "Glob pattern of files that should automatically trigger a rebuild"
         }
       ]
-    },
-    "generate:types": {
-      "settings": {
-        "loadApp": true,
-        "stayAlive": false
-      },
-      "commandPath": "@microeinhundert/radonis-server/build/commands/GenerateTypes",
-      "commandName": "generate:types",
-      "description": "Generate the Radonis types",
-      "args": [],
-      "aliases": [],
-      "flags": []
     }
   },
   "aliases": {}

@@ -273,4 +273,3 @@ export {
   RendererContract,
   ServerContract,
 } from './contracts'
-export { generateAndWriteTypeDeclarationFileToDisk } from './generate'
