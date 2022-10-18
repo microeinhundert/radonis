@@ -31,7 +31,7 @@ export function unocssPlugin(config?: UserConfig) {
     name: 'unocss',
     environments: ['server'],
     async onBootServer({ resourcesPath }) {
-      const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json']
+      const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.mdx']
       const generator = createGenerator(config ?? defaultConfig)
       const filePaths = fsReadAll(resourcesPath, (filePath) =>
         extensions.some((extension) => filePath.endsWith(extension))
