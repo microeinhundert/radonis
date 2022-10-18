@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - WIP
+
+### Added
+
+- Markdown support to `unocss` plugin
+  
 ## [2.0.1] - 2022-10-17
 
 ### Changed
