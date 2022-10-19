@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file.
 ## [2.0.0] - 2022-10-17
 
 This is the new major release of Radonis. It features React Streaming SSR support as well as lots of improvements.
-See below for new features and breaking changes. Follow the [migration guide](https://radonis.vercel.app/migrating-to-v2) for an easier upgrade.
+See below for new features and breaking changes. Follow the [migration guide](https://radonis.vercel.app/docs/migrating-to-v2) for an easier upgrade.
 
 ### Added
 - Streaming SSR support by using `renderToPipeableStream` under the hood.
