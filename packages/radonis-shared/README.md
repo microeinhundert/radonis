@@ -4,8 +4,9 @@
 
 > **Note**: This is a package used by Radonis internally and should not be installed directly.
 
-Easily bridge the gap between your [React](https://reactjs.org/) frontend and [AdonisJS](https://adonisjs.com/) backend.
-Get DX similar to [Remix](https://remix.run/) while having the power of a full MVC framework at your fingertips.
+## About
+
+Radonis is a full-stack application framework for building monolithic applications with a modern, React-based frontend stack. Radonis is built on top of the Node.js MVC framework [AdonisJS](https://adonisjs.com/) and extends it with features for server-side rendering and client-side hydration.
 
 ## Documentation
 

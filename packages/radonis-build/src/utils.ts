@@ -32,9 +32,8 @@ import type { BuildManifest } from './types'
  * Check if a file looks like it contains a client component:
  * - Ends with `.ts(x)` or `.js(x)`
  * - Does not end with `.server.<ext>`
- * @internal
  */
-export function isClientComponentFile(filePath: string): boolean {
+function isClientComponentFile(filePath: string): boolean {
   const { base } = parse(filePath)
   const isComponentFile = /(ts(x)?|js(x)?)$/.test(base)
   const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base)
@@ -45,9 +44,8 @@ export function isClientComponentFile(filePath: string): boolean {
 /**
  * Check if a file contains a hydratable component:
  * - Contains a valid call to the `hydratable` function
- * @internal
  */
-export function containsHydratableComponentFile(filePath: string): boolean {
+function fileContainsHydratableComponent(filePath: string): boolean {
   const fileContents = readFileSync(filePath, 'utf8')
   const componentIdentifier = extractComponentIdentifier(fileContents)
 
@@ -61,7 +59,7 @@ export function containsHydratableComponentFile(filePath: string): boolean {
 export function discoverHydratableComponents(directory: string): string[] {
   return fsReadAll(directory, (filePath) => isClientComponentFile(filePath))
     .map((filePath) => join(directory, filePath))
-    .filter((filePath) => containsHydratableComponentFile(filePath))
+    .filter((filePath) => fileContainsHydratableComponent(filePath))
 }
 
 /**
