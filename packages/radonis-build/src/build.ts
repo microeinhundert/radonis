@@ -85,6 +85,22 @@ function generateBuildManifest({
 }
 
 /**
+ * Get environment related `define` entries for esbuild
+ */
+function getEnvironment(): Record<string, any> {
+  return Object.entries(process.env).reduce<Record<string, any>>((environment, [key, value]) => {
+    if (!key.startsWith('PUBLIC_')) {
+      return environment
+    }
+
+    return {
+      ...environment,
+      [`process.env.${key}`]: JSON.stringify(value),
+    }
+  }, {})
+}
+
+/**
  * Build the entry file as well as the components
  * @internal
  */
@@ -99,14 +115,6 @@ export async function build({
 }: BuildOptions): Promise<BuildManifest> {
   if (outputToDisk) {
     await emptyDir(outputDir)
-  }
-
-  const environment = {}
-
-  for (const key in process.env) {
-    if (key.startsWith('PUBLIC_')) {
-      environment[`process.env.${key}`] = JSON.stringify(process.env[key])
-    }
   }
 
   try {
@@ -129,20 +137,25 @@ export async function build({
       ...esbuildOptions,
       loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
       define: {
-        ...environment,
+        ...getEnvironment(),
         'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
         ...(esbuildOptions?.define ?? {}),
       },
     })
 
-    const builtAssets = new Map<string, string>()
-
-    for (const { path, text, contents } of buildResult.outputFiles ?? []) {
-      builtAssets.set(path, text)
-      if (outputToDisk) {
-        outputFile(path, contents)
-      }
-    }
+    /**
+     * Output and derive built assets
+     */
+    const builtAssets = (buildResult.outputFiles ?? []).reduce<Map<string, string>>(
+      (assets, { path, text, contents }) => {
+        if (outputToDisk) {
+          outputFile(path, contents)
+        }
+        assets.set(path, text)
+        return assets
+      },
+      new Map()
+    )
 
     const { name: entryFileName } = parse(entryFilePath)
 
