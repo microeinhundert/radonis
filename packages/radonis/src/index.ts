@@ -9,6 +9,7 @@
 
 export { definePlugin } from './define_plugin'
 export { initClient } from './init_client'
+export type { FormChildrenProps, FormOptions, FormProps } from '@microeinhundert/radonis-form'
 export { Form, useForm, useFormField } from '@microeinhundert/radonis-form'
 export {
   useApplication,
