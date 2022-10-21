@@ -13,7 +13,7 @@ import { useForm } from '../hooks/use_form'
 import type { FormProps } from '../types'
 
 /**
- * Component extending the default <form> behavior
+ * Component extending the default form behavior
  * @see https://radonis.vercel.app/docs/forms
  */
 export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {

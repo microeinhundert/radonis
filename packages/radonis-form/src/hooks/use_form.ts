@@ -19,7 +19,7 @@ import { hydrationManager } from '../singletons'
 import type { FormOptions } from '../types'
 
 /**
- * Check if a method is natively supported by the <form> element
+ * Check if a method is natively supported by the form element
  */
 function isNativeFormMethod(method: string): boolean {
   return ['get', 'post'].includes(method)
