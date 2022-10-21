@@ -6,7 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Markdown support to `unocss` plugin
+- Markdown support to `unocss` plugin.
+
+### Changed
+
+- Exceptions thrown by Radonis now extend `RadonisException`, which is also exported from `@microeinhundert/radonis`.
   
 ## [2.0.1] - 2022-10-17
 

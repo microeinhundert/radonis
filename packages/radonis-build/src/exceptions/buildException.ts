@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -23,7 +23,7 @@ import {
  * Exceptions related to building
  * @internal
  */
-export class BuildException extends Exception {
+export class BuildException extends RadonisException {
   static cannotBuild(message: string) {
     const error = new this(
       interpolate(E_CANNOT_BUILD.message, { message }),

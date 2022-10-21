@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Exception } from '@microeinhundert/radonis-shared'
+import { RadonisException } from '@microeinhundert/radonis-shared'
 import { build as build$ } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 import { join, parse, relative } from 'path'
@@ -158,7 +158,7 @@ export async function build({
 
     return buildManifest
   } catch (error) {
-    if (error instanceof Exception) {
+    if (error instanceof RadonisException) {
       throw error
     }
 

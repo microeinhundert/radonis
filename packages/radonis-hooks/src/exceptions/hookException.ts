@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -22,7 +22,7 @@ import {
  * Exceptions related to hooks
  * @internal
  */
-export class HookException extends Exception {
+export class HookException extends RadonisException {
   static cannotFindMessage(messageIdentifier: string) {
     const error = new this(
       interpolate(E_CANNOT_FIND_MESSAGE.message, {

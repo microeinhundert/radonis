@@ -9,7 +9,7 @@
 
 export { UrlBuilder } from './urlBuilder'
 export { isClient, isProduction, isServer } from './utils/environment'
-export { Exception } from './utils/exception'
+export { RadonisException } from './utils/exception'
 export { interpolate } from './utils/interpolate'
 export { separateArray } from './utils/separateArray'
 export { stringifyAttributes } from './utils/stringifyAttributes'

@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -25,7 +25,7 @@ import {
  * Exceptions related to hydration
  * @internal
  */
-export class HydrationException extends Exception {
+export class HydrationException extends RadonisException {
   static notHydratable(hydrationRootId: string) {
     const error = new this(
       interpolate(E_NOT_HYDRATABLE.message, {

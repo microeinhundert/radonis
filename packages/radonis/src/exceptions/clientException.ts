@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Exception } from '@microeinhundert/radonis-shared'
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 import {
   E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES,
@@ -18,7 +18,7 @@ import {
  * Exceptions related to the client
  * @internal
  */
-export class ClientException extends Exception {
+export class ClientException extends RadonisException {
   static cannotInitClientOnServer() {
     const error = new this(
       E_CANNOT_INIT_CLIENT_ON_SERVER.message,

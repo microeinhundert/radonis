@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -22,7 +22,7 @@ import {
  * Exceptions related to the server
  * @internal
  */
-export class ServerException extends Exception {
+export class ServerException extends RadonisException {
   static missingClientEntryFile(path: string) {
     const error = new this(
       interpolate(E_MISSING_CLIENT_ENTRY_FILE.message, {

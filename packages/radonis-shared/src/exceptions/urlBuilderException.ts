@@ -12,14 +12,14 @@ import {
   E_MISSING_ROUTE_PARAM,
   E_WILDCARD_ROUTES_NOT_SUPPORTED,
 } from '../../exceptions.json'
-import { Exception } from '../utils/exception'
+import { RadonisException } from '../utils/exception'
 import { interpolate } from '../utils/interpolate'
 
 /**
  * Exceptions related to the URL builder
  * @internal
  */
-export class UrlBuilderException extends Exception {
+export class UrlBuilderException extends RadonisException {
   static cannotFindRoute(routeIdentifier: string) {
     const error = new this(
       interpolate(E_CANNOT_FIND_ROUTE.message, {

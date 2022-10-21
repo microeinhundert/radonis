@@ -10,10 +10,10 @@
  */
 
 /**
- * Extended Error object with the option to set error `status` and `code`
+ * Extended Error object with the option to set `status` and `code`
  * @internal
  */
-export class Exception extends Error {
+export class RadonisException extends Error {
   message: string
   name: string
   status: number

@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -22,7 +22,7 @@ import {
  * Exceptions related to forms
  * @internal
  */
-export class FormException extends Exception {
+export class FormException extends RadonisException {
   static cannotUseHooksWhenReloading(formAction: string) {
     const error = new this(
       interpolate(

@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -21,7 +21,7 @@ import {
  * Exceptions related to querying
  * @internal
  */
-export class QueryException extends Exception {
+export class QueryException extends RadonisException {
   static missingHostHeader() {
     const error = new this(
       E_MISSING_HOST_HEADER.message,

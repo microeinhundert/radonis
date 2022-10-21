@@ -31,7 +31,7 @@ export {
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
 export { hydratable, HydrationRoot, useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
-export { UrlBuilder } from '@microeinhundert/radonis-shared'
+export { RadonisException, UrlBuilder } from '@microeinhundert/radonis-shared'
 export type {
   ComponentIdentifier,
   FlashMessageIdentifier,

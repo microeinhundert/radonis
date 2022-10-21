@@ -8,8 +8,8 @@
  */
 
 import {
-  Exception,
   interpolate,
+  RadonisException,
 } from '@microeinhundert/radonis-shared'
 
 import {
@@ -22,7 +22,7 @@ import {
  * Exceptions related to plugins
  * @internal
  */
-export class PluginException extends Exception {
+export class PluginException extends RadonisException {
   static conflictingPlugins(
     pluginName: string,
     conflictingPlugins: string[]
