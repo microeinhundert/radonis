@@ -12,12 +12,12 @@ import type { QueryClientConfig } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createElement as h } from 'react'
 
-import { QueryDehydrator } from './components/QueryDehydrator'
-import { QueryHydrator } from './components/QueryHydrator'
-import { BaseUrlContextProvider } from './contexts/baseUrlContext'
-import { QueryException } from './exceptions/queryException'
+import { QueryDehydrator } from './components/query_dehydrator'
+import { QueryHydrator } from './components/query_hydrator'
+import { BaseUrlContextProvider } from './contexts/base_url_context'
+import { QueryException } from './exceptions/query_exception'
 import { getQueryClient } from './queryClient'
-import { getRouteIdentifier } from './utils/getRouteIdentifier'
+import { getRouteIdentifier } from './utils/get_route_identifier'
 
 /**
  * Plugin for integrating {@link https://tanstack.com/query/v4 TanStack Query} with Radonis

@@ -7,23 +7,24 @@
  * file that was distributed with this source code.
  */
 
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-
-import type { AssetsManager } from '../src/services/assetsManager'
-import type { HeadManager } from '../src/services/headManager'
-import type { HydrationManager } from '../src/services/hydrationManager'
-import type { ManifestManager } from '../src/services/manifestManager'
-import type { PluginsManager } from '../src/services/pluginsManager'
-import type { Renderer } from '../src/services/renderer'
-
 declare module '@ioc:Adonis/Core/Application' {
+  import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+
+  import type {
+    AssetsManagerContract,
+    HeadManagerContract,
+    HydrationManagerContract,
+    ManifestManagerContract,
+    PluginsManagerContract,
+    RendererContract,
+  } from '@microeinhundert/radonis-types'
+
   interface ContainerBindings {
-    'Microeinhundert/Radonis/Config': RadonisConfig
-    'Microeinhundert/Radonis/AssetsManager': AssetsManager
-    'Microeinhundert/Radonis/HeadManager': HeadManager
-    'Microeinhundert/Radonis/HydrationManager': HydrationManager
-    'Microeinhundert/Radonis/PluginsManager': PluginsManager
-    'Microeinhundert/Radonis/ManifestManager': ManifestManager
-    'Microeinhundert/Radonis/Renderer': Renderer
+    'Microeinhundert/Radonis/AssetsManager': AssetsManagerContract
+    'Microeinhundert/Radonis/HeadManager': HeadManagerContract
+    'Microeinhundert/Radonis/HydrationManager': HydrationManagerContract
+    'Microeinhundert/Radonis/ManifestManager': ManifestManagerContract
+    'Microeinhundert/Radonis/PluginsManager': PluginsManagerContract
+    'Microeinhundert/Radonis/Renderer': RendererContract
   }
 }

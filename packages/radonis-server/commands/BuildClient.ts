@@ -10,14 +10,14 @@
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import type { BuildManifest } from '@microeinhundert/radonis-build'
 import { build, discoverHydratableComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
+import type { BuildManifest } from '@microeinhundert/radonis-types'
 import chokidar from 'chokidar'
 import { existsSync } from 'fs'
 import { relative, resolve } from 'path'
 
-import { ServerException } from '../src/exceptions/serverException'
-import { yieldScriptPath } from '../src/utils/yieldScriptPath'
+import { ServerException } from '../src/exceptions/server_exception'
+import { yieldScriptPath } from '../src/utils/yield_script_path'
 
 /**
  * A command to build the client
@@ -30,15 +30,9 @@ export default class BuildClient extends BaseCommand {
     stayAlive: true,
   }
 
-  /**
-   * Build for production
-   */
   @flags.boolean({ description: 'Build for production' })
   production: boolean | undefined
 
-  /**
-   * Allows for automatically rebuilding the client on file changes
-   */
   @flags.string({ description: 'Glob pattern of files that should automatically trigger a rebuild' })
   watch: string | undefined
 
@@ -145,7 +139,7 @@ export default class BuildClient extends BaseCommand {
 
     if (this.watch && !this.production) {
       /**
-       * Initialize the watcher
+       * Initialize the file watcher
        */
       const watcher = chokidar.watch(resolve(this.application.appRoot, this.watch), {
         cwd: process.cwd(),
@@ -153,7 +147,7 @@ export default class BuildClient extends BaseCommand {
       })
 
       /**
-       * Rebuild on changes
+       * Rebuild on file changes
        */
       watcher
         .on('ready', () => {

@@ -12,10 +12,10 @@ import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
-import { HydrationContextProvider } from '../contexts/hydrationContext'
-import { HydrationException } from '../exceptions/hydrationException'
+import { HydrationContextProvider } from '../contexts/hydration_context'
+import { HydrationException } from '../exceptions/hydration_exception'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
-import { getManifestOrFail } from './utils/getManifestOrFail'
+import { getManifestOrFail } from './utils/get_manifest_or_fail'
 
 /**
  * @internal

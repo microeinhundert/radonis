@@ -135,6 +135,36 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 /* ---------------------------------------- */
 
 /**
+ * Build manifest entry
+ */
+export interface BuildManifestEntry extends HydrationRequirements {
+  type: 'component' | 'entry' | 'chunk'
+  path: string
+  imports: BuildManifestEntry[]
+}
+
+/**
+ * Build manifest
+ */
+export type BuildManifest = Record<string, BuildManifestEntry>
+
+/**
+ * Assets manifest entry
+ */
+export interface AssetsManifestEntry extends HydrationRequirements {
+  type: 'component' | 'entry'
+  identifier: string
+  path: string
+}
+
+/**
+ * Assets manifest
+ */
+export type AssetsManifest = AssetsManifestEntry[]
+
+/* ---------------------------------------- */
+
+/**
  * Head meta
  */
 export interface HeadMeta {

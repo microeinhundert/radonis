@@ -61,12 +61,12 @@
   },
   "devDependencies": {
     "@microeinhundert/radonis": "workspace:2.0.1",
-    "@types/node": "^18.11.0"
+    "@types/node": "^18.11.3"
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:2.0.1",
-    "@unocss/core": "0.45.29",
-    "@unocss/preset-wind": "0.45.29",
+    "@unocss/core": "0.45.30",
+    "@unocss/preset-wind": "0.45.30",
     "@poppinss/utils": "^5.0.0",
     "fs-extra": "^10.1.0",
     "mini-svg-data-uri": "^1.4.4",

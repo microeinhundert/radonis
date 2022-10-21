@@ -9,6 +9,5 @@
 
 export { extractRequiredAssets, generateAssetsManifest } from './assets'
 export { build } from './build'
-export type { AssetsManifest, AssetsManifestEntry, BuildManifest, BuildManifestEntry } from './types'
 export { discoverHydratableComponents, readBuildManifestFromDisk, writeBuildManifestToDisk } from './utils'
 export type { BuildOptions } from 'esbuild'

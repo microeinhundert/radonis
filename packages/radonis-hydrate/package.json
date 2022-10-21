@@ -60,7 +60,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.0",
+    "@types/node": "^18.11.3",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },
@@ -69,7 +69,7 @@
     "@microeinhundert/radonis-shared": "workspace:2.0.1",
     "@microeinhundert/radonis-server": "workspace:2.0.1",
     "@microeinhundert/radonis-build": "workspace:2.0.1",
-    "superjson": "^1.10.1",
+    "superjson": "^1.11.0",
     "tslib": "^2.4.0"
   }
 }

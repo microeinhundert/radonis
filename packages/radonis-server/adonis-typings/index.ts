@@ -7,6 +7,6 @@
  * file that was distributed with this source code.
  */
 
-/// <reference path="./radonis.ts" />
 /// <reference path="./container.ts" />
-/// <reference path="./context.ts" />
+/// <reference path="./http-context.ts" />
+/// <reference path="./radonis.ts" />

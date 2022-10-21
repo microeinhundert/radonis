@@ -10,13 +10,13 @@
 /*
  * Contexts
  */
-export { assetsManagerContext } from './src/contexts/assetsManagerContext'
-export { manifestManagerContext } from './src/contexts/manifestManagerContext'
-export { rendererContext } from './src/contexts/rendererContext'
-export { serverContext } from './src/contexts/serverContext'
+export { assetsManagerContext } from './src/contexts/assets_manager_context'
+export { manifestManagerContext } from './src/contexts/manifest_manager_context'
+export { rendererContext } from './src/contexts/renderer_context'
+export { serverContext } from './src/contexts/server_context'
 
 /*
  * Services
  */
-export { HydrationManager } from './src/services/hydrationManager'
-export { PluginsManager } from './src/services/pluginsManager'
+export { HydrationManager } from './src/services/hydration_manager'
+export { PluginsManager } from './src/services/plugins_manager'

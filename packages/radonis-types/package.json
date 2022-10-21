@@ -59,7 +59,7 @@
     "@adonisjs/core": "^5.8.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.0",
+    "@types/node": "^18.11.3",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6"
   },

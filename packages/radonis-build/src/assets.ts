@@ -7,9 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, HydrationRequirements } from '@microeinhundert/radonis-types'
-
-import type { AssetsManifest, BuildManifest, BuildManifestEntry } from './types'
+import type {
+  AssetsManifest,
+  BuildManifest,
+  BuildManifestEntry,
+  ComponentIdentifier,
+  HydrationRequirements,
+} from '@microeinhundert/radonis-types'
 
 /**
  * Extract the required assets from an assets manifest

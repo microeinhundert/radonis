@@ -15,7 +15,7 @@
       }
     },
     {
-      "files": "*Exception.ts",
+      "files": "*_exception.ts",
       "options": {
         "printWidth": 60
       }

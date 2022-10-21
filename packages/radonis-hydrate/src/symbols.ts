@@ -10,4 +10,4 @@
 /**
  * @internal
  */
-export const componentIdentifierSymbol = Symbol('componentIdentifer')
+export const componentIdentifierSymbol = Symbol('radonisComponentIdentifier')

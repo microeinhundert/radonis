@@ -15,12 +15,17 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type {
+  AssetsManagerContract,
   ErrorPages,
   FlushCallback,
   Globals,
+  HeadManagerContract,
   HeadMeta,
   HeadTag,
+  HydrationManagerContract,
   Locale,
+  ManifestManagerContract,
+  PluginsManagerContract,
   RendererContract,
   RenderOptions,
   Resettable,
@@ -36,16 +41,11 @@ import { createElement as h, StrictMode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { Readable, Transform } from 'stream'
 
-import { DefaultErrorPage } from '../../components/DefaultErrorPage'
-import { extractRootRoutes } from '../../utils/extractRootRoutes'
-import { withContextProviders } from '../../utils/withContextProviders'
-import type { AssetsManager } from '../assetsManager'
-import type { HeadManager } from '../headManager'
-import type { HydrationManager } from '../hydrationManager'
-import type { ManifestManager } from '../manifestManager'
-import type { PluginsManager } from '../pluginsManager'
-import { generateHtmlStream, onAllReady, onShellReady } from './utils/stream'
-import { transformRouteNode } from './utils/transformRouteNode'
+import { DefaultErrorPage } from '../../components/default_error_page'
+import { extractRootRoutes } from '../../utils/extract_root_routes'
+import { transformRouteNode } from '../../utils/transform_route_node'
+import { withContextProviders } from '../../utils/with_context_providers'
+import { generateHtmlStream, onAllReady, onShellReady } from './stream'
 
 /**
  * Service for rendering
@@ -55,22 +55,14 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: Renderer
+  static instance?: RendererContract
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof Renderer>): Renderer {
+  static getSingletonInstance(...args: ConstructorParameters<typeof Renderer>): RendererContract {
     return (Renderer.instance = Renderer.instance ?? new Renderer(...args))
   }
-
-  /**
-   * The Adonis services
-   */
-  #application: ApplicationContract
-  #logger: LoggerContract
-  #router: RouterContract
-  #i18nManager: I18nManagerContract
 
   /**
    * The Radonis config
@@ -78,13 +70,25 @@ export class Renderer implements RendererContract, Resettable {
   #config: RadonisConfig
 
   /**
+   * The application
+   */
+  #application: ApplicationContract
+
+  /**
    * The Radonis services
    */
-  #assetsManager: AssetsManager
-  #headManager: HeadManager
-  #hydrationManager: HydrationManager
-  #pluginsManager: PluginsManager
-  #manifestManager: ManifestManager
+  #assetsManager: AssetsManagerContract
+  #headManager: HeadManagerContract
+  #hydrationManager: HydrationManagerContract
+  #manifestManager: ManifestManagerContract
+  #pluginsManager: PluginsManagerContract
+
+  /**
+   * The Adonis services
+   */
+  #logger: LoggerContract
+  #router: RouterContract
+  #i18nManager: I18nManagerContract
 
   /**
    * The context
@@ -104,19 +108,19 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * Constructor
    */
-  constructor(application: ApplicationContract) {
+  constructor(config: RadonisConfig, application: ApplicationContract) {
+    this.#config = config
     this.#application = application
+
+    this.#assetsManager = application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
+    this.#headManager = application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
+    this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
+    this.#manifestManager = application.container.resolveBinding('Microeinhundert/Radonis/ManifestManager')
+    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
 
     this.#logger = application.container.resolveBinding('Adonis/Core/Logger')
     this.#router = application.container.resolveBinding('Adonis/Core/Route')
     this.#i18nManager = application.container.resolveBinding('Adonis/Addons/I18n')
-
-    this.#config = application.container.resolveBinding('Microeinhundert/Radonis/Config')
-    this.#pluginsManager = application.container.resolveBinding('Microeinhundert/Radonis/PluginsManager')
-    this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
-    this.#assetsManager = application.container.resolveBinding('Microeinhundert/Radonis/AssetsManager')
-    this.#headManager = application.container.resolveBinding('Microeinhundert/Radonis/HeadManager')
-    this.#manifestManager = application.container.resolveBinding('Microeinhundert/Radonis/ManifestManager')
 
     this.#setDefaults()
   }

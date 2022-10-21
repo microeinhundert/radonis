@@ -8,6 +8,7 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import superjson from 'superjson'
 
 export default class RadonisProvider {
@@ -19,10 +20,16 @@ export default class RadonisProvider {
   #application: ApplicationContract
 
   /**
+   * The Radonis config
+   */
+  #config: RadonisConfig
+
+  /**
    * Constructor
    */
   constructor(application: ApplicationContract) {
     this.#application = application
+    this.#config = application.config.get('radonis', {})
   }
 
   /**
@@ -33,45 +40,45 @@ export default class RadonisProvider {
      * AssetsManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
-      const { AssetsManager } = require('../src/services/assetsManager')
+      const { AssetsManager } = require('../src/services/assets_manager')
 
-      return AssetsManager.getSingletonInstance(this.#application)
+      return AssetsManager.getSingletonInstance(this.#config, this.#application)
     })
 
     /**
      * HeadManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/HeadManager', () => {
-      const { HeadManager } = require('../src/services/headManager')
+      const { HeadManager } = require('../src/services/head_manager')
 
-      return HeadManager.getSingletonInstance(this.#application)
+      return HeadManager.getSingletonInstance(this.#config, this.#application)
     })
 
     /**
      * HydrationManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/HydrationManager', () => {
-      const { HydrationManager } = require('../src/services/hydrationManager')
+      const { HydrationManager } = require('../src/services/hydration_manager')
 
-      return HydrationManager.getSingletonInstance(this.#application)
-    })
-
-    /**
-     * PluginsManager
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
-      const { PluginsManager } = require('../src/services/pluginsManager')
-
-      return PluginsManager.getSingletonInstance(this.#application)
+      return HydrationManager.getSingletonInstance(this.#config, this.#application)
     })
 
     /**
      * ManifestManager
      */
     this.#application.container.singleton('Microeinhundert/Radonis/ManifestManager', () => {
-      const { ManifestManager } = require('../src/services/manifestManager')
+      const { ManifestManager } = require('../src/services/manifest_manager')
 
-      return ManifestManager.getSingletonInstance(this.#application)
+      return ManifestManager.getSingletonInstance(this.#config, this.#application)
+    })
+
+    /**
+     * PluginsManager
+     */
+    this.#application.container.singleton('Microeinhundert/Radonis/PluginsManager', () => {
+      const { PluginsManager } = require('../src/services/plugins_manager')
+
+      return PluginsManager.getSingletonInstance(this.#config, this.#application)
     })
 
     /**
@@ -80,7 +87,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/Renderer', () => {
       const { Renderer } = require('../src/services/renderer')
 
-      return Renderer.getSingletonInstance(this.#application)
+      return Renderer.getSingletonInstance(this.#config, this.#application)
     })
   }
 
@@ -89,36 +96,26 @@ export default class RadonisProvider {
    */
   register(): void {
     this.#registerServices()
-
-    /**
-     * Config
-     */
-    this.#application.container.singleton('Microeinhundert/Radonis/Config', () => {
-      return this.#application.config.get('radonis', {})
-    })
   }
 
   /**
    * Boot
    */
   async boot(): Promise<void> {
-    this.#application.container.withBindings(
-      ['Microeinhundert/Radonis/Config', 'Microeinhundert/Radonis/PluginsManager'],
-      async (Config, PluginsManager) => {
-        /**
-         * Install plugins
-         */
-        PluginsManager.install('server', ...Config.plugins)
+    this.#application.container.withBindings(['Microeinhundert/Radonis/PluginsManager'], async (PluginsManager) => {
+      /**
+       * Install plugins
+       */
+      PluginsManager.install('server', ...this.#config.plugins)
 
-        /**
-         * Execute `onBootServer` plugin hook
-         */
-        await PluginsManager.execute('onBootServer', null, {
-          appRoot: this.#application.appRoot,
-          resourcesPath: this.#application.resourcesPath(),
-        })
-      }
-    )
+      /**
+       * Execute `onBootServer` plugin hook
+       */
+      await PluginsManager.execute('onBootServer', null, {
+        appRoot: this.#application.appRoot,
+        resourcesPath: this.#application.resourcesPath(),
+      })
+    })
 
     this.#application.container.withBindings(
       [
@@ -126,11 +123,11 @@ export default class RadonisProvider {
         'Microeinhundert/Radonis/AssetsManager',
         'Microeinhundert/Radonis/HeadManager',
         'Microeinhundert/Radonis/HydrationManager',
-        'Microeinhundert/Radonis/PluginsManager',
         'Microeinhundert/Radonis/ManifestManager',
+        'Microeinhundert/Radonis/PluginsManager',
         'Microeinhundert/Radonis/Renderer',
       ],
-      async (Server, AssetsManager, HeadManager, HydrationManager, PluginsManager, ManifestManager, Renderer) => {
+      async (Server, AssetsManager, HeadManager, HydrationManager, ManifestManager, PluginsManager, Renderer) => {
         /**
          * Register server hooks
          */

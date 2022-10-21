@@ -39,7 +39,7 @@
     "youch-terminal": "^2.1.5"
   },
   "dependencies": {
-    "@adonisjs/auth": "^8.2.2",
+    "@adonisjs/auth": "^8.2.3",
     "@adonisjs/bouncer": "^2.3.0",
     "@adonisjs/core": "^5.8.8",
     "@adonisjs/drive-s3": "^1.3.2",
@@ -56,7 +56,7 @@
     "@microeinhundert/radonis-server": "2.0.1",
     "@microeinhundert/radonis-unocss": "2.0.1",
     "@tanstack/react-query": "^4.12.0",
-    "aws-sdk": "^2.1233.0",
+    "aws-sdk": "^2.1237.0",
     "luxon": "^3.0.4",
     "pg": "^8.8.0",
     "phc-argon2": "^1.1.3",

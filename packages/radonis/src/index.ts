@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-export { definePlugin } from './definePlugin'
-export { initClient } from './initClient'
+export { definePlugin } from './define_plugin'
+export { initClient } from './init_client'
 export { Form, useForm, useFormField } from '@microeinhundert/radonis-form'
 export {
   useApplication,

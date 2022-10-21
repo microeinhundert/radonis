@@ -10,7 +10,7 @@
 import type { Loader } from 'esbuild'
 import { extname } from 'path'
 
-import { BuildException } from './exceptions/buildException'
+import { BuildException } from './exceptions/build_exception'
 
 /**
  * @internal

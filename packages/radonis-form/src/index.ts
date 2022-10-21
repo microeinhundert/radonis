@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export { Form } from './components/Form'
-export { useForm } from './hooks/useForm'
-export { useFormField } from './hooks/useFormField'
+export { Form } from './components/form'
+export { useForm } from './hooks/use_form'
+export { useFormField } from './hooks/use_form_field'
 export type { FormChildrenProps, FormProps } from './types'

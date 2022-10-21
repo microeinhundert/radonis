@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Exceptions thrown by Radonis now extend `RadonisException`, which is also exported from `@microeinhundert/radonis`.
+- Updated dependencies.
   
 ## [2.0.1] - 2022-10-17
 

@@ -8,6 +8,7 @@
  */
 
 import type {
+  BuildManifest,
   ComponentIdentifier,
   FlashMessageIdentifier,
   MessageIdentifier,
@@ -26,7 +27,6 @@ import {
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
 } from './constants'
-import type { BuildManifest } from './types'
 
 /**
  * Check if a file looks like it contains a client component:
