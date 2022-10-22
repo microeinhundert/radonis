@@ -61,7 +61,7 @@ export function useForm<TData, TError>({
     throw FormException.cannotFetchWithoutHydration(action)
   }
 
-  const form = useRef<HTMLFormElement | null>(null)
+  const formRef = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
   /**
@@ -118,7 +118,7 @@ export function useForm<TData, TError>({
 
   const getFormProps = () => ({
     onSubmit: noReload ? submitHandler : undefined,
-    ref: form,
+    ref: formRef,
     ...props,
     get action() {
       const actionUrl = requestUrl
@@ -138,6 +138,7 @@ export function useForm<TData, TError>({
     status,
     data,
     error,
+    ref: formRef,
     getFormProps,
   }
 }

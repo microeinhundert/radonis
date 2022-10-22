@@ -25,12 +25,12 @@ export class PluginsManager implements PluginsManagerContract {
   /**
    * The singleton instance
    */
-  static instance?: PluginsManagerContract
+  static instance?: PluginsManager
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof PluginsManager>): PluginsManagerContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof PluginsManager>): PluginsManager {
     return (PluginsManager.instance = PluginsManager.instance ?? new PluginsManager(...args))
   }
 

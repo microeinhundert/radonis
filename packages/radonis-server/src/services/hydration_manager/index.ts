@@ -29,12 +29,12 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: HydrationManagerContract
+  static instance?: HydrationManager
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof HydrationManager>): HydrationManagerContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof HydrationManager>): HydrationManager {
     return (HydrationManager.instance = HydrationManager.instance ?? new HydrationManager(...args))
   }
 

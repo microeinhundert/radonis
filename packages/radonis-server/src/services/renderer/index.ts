@@ -55,12 +55,12 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: RendererContract
+  static instance?: Renderer
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof Renderer>): RendererContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof Renderer>): Renderer {
     return (Renderer.instance = Renderer.instance ?? new Renderer(...args))
   }
 

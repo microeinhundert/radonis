@@ -21,12 +21,12 @@ export class HeadManager implements HeadManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: HeadManagerContract
+  static instance?: HeadManager
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof HeadManager>): HeadManagerContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof HeadManager>): HeadManager {
     return (HeadManager.instance = HeadManager.instance ?? new HeadManager(...args))
   }
 

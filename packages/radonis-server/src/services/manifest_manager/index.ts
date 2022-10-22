@@ -37,12 +37,12 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: ManifestManagerContract
+  static instance?: ManifestManager
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof ManifestManager>): ManifestManagerContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof ManifestManager>): ManifestManager {
     return (ManifestManager.instance = ManifestManager.instance ?? new ManifestManager(...args))
   }
 

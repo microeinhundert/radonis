@@ -29,12 +29,12 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: AssetsManagerContract
+  static instance?: AssetsManager
 
   /**
    * Get the singleton instance
    */
-  static getSingletonInstance(...args: ConstructorParameters<typeof AssetsManager>): AssetsManagerContract {
+  static getSingletonInstance(...args: ConstructorParameters<typeof AssetsManager>): AssetsManager {
     return (AssetsManager.instance = AssetsManager.instance ?? new AssetsManager(...args))
   }
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.4] - 2022-10-22
+
+### Changed
+
+- Expose form ref.
+
 ## [2.0.3] - 2022-10-21
 
 ### Changed
