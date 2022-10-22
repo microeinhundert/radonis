@@ -65,7 +65,7 @@ export interface ServerContract {
  * AssetsManager contract
  */
 export interface AssetsManagerContract extends Resettable {
-  get requiredAssets(): AssetsManifest
+  requiredAssets(): AssetsManifest
   requireComponent(identifier: ComponentIdentifier): void
   readBuildManifest(): Promise<void>
 }
