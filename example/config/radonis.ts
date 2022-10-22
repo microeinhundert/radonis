@@ -132,7 +132,7 @@ const radonisConfig: RadonisConfig = {
     |--------------------------------------------------------------------------
     |
     | The directory where all your React components are located in.
-    | Components in this directory will be built for the client.
+    | Components in this directory will be built to also run client-side.
     |
     */
     componentsDir: Application.resourcesPath('components'),
