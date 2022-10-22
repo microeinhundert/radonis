@@ -12,7 +12,9 @@ export default class GardensController {
 
     const gardens = await Garden.query().where('user_id', auth.user!.id).select('*');
 
-    return radonis.withHeadTitle(i18n.formatMessage('gardens.index.title')).render(Index, { gardens });
+    return radonis
+      .withHeadTitle(i18n.formatMessage('gardens.index.title'))
+      .render(Index, { gardens });
   }
 
   /*

@@ -1,4 +1,4 @@
-# Radonis Example App
+# Radonis Example Application
 
 ## Getting Started
 

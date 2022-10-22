@@ -58,10 +58,10 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
           rollback?.();
         },
       }}
-      noReload
       id={`delete-garden-${garden.id}`}
       method="delete"
       params={{ id: garden.id }}
+      noReload
     >
       <Card>
         <Card.Head

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { hydratable, RouteIdentifier, RouteParams } from '@microeinhundert/radonis';
+import type { RouteIdentifier, RouteParams } from '@microeinhundert/radonis';
+import { hydratable } from '@microeinhundert/radonis';
 import { useUrlBuilder } from '@microeinhundert/radonis';
 
 import { clsx } from '../utils/string';

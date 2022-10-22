@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { Index } from 'Views/Dashboard';
 
-export default class DashboardController {  
+export default class DashboardController {
   /*
    * index action
    */

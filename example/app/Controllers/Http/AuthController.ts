@@ -17,7 +17,7 @@ export default class AuthController {
    */
   public async signUp({ response, request, auth }: HttpContextContract) {
     const data = await request.validate(SignUpValidator);
-    
+
     const user = await User.create(data);
 
     await auth.login(user);

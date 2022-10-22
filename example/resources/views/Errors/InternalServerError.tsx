@@ -11,7 +11,9 @@ function InternalServerError({ error }: InternalServerErrorProps) {
 
   const messages = {
     headline: formatMessage('errors.internalServerError.headline'),
-    text: formatMessage('errors.internalServerError.text', { message: error instanceof Error ? error.message : '-' }),
+    text: formatMessage('errors.internalServerError.text', {
+      message: error instanceof Error ? error.message : '-',
+    }),
   };
 
   return (

@@ -1,4 +1,4 @@
-import type { ComponentType, FunctionComponent, ReactElement, ReactNode } from 'react';
+import type { ComponentType } from 'react';
 
 declare global {
   type HTMLProps<Tag extends keyof JSX.IntrinsicElements> = JSX.IntrinsicElements[Tag];

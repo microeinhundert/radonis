@@ -61,7 +61,7 @@ const radonisConfig: RadonisConfig = {
       | A string to suffix the title with.
       |
       */
-      suffix: 'Radonis Example App',
+      suffix: 'Radonis Example Application',
 
       /*
       |--------------------------------------------------------------------------

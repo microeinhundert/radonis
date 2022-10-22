@@ -13,8 +13,8 @@
 |
 */
 
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler';
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Logger from '@ioc:Adonis/Core/Logger';
 import { InternalServerError } from 'Views/Errors/InternalServerError';
 
@@ -28,7 +28,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
       /**
        * Render error page
        */
-      return ctx.radonis.render(InternalServerError, { error });
+      return ctx.radonis.render(InternalServerError, { error });
     }
 
     /**

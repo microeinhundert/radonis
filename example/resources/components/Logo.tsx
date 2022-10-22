@@ -1,4 +1,4 @@
-import { hydratable } from "@microeinhundert/radonis";
+import { hydratable } from '@microeinhundert/radonis';
 
 /*
  * Logo

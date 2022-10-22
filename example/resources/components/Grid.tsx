@@ -1,5 +1,6 @@
 import { hydratable } from '@microeinhundert/radonis';
-import { forwardRef, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 import { clsx } from '../utils/string';
 
@@ -18,7 +19,10 @@ interface GridProps {
   type?: GridType;
 }
 
-const Grid = forwardRef<HTMLDivElement, GridProps>(function ({ children, type = GridType.ThreeColumns }, ref) {
+const Grid = forwardRef<HTMLDivElement, GridProps>(function (
+  { children, type = GridType.ThreeColumns },
+  ref
+) {
   return (
     <div
       ref={ref}
@@ -35,6 +39,6 @@ const Grid = forwardRef<HTMLDivElement, GridProps>(function ({ children, type = 
       {children}
     </div>
   );
-})
+});
 
 export default hydratable('Grid', Grid);
