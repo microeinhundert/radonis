@@ -108,7 +108,7 @@ const radonisConfig: RadonisConfig = {
     | Entry file
     |--------------------------------------------------------------------------
     |
-    | The entry file is where the client library is initialized.
+    | The entry file is where the Radonis client is initialized.
     | You can also use this file to include your own scripts
     | that are not bound to a specific component "Island".
     |
@@ -120,8 +120,8 @@ const radonisConfig: RadonisConfig = {
     | Always include entry file
     |--------------------------------------------------------------------------
     |
-    | Always include the entry file, even if no client-side
-    | hydrated components are on the page.
+    | Always include the entry file, even if no components
+    | which need hydration are on the page.
     |
     */
     alwaysIncludeEntryFile: false,
@@ -132,8 +132,7 @@ const radonisConfig: RadonisConfig = {
     |--------------------------------------------------------------------------
     |
     | The directory where all your React components are located in.
-    | These components will be built for the client
-    | and are therefore hydratable.
+    | Components in this directory will be built for the client.
     |
     */
     componentsDir: Application.resourcesPath('components'),
@@ -143,9 +142,9 @@ const radonisConfig: RadonisConfig = {
     | Limit manifest
     |--------------------------------------------------------------------------
     |
-    | Limit the client manifest to only include data required for client-side
-    | hydration. Disable this if you have some use case that requires
-    | all data to be available on all times.
+    | Limit the client-side manifest to only include data required for hydration. 
+    | Disable this if you have some use case that requires
+    | all data to be available at all times.
     |
     */
     limitManifest: true,
