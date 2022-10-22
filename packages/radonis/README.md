@@ -10,15 +10,8 @@ Radonis is a full-stack application framework for building monolithic applicatio
 
 Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).
 
-## Guides
-
-- [Handling CSRF](https://radonis.vercel.app/docs/guides/handling-csrf)
-- [Building an Input Component](https://radonis.vercel.app/docs/guides/building-an-input-component)
-- [Building a Plugin](https://radonis.vercel.app/docs/guides/building-a-plugin)
-
 ## Official Plugins
 
-- [Twind](https://radonis.vercel.app/docs/plugins/twind)
 - [UnoCSS](https://radonis.vercel.app/docs/plugins/unocss)
 
 ## License
