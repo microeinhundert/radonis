@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2022-10-26
+
+### Added
+
+- `useParams` hook, which returns an object containing the params of the current route.
+- `useSearchParams` hook, which returns an object containing the search params of the current route.
+
+### Changed
+
+- The type of the current route returned by `useRoute` no longer includes `null`.
+- Improved comments in Radonis config file `config/radonis.ts`.
+- Updated dependencies.
+
 ## [2.0.4] - 2022-10-22
 
 ### Changed

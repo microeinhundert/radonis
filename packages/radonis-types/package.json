@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-types",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Types package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -59,9 +59,9 @@
     "@adonisjs/core": "^5.8.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.3",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6"
+    "@types/node": "^18.11.6",
+    "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7"
   },
   "dependencies": {
     "tslib": "^2.4.0"

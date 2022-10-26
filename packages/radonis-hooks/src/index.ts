@@ -20,8 +20,10 @@ export { useFlushEffect } from './hooks/isomorphic/use_flush_effect'
 export { useGlobals } from './hooks/isomorphic/use_globals'
 export { useI18n } from './hooks/isomorphic/use_i18n'
 export { useManifest } from './hooks/isomorphic/use_manifest'
+export { useParams } from './hooks/isomorphic/use_params'
 export { useRoute } from './hooks/isomorphic/use_route'
 export { useRoutes } from './hooks/isomorphic/use_routes'
+export { useSearchParams } from './hooks/isomorphic/use_search_params'
 export { useUrlBuilder } from './hooks/isomorphic/use_url_builder'
 
 /*

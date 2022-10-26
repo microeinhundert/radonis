@@ -151,7 +151,11 @@ export class Renderer implements RendererContract, Resettable {
       .setFlashMessages(flattie(httpContext.session.flashMessages.all()))
       .setMessages(this.#i18nManager.getTranslationsFor(locale))
       .setRoutes(extractRootRoutes(this.#router))
-      .setRoute(transformRouteNode(httpContext.route))
+      .setRoute({
+        ...transformRouteNode(httpContext.route!),
+        params: httpContext.request.params(),
+        searchParams: httpContext.request.qs(),
+      })
 
     return this
   }

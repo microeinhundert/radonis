@@ -13,12 +13,14 @@ import type { Route } from '@microeinhundert/radonis-types'
 import { getRouteIdentifier } from './get_route_identifier'
 
 /**
- * Transform a RouteNode to the shape expected by the manifest
+ * Transform a RouteNode to match the shape expected by the manifest
  * @internal
  */
-export function transformRouteNode(routeNode?: RouteNode): Route {
+export function transformRouteNode(routeNode: RouteNode): Route {
   return {
     identifier: getRouteIdentifier(routeNode),
-    pattern: routeNode?.pattern,
+    pattern: routeNode.pattern,
+    params: {},
+    searchParams: {},
   }
 }

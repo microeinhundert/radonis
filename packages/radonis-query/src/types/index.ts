@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteParams } from '@microeinhundert/radonis'
+import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis'
 import type { UseQueryOptions } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
 
@@ -16,7 +16,7 @@ import type { ReactElement } from 'react'
  */
 export interface ServerQueryOptions<TData, TError> {
   params?: RouteParams
-  queryParams?: RouteParams
+  queryParams?: RouteQueryParams
   headers?: Record<string, string>
   query?: Omit<UseQueryOptions<TData, TError>, 'queryFn'>
 }

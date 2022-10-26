@@ -34,8 +34,6 @@ export interface Resettable {
   reset(): void
 }
 
-/* ---------------------------------------- */
-
 /**
  * Component identifier
  */
@@ -45,8 +43,6 @@ export type ComponentIdentifier = string
  * Components
  */
 export type Components = Map<ComponentIdentifier, ComponentType>
-
-/* ---------------------------------------- */
 
 /**
  * Hydration
@@ -62,14 +58,10 @@ export interface HydrationRequirements {
   routes: RouteIdentifier[]
 }
 
-/* ---------------------------------------- */
-
 /**
  * Globals (must be an interface for declaration merging from userland)
  */
 export interface Globals {}
-
-/* ---------------------------------------- */
 
 /**
  * Flash message identifier
@@ -80,8 +72,6 @@ export type FlashMessageIdentifier = string
  * Flash messages
  */
 export type FlashMessages = Record<FlashMessageIdentifier, any>
-
-/* ---------------------------------------- */
 
 /**
  * Locale
@@ -103,8 +93,6 @@ export type MessageData = Record<string, any>
  */
 export type Messages = Record<MessageIdentifier, string>
 
-/* ---------------------------------------- */
-
 /**
  * Route identifier
  */
@@ -120,7 +108,12 @@ export type Routes = Record<RouteIdentifier, string>
 /**
  * Route
  */
-export type Route = { identifier?: string; pattern?: string }
+export type Route = {
+  identifier?: string
+  pattern: string
+  params: Record<string, any>
+  searchParams: Record<string, any>
+}
 
 /**
  * Route params

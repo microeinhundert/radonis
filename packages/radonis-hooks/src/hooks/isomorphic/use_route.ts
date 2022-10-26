@@ -38,7 +38,7 @@ export function useRoute() {
   }
 
   return {
-    current: route,
+    current: route!,
     isCurrent,
   }
 }

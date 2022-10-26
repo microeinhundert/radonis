@@ -94,7 +94,7 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
     return {
       hydration: this.#hydration,
       globals: this.#globals,
-      locale: this.locale,
+      locale: this.#locale,
       route: this.#route,
       flashMessages: this.flashMessages,
       messages: this.messages,
@@ -109,7 +109,7 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
     return {
       hydration: this.#hydration,
       globals: this.#globals,
-      locale: this.locale,
+      locale: this.#locale,
       route: this.#route,
       flashMessages: this.#config.client.limitManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       messages: this.#config.client.limitManifest ? this.messagesRequiredForHydration : this.messages,
