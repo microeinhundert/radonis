@@ -15,5 +15,5 @@ import type { RouteIdentifier } from '@microeinhundert/radonis-types'
  * @internal
  */
 export function getRouteIdentifier(routeNode: RouteNode): RouteIdentifier | undefined {
-  return typeof routeNode?.handler === 'string' ? routeNode.handler : undefined
+  return typeof routeNode?.handler === 'string' ? routeNode.handler : routeNode.name
 }

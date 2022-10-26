@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2022-10-26
+
+### Fixed
+
+- Fall back to route name if not a controller action.
+  
 ## [2.1.0] - 2022-10-26
 
 ### Added

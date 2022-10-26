@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-unocss",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "UnoCSS plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -57,14 +57,14 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "2.1.0"
+    "@microeinhundert/radonis": "2.1.1"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "workspace:2.1.0",
+    "@microeinhundert/radonis": "workspace:2.1.1",
     "@types/node": "^18.11.6"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:2.1.0",
+    "@microeinhundert/radonis-shared": "workspace:2.1.1",
     "@unocss/core": "0.46.0",
     "@unocss/preset-wind": "0.46.0",
     "@poppinss/utils": "^5.0.0",

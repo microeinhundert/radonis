@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "pnpm@7.0.0",
