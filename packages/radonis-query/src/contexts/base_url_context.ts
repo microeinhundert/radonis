@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-hydrate
+ * @microeinhundert/radonis-query
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *

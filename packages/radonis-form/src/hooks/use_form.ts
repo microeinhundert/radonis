@@ -65,12 +65,8 @@ export function useForm<TData, TError>({
   const formRef = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
-  /**
-   * Because of the URL constructor requiring an absolute URL,
-   * we have to pass a fake base URL to it
-   */
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://localhost'),
+    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://internal'),
     [urlBuilder, action, params, queryParams]
   )
 
