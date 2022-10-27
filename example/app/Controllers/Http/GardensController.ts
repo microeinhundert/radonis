@@ -34,10 +34,14 @@ export default class GardensController {
 
     const data = await request.validate(GardenValidator);
 
-    await Garden.create({
+    const garden = await Garden.create({
       ...data,
       userId: auth.user!.id,
     });
+
+    if (request.accepts(['json'])) {
+      return response.json(garden);
+    }
 
     return response.redirect().toRoute('GardensController.index');
   }
@@ -78,7 +82,11 @@ export default class GardensController {
 
     const data = await request.validate(GardenValidator);
 
-    await garden.merge(data).save();
+    const updatedGarden = await garden.merge(data).save();
+
+    if (request.accepts(['json'])) {
+      return response.json(updatedGarden);
+    }
 
     return response.redirect().toRoute('GardensController.index');
   }

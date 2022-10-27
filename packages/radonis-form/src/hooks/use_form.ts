@@ -10,6 +10,7 @@
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { FormEvent } from 'react'
+import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 import superjson from 'superjson'
@@ -68,7 +69,10 @@ export function useForm<TData, TError>({
    * Because of the URL constructor requiring an absolute URL,
    * we have to pass a fake base URL to it
    */
-  const requestUrl = new URL(urlBuilder.make(action, { params, queryParams }), 'http://localhost')
+  const requestUrl = useMemo(
+    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://localhost'),
+    [urlBuilder, action, params, queryParams]
+  )
 
   const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(
     async (formData: FormData) => {
@@ -121,7 +125,7 @@ export function useForm<TData, TError>({
     ref: formRef,
     ...props,
     get action() {
-      const actionUrl = requestUrl
+      const actionUrl = new URL(requestUrl)
 
       if (!isNativeFormMethod(method)) {
         actionUrl.searchParams.append('_method', method)
