@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.2] - 2022-10-28
+
+### Fixed
+
+- Unintended side effect in `useForm` hook.
+
+### Changed
+
+- Updated dependencies.
+
 ## [2.1.1] - 2022-10-26
 
 ### Fixed
