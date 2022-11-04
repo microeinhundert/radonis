@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build --filter=./packages/* --no-cache",
+    "build": "turbo run build --filter=./packages/*",
     "lint": "turbo run lint --filter=./packages/*",
     "format": "turbo run format --filter=./packages/*",
     "test": "turbo run test --filter=./packages/*",

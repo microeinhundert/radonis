@@ -96,11 +96,7 @@ export class HeadManager implements HeadManagerContract, Resettable {
           return `<meta ${stringifyAttributes({ charset: value })} />`
         }
 
-        /*
-         * Open Graph tags use the `property` attribute,
-         * while other meta tags use `name`. See https://ogp.me/
-         */
-        const isOpenGraphTag = name.startsWith('og:')
+        const isOpenGraphTag = /^(og|music|video|article|book|profile|fb):.+$/.test(name)
 
         return [value].flat().map((content) => {
           if (typeof content !== 'string') {
