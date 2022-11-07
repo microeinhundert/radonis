@@ -16,6 +16,9 @@ import type { ClientOptions } from './types'
 
 let isClientInitialized = false
 
+/**
+ * Hydrate the page
+ */
 function hydrate() {
   startTransition(() => {
     hydrator.hydrateRoots()

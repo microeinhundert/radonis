@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.3] - 2022-11-07
+
+### Changed
+
+- Hydrate page in `startTransition` call.
+- Improved detection of og meta tags.
+- Updated dependencies.
+
 ## [2.1.2] - 2022-10-28
 
 ### Fixed
