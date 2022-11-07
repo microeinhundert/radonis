@@ -8,12 +8,19 @@
  */
 
 import { isServer } from '@microeinhundert/radonis-shared'
+import { startTransition } from 'react'
 
 import { ClientException } from './exceptions/client_exception'
 import { hydrator, pluginsManager } from './singletons'
 import type { ClientOptions } from './types'
 
 let isClientInitialized = false
+
+function hydrate() {
+  startTransition(() => {
+    hydrator.hydrateRoots()
+  })
+}
 
 /**
  * Initialize the client
@@ -33,5 +40,9 @@ export async function initClient(options?: ClientOptions): Promise<void> {
     await pluginsManager.execute('onInitClient', null, null)
   }
 
-  hydrator.hydrateRoots()
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(hydrate)
+  } else {
+    window.setTimeout(hydrate, 1)
+  }
 }
