@@ -11,9 +11,9 @@ import {
   E_CANNOT_FIND_ROUTE,
   E_MISSING_ROUTE_PARAM,
   E_WILDCARD_ROUTES_NOT_SUPPORTED,
-} from '../../exceptions.json'
-import { RadonisException } from '../exception'
-import { interpolate } from '../utils/interpolate'
+} from "../../exceptions.json";
+import { RadonisException } from "../exception";
+import { interpolate } from "../utils/interpolate";
 
 /**
  * Exceptions related to the URL builder
@@ -27,9 +27,9 @@ export class UrlBuilderException extends RadonisException {
       }),
       E_CANNOT_FIND_ROUTE.status,
       E_CANNOT_FIND_ROUTE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static missingRouteParam(
     paramName: string,
@@ -42,17 +42,17 @@ export class UrlBuilderException extends RadonisException {
       }),
       E_MISSING_ROUTE_PARAM.status,
       E_MISSING_ROUTE_PARAM.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static wildcardRoutesNotSupported() {
     const error = new this(
       E_WILDCARD_ROUTES_NOT_SUPPORTED.message,
       E_WILDCARD_ROUTES_NOT_SUPPORTED.status,
       E_WILDCARD_ROUTES_NOT_SUPPORTED.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

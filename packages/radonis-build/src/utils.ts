@@ -13,12 +13,12 @@ import type {
   FlashMessageIdentifier,
   MessageIdentifier,
   RouteIdentifier,
-} from '@microeinhundert/radonis-types'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
-import { readFileSync } from 'fs'
-import { readFile } from 'fs/promises'
-import { outputFile } from 'fs-extra'
-import { join, parse, posix, sep } from 'path'
+} from "@microeinhundert/radonis-types";
+import { fsReadAll } from "@poppinss/utils/build/helpers";
+import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
+import { outputFile } from "fs-extra";
+import { join, parse, posix, sep } from "path";
 
 import {
   BUILD_MANIFEST_FILE_NAME,
@@ -26,7 +26,7 @@ import {
   FLASH_MESSAGE_IDENTIFIER_REGEX,
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
-} from './constants'
+} from "./constants";
 
 /**
  * Check if a file looks like it contains a client component:
@@ -34,11 +34,11 @@ import {
  * - Does not end with `.server.<ext>`
  */
 function isClientComponentFile(filePath: string): boolean {
-  const { base } = parse(filePath)
-  const isComponentFile = /(ts(x)?|js(x)?)$/.test(base)
-  const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base)
+  const { base } = parse(filePath);
+  const isComponentFile = /(ts(x)?|js(x)?)$/.test(base);
+  const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base);
 
-  return !isServerComponentFile && isComponentFile
+  return !isServerComponentFile && isComponentFile;
 }
 
 /**
@@ -46,10 +46,10 @@ function isClientComponentFile(filePath: string): boolean {
  * - Contains a valid call to the `hydratable` function
  */
 function fileContainsHydratableComponent(filePath: string): boolean {
-  const fileContents = readFileSync(filePath, 'utf8')
-  const componentIdentifier = extractComponentIdentifier(fileContents)
+  const fileContents = readFileSync(filePath, "utf8");
+  const componentIdentifier = extractComponentIdentifier(fileContents);
 
-  return !!componentIdentifier
+  return !!componentIdentifier;
 }
 
 /**
@@ -59,7 +59,7 @@ function fileContainsHydratableComponent(filePath: string): boolean {
 export function discoverHydratableComponents(directory: string): string[] {
   return fsReadAll(directory, (filePath) => isClientComponentFile(filePath))
     .map((filePath) => join(directory, filePath))
-    .filter((filePath) => fileContainsHydratableComponent(filePath))
+    .filter((filePath) => fileContainsHydratableComponent(filePath));
 }
 
 /**
@@ -68,11 +68,11 @@ export function discoverHydratableComponents(directory: string): string[] {
  */
 export async function readBuildManifestFromDisk(directory: string): Promise<BuildManifest | null> {
   try {
-    const fileContents = await readFile(join(directory, BUILD_MANIFEST_FILE_NAME), 'utf-8')
+    const fileContents = await readFile(join(directory, BUILD_MANIFEST_FILE_NAME), "utf-8");
 
-    return JSON.parse(fileContents)
+    return JSON.parse(fileContents);
   } catch {
-    return null
+    return null;
   }
 }
 
@@ -81,7 +81,7 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
  * @internal
  */
 export async function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): Promise<void> {
-  await outputFile(join(directory, BUILD_MANIFEST_FILE_NAME), JSON.stringify(buildManifest, null, 2))
+  await outputFile(join(directory, BUILD_MANIFEST_FILE_NAME), JSON.stringify(buildManifest, null, 2));
 }
 
 /**
@@ -89,7 +89,7 @@ export async function writeBuildManifestToDisk(buildManifest: BuildManifest, dir
  * @internal
  */
 export function filePathToFileUrl(path: string): string {
-  return path.split(sep).filter(Boolean).join(posix.sep)
+  return path.split(sep).filter(Boolean).join(posix.sep);
 }
 
 /**
@@ -97,9 +97,9 @@ export function filePathToFileUrl(path: string): string {
  * @internal
  */
 export function extractComponentIdentifier(haystack: string): ComponentIdentifier | null {
-  const [match] = haystack.matchAll(COMPONENT_IDENTIFIER_REGEX)
+  const [match] = haystack.matchAll(COMPONENT_IDENTIFIER_REGEX);
 
-  return match?.groups?.identifier ?? null
+  return match?.groups?.identifier ?? null;
 }
 
 /**
@@ -107,16 +107,16 @@ export function extractComponentIdentifier(haystack: string): ComponentIdentifie
  * @internal
  */
 export function extractFlashMessages(haystack: string): FlashMessageIdentifier[] {
-  const matches = haystack.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<FlashMessageIdentifier>()
+  const matches = haystack.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX);
+  const identifiers = new Set<FlashMessageIdentifier>();
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
+      identifiers.add(match.groups.identifier.trim());
     }
   }
 
-  return Array.from(identifiers)
+  return Array.from(identifiers);
 }
 
 /**
@@ -124,16 +124,16 @@ export function extractFlashMessages(haystack: string): FlashMessageIdentifier[]
  * @internal
  */
 export function extractMessages(haystack: string): MessageIdentifier[] {
-  const matches = haystack.matchAll(MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<MessageIdentifier>()
+  const matches = haystack.matchAll(MESSAGE_IDENTIFIER_REGEX);
+  const identifiers = new Set<MessageIdentifier>();
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
+      identifiers.add(match.groups.identifier.trim());
     }
   }
 
-  return Array.from(identifiers)
+  return Array.from(identifiers);
 }
 
 /**
@@ -141,14 +141,14 @@ export function extractMessages(haystack: string): MessageIdentifier[] {
  * @internal
  */
 export function extractRoutes(haystack: string): RouteIdentifier[] {
-  const matches = haystack.matchAll(ROUTE_IDENTIFIER_REGEX)
-  const identifiers = new Set<RouteIdentifier>()
+  const matches = haystack.matchAll(ROUTE_IDENTIFIER_REGEX);
+  const identifiers = new Set<RouteIdentifier>();
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
+      identifiers.add(match.groups.identifier.trim());
     }
   }
 
-  return Array.from(identifiers)
+  return Array.from(identifiers);
 }

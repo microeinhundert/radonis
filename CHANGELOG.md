@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.4] - 2022-13-07
+
+### Changed
+
+- **BREAKING:** Renamed the `running` mutation status to `loading` on `useMutation` and `useForm`.
+- Updated dependencies.
+
+### Fixed
+
+- Controller actions in example app returning JSON instead of HTML.
+
 ## [2.1.3] - 2022-11-07
 
 ### Changed

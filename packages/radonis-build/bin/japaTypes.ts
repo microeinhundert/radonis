@@ -1,7 +1,7 @@
-import type { Assert } from '@japa/assert'
+import type { Assert } from "@japa/assert";
 
-declare module '@japa/runner' {
+declare module "@japa/runner" {
   interface TestContext {
-    assert: Assert
+    assert: Assert;
   }
 }

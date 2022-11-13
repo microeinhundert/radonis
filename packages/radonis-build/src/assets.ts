@@ -13,7 +13,7 @@ import type {
   BuildManifestEntry,
   ComponentIdentifier,
   HydrationRequirements,
-} from '@microeinhundert/radonis-types'
+} from "@microeinhundert/radonis-types";
 
 /**
  * Extract the required assets from an assets manifest
@@ -28,28 +28,28 @@ export function extractRequiredAssets(
     /**
      * Always include the entry file
      */
-    if (asset.type === 'entry') {
-      return [...assets, asset]
+    if (asset.type === "entry") {
+      return [...assets, asset];
     }
 
     /**
      * Include the component if it is required
      */
     if (requiredAssets.components.has(asset.identifier)) {
-      return [asset, ...assets]
+      return [asset, ...assets];
     }
 
-    return assets
-  }, [])
+    return assets;
+  }, []);
 
   /**
    * Return no assets if the entry file is the only asset and `canOmitEntryFile` is true
    */
-  if (extractedAssets.length === 1 && extractedAssets[0].type === 'entry' && canOmitEntryFile) {
-    return []
+  if (extractedAssets.length === 1 && extractedAssets[0].type === "entry" && canOmitEntryFile) {
+    return [];
   }
 
-  return extractedAssets
+  return extractedAssets;
 }
 
 /**
@@ -61,36 +61,36 @@ function reduceHydrationRequirements(
 ): HydrationRequirements {
   return buildManifestEntries.reduce<HydrationRequirements>(
     (hydrationRequirements, buildManifestEntry) => {
-      const childRequirements = reduceHydrationRequirements(buildManifestEntry.imports)
+      const childRequirements = reduceHydrationRequirements(buildManifestEntry.imports);
 
       const mergedFlashMessages = new Set([
         ...childRequirements.flashMessages,
         ...hydrationRequirements.flashMessages,
         ...buildManifestEntry.flashMessages,
-      ])
+      ]);
       const mergedMessages = new Set([
         ...childRequirements.messages,
         ...hydrationRequirements.messages,
         ...buildManifestEntry.messages,
-      ])
+      ]);
       const mergedRoutes = new Set([
         ...childRequirements.routes,
         ...hydrationRequirements.routes,
         ...buildManifestEntry.routes,
-      ])
+      ]);
 
       return {
         flashMessages: Array.from(mergedFlashMessages),
         messages: Array.from(mergedMessages),
         routes: Array.from(mergedRoutes),
-      }
+      };
     },
     initialRequirements ?? {
       flashMessages: [],
       messages: [],
       routes: [],
     }
-  )
+  );
 }
 
 /**
@@ -99,12 +99,12 @@ function reduceHydrationRequirements(
  */
 export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {
   return Object.entries(buildManifest).reduce<AssetsManifest>((assetsManifest, [identifier, entry]) => {
-    if (entry.type === 'chunk') {
+    if (entry.type === "chunk") {
       /**
        * Should never occur since chunks
        * are not on the topmost level
        */
-      return assetsManifest
+      return assetsManifest;
     }
 
     return [
@@ -119,6 +119,6 @@ export function generateAssetsManifest(buildManifest: BuildManifest): AssetsMani
           routes: entry.routes,
         }),
       },
-    ]
-  }, [])
+    ];
+  }, []);
 }

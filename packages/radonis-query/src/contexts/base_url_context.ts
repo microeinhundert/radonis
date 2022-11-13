@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { createContext } from 'react'
+import { createContext } from "react";
 
 /**
  * @internal
  */
-export const baseUrlContext = createContext<string | undefined>(undefined)
+export const baseUrlContext = createContext<string | undefined>(undefined);
 
 /**
  * @internal
  */
-export const BaseUrlContextProvider = baseUrlContext.Provider
+export const BaseUrlContextProvider = baseUrlContext.Provider;

@@ -7,30 +7,30 @@
  * file that was distributed with this source code.
  */
 
-import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
-import { useHydration } from '@microeinhundert/radonis-hydrate'
-import type { FormEvent } from 'react'
-import { useMemo } from 'react'
-import { useCallback } from 'react'
-import { useRef } from 'react'
-import superjson from 'superjson'
+import { useMutation, useUrlBuilder } from "@microeinhundert/radonis-hooks";
+import { useHydration } from "@microeinhundert/radonis-hydrate";
+import type { FormEvent } from "react";
+import { useMemo } from "react";
+import { useCallback } from "react";
+import { useRef } from "react";
+import superjson from "superjson";
 
-import { FormException } from '../exceptions/form_exception'
-import { hydrationManager } from '../singletons'
-import type { FormOptions } from '../types'
+import { FormException } from "../exceptions/form_exception";
+import { hydrationManager } from "../singletons";
+import type { FormOptions } from "../types";
 
 /**
  * Check if a method is natively supported by the form element
  */
 function isNativeFormMethod(method: string): boolean {
-  return ['get', 'post'].includes(method)
+  return ["get", "post"].includes(method);
 }
 
 /**
  * Convert an URL to a relative path
  */
 function urlToRelativePath(url: URL): string {
-  return url.toString().replace(url.origin, '')
+  return url.toString().replace(url.origin, "");
 }
 
 /**
@@ -48,91 +48,91 @@ export function useForm<TData, TError>({
   useErrorBoundary,
   ...props
 }: FormOptions<TData, TError>) {
-  const hydration = useHydration()
+  const hydration = useHydration();
 
   if (hydration.id) {
-    hydrationManager.requireRoute(action)
+    hydrationManager.requireRoute(action);
   }
 
   if (!noReload && hooks) {
-    throw FormException.cannotUseHooksWhenReloading(action)
+    throw FormException.cannotUseHooksWhenReloading(action);
   }
 
   if (noReload && !hydration.id) {
-    throw FormException.cannotFetchWithoutHydration(action)
+    throw FormException.cannotFetchWithoutHydration(action);
   }
 
-  const formRef = useRef<HTMLFormElement | null>(null)
-  const urlBuilder = useUrlBuilder()
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const urlBuilder = useUrlBuilder();
 
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://internal'),
+    () => new URL(urlBuilder.make(action, { params, queryParams }), "http://internal"),
     [urlBuilder, action, params, queryParams]
-  )
+  );
 
   const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(
     async (formData: FormData) => {
       const requestInit: RequestInit = {
         method,
         headers: {
-          'Accept': 'application/json',
-          'X-Radonis-Request': 'true',
+          "Accept": "application/json",
+          "X-Radonis-Request": "true",
         },
-      }
+      };
 
       switch (method) {
-        case 'get': {
+        case "get": {
           for (const entity of formData.entries()) {
-            requestUrl.searchParams.append(entity[0], entity[1].toString())
+            requestUrl.searchParams.append(entity[0], entity[1].toString());
           }
 
-          break
+          break;
         }
         default: {
-          requestInit.body = formData
+          requestInit.body = formData;
         }
       }
 
-      const response = await fetch(urlToRelativePath(requestUrl), requestInit)
+      const response = await fetch(urlToRelativePath(requestUrl), requestInit);
 
       if (!response.ok) {
-        throw FormException.requestFailed(action, response.status)
+        throw FormException.requestFailed(action, response.status);
       }
 
-      const json = await response.json()
+      const json = await response.json();
 
-      return superjson.deserialize(json)
+      return superjson.deserialize(json);
     },
     { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
-  )
+  );
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
-      if (event.defaultPrevented) return
-      event.preventDefault()
+      if (event.defaultPrevented) return;
+      event.preventDefault();
 
-      mutate(new FormData(event.currentTarget))
+      mutate(new FormData(event.currentTarget));
     },
     [mutate]
-  )
+  );
 
   const getFormProps = () => ({
     onSubmit: noReload ? submitHandler : undefined,
     ref: formRef,
     ...props,
     get action() {
-      const actionUrl = new URL(requestUrl)
+      const actionUrl = new URL(requestUrl);
 
       if (!isNativeFormMethod(method)) {
-        actionUrl.searchParams.append('_method', method)
+        actionUrl.searchParams.append("_method", method);
       }
 
-      return urlToRelativePath(actionUrl)
+      return urlToRelativePath(actionUrl);
     },
     get method() {
-      return isNativeFormMethod(method) ? method : 'post'
+      return isNativeFormMethod(method) ? method : "post";
     },
-  })
+  });
 
   return {
     status,
@@ -140,5 +140,5 @@ export function useForm<TData, TError>({
     error,
     ref: formRef,
     getFormProps,
-  }
+  };
 }

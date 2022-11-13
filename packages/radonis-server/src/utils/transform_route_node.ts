@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteNode } from '@ioc:Adonis/Core/Route'
-import type { Route } from '@microeinhundert/radonis-types'
+import type { RouteNode } from "@ioc:Adonis/Core/Route";
+import type { Route } from "@microeinhundert/radonis-types";
 
-import { getRouteIdentifier } from './get_route_identifier'
+import { getRouteIdentifier } from "./get_route_identifier";
 
 /**
  * Transform a RouteNode to match the shape expected by the manifest
@@ -22,5 +22,5 @@ export function transformRouteNode(routeNode: RouteNode): Route {
     pattern: routeNode.pattern,
     params: {},
     searchParams: {},
-  }
+  };
 }

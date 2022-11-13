@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { HookException } from '../../exceptions/hook_exception'
-import { useServer } from './use_server'
+import { HookException } from "../../exceptions/hook_exception";
+import { useServer } from "./use_server";
 
 /**
  * Hook for retrieving the AdonisJS `RouterContract`
@@ -16,10 +16,10 @@ import { useServer } from './use_server'
  */
 export function useRouter() {
   try {
-    const { router } = useServer()
+    const { router } = useServer();
 
-    return router
+    return router;
   } catch {
-    throw HookException.cannotUseOnClient('useRouter')
+    throw HookException.cannotUseOnClient("useRouter");
   }
 }

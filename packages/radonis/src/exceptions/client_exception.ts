@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { RadonisException } from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES,
   E_CANNOT_INIT_CLIENT_ON_SERVER,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to the client
@@ -24,17 +24,17 @@ export class ClientException extends RadonisException {
       E_CANNOT_INIT_CLIENT_ON_SERVER.message,
       E_CANNOT_INIT_CLIENT_ON_SERVER.status,
       E_CANNOT_INIT_CLIENT_ON_SERVER.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotInitClientMultipleTimes() {
     const error = new this(
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.message,
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.status,
       E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

@@ -7,21 +7,21 @@
  * file that was distributed with this source code.
  */
 
-import { serverContext } from '@microeinhundert/radonis-server/standalone'
-import { useContext } from 'react'
+import { serverContext } from "@microeinhundert/radonis-server/standalone";
+import { useContext } from "react";
 
-import { HookException } from '../../exceptions/hook_exception'
+import { HookException } from "../../exceptions/hook_exception";
 
 /**
  * Hook for retrieving the Radonis `ServerContract`
  * @see https://radonis.vercel.app/docs/hooks/use-server
  */
 export function useServer() {
-  const context = useContext(serverContext)
+  const context = useContext(serverContext);
 
   if (!context) {
-    throw HookException.cannotUseOnClient('useServer')
+    throw HookException.cannotUseOnClient("useServer");
   }
 
-  return context
+  return context;
 }

@@ -7,30 +7,30 @@
  * file that was distributed with this source code.
  */
 
-import type { Loader } from 'esbuild'
-import { extname } from 'path'
+import type { Loader } from "esbuild";
+import { extname } from "path";
 
-import { BuildException } from './exceptions/build_exception'
+import { BuildException } from "./exceptions/build_exception";
 
 /**
  * @internal
  */
 export const loaders: Record<string, Loader> = {
-  '.js': 'js',
-  '.jsx': 'jsx',
-  '.ts': 'ts',
-  '.tsx': 'tsx',
-}
+  ".js": "js",
+  ".jsx": "jsx",
+  ".ts": "ts",
+  ".tsx": "tsx",
+};
 
 /**
  * @internal
  */
 export function getLoaderForFile(fileNameOrPath: string): Loader {
-  const ext = extname(fileNameOrPath)
+  const ext = extname(fileNameOrPath);
 
   if (!(ext in loaders)) {
-    throw BuildException.cannotGetFileLoader(fileNameOrPath)
+    throw BuildException.cannotGetFileLoader(fileNameOrPath);
   }
 
-  return loaders[ext]
+  return loaders[ext];
 }

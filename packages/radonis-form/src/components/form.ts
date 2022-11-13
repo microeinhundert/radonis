@@ -7,29 +7,29 @@
  * file that was distributed with this source code.
  */
 
-import { createElement as h } from 'react'
+import { createElement as h } from "react";
 
-import { useForm } from '../hooks/use_form'
-import type { FormProps } from '../types'
+import { useForm } from "../hooks/use_form";
+import type { FormProps } from "../types";
 
 /**
  * Component extending the default form behavior
  * @see https://radonis.vercel.app/docs/forms
  */
 export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
-  const form = useForm<TData, TError>(props)
+  const form = useForm<TData, TError>(props);
 
   return h(
-    'form',
+    "form",
     form.getFormProps(),
-    typeof children === 'function'
+    typeof children === "function"
       ? children({
           data: form.data ?? null,
           error: form.error ?? null,
           status: form.status,
         })
       : children
-  )
+  );
 }
 
-Form.displayName = 'RadonisForm'
+Form.displayName = "RadonisForm";

@@ -10,12 +10,12 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_MISSING_HOST_HEADER,
   E_REQUEST_FAILED,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to querying
@@ -27,9 +27,9 @@ export class QueryException extends RadonisException {
       E_MISSING_HOST_HEADER.message,
       E_MISSING_HOST_HEADER.status,
       E_MISSING_HOST_HEADER.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static requestFailed(
     routeIdentifier: string,
@@ -41,8 +41,8 @@ export class QueryException extends RadonisException {
       }),
       status || E_REQUEST_FAILED.status,
       E_REQUEST_FAILED.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

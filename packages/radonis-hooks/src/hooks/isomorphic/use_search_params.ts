@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { useRoute } from './use_route'
+import { useRoute } from "./use_route";
 
 /**
  * Hook for retrieving the search params of the current route
  * @see https://radonis.vercel.app/docs/hooks/use-search-params
  */
 export function useSearchParams() {
-  const { current } = useRoute()
+  const { current } = useRoute();
 
-  return current.searchParams
+  return current.searchParams;
 }

@@ -22,7 +22,11 @@ export default class AuthController {
 
     await auth.login(user);
 
-    return response.redirect().toRoute('DashboardController.index');
+    if (request.accepts(['html'])) {
+      return response.redirect().toRoute('DashboardController.index');
+    }
+
+    return response.json(true);
   }
 
   /*
@@ -41,24 +45,36 @@ export default class AuthController {
     try {
       await auth.attempt(email, password, rememberMe);
 
-      return response.redirect().toRoute('DashboardController.index');
-    } catch {
-      session.flash({
-        errors: {
-          invalidEmailOrPassword: i18n.formatMessage('validator.invalidEmailOrPassword'),
-        },
-      });
+      if (request.accepts(['html'])) {
+        return response.redirect().toRoute('DashboardController.index');
+      }
 
-      return response.redirect().back();
+      return response.json(true);
+    } catch {
+      if (request.accepts(['html'])) {
+        session.flash({
+          errors: {
+            invalidEmailOrPassword: i18n.formatMessage('validator.invalidEmailOrPassword'),
+          },
+        });
+
+        return response.redirect().toRoute('DashboardController.index');
+      }
+
+      return response.json(false);
     }
   }
 
   /*
    * signOut action
    */
-  public signOut({ response, auth }: HttpContextContract) {
+  public signOut({ response, request, auth }: HttpContextContract) {
     auth.logout();
 
-    return response.redirect().toRoute('HomeController.index');
+    if (request.accepts(['html'])) {
+      return response.redirect().toRoute('HomeController.index');
+    }
+
+    return response.json(true);
   }
 }

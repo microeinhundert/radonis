@@ -7,24 +7,24 @@
  * file that was distributed with this source code.
  */
 
-import { useFlushEffect, useRenderer } from '@microeinhundert/radonis'
-import { dehydrate, useQueryClient } from '@tanstack/react-query'
+import { useFlushEffect, useRenderer } from "@microeinhundert/radonis";
+import { dehydrate, useQueryClient } from "@tanstack/react-query";
 
-import type { QueryDehydratorProps } from '../types'
+import type { QueryDehydratorProps } from "../types";
 
 /**
  * The component for dehydrating queries
  * @internal
  */
 export function QueryDehydrator({ children }: QueryDehydratorProps) {
-  const renderer = useRenderer()
-  const queryClient = useQueryClient()
+  const renderer = useRenderer();
+  const queryClient = useQueryClient();
 
   useFlushEffect(() => {
-    renderer.withGlobals({ dehydratedQueryState: dehydrate(queryClient) })
-  })
+    renderer.withGlobals({ dehydratedQueryState: dehydrate(queryClient) });
+  });
 
-  return children
+  return children;
 }
 
-QueryDehydrator.displayName = 'RadonisQueryDehydrator'
+QueryDehydrator.displayName = "RadonisQueryDehydrator";

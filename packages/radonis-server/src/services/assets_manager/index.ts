@@ -7,19 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { ApplicationContract } from "@ioc:Adonis/Core/Application";
+import type { RadonisConfig } from "@ioc:Microeinhundert/Radonis";
 import {
   extractRequiredAssets,
   generateAssetsManifest,
   readBuildManifestFromDisk,
-} from '@microeinhundert/radonis-build'
+} from "@microeinhundert/radonis-build";
 import type {
   AssetsManagerContract,
   AssetsManifest,
   ComponentIdentifier,
   Resettable,
-} from '@microeinhundert/radonis-types'
+} from "@microeinhundert/radonis-types";
 
 /**
  * Service for managing assets
@@ -29,46 +29,46 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: AssetsManager
+  static instance?: AssetsManager;
 
   /**
    * Get the singleton instance
    */
   static getSingletonInstance(...args: ConstructorParameters<typeof AssetsManager>): AssetsManager {
-    return (AssetsManager.instance = AssetsManager.instance ?? new AssetsManager(...args))
+    return (AssetsManager.instance = AssetsManager.instance ?? new AssetsManager(...args));
   }
 
   /**
    * The Radonis config
    */
-  #config: RadonisConfig
+  #config: RadonisConfig;
 
   /**
    * The public path
    */
-  #publicPath: string
+  #publicPath: string;
 
   /**
    * The assets manifest
    */
-  #assetsManifest: AssetsManifest
+  #assetsManifest: AssetsManifest;
 
   /**
    * The required components
    */
-  #requiredComponents: Set<ComponentIdentifier>
+  #requiredComponents: Set<ComponentIdentifier>;
 
   /**
    * Constructor
    */
   constructor(config: RadonisConfig, application: ApplicationContract) {
-    this.#config = config
+    this.#config = config;
 
-    this.#publicPath = application.publicPath('radonis')
+    this.#publicPath = application.publicPath("radonis");
 
-    this.#assetsManifest = []
+    this.#assetsManifest = [];
 
-    this.#setDefaults()
+    this.#setDefaults();
   }
 
   /**
@@ -81,32 +81,32 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
         components: this.#requiredComponents,
       },
       !this.#config.client.alwaysIncludeEntryFile
-    )
+    );
   }
 
   /**
    * Require a component
    */
   requireComponent(identifier: ComponentIdentifier): void {
-    this.#requiredComponents.add(identifier)
+    this.#requiredComponents.add(identifier);
   }
 
   /**
    * Read the build manifest
    */
   async readBuildManifest(): Promise<void> {
-    const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
+    const buildManifest = await readBuildManifestFromDisk(this.#publicPath);
 
     if (!buildManifest) {
-      this.#assetsManifest = []
-      return
+      this.#assetsManifest = [];
+      return;
     }
 
     try {
-      const assetsManifest = await generateAssetsManifest(buildManifest)
-      this.#assetsManifest = assetsManifest
+      const assetsManifest = await generateAssetsManifest(buildManifest);
+      this.#assetsManifest = assetsManifest;
     } catch {
-      this.#assetsManifest = []
+      this.#assetsManifest = [];
     }
   }
 
@@ -114,13 +114,13 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    * Reset for a new request
    */
   reset(): void {
-    this.#setDefaults()
+    this.#setDefaults();
   }
 
   /**
    * Set the defaults
    */
   #setDefaults(): void {
-    this.#requiredComponents = new Set()
+    this.#requiredComponents = new Set();
   }
 }

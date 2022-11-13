@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { FlushCallback } from '@microeinhundert/radonis-types'
+import type { FlushCallback } from "@microeinhundert/radonis-types";
 
-import { useRenderer } from '../server/use_renderer'
+import { useRenderer } from "../server/use_renderer";
 
 /**
  * Hook for injecting effects to be executed after rendering
@@ -17,9 +17,9 @@ import { useRenderer } from '../server/use_renderer'
  */
 export function useFlushEffect(callback: FlushCallback) {
   try {
-    const renderer = useRenderer()
+    const renderer = useRenderer();
 
-    renderer.withFlushCallbacks([callback])
+    renderer.withFlushCallbacks([callback]);
   } catch {
     /**
      * Don't throw when used on the client

@@ -15,7 +15,7 @@
     "status": 500
   },
   "E_CANNOT_GET_FILE_LOADER": {
-    "message": "Cannot get loader for file at \"{{ filePath }}\". This most likely means the file type you tried importing is currently not supported by Radonis",
+    "message": "Cannot get loader for file at \"{{ filePath }}\". This most likely means the file type you tried to import is currently not supported by Radonis. You can add support for this file type yourself by overriding the esbuild configuration from inside the Radonis config file",
     "code": "E_CANNOT_GET_FILE_LOADER",
     "status": 500
   }

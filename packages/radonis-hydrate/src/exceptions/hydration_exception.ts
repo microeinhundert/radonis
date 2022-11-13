@@ -10,7 +10,7 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_HYDRATE,
@@ -19,7 +19,7 @@ import {
   E_MISSING_HYDRATION_DATA,
   E_MISSING_MANIFEST,
   E_NOT_HYDRATABLE,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to hydration
@@ -33,9 +33,9 @@ export class HydrationException extends RadonisException {
       }),
       E_NOT_HYDRATABLE.status,
       E_NOT_HYDRATABLE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotHydrateWithChildren(
     hydrationRootId: string,
@@ -48,9 +48,9 @@ export class HydrationException extends RadonisException {
       }),
       E_CANNOT_HYDRATE_WITH_CHILDREN.status,
       E_CANNOT_HYDRATE_WITH_CHILDREN.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static missingHydrationData(hydrationRootId: string) {
     const error = new this(
@@ -59,9 +59,9 @@ export class HydrationException extends RadonisException {
       }),
       E_MISSING_HYDRATION_DATA.status,
       E_MISSING_HYDRATION_DATA.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotHydrate(
     hydrationRootId: string,
@@ -74,9 +74,9 @@ export class HydrationException extends RadonisException {
       }),
       E_CANNOT_HYDRATE.status,
       E_CANNOT_HYDRATE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static componentAlreadyRegistered(
     componentIdentifier: string
@@ -87,17 +87,17 @@ export class HydrationException extends RadonisException {
       }),
       E_COMPONENT_ALREADY_REGISTERED.status,
       E_COMPONENT_ALREADY_REGISTERED.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static missingManifest() {
     const error = new this(
       E_MISSING_MANIFEST.message,
       E_MISSING_MANIFEST.status,
       E_MISSING_MANIFEST.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

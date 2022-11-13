@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { separateArray } from '@microeinhundert/radonis-shared'
+import { separateArray } from "@microeinhundert/radonis-shared";
 
 /**
  * Build the value for the head title tag
@@ -16,5 +16,5 @@ export function buildTitle(title: string, prefix: string, suffix: string, separa
   return separateArray(
     [prefix, title, suffix].filter(Boolean).map((part) => part.trim()),
     separator
-  ).join(' ')
+  ).join(" ");
 }

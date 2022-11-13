@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import type { RouteIdentifier } from '@microeinhundert/radonis'
-import { useUrlBuilder } from '@microeinhundert/radonis'
-import { useQuery } from '@tanstack/react-query'
-import { useContext } from 'react'
-import superjson from 'superjson'
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import type { RouteIdentifier } from "@microeinhundert/radonis";
+import { useUrlBuilder } from "@microeinhundert/radonis";
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import superjson from "superjson";
 
-import { baseUrlContext } from '../contexts/base_url_context'
-import { QueryException } from '../exceptions/query_exception'
-import type { ServerQueryOptions } from '../types'
+import { baseUrlContext } from "../contexts/base_url_context";
+import { QueryException } from "../exceptions/query_exception";
+import type { ServerQueryOptions } from "../types";
 
 /**
  * Hook for querying server data in React components
@@ -26,31 +26,31 @@ export function useServerQuery<TControllerAction extends (ctx: HttpContextContra
   routeIdentifier: RouteIdentifier,
   options?: ServerQueryOptions<Awaited<ReturnType<TControllerAction>>, TError>
 ) {
-  const urlBuilder = useUrlBuilder()
-  const baseUrl = useContext(baseUrlContext)
+  const urlBuilder = useUrlBuilder();
+  const baseUrl = useContext(baseUrlContext);
 
   const url = urlBuilder.make(routeIdentifier, {
     baseUrl,
     params: options?.params,
     queryParams: options?.queryParams,
-  })
+  });
 
-  const urlQueryKey = url.replace(baseUrl ?? '', '').split('/')
-  const queryKey = [routeIdentifier, urlQueryKey, options?.query?.queryKey].flat().filter(Boolean)
+  const urlQueryKey = url.replace(baseUrl ?? "", "").split("/");
+  const queryKey = [routeIdentifier, urlQueryKey, options?.query?.queryKey].flat().filter(Boolean);
 
   const queryFn = async () => {
     const response = await fetch(url, {
-      headers: { ...options?.headers, 'Accept': 'application/json', 'X-Radonis-Request': 'true' },
-    })
+      headers: { ...options?.headers, "Accept": "application/json", "X-Radonis-Request": "true" },
+    });
 
     if (!response.ok) {
-      throw QueryException.requestFailed(routeIdentifier, response.status)
+      throw QueryException.requestFailed(routeIdentifier, response.status);
     }
 
-    const json = await response.json()
+    const json = await response.json();
 
-    return superjson.deserialize<any>(json)
-  }
+    return superjson.deserialize<any>(json);
+  };
 
-  return useQuery<Awaited<ReturnType<TControllerAction>>, TError>(queryKey, queryFn, options?.query)
+  return useQuery<Awaited<ReturnType<TControllerAction>>, TError>(queryKey, queryFn, options?.query);
 }

@@ -11,12 +11,12 @@
  * file that was distributed with this source code.
  */
 
-import type { Reducer } from 'react'
-import { useCallback, useReducer, useRef } from 'react'
+import type { Reducer } from "react";
+import { useCallback, useReducer, useRef } from "react";
 
-import type { MutationOptions, MutationResult, MutationStatus } from '../../types'
-import { useGetLatest } from './internal/use_get_latest'
-import { useSafeCallback } from './internal/use_safe_callback'
+import type { MutationOptions, MutationResult, MutationStatus } from "../../types";
+import { useGetLatest } from "./internal/use_get_latest";
+import { useSafeCallback } from "./internal/use_safe_callback";
 
 /**
  * Hook for dispatching mutations
@@ -33,89 +33,89 @@ export function useMutation<TInput, TData, TError>(
     useErrorBoundary = false,
   }: MutationOptions<TInput, TData, TError> = {}
 ): MutationResult<TInput, TData, TError> {
-  type State = { status: MutationStatus; data?: TData; error?: TError }
+  type State = { status: MutationStatus; data?: TData; error?: TError };
 
   type Action =
-    | { type: 'RESET' }
-    | { type: 'MUTATE' }
-    | { type: 'SUCCESS'; data: TData }
-    | { type: 'FAILURE'; error: TError }
+    | { type: "RESET" }
+    | { type: "MUTATE" }
+    | { type: "SUCCESS"; data: TData }
+    | { type: "FAILURE"; error: TError };
 
   const [{ status, data, error }, unsafeDispatch] = useReducer<Reducer<State, Action>>(
     function reducer(_, action) {
       switch (action.type) {
-        case 'RESET':
-          return { status: 'idle' }
-        case 'MUTATE':
-          return { status: 'running' }
-        case 'SUCCESS':
-          return { status: 'success', data: action.data }
-        case 'FAILURE':
-          return { status: 'failure', error: action.error }
+        case "RESET":
+          return { status: "idle" };
+        case "MUTATE":
+          return { status: "loading" };
+        case "SUCCESS":
+          return { status: "success", data: action.data };
+        case "FAILURE":
+          return { status: "failure", error: action.error };
         default:
-          throw Error('Invalid action')
+          throw Error("Invalid action");
       }
     },
-    { status: 'idle' }
-  )
+    { status: "idle" }
+  );
 
-  const getMutationFunction = useGetLatest(mutationFunction)
-  const latestMutation = useRef(0)
-  const safeDispatch = useSafeCallback(unsafeDispatch)
+  const getMutationFunction = useGetLatest(mutationFunction);
+  const latestMutation = useRef(0);
+  const safeDispatch = useSafeCallback(unsafeDispatch);
 
   const mutate = useCallback(
     async (
       input: TInput,
-      config: Omit<MutationOptions<TInput, TData, TError>, 'onMutate' | 'useErrorBoundary'> = {}
+      config: Omit<MutationOptions<TInput, TData, TError>, "onMutate" | "useErrorBoundary"> = {}
     ) => {
-      const mutation = Date.now()
-      latestMutation.current = mutation
+      const mutation = Date.now();
+      latestMutation.current = mutation;
 
-      safeDispatch({ type: 'MUTATE' })
+      safeDispatch({ type: "MUTATE" });
 
-      const rollback = await onMutate?.({ input })
+      const rollback = await onMutate?.({ input });
 
       try {
-        const data = await getMutationFunction()(input)
+        const data = await getMutationFunction()(input);
 
         if (latestMutation.current === mutation) {
-          safeDispatch({ type: 'SUCCESS', data })
+          safeDispatch({ type: "SUCCESS", data });
         }
 
-        await onSuccess?.({ data, input })
-        await config.onSuccess?.({ data, input })
+        await onSuccess?.({ data, input });
+        await config.onSuccess?.({ data, input });
 
-        await onSettled?.({ status: 'success', data, input })
-        await config.onSettled?.({ status: 'success', data, input })
+        await onSettled?.({ status: "success", data, input });
+        await config.onSettled?.({ status: "success", data, input });
 
-        return data
+        return data;
       } catch (error) {
-        await onFailure?.({ error, rollback, input })
-        await config.onFailure?.({ error, rollback, input })
+        await onFailure?.({ error, rollback, input });
+        await config.onFailure?.({ error, rollback, input });
 
-        await onSettled?.({ status: 'failure', error, input, rollback })
+        await onSettled?.({ status: "failure", error, input, rollback });
         await config.onSettled?.({
-          status: 'failure',
+          status: "failure",
           error,
           input,
           rollback,
-        })
+        });
 
         if (latestMutation.current === mutation) {
-          safeDispatch({ type: 'FAILURE', error })
+          safeDispatch({ type: "FAILURE", error });
         }
 
-        if (config.throwOnFailure ?? throwOnFailure) throw error
+        if (config.throwOnFailure ?? throwOnFailure) throw error;
 
-        return
+        return;
       }
     },
     [getMutationFunction, onFailure, onMutate, onSettled, onSuccess, safeDispatch, throwOnFailure]
-  )
+  );
 
-  const reset = useCallback(() => safeDispatch({ type: 'RESET' }), [safeDispatch])
+  const reset = useCallback(() => safeDispatch({ type: "RESET" }), [safeDispatch]);
 
-  if (useErrorBoundary && error) throw error
+  if (useErrorBoundary && error) throw error;
 
-  return [mutate, { status, data, error, reset }]
+  return [mutate, { status, data, error, reset }];
 }

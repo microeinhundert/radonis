@@ -7,22 +7,22 @@
  * file that was distributed with this source code.
  */
 
-import { useHydration } from '@microeinhundert/radonis-hydrate'
+import { useHydration } from "@microeinhundert/radonis-hydrate";
 
-import { hydrationManager } from '../../singletons'
-import { useManifest } from './use_manifest'
+import { hydrationManager } from "../../singletons";
+import { useManifest } from "./use_manifest";
 
 /**
  * Hook for retrieving all routes available in the application
  * @see https://radonis.vercel.app/docs/hooks/use-routes
  */
 export function useRoutes() {
-  const { routes } = useManifest()
-  const hydration = useHydration()
+  const { routes } = useManifest();
+  const hydration = useHydration();
 
   if (hydration.id) {
-    hydrationManager.requireRoute('*')
+    hydrationManager.requireRoute("*");
   }
 
-  return routes
+  return routes;
 }

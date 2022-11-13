@@ -10,4 +10,4 @@
 /**
  * @internal
  */
-export const ERRORS_NAMESPACE = 'errors'
+export const ERRORS_NAMESPACE = "errors";

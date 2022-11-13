@@ -7,22 +7,22 @@
  * file that was distributed with this source code.
  */
 
-import { isServer } from '@microeinhundert/radonis-shared'
-import { startTransition } from 'react'
+import { isServer } from "@microeinhundert/radonis-shared";
+import { startTransition } from "react";
 
-import { ClientException } from './exceptions/client_exception'
-import { hydrator, pluginsManager } from './singletons'
-import type { ClientOptions } from './types'
+import { ClientException } from "./exceptions/client_exception";
+import { hydrator, pluginsManager } from "./singletons";
+import type { ClientOptions } from "./types";
 
-let isClientInitialized = false
+let isClientInitialized = false;
 
 /**
  * Hydrate the page
  */
 function hydrate() {
   startTransition(() => {
-    hydrator.hydrateRoots()
-  })
+    hydrator.hydrateRoots();
+  });
 }
 
 /**
@@ -30,22 +30,22 @@ function hydrate() {
  */
 export async function initClient(options?: ClientOptions): Promise<void> {
   if (isServer) {
-    throw ClientException.cannotInitClientOnServer()
+    throw ClientException.cannotInitClientOnServer();
   }
   if (isClientInitialized) {
-    throw ClientException.cannotInitClientMultipleTimes()
+    throw ClientException.cannotInitClientMultipleTimes();
   }
 
-  isClientInitialized = true
+  isClientInitialized = true;
 
   if (options?.plugins?.length) {
-    pluginsManager.install('client', ...options.plugins)
-    await pluginsManager.execute('onInitClient', null, null)
+    pluginsManager.install("client", ...options.plugins);
+    await pluginsManager.execute("onInitClient", null, null);
   }
 
   if (window.requestIdleCallback) {
-    window.requestIdleCallback(hydrate)
+    window.requestIdleCallback(hydrate);
   } else {
-    window.setTimeout(hydrate, 1)
+    window.setTimeout(hydrate, 1);
   }
 }

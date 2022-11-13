@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteNode } from '@ioc:Adonis/Core/Route'
-import type { RouteIdentifier } from '@microeinhundert/radonis'
+import type { RouteNode } from "@ioc:Adonis/Core/Route";
+import type { RouteIdentifier } from "@microeinhundert/radonis";
 
 /**
  * Get the route identifier
  * @internal
  */
 export function getRouteIdentifier(routeNode: RouteNode | undefined): RouteIdentifier | undefined {
-  return typeof routeNode?.handler === 'string' ? routeNode.handler : routeNode?.name
+  return typeof routeNode?.handler === "string" ? routeNode.handler : routeNode?.name;
 }

@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export { HydrationRoot } from './components/hydration_root'
-export { hydrationContext, HydrationContextProvider } from './contexts/hydration_context'
-export { useHydrated } from './hooks/use_hydrated'
-export { useHydration } from './hooks/use_hydration'
-export { hydratable } from './hydratable'
-export { Hydrator } from './hydrator'
+export { HydrationRoot } from "./components/hydration_root";
+export { hydrationContext, HydrationContextProvider } from "./contexts/hydration_context";
+export { useHydrated } from "./hooks/use_hydrated";
+export { useHydration } from "./hooks/use_hydration";
+export { hydratable } from "./hydratable";
+export { Hydrator } from "./hydrator";

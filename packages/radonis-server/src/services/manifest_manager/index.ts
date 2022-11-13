@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { isProduction } from '@microeinhundert/radonis-shared'
+import type { ApplicationContract } from "@ioc:Adonis/Core/Application";
+import type { RadonisConfig } from "@ioc:Microeinhundert/Radonis";
+import { isProduction } from "@microeinhundert/radonis-shared";
 import type {
   ComponentIdentifier,
   FlashMessages,
@@ -23,11 +23,11 @@ import type {
   Resettable,
   Route,
   Routes,
-} from '@microeinhundert/radonis-types'
-import superjson from 'superjson'
+} from "@microeinhundert/radonis-types";
+import superjson from "superjson";
 
-import { ServerException } from '../../exceptions/server_exception'
-import { DEFAULT_LOCALE } from './constants'
+import { ServerException } from "../../exceptions/server_exception";
+import { DEFAULT_LOCALE } from "./constants";
 
 /**
  * Service for managing the manifest
@@ -37,54 +37,54 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The singleton instance
    */
-  static instance?: ManifestManager
+  static instance?: ManifestManager;
 
   /**
    * Get the singleton instance
    */
   static getSingletonInstance(...args: ConstructorParameters<typeof ManifestManager>): ManifestManager {
-    return (ManifestManager.instance = ManifestManager.instance ?? new ManifestManager(...args))
+    return (ManifestManager.instance = ManifestManager.instance ?? new ManifestManager(...args));
   }
 
   /**
    * The Radonis config
    */
-  #config: RadonisConfig
+  #config: RadonisConfig;
 
   /**
    * The HydrationManager instance
    */
-  #hydrationManager: HydrationManagerContract
+  #hydrationManager: HydrationManagerContract;
 
   /**
    * The hydration
    */
-  #hydration: Hydration
+  #hydration: Hydration;
 
   /**
    * The globals
    */
-  #globals: Globals
+  #globals: Globals;
 
   /**
    * The locale
    */
-  #locale: Locale
+  #locale: Locale;
 
   /**
    * The current route
    */
-  #route: Route | null
+  #route: Route | null;
 
   /**
    * Constructor
    */
   constructor(config: RadonisConfig, application: ApplicationContract) {
-    this.#config = config
+    this.#config = config;
 
-    this.#hydrationManager = application.container.resolveBinding('Microeinhundert/Radonis/HydrationManager')
+    this.#hydrationManager = application.container.resolveBinding("Microeinhundert/Radonis/HydrationManager");
 
-    this.#setDefaults()
+    this.#setDefaults();
   }
 
   /**
@@ -99,7 +99,7 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
       flashMessages: this.flashMessages,
       messages: this.messages,
       routes: this.routes,
-    }
+    };
   }
 
   /**
@@ -114,71 +114,71 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
       flashMessages: this.#config.client.limitManifest ? this.flashMessagesRequiredForHydration : this.flashMessages,
       messages: this.#config.client.limitManifest ? this.messagesRequiredForHydration : this.messages,
       routes: this.#config.client.limitManifest ? this.routesRequiredForHydration : this.routes,
-    }
+    };
   }
 
   /**
    * The flash messages
    */
   get flashMessages(): FlashMessages {
-    return this.#hydrationManager.flashMessages
+    return this.#hydrationManager.flashMessages;
   }
   get flashMessagesRequiredForHydration(): FlashMessages {
-    return this.#hydrationManager.requiredFlashMessages
+    return this.#hydrationManager.requiredFlashMessages;
   }
 
   /**
    * Set the flash messages
    */
   setFlashMessages(flashMessages: FlashMessages): this {
-    this.#hydrationManager.setFlashMessages(flashMessages)
+    this.#hydrationManager.setFlashMessages(flashMessages);
 
-    return this
+    return this;
   }
 
   /**
    * The messages
    */
   get messages(): Messages {
-    return this.#hydrationManager.messages
+    return this.#hydrationManager.messages;
   }
   get messagesRequiredForHydration(): Messages {
-    return this.#hydrationManager.requiredMessages
+    return this.#hydrationManager.requiredMessages;
   }
 
   /**
    * Set the messages
    */
   setMessages(messages: Messages): this {
-    this.#hydrationManager.setMessages(messages)
+    this.#hydrationManager.setMessages(messages);
 
-    return this
+    return this;
   }
 
   /**
    * The routes
    */
   get routes(): Routes {
-    return this.#hydrationManager.routes
+    return this.#hydrationManager.routes;
   }
   get routesRequiredForHydration(): Routes {
-    return this.#hydrationManager.requiredRoutes
+    return this.#hydrationManager.requiredRoutes;
   }
 
   /**
    * Set the routes
    */
   setRoutes(routes: Routes): this {
-    this.#hydrationManager.setRoutes(routes)
+    this.#hydrationManager.setRoutes(routes);
 
-    return this
+    return this;
   }
 
   /**
    * The hydration
    */
   get hydration(): Hydration {
-    return this.#hydration
+    return this.#hydration;
   }
 
   /**
@@ -192,57 +192,57 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
     this.#hydration = {
       ...this.#hydration,
       [hydrationRootId]: { componentIdentifier, props },
-    }
+    };
 
-    return this
+    return this;
   }
 
   /**
    * The globals
    */
   get globals(): Globals {
-    return this.#globals
+    return this.#globals;
   }
 
   /**
    * Add globals
    */
   addGlobals(globals: Globals): this {
-    this.#globals = { ...this.#globals, ...globals }
+    this.#globals = { ...this.#globals, ...globals };
 
-    return this
+    return this;
   }
 
   /**
    * The locale
    */
   get locale(): Locale {
-    return this.#locale
+    return this.#locale;
   }
 
   /**
    * Set the locale
    */
   setLocale(locale: Locale): this {
-    this.#locale = locale
+    this.#locale = locale;
 
-    return this
+    return this;
   }
 
   /**
    * The current route
    */
   get route(): Route | null {
-    return this.#route
+    return this.#route;
   }
 
   /**
    * Set the current route
    */
   setRoute(route: Route): this {
-    this.#route = route
+    this.#route = route;
 
-    return this
+    return this;
   }
 
   /**
@@ -250,10 +250,10 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
    */
   getClientManifestAsJSON(): string {
     try {
-      const serializedManifest = superjson.serialize(this.#clientManifest)
-      return JSON.stringify(serializedManifest, null, isProduction ? 0 : 2)
+      const serializedManifest = superjson.serialize(this.#clientManifest);
+      return JSON.stringify(serializedManifest, null, isProduction ? 0 : 2);
     } catch {
-      throw ServerException.cannotSerializeManifest()
+      throw ServerException.cannotSerializeManifest();
     }
   }
 
@@ -261,23 +261,23 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
    * Set the server manifest on the global scope
    */
   setServerManifestOnGlobalScope(): void {
-    globalThis.radonisManifest = this.#serverManifest
+    globalThis.radonisManifest = this.#serverManifest;
   }
 
   /**
    * Reset for a new request
    */
   reset(): void {
-    this.#setDefaults()
+    this.#setDefaults();
   }
 
   /**
    * Set the defaults
    */
   #setDefaults(): void {
-    this.#hydration = {}
-    this.#globals = {}
-    this.#locale = DEFAULT_LOCALE
-    this.#route = null
+    this.#hydration = {};
+    this.#globals = {};
+    this.#locale = DEFAULT_LOCALE;
+    this.#route = null;
   }
 }

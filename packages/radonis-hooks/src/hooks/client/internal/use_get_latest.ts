@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef } from "react";
 
 /**
  * @internal
  */
-export function useGetLatest<Value>(value: Value): () => Value {
-  const ref = useRef<Value>(value)
-  ref.current = value
+export function useGetLatest<TValue>(value: TValue): () => TValue {
+  const ref = useRef<TValue>(value);
+  ref.current = value;
 
-  return useCallback(() => ref.current, [])
+  return useCallback(() => ref.current, []);
 }

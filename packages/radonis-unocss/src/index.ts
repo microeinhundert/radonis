@@ -7,5 +7,5 @@
  * file that was distributed with this source code.
  */
 
-export { unocssPlugin } from './plugin'
-export { basePreflight, formsPreflight } from './preflight'
+export { unocssPlugin } from "./plugin";
+export { basePreflight, formsPreflight } from "./preflight";

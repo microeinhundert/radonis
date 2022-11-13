@@ -10,13 +10,13 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_FETCH_WITHOUT_HYDRATION,
   E_CANNOT_USE_HOOKS_WHEN_RELOADING,
   E_REQUEST_FAILED,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to forms
@@ -31,9 +31,9 @@ export class FormException extends RadonisException {
       ),
       E_CANNOT_USE_HOOKS_WHEN_RELOADING.status,
       E_CANNOT_USE_HOOKS_WHEN_RELOADING.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotFetchWithoutHydration(formAction: string) {
     const error = new this(
@@ -43,9 +43,9 @@ export class FormException extends RadonisException {
       ),
       E_CANNOT_FETCH_WITHOUT_HYDRATION.status,
       E_CANNOT_FETCH_WITHOUT_HYDRATION.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static requestFailed(
     routeIdentifier: string,
@@ -57,8 +57,8 @@ export class FormException extends RadonisException {
       }),
       status || E_REQUEST_FAILED.status,
       E_REQUEST_FAILED.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

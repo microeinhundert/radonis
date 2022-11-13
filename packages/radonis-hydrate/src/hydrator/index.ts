@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, Components, PluginsManagerContract } from '@microeinhundert/radonis-types'
-import type { ComponentType } from 'react'
-import { createElement as h, StrictMode } from 'react'
-import { hydrateRoot } from 'react-dom/client'
+import type { ComponentIdentifier, Components, PluginsManagerContract } from "@microeinhundert/radonis-types";
+import type { ComponentType } from "react";
+import { createElement as h, StrictMode } from "react";
+import { hydrateRoot } from "react-dom/client";
 
-import { HydrationContextProvider } from '../contexts/hydration_context'
-import { HydrationException } from '../exceptions/hydration_exception'
-import { HYDRATION_ROOT_SELECTOR } from './constants'
-import { getManifestOrFail } from './utils/get_manifest_or_fail'
+import { HydrationContextProvider } from "../contexts/hydration_context";
+import { HydrationException } from "../exceptions/hydration_exception";
+import { HYDRATION_ROOT_SELECTOR } from "./constants";
+import { getManifestOrFail } from "./utils/get_manifest_or_fail";
 
 /**
  * @internal
@@ -24,32 +24,32 @@ export class Hydrator {
   /**
    * The singleton instance
    */
-  static instance?: Hydrator
+  static instance?: Hydrator;
 
   /**
    * Get the singleton instance
    */
   static getSingletonInstance(...args: ConstructorParameters<typeof Hydrator>): Hydrator {
-    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...args))
+    return (Hydrator.instance = Hydrator.instance ?? new Hydrator(...args));
   }
 
   /**
    * The PluginsManager instance
    */
-  #pluginsManager: PluginsManagerContract
+  #pluginsManager: PluginsManagerContract;
 
   /**
    * The components
    */
-  #components: Components
+  #components: Components;
 
   /**
    * Constructor
    */
   constructor(pluginsManager: PluginsManagerContract) {
-    this.#pluginsManager = pluginsManager
+    this.#pluginsManager = pluginsManager;
 
-    this.#components = new Map()
+    this.#components = new Map();
   }
 
   /**
@@ -57,48 +57,48 @@ export class Hydrator {
    */
   registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
     if (this.#components.has(identifier)) {
-      throw HydrationException.componentAlreadyRegistered(identifier)
+      throw HydrationException.componentAlreadyRegistered(identifier);
     }
 
-    this.#components.set(identifier, Component)
+    this.#components.set(identifier, Component);
 
-    return this
+    return this;
   }
 
   /**
    * Hydrate the HydrationRoots
    */
   hydrateRoots(): this {
-    const hydrationRoots = document.querySelectorAll(HYDRATION_ROOT_SELECTOR)
-    const rootObserver = this.#createRootObserver()!
+    const hydrationRoots = document.querySelectorAll(HYDRATION_ROOT_SELECTOR);
+    const rootObserver = this.#createRootObserver()!;
 
     for (const hydrationRoot of hydrationRoots) {
-      rootObserver.observe(hydrationRoot)
+      rootObserver.observe(hydrationRoot);
     }
 
-    return this
+    return this;
   }
 
   /**
    * Hydrate a specific HydrationRoot
    */
   async #hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
-    const manifest = getManifestOrFail()
-    const hydrationRootId = hydrationRoot.dataset.hydrationRoot!
-    const hydration = manifest.hydration[hydrationRootId]
+    const manifest = getManifestOrFail();
+    const hydrationRootId = hydrationRoot.dataset.hydrationRoot!;
+    const hydration = manifest.hydration[hydrationRootId];
 
     if (!hydration) {
-      throw HydrationException.missingHydrationData(hydrationRootId)
+      throw HydrationException.missingHydrationData(hydrationRootId);
     }
 
-    const Component = this.#components.get(hydration.componentIdentifier)
+    const Component = this.#components.get(hydration.componentIdentifier);
 
     if (!Component) {
-      throw HydrationException.cannotHydrate(hydrationRootId, hydration.componentIdentifier)
+      throw HydrationException.cannotHydrate(hydrationRootId, hydration.componentIdentifier);
     }
 
     const tree = await this.#pluginsManager.execute(
-      'beforeHydrate',
+      "beforeHydrate",
       h(
         HydrationContextProvider,
         {
@@ -110,9 +110,9 @@ export class Hydrator {
         h(Component, hydration.props)
       ),
       null
-    )
+    );
 
-    hydrateRoot(hydrationRoot, h(StrictMode, null, tree))
+    hydrateRoot(hydrationRoot, h(StrictMode, null, tree));
   }
 
   /**
@@ -121,13 +121,13 @@ export class Hydrator {
   #createRootObserver(): IntersectionObserver | undefined {
     return new IntersectionObserver((observedHydrationRoots, observer) => {
       observedHydrationRoots.forEach(async (observedHydrationRoot) => {
-        if (!observedHydrationRoot.isIntersecting) return
+        if (!observedHydrationRoot.isIntersecting) return;
 
-        const hydrationRoot = observedHydrationRoot.target as HTMLElement
+        const hydrationRoot = observedHydrationRoot.target as HTMLElement;
 
-        await this.#hydrateRoot(hydrationRoot)
-        observer.unobserve(hydrationRoot)
-      })
-    })
+        await this.#hydrateRoot(hydrationRoot);
+        observer.unobserve(hydrationRoot);
+      });
+    });
   }
 }

@@ -39,11 +39,11 @@ export default class GardensController {
       userId: auth.user!.id,
     });
 
-    if (request.accepts(['json'])) {
-      return response.json(garden);
+    if (request.accepts(['html'])) {
+      return response.redirect().toRoute('GardensController.index');
     }
 
-    return response.redirect().toRoute('GardensController.index');
+    return response.json(garden);
   }
 
   /*
@@ -84,11 +84,11 @@ export default class GardensController {
 
     const updatedGarden = await garden.merge(data).save();
 
-    if (request.accepts(['json'])) {
-      return response.json(updatedGarden);
+    if (request.accepts(['html'])) {
+      return response.redirect().toRoute('GardensController.index');
     }
 
-    return response.redirect().toRoute('GardensController.index');
+    return response.json(updatedGarden);
   }
 
   /*
@@ -101,10 +101,10 @@ export default class GardensController {
 
     await garden.delete();
 
-    if (request.accepts(['json'])) {
-      return response.json(true);
+    if (request.accepts(['html'])) {
+      return response.redirect().back();
     }
 
-    return response.redirect().back();
+    return response.json(true);
   }
 }

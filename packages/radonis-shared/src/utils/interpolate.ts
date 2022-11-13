@@ -12,23 +12,23 @@
  */
 function uncurry(fn: any) {
   return function (...args: any[]) {
-    return Function.call.apply(fn, args)
-  }
+    return Function.call.apply(fn, args);
+  };
 }
 
 /**
  * Parse a prop
  */
 function parseProp(data: any, key: string) {
-  const tokens = key.split('.')
+  const tokens = key.split(".");
   while (tokens.length) {
-    if (data === null || typeof data !== 'object') {
-      return
+    if (data === null || typeof data !== "object") {
+      return;
     }
-    const token = tokens.shift()!
-    data = uncurry(Object.prototype.hasOwnProperty)(data, token) ? data[token] : undefined
+    const token = tokens.shift()!;
+    data = uncurry(Object.prototype.hasOwnProperty)(data, token) ? data[token] : undefined;
   }
-  return data
+  return data;
 }
 
 /**
@@ -38,9 +38,9 @@ function parseProp(data: any, key: string) {
 export function interpolate(input: string, data: any) {
   return input.replace(/(\\)?{{(.*?)}}/g, (_, escapeChar, key) => {
     if (escapeChar) {
-      return `{{${key}}}`
+      return `{{${key}}}`;
     }
 
-    return parseProp(data, key.trim())
-  })
+    return parseProp(data, key.trim());
+  });
 }

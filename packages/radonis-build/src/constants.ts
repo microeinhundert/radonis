@@ -10,24 +10,26 @@
 /**
  * @internal
  */
-export const COMPONENT_IDENTIFIER_REGEX = new RegExp(/hydratable\((\W+)?["'](?<identifier>\S+)["']/g)
+export const COMPONENT_IDENTIFIER_REGEX = new RegExp(/hydratable\((\W+)?["'](?<identifier>\S+)["']/g);
 
 /**
  * @internal
  */
-export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(/(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>\S+)["']/g)
+export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(
+  /(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>\S+)["']/g
+);
 
 /**
  * @internal
  */
-export const MESSAGE_IDENTIFIER_REGEX = new RegExp(/formatMessage\((\W+)?["'](?<identifier>\S+)["']/g)
+export const MESSAGE_IDENTIFIER_REGEX = new RegExp(/formatMessage\((\W+)?["'](?<identifier>\S+)["']/g);
 
 /**
  * @internal
  */
-export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(make\(|(action|to|route):)(\W+)?["'](?<identifier>\S+)["']/g)
+export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(make\(|(action|to|route):)(\W+)?["'](?<identifier>\S+)["']/g);
 
 /**
  * @internal
  */
-export const BUILD_MANIFEST_FILE_NAME = 'build-manifest.json'
+export const BUILD_MANIFEST_FILE_NAME = "build-manifest.json";

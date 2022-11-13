@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteIdentifier, RouteParams, RouteQueryParams, Routes } from '@microeinhundert/radonis-types'
+import type { RouteIdentifier, RouteParams, RouteQueryParams, Routes } from "@microeinhundert/radonis-types";
 
-import { UrlBuilderException } from '../exceptions/url_builder_exception'
-import type { UrlBuilderMakeOptions, UrlBuilderOptions } from '../types'
+import { UrlBuilderException } from "../exceptions/url_builder_exception";
+import type { UrlBuilderMakeOptions, UrlBuilderOptions } from "../types";
 
 /**
  * Helper for building URLs to routes
@@ -19,96 +19,96 @@ export class UrlBuilder {
   /**
    * The routes
    */
-  #routes: Routes
+  #routes: Routes;
 
   /**
    * The options
    */
-  #options?: UrlBuilderOptions
+  #options?: UrlBuilderOptions;
 
   /**
    * Constructor
    */
   constructor(routes: Routes, options?: UrlBuilderOptions) {
-    this.#routes = routes
-    this.#options = options
+    this.#routes = routes;
+    this.#options = options;
   }
 
   /**
    * Make URL for given route
    */
   make(identifier: RouteIdentifier, options?: UrlBuilderMakeOptions) {
-    const route = this.#findRouteOrFail(identifier)
-    const path = this.#processPattern(route, options?.params ?? {})
-    const pathWithQueryString = this.#suffixWithQueryString(path, options?.queryParams ?? {})
+    const route = this.#findRouteOrFail(identifier);
+    const path = this.#processPattern(route, options?.params ?? {});
+    const pathWithQueryString = this.#suffixWithQueryString(path, options?.queryParams ?? {});
 
-    return [options?.baseUrl, pathWithQueryString].filter(Boolean).join('')
+    return [options?.baseUrl, pathWithQueryString].filter(Boolean).join("");
   }
 
   /**
    * Process pattern with params
    */
   #processPattern(pattern: string, params: RouteParams) {
-    let path = pattern
+    let path = pattern;
 
-    if (path.includes('*')) {
-      throw UrlBuilderException.wildcardRoutesNotSupported()
+    if (path.includes("*")) {
+      throw UrlBuilderException.wildcardRoutesNotSupported();
     }
 
-    if (path.includes(':')) {
+    if (path.includes(":")) {
       /*
        * Split pattern when route has dynamic segments
        */
-      const tokens = path.split('/')
+      const tokens = path.split("/");
 
       /*
        * Replace tokens with values
        */
       path = tokens
         .map((token) => {
-          if (!token.startsWith(':')) {
-            return token
+          if (!token.startsWith(":")) {
+            return token;
           }
 
-          const isOptional = token.endsWith('?')
-          const paramName = token.replace(/^:/, '').replace(/\?$/, '')
-          const paramValue = params[paramName]
+          const isOptional = token.endsWith("?");
+          const paramName = token.replace(/^:/, "").replace(/\?$/, "");
+          const paramValue = params[paramName];
 
           if (!paramValue && !isOptional) {
-            throw UrlBuilderException.missingRouteParam(paramName, pattern)
+            throw UrlBuilderException.missingRouteParam(paramName, pattern);
           }
 
-          return paramValue
+          return paramValue;
         })
         .filter(Boolean)
-        .join('/')
+        .join("/");
     }
 
-    if (!path.startsWith('/')) {
-      path = `/${path}`
+    if (!path.startsWith("/")) {
+      path = `/${path}`;
     }
 
-    return path
+    return path;
   }
 
   /**
    * Suffix path with query string
    */
   #suffixWithQueryString(path: string, queryParams: RouteQueryParams) {
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
 
     for (const [key, value] of Object.entries(queryParams)) {
       if (Array.isArray(value)) {
-        value.forEach((item) => params.append(key, item.toString()))
+        value.forEach((item) => params.append(key, item.toString()));
       } else {
-        params.set(key, value.toString())
+        params.set(key, value.toString());
       }
     }
 
-    const encodedParams = params.toString()
-    path = encodedParams ? `${path}?${encodedParams}` : path
+    const encodedParams = params.toString();
+    path = encodedParams ? `${path}?${encodedParams}` : path;
 
-    return path
+    return path;
   }
 
   /**
@@ -116,14 +116,14 @@ export class UrlBuilder {
    * raise exception when unable to
    */
   #findRouteOrFail(identifier: RouteIdentifier) {
-    const route = this.#routes[identifier]
+    const route = this.#routes[identifier];
 
     if (!route) {
-      throw UrlBuilderException.cannotFindRoute(identifier)
+      throw UrlBuilderException.cannotFindRoute(identifier);
     }
 
-    this.#options?.onFoundRoute?.(identifier)
+    this.#options?.onFoundRoute?.(identifier);
 
-    return route
+    return route;
   }
 }

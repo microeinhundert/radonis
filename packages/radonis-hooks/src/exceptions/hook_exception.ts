@@ -10,13 +10,13 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_FIND_MESSAGE,
   E_CANNOT_USE_ON_CLIENT,
   E_MISSING_MANIFEST,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to hooks
@@ -30,18 +30,18 @@ export class HookException extends RadonisException {
       }),
       E_CANNOT_FIND_MESSAGE.status,
       E_CANNOT_FIND_MESSAGE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static missingManifest() {
     const error = new this(
       E_MISSING_MANIFEST.message,
       E_MISSING_MANIFEST.status,
       E_MISSING_MANIFEST.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotUseOnClient(hookName: string) {
     const error = new this(
@@ -50,8 +50,8 @@ export class HookException extends RadonisException {
       }),
       E_CANNOT_USE_ON_CLIENT.status,
       E_CANNOT_USE_ON_CLIENT.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-import type { ContiguousData } from 'minipass'
-import Minipass from 'minipass'
-import type { ReactNode } from 'react'
-import { renderToPipeableStream } from 'react-dom/server'
+import type { ContiguousData } from "minipass";
+import Minipass from "minipass";
+import type { ReactNode } from "react";
+import { renderToPipeableStream } from "react-dom/server";
 
 /**
  * @internal
@@ -22,19 +22,19 @@ export async function* generateHtmlStream({
   body,
   footer,
 }: {
-  head: () => string
-  body: () => Minipass<Buffer, ContiguousData>
-  footer: () => Promise<string>
+  head: () => string;
+  body: () => Minipass<Buffer, ContiguousData>;
+  footer: () => Promise<string>;
 }) {
-  yield head()
+  yield head();
 
   if (body) {
     for await (const chunk of await body()) {
-      yield chunk
+      yield chunk;
     }
   }
 
-  yield await footer()
+  yield await footer();
 }
 
 /**
@@ -43,25 +43,25 @@ export async function* generateHtmlStream({
  * @internal
  */
 export function onShellReady(tree: ReactNode) {
-  const duplex = new Minipass()
+  const duplex = new Minipass();
 
   return new Promise<Minipass<Buffer, ContiguousData>>((resolve, reject) => {
     try {
       const pipeable = renderToPipeableStream(tree, {
         onShellReady() {
-          resolve(pipeable.pipe(duplex))
+          resolve(pipeable.pipe(duplex));
         },
         onShellError: (error) => {
-          reject(error)
+          reject(error);
         },
         onError: (error) => {
-          reject(error)
+          reject(error);
         },
-      })
+      });
     } catch (error) {
-      reject(error)
+      reject(error);
     }
-  })
+  });
 }
 
 /**
@@ -70,23 +70,23 @@ export function onShellReady(tree: ReactNode) {
  * @internal
  */
 export function onAllReady(tree: ReactNode) {
-  const duplex = new Minipass()
+  const duplex = new Minipass();
 
   return new Promise<Minipass<Buffer, ContiguousData>>((resolve, reject) => {
     try {
       const pipeable = renderToPipeableStream(tree, {
         onAllReady() {
-          resolve(pipeable.pipe(duplex))
+          resolve(pipeable.pipe(duplex));
         },
         onShellError: (error) => {
-          reject(error)
+          reject(error);
         },
         onError: (error) => {
-          reject(error)
+          reject(error);
         },
-      })
+      });
     } catch (error) {
-      reject(error)
+      reject(error);
     }
-  })
+  });
 }

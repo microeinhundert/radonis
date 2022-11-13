@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-declare module '@ioc:Adonis/Core/HttpContext' {
-  import type { RendererContract } from '@microeinhundert/radonis-types'
+declare module "@ioc:Adonis/Core/HttpContext" {
+  import type { RendererContract } from "@microeinhundert/radonis-types";
 
   interface HttpContextContract {
-    radonis: RendererContract
+    radonis: RendererContract;
   }
 }

@@ -7,70 +7,70 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
-import type { Plugin } from '@microeinhundert/radonis-types'
+import { test } from "@japa/runner";
+import type { Plugin } from "@microeinhundert/radonis-types";
 
-import { PluginsManager } from '../src/services/plugins_manager'
+import { PluginsManager } from "../src/services/plugins_manager";
 
 /**
  * Plugins Manager
  */
-test.group('Plugins Manager', (group) => {
-  let pluginsManager: PluginsManager
+test.group("Plugins Manager", (group) => {
+  let pluginsManager: PluginsManager;
 
   group.each.setup(() => {
-    pluginsManager = new PluginsManager()
-  })
+    pluginsManager = new PluginsManager();
+  });
 
-  test('installs plugin', ({ assert }) => {
+  test("installs plugin", ({ assert }) => {
     const testPlugin: Plugin = {
-      name: 'test-plugin',
-      environments: ['client'],
-    }
+      name: "test-plugin",
+      environments: ["client"],
+    };
 
-    assert.doesNotThrows(() => pluginsManager.install('client', testPlugin))
-  })
+    assert.doesNotThrows(() => pluginsManager.install("client", testPlugin));
+  });
 
-  test('throws if plugin is not supported in current environment', ({ assert }) => {
+  test("throws if plugin is not supported in current environment", ({ assert }) => {
     const testPlugin: Plugin = {
-      name: 'test-plugin',
-      environments: ['client'],
-    }
+      name: "test-plugin",
+      environments: ["client"],
+    };
 
     assert.throws(
-      () => pluginsManager.install('server', testPlugin),
+      () => pluginsManager.install("server", testPlugin),
       'The plugin "test-plugin" is not installable in the "server" environment'
-    )
-  })
+    );
+  });
 
-  test('throws if two plugins conflict with each other', ({ assert }) => {
+  test("throws if two plugins conflict with each other", ({ assert }) => {
     const testPluginOne: Plugin = {
-      name: 'test-plugin-1',
-      conflictsWith: ['test-plugin-2'],
-      environments: ['client'],
-    }
+      name: "test-plugin-1",
+      conflictsWith: ["test-plugin-2"],
+      environments: ["client"],
+    };
 
     const testPluginTwo: Plugin = {
-      name: 'test-plugin-2',
-      conflictsWith: ['test-plugin-1'],
-      environments: ['client'],
-    }
+      name: "test-plugin-2",
+      conflictsWith: ["test-plugin-1"],
+      environments: ["client"],
+    };
 
     assert.throws(
-      () => pluginsManager.install('client', testPluginOne, testPluginTwo),
+      () => pluginsManager.install("client", testPluginOne, testPluginTwo),
       'The plugin "test-plugin-1" conflicts with the following installed plugins: test-plugin-2'
-    )
-  })
+    );
+  });
 
-  test('throws if plugin is already installed', ({ assert }) => {
+  test("throws if plugin is already installed", ({ assert }) => {
     const testPlugin: Plugin = {
-      name: 'test-plugin',
-      environments: ['server'],
-    }
+      name: "test-plugin",
+      environments: ["server"],
+    };
 
     assert.throws(
-      () => pluginsManager.install('server', testPlugin, testPlugin),
+      () => pluginsManager.install("server", testPlugin, testPlugin),
       'The plugin "test-plugin" is already installed'
-    )
-  })
-})
+    );
+  });
+});

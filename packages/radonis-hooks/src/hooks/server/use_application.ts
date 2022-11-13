@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { HookException } from '../../exceptions/hook_exception'
-import { useServer } from './use_server'
+import { HookException } from "../../exceptions/hook_exception";
+import { useServer } from "./use_server";
 
 /**
  * Hook for retrieving the AdonisJS `ApplicationContract`
@@ -16,10 +16,10 @@ import { useServer } from './use_server'
  */
 export function useApplication() {
   try {
-    const { application } = useServer()
+    const { application } = useServer();
 
-    return application
+    return application;
   } catch {
-    throw HookException.cannotUseOnClient('useApplication')
+    throw HookException.cannotUseOnClient("useApplication");
   }
 }

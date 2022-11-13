@@ -1,0 +1,5 @@
+{
+  "upgrade": true,
+  "deep": true,
+  "reject": "intl-messageformat"
+}

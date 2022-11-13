@@ -10,14 +10,14 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_BUILD,
   E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY,
   E_CANNOT_GET_FILE_LOADER,
   E_DUPLICATE_BUILD_MANIFEST_ENTRY,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to building
@@ -29,9 +29,9 @@ export class BuildException extends RadonisException {
       interpolate(E_CANNOT_BUILD.message, { message }),
       E_CANNOT_BUILD.status,
       E_CANNOT_BUILD.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotFindMetafileOutputEntry(filePath: string) {
     const error = new this(
@@ -41,9 +41,9 @@ export class BuildException extends RadonisException {
       ),
       E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.status,
       E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static duplicateBuildManifestEntry(fileName: string) {
     const error = new this(
@@ -53,9 +53,9 @@ export class BuildException extends RadonisException {
       ),
       E_DUPLICATE_BUILD_MANIFEST_ENTRY.status,
       E_DUPLICATE_BUILD_MANIFEST_ENTRY.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotGetFileLoader(filePath: string) {
     const error = new this(
@@ -64,8 +64,8 @@ export class BuildException extends RadonisException {
       }),
       E_CANNOT_GET_FILE_LOADER.status,
       E_CANNOT_GET_FILE_LOADER.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

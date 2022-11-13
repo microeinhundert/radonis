@@ -7,18 +7,18 @@
  * file that was distributed with this source code.
  */
 
-import { isClient } from '@microeinhundert/radonis-shared'
-import type { ManifestContract } from '@microeinhundert/radonis-types'
-import superjson from 'superjson'
-import type { SuperJSONResult } from 'superjson/dist/types'
+import { isClient } from "@microeinhundert/radonis-shared";
+import type { ManifestContract } from "@microeinhundert/radonis-types";
+import superjson from "superjson";
+import type { SuperJSONResult } from "superjson/dist/types";
 
-import { HydrationException } from '../../exceptions/hydration_exception'
+import { HydrationException } from "../../exceptions/hydration_exception";
 
 declare global {
-  var radonisManifest: ManifestContract | undefined
+  var radonisManifest: ManifestContract | undefined;
 }
 
-let cachedManifest: Readonly<ManifestContract> | undefined
+let cachedManifest: Readonly<ManifestContract> | undefined;
 
 /**
  * Get the manifest, fail if it does not exist on the global scope
@@ -26,16 +26,16 @@ let cachedManifest: Readonly<ManifestContract> | undefined
  */
 export function getManifestOrFail() {
   if (cachedManifest && isClient) {
-    return cachedManifest
+    return cachedManifest;
   }
 
-  const manifest = globalThis.radonisManifest
+  const manifest = globalThis.radonisManifest;
 
   if (!manifest) {
-    throw HydrationException.missingManifest()
+    throw HydrationException.missingManifest();
   }
 
   return (cachedManifest = isClient
     ? superjson.deserialize(manifest as unknown as SuperJSONResult)
-    : manifest) as Readonly<ManifestContract>
+    : manifest) as Readonly<ManifestContract>;
 }

@@ -7,23 +7,23 @@
  * file that was distributed with this source code.
  */
 
-import { useRef } from 'react'
+import { useRef } from "react";
 
-import { useIsomorphicLayoutEffect } from './use_isomorphic_layout_effect'
+import { useIsomorphicLayoutEffect } from "./use_isomorphic_layout_effect";
 
 /**
  * @internal
  */
 export function useIsMounted() {
-  const isMounted = useRef(false)
+  const isMounted = useRef(false);
 
   useIsomorphicLayoutEffect(() => {
-    isMounted.current = true
+    isMounted.current = true;
 
     return () => {
-      isMounted.current = false
-    }
-  }, [])
+      isMounted.current = false;
+    };
+  }, []);
 
-  return isMounted
+  return isMounted;
 }

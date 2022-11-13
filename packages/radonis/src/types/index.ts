@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import type { Plugin } from '@microeinhundert/radonis-types'
+import type { Plugin } from "@microeinhundert/radonis-types";
 
 /**
  * Client options
  */
 export type ClientOptions = {
-  plugins?: Plugin[]
-}
+  plugins?: Plugin[];
+};

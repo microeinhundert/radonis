@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { Preflight, PreflightContext } from '@unocss/core'
-import svgToDataUri from 'mini-svg-data-uri'
+import type { Preflight, PreflightContext } from "@unocss/core";
+import svgToDataUri from "mini-svg-data-uri";
 
 type Theme = {
-  fontFamily: { mono: string; sans: string }
-  colors: Record<string, Record<string, string>>
-}
+  fontFamily: { mono: string; sans: string };
+  colors: Record<string, Record<string, string>>;
+};
 
 export const basePreflight: Preflight = {
   getCSS: ({ theme }: PreflightContext<Theme>) => `
@@ -23,7 +23,7 @@ export const basePreflight: Preflight = {
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: ${theme.colors.gray['200'] ?? 'currentColor'};
+  border-color: ${theme.colors.gray["200"] ?? "currentColor"};
 }
 ::before,
 ::after {
@@ -186,7 +186,7 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   opacity: 1;
-  color: ${theme.colors.gray['400'] ?? '#9ca3af'};
+  color: ${theme.colors.gray["400"] ?? "#9ca3af"};
 }
 button,
 [role="button"] {
@@ -212,7 +212,7 @@ video {
   height: auto;
 }
 `,
-}
+};
 
 export const formsPreflight: Preflight = {
   getCSS: ({ theme }: PreflightContext<Theme>) => `
@@ -234,7 +234,7 @@ select {
   -webkit-appearance: none;
   appearance: none;
   background-color: #fff;
-  border-color: ${theme.colors.gray['500'] ?? '#6b7280'};
+  border-color: ${theme.colors.gray["500"] ?? "#6b7280"};
   border-width: 1px;
   border-radius: 0px;
   padding-top: 0.5rem;
@@ -268,15 +268,15 @@ select:focus {
     );
   --un-ring-offset-width: 0px;
   --un-ring-offset-color: #fff;
-  --un-ring-color: ${theme.colors.blue['600'] ?? '#2563eb'};
+  --un-ring-color: ${theme.colors.blue["600"] ?? "#2563eb"};
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0 calc(1px + var(--un-ring-offset-width)) var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
-  border-color: ${theme.colors.blue['600'] ?? '#2563eb'};
+  border-color: ${theme.colors.blue["600"] ?? "#2563eb"};
 }
 input::placeholder,
 textarea::placeholder {
-  color: ${theme.colors.gray['500'] ?? '#6b7280'};
+  color: ${theme.colors.gray["500"] ?? "#6b7280"};
   opacity: 1;
 }
 ::-webkit-datetime-edit-fields-wrapper {
@@ -288,7 +288,7 @@ textarea::placeholder {
 select {
   background-image: url("${svgToDataUri(
     `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="${
-      theme.colors.gray['500'] ?? '#6b7280'
+      theme.colors.gray["500"] ?? "#6b7280"
     }" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 8l4 4 4-4"/></svg>`
   )}");
   background-position: right 0.5rem center;
@@ -322,9 +322,9 @@ select {
   flex-shrink: 0;
   height: 1rem;
   width: 1rem;
-  color: ${theme.colors.blue['600'] ?? '#2563eb'};
+  color: ${theme.colors.blue["600"] ?? "#2563eb"};
   background-color: #fff;
-  border-color: ${theme.colors.gray['500'] ?? '#6b7280'};
+  border-color: ${theme.colors.gray["500"] ?? "#6b7280"};
   border-width: 1px;
   --un-shadow: 0 0 #0000;
 }
@@ -341,7 +341,7 @@ select {
   --un-ring-inset: var(--un-empty, /*!*/ /*!*/);
   --un-ring-offset-width: 2px;
   --un-ring-offset-color: #fff;
-  --un-ring-color: ${theme.colors.blue['600'] ?? '#2563eb'};
+  --un-ring-color: ${theme.colors.blue["600"] ?? "#2563eb"};
   --un-ring-offset-shadow: var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);
   --un-ring-shadow: var(--un-ring-inset) 0 0 0 calc(2px + var(--un-ring-offset-width)) var(--un-ring-color);
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);
@@ -399,4 +399,4 @@ select {
   outline: 1px auto -webkit-focus-ring-color;
 }
 `,
-}
+};

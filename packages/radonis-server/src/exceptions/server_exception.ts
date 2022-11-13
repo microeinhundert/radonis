@@ -10,13 +10,13 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CANNOT_SERIALIZE_MANIFEST,
   E_MISSING_CLIENT_ENTRY_FILE,
   E_MISSING_COMPONENTS_DIRECTORY,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to the server
@@ -30,9 +30,9 @@ export class ServerException extends RadonisException {
       }),
       E_MISSING_CLIENT_ENTRY_FILE.status,
       E_MISSING_CLIENT_ENTRY_FILE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static missingComponentsDirectory(path: string) {
     const error = new this(
@@ -41,17 +41,17 @@ export class ServerException extends RadonisException {
       }),
       E_MISSING_COMPONENTS_DIRECTORY.status,
       E_MISSING_COMPONENTS_DIRECTORY.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static cannotSerializeManifest() {
     const error = new this(
       E_CANNOT_SERIALIZE_MANIFEST.message,
       E_CANNOT_SERIALIZE_MANIFEST.status,
       E_CANNOT_SERIALIZE_MANIFEST.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

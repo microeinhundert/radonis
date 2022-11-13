@@ -10,13 +10,13 @@
 import {
   interpolate,
   RadonisException,
-} from '@microeinhundert/radonis-shared'
+} from "@microeinhundert/radonis-shared";
 
 import {
   E_CONFLICTING_PLUGINS,
   E_PLUGIN_ALREADY_INSTALLED,
   E_PLUGIN_NOT_INSTALLABLE,
-} from '../../exceptions.json'
+} from "../../exceptions.json";
 
 /**
  * Exceptions related to plugins
@@ -30,13 +30,13 @@ export class PluginException extends RadonisException {
     const error = new this(
       interpolate(E_CONFLICTING_PLUGINS.message, {
         pluginName,
-        conflictingPlugins: conflictingPlugins.join(', '),
+        conflictingPlugins: conflictingPlugins.join(", "),
       }),
       E_CONFLICTING_PLUGINS.status,
       E_CONFLICTING_PLUGINS.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static pluginAlreadyInstalled(pluginName: string) {
     const error = new this(
@@ -45,9 +45,9 @@ export class PluginException extends RadonisException {
       }),
       E_PLUGIN_ALREADY_INSTALLED.status,
       E_PLUGIN_ALREADY_INSTALLED.code
-    )
+    );
 
-    throw error
+    throw error;
   }
   static pluginNotInstallable(
     pluginName: string,
@@ -60,8 +60,8 @@ export class PluginException extends RadonisException {
       }),
       E_PLUGIN_NOT_INSTALLABLE.status,
       E_PLUGIN_NOT_INSTALLABLE.code
-    )
+    );
 
-    throw error
+    throw error;
   }
 }

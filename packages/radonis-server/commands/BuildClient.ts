@@ -7,39 +7,39 @@
  * file that was distributed with this source code.
  */
 
-import { BaseCommand, flags } from '@adonisjs/ace'
-import { files } from '@adonisjs/sink'
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { build, discoverHydratableComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
-import type { BuildManifest } from '@microeinhundert/radonis-types'
-import chokidar from 'chokidar'
-import { existsSync } from 'fs'
-import { relative, resolve } from 'path'
+import { BaseCommand, flags } from "@adonisjs/ace";
+import { files } from "@adonisjs/sink";
+import type { RadonisConfig } from "@ioc:Microeinhundert/Radonis";
+import { build, discoverHydratableComponents, writeBuildManifestToDisk } from "@microeinhundert/radonis-build";
+import type { BuildManifest } from "@microeinhundert/radonis-types";
+import chokidar from "chokidar";
+import { existsSync } from "fs";
+import { relative, resolve } from "path";
 
-import { ServerException } from '../src/exceptions/server_exception'
-import { yieldScriptPath } from '../src/utils/yield_script_path'
+import { ServerException } from "../src/exceptions/server_exception";
+import { yieldScriptPath } from "../src/utils/yield_script_path";
 
 /**
  * A command to build the client
  */
 export default class BuildClient extends BaseCommand {
-  static commandName = 'build:client'
-  static description = 'Build the Radonis client'
+  static commandName = "build:client";
+  static description = "Build the Radonis client";
   static settings = {
     loadApp: true,
     stayAlive: true,
-  }
+  };
 
-  @flags.boolean({ description: 'Build for production' })
-  production: boolean | undefined
+  @flags.boolean({ description: "Build for production" })
+  production: boolean | undefined;
 
-  @flags.string({ description: 'Glob pattern of files that should automatically trigger a rebuild' })
-  watch: string | undefined
+  @flags.string({ description: "Glob pattern of files that should automatically trigger a rebuild" })
+  watch: string | undefined;
 
   /**
    * The Radonis config
    */
-  #config: RadonisConfig = this.application.config.get('radonis', {})
+  #config: RadonisConfig = this.application.config.get("radonis", {});
 
   /**
    * The entry file path
@@ -47,15 +47,15 @@ export default class BuildClient extends BaseCommand {
   get #entryFilePath(): string {
     let {
       client: { entryFile },
-    } = this.#config
+    } = this.#config;
 
-    entryFile = yieldScriptPath(entryFile)
+    entryFile = yieldScriptPath(entryFile);
 
     if (!existsSync(entryFile)) {
-      throw ServerException.missingClientEntryFile(entryFile)
+      throw ServerException.missingClientEntryFile(entryFile);
     }
 
-    return entryFile
+    return entryFile;
   }
 
   /**
@@ -64,32 +64,32 @@ export default class BuildClient extends BaseCommand {
   get #componentsDir(): string {
     const {
       client: { componentsDir },
-    } = this.#config
+    } = this.#config;
 
     if (!existsSync(componentsDir)) {
-      throw ServerException.missingComponentsDirectory(componentsDir)
+      throw ServerException.missingComponentsDirectory(componentsDir);
     }
 
-    return componentsDir
+    return componentsDir;
   }
 
   /**
    * The output directory
    */
   get #outputDir(): string {
-    const publicPath = this.application.publicPath('radonis')
+    const publicPath = this.application.publicPath("radonis");
 
     /**
      * Resolve path using outDir from tsconfig when building for production
      */
     if (this.production) {
-      const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
-      const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
+      const tsConfig = new files.JsonFile(this.application.appRoot, "tsconfig.json");
+      const compilerOutDir = tsConfig.get("compilerOptions.outDir") || "build";
 
-      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, publicPath))
+      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, publicPath));
     }
 
-    return publicPath
+    return publicPath;
   }
 
   /**
@@ -98,9 +98,9 @@ export default class BuildClient extends BaseCommand {
   async #buildClient(): Promise<BuildManifest> {
     const {
       client: { buildOptions },
-    } = this.#config
+    } = this.#config;
 
-    const publicPath = this.application.rcFile.directories.public || 'public'
+    const publicPath = this.application.rcFile.directories.public || "public";
 
     /**
      * Execute the build
@@ -113,12 +113,12 @@ export default class BuildClient extends BaseCommand {
       outputToDisk: true,
       outputForProduction: this.production,
       esbuildOptions: buildOptions,
-    })
+    });
 
     /**
      * Write the build manifest
      */
-    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
+    await writeBuildManifestToDisk(buildManifest, this.#outputDir);
 
     /**
      * Output a log message after successful build
@@ -126,16 +126,16 @@ export default class BuildClient extends BaseCommand {
      */
     this.logger.success(
       `successfully built the client for ${Object.keys(buildManifest).length - 1} hydratable component(s)`
-    )
+    );
 
-    return buildManifest
+    return buildManifest;
   }
 
   /**
    * Run the command
    */
   async run(): Promise<void> {
-    await this.#buildClient()
+    await this.#buildClient();
 
     if (this.watch && !this.production) {
       /**
@@ -144,23 +144,23 @@ export default class BuildClient extends BaseCommand {
       const watcher = chokidar.watch(resolve(this.application.appRoot, this.watch), {
         cwd: process.cwd(),
         ignoreInitial: true,
-      })
+      });
 
       /**
        * Rebuild on file changes
        */
       watcher
-        .on('ready', () => {
-          this.logger.info('watching for file changes...')
+        .on("ready", () => {
+          this.logger.info("watching for file changes...");
         })
-        .on('error', () => {
-          this.logger.error('rebuilding the client failed')
+        .on("error", () => {
+          this.logger.error("rebuilding the client failed");
         })
-        .on('all', async () => {
-          await this.#buildClient()
-        })
+        .on("all", async () => {
+          await this.#buildClient();
+        });
     } else {
-      this.exit()
+      this.exit();
     }
   }
 }

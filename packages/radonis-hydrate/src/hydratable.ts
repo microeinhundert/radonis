@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier } from '@microeinhundert/radonis-types'
-import type { ComponentType } from 'react'
+import type { ComponentIdentifier } from "@microeinhundert/radonis-types";
+import type { ComponentType } from "react";
 
-import { hydrator } from './singletons'
-import { componentIdentifierSymbol } from './symbols'
+import { hydrator } from "./singletons";
+import { componentIdentifierSymbol } from "./symbols";
 
 /**
  * Mark a component as hydratable
@@ -21,12 +21,12 @@ export function hydratable<T extends ComponentType<any>>(identifier: ComponentId
   /**
    * Register the component on the Hydrator
    */
-  hydrator.registerComponent(identifier, Component)
+  hydrator.registerComponent(identifier, Component);
 
   /**
    * Set the component identifier on the component
    */
-  Component[componentIdentifierSymbol] = identifier
+  Component[componentIdentifierSymbol] = identifier;
 
-  return Component
+  return Component;
 }

@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { assetsManagerContext, manifestManagerContext } from '@microeinhundert/radonis-server/standalone'
-import type { ReactElement } from 'react'
-import { Children, createElement as h, isValidElement, useContext, useId } from 'react'
+import { assetsManagerContext, manifestManagerContext } from "@microeinhundert/radonis-server/standalone";
+import type { ReactElement } from "react";
+import { Children, createElement as h, isValidElement, useContext, useId } from "react";
 
-import { HydrationContextProvider } from '../contexts/hydration_context'
-import { HydrationException } from '../exceptions/hydration_exception'
-import { useHydration } from '../hooks/use_hydration'
-import { componentIdentifierSymbol } from '../symbols'
+import { HydrationContextProvider } from "../contexts/hydration_context";
+import { HydrationException } from "../exceptions/hydration_exception";
+import { useHydration } from "../hooks/use_hydration";
+import { componentIdentifierSymbol } from "../symbols";
 
 /**
  * The component for marking components for client-side hydration
@@ -25,24 +25,24 @@ export function HydrationRoot({
   className,
   disabled,
 }: {
-  children: ReactElement<Record<string, any>>
-  className?: string
-  disabled?: boolean
+  children: ReactElement<Record<string, any>>;
+  className?: string;
+  disabled?: boolean;
 }) {
-  const manifestManager = useContext(manifestManagerContext)
-  const assetsManager = useContext(assetsManagerContext)
-  const { id: parentHydrationRootId } = useHydration()
-  const hydrationRootId = useId()
+  const manifestManager = useContext(manifestManagerContext);
+  const assetsManager = useContext(assetsManagerContext);
+  const { id: parentHydrationRootId } = useHydration();
+  const hydrationRootId = useId();
 
-  const component = Children.only(children)
-  const componentIdentifier = component?.type?.[componentIdentifierSymbol]
+  const component = Children.only(children);
+  const componentIdentifier = component?.type?.[componentIdentifierSymbol];
 
-  if (typeof componentIdentifier !== 'string' || !isValidElement(component)) {
-    throw HydrationException.notHydratable(hydrationRootId)
+  if (typeof componentIdentifier !== "string" || !isValidElement(component)) {
+    throw HydrationException.notHydratable(hydrationRootId);
   }
 
   if (component.props.children) {
-    throw HydrationException.cannotHydrateWithChildren(hydrationRootId, componentIdentifier)
+    throw HydrationException.cannotHydrateWithChildren(hydrationRootId, componentIdentifier);
   }
 
   /*
@@ -50,23 +50,23 @@ export function HydrationRoot({
    */
   if (!manifestManager || !assetsManager || disabled || parentHydrationRootId) {
     return h(
-      'div',
+      "div",
       {
         className,
       },
       component
-    )
+    );
   }
 
   /*
    * Register the hydration on the ManifestManager
    */
-  manifestManager.registerHydration(hydrationRootId, componentIdentifier, component.props)
+  manifestManager.registerHydration(hydrationRootId, componentIdentifier, component.props);
 
   /*
    * Require the component on the AssetsManager
    */
-  assetsManager.requireComponent(componentIdentifier)
+  assetsManager.requireComponent(componentIdentifier);
 
   return h(
     HydrationContextProvider,
@@ -77,14 +77,14 @@ export function HydrationRoot({
       },
     },
     h(
-      'div',
+      "div",
       {
         className,
-        'data-hydration-root': hydrationRootId,
+        "data-hydration-root": hydrationRootId,
       },
       component
     )
-  )
+  );
 }
 
-HydrationRoot.displayName = 'RadonisHydrationRoot'
+HydrationRoot.displayName = "RadonisHydrationRoot";
