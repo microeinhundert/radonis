@@ -1,9 +1,11 @@
-name: Publish Packages
+name: Release
 
 on:
-  release:
-    types: [created]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   publish:
@@ -28,9 +30,9 @@ jobs:
         run: npm ci
 
       - name: Lint packages
-        run: npm run lint build
+        run: npm run lint
 
-      - name: Publish packages
-        run: npm run publish-packages
+      - name: Create release pull request
+        uses: changesets/action@v1
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
