@@ -40,8 +40,7 @@
     "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run copyfiles",
     "lint": "TIMING=1 eslint . --ext=.ts",
     "format": "prettier --write .",
-    "test": "node -r @adonisjs/require-ts/build/register bin/test.ts",
-    "publish": "\"$npm_execpath\" run publish"
+    "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
   },
   "repository": {
     "type": "git",
