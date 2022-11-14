@@ -82,11 +82,6 @@
     "probotApps": [],
     "runGhActionsOnWindows": false
   },
-  "husky": {
-		"hooks": {
-			"commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
-		}
-	},
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"

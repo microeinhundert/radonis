@@ -13,8 +13,8 @@
 
 import type { Reducer } from "react";
 import { useCallback, useReducer, useRef } from "react";
-import { HookException } from "src/exceptions/hook_exception";
 
+import { HookException } from "../../exceptions/hook_exception";
 import type { MutationOptions, MutationResult, MutationStatus } from "../../types";
 import { useGetLatest } from "./internal/use_get_latest";
 import { useSafeCallback } from "./internal/use_safe_callback";
