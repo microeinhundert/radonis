@@ -1,0 +1,12 @@
+{
+  "E_MISSING_HOST_HEADER": {
+    "message": "The request is missing the host header. Without the host header set, server-side fetching does not work",
+    "code": "E_MISSING_HOST_HEADER",
+    "status": 500
+  },
+  "E_REQUEST_FAILED": {
+    "message": "The network request to route \"{{ routeIdentifier }}\" failed",
+    "code": "E_REQUEST_FAILED",
+    "status": 500
+  }
+}

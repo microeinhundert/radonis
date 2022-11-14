@@ -1,0 +1,92 @@
+{
+  "name": "radonis-monorepo",
+  "version": "2.1.5",
+  "private": true,
+  "description": "Monorepo containing all Radonis packages",
+  "packageManager": "npm@9.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test",
+    "publish-packages": "turbo run build && changeset publish",
+    "create-changeset": "changeset",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged",
+    "mrm": "mrm --preset=@adonisjs/mrm-preset",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "radonis"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@adonisjs/mrm-preset": "^5.0.3",
+    "@adonisjs/require-ts": "^2.0.13",
+    "@changesets/cli": "^2.25.2",
+    "@japa/assert": "^1.3.6",
+    "@japa/core": "^7.3.0",
+    "@japa/run-failed-tests": "^1.1.0",
+    "@japa/runner": "^2.2.2",
+    "@japa/spec-reporter": "^1.3.2",
+    "adonis-preset-ts": "^2.1.0",
+    "commitizen": "^4.2.5",
+    "copyfiles": "2.4.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "del-cli": "^5.0.0",
+    "eslint": "8.27.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-adonis": "2.1.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3",
+    "mrm": "^4.1.13",
+    "openapi-types": "^12.0.2",
+    "prettier": "2.7.1",
+    "turbo": "^1.6.3",
+    "typescript": "4.8.4"
+  },
+  "dependencies": {
+    "@adonisjs/ace": "^11.3.1",
+    "@adonisjs/core": "^5.8.9",
+    "@adonisjs/i18n": "^1.5.6",
+    "@adonisjs/session": "^6.4.0",
+    "@adonisjs/sink": "^5.4.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "mrmConfig": {
+    "core": false,
+    "license": "MIT",
+    "services": [
+      "github-actions"
+    ],
+    "minNodeVersion": "16.0.0",
+    "probotApps": [],
+    "runGhActionsOnWindows": false
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

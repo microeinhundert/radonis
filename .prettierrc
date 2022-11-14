@@ -1,0 +1,24 @@
+{
+  "trailingComma": "es5",
+  "semi": true,
+  "singleQuote": false,
+  "useTabs": false,
+  "quoteProps": "consistent",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "printWidth": 40
+      }
+    },
+    {
+      "files": "*_exception.ts",
+      "options": {
+        "printWidth": 60
+      }
+    }
+  ]
+}

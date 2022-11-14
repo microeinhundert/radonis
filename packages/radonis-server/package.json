@@ -1,0 +1,118 @@
+{
+  "name": "@microeinhundert/radonis-server",
+  "version": "2.1.7",
+  "description": "Server provider for Radonis",
+  "type": "commonjs",
+  "main": "./build/providers/RadonisProvider.js",
+  "types": "./build/adonis-typings/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/adonis-typings/index.d.ts",
+      "require": "./build/providers/RadonisProvider.js"
+    },
+    "./standalone": "./build/standalone.js",
+    "./build/commands": "./build/commands/index.js",
+    "./build/commands/BuildClient": "./build/commands/BuildClient.js",
+    "./*": "./*"
+  },
+  "sideEffects": false,
+  "files": [
+    "build/adonis-typings",
+    "build/commands",
+    "build/templates",
+    "build/providers",
+    "build/src",
+    "build/standalone.js",
+    "build/standalone.js.map",
+    "build/standalone.d.ts",
+    "build/standalone.d.ts.map",
+    "build/instructions.js",
+    "build/instructions.js.map",
+    "build/instructions.d.ts",
+    "build/instructions.d.ts.map",
+    "build/instructions.md",
+    "build/exceptions.json"
+  ],
+  "scripts": {
+    "clean": "del-cli build",
+    "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
+    "build:cjs": "tsc --outDir ./build --module commonjs",
+    "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run copyfiles",
+    "lint": "TIMING=1 eslint . --ext=.ts",
+    "format": "prettier --write .",
+    "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/microeinhundert/radonis.git",
+    "directory": "packages/radonis-server"
+  },
+  "bugs": {
+    "url": "https://github.com/microeinhundert/radonis/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis",
+    "radonis",
+    "server"
+  ],
+  "author": "Leon Seipp <l.seipp@microeinhundert.com>",
+  "license": "MIT",
+  "adonisjs": {
+    "instructions": "./build/instructions.js",
+    "instructionsMd": "./build/instructions.md",
+    "types": "@microeinhundert/radonis-server",
+    "commands": [
+      "@microeinhundert/radonis-server/build/commands"
+    ],
+    "providers": [
+      "@microeinhundert/radonis-server"
+    ],
+    "templates": {
+      "basePath": "./build/templates",
+      "config": [
+        {
+          "src": "config.txt",
+          "dest": "radonis"
+        }
+      ],
+      "contracts": [
+        {
+          "src": "contract.txt",
+          "dest": "radonis"
+        }
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@adonisjs/ace": "^11.3.1",
+    "@adonisjs/core": "^5.8.0",
+    "@adonisjs/i18n": "^1.5.0",
+    "@adonisjs/session": "^6.4.0",
+    "@adonisjs/sink": "^5.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8"
+  },
+  "dependencies": {
+    "@microeinhundert/radonis-types": "2.1.7",
+    "@microeinhundert/radonis-shared": "2.1.7",
+    "@microeinhundert/radonis-build": "2.1.7",
+    "chokidar": "^3.5.3",
+    "flattie": "^1.1.0",
+    "minipass": "^3.3.4",
+    "superjson": "^1.11.0",
+    "tslib": "^2.4.1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "rootDir": "./",
+    "composite": true,
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "outDir": "build"
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "build"]
+}

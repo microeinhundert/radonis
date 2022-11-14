@@ -1,0 +1,52 @@
+{
+  "extends": "./node_modules/adonis-preset-ts/tsconfig",
+  "compilerOptions": {
+    "rootDir": "./",
+    "target": "es2022",
+    "module": "commonjs",
+    "incremental": true,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "resolveJsonModule": true
+  },
+  "include": [],
+  "references": [
+    {
+      "path": "./packages/radonis"
+    },
+    {
+      "path": "./packages/radonis-build"
+    },
+    {
+      "path": "./packages/radonis-form"
+    },
+    {
+      "path": "./packages/radonis-hooks"
+    },
+    {
+      "path": "./packages/radonis-hydrate"
+    },
+    {
+      "path": "./packages/radonis-server"
+    },
+    {
+      "path": "./packages/radonis-shared"
+    },
+    {
+      "path": "./packages/radonis-unocss"
+    },
+    {
+      "path": "./packages/radonis-query"
+    },
+    {
+      "path": "./packages/radonis-types"
+    }
+  ]
+}
