@@ -1,5 +1,5 @@
 node_modules
-pnpm-global
+
 build
 coverage
 .DS_Store

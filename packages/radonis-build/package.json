@@ -29,7 +29,8 @@
     "build": "\"$npm_execpath\" run build:cjs && \"$npm_execpath\" run build:esm",
     "lint": "TIMING=1 eslint . --ext=.ts",
     "format": "prettier --write .",
-    "test": "node -r @adonisjs/require-ts/build/register bin/test.ts"
+    "test": "node -r @adonisjs/require-ts/build/register bin/test.ts",
+    "publish": "\"$npm_execpath\" run publish"
   },
   "repository": {
     "type": "git",
@@ -44,8 +45,7 @@
   },
   "engines": {
     "node": ">= 16.0.0",
-    "npm": ">= 8.0.0",
-    "pnpm": ">= 7.0.0"
+    "npm": ">= 8.0.0"
   },
   "keywords": [
     "adonisjs",
@@ -59,8 +59,8 @@
     "@types/node": "^18.11.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "workspace:2.1.4",
-    "@microeinhundert/radonis-shared": "workspace:2.1.4",
+    "@microeinhundert/radonis-types": "2.1.4",
+    "@microeinhundert/radonis-shared": "2.1.4",
     "@poppinss/utils": "^5.0.0",
     "esbuild": "^0.15.13",
     "fs-extra": "^10.1.0",

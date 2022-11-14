@@ -5,7 +5,5 @@ coverage
 .env
 .turbo
 tmp
-package-lock.json
-.pnpm*
 *.tsbuildinfo
 .idea
