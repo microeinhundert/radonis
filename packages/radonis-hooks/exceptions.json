@@ -13,5 +13,10 @@
     "message": "The `{{ hookName }}()` hook cannot be used client-side",
     "code": "E_CANNOT_USE_ON_CLIENT",
     "status": 500
+  },
+  "E_INVALID_MUTATION_ACTION": {
+    "message": "Invalid mutation action \"{{ action }}\"",
+    "code": "E_INVALID_MUTATION_ACTION",
+    "status": 500
   }
 }

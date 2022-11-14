@@ -15,6 +15,7 @@ import {
 import {
   E_CANNOT_FIND_MESSAGE,
   E_CANNOT_USE_ON_CLIENT,
+  E_INVALID_MUTATION_ACTION,
   E_MISSING_MANIFEST,
 } from "../../exceptions.json";
 
@@ -50,6 +51,17 @@ export class HookException extends RadonisException {
       }),
       E_CANNOT_USE_ON_CLIENT.status,
       E_CANNOT_USE_ON_CLIENT.code
+    );
+
+    throw error;
+  }
+  static invalidMutationAction(action: string) {
+    const error = new this(
+      interpolate(E_INVALID_MUTATION_ACTION.message, {
+        action,
+      }),
+      E_INVALID_MUTATION_ACTION.status,
+      E_INVALID_MUTATION_ACTION.code
     );
 
     throw error;
