@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.5] - 2022-11-14
+
+Release for testing changes to workflow.
+
 ## [2.1.4] - 2022-11-13
 
 ### Changed

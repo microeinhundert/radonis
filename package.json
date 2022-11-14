@@ -1,6 +1,6 @@
 {
   "name": "radonis-monorepo",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "private": true,
   "description": "Monorepo containing all Radonis packages",
   "packageManager": "npm@9.0.0",
@@ -16,9 +16,7 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
-    "commit": "git-cz",
-    "release": "np --no-publish --message=\"chore(release): %s\"",
-    "version": "\"$npm_execpath\" run build"
+    "commit": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -60,7 +58,6 @@
     "husky": "^8.0.2",
     "lint-staged": "^13.0.3",
     "mrm": "^4.1.13",
-    "np": "^7.6.2",
     "openapi-types": "^12.0.2",
     "prettier": "2.7.1",
     "turbo": "^1.6.3",
@@ -85,14 +82,14 @@
     "probotApps": [],
     "runGhActionsOnWindows": false
   },
+  "husky": {
+		"hooks": {
+			"commit-msg": "node ./node_modules/@adonisjs/mrm-preset/validateCommit/conventional/validate.js"
+		}
+	},
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "np": {
-    "contents": "build",
-    "yarn": false,
-    "anyBranch": false
   }
 }

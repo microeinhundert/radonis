@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-build",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Build package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -59,8 +59,8 @@
     "@types/node": "^18.11.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "2.1.4",
-    "@microeinhundert/radonis-shared": "2.1.4",
+    "@microeinhundert/radonis-types": "2.1.5",
+    "@microeinhundert/radonis-shared": "2.1.5",
     "@poppinss/utils": "^5.0.0",
     "esbuild": "^0.15.13",
     "fs-extra": "^10.1.0",
