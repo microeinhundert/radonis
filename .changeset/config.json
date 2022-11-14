@@ -1,9 +1,22 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@2.2.0/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": ["@changesets/changelog-github", { "repo": "@microeinhundert/radonis" }],
   "commit": true,
   "fixed": [],
-  "linked": [],
+  "linked": [
+    [
+      "@microeinhundert/radonis",
+      "@microeinhundert/radonis-build",
+      "@microeinhundert/radonis-form",
+      "@microeinhundert/radonis-hooks",
+      "@microeinhundert/radonis-hydrate",
+      "@microeinhundert/radonis-query",
+      "@microeinhundert/radonis-server",
+      "@microeinhundert/radonis-shared",
+      "@microeinhundert/radonis-types",
+      "@microeinhundert/radonis-unocss"
+    ]
+  ],
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

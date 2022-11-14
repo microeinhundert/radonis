@@ -19,7 +19,7 @@ npm run test && npm run lint
 After testing and linting, create a changeset for your changes:
 
 ```bash
-npm run create-changeset
+npm run changeset
 ```
 
 ## Other notes
