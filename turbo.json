@@ -19,9 +19,6 @@
     "test": {
       "outputs": []
     },
-    "publish": {
-      "cache": false
-    },
     "dev": {
       "cache": false
     }

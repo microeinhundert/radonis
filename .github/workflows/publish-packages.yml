@@ -28,12 +28,9 @@ jobs:
         run: npm ci
 
       - name: Lint packages
-        run: npm run lint
-
-      - name: Build packages
-        run: npm run build
+        run: npm run lint build
 
       - name: Publish packages
-        run: npm run publish
+        run: npm run publish-packages
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
