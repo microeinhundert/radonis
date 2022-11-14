@@ -35,8 +35,8 @@ jobs:
       - name: Release packages
         uses: changesets/action@v1
         with:
-          commit: 'chore: version packages'
-          title: 'chore: version packages'
+          commit: 'chore: bump package version'
+          title: 'chore: bump package version'
           publish: npm run publish-packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
