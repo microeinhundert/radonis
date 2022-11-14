@@ -1,5 +1,5 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { rules, schema } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
 export default class GardenValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -12,8 +12,8 @@ export default class GardenValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }, [
       rules.unique({
-        table: 'gardens',
-        column: 'name',
+        table: "gardens",
+        column: "name",
         whereNot: {
           id: this.refs.id,
         },

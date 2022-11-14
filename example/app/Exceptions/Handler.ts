@@ -13,10 +13,10 @@
 |
 */
 
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler';
-import Logger from '@ioc:Adonis/Core/Logger';
-import { InternalServerError } from 'Views/Errors/InternalServerError';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import HttpExceptionHandler from "@ioc:Adonis/Core/HttpExceptionHandler";
+import Logger from "@ioc:Adonis/Core/Logger";
+import { InternalServerError } from "Views/Errors/InternalServerError";
 
 export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
@@ -24,7 +24,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
   }
 
   public async handle(error: any, ctx: HttpContextContract) {
-    if (ctx.request.accepts(['html']) && error.status === 500) {
+    if (ctx.request.accepts(["html"]) && error.status === 500) {
       /**
        * Render error page
        */

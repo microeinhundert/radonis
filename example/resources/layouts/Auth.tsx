@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
-import Logo from '../components/Logo';
+import Logo from "../components/Logo";
 
 interface AuthLayoutProps {
   children?: ReactNode;
@@ -16,9 +16,7 @@ function AuthLayout({ children, title }: AuthLayoutProps) {
           <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{title}</h1>
         </div>
         <div className="mt-14 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="border border-gray-200 bg-white py-8 px-4 sm:rounded-lg sm:px-10">
-            {children}
-          </div>
+          <div className="border border-gray-200 bg-white py-8 px-4 sm:rounded-lg sm:px-10">{children}</div>
         </div>
       </div>
     </>

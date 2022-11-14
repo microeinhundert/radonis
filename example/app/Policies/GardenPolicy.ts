@@ -1,6 +1,6 @@
-import { BasePolicy } from '@ioc:Adonis/Addons/Bouncer';
-import type Garden from 'App/Models/Garden';
-import type User from 'App/Models/User';
+import { BasePolicy } from "@ioc:Adonis/Addons/Bouncer";
+import type Garden from "App/Models/Garden";
+import type User from "App/Models/User";
 
 export default class GardenPolicy extends BasePolicy {
   public async list(user: User) {

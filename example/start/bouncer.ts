@@ -1,4 +1,4 @@
-import Bouncer from '@ioc:Adonis/Addons/Bouncer';
+import Bouncer from "@ioc:Adonis/Addons/Bouncer";
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +42,5 @@ export const { actions } = Bouncer;
 |
 */
 export const { policies } = Bouncer.registerPolicies({
-  GardenPolicy: () => import('App/Policies/GardenPolicy'),
+  GardenPolicy: () => import("App/Policies/GardenPolicy"),
 });

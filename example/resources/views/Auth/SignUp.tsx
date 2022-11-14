@@ -1,12 +1,12 @@
-import { HydrationRoot, useI18n } from '@microeinhundert/radonis';
-import SignUpForm from 'Components/Auth/SignUpForm';
-import { AuthLayout } from 'Layouts/Auth';
+import { HydrationRoot, useI18n } from "@microeinhundert/radonis";
+import SignUpForm from "Components/Auth/SignUpForm";
+import { AuthLayout } from "Layouts/Auth";
 
 function SignUp() {
   const { formatMessage } = useI18n();
 
   const messages = {
-    title: formatMessage('auth.signUp.title'),
+    title: formatMessage("auth.signUp.title"),
   };
 
   return (

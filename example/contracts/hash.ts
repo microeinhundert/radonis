@@ -1,4 +1,4 @@
-declare module '@ioc:Adonis/Core/Hash' {
+declare module "@ioc:Adonis/Core/Hash" {
   interface HashersList {
     bcrypt: {
       config: BcryptConfig;

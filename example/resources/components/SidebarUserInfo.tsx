@@ -1,12 +1,12 @@
-import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
-import { hydratable, useI18n } from '@microeinhundert/radonis';
-import { useState } from 'react';
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import { hydratable, useI18n } from "@microeinhundert/radonis";
+import { useState } from "react";
 
-import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
-import { getFirstChar } from '../utils/string';
-import Button, { ButtonColor } from './Button';
-import IconCircle, { IconCircleColor } from './IconCircle';
-import Modal from './Modal';
+import { useAuthenticatedUser } from "../hooks/useAuthenticatedUser";
+import { getFirstChar } from "../utils/string";
+import Button, { ButtonColor } from "./Button";
+import IconCircle, { IconCircleColor } from "./IconCircle";
+import Modal from "./Modal";
 
 /*
  * Sidebar User Info
@@ -18,16 +18,16 @@ function SidebarUserInfo() {
   const [signOutModalOpen, setSignOutModalOpen] = useState(false);
 
   const messages = {
-    signOut: formatMessage('shared.sidebar.signOut'),
-    signIn: formatMessage('shared.sidebar.signIn'),
-    signUp: formatMessage('shared.sidebar.signUp'),
+    signOut: formatMessage("shared.sidebar.signOut"),
+    signIn: formatMessage("shared.sidebar.signIn"),
+    signUp: formatMessage("shared.sidebar.signUp"),
     modals: {
       signOut: {
-        title: formatMessage('shared.sidebar.modals.signOut.title'),
-        description: formatMessage('shared.sidebar.modals.signOut.description'),
+        title: formatMessage("shared.sidebar.modals.signOut.title"),
+        description: formatMessage("shared.sidebar.modals.signOut.description"),
         actions: {
-          cancel: formatMessage('shared.sidebar.modals.signOut.actions.cancel'),
-          confirm: formatMessage('shared.sidebar.modals.signOut.actions.confirm'),
+          cancel: formatMessage("shared.sidebar.modals.signOut.actions.cancel"),
+          confirm: formatMessage("shared.sidebar.modals.signOut.actions.confirm"),
         },
       },
     },
@@ -84,11 +84,7 @@ function SidebarUserInfo() {
           <Button.Link className="flex-1" color={ButtonColor.White} to="AuthController.signInShow">
             {messages.signIn}
           </Button.Link>
-          <Button.Link
-            className="flex-1"
-            color={ButtonColor.Emerald}
-            to="AuthController.signUpShow"
-          >
+          <Button.Link className="flex-1" color={ButtonColor.Emerald} to="AuthController.signUpShow">
             {messages.signUp}
           </Button.Link>
         </>
@@ -97,4 +93,4 @@ function SidebarUserInfo() {
   );
 }
 
-export default hydratable('SidebarUserInfo', SidebarUserInfo);
+export default hydratable("SidebarUserInfo", SidebarUserInfo);

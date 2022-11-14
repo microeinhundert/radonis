@@ -1,5 +1,5 @@
-import type { I18nConfig } from '@ioc:Adonis/Addons/I18n';
-import Application from '@ioc:Adonis/Core/Application';
+import type { I18nConfig } from "@ioc:Adonis/Addons/I18n";
+import Application from "@ioc:Adonis/Core/Application";
 
 const i18nConfig: I18nConfig = {
   /*
@@ -12,7 +12,7 @@ const i18nConfig: I18nConfig = {
   | formatters too and please reference the documentation for that.
   |
   */
-  translationsFormat: 'icu',
+  translationsFormat: "icu",
 
   /*
   |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ const i18nConfig: I18nConfig = {
   | is not supported by the your app
   |
   */
-  defaultLocale: 'en',
+  defaultLocale: "en",
 
   /*
   |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ const i18nConfig: I18nConfig = {
   loaders: {
     fs: {
       enabled: true,
-      location: Application.resourcesPath('lang'),
+      location: Application.resourcesPath("lang"),
     },
   },
 };

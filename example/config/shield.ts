@@ -1,4 +1,4 @@
-import type { ShieldConfig } from '@ioc:Adonis/Addons/Shield';
+import type { ShieldConfig } from "@ioc:Adonis/Addons/Shield";
 
 /*
 |--------------------------------------------------------------------------
@@ -9,7 +9,7 @@ import type { ShieldConfig } from '@ioc:Adonis/Addons/Shield';
 | and load resources like scripts, styles and fonts. There are wide
 | variety of options to choose from.
 */
-export const csp: ShieldConfig['csp'] = {
+export const csp: ShieldConfig["csp"] = {
   /*
   |--------------------------------------------------------------------------
   | Enable/disable CSP
@@ -59,7 +59,7 @@ export const csp: ShieldConfig['csp'] = {
 | routes does have a valid token to execute an action.
 |
 */
-export const csrf: ShieldConfig['csrf'] = {
+export const csrf: ShieldConfig["csrf"] = {
   /*
   |--------------------------------------------------------------------------
   | Enable/Disable CSRF
@@ -110,7 +110,7 @@ export const csrf: ShieldConfig['csrf'] = {
   | Define an array of HTTP methods to be validated for a valid CSRF token.
   |
   */
-  methods: ['POST', 'PUT', 'PATCH', 'DELETE'],
+  methods: ["POST", "PUT", "PATCH", "DELETE"],
 };
 
 /*
@@ -124,7 +124,7 @@ export const csrf: ShieldConfig['csrf'] = {
 | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
 |
 */
-export const dnsPrefetch: ShieldConfig['dnsPrefetch'] = {
+export const dnsPrefetch: ShieldConfig["dnsPrefetch"] = {
   /*
   |--------------------------------------------------------------------------
   | Enable/disable this feature
@@ -161,9 +161,9 @@ export const dnsPrefetch: ShieldConfig['dnsPrefetch'] = {
 |
 | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
 */
-export const xFrame: ShieldConfig['xFrame'] = {
+export const xFrame: ShieldConfig["xFrame"] = {
   enabled: true,
-  action: 'DENY',
+  action: "DENY",
 };
 
 /*
@@ -177,7 +177,7 @@ export const xFrame: ShieldConfig['xFrame'] = {
 | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
 |
 */
-export const hsts: ShieldConfig['hsts'] = {
+export const hsts: ShieldConfig["hsts"] = {
   enabled: true,
   /*
   |--------------------------------------------------------------------------
@@ -188,7 +188,7 @@ export const hsts: ShieldConfig['hsts'] = {
   | accessed using HTTPS.
   |
   */
-  maxAge: '180 days',
+  maxAge: "180 days",
 
   /*
   |--------------------------------------------------------------------------
@@ -224,6 +224,6 @@ export const hsts: ShieldConfig['hsts'] = {
 | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 |
 */
-export const contentTypeSniffing: ShieldConfig['contentTypeSniffing'] = {
+export const contentTypeSniffing: ShieldConfig["contentTypeSniffing"] = {
   enabled: true,
 };

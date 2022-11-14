@@ -1,4 +1,4 @@
-import type { BodyParserConfig } from '@ioc:Adonis/Core/BodyParser';
+import type { BodyParserConfig } from "@ioc:Adonis/Core/BodyParser";
 
 const bodyParserConfig: BodyParserConfig = {
   /*
@@ -10,7 +10,7 @@ const bodyParserConfig: BodyParserConfig = {
   | to avoid body parsing for `GET` requests.
   |
   */
-  whitelistedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
+  whitelistedMethods: ["POST", "PUT", "PATCH", "DELETE"],
 
   /*
   |--------------------------------------------------------------------------
@@ -22,15 +22,10 @@ const bodyParserConfig: BodyParserConfig = {
   |
   */
   json: {
-    encoding: 'utf-8',
-    limit: '1mb',
+    encoding: "utf-8",
+    limit: "1mb",
     strict: true,
-    types: [
-      'application/json',
-      'application/json-patch+json',
-      'application/vnd.api+json',
-      'application/csp-report',
-    ],
+    types: ["application/json", "application/json-patch+json", "application/vnd.api+json", "application/csp-report"],
   },
 
   /*
@@ -43,8 +38,8 @@ const bodyParserConfig: BodyParserConfig = {
   |
   */
   form: {
-    encoding: 'utf-8',
-    limit: '1mb',
+    encoding: "utf-8",
+    limit: "1mb",
     queryString: {},
 
     /*
@@ -59,7 +54,7 @@ const bodyParserConfig: BodyParserConfig = {
     */
     convertEmptyStringsToNull: true,
 
-    types: ['application/x-www-form-urlencoded'],
+    types: ["application/x-www-form-urlencoded"],
   },
 
   /*
@@ -73,10 +68,10 @@ const bodyParserConfig: BodyParserConfig = {
   |
   */
   raw: {
-    encoding: 'utf-8',
-    limit: '1mb',
+    encoding: "utf-8",
+    limit: "1mb",
     queryString: {},
-    types: ['text/*'],
+    types: ["text/*"],
   },
 
   /*
@@ -147,7 +142,7 @@ const bodyParserConfig: BodyParserConfig = {
     | Request body encoding
     |
     */
-    encoding: 'utf-8',
+    encoding: "utf-8",
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +176,7 @@ const bodyParserConfig: BodyParserConfig = {
     | and fields data.
     |
     */
-    limit: '20mb',
+    limit: "20mb",
 
     /*
     |--------------------------------------------------------------------------
@@ -191,7 +186,7 @@ const bodyParserConfig: BodyParserConfig = {
     | The types that will be considered and parsed as multipart body.
     |
     */
-    types: ['multipart/form-data'],
+    types: ["multipart/form-data"],
   },
 };
 

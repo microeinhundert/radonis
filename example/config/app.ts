@@ -1,11 +1,11 @@
-import Application from '@ioc:Adonis/Core/Application';
-import type { AssetsManagerConfig } from '@ioc:Adonis/Core/AssetsManager';
-import Env from '@ioc:Adonis/Core/Env';
-import type { LoggerConfig } from '@ioc:Adonis/Core/Logger';
-import type { ProfilerConfig } from '@ioc:Adonis/Core/Profiler';
-import type { ServerConfig } from '@ioc:Adonis/Core/Server';
-import type { ValidatorConfig } from '@ioc:Adonis/Core/Validator';
-import proxyAddr from 'proxy-addr';
+import Application from "@ioc:Adonis/Core/Application";
+import type { AssetsManagerConfig } from "@ioc:Adonis/Core/AssetsManager";
+import Env from "@ioc:Adonis/Core/Env";
+import type { LoggerConfig } from "@ioc:Adonis/Core/Logger";
+import type { ProfilerConfig } from "@ioc:Adonis/Core/Profiler";
+import type { ServerConfig } from "@ioc:Adonis/Core/Server";
+import type { ValidatorConfig } from "@ioc:Adonis/Core/Validator";
+import proxyAddr from "proxy-addr";
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ import proxyAddr from 'proxy-addr';
 | be decrypted.
 |
 */
-export const appKey: string = Env.get('APP_KEY');
+export const appKey: string = Env.get("APP_KEY");
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +72,7 @@ export const http: ServerConfig = {
   | headers.
   |
   */
-  trustProxy: proxyAddr.compile('loopback'),
+  trustProxy: proxyAddr.compile("loopback"),
 
   /*
   |--------------------------------------------------------------------------
@@ -89,7 +89,7 @@ export const http: ServerConfig = {
   | JSONP Callback
   |--------------------------------------------------------------------------
   */
-  jsonpCallbackName: 'callback',
+  jsonpCallbackName: "callback",
 
   /*
   |--------------------------------------------------------------------------
@@ -97,9 +97,9 @@ export const http: ServerConfig = {
   |--------------------------------------------------------------------------
   */
   cookie: {
-    domain: '',
-    path: '/',
-    maxAge: '2h',
+    domain: "",
+    path: "/",
+    maxAge: "2h",
     httpOnly: true,
     secure: false,
     sameSite: false,
@@ -124,7 +124,7 @@ export const logger: LoggerConfig = {
   | reading the `name` property from the `package.json` file.
   |
   */
-  name: Env.get('APP_NAME'),
+  name: Env.get("APP_NAME"),
 
   /*
   |--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ export const logger: LoggerConfig = {
   | at deployment level and not code level.
   |
   */
-  level: Env.get('LOG_LEVEL', 'info'),
+  level: Env.get("LOG_LEVEL", "info"),
 
   /*
   |--------------------------------------------------------------------------
@@ -157,7 +157,7 @@ export const logger: LoggerConfig = {
   | can have huge impact on performance.
   |
   */
-  prettyPrint: Env.get('NODE_ENV') === 'development',
+  prettyPrint: Env.get("NODE_ENV") === "development",
 };
 
 /*
@@ -228,7 +228,7 @@ export const assets: AssetsManagerConfig = {
   | in the future
   |
   */
-  driver: 'encore',
+  driver: "encore",
 
   /*
   |--------------------------------------------------------------------------
@@ -239,7 +239,7 @@ export const assets: AssetsManagerConfig = {
   | files
   |
   */
-  publicPath: Application.publicPath('assets'),
+  publicPath: Application.publicPath("assets"),
 
   /*
   |--------------------------------------------------------------------------

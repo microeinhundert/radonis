@@ -1,8 +1,8 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { hydratable, useI18n } from '@microeinhundert/radonis';
-import { useId } from 'react';
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { hydratable, useI18n } from "@microeinhundert/radonis";
+import { useId } from "react";
 
-import { clsx } from '../utils/string';
+import { clsx } from "../utils/string";
 
 /*
  * Search
@@ -12,8 +12,8 @@ function Search() {
   const id = useId();
 
   const messages = {
-    label: formatMessage('shared.search.label'),
-    placeholder: formatMessage('shared.search.placeholder'),
+    label: formatMessage("shared.search.label"),
+    placeholder: formatMessage("shared.search.placeholder"),
   };
 
   return (
@@ -27,8 +27,8 @@ function Search() {
         </div>
         <input
           className={clsx(
-            'h-full w-full border-transparent bg-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500',
-            'focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0'
+            "h-full w-full border-transparent bg-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500",
+            "focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0"
           )}
           id={id}
           name="search-field"
@@ -40,4 +40,4 @@ function Search() {
   );
 }
 
-export default hydratable('Search', Search);
+export default hydratable("Search", Search);

@@ -8,7 +8,7 @@
 | preferred, since they keep this file clean.
 |
 */
-import Server from '@ioc:Adonis/Core/Server';
+import Server from "@ioc:Adonis/Core/Server";
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +20,12 @@ import Server from '@ioc:Adonis/Core/Server';
 |
 */
 Server.middleware.register([
-  () => import('@ioc:Adonis/Addons/Shield'),
-  () => import('@ioc:Adonis/Core/BodyParser'),
-  () => import('App/Middleware/ErrorPages'),
-  () => import('App/Middleware/Csrf'),
-  () => import('App/Middleware/DetectUserLocale'),
-  () => import('App/Middleware/SilentAuth'),
+  () => import("@ioc:Adonis/Addons/Shield"),
+  () => import("@ioc:Adonis/Core/BodyParser"),
+  () => import("App/Middleware/ErrorPages"),
+  () => import("App/Middleware/Csrf"),
+  () => import("App/Middleware/DetectUserLocale"),
+  () => import("App/Middleware/SilentAuth"),
 ]);
 
 /*
@@ -44,4 +44,4 @@ Server.middleware.register([
 | Route.get('dashboard', 'UserController.dashboard').middleware('auth')
 |
 */
-Server.middleware.registerNamed({ auth: () => import('App/Middleware/Auth') });
+Server.middleware.registerNamed({ auth: () => import("App/Middleware/Auth") });

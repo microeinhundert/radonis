@@ -10,10 +10,10 @@
 |
 */
 
-import 'reflect-metadata';
+import "reflect-metadata";
 
-import { Ignitor } from '@adonisjs/core/build/standalone';
-import sourceMapSupport from 'source-map-support';
+import { Ignitor } from "@adonisjs/core/build/standalone";
+import sourceMapSupport from "source-map-support";
 
 sourceMapSupport.install({ handleUncaughtExceptions: false });
 

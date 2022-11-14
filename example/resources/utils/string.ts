@@ -7,5 +7,5 @@ export function capitalize(string: string): string {
 }
 
 export function clsx(...classes: unknown[]): string {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }

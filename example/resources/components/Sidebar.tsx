@@ -1,11 +1,11 @@
-import { HydrationRoot } from '@microeinhundert/radonis';
+import { HydrationRoot } from "@microeinhundert/radonis";
 
-import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
-import { useNavigation } from '../hooks/useNavigation';
-import type { NavigationItem } from '../hooks/useNavigationBuilder';
-import { clsx } from '../utils/string';
-import Logo from './Logo';
-import SidebarUserInfo from './SidebarUserInfo';
+import { useAuthenticatedUser } from "../hooks/useAuthenticatedUser";
+import { useNavigation } from "../hooks/useNavigation";
+import type { NavigationItem } from "../hooks/useNavigationBuilder";
+import { clsx } from "../utils/string";
+import Logo from "./Logo";
+import SidebarUserInfo from "./SidebarUserInfo";
 
 /*
  * Sidebar Navigation Item
@@ -14,21 +14,13 @@ interface SidebarNavigationItemProps extends NavigationItem {
   dense?: boolean;
 }
 
-function SidebarNavigationItem({
-  name,
-  href,
-  icon: Icon,
-  current,
-  dense,
-}: SidebarNavigationItemProps) {
+function SidebarNavigationItem({ name, href, icon: Icon, current, dense }: SidebarNavigationItemProps) {
   return (
     <a
       className={clsx(
-        'group flex items-center rounded-md px-2 text-sm font-medium',
-        dense ? 'py-2' : 'py-3',
-        current
-          ? 'bg-gray-100 text-emerald-600'
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+        "group flex items-center rounded-md px-2 text-sm font-medium",
+        dense ? "py-2" : "py-3",
+        current ? "bg-gray-100 text-emerald-600" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
       )}
       href={href}
     >
@@ -37,7 +29,7 @@ function SidebarNavigationItem({
           aria-hidden="true"
           className={clsx(
             `mr-3 h-6 w-6 flex-shrink-0`,
-            current ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-500'
+            current ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-500"
           )}
         />
       )}

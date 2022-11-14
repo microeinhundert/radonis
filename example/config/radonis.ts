@@ -1,6 +1,6 @@
-import Application from '@ioc:Adonis/Core/Application';
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis';
-import { unocssPlugin } from '@microeinhundert/radonis-unocss';
+import Application from "@ioc:Adonis/Core/Application";
+import type { RadonisConfig } from "@ioc:Microeinhundert/Radonis";
+import { unocssPlugin } from "@microeinhundert/radonis-unocss";
 
 const radonisConfig: RadonisConfig = {
   /*
@@ -51,7 +51,7 @@ const radonisConfig: RadonisConfig = {
       | A string to prefix the title with.
       |
       */
-      prefix: '',
+      prefix: "",
 
       /*
       |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ const radonisConfig: RadonisConfig = {
       | A string to suffix the title with.
       |
       */
-      suffix: 'Radonis Example Application',
+      suffix: "Radonis Example Application",
 
       /*
       |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ const radonisConfig: RadonisConfig = {
       | The character separating the title and the prefix / suffix.
       |
       */
-      separator: '|',
+      separator: "|",
     },
 
     /*
@@ -83,8 +83,8 @@ const radonisConfig: RadonisConfig = {
     |
     */
     defaultMeta: {
-      charSet: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1.0',
+      charSet: "utf-8",
+      viewport: "width=device-width, initial-scale=1.0",
     },
   },
 
@@ -113,7 +113,7 @@ const radonisConfig: RadonisConfig = {
     | that are not bound to a specific component "Island".
     |
     */
-    entryFile: Application.resourcesPath('entry.client.ts'),
+    entryFile: Application.resourcesPath("entry.client.ts"),
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +135,7 @@ const radonisConfig: RadonisConfig = {
     | Components in this directory will be built to also run client-side.
     |
     */
-    componentsDir: Application.resourcesPath('components'),
+    componentsDir: Application.resourcesPath("components"),
 
     /*
     |--------------------------------------------------------------------------

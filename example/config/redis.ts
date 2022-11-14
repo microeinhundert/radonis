@@ -1,5 +1,5 @@
-import type { RedisConfig } from '@ioc:Adonis/Addons/Redis';
-import Env from '@ioc:Adonis/Core/Env';
+import type { RedisConfig } from "@ioc:Adonis/Addons/Redis";
+import Env from "@ioc:Adonis/Core/Env";
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ import Env from '@ioc:Adonis/Core/Env';
 | Make sure to check `contracts/redis.ts` file for defining extra connections
 */
 const redisConfig: RedisConfig = {
-  connection: Env.get('REDIS_CONNECTION'),
+  connection: Env.get("REDIS_CONNECTION"),
 
   connections: {
     /*
@@ -29,11 +29,11 @@ const redisConfig: RedisConfig = {
     |
     */
     local: {
-      host: Env.get('REDIS_HOST'),
-      port: Env.get('REDIS_PORT'),
-      password: Env.get('REDIS_PASSWORD', ''),
+      host: Env.get("REDIS_HOST"),
+      port: Env.get("REDIS_PORT"),
+      password: Env.get("REDIS_PASSWORD", ""),
       db: 0,
-      keyPrefix: '',
+      keyPrefix: "",
     },
   },
 };

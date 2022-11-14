@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import type { RouteIdentifier, RouteParams } from '@microeinhundert/radonis';
-import { hydratable } from '@microeinhundert/radonis';
-import { useUrlBuilder } from '@microeinhundert/radonis';
+import type { RouteIdentifier, RouteParams } from "@microeinhundert/radonis";
+import { hydratable } from "@microeinhundert/radonis";
+import { useUrlBuilder } from "@microeinhundert/radonis";
 
-import { clsx } from '../utils/string';
+import { clsx } from "../utils/string";
 
 /*
  * Shared
  */
 export enum ButtonColor {
-  Emerald = 'emerald',
-  Red = 'red',
-  White = 'white',
-  WhiteDanger = 'white-danger',
+  Emerald = "emerald",
+  Red = "red",
+  White = "white",
+  WhiteDanger = "white-danger",
 }
 
-type ButtonTag = 'a' | 'button';
+type ButtonTag = "a" | "button";
 
 type ButtonBaseProps<Tag extends ButtonTag> = HTMLProps<Tag> & {
   small?: boolean;
@@ -51,13 +51,13 @@ function useButtonProps<Tag extends ButtonTag>(props: ButtonBaseProps<Tag>) {
       ...(defaults ?? {}),
       ...propsWeDontControl,
       className: clsx(
-        'flex justify-center items-center gap-2',
-        'border font-medium transition',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2',
-        children ? (small ? 'px-3 py-1' : 'px-4 py-2') : small ? 'px-1 py-1' : 'px-2 py-2',
-        small ? 'text-xs' : 'text-sm',
-        round ? 'rounded-full' : 'rounded-lg',
-        disabled && 'opacity-25 pointer-events-none',
+        "flex justify-center items-center gap-2",
+        "border font-medium transition",
+        "focus:outline-none focus:ring-2 focus:ring-offset-2",
+        children ? (small ? "px-3 py-1" : "px-4 py-2") : small ? "px-1 py-1" : "px-2 py-2",
+        small ? "text-xs" : "text-sm",
+        round ? "rounded-full" : "rounded-lg",
+        disabled && "opacity-25 pointer-events-none",
         getButtonColorClasses(color),
         className
       ),
@@ -69,16 +69,11 @@ function useButtonProps<Tag extends ButtonTag>(props: ButtonBaseProps<Tag>) {
 /*
  * Button Content
  */
-function ButtonContent<Tag extends ButtonTag>({
-  children,
-  title,
-  small,
-  icon: Icon,
-}: ButtonBaseProps<Tag>) {
+function ButtonContent<Tag extends ButtonTag>({ children, title, small, icon: Icon }: ButtonBaseProps<Tag>) {
   return (
     <>
       {children ?? (title && <div className="sr-only">{title}</div>)}
-      {Icon && <Icon className={clsx(small ? 'h-3 w-3' : 'h-5 w-5')} />}
+      {Icon && <Icon className={clsx(small ? "h-3 w-3" : "h-5 w-5")} />}
     </>
   );
 }
@@ -86,14 +81,14 @@ function ButtonContent<Tag extends ButtonTag>({
 /*
  * Anchor Button
  */
-interface AnchorButtonProps extends ButtonBaseProps<'a'> {}
+interface AnchorButtonProps extends ButtonBaseProps<"a"> {}
 
 function AnchorButton(props: AnchorButtonProps) {
-  const { getProps, disabled, children } = useButtonProps<'a'>(props);
+  const { getProps, disabled, children } = useButtonProps<"a">(props);
 
   return (
-    <a {...getProps({ 'aria-disabled': disabled ? 'true' : undefined })}>
-      <ButtonContent<'a'> {...props}>{children}</ButtonContent>
+    <a {...getProps({ "aria-disabled": disabled ? "true" : undefined })}>
+      <ButtonContent<"a"> {...props}>{children}</ButtonContent>
     </a>
   );
 }
@@ -101,7 +96,7 @@ function AnchorButton(props: AnchorButtonProps) {
 /*
  * Link Button
  */
-interface LinkButtonProps extends ButtonBaseProps<'a'> {
+interface LinkButtonProps extends ButtonBaseProps<"a"> {
   href?: never;
   to: RouteIdentifier;
   params?: RouteParams;
@@ -109,17 +104,17 @@ interface LinkButtonProps extends ButtonBaseProps<'a'> {
 }
 
 function LinkButton({ to, params, queryParams, ...restProps }: LinkButtonProps) {
-  const { getProps, disabled, children } = useButtonProps<'a'>(restProps);
+  const { getProps, disabled, children } = useButtonProps<"a">(restProps);
   const { make } = useUrlBuilder();
 
   return (
     <a
       {...getProps({
-        'aria-disabled': disabled ? 'true' : undefined,
-        'href': make(to, { params, queryParams }),
+        "aria-disabled": disabled ? "true" : undefined,
+        "href": make(to, { params, queryParams }),
       })}
     >
-      <ButtonContent<'a'> {...restProps}>{children}</ButtonContent>
+      <ButtonContent<"a"> {...restProps}>{children}</ButtonContent>
     </a>
   );
 }
@@ -127,14 +122,14 @@ function LinkButton({ to, params, queryParams, ...restProps }: LinkButtonProps) 
 /*
  * Button
  */
-interface ButtonProps extends ButtonBaseProps<'button'> {}
+interface ButtonProps extends ButtonBaseProps<"button"> {}
 
 function Button(props: ButtonProps) {
-  const { getProps, disabled, children } = useButtonProps<'button'>(props);
+  const { getProps, disabled, children } = useButtonProps<"button">(props);
 
   return (
-    <button {...getProps({ type: 'button', disabled })}>
-      <ButtonContent<'button'> {...props}>{children}</ButtonContent>
+    <button {...getProps({ type: "button", disabled })}>
+      <ButtonContent<"button"> {...props}>{children}</ButtonContent>
     </button>
   );
 }
@@ -142,4 +137,4 @@ function Button(props: ButtonProps) {
 Button.Anchor = AnchorButton;
 Button.Link = LinkButton;
 
-export default hydratable('Button', Button);
+export default hydratable("Button", Button);

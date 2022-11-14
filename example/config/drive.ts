@@ -1,6 +1,6 @@
-import Application from '@ioc:Adonis/Core/Application';
-import type { DriveConfig } from '@ioc:Adonis/Core/Drive';
-import Env from '@ioc:Adonis/Core/Env';
+import Application from "@ioc:Adonis/Core/Application";
+import type { DriveConfig } from "@ioc:Adonis/Core/Drive";
+import Env from "@ioc:Adonis/Core/Env";
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ const driveConfig: DriveConfig = {
   | the `DRIVE_DISK` environment variable.
   |
   */
-  disk: Env.get('DRIVE_DISK'),
+  disk: Env.get("DRIVE_DISK"),
 
   disks: {
     /*
@@ -34,8 +34,8 @@ const driveConfig: DriveConfig = {
     |
     */
     local: {
-      driver: 'local',
-      visibility: 'public',
+      driver: "local",
+      visibility: "public",
 
       /*
       |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ const driveConfig: DriveConfig = {
       | files.
       |
       */
-      root: Application.tmpPath('uploads'),
+      root: Application.tmpPath("uploads"),
 
       /*
       |--------------------------------------------------------------------------
@@ -70,7 +70,7 @@ const driveConfig: DriveConfig = {
       | you are not registering routes with this prefix.
       |
       */
-      basePath: '/uploads',
+      basePath: "/uploads",
     },
 
     /*
@@ -82,14 +82,14 @@ const driveConfig: DriveConfig = {
     |
     */
     s3: {
-      driver: 's3',
-      visibility: 'public',
+      driver: "s3",
+      visibility: "public",
       forcePathStyle: true,
-      key: Env.get('S3_KEY'),
-      secret: Env.get('S3_SECRET'),
-      region: Env.get('S3_REGION'),
-      bucket: Env.get('S3_BUCKET'),
-      endpoint: Env.get('S3_ENDPOINT'),
+      key: Env.get("S3_KEY"),
+      secret: Env.get("S3_SECRET"),
+      region: Env.get("S3_REGION"),
+      bucket: Env.get("S3_BUCKET"),
+      endpoint: Env.get("S3_ENDPOINT"),
     },
   },
 };

@@ -1,6 +1,6 @@
-import type User from 'App/Models/User';
+import type User from "App/Models/User";
 
-declare module '@microeinhundert/radonis-types' {
+declare module "@microeinhundert/radonis-types" {
   /*
   |--------------------------------------------------------------------------
   | Define typed globals

@@ -1,9 +1,9 @@
-import { Form, hydratable, useI18n, useUrlBuilder } from '@microeinhundert/radonis';
+import { Form, hydratable, useI18n, useUrlBuilder } from "@microeinhundert/radonis";
 
-import Button from '../Button';
-import CsrfField from '../CsrfField';
-import Input from '../Input';
-import Link from '../Link';
+import Button from "../Button";
+import CsrfField from "../CsrfField";
+import Input from "../Input";
+import Link from "../Link";
 
 /*
  * Sign Up Form
@@ -14,24 +14,24 @@ function SignUpForm() {
 
   const messages = {
     firstName: {
-      label: formatMessage('auth.signUp.form.firstName.label'),
+      label: formatMessage("auth.signUp.form.firstName.label"),
     },
     lastName: {
-      label: formatMessage('auth.signUp.form.lastName.label'),
+      label: formatMessage("auth.signUp.form.lastName.label"),
     },
     email: {
-      label: formatMessage('auth.signUp.form.email.label'),
+      label: formatMessage("auth.signUp.form.email.label"),
     },
     password: {
-      label: formatMessage('auth.signUp.form.password.label'),
+      label: formatMessage("auth.signUp.form.password.label"),
     },
     passwordConfirmation: {
-      label: formatMessage('auth.signUp.form.passwordConfirmation.label'),
+      label: formatMessage("auth.signUp.form.passwordConfirmation.label"),
     },
     actions: {
-      submit: formatMessage('auth.signUp.form.actions.submit'),
+      submit: formatMessage("auth.signUp.form.actions.submit"),
     },
-    signInLinkLabel: formatMessage('auth.signUp.form.signInLinkLabel'),
+    signInLinkLabel: formatMessage("auth.signUp.form.signInLinkLabel"),
   };
 
   return (
@@ -62,13 +62,7 @@ function SignUpForm() {
           type="email"
           required
         />
-        <Input
-          autoComplete="new-password"
-          label={messages.password.label}
-          name="password"
-          type="password"
-          required
-        />
+        <Input autoComplete="new-password" label={messages.password.label} name="password" type="password" required />
         <Input
           autoComplete="new-password"
           label={messages.passwordConfirmation.label}
@@ -80,11 +74,11 @@ function SignUpForm() {
           {messages.actions.submit}
         </Button>
         <div className="text-center text-sm">
-          <Link href={make('AuthController.signIn')}>{messages.signInLinkLabel}</Link>
+          <Link href={make("AuthController.signIn")}>{messages.signInLinkLabel}</Link>
         </div>
       </div>
     </Form>
   );
 }
 
-export default hydratable('SignUpForm', SignUpForm);
+export default hydratable("SignUpForm", SignUpForm);

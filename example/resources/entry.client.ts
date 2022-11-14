@@ -1,3 +1,3 @@
-import { initClient } from '@microeinhundert/radonis';
+import { initClient } from "@microeinhundert/radonis";
 
 initClient();

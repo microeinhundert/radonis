@@ -1,17 +1,17 @@
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { Form, hydratable, useHydrated, useI18n } from '@microeinhundert/radonis';
-import type Garden from 'App/Models/Garden';
-import { useState } from 'react';
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { Form, hydratable, useHydrated, useI18n } from "@microeinhundert/radonis";
+import type Garden from "App/Models/Garden";
+import { useState } from "react";
 
-import { useAuthenticatedUser } from '../../hooks/useAuthenticatedUser';
-import Button, { ButtonColor } from '../Button';
-import Card from '../Card';
-import Fallback from '../Fallback';
-import Grid from '../Grid';
-import IconCircle, { IconCircleColor } from '../IconCircle';
-import NoDataIllustration from '../Illustrations/NoDataIllustration';
-import Modal from '../Modal';
+import { useAuthenticatedUser } from "../../hooks/useAuthenticatedUser";
+import Button, { ButtonColor } from "../Button";
+import Card from "../Card";
+import Fallback from "../Fallback";
+import Grid from "../Grid";
+import IconCircle, { IconCircleColor } from "../IconCircle";
+import NoDataIllustration from "../Illustrations/NoDataIllustration";
+import Modal from "../Modal";
 
 /*
  * Gardens List Item
@@ -30,16 +30,16 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
 
   const messages = {
     actions: {
-      edit: formatMessage('gardens.list.actions.edit'),
-      delete: formatMessage('gardens.list.actions.delete'),
+      edit: formatMessage("gardens.list.actions.edit"),
+      delete: formatMessage("gardens.list.actions.delete"),
     },
     modals: {
       delete: {
-        title: formatMessage('gardens.list.modals.delete.title', { name: garden.name }),
-        description: formatMessage('gardens.list.modals.delete.description'),
+        title: formatMessage("gardens.list.modals.delete.title", { name: garden.name }),
+        description: formatMessage("gardens.list.modals.delete.description"),
         actions: {
-          cancel: formatMessage('gardens.list.modals.delete.actions.cancel'),
-          confirm: formatMessage('gardens.list.modals.delete.actions.confirm'),
+          cancel: formatMessage("gardens.list.modals.delete.actions.cancel"),
+          confirm: formatMessage("gardens.list.modals.delete.actions.confirm"),
         },
       },
     },
@@ -81,7 +81,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
                   color={ButtonColor.WhiteDanger}
                   icon={TrashIcon}
                   title={messages.actions.delete}
-                  type={hydrated ? 'button' : 'submit'}
+                  type={hydrated ? "button" : "submit"}
                   round
                   small
                   onClick={() => {
@@ -102,11 +102,7 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
       <Modal
         actions={
           <>
-            <Button
-              color={ButtonColor.White}
-              round
-              onClick={() => setDeleteConfirmationModalOpen(false)}
-            >
+            <Button color={ButtonColor.White} round onClick={() => setDeleteConfirmationModalOpen(false)}>
               {messages.modals.delete.actions.cancel}
             </Button>
             <Button color={ButtonColor.Red} form={`delete-garden-${garden.id}`} type="submit" round>
@@ -143,8 +139,8 @@ function GardensList({ gardens }: GardensListProps) {
 
   const messages = {
     noData: {
-      headline: formatMessage('gardens.list.noData.headline'),
-      text: formatMessage('gardens.list.noData.text'),
+      headline: formatMessage("gardens.list.noData.headline"),
+      text: formatMessage("gardens.list.noData.text"),
     },
   };
 
@@ -175,4 +171,4 @@ function GardensList({ gardens }: GardensListProps) {
   );
 }
 
-export default hydratable('GardensList', GardensList);
+export default hydratable("GardensList", GardensList);

@@ -1,4 +1,4 @@
-import type { AssetsConfig } from '@ioc:Adonis/Core/Static';
+import type { AssetsConfig } from "@ioc:Adonis/Core/Static";
 
 const staticConfig: AssetsConfig = {
   /*
@@ -29,7 +29,7 @@ const staticConfig: AssetsConfig = {
   | - allow: Serve the file contents
   |
   */
-  dotFiles: 'ignore',
+  dotFiles: "ignore",
 
   /*
   |--------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
 export default class SilentAuthMiddleware {
   public async handle({ auth, radonis }: HttpContextContract, next: () => Promise<void>) {

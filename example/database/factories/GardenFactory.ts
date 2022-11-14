@@ -1,7 +1,7 @@
-import Factory from '@ioc:Adonis/Lucid/Factory';
-import Garden from 'App/Models/Garden';
+import Factory from "@ioc:Adonis/Lucid/Factory";
+import Garden from "App/Models/Garden";
 
-import UserFactory from './UserFactory';
+import UserFactory from "./UserFactory";
 
 export default Factory.define(Garden, async ({ faker }) => {
   const user = await UserFactory.create();

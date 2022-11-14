@@ -1,7 +1,7 @@
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm';
-import User from 'App/Models/User';
-import CamelCaseNamingStrategy from 'App/Strategies/CamelCaseNamingStrategy';
-import { DateTime } from 'luxon';
+import { BaseModel, BelongsTo, belongsTo, column } from "@ioc:Adonis/Lucid/Orm";
+import User from "App/Models/User";
+import CamelCaseNamingStrategy from "App/Strategies/CamelCaseNamingStrategy";
+import { DateTime } from "luxon";
 
 export default class Garden extends BaseModel {
   public static namingStrategy = new CamelCaseNamingStrategy();

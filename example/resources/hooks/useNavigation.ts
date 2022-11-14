@@ -1,7 +1,7 @@
-import { CogIcon, CubeIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { CogIcon, CubeIcon, HomeIcon } from "@heroicons/react/24/outline";
 
-import { useAuthenticatedUser } from './useAuthenticatedUser';
-import { useNavigationBuilder } from './useNavigationBuilder';
+import { useAuthenticatedUser } from "./useAuthenticatedUser";
+import { useNavigationBuilder } from "./useNavigationBuilder";
 
 export function useNavigation() {
   const user = useAuthenticatedUser();
@@ -10,28 +10,28 @@ export function useNavigation() {
   return {
     primary: navigationBuilder.make([
       {
-        identifier: 'home',
-        routeIdentifier: 'HomeController.index',
+        identifier: "home",
+        routeIdentifier: "HomeController.index",
         icon: HomeIcon,
         canAccess: () => !user,
       },
       {
-        identifier: 'dashboard',
-        routeIdentifier: 'DashboardController.index',
+        identifier: "dashboard",
+        routeIdentifier: "DashboardController.index",
         icon: HomeIcon,
         canAccess: () => !!user,
       },
       {
-        identifier: 'gardens',
-        routeIdentifier: 'GardensController.index',
+        identifier: "gardens",
+        routeIdentifier: "GardensController.index",
         icon: CubeIcon,
         canAccess: () => !!user,
       },
     ]),
     secondary: navigationBuilder.make([
       {
-        identifier: 'settings',
-        routeIdentifier: 'SettingsController.index',
+        identifier: "settings",
+        routeIdentifier: "SettingsController.index",
         icon: CogIcon,
         canAccess: () => !!user,
       },

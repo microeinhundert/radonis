@@ -1,11 +1,11 @@
-import { hydratable, useFormField } from '@microeinhundert/radonis';
+import { hydratable, useFormField } from "@microeinhundert/radonis";
 
-import { clsx } from '../utils/string';
+import { clsx } from "../utils/string";
 
 /*
  * Checkbox
  */
-interface CheckboxProps extends HTMLProps<'input'> {
+interface CheckboxProps extends HTMLProps<"input"> {
   type?: never;
   name: string;
   label: string;
@@ -21,15 +21,15 @@ function Checkbox({ className, ...restProps }: CheckboxProps) {
         <div className="flex h-5 items-center">
           <input
             {...field.getInputProps({
-              type: 'checkbox',
-              value: 'true',
+              type: "checkbox",
+              value: "true",
               defaultChecked: !!field.value,
             })}
             className={clsx(
-              'h-4 w-4 rounded transition',
-              field.error ? 'text-red-600' : 'text-emerald-600',
-              field.error ? 'border-red-300' : 'border-gray-300',
-              field.error ? 'focus:ring-red-500' : 'focus:ring-emerald-500',
+              "h-4 w-4 rounded transition",
+              field.error ? "text-red-600" : "text-emerald-600",
+              field.error ? "border-red-300" : "border-gray-300",
+              field.error ? "focus:ring-red-500" : "focus:ring-emerald-500",
               className
             )}
           />
@@ -54,4 +54,4 @@ function Checkbox({ className, ...restProps }: CheckboxProps) {
   );
 }
 
-export default hydratable('Checkbox', Checkbox);
+export default hydratable("Checkbox", Checkbox);

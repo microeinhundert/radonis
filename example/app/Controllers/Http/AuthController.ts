@@ -1,15 +1,15 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import User from 'App/Models/User';
-import SignInValidator from 'App/Validators/SignInValidator';
-import SignUpValidator from 'App/Validators/SignUpValidator';
-import { SignIn, SignUp } from 'Views/Auth';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import User from "App/Models/User";
+import SignInValidator from "App/Validators/SignInValidator";
+import SignUpValidator from "App/Validators/SignUpValidator";
+import { SignIn, SignUp } from "Views/Auth";
 
 export default class AuthController {
   /*
    * signUpShow action
    */
   public signUpShow({ radonis, i18n }: HttpContextContract) {
-    return radonis.withHeadTitle(i18n.formatMessage('auth.signUp.title')).render(SignUp);
+    return radonis.withHeadTitle(i18n.formatMessage("auth.signUp.title")).render(SignUp);
   }
 
   /*
@@ -22,8 +22,8 @@ export default class AuthController {
 
     await auth.login(user);
 
-    if (request.accepts(['html'])) {
-      return response.redirect().toRoute('DashboardController.index');
+    if (request.accepts(["html"])) {
+      return response.redirect().toRoute("DashboardController.index");
     }
 
     return response.json(true);
@@ -33,7 +33,7 @@ export default class AuthController {
    * signInShow action
    */
   public signInShow({ radonis, i18n }: HttpContextContract) {
-    return radonis.withHeadTitle(i18n.formatMessage('auth.signIn.title')).render(SignIn);
+    return radonis.withHeadTitle(i18n.formatMessage("auth.signIn.title")).render(SignIn);
   }
 
   /*
@@ -45,20 +45,20 @@ export default class AuthController {
     try {
       await auth.attempt(email, password, rememberMe);
 
-      if (request.accepts(['html'])) {
-        return response.redirect().toRoute('DashboardController.index');
+      if (request.accepts(["html"])) {
+        return response.redirect().toRoute("DashboardController.index");
       }
 
       return response.json(true);
     } catch {
-      if (request.accepts(['html'])) {
+      if (request.accepts(["html"])) {
         session.flash({
           errors: {
-            invalidEmailOrPassword: i18n.formatMessage('validator.invalidEmailOrPassword'),
+            invalidEmailOrPassword: i18n.formatMessage("validator.invalidEmailOrPassword"),
           },
         });
 
-        return response.redirect().toRoute('DashboardController.index');
+        return response.redirect().toRoute("DashboardController.index");
       }
 
       return response.json(false);
@@ -71,8 +71,8 @@ export default class AuthController {
   public signOut({ response, request, auth }: HttpContextContract) {
     auth.logout();
 
-    if (request.accepts(['html'])) {
-      return response.redirect().toRoute('HomeController.index');
+    if (request.accepts(["html"])) {
+      return response.redirect().toRoute("HomeController.index");
     }
 
     return response.json(true);

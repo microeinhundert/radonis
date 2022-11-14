@@ -5,8 +5,8 @@
  * file.
  */
 
-import type { MailConfig } from '@ioc:Adonis/Addons/Mail';
-import Env from '@ioc:Adonis/Core/Env';
+import type { MailConfig } from "@ioc:Adonis/Addons/Mail";
+import Env from "@ioc:Adonis/Core/Env";
 
 const mailConfig: MailConfig = {
   /*
@@ -18,7 +18,7 @@ const mailConfig: MailConfig = {
   | a mailer
   |
   */
-  mailer: 'ses',
+  mailer: "ses",
 
   /*
   |--------------------------------------------------------------------------
@@ -48,11 +48,11 @@ const mailConfig: MailConfig = {
     |
     */
     ses: {
-      driver: 'ses',
-      apiVersion: '2010-12-01',
-      key: Env.get('SES_ACCESS_KEY'),
-      secret: Env.get('SES_ACCESS_SECRET'),
-      region: Env.get('SES_REGION'),
+      driver: "ses",
+      apiVersion: "2010-12-01",
+      key: Env.get("SES_ACCESS_KEY"),
+      secret: Env.get("SES_ACCESS_SECRET"),
+      region: Env.get("SES_REGION"),
       sslEnabled: true,
       sendingRate: 10,
       maxConnections: 5,

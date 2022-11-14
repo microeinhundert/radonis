@@ -1,7 +1,7 @@
-import { hydratable } from '@microeinhundert/radonis';
-import type { ReactNode } from 'react';
+import { hydratable } from "@microeinhundert/radonis";
+import type { ReactNode } from "react";
 
-import { clsx } from '../utils/string';
+import { clsx } from "../utils/string";
 
 /*
  * Card Head
@@ -16,7 +16,7 @@ function CardHead({ className, children, actions }: CardHeadProps) {
   return (
     <div
       className={clsx(
-        'flex flex-wrap items-center justify-between border-b border-gray-200 p-4 sm:flex-nowrap',
+        "flex flex-wrap items-center justify-between border-b border-gray-200 p-4 sm:flex-nowrap",
         className
       )}
     >
@@ -35,7 +35,7 @@ interface CardBodyProps {
 }
 
 function CardBody({ className, children }: CardBodyProps) {
-  return <div className={clsx('p-4', className)}>{children}</div>;
+  return <div className={clsx("p-4", className)}>{children}</div>;
 }
 
 /*
@@ -49,10 +49,7 @@ interface CardProps {
 function Card({ className, children }: CardProps) {
   return (
     <div
-      className={clsx(
-        'overflow-hidden rounded-md border border-gray-200 bg-white text-gray-900 shadow-sm',
-        className
-      )}
+      className={clsx("overflow-hidden rounded-md border border-gray-200 bg-white text-gray-900 shadow-sm", className)}
     >
       {children}
     </div>
@@ -62,4 +59,4 @@ function Card({ className, children }: CardProps) {
 Card.Head = CardHead;
 Card.Body = CardBody;
 
-export default hydratable('Card', Card);
+export default hydratable("Card", Card);

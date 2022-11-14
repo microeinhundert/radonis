@@ -1,5 +1,5 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { rules, schema } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
+import { rules, schema } from "@ioc:Adonis/Core/Validator";
 
 export default class SignUpValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -13,12 +13,9 @@ export default class SignUpValidator {
         allLowercase: true,
         gmailRemoveSubaddress: true,
       }),
-      rules.unique({ table: 'users', column: 'email' }),
+      rules.unique({ table: "users", column: "email" }),
     ]),
-    password: schema.string({ trim: true }, [
-      rules.confirmed('passwordConfirmation'),
-      rules.minLength(6),
-    ]),
+    password: schema.string({ trim: true }, [rules.confirmed("passwordConfirmation"), rules.minLength(6)]),
   });
 
   public messages = {};

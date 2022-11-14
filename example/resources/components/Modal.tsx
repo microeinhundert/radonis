@@ -1,10 +1,10 @@
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { hydratable, useI18n } from '@microeinhundert/radonis';
-import type { ReactNode } from 'react';
-import { Fragment } from 'react';
+import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { hydratable, useI18n } from "@microeinhundert/radonis";
+import type { ReactNode } from "react";
+import { Fragment } from "react";
 
-import { clsx } from '../utils/string';
+import { clsx } from "../utils/string";
 
 /*
  * Modal Aside
@@ -52,9 +52,7 @@ interface ModalDescriptionProps {
 
 function ModalDescription({ children }: ModalDescriptionProps) {
   return (
-    <Dialog.Description className="mt-2 text-center text-sm text-gray-500 sm:text-left">
-      {children}
-    </Dialog.Description>
+    <Dialog.Description className="mt-2 text-center text-sm text-gray-500 sm:text-left">{children}</Dialog.Description>
   );
 }
 
@@ -63,12 +61,12 @@ function ModalDescription({ children }: ModalDescriptionProps) {
  */
 function ModalOverlay() {
   const transition = {
-    enter: 'ease-out duration-200',
-    enterFrom: 'opacity-0',
-    enterTo: 'opacity-100',
-    leave: 'ease-in duration-200',
-    leaveFrom: 'opacity-100',
-    leaveTo: 'opacity-0',
+    enter: "ease-out duration-200",
+    enterFrom: "opacity-0",
+    enterTo: "opacity-100",
+    leave: "ease-in duration-200",
+    leaveFrom: "opacity-100",
+    leaveTo: "opacity-0",
   };
 
   return (
@@ -92,24 +90,24 @@ function ModalContent({ children, actions, wide, onClose }: ModalContentProps) {
   const { formatMessage } = useI18n();
 
   const messages = {
-    close: formatMessage('shared.modal.close'),
+    close: formatMessage("shared.modal.close"),
   };
 
   const transition = {
-    enter: 'ease-out duration-200',
-    enterFrom: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-90',
-    enterTo: 'opacity-100 translate-y-0 sm:scale-100',
-    leave: 'ease-in duration-200',
-    leaveFrom: 'opacity-100 translate-y-0 sm:scale-100',
-    leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-90',
+    enter: "ease-out duration-200",
+    enterFrom: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-90",
+    enterTo: "opacity-100 translate-y-0 sm:scale-100",
+    leave: "ease-in duration-200",
+    leaveFrom: "opacity-100 translate-y-0 sm:scale-100",
+    leaveTo: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-90",
   };
 
   return (
     <Transition.Child as={Fragment} {...transition}>
       <Dialog.Panel
         className={clsx(
-          'relative z-10 w-full overflow-hidden rounded-lg bg-white p-6 shadow-xl transition',
-          wide ? 'sm:max-w-5xl' : 'sm:max-w-xl'
+          "relative z-10 w-full overflow-hidden rounded-lg bg-white p-6 shadow-xl transition",
+          wide ? "sm:max-w-5xl" : "sm:max-w-xl"
         )}
       >
         <div className="text-center sm:flex sm:gap-5 sm:text-left">{children}</div>
@@ -143,13 +141,7 @@ interface ModalProps extends ModalContentProps {
 function Modal({ open, onClose, ...restProps }: ModalProps) {
   return (
     <Transition.Root as={Fragment} show={open}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-40 overflow-y-auto"
-        open={open}
-        static
-        onClose={onClose}
-      >
+      <Dialog as="div" className="fixed inset-0 z-40 overflow-y-auto" open={open} static onClose={onClose}>
         <div className="flex min-h-screen items-center justify-center px-4 text-center">
           <ModalOverlay />
           <ModalContent {...restProps} onClose={onClose} />
@@ -164,4 +156,4 @@ Modal.Body = ModalBody;
 Modal.Title = ModalTitle;
 Modal.Description = ModalDescription;
 
-export default hydratable('Modal', Modal);
+export default hydratable("Modal", Modal);

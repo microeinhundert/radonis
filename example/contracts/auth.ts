@@ -1,6 +1,6 @@
-import type User from 'App/Models/User';
+import type User from "App/Models/User";
 
-declare module '@ioc:Adonis/Addons/Auth' {
+declare module "@ioc:Adonis/Addons/Auth" {
   /*
   |--------------------------------------------------------------------------
   | Providers
@@ -58,8 +58,8 @@ declare module '@ioc:Adonis/Addons/Auth' {
     |
     */
     web: {
-      implementation: SessionGuardContract<'user', 'web'>;
-      config: SessionGuardConfig<'user'>;
+      implementation: SessionGuardContract<"user", "web">;
+      config: SessionGuardConfig<"user">;
     };
   }
 }

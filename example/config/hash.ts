@@ -1,5 +1,5 @@
-import Env from '@ioc:Adonis/Core/Env';
-import type { HashConfig } from '@ioc:Adonis/Core/Hash';
+import Env from "@ioc:Adonis/Core/Env";
+import type { HashConfig } from "@ioc:Adonis/Core/Hash";
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ const hashConfig: HashConfig = {
   | free to change the default value
   |
   */
-  default: Env.get('HASH_DRIVER', 'argon'),
+  default: Env.get("HASH_DRIVER", "argon"),
 
   list: {
     /*
@@ -37,8 +37,8 @@ const hashConfig: HashConfig = {
     |
     */
     argon: {
-      driver: 'argon2',
-      variant: 'id',
+      driver: "argon2",
+      variant: "id",
       iterations: 3,
       memory: 4096,
       parallelism: 1,
@@ -59,7 +59,7 @@ const hashConfig: HashConfig = {
     |
     */
     bcrypt: {
-      driver: 'bcrypt',
+      driver: "bcrypt",
       rounds: 10,
     },
   },

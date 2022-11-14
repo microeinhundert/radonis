@@ -9,7 +9,7 @@ Radonis is a full-stack application framework for building monolithic applicatio
 - Renders React views directly from AdonisJS routes and controllers.
 - Partially hydrates only the components that require interactivity on the client (Islands Architecture).
 - Includes pre-made hooks for working with AdonisJS inside your React views, both on client and server.
-- Ships with a compiler powered by [esbuild](https://esbuild.github.io/), no Webpack Encore required.
+- Compiles client-side components with [esbuild](https://esbuild.github.io/).
 
 ## Documentation
 
