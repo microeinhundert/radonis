@@ -12,7 +12,10 @@ interface LinkProps extends HTMLProps<"a"> {
 
 function Link({ children, className, ...restProps }: LinkProps) {
   return (
-    <a {...restProps} className={clsx("font-medium text-emerald-600 hover:text-emerald-500", className)}>
+    <a
+      {...restProps}
+      className={clsx("font-medium text-emerald-600 hover:text-emerald-500", className)}
+    >
       {children}
     </a>
   );

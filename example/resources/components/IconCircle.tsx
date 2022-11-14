@@ -17,7 +17,13 @@ interface IconCircleProps extends HTMLProps<"div"> {
   large?: boolean;
 }
 
-function IconCircle({ icon: Icon, color = IconCircleColor.Emerald, large, className, ...restProps }: IconCircleProps) {
+function IconCircle({
+  icon: Icon,
+  color = IconCircleColor.Emerald,
+  large,
+  className,
+  ...restProps
+}: IconCircleProps) {
   return (
     <div
       className={clsx(

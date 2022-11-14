@@ -84,7 +84,11 @@ function SidebarUserInfo() {
           <Button.Link className="flex-1" color={ButtonColor.White} to="AuthController.signInShow">
             {messages.signIn}
           </Button.Link>
-          <Button.Link className="flex-1" color={ButtonColor.Emerald} to="AuthController.signUpShow">
+          <Button.Link
+            className="flex-1"
+            color={ButtonColor.Emerald}
+            to="AuthController.signUpShow"
+          >
             {messages.signUp}
           </Button.Link>
         </>

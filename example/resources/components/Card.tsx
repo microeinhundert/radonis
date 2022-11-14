@@ -49,7 +49,10 @@ interface CardProps {
 function Card({ className, children }: CardProps) {
   return (
     <div
-      className={clsx("overflow-hidden rounded-md border border-gray-200 bg-white text-gray-900 shadow-sm", className)}
+      className={clsx(
+        "overflow-hidden rounded-md border border-gray-200 bg-white text-gray-900 shadow-sm",
+        className
+      )}
     >
       {children}
     </div>

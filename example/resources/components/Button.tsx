@@ -69,7 +69,12 @@ function useButtonProps<Tag extends ButtonTag>(props: ButtonBaseProps<Tag>) {
 /*
  * Button Content
  */
-function ButtonContent<Tag extends ButtonTag>({ children, title, small, icon: Icon }: ButtonBaseProps<Tag>) {
+function ButtonContent<Tag extends ButtonTag>({
+  children,
+  title,
+  small,
+  icon: Icon,
+}: ButtonBaseProps<Tag>) {
   return (
     <>
       {children ?? (title && <div className="sr-only">{title}</div>)}

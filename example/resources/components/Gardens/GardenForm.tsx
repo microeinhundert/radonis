@@ -40,9 +40,27 @@ function GardenForm({ garden }: GardenFormProps) {
     >
       <div className="flex flex-col gap-5">
         <CsrfField />
-        <Input defaultValue={garden?.name} label={messages.name.label} name="name" type="text" required />
-        <Input defaultValue={garden?.zip} label={messages.zip.label} name="zip" type="text" required />
-        <Input defaultValue={garden?.city} label={messages.city.label} name="city" type="text" required />
+        <Input
+          defaultValue={garden?.name}
+          label={messages.name.label}
+          name="name"
+          type="text"
+          required
+        />
+        <Input
+          defaultValue={garden?.zip}
+          label={messages.zip.label}
+          name="zip"
+          type="text"
+          required
+        />
+        <Input
+          defaultValue={garden?.city}
+          label={messages.city.label}
+          name="city"
+          type="text"
+          required
+        />
         <Button className="mt-4" type="submit">
           {messages.actions[garden ? "update" : "create"]}
         </Button>

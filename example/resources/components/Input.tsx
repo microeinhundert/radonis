@@ -49,13 +49,18 @@ function Input({ type: initialType = "text", className, ...restProps }: InputPro
         />
         {hydrated && field.value && isValueInitiallyHidden ? (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-            <button type="button" onClick={() => setType((type) => (type === initialType ? "text" : initialType))}>
+            <button
+              type="button"
+              onClick={() => setType((type) => (type === initialType ? "text" : initialType))}
+            >
               {type !== initialType ? (
                 <EyeSlashIcon aria-hidden="true" className="h-5 w-5" />
               ) : (
                 <EyeIcon aria-hidden="true" className="h-5 w-5" />
               )}
-              <span className="sr-only">{messages[type !== initialType ? "hideValue" : "showValue"]}</span>
+              <span className="sr-only">
+                {messages[type !== initialType ? "hideValue" : "showValue"]}
+              </span>
             </button>
           </div>
         ) : (

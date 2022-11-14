@@ -52,7 +52,9 @@ interface ModalDescriptionProps {
 
 function ModalDescription({ children }: ModalDescriptionProps) {
   return (
-    <Dialog.Description className="mt-2 text-center text-sm text-gray-500 sm:text-left">{children}</Dialog.Description>
+    <Dialog.Description className="mt-2 text-center text-sm text-gray-500 sm:text-left">
+      {children}
+    </Dialog.Description>
   );
 }
 
@@ -141,7 +143,13 @@ interface ModalProps extends ModalContentProps {
 function Modal({ open, onClose, ...restProps }: ModalProps) {
   return (
     <Transition.Root as={Fragment} show={open}>
-      <Dialog as="div" className="fixed inset-0 z-40 overflow-y-auto" open={open} static onClose={onClose}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-40 overflow-y-auto"
+        open={open}
+        static
+        onClose={onClose}
+      >
         <div className="flex min-h-screen items-center justify-center px-4 text-center">
           <ModalOverlay />
           <ModalContent {...restProps} onClose={onClose} />

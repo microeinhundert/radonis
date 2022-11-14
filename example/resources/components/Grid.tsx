@@ -19,7 +19,10 @@ interface GridProps {
   type?: GridType;
 }
 
-const Grid = forwardRef<HTMLDivElement, GridProps>(function ({ children, type = GridType.ThreeColumns }, ref) {
+const Grid = forwardRef<HTMLDivElement, GridProps>(function (
+  { children, type = GridType.ThreeColumns },
+  ref
+) {
   return (
     <div
       ref={ref}

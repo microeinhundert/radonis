@@ -62,7 +62,13 @@ function SignUpForm() {
           type="email"
           required
         />
-        <Input autoComplete="new-password" label={messages.password.label} name="password" type="password" required />
+        <Input
+          autoComplete="new-password"
+          label={messages.password.label}
+          name="password"
+          type="password"
+          required
+        />
         <Input
           autoComplete="new-password"
           label={messages.passwordConfirmation.label}

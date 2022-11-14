@@ -102,7 +102,11 @@ function GardensListItem({ canEdit, garden, onDelete, onRollback }: GardensListI
       <Modal
         actions={
           <>
-            <Button color={ButtonColor.White} round onClick={() => setDeleteConfirmationModalOpen(false)}>
+            <Button
+              color={ButtonColor.White}
+              round
+              onClick={() => setDeleteConfirmationModalOpen(false)}
+            >
               {messages.modals.delete.actions.cancel}
             </Button>
             <Button color={ButtonColor.Red} form={`delete-garden-${garden.id}`} type="submit" round>

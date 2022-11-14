@@ -14,13 +14,21 @@ interface SidebarNavigationItemProps extends NavigationItem {
   dense?: boolean;
 }
 
-function SidebarNavigationItem({ name, href, icon: Icon, current, dense }: SidebarNavigationItemProps) {
+function SidebarNavigationItem({
+  name,
+  href,
+  icon: Icon,
+  current,
+  dense,
+}: SidebarNavigationItemProps) {
   return (
     <a
       className={clsx(
         "group flex items-center rounded-md px-2 text-sm font-medium",
         dense ? "py-2" : "py-3",
-        current ? "bg-gray-100 text-emerald-600" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+        current
+          ? "bg-gray-100 text-emerald-600"
+          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
       )}
       href={href}
     >

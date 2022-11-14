@@ -15,7 +15,10 @@ export default class SignUpValidator {
       }),
       rules.unique({ table: "users", column: "email" }),
     ]),
-    password: schema.string({ trim: true }, [rules.confirmed("passwordConfirmation"), rules.minLength(6)]),
+    password: schema.string({ trim: true }, [
+      rules.confirmed("passwordConfirmation"),
+      rules.minLength(6),
+    ]),
   });
 
   public messages = {};
