@@ -12,7 +12,7 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "test": "turbo run test",
-    "release": "turbo run build && changeset publish",
+    "publish-packages": "turbo run build && changeset publish",
     "create-changeset": "changeset",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
