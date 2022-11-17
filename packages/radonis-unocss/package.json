@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-unocss",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "UnoCSS plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",

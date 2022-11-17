@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-query",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Query plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",

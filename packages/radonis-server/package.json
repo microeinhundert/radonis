@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/providers/RadonisProvider.js",

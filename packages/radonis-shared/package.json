@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-shared",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Shared package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",

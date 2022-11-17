@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Bridge the gap between React and AdonisJS",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
