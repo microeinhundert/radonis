@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from "@microeinhundert/radonis-shared";
-
 import { E_CANNOT_FIND_ROUTE } from "../../exceptions.json";
+import { RadonisException } from "../exception";
 import { interpolate } from "../utils/interpolate";
 
 /**

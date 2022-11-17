@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from "@microeinhundert/radonis-shared";
-
 import { E_MISSING_ROUTE_PARAM } from "../../exceptions.json";
+import { RadonisException } from "../exception";
 import { interpolate } from "../utils/interpolate";
 
 /**
