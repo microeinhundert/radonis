@@ -16,7 +16,8 @@ import chokidar from "chokidar";
 import { existsSync } from "fs";
 import { relative, resolve } from "path";
 
-import { ServerException } from "../src/exceptions/server_exception";
+import { MissingClientEntryFileException } from "../src/exceptions/missing_client_entry_file";
+import { MissingComponentsDirectoryException } from "../src/exceptions/missing_components_directory";
 import { yieldScriptPath } from "../src/utils/yield_script_path";
 
 /**
@@ -46,16 +47,16 @@ export default class BuildClient extends BaseCommand {
    */
   get #entryFilePath(): string {
     let {
-      client: { entryFile },
+      client: { entryFile: path },
     } = this.#config;
 
-    entryFile = yieldScriptPath(entryFile);
+    path = yieldScriptPath(path);
 
-    if (!existsSync(entryFile)) {
-      throw ServerException.missingClientEntryFile(entryFile);
+    if (!existsSync(path)) {
+      throw new MissingClientEntryFileException(path);
     }
 
-    return entryFile;
+    return path;
   }
 
   /**
@@ -63,14 +64,14 @@ export default class BuildClient extends BaseCommand {
    */
   get #componentsDir(): string {
     const {
-      client: { componentsDir },
+      client: { componentsDir: path },
     } = this.#config;
 
-    if (!existsSync(componentsDir)) {
-      throw ServerException.missingComponentsDirectory(componentsDir);
+    if (!existsSync(path)) {
+      throw new MissingComponentsDirectoryException(path);
     }
 
-    return componentsDir;
+    return path;
   }
 
   /**

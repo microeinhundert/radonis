@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { HookException } from "../../exceptions/hook_exception";
+import { CannotUseOnClientException } from "../../exceptions/cannot_use_on_client";
 import { useServer } from "./use_server";
 
 /**
@@ -20,6 +20,6 @@ export function useHttpContext() {
 
     return httpContext;
   } catch {
-    throw HookException.cannotUseOnClient("useHttpContext");
+    throw new CannotUseOnClientException("useHttpContext");
   }
 }

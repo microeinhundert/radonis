@@ -26,7 +26,7 @@ import type {
 } from "@microeinhundert/radonis-types";
 import superjson from "superjson";
 
-import { ServerException } from "../../exceptions/server_exception";
+import { CannotSerializeManifestException } from "../../exceptions/cannot_serialize_manifest";
 import { DEFAULT_LOCALE } from "./constants";
 
 /**
@@ -253,7 +253,7 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
       const serializedManifest = superjson.serialize(this.#clientManifest);
       return JSON.stringify(serializedManifest, null, isProduction ? 0 : 2);
     } catch {
-      throw ServerException.cannotSerializeManifest();
+      throw new CannotSerializeManifestException();
     }
   }
 

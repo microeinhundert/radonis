@@ -15,7 +15,9 @@ import type {
   PluginsManagerContract,
 } from "@microeinhundert/radonis-types";
 
-import { PluginException } from "../../exceptions/plugin_exception";
+import { ConflictingPluginsException } from "../../exceptions/conflicting_plugins";
+import { PluginAlreadyInstalledException } from "../../exceptions/plugin_already_installed";
+import { PluginNotInstallableException } from "../../exceptions/plugin_not_installable";
 
 /**
  * Service for managing plugins
@@ -149,7 +151,7 @@ export class PluginsManager implements PluginsManagerContract {
       );
 
       if (conflictingPlugins?.length) {
-        throw PluginException.conflictingPlugins(pluginName, conflictingPlugins);
+        throw new ConflictingPluginsException(pluginName, conflictingPlugins);
       }
     }
   }
@@ -162,13 +164,13 @@ export class PluginsManager implements PluginsManagerContract {
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
     if (this.#installedPlugins.has(pluginName)) {
-      throw PluginException.pluginAlreadyInstalled(pluginName);
+      throw new PluginAlreadyInstalledException(pluginName);
     }
 
     if (environments?.length) {
       for (const environment of ["server", "client"]) {
         if (targetEnvironment === environment && !environments.includes(environment)) {
-          throw PluginException.pluginNotInstallable(pluginName, environment);
+          throw new PluginNotInstallableException(pluginName, environment);
         }
       }
     }

@@ -15,7 +15,9 @@ import { useCallback } from "react";
 import { useRef } from "react";
 import superjson from "superjson";
 
-import { FormException } from "../exceptions/form_exception";
+import { CannotFetchWithoutHydrationException } from "../exceptions/cannot_fetch_without_hydration";
+import { CannotUseHooksWhenReloadingException } from "../exceptions/cannot_use_hooks_when_reloading";
+import { RequestFailedException } from "../exceptions/request_failed";
 import { hydrationManager } from "../singletons";
 import type { FormOptions } from "../types";
 
@@ -55,11 +57,11 @@ export function useForm<TData, TError>({
   }
 
   if (!noReload && hooks) {
-    throw FormException.cannotUseHooksWhenReloading(action);
+    throw new CannotUseHooksWhenReloadingException(action);
   }
 
   if (noReload && !hydration.id) {
-    throw FormException.cannotFetchWithoutHydration(action);
+    throw new CannotFetchWithoutHydrationException(action);
   }
 
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -96,7 +98,7 @@ export function useForm<TData, TError>({
       const response = await fetch(urlToRelativePath(requestUrl), requestInit);
 
       if (!response.ok) {
-        throw FormException.requestFailed(action, response.status);
+        throw new RequestFailedException(action, response.status);
       }
 
       const json = await response.json();

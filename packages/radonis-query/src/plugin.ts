@@ -15,7 +15,7 @@ import { createElement as h } from "react";
 import { QueryDehydrator } from "./components/query_dehydrator";
 import { QueryHydrator } from "./components/query_hydrator";
 import { BaseUrlContextProvider } from "./contexts/base_url_context";
-import { QueryException } from "./exceptions/query_exception";
+import { MissingHostHeaderException } from "./exceptions/missing_host_header";
 import { getQueryClient } from "./queryClient";
 import { getRouteIdentifier } from "./utils/get_route_identifier";
 
@@ -41,7 +41,7 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: string }) {
       const host = ctx.request.header("host");
 
       if (!host && !baseUrl) {
-        throw QueryException.missingHostHeader();
+        throw new MissingHostHeaderException();
       }
 
       const routeIdentifier = getRouteIdentifier(ctx.route);

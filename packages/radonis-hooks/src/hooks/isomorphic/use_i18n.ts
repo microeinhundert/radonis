@@ -11,7 +11,7 @@ import { useHydration } from "@microeinhundert/radonis-hydrate";
 import type { MessageData, MessageIdentifier } from "@microeinhundert/radonis-types";
 import IntlMessageFormat from "intl-messageformat";
 
-import { HookException } from "../../exceptions/hook_exception";
+import { CannotFindMessageException } from "../../exceptions/cannot_find_message";
 import { hydrationManager } from "../../singletons";
 import { useManifest } from "./use_manifest";
 
@@ -31,7 +31,7 @@ export function useI18n() {
     const message = messages[identifier];
 
     if (!message) {
-      throw HookException.cannotFindMessage(identifier);
+      throw new CannotFindMessageException(identifier);
     }
 
     if (hydration.id) {

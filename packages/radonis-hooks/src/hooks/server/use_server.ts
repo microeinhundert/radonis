@@ -10,7 +10,7 @@
 import { serverContext } from "@microeinhundert/radonis-server/standalone";
 import { useContext } from "react";
 
-import { HookException } from "../../exceptions/hook_exception";
+import { CannotUseOnClientException } from "../../exceptions/cannot_use_on_client";
 
 /**
  * Hook for retrieving the Radonis `ServerContract`
@@ -20,7 +20,7 @@ export function useServer() {
   const context = useContext(serverContext);
 
   if (!context) {
-    throw HookException.cannotUseOnClient("useServer");
+    throw new CannotUseOnClientException("useServer");
   }
 
   return context;

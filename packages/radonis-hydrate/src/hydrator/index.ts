@@ -13,7 +13,9 @@ import { createElement as h, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 import { HydrationContextProvider } from "../contexts/hydration_context";
-import { HydrationException } from "../exceptions/hydration_exception";
+import { CannotHydrateException } from "../exceptions/cannot_hydrate";
+import { ComponentAlreadyRegisteredException } from "../exceptions/component_already_registered";
+import { MissingHydrationDataException } from "../exceptions/missing_hydration_data";
 import { HYDRATION_ROOT_SELECTOR } from "./constants";
 import { getManifestOrFail } from "./utils/get_manifest_or_fail";
 
@@ -57,7 +59,7 @@ export class Hydrator {
    */
   registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
     if (this.#components.has(identifier)) {
-      throw HydrationException.componentAlreadyRegistered(identifier);
+      throw new ComponentAlreadyRegisteredException(identifier);
     }
 
     this.#components.set(identifier, Component);
@@ -88,13 +90,13 @@ export class Hydrator {
     const hydration = manifest.hydration[hydrationRootId];
 
     if (!hydration) {
-      throw HydrationException.missingHydrationData(hydrationRootId);
+      throw new MissingHydrationDataException(hydrationRootId);
     }
 
     const Component = this.#components.get(hydration.componentIdentifier);
 
     if (!Component) {
-      throw HydrationException.cannotHydrate(hydrationRootId, hydration.componentIdentifier);
+      throw new CannotHydrateException(hydrationRootId, hydration.componentIdentifier);
     }
 
     const tree = await this.#pluginsManager.execute(

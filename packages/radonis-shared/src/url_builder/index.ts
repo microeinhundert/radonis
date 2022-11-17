@@ -9,7 +9,9 @@
 
 import type { RouteIdentifier, RouteParams, RouteQueryParams, Routes } from "@microeinhundert/radonis-types";
 
-import { UrlBuilderException } from "../exceptions/url_builder_exception";
+import { CannotFindRouteException } from "../exceptions/cannot_find_route";
+import { MissingRouteParamException } from "../exceptions/missing_route_param";
+import { WildcardRoutesNotSupportedException } from "../exceptions/wildcard_routes_not_supported";
 import type { UrlBuilderMakeOptions, UrlBuilderOptions } from "../types";
 
 /**
@@ -52,7 +54,7 @@ export class UrlBuilder {
     let path = pattern;
 
     if (path.includes("*")) {
-      throw UrlBuilderException.wildcardRoutesNotSupported();
+      throw new WildcardRoutesNotSupportedException();
     }
 
     if (path.includes(":")) {
@@ -75,7 +77,7 @@ export class UrlBuilder {
           const paramValue = params[paramName];
 
           if (!paramValue && !isOptional) {
-            throw UrlBuilderException.missingRouteParam(paramName, pattern);
+            throw new MissingRouteParamException(paramName, pattern);
           }
 
           return paramValue;
@@ -119,7 +121,7 @@ export class UrlBuilder {
     const route = this.#routes[identifier];
 
     if (!route) {
-      throw UrlBuilderException.cannotFindRoute(identifier);
+      throw new CannotFindRouteException(identifier);
     }
 
     this.#options?.onFoundRoute?.(identifier);

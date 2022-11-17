@@ -13,7 +13,9 @@ import { build as build$ } from "esbuild";
 import { emptyDir, outputFile } from "fs-extra";
 import { join, parse, relative } from "path";
 
-import { BuildException } from "./exceptions/build_exception";
+import { CannotBuildException } from "./exceptions/cannot_build";
+import { CannotFindMetafileOutputEntryException } from "./exceptions/cannot_find_metafile_output_entry";
+import { DuplicateBuildManifestEntryException } from "./exceptions/duplicate_build_manifest_entry";
 import { loaders } from "./loaders";
 import type { BuildOptions, GenerateBuildManifestOptions, MetafileWalkerOptions } from "./types";
 import { extractFlashMessages, extractMessages, extractRoutes, filePathToFileUrl } from "./utils";
@@ -26,7 +28,7 @@ function createMetafileWalker({ metafile, builtAssets, publicPath }: MetafileWal
     const output = metafile.outputs[assetPath];
 
     if (!output) {
-      throw BuildException.cannotFindMetafileOutputEntry(assetPath);
+      throw new CannotFindMetafileOutputEntryException(assetPath);
     }
 
     const absoluteAssetPath = join(process.cwd(), assetPath);
@@ -66,7 +68,7 @@ function generateBuildManifest({
     const { name: assetFileName } = parse(assetPath);
 
     if (assetFileName in buildManifest) {
-      throw BuildException.duplicateBuildManifestEntry(assetFileName);
+      throw new DuplicateBuildManifestEntryException(assetFileName);
     }
 
     return {
@@ -170,6 +172,6 @@ export async function build({
       throw error;
     }
 
-    throw BuildException.cannotBuild(error instanceof Error ? error.message : "Unknown error");
+    throw new CannotBuildException(error instanceof Error ? error.message : "Unknown error");
   }
 }

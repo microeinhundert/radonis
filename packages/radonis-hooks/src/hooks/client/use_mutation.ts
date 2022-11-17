@@ -14,7 +14,7 @@
 import type { Reducer } from "react";
 import { useCallback, useReducer, useRef } from "react";
 
-import { HookException } from "../../exceptions/hook_exception";
+import { InvalidMutationActionException } from "../../exceptions/invalid_mutation_action";
 import type { MutationOptions, MutationResult, MutationStatus } from "../../types";
 import { useGetLatest } from "./internal/use_get_latest";
 import { useSafeCallback } from "./internal/use_safe_callback";
@@ -54,7 +54,7 @@ export function useMutation<TInput, TData, TError>(
         case "FAILURE":
           return { status: "failure", error: action.error };
         default:
-          throw HookException.invalidMutationAction(action);
+          throw new InvalidMutationActionException(action);
       }
     },
     { status: "idle" }

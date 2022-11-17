@@ -15,7 +15,7 @@ import { useContext } from "react";
 import superjson from "superjson";
 
 import { baseUrlContext } from "../contexts/base_url_context";
-import { QueryException } from "../exceptions/query_exception";
+import { RequestFailedException } from "../exceptions/request_failed";
 import type { ServerQueryOptions } from "../types";
 
 /**
@@ -44,7 +44,7 @@ export function useServerQuery<TControllerAction extends (ctx: HttpContextContra
     });
 
     if (!response.ok) {
-      throw QueryException.requestFailed(routeIdentifier, response.status);
+      throw new RequestFailedException(routeIdentifier, response.status);
     }
 
     const json = await response.json();

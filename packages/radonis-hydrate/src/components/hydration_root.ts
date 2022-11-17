@@ -12,7 +12,8 @@ import type { ReactElement } from "react";
 import { Children, createElement as h, isValidElement, useContext, useId } from "react";
 
 import { HydrationContextProvider } from "../contexts/hydration_context";
-import { HydrationException } from "../exceptions/hydration_exception";
+import { CannotHydrateWithChildrenException } from "../exceptions/cannot_hydrate_with_children";
+import { NotHydratableException } from "../exceptions/not_hydratable";
 import { useHydration } from "../hooks/use_hydration";
 import { componentIdentifierSymbol } from "../symbols";
 
@@ -38,11 +39,11 @@ export function HydrationRoot({
   const componentIdentifier = component?.type?.[componentIdentifierSymbol];
 
   if (typeof componentIdentifier !== "string" || !isValidElement(component)) {
-    throw HydrationException.notHydratable(hydrationRootId);
+    throw new NotHydratableException(hydrationRootId);
   }
 
   if (component.props.children) {
-    throw HydrationException.cannotHydrateWithChildren(hydrationRootId, componentIdentifier);
+    throw new CannotHydrateWithChildrenException(hydrationRootId, componentIdentifier);
   }
 
   /*

@@ -15,7 +15,7 @@
     "status": 500
   },
   "E_INVALID_MUTATION_ACTION": {
-    "message": "Invalid mutation action \"{{ action }}\"",
+    "message": "Invalid mutation action \"{{ mutationAction }}\"",
     "code": "E_INVALID_MUTATION_ACTION",
     "status": 500
   }
