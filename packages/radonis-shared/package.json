@@ -55,10 +55,10 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@microeinhundert/radonis-types": "2.1.7",
+    "@microeinhundert/radonis-types": "2.1.8",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8"
+    "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
     "tslib": "^2.4.1"

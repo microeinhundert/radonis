@@ -58,10 +58,10 @@
     "@types/node": "^18.11.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "2.1.7",
-    "@microeinhundert/radonis-shared": "2.1.7",
+    "@microeinhundert/radonis-types": "2.1.8",
+    "@microeinhundert/radonis-shared": "2.1.8",
     "@poppinss/utils": "^5.0.0",
-    "esbuild": "^0.15.13",
+    "esbuild": "^0.15.14",
     "fs-extra": "^10.1.0",
     "tslib": "^2.4.1"
   }

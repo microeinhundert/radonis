@@ -56,14 +56,14 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "2.1.7"
+    "@microeinhundert/radonis": "2.1.8"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "2.1.7",
+    "@microeinhundert/radonis": "2.1.8",
     "@types/node": "^18.11.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "2.1.7",
+    "@microeinhundert/radonis-shared": "2.1.8",
     "@unocss/core": "0.46.5",
     "@unocss/preset-wind": "0.46.5",
     "@poppinss/utils": "^5.0.0",
