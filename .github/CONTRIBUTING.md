@@ -10,16 +10,16 @@ Following these guidelines will make your pull request easier to merge.
 
 ## Development workflow
 
+First, create a changeset for your changes:
+
+```bash
+npm run changeset
+```
+
 Always make sure to lint and test your code before pushing it to GitHub:
 
 ```bash
 npm run test && npm run lint
-```
-
-After testing and linting, create a changeset for your changes:
-
-```bash
-npm run changeset
 ```
 
 ## Other notes
