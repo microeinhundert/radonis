@@ -6,20 +6,20 @@ Following these guidelines will make your pull request easier to merge.
 
 - Install [EditorConfig](http://editorconfig.org/) plugin for your code editor to make sure it uses correct settings.
 - Fork the repository and clone your fork.
-- Install dependencies: `npm install`.
+- Install dependencies: `pnpm install`.
 
 ## Development workflow
 
 First, create a changeset for your changes:
 
 ```bash
-npm run changeset
+pnpm run changeset
 ```
 
 Always make sure to lint and test your code before pushing it to GitHub:
 
 ```bash
-npm run test && npm run lint
+pnpm run test && pnpm run lint
 ```
 
 ## Other notes

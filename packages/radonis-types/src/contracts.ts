@@ -17,7 +17,6 @@ import type {
   AssetsManifestEntry,
   ComponentIdentifier,
   ErrorPages,
-  ExtractPluginHook,
   FlashMessageIdentifier,
   FlashMessages,
   FlushCallback,
@@ -30,6 +29,7 @@ import type {
   Messages,
   Plugin,
   PluginEnvironment,
+  PluginHook,
   PluginHooks,
   RenderOptions,
   Resettable,
@@ -134,18 +134,18 @@ export interface ManifestManagerContract extends Resettable {
  * PluginsManager contract
  */
 export interface PluginsManagerContract {
-  onInitClientHooks: ExtractPluginHook<"onInitClient">[];
-  beforeHydrateHooks: ExtractPluginHook<"beforeHydrate">[];
-  onBootServerHooks: ExtractPluginHook<"onBootServer">[];
-  beforeRequestHooks: ExtractPluginHook<"beforeRequest">[];
-  afterRequestHooks: ExtractPluginHook<"afterRequest">[];
-  beforeRenderHooks: ExtractPluginHook<"beforeRender">[];
-  afterRenderHooks: ExtractPluginHook<"afterRender">[];
+  onInitClientHooks: PluginHook<"onInitClient">[];
+  beforeHydrateHooks: PluginHook<"beforeHydrate">[];
+  onBootServerHooks: PluginHook<"onBootServer">[];
+  beforeRequestHooks: PluginHook<"beforeRequest">[];
+  afterRequestHooks: PluginHook<"afterRequest">[];
+  beforeRenderHooks: PluginHook<"beforeRender">[];
+  afterRenderHooks: PluginHook<"afterRender">[];
   install(targetEnvironment: PluginEnvironment, ...plugins: Plugin[]): void;
   execute<
     TType extends keyof PluginHooks,
     TBuilderValue extends unknown,
-    TParams extends Parameters<ExtractPluginHook<TType>>
+    TParams extends Parameters<PluginHook<TType>>
   >(
     type: TType,
     initialBuilderValue: TBuilderValue,

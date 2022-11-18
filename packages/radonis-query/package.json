@@ -56,19 +56,19 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@microeinhundert/radonis": "workspace:2.1.9",
     "@adonisjs/core": "^5.8.0",
-    "@microeinhundert/radonis": "2.1.9",
     "@tanstack/react-query": "^4.16.1"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "2.1.9",
+    "@microeinhundert/radonis": "workspace:2.1.9",
     "@tanstack/react-query": "^4.16.1",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "2.1.9",
+    "@microeinhundert/radonis-shared": "workspace:2.1.9",
     "superjson": "^1.11.0",
     "tslib": "^2.4.1"
   }

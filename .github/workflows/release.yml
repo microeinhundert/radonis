@@ -8,8 +8,8 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  publish:
-    name: Build
+  release:
+    name: Release
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
@@ -17,7 +17,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -26,18 +26,43 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
           scope: '@microeinhundert'
 
+      - name: Setup npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7.11.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: pnpm recursive install --ignore-scripts
 
       - name: Lint packages
-        run: npm run lint
+        run: pnpm run lint
+
+      - name: Build packages
+        run: pnpm run build
 
       - name: Release packages
         uses: changesets/action@v1
         with:
-          commit: 'chore: bump package version'
-          title: 'chore: bump package version'
-          publish: npm run publish-packages
+          commit: 'chore: bump package versions'
+          title: 'chore: bump package versions'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

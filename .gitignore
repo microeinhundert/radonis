@@ -7,3 +7,5 @@ coverage
 tmp
 *.tsbuildinfo
 .idea
+package-lock.json
+.pnpm*

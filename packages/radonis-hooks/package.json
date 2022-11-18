@@ -64,10 +64,10 @@
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "2.1.9",
-    "@microeinhundert/radonis-shared": "2.1.9",
-    "@microeinhundert/radonis-server": "2.1.9",
-    "@microeinhundert/radonis-hydrate": "2.1.9",
+    "@microeinhundert/radonis-types": "workspace:2.1.9",
+    "@microeinhundert/radonis-shared": "workspace:2.1.9",
+    "@microeinhundert/radonis-server": "workspace:2.1.9",
+    "@microeinhundert/radonis-hydrate": "workspace:2.1.9",
     "intl-messageformat": "10.1.5",
     "superjson": "^1.11.0",
     "tslib": "^2.4.1"

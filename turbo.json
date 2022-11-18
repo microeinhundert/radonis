@@ -11,7 +11,7 @@
     },
     "clean": {
       "outputs": [],
-      "dependsOn": ["lint", "^clean"]
+      "dependsOn": ["^clean"]
     },
     "format": {
       "outputs": []

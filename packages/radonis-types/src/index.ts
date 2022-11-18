@@ -207,21 +207,21 @@ export interface RenderOptions {
 export type PluginEnvironment = "client" | "server";
 
 /**
- * Plugin hook
+ * Plugin hook callback
  */
-export type PluginHook<TInput> = (input: TInput) => Promise<void> | void;
+export type PluginHookCallback<TInput> = (input: TInput) => Promise<void> | void;
 
 /**
- * Extract plugin hook
+ * Plugin hook builder callback
  */
-export type ExtractPluginHook<TType extends keyof PluginHooks> = PluginHooks[TType];
-
-/**
- * Plugin hook with builder
- */
-export type PluginHookWithBuilder<TBuilderValue, TInput> = (
+export type PluginHookBuilderCallback<TBuilderValue, TInput> = (
   input: TInput
 ) => (value: TBuilderValue) => MaybePromise<TBuilderValue>;
+
+/**
+ * Plugin hook
+ */
+export type PluginHook<TType extends keyof PluginHooks> = PluginHooks[TType];
 
 /**
  * Plugin hooks
@@ -230,32 +230,32 @@ export interface PluginHooks {
   /**
    * This plugin hook is called on initialization of the client
    */
-  onInitClient: PluginHook<null>;
+  onInitClient: PluginHookCallback<null>;
 
   /**
    * This plugin hook is called before a component is hydrated
    */
-  beforeHydrate: PluginHookWithBuilder<ReactElement, null>;
+  beforeHydrate: PluginHookBuilderCallback<ReactElement, null>;
 
   /**
    * This plugin hook is called on boot of the server
    */
-  onBootServer: PluginHook<{ appRoot: string; resourcesPath: string }>;
+  onBootServer: PluginHookCallback<{ appRoot: string; resourcesPath: string }>;
 
   /**
    * This plugin hook is called before a request
    */
-  beforeRequest: PluginHook<{ ctx: HttpContextContract }>;
+  beforeRequest: PluginHookCallback<{ ctx: HttpContextContract }>;
 
   /**
    * This plugin hook is called after a request
    */
-  afterRequest: PluginHook<{ ctx: HttpContextContract }>;
+  afterRequest: PluginHookCallback<{ ctx: HttpContextContract }>;
 
   /**
    * This plugin hook is called before a page is rendered
    */
-  beforeRender: PluginHookWithBuilder<
+  beforeRender: PluginHookBuilderCallback<
     ReactElement,
     { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, any> }
   >;
@@ -263,7 +263,7 @@ export interface PluginHooks {
   /**
    * This plugin hook is called after a chunk of a page has been rendered
    */
-  afterRender: PluginHookWithBuilder<string, { ctx: HttpContextContract }>;
+  afterRender: PluginHookBuilderCallback<string, { ctx: HttpContextContract }>;
 }
 
 /**

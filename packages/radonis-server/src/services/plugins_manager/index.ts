@@ -8,9 +8,9 @@
  */
 
 import type {
-  ExtractPluginHook,
   Plugin,
   PluginEnvironment,
+  PluginHook,
   PluginHooks,
   PluginsManagerContract,
 } from "@microeinhundert/radonis-types";
@@ -44,37 +44,37 @@ export class PluginsManager implements PluginsManagerContract {
   /**
    * The registered `onInitClient` hooks
    */
-  onInitClientHooks: ExtractPluginHook<"onInitClient">[];
+  onInitClientHooks: PluginHook<"onInitClient">[];
 
   /**
    * The registered `beforeHydrate` hooks
    */
-  beforeHydrateHooks: ExtractPluginHook<"beforeHydrate">[];
+  beforeHydrateHooks: PluginHook<"beforeHydrate">[];
 
   /**
    * The registered `onBootServer` hooks
    */
-  onBootServerHooks: ExtractPluginHook<"onBootServer">[];
+  onBootServerHooks: PluginHook<"onBootServer">[];
 
   /**
    * The registered `beforeRequest` hooks
    */
-  beforeRequestHooks: ExtractPluginHook<"beforeRequest">[];
+  beforeRequestHooks: PluginHook<"beforeRequest">[];
 
   /**
    * The registered `afterRequest` hooks
    */
-  afterRequestHooks: ExtractPluginHook<"afterRequest">[];
+  afterRequestHooks: PluginHook<"afterRequest">[];
 
   /**
    * The registered `beforeRender` hooks
    */
-  beforeRenderHooks: ExtractPluginHook<"beforeRender">[];
+  beforeRenderHooks: PluginHook<"beforeRender">[];
 
   /**
    * The registered `afterRender` hooks
    */
-  afterRenderHooks: ExtractPluginHook<"afterRender">[];
+  afterRenderHooks: PluginHook<"afterRender">[];
 
   /**
    * Constructor
@@ -120,9 +120,9 @@ export class PluginsManager implements PluginsManagerContract {
   async execute<
     TType extends keyof PluginHooks,
     TBuilderValue extends unknown,
-    TParams extends Parameters<ExtractPluginHook<TType>>
+    TParams extends Parameters<PluginHook<TType>>
   >(type: TType, initialBuilderValue: TBuilderValue, ...args: TParams): Promise<TBuilderValue> {
-    const hooks = this[`${type}Hooks`] as ExtractPluginHook<TType>[];
+    const hooks = this[`${type}Hooks`] as PluginHook<TType>[];
 
     let builderValue = initialBuilderValue;
 
