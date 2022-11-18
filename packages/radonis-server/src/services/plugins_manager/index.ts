@@ -42,38 +42,14 @@ export class PluginsManager implements PluginsManagerContract {
   #installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }>;
 
   /**
-   * The registered `onInitClient` hooks
+   * The registered hooks
    */
   onInitClientHooks: PluginHook<"onInitClient">[];
-
-  /**
-   * The registered `beforeHydrate` hooks
-   */
   beforeHydrateHooks: PluginHook<"beforeHydrate">[];
-
-  /**
-   * The registered `onBootServer` hooks
-   */
   onBootServerHooks: PluginHook<"onBootServer">[];
-
-  /**
-   * The registered `beforeRequest` hooks
-   */
   beforeRequestHooks: PluginHook<"beforeRequest">[];
-
-  /**
-   * The registered `afterRequest` hooks
-   */
   afterRequestHooks: PluginHook<"afterRequest">[];
-
-  /**
-   * The registered `beforeRender` hooks
-   */
   beforeRenderHooks: PluginHook<"beforeRender">[];
-
-  /**
-   * The registered `afterRender` hooks
-   */
   afterRenderHooks: PluginHook<"afterRender">[];
 
   /**
@@ -81,26 +57,6 @@ export class PluginsManager implements PluginsManagerContract {
    */
   constructor() {
     this.#setDefaults();
-  }
-
-  /**
-   * Register the hooks of a plugin
-   */
-  #registerHooks(targetEnvironment: PluginEnvironment, plugin: Plugin): void {
-    switch (targetEnvironment) {
-      case "client": {
-        plugin.onInitClient && this.onInitClientHooks.push(plugin.onInitClient);
-        plugin.beforeHydrate && this.beforeHydrateHooks.push(plugin.beforeHydrate);
-        break;
-      }
-      case "server": {
-        plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer);
-        plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest);
-        plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest);
-        plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender);
-        plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender);
-      }
-    }
   }
 
   /**
@@ -138,25 +94,6 @@ export class PluginsManager implements PluginsManagerContract {
   }
 
   /**
-   * Check for conflicts between installed plugins
-   */
-  #checkForConflicts(targetEnvironment: PluginEnvironment): void {
-    for (const [pluginName, { environments, conflictsWith }] of this.#installedPlugins) {
-      if (!environments?.includes(targetEnvironment)) {
-        continue;
-      }
-
-      const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
-        this.#installedPlugins.has(conflictingPlugin)
-      );
-
-      if (conflictingPlugins?.length) {
-        throw new ConflictingPluginsException(pluginName, conflictingPlugins);
-      }
-    }
-  }
-
-  /**
    * Install a plugin or fail if it is incompatible
    */
   #installOrFail(
@@ -176,6 +113,45 @@ export class PluginsManager implements PluginsManagerContract {
     }
 
     this.#installedPlugins.set(pluginName, { environments, conflictsWith });
+  }
+
+  /**
+   * Check for conflicts between installed plugins
+   */
+  #checkForConflicts(targetEnvironment: PluginEnvironment): void {
+    for (const [pluginName, { environments, conflictsWith }] of this.#installedPlugins) {
+      if (!environments?.includes(targetEnvironment)) {
+        continue;
+      }
+
+      const conflictingPlugins = conflictsWith?.filter((conflictingPlugin) =>
+        this.#installedPlugins.has(conflictingPlugin)
+      );
+
+      if (conflictingPlugins?.length) {
+        throw new ConflictingPluginsException(pluginName, conflictingPlugins);
+      }
+    }
+  }
+
+  /**
+   * Register the hooks of a plugin
+   */
+  #registerHooks(targetEnvironment: PluginEnvironment, plugin: Plugin): void {
+    switch (targetEnvironment) {
+      case "client": {
+        plugin.onInitClient && this.onInitClientHooks.push(plugin.onInitClient);
+        plugin.beforeHydrate && this.beforeHydrateHooks.push(plugin.beforeHydrate);
+        break;
+      }
+      case "server": {
+        plugin.onBootServer && this.onBootServerHooks.push(plugin.onBootServer);
+        plugin.beforeRequest && this.beforeRequestHooks.push(plugin.beforeRequest);
+        plugin.afterRequest && this.afterRequestHooks.push(plugin.afterRequest);
+        plugin.beforeRender && this.beforeRenderHooks.push(plugin.beforeRender);
+        plugin.afterRender && this.afterRenderHooks.push(plugin.afterRender);
+      }
+    }
   }
 
   /**
