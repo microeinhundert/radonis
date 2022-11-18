@@ -15,7 +15,8 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "mrm": "mrm --preset=@adonisjs/mrm-preset",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "ci:publish": "changeset publish"
   },
   "repository": {
     "type": "git",
