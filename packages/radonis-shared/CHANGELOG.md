@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-shared
 
+## 2.1.11
+
+### Patch Changes
+
+- [`e342718`](https://github.com/microeinhundert/radonis/commit/e3427188d3042395820197c162396b77fa5a2dcb) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Configuration
+
 ## 2.1.10
 
 ### Patch Changes
