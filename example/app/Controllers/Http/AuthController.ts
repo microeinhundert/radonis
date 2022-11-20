@@ -53,12 +53,13 @@ export default class AuthController {
     } catch {
       if (request.accepts(["html"])) {
         session.flash({
+          email,
           errors: {
             invalidEmailOrPassword: i18n.formatMessage("validator.invalidEmailOrPassword"),
           },
         });
 
-        return response.redirect().toRoute("DashboardController.index");
+        return response.redirect().back();
       }
 
       return response.json(false);

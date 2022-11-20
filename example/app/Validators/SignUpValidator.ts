@@ -11,7 +11,8 @@ export default class SignUpValidator {
       rules.email(),
       rules.normalizeEmail({
         allLowercase: true,
-        gmailRemoveSubaddress: true,
+        gmailRemoveDots: false,
+        gmailRemoveSubaddress: false,
       }),
       rules.unique({ table: "users", column: "email" }),
     ]),

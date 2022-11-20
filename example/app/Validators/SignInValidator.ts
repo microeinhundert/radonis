@@ -9,7 +9,8 @@ export default class SignInValidator {
       rules.email(),
       rules.normalizeEmail({
         allLowercase: true,
-        gmailRemoveSubaddress: true,
+        gmailRemoveDots: false,
+        gmailRemoveSubaddress: false,
       }),
     ]),
     password: schema.string({ trim: true }),
