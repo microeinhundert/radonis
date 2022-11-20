@@ -23,10 +23,8 @@ import { getRouteIdentifier } from "./utils/get_route_identifier";
  * Plugin for integrating {@link https://tanstack.com/query/v4 TanStack Query} with Radonis
  * @see https://radonis.vercel.app/docs/plugins/query
  */
-export function queryPlugin(config?: QueryClientConfig & { baseUrl?: string }) {
-  const { baseUrl, ...queryClientConfig } = config ?? {};
-
-  const queryClient = getQueryClient(queryClientConfig);
+export function queryPlugin(config?: QueryClientConfig) {
+  const queryClient = getQueryClient(config);
 
   return definePlugin({
     name: "query",
@@ -40,7 +38,7 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: string }) {
     beforeRender({ ctx, manifest, props }) {
       const host = ctx.request.header("host");
 
-      if (!host && !baseUrl) {
+      if (!host) {
         throw new MissingHostHeaderException();
       }
 
@@ -59,7 +57,7 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: string }) {
       return (tree) =>
         h(
           BaseUrlContextProvider,
-          { value: baseUrl || `https://${host}` },
+          { value: `https://${host}` },
           h(QueryClientProvider, { client: queryClient }, h(QueryDehydrator, { children: tree }))
         );
     },

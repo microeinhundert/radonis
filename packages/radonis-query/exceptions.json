@@ -1,6 +1,6 @@
 {
   "E_MISSING_HOST_HEADER": {
-    "message": "The request is missing the host header. Without the host header set, server-side fetching does not work",
+    "message": "The incoming request is missing the \"host\" header. Without this header, server-side fetching does not work",
     "code": "E_MISSING_HOST_HEADER",
     "status": 500
   },

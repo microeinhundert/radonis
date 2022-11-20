@@ -17,7 +17,7 @@ Documentation is available on [radonis.vercel.app](https://radonis.vercel.app/).
 
 ## Example application
 
-For an example application, take a look into the `example` directory.
+An example application can be found in the [radonis-example-application](https://github.com/microeinhundert/radonis-example-application) repository. This application demonstrates how Radonis works and is a great starting point for new projects.
 
 ## License
 
