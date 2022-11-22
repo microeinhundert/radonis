@@ -34,7 +34,7 @@ import type {
 } from "@microeinhundert/radonis-types";
 import { flattie } from "flattie";
 import type { ContiguousData } from "minipass";
-import Minipass from "minipass";
+import type Minipass from "minipass";
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement, ReactNode } from "react";
 import { Fragment } from "react";
 import { createElement as h, StrictMode } from "react";
@@ -225,8 +225,6 @@ export class Renderer implements RendererContract, Resettable {
   ): Promise<UnwrapProps<T>> {
     const { request } = this.#context.httpContext;
 
-    const duplex = new Minipass();
-
     /**
      * If the request accepts HTML,
      * return the rendered view
@@ -270,7 +268,10 @@ export class Renderer implements RendererContract, Resettable {
          * Render view
          */
         const readable = await this.#renderToReadable(Component, props);
-        readable.pipe(duplex);
+
+        this.#context.httpContext.response
+          .header("Content-Type", "text/html")
+          .stream(readable.pipe(this.#createAfterRenderTransform()));
       } catch (error) {
         this.#logger.error(error);
 
@@ -278,13 +279,12 @@ export class Renderer implements RendererContract, Resettable {
          * Render error page
          */
         const readable = await this.#renderToReadable(this.#errorPages[500] ?? DefaultErrorPage, { error });
-        readable.pipe(duplex);
+
+        this.#context.httpContext.response
+          .header("Content-Type", "text/html")
+          .stream(readable.pipe(this.#createAfterRenderTransform()));
       }
     }
-
-    this.#context.httpContext.response
-      .header("Content-Type", "text/html")
-      .stream(duplex.pipe(this.#createAfterRenderTransform()));
 
     return props as UnwrapProps<T>;
   }
