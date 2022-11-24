@@ -1,5 +1,18 @@
 # @microeinhundert/radonis-form
 
+## 2.1.12
+
+### Patch Changes
+
+- [`aed8ba4`](https://github.com/microeinhundert/radonis/commit/aed8ba4a52de1676ec77c4a14e53e6136c0d7f51) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Query plugin
+
+- Updated dependencies [[`aed8ba4`](https://github.com/microeinhundert/radonis/commit/aed8ba4a52de1676ec77c4a14e53e6136c0d7f51)]:
+  - @microeinhundert/radonis-hooks@2.1.12
+  - @microeinhundert/radonis-hydrate@2.1.12
+  - @microeinhundert/radonis-server@2.1.12
+  - @microeinhundert/radonis-shared@2.1.12
+  - @microeinhundert/radonis-types@2.1.12
+
 ## 2.1.11
 
 ### Patch Changes
