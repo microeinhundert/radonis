@@ -8,7 +8,7 @@
  */
 
 import type { RouteParams, RouteQueryParams } from "@microeinhundert/radonis";
-import type { UseQueryOptions } from "@tanstack/react-query";
+import type { UseMutationOptions, UseQueryOptions } from "@tanstack/react-query";
 import type { ReactElement } from "react";
 
 /**
@@ -19,6 +19,16 @@ export interface ServerQueryOptions<TData, TError> {
   queryParams?: RouteQueryParams;
   headers?: Record<string, string>;
   query?: UseQueryOptions<TData, TError>;
+}
+
+/**
+ * Server mutation options
+ */
+export interface ServerMutationOptions<TData, TError> {
+  params?: RouteParams;
+  queryParams?: RouteQueryParams;
+  headers?: Record<string, string>;
+  mutation?: UseMutationOptions<TData, TError>;
 }
 
 /**

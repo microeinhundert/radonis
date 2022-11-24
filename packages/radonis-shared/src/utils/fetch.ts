@@ -27,7 +27,6 @@ export async function fetch$(input: RequestInfo | URL, init?: RequestInit) {
   };
 
   const fetchImpl = getFetch();
-
   const response = await fetchImpl(input, requestInit);
 
   if (!response.ok) {
@@ -43,7 +42,7 @@ export async function fetch$(input: RequestInfo | URL, init?: RequestInit) {
        * If the response was serialized by superjson,
        * deserialize it
        */
-      if (Object.keys(json).length === 2 && "json" in json && "meta" in json) {
+      if ("json" in json) {
         return superjson.deserialize<T>(json);
       }
 

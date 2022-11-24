@@ -16,7 +16,7 @@ import type { FormProps } from "../types";
  * Component extending the default form behavior
  * @see https://radonis.vercel.app/docs/forms
  */
-export function Form<TData, TError>({ children, ...props }: FormProps<TData, TError>) {
+export function Form<TData = unknown, TError = unknown>({ children, ...props }: FormProps<TData, TError>) {
   const form = useForm<TData, TError>(props);
 
   return h(

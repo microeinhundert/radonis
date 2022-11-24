@@ -1,7 +1,7 @@
 {
-  "E_MISSING_HOST_HEADER": {
-    "message": "The incoming request is missing the \"host\" header. Without this header, server-side fetching does not work",
-    "code": "E_MISSING_HOST_HEADER",
+  "E_UNKNOWN_BASE_URL": {
+    "message": "Cannot retrieve query data server-side because the base URL is not known. Make sure the `Host` header is present on the request or set the base URL manually by passing it to the query plugin",
+    "code": "E_UNKNOWN_BASE_URL",
     "status": 500
   }
 }

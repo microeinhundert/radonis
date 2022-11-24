@@ -9,7 +9,7 @@
 
 import { useMutation, useUrlBuilder } from "@microeinhundert/radonis-hooks";
 import { useHydration } from "@microeinhundert/radonis-hydrate";
-import { fetch$ } from "@microeinhundert/radonis-shared";
+import { fetch$, urlToRelativePath } from "@microeinhundert/radonis-shared";
 import type { FormEvent } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
@@ -28,17 +28,10 @@ function isNativeFormMethod(method: string): boolean {
 }
 
 /**
- * Convert an URL to a relative path
- */
-function urlToRelativePath(url: URL): string {
-  return url.toString().replace(url.origin, "");
-}
-
-/**
  * Hook for creating forms
  * @see https://radonis.vercel.app/docs/hooks/use-form
  */
-export function useForm<TData, TError>({
+export function useForm<TData = unknown, TError = unknown>({
   action,
   params,
   queryParams,

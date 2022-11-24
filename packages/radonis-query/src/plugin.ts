@@ -15,8 +15,8 @@ import { createElement as h } from "react";
 import { QueryDehydrator } from "./components/query_dehydrator";
 import { QueryHydrator } from "./components/query_hydrator";
 import { BaseUrlContextProvider } from "./contexts/base_url_context";
-import { MissingHostHeaderException } from "./exceptions/missing_host_header";
 import { getQueryClient } from "./queryClient";
+import { generateQueryKeyForUrl } from "./utils/generate_query_key_for_url";
 import { getRouteIdentifier } from "./utils/get_route_identifier";
 
 /**
@@ -31,34 +31,33 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: URL | strin
     name: "query",
     environments: ["client", "server"],
     beforeHydrate() {
-      return (tree) => h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, { children: tree }));
+      return (tree) =>
+        h(
+          BaseUrlContextProvider,
+          { value: baseUrl?.toString() || window.location.origin },
+          h(QueryClientProvider, { client: queryClient }, h(QueryHydrator, { children: tree }))
+        );
     },
     beforeRequest() {
       queryClient.clear();
     },
     beforeRender({ ctx, manifest, props }) {
       const host = ctx.request.header("host");
-
-      if (!host && !baseUrl) {
-        throw new MissingHostHeaderException();
-      }
-
+      const origin = host ? `https://${host}` : undefined;
       const routeIdentifier = getRouteIdentifier(ctx.route);
 
       if (routeIdentifier && props) {
         const urlBuilder = new UrlBuilder(manifest.routes);
-        const urlQueryKey = urlBuilder
-          .make(routeIdentifier, { params: ctx.request.params(), queryParams: ctx.request.qs() })
-          .split("/")
-          .filter(Boolean);
+        const url = urlBuilder.make(routeIdentifier, { params: ctx.request.params(), queryParams: ctx.request.qs() });
+        const queryKey = generateQueryKeyForUrl(url, [routeIdentifier]);
 
-        queryClient.setQueryData([routeIdentifier, ...urlQueryKey], props);
+        queryClient.setQueryData(queryKey, props);
       }
 
       return (tree) =>
         h(
           BaseUrlContextProvider,
-          { value: baseUrl?.toString() || `https://${host}` },
+          { value: baseUrl?.toString() || origin },
           h(QueryClientProvider, { client: queryClient }, h(QueryDehydrator, { children: tree }))
         );
     },

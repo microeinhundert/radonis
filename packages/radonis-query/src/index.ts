@@ -8,5 +8,7 @@
  */
 
 export { useQueryBaseUrl } from "./hooks/use_query_base_url";
+export { useServerMutation } from "./hooks/use_server_mutation";
 export { useServerQuery } from "./hooks/use_server_query";
 export { queryPlugin } from "./plugin";
+export { generateQueryKeyForUrl } from "./utils/generate_query_key_for_url";

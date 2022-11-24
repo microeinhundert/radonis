@@ -10,11 +10,18 @@
 import { useContext } from "react";
 
 import { baseUrlContext } from "../contexts/base_url_context";
+import { UnknownBaseUrlException } from "../exceptions/unknown_base_url";
 
 /**
- * Hook for retrieving the base url set for queries
+ * Hook for retrieving the base URL set for queries
  * @see https://radonis.vercel.app/docs/plugins/query#querying-data
  */
 export function useQueryBaseUrl() {
-  return useContext(baseUrlContext);
+  const baseUrl = useContext(baseUrlContext);
+
+  if (!baseUrl) {
+    throw new UnknownBaseUrlException();
+  }
+
+  return baseUrl;
 }

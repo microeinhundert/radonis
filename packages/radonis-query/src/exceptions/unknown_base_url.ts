@@ -9,13 +9,13 @@
 
 import { RadonisException } from "@microeinhundert/radonis-shared";
 
-import { E_MISSING_HOST_HEADER } from "../../exceptions.json";
+import { E_UNKNOWN_BASE_URL } from "../../exceptions.json";
 
 /**
  * @internal
  */
-export class MissingHostHeaderException extends RadonisException {
+export class UnknownBaseUrlException extends RadonisException {
   constructor() {
-    super(E_MISSING_HOST_HEADER.message, E_MISSING_HOST_HEADER.status, E_MISSING_HOST_HEADER.code);
+    super(E_UNKNOWN_BASE_URL.message, E_UNKNOWN_BASE_URL.status, E_UNKNOWN_BASE_URL.code);
   }
 }

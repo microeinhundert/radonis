@@ -14,3 +14,4 @@ export { fetch$ } from "./utils/fetch";
 export { interpolate } from "./utils/interpolate";
 export { separateArray } from "./utils/separate_array";
 export { stringifyAttributes } from "./utils/stringify_attributes";
+export { urlToRelativePath } from "./utils/url_to_relative_path";

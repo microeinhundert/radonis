@@ -11,22 +11,21 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import type { RouteIdentifier } from "@microeinhundert/radonis";
 import { useUrlBuilder } from "@microeinhundert/radonis";
 import { fetch$ } from "@microeinhundert/radonis-shared";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useMemo } from "react";
 
-import type { ServerQueryOptions } from "../types";
-import { generateQueryKeyForUrl } from "../utils/generate_query_key_for_url";
+import type { ServerMutationOptions } from "../types";
 import { useQueryBaseUrl } from "./use_query_base_url";
 
 /**
- * Hook for querying server data
- * @see https://radonis.vercel.app/docs/plugins/query#querying-data
+ * Hook for mutating server data
+ * @see https://radonis.vercel.app/docs/plugins/query#mutating-data
  */
-export function useServerQuery<
+export function useServerMutation<
   TControllerAction extends (ctx: HttpContextContract) => any,
   TError = unknown,
   TData = Awaited<ReturnType<TControllerAction>>
->(routeIdentifier: RouteIdentifier, options?: ServerQueryOptions<TData, TError>) {
+>(routeIdentifier: RouteIdentifier, options?: ServerMutationOptions<TData, TError>) {
   const urlBuilder = useUrlBuilder();
   const baseUrl = useQueryBaseUrl();
 
@@ -40,17 +39,18 @@ export function useServerQuery<
     [urlBuilder, routeIdentifier, baseUrl, options]
   );
 
-  const queryFn = async () => {
+  const mutationFn = async (data) => {
     const response = await fetch$(url, {
+      method: "post",
+      body: JSON.stringify(data),
       headers: options?.headers,
     });
 
     return response.json<any>();
   };
 
-  return useQuery<TData, TError>({
-    queryFn,
-    ...options?.query,
-    queryKey: generateQueryKeyForUrl(url, [routeIdentifier]),
+  return useMutation<TData, TError>({
+    mutationFn,
+    ...options?.mutation,
   });
 }
