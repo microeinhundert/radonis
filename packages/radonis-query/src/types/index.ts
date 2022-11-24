@@ -18,7 +18,7 @@ export interface ServerQueryOptions<TData, TError> {
   params?: RouteParams;
   queryParams?: RouteQueryParams;
   headers?: Record<string, string>;
-  query?: Omit<UseQueryOptions<TData, TError>, "queryFn">;
+  query?: UseQueryOptions<TData, TError>;
 }
 
 /**

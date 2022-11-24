@@ -12,10 +12,9 @@ import type { RouteIdentifier } from "@microeinhundert/radonis";
 import { useUrlBuilder } from "@microeinhundert/radonis";
 import { fetch$ } from "@microeinhundert/radonis-shared";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
-import { baseUrlContext } from "../contexts/base_url_context";
 import type { ServerQueryOptions } from "../types";
+import { useQueryBaseUrl } from "./use_query_base_url";
 
 /**
  * Hook for querying server data in React components
@@ -26,7 +25,7 @@ export function useServerQuery<TControllerAction extends (ctx: HttpContextContra
   options?: ServerQueryOptions<Awaited<ReturnType<TControllerAction>>, TError>
 ) {
   const urlBuilder = useUrlBuilder();
-  const baseUrl = useContext(baseUrlContext);
+  const baseUrl = useQueryBaseUrl();
 
   const url = urlBuilder.make(routeIdentifier, {
     baseUrl,
@@ -45,5 +44,9 @@ export function useServerQuery<TControllerAction extends (ctx: HttpContextContra
     return response.json<any>();
   };
 
-  return useQuery<Awaited<ReturnType<TControllerAction>>, TError>(queryKey, queryFn, options?.query);
+  return useQuery<Awaited<ReturnType<TControllerAction>>, TError>({
+    queryFn,
+    ...options?.query,
+    queryKey,
+  });
 }
