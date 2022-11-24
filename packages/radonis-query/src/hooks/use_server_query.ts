@@ -51,6 +51,6 @@ export function useServerQuery<
   return useQuery<TData, TError>({
     queryFn,
     ...options?.query,
-    queryKey: generateQueryKeyForUrl(url, [routeIdentifier]),
+    queryKey: generateQueryKeyForUrl(url, [routeIdentifier, options?.query?.queryKey]),
   });
 }
