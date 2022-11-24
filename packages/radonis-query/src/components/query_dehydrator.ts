@@ -13,7 +13,7 @@ import { dehydrate, useQueryClient } from "@tanstack/react-query";
 import type { QueryDehydratorProps } from "../types";
 
 /**
- * The component for dehydrating queries
+ * Component for dehydrating queries
  * @internal
  */
 export function QueryDehydrator({ children }: QueryDehydratorProps) {

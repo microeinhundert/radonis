@@ -18,7 +18,7 @@ import { useHydration } from "../hooks/use_hydration";
 import { componentIdentifierSymbol } from "../symbols";
 
 /**
- * The component for marking components for client-side hydration
+ * Component for marking components for client-side hydration
  * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
 export function HydrationRoot({
