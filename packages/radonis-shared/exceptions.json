@@ -13,5 +13,10 @@
     "message": "Wildcard routes are currently not supported by the URL builder",
     "code": "E_WILDCARD_ROUTES_NOT_SUPPORTED",
     "status": 500
+  },
+  "E_MISSING_FETCH": {
+    "message": "No implementation of `fetch` is available server-side. Please include a polyfill",
+    "code": "E_MISSING_FETCH",
+    "status": 500
   }
 }

@@ -50,7 +50,7 @@
     "copyfiles": "2.4.1",
     "cz-conventional-changelog": "^3.3.0",
     "del-cli": "^5.0.0",
-    "eslint": "8.27.0",
+    "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-adonis": "2.1.1",
     "eslint-plugin-prettier": "4.2.1",
@@ -61,13 +61,13 @@
     "lint-staged": "^13.0.3",
     "mrm": "^4.1.13",
     "openapi-types": "^12.0.2",
-    "prettier": "2.7.1",
+    "prettier": "2.8.0",
     "turbo": "^1.6.3",
-    "typescript": "4.8.4"
+    "typescript": "4.9.3"
   },
   "dependencies": {
     "@adonisjs/ace": "^11.3.1",
-    "@adonisjs/core": "^5.8.9",
+    "@adonisjs/core": "^5.9.0",
     "@adonisjs/i18n": "^1.5.6",
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/sink": "^5.4.2",

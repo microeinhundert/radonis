@@ -69,7 +69,6 @@
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:2.1.11",
-    "superjson": "^1.11.0",
     "tslib": "^2.4.1"
   }
 }
