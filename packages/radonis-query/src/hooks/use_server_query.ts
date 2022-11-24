@@ -10,12 +10,11 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import type { RouteIdentifier } from "@microeinhundert/radonis";
 import { useUrlBuilder } from "@microeinhundert/radonis";
+import { fetch$ } from "@microeinhundert/radonis-shared";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import superjson from "superjson";
 
 import { baseUrlContext } from "../contexts/base_url_context";
-import { RequestFailedException } from "../exceptions/request_failed";
 import type { ServerQueryOptions } from "../types";
 
 /**
@@ -39,17 +38,11 @@ export function useServerQuery<TControllerAction extends (ctx: HttpContextContra
   const queryKey = [routeIdentifier, urlQueryKey, options?.query?.queryKey].flat().filter(Boolean);
 
   const queryFn = async () => {
-    const response = await fetch(url, {
-      headers: { ...options?.headers, "Accept": "application/json", "X-Radonis-Request": "true" },
+    const response = await fetch$(url, {
+      headers: options?.headers,
     });
 
-    if (!response.ok) {
-      throw new RequestFailedException(routeIdentifier, response.status);
-    }
-
-    const json = await response.json();
-
-    return superjson.deserialize<any>(json);
+    return response.json<any>();
   };
 
   return useQuery<Awaited<ReturnType<TControllerAction>>, TError>(queryKey, queryFn, options?.query);

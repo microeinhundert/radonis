@@ -9,15 +9,14 @@
 
 import { useMutation, useUrlBuilder } from "@microeinhundert/radonis-hooks";
 import { useHydration } from "@microeinhundert/radonis-hydrate";
+import { fetch$ } from "@microeinhundert/radonis-shared";
 import type { FormEvent } from "react";
 import { useMemo } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import superjson from "superjson";
 
 import { CannotFetchWithoutHydrationException } from "../exceptions/cannot_fetch_without_hydration";
 import { CannotUseHooksWhenReloadingException } from "../exceptions/cannot_use_hooks_when_reloading";
-import { RequestFailedException } from "../exceptions/request_failed";
 import { hydrationManager } from "../singletons";
 import type { FormOptions } from "../types";
 
@@ -95,15 +94,9 @@ export function useForm<TData, TError>({
         }
       }
 
-      const response = await fetch(urlToRelativePath(requestUrl), requestInit);
+      const response = await fetch$(urlToRelativePath(requestUrl), requestInit);
 
-      if (!response.ok) {
-        throw new RequestFailedException(action, response.status);
-      }
-
-      const json = await response.json();
-
-      return superjson.deserialize(json);
+      return response.json<any>();
     },
     { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
   );

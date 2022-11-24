@@ -8,10 +8,5 @@
     "message": "The form with action \"{{ formAction }}\" and the `noReload` prop set can't work without being hydrated client-side. Wrap the component containing this form with an HydrationRoot",
     "code": "E_CANNOT_FETCH_WITHOUT_HYDRATION",
     "status": 500
-  },
-  "E_REQUEST_FAILED": {
-    "message": "The network request to route \"{{ routeIdentifier }}\" failed",
-    "code": "E_REQUEST_FAILED",
-    "status": 500
   }
 }
