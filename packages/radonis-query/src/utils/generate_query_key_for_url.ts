@@ -8,14 +8,15 @@
  */
 
 import { urlToRelativePath } from "@microeinhundert/radonis-shared";
+import type { QueryKey } from "@tanstack/react-query";
 
 /**
  * Generate the query key for an URL
  */
-export function generateQueryKeyForUrl(url: URL | string, prepend?: string[]) {
+export function generateQueryKeyForUrl(url: URL | string, prepend?: unknown[]) {
   const internalUrl = new URL(url, "http://internal");
   const urlQueryKey = urlToRelativePath(internalUrl).split("/");
-  const queryKey = [prepend, urlQueryKey].flat().filter(Boolean);
+  const queryKey = [prepend, urlQueryKey].flat().filter((value) => value !== undefined);
 
-  return queryKey as string[];
+  return queryKey as QueryKey;
 }
