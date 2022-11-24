@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-query",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "description": "Query plugin for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/src/index.js",
@@ -56,19 +56,19 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@microeinhundert/radonis": "workspace:2.1.11",
+    "@microeinhundert/radonis": "workspace:2.1.12",
     "@adonisjs/core": "^5.8.0",
     "@tanstack/react-query": "^4.16.1"
   },
   "devDependencies": {
-    "@microeinhundert/radonis": "workspace:2.1.11",
+    "@microeinhundert/radonis": "workspace:2.1.12",
     "@tanstack/react-query": "^4.16.1",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:2.1.11",
+    "@microeinhundert/radonis-shared": "workspace:2.1.12",
     "tslib": "^2.4.1"
   }
 }
