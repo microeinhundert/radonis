@@ -61,6 +61,7 @@
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
+    "superjson": "^1.11.0",
     "tslib": "^2.4.1"
   }
 }

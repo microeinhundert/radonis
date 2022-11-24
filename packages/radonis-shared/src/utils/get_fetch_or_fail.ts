@@ -8,10 +8,12 @@
  */
 
 import { MissingFetchException } from "../exceptions/missing_fetch";
-import { isServer } from "./environment";
 
-export function getFetch() {
-  if (isServer && !globalThis.fetch) {
+/**
+ * Get the available `fetch` implementation or fail
+ */
+export function getFetchOrFail() {
+  if (!globalThis.fetch) {
     throw new MissingFetchException();
   }
 

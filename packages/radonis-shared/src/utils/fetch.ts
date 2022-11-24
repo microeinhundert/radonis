@@ -11,7 +11,7 @@
 
 import superjson from "superjson";
 
-import { getFetch } from "./get_fetch";
+import { getFetchOrFail } from "./get_fetch_or_fail";
 
 /**
  * Utility for fetching
@@ -26,7 +26,7 @@ export async function fetch$(input: RequestInfo | URL, init?: RequestInit) {
     },
   };
 
-  const fetchImpl = getFetch();
+  const fetchImpl = getFetchOrFail();
   const response = await fetchImpl(input, requestInit);
 
   if (!response.ok) {

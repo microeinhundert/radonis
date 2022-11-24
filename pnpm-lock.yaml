@@ -240,8 +240,10 @@ importers:
       '@types/node': ^18.11.9
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.9
+      superjson: ^1.11.0
       tslib: ^2.4.1
     dependencies:
+      superjson: 1.11.0
       tslib: 2.4.1
     devDependencies:
       '@microeinhundert/radonis-types': link:../radonis-types
