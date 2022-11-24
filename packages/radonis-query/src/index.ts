@@ -7,5 +7,6 @@
  * file that was distributed with this source code.
  */
 
+export { useQueryBaseUrl } from "./hooks/use_query_base_url";
 export { useServerQuery } from "./hooks/use_server_query";
 export { queryPlugin } from "./plugin";
