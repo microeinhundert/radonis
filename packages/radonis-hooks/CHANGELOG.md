@@ -1,5 +1,15 @@
 # @microeinhundert/radonis-hooks
 
+## 2.1.14
+
+### Patch Changes
+
+- [`556001d`](https://github.com/microeinhundert/radonis/commit/556001dab70f0774ea2dbab264f453ce8286de38) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fixes
+
+- Updated dependencies [[`556001d`](https://github.com/microeinhundert/radonis/commit/556001dab70f0774ea2dbab264f453ce8286de38)]:
+  - @microeinhundert/radonis-hydrate@2.1.14
+  - @microeinhundert/radonis-server@2.1.14
+
 ## 2.1.13
 
 ### Patch Changes
