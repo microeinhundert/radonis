@@ -22,7 +22,7 @@ import { CannotFindComponentsDirectoryException } from '../src/exceptions/cannot
 import { yieldScriptPath } from '../src/utils/yield_script_path'
 
 /**
- * A command to build the client
+ * A command to build the Radonis client
  */
 export default class BuildClient extends BaseCommand {
   static commandName = 'build:client'
@@ -32,7 +32,7 @@ export default class BuildClient extends BaseCommand {
     stayAlive: true,
   }
 
-  @flags.boolean({ description: 'Build for production' })
+  @flags.boolean({ description: 'Whether to build for production' })
   production: boolean | undefined
 
   @flags.string({ description: 'Glob pattern of files that should automatically trigger a rebuild' })

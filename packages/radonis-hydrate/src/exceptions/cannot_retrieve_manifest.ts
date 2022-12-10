@@ -14,9 +14,9 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
  */
 export class CannotRetrieveManifestException extends RadonisException {
   constructor() {
-    super('Cannot retrieve the Radonis Manifest. Make sure the Radonis server provider was configured properly', {
+    super('Cannot retrieve the Radonis manifest. Make sure the Radonis server provider was configured properly', {
       status: 404,
-      code: 'E_MISSING_MANIFEST',
+      code: 'E_RETRIEVE_MANIFEST',
     })
   }
 }

@@ -8,8 +8,6 @@
  */
 
 declare module '@ioc:Adonis/Core/Application' {
-  import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-
   import type {
     AssetsManagerContract,
     HeadManagerContract,

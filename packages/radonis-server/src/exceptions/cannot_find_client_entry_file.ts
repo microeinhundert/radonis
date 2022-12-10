@@ -16,7 +16,7 @@ export class CannotFindClientEntryFileException extends RadonisException {
   constructor(path: string) {
     super(`The Radonis client entry file could not be found at "${path}"`, {
       status: 404,
-      code: 'E_MISSING_CLIENT_ENTRY_FILE',
+      code: 'E_CANNOT_FIND_CLIENT_ENTRY_FILE',
     })
   }
 }

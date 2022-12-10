@@ -16,7 +16,7 @@ export class CannotFindComponentsDirectoryException extends RadonisException {
   constructor(path: string) {
     super(`The Radonis components directory could not be found at "${path}"`, {
       status: 404,
-      code: 'E_MISSING_COMPONENTS_DIRECTORY',
+      code: 'E_CANNOT_FIND_COMPONENTS_DIRECTORY',
     })
   }
 }

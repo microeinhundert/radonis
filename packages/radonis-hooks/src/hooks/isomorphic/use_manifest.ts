@@ -21,7 +21,7 @@ declare global {
 let cachedManifest: Readonly<ManifestContract> | undefined
 
 /**
- * Hook for retrieving the manifest
+ * Hook for retrieving the Radonis manifest
  * @see https://radonis.vercel.app/docs/hooks/use-manifest
  */
 export function useManifest() {
