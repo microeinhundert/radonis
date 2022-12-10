@@ -1,5 +1,12 @@
 # @microeinhundert/radonis-query
 
+## 2.1.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @microeinhundert/radonis@2.1.14
+
 ## 2.1.13
 
 ### Patch Changes
