@@ -1,5 +1,15 @@
 # @microeinhundert/radonis-unocss
 
+## 2.1.13
+
+### Patch Changes
+
+- [`241fbf7`](https://github.com/microeinhundert/radonis/commit/241fbf72e9f61e6cb5c0fab4f796c33d7c2cbf0a) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Maintenance
+
+- Updated dependencies [[`241fbf7`](https://github.com/microeinhundert/radonis/commit/241fbf72e9f61e6cb5c0fab4f796c33d7c2cbf0a)]:
+  - @microeinhundert/radonis@2.1.13
+  - @microeinhundert/radonis-shared@2.1.13
+
 ## 2.1.12
 
 ### Patch Changes
