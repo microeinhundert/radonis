@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { PluginsManager } from "@microeinhundert/radonis-server/standalone";
+import { PluginsManager } from '@microeinhundert/radonis-server/standalone'
 
-import { Hydrator } from "./hydrator";
-
-/**
- * @internal
- */
-export const pluginsManager = PluginsManager.getSingletonInstance();
+import { Hydrator } from './hydrator/main'
 
 /**
  * @internal
  */
-export const hydrator = Hydrator.getSingletonInstance(pluginsManager);
+export const pluginsManager = PluginsManager.getSingletonInstance()
+
+/**
+ * @internal
+ */
+export const hydrator = Hydrator.getSingletonInstance(pluginsManager)

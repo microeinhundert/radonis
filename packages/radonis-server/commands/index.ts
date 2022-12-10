@@ -7,4 +7,4 @@
  * file that was distributed with this source code.
  */
 
-export default ["@microeinhundert/radonis-server/build/commands/BuildClient"];
+export default ['@microeinhundert/radonis-server/build/commands/BuildClient']

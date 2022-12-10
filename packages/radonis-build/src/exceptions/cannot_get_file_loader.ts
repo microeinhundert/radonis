@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_GET_FILE_LOADER } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,11 +15,11 @@ import { E_CANNOT_GET_FILE_LOADER } from "../../exceptions.json";
 export class CannotGetFileLoaderException extends RadonisException {
   constructor(filePath: string) {
     super(
-      interpolate(E_CANNOT_GET_FILE_LOADER.message, {
-        filePath,
-      }),
-      E_CANNOT_GET_FILE_LOADER.status,
-      E_CANNOT_GET_FILE_LOADER.code
-    );
+      `Cannot get a loader for the file at "${filePath}". This most likely means the file type you imported is currently not supported by Radonis. You can add support for this file type yourself by overriding the esbuild configuration from inside the Radonis config file`,
+      {
+        status: 500,
+        code: 'E_CANNOT_GET_FILE_LOADER',
+      }
+    )
   }
 }

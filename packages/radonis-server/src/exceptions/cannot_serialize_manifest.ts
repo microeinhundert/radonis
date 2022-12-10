@@ -7,15 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_SERIALIZE_MANIFEST } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class CannotSerializeManifestException extends RadonisException {
   constructor() {
-    super(E_CANNOT_SERIALIZE_MANIFEST.message, E_CANNOT_SERIALIZE_MANIFEST.status, E_CANNOT_SERIALIZE_MANIFEST.code);
+    super(
+      'The Radonis manifest cannot be serialized. Make sure to only pass data serializable by superjson to components hydrated client-side',
+      {
+        status: 500,
+        code: 'E_CANNOT_SERIALIZE_MANIFEST',
+      }
+    )
   }
 }

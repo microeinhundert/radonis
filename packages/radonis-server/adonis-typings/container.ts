@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-declare module "@ioc:Adonis/Core/Application" {
-  import type { RadonisConfig } from "@ioc:Microeinhundert/Radonis";
+declare module '@ioc:Adonis/Core/Application' {
+  import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 
   import type {
     AssetsManagerContract,
@@ -17,14 +17,14 @@ declare module "@ioc:Adonis/Core/Application" {
     ManifestManagerContract,
     PluginsManagerContract,
     RendererContract,
-  } from "@microeinhundert/radonis-types";
+  } from '@microeinhundert/radonis-types'
 
   interface ContainerBindings {
-    "Microeinhundert/Radonis/AssetsManager": AssetsManagerContract;
-    "Microeinhundert/Radonis/HeadManager": HeadManagerContract;
-    "Microeinhundert/Radonis/HydrationManager": HydrationManagerContract;
-    "Microeinhundert/Radonis/ManifestManager": ManifestManagerContract;
-    "Microeinhundert/Radonis/PluginsManager": PluginsManagerContract;
-    "Microeinhundert/Radonis/Renderer": RendererContract;
+    'Microeinhundert/Radonis/AssetsManager': AssetsManagerContract
+    'Microeinhundert/Radonis/HeadManager': HeadManagerContract
+    'Microeinhundert/Radonis/HydrationManager': HydrationManagerContract
+    'Microeinhundert/Radonis/ManifestManager': ManifestManagerContract
+    'Microeinhundert/Radonis/PluginsManager': PluginsManagerContract
+    'Microeinhundert/Radonis/Renderer': RendererContract
   }
 }

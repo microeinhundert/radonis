@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { existsSync } from "fs";
-import { parse } from "path";
+import { existsSync } from 'node:fs'
+import { parse } from 'node:path'
 
 /**
  * Yield a script path
@@ -16,10 +16,10 @@ import { parse } from "path";
  */
 export function yieldScriptPath(path: string): string {
   if (existsSync(path)) {
-    return path;
+    return path
   }
 
-  const { ext } = parse(path);
+  const { ext } = parse(path)
 
-  return ext ? path.replace(ext, ".js") : yieldScriptPath(`${path}.ts`);
+  return ext ? path.replace(ext, '.js') : yieldScriptPath(`${path}.ts`)
 }

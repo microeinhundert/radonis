@@ -7,14 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { useManifest } from "./use_manifest";
+import { useManifest } from './use_manifest'
 
 /**
  * Hook for retrieving globals from the manifest
  * @see https://radonis.vercel.app/docs/hooks/use-globals
  */
 export function useGlobals() {
-  const { globals } = useManifest();
+  const { globals } = useManifest()
 
-  return globals;
+  return globals
 }

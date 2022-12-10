@@ -12,5 +12,5 @@
  * @internal
  */
 export function urlToRelativePath(url: URL) {
-  return url.toString().replace(url.origin, "");
+  return url.toString().replace(url.origin, '')
 }

@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { MissingFetchException } from "../exceptions/missing_fetch";
+import { MissingFetchException } from '../exceptions/missing_fetch'
 
 /**
  * Get the available `fetch` implementation or fail
  */
 export function getFetchOrFail() {
   if (!globalThis.fetch) {
-    throw new MissingFetchException();
+    throw new MissingFetchException()
   }
 
-  return globalThis.fetch;
+  return globalThis.fetch
 }

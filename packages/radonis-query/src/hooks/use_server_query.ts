@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import type { RouteIdentifier } from "@microeinhundert/radonis";
-import { useUrlBuilder } from "@microeinhundert/radonis";
-import { fetch$ } from "@microeinhundert/radonis-shared";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { RouteIdentifier } from '@microeinhundert/radonis'
+import { useUrlBuilder } from '@microeinhundert/radonis'
+import { fetch$ } from '@microeinhundert/radonis-shared'
+import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
-import type { ServerQueryOptions } from "../types";
-import { generateQueryKeyForUrl } from "../utils/generate_query_key_for_url";
-import { useQueryBaseUrl } from "./use_query_base_url";
+import type { ServerQueryOptions } from '../types/main'
+import { generateQueryKeyForUrl } from '../utils/generate_query_key_for_url'
+import { useQueryBaseUrl } from './use_query_base_url'
 
 /**
  * Hook for querying server data
@@ -27,8 +27,8 @@ export function useServerQuery<
   TError = unknown,
   TData = Awaited<ReturnType<TControllerAction>>
 >(routeIdentifier: RouteIdentifier, options?: ServerQueryOptions<TData, TError>) {
-  const urlBuilder = useUrlBuilder();
-  const baseUrl = useQueryBaseUrl();
+  const urlBuilder = useUrlBuilder()
+  const baseUrl = useQueryBaseUrl()
 
   const url = useMemo(
     () =>
@@ -38,19 +38,19 @@ export function useServerQuery<
         queryParams: options?.queryParams,
       }),
     [urlBuilder, routeIdentifier, baseUrl, options]
-  );
+  )
 
   const queryFn = async () => {
     const response = await fetch$(url, {
       headers: options?.headers,
-    });
+    })
 
-    return response.json<any>();
-  };
+    return response.json<any>()
+  }
 
   return useQuery<TData, TError>({
     queryFn,
     ...options?.query,
     queryKey: generateQueryKeyForUrl(url, [routeIdentifier, options?.query?.queryKey]),
-  });
+  })
 }

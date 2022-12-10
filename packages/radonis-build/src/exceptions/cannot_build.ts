@@ -7,15 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_BUILD } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class CannotBuildException extends RadonisException {
   constructor(message: string) {
-    super(interpolate(E_CANNOT_BUILD.message, { message }), E_CANNOT_BUILD.status, E_CANNOT_BUILD.code);
+    super(`Cannot build the Radonis client bundle: ${message}`, {
+      status: 500,
+      code: 'E_CANNOT_BUILD',
+    })
   }
 }

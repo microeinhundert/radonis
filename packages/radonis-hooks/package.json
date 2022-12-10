@@ -3,17 +3,17 @@
   "version": "2.1.12",
   "description": "Hooks package for Radonis",
   "type": "commonjs",
-  "main": "./build/cjs/src/index.js",
-  "types": "./build/cjs/src/index.d.ts",
+  "main": "./build/cjs/index.js",
+  "types": "./build/cjs/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./build/esm/src/index.d.ts",
-        "default": "./build/esm/src/index.js"
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
       },
       "require": {
-        "types": "./build/cjs/src/index.d.ts",
-        "default": "./build/cjs/src/index.js"
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
       }
     }
   },
@@ -59,8 +59,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "@types/react": "^18.0.25",
+    "@types/node": "^18.11.12",
+    "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
@@ -69,7 +69,7 @@
     "@microeinhundert/radonis-server": "workspace:2.1.12",
     "@microeinhundert/radonis-hydrate": "workspace:2.1.12",
     "intl-messageformat": "10.1.5",
-    "superjson": "^1.11.0",
+    "superjson": "^1.12.0",
     "tslib": "^2.4.1"
   }
 }

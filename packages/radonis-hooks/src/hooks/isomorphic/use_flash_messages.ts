@@ -7,40 +7,40 @@
  * file that was distributed with this source code.
  */
 
-import { useHydration } from "@microeinhundert/radonis-hydrate";
-import type { FlashMessageIdentifier, FlashMessages } from "@microeinhundert/radonis-types";
+import { useHydration } from '@microeinhundert/radonis-hydrate'
+import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
 
-import { hydrationManager } from "../../singletons";
-import { useManifest } from "./use_manifest";
+import { hydrationManager } from '../../singletons'
+import { useManifest } from './use_manifest'
 
-const ERRORS_NAMESPACE = "errors";
+const ERRORS_NAMESPACE = 'errors'
 
 /**
  * Hook for retrieving session flash messages
  * @see https://radonis.vercel.app/docs/hooks/use-flash-messages
  */
 export function useFlashMessages() {
-  const { flashMessages } = useManifest();
-  const hydration = useHydration();
+  const { flashMessages } = useManifest()
+  const hydration = useHydration()
 
   /**
    * Find the flash message inside the registered flash messages
    */
   function findFlashMessage(identifier: FlashMessageIdentifier) {
-    const flashMessage = flashMessages[identifier];
+    const flashMessage = flashMessages[identifier]
 
     /**
      * If the flash message does not exist, check if it exists on the zero index
      */
-    if (typeof flashMessage === "undefined" && identifier && !identifier.match(/\.(\d*)$/i)) {
-      return findFlashMessage(`${identifier}.0`);
+    if (typeof flashMessage === 'undefined' && identifier && !identifier.match(/\.(\d*)$/i)) {
+      return findFlashMessage(`${identifier}.0`)
     }
 
     if (hydration.id && flashMessage) {
-      hydrationManager.requireFlashMessage(identifier);
+      hydrationManager.requireFlashMessage(identifier)
     }
 
-    return flashMessage;
+    return flashMessage
   }
 
   /**
@@ -48,31 +48,31 @@ export function useFlashMessages() {
    */
   function all() {
     if (hydration.id) {
-      hydrationManager.requireFlashMessage("*");
+      hydrationManager.requireFlashMessage('*')
     }
 
-    return flashMessages;
+    return flashMessages
   }
 
   /**
    * Check if a specific flash message exists
    */
   function has(identifier: FlashMessageIdentifier) {
-    return !!findFlashMessage(identifier);
+    return !!findFlashMessage(identifier)
   }
 
   /**
    * Check if any flash messages exist
    */
   function hasAny() {
-    return !!Object.keys(all()).length;
+    return !!Object.keys(all()).length
   }
 
   /**
    * Get a specific flash message
    */
   function get(identifier: FlashMessageIdentifier) {
-    return findFlashMessage(identifier);
+    return findFlashMessage(identifier)
   }
 
   /**
@@ -80,7 +80,7 @@ export function useFlashMessages() {
    */
   function allErrors() {
     if (hydration.id) {
-      hydrationManager.requireFlashMessage(`${ERRORS_NAMESPACE}.*`);
+      hydrationManager.requireFlashMessage(`${ERRORS_NAMESPACE}.*`)
     }
 
     return Object.entries(flashMessages)
@@ -89,29 +89,29 @@ export function useFlashMessages() {
         return {
           ...errorFlashMessages,
           [identifier]: value,
-        };
-      }, {});
+        }
+      }, {})
   }
 
   /**
    * Check if a specific error flash message exists
    */
   function hasError(identifier: FlashMessageIdentifier) {
-    return has(`${ERRORS_NAMESPACE}.${identifier}`);
+    return has(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 
   /**
    * Check if any error flash messages exist
    */
   function hasAnyError() {
-    return !!Object.keys(allErrors()).length;
+    return !!Object.keys(allErrors()).length
   }
 
   /**
    * Get a specific error flash message
    */
   function getError(identifier: FlashMessageIdentifier) {
-    return get(`${ERRORS_NAMESPACE}.${identifier}`);
+    return get(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 
   return {
@@ -124,5 +124,5 @@ export function useFlashMessages() {
     hasError,
     hasAnyError,
     getError,
-  };
+  }
 }

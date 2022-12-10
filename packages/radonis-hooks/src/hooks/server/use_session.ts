@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { CannotUseOnClientException } from "../../exceptions/cannot_use_on_client";
-import { useHttpContext } from "./use_http_context";
+import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { useHttpContext } from './use_http_context'
 
 /**
  * Hook for retrieving the AdonisJS `SessionContract`
@@ -16,10 +16,10 @@ import { useHttpContext } from "./use_http_context";
  */
 export function useSession() {
   try {
-    const { session } = useHttpContext();
+    const { session } = useHttpContext()
 
-    return session;
+    return session
   } catch {
-    throw new CannotUseOnClientException("useSession");
+    throw new CannotUseOnClientException('useSession')
   }
 }

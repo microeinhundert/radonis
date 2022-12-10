@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_NOT_HYDRATABLE } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,11 +15,11 @@ import { E_NOT_HYDRATABLE } from "../../exceptions.json";
 export class NotHydratableException extends RadonisException {
   constructor(hydrationRootId: string) {
     super(
-      interpolate(E_NOT_HYDRATABLE.message, {
-        hydrationRootId,
-      }),
-      E_NOT_HYDRATABLE.status,
-      E_NOT_HYDRATABLE.code
-    );
+      `The component inside of HydrationRoot "${hydrationRootId}" is not hydratable. Make sure the component was wrapped with the "hydratable" function`,
+      {
+        status: 500,
+        code: 'E_NOT_HYDRATABLE',
+      }
+    )
   }
 }

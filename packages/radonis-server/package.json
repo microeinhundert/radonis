@@ -30,8 +30,7 @@
     "build/instructions.js.map",
     "build/instructions.d.ts",
     "build/instructions.d.ts.map",
-    "build/instructions.md",
-    "build/exceptions.json"
+    "build/instructions.md"
   ],
   "scripts": {
     "clean": "del-cli build",
@@ -101,18 +100,18 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "@types/react": "^18.0.25",
+    "@types/node": "^18.11.12",
+    "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "workspace:2.1.12",
-    "@microeinhundert/radonis-shared": "workspace:2.1.12",
     "@microeinhundert/radonis-build": "workspace:2.1.12",
+    "@microeinhundert/radonis-shared": "workspace:2.1.12",
+    "@microeinhundert/radonis-types": "workspace:2.1.12",
     "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
-    "minipass": "^3.3.4",
-    "superjson": "^1.11.0",
+    "minipass": "^4.0.0",
+    "superjson": "^1.12.0",
     "tslib": "^2.4.1"
   }
 }

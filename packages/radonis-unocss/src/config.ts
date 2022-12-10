@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { UserConfig } from "@unocss/core";
-import presetWind from "@unocss/preset-wind";
+import type { UserConfig } from '@unocss/core'
+import presetWind from '@unocss/preset-wind'
 
-import { basePreflight, formsPreflight } from "./preflight";
+import { basePreflight, formsPreflight } from './preflight'
 
 /**
  * @internal
@@ -18,4 +18,4 @@ import { basePreflight, formsPreflight } from "./preflight";
 export const config: UserConfig = {
   presets: [presetWind()],
   preflights: [basePreflight, formsPreflight],
-};
+}

@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { QueryClientConfig } from "@tanstack/react-query";
-import { QueryClient } from "@tanstack/react-query";
+import type { QueryClientConfig } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 
 /**
  * The current QueryClient
  */
-let queryClient: QueryClient;
+let queryClient: QueryClient
 
 /**
  * Get the QueryClient
@@ -21,8 +21,8 @@ let queryClient: QueryClient;
  */
 export function getQueryClient(config?: QueryClientConfig) {
   if (config) {
-    queryClient = new QueryClient(config);
+    queryClient = new QueryClient(config)
   }
 
-  return (queryClient = queryClient ?? new QueryClient());
+  return (queryClient = queryClient ?? new QueryClient())
 }

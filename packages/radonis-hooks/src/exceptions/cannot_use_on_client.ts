@@ -7,21 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_USE_ON_CLIENT } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class CannotUseOnClientException extends RadonisException {
   constructor(hookName: string) {
-    super(
-      interpolate(E_CANNOT_USE_ON_CLIENT.message, {
-        hookName,
-      }),
-      E_CANNOT_USE_ON_CLIENT.status,
-      E_CANNOT_USE_ON_CLIENT.code
-    );
+    super(`The "${hookName}()" hook cannot be used client-side`, {
+      status: 500,
+      code: 'E_CANNOT_USE_ON_CLIENT',
+    })
   }
 }

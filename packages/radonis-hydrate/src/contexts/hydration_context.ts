@@ -7,20 +7,20 @@
  * file that was distributed with this source code.
  */
 
-import { createContext } from "react";
+import { createContext } from 'react'
 
 /**
  * @internal
  */
 export const hydrationContext = createContext<{
-  hydrated: boolean;
-  id: string | null;
+  hydrated: boolean
+  id: string | null
 }>({
   hydrated: false,
   id: null,
-});
+})
 
 /**
  * @internal
  */
-export const HydrationContextProvider = hydrationContext.Provider;
+export const HydrationContextProvider = hydrationContext.Provider

@@ -7,22 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_PLUGIN_NOT_INSTALLABLE } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class PluginNotInstallableException extends RadonisException {
   constructor(pluginName: string, environment: string) {
-    super(
-      interpolate(E_PLUGIN_NOT_INSTALLABLE.message, {
-        pluginName,
-        environment,
-      }),
-      E_PLUGIN_NOT_INSTALLABLE.status,
-      E_PLUGIN_NOT_INSTALLABLE.code
-    );
+    super(`The plugin "${pluginName}" is not installable in the "${environment}" environment`, {
+      status: 500,
+      code: 'E_PLUGIN_NOT_INSTALLABLE',
+    })
   }
 }

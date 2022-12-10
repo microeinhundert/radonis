@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY } from "../../exceptions.json";
 export class CannotFindMetafileOutputEntryException extends RadonisException {
   constructor(filePath: string) {
     super(
-      interpolate(E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.message, { filePath }),
-      E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.status,
-      E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY.code
-    );
+      `Cannot find the metafile output entry for path "${filePath}". Make sure the latest client build was successful`,
+      {
+        status: 500,
+        code: 'E_CANNOT_FIND_METAFILE_OUTPUT_ENTRY',
+      }
+    )
   }
 }

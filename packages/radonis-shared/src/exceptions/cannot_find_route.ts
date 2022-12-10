@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { E_CANNOT_FIND_ROUTE } from "../../exceptions.json";
-import { RadonisException } from "../exception";
-import { interpolate } from "../utils/interpolate";
+import { RadonisException } from '../exception/main'
 
 /**
  * @internal
@@ -17,11 +15,11 @@ import { interpolate } from "../utils/interpolate";
 export class CannotFindRouteException extends RadonisException {
   constructor(routeIdentifier: string) {
     super(
-      interpolate(E_CANNOT_FIND_ROUTE.message, {
-        routeIdentifier,
-      }),
-      E_CANNOT_FIND_ROUTE.status,
-      E_CANNOT_FIND_ROUTE.code
-    );
+      `Cannot find route "${routeIdentifier}". Make sure the route exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis`,
+      {
+        status: 404,
+        code: 'E_CANNOT_FIND_ROUTE',
+      }
+    )
   }
 }

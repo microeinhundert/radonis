@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_DUPLICATE_BUILD_MANIFEST_ENTRY } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_DUPLICATE_BUILD_MANIFEST_ENTRY } from "../../exceptions.json";
 export class DuplicateBuildManifestEntryException extends RadonisException {
   constructor(entryName: string) {
     super(
-      interpolate(E_DUPLICATE_BUILD_MANIFEST_ENTRY.message, { entryName }),
-      E_DUPLICATE_BUILD_MANIFEST_ENTRY.status,
-      E_DUPLICATE_BUILD_MANIFEST_ENTRY.code
-    );
+      `A build manifest entry for "${entryName}" already exists. Make sure to not use the same name for multiple components, regardless of which directory they are in`,
+      {
+        status: 500,
+        code: 'E_DUPLICATE_BUILD_MANIFEST_ENTRY',
+      }
+    )
   }
 }

@@ -7,14 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { E_MISSING_FETCH } from "../../exceptions.json";
-import { RadonisException } from "../exception";
+import { RadonisException } from '../exception/main'
 
 /**
  * @internal
  */
 export class MissingFetchException extends RadonisException {
   constructor() {
-    super(E_MISSING_FETCH.message, E_MISSING_FETCH.status, E_MISSING_FETCH.code);
+    super('No implementation of "fetch" is available server-side. Please include a polyfill', {
+      status: 500,
+      code: 'E_MISSING_FETCH',
+    })
   }
 }

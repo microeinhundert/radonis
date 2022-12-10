@@ -1,9 +1,9 @@
-import { assert } from "@japa/assert";
-import { runFailedTests } from "@japa/run-failed-tests";
-import { configure, processCliArgs, run } from "@japa/runner";
-import { specReporter } from "@japa/spec-reporter";
+import { assert } from '@japa/assert'
+import { runFailedTests } from '@japa/run-failed-tests'
+import { configure, processCliArgs, run } from '@japa/runner'
+import { specReporter } from '@japa/spec-reporter'
 
-process.env.NODE_ENV = "test";
+process.env.NODE_ENV = 'test'
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +21,12 @@ process.env.NODE_ENV = "test";
 configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
-    files: ["test/**/*.spec.ts"],
+    files: ['test/**/*.spec.ts'],
     plugins: [assert(), runFailedTests()],
     reporters: [specReporter()],
     importer: (filePath: string) => import(filePath),
   },
-});
+})
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +36,4 @@ configure({
 | The following "run" method is required to execute all the tests.
 |
 */
-run();
+run()

@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_USE_HOOKS_WHEN_RELOADING } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_CANNOT_USE_HOOKS_WHEN_RELOADING } from "../../exceptions.json";
 export class CannotUseHooksWhenReloadingException extends RadonisException {
   constructor(formAction: string) {
     super(
-      interpolate(E_CANNOT_USE_HOOKS_WHEN_RELOADING.message, { formAction }),
-      E_CANNOT_USE_HOOKS_WHEN_RELOADING.status,
-      E_CANNOT_USE_HOOKS_WHEN_RELOADING.code
-    );
+      `The form with action "${formAction}" cannot use the "hooks" prop without the "noReload" prop also being set`,
+      {
+        status: 500,
+        code: 'E_CANNOT_USE_HOOKS_WHEN_RELOADING',
+      }
+    )
   }
 }

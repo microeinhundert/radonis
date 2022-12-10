@@ -2,20 +2,14 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "baseUrl": "./",
+    "baseUrl": "./",
     "rootDir": "./",
     "composite": true,
     "lib": ["esnext"],
     "module": "commonjs",
-    "outDir": "build",
-    "types": [
-      "@adonisjs/core",
-      "@adonisjs/session",
-      "@adonisjs/i18n"
-    ]
+    "outDir": "./build",
+    "types": ["@adonisjs/core", "@adonisjs/session", "@adonisjs/i18n"]
   },
-  "include": [
-    "./**/*",
-    "./exceptions.json"
-  ],
-  "exclude": ["node_modules", "build"]
+  "include": ["./**/*"],
+  "exclude": ["./node_modules", "./build"]
 }

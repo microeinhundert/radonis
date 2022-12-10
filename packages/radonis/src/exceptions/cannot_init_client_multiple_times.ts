@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES } from "../../exceptions.json";
 export class CannotInitClientMultipleTimesException extends RadonisException {
   constructor() {
     super(
-      E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.message,
-      E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.status,
-      E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES.code
-    );
+      'The Radonis client cannot be initialized multiple times. Make sure to only initialize the client once in your application, typically in your "entry.client.ts" file',
+      {
+        status: 500,
+        code: 'E_CANNOT_INIT_CLIENT_MULTIPLE_TIMES',
+      }
+    )
   }
 }

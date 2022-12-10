@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from 'react'
 
 /**
  * @internal
  */
-export const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+export const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect

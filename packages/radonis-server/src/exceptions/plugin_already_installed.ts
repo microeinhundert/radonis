@@ -7,21 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_PLUGIN_ALREADY_INSTALLED } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class PluginAlreadyInstalledException extends RadonisException {
   constructor(pluginName: string) {
-    super(
-      interpolate(E_PLUGIN_ALREADY_INSTALLED.message, {
-        pluginName,
-      }),
-      E_PLUGIN_ALREADY_INSTALLED.status,
-      E_PLUGIN_ALREADY_INSTALLED.code
-    );
+    super(`The plugin "${pluginName}" is already installed`, {
+      status: 500,
+      code: 'E_PLUGIN_ALREADY_INSTALLED',
+    })
   }
 }

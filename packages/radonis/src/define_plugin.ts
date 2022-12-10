@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import type { Plugin } from "@microeinhundert/radonis-types";
+import type { Plugin } from '@microeinhundert/radonis-types'
 
 /**
  * Helper to define plugins in a type-safe manner
  */
 export function definePlugin(plugin: Plugin): Plugin {
-  return plugin;
+  return plugin
 }

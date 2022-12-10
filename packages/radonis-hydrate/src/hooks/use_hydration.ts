@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { useContext } from "react";
+import { useContext } from 'react'
 
-import { hydrationContext } from "../contexts/hydration_context";
+import { hydrationContext } from '../contexts/hydration_context'
 
 /**
  * Hook for retrieving info about the closest {@link https://radonis.vercel.app/docs/components#hydrating-components HydrationRoot}
  * @see https://radonis.vercel.app/docs/hooks/use-hydration
  */
 export function useHydration() {
-  const context = useContext(hydrationContext);
+  const context = useContext(hydrationContext)
 
-  return context;
+  return context
 }

@@ -3,17 +3,17 @@
   "version": "2.1.12",
   "description": "Bridge the gap between React and AdonisJS",
   "type": "commonjs",
-  "main": "./build/cjs/src/index.js",
-  "types": "./build/cjs/src/index.d.ts",
+  "main": "./build/cjs/index.js",
+  "types": "./build/cjs/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./build/esm/src/index.d.ts",
-        "default": "./build/esm/src/index.js"
+        "types": "./build/esm/index.d.ts",
+        "default": "./build/esm/index.js"
       },
       "require": {
-        "types": "./build/cjs/src/index.d.ts",
-        "default": "./build/cjs/src/index.js"
+        "types": "./build/cjs/index.d.ts",
+        "default": "./build/cjs/index.js"
       }
     }
   },
@@ -58,7 +58,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9"
+    "@types/node": "^18.11.12"
   },
   "dependencies": {
     "@microeinhundert/radonis-types": "workspace:2.1.12",

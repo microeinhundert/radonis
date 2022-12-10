@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_INIT_CLIENT_ON_SERVER } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_CANNOT_INIT_CLIENT_ON_SERVER } from "../../exceptions.json";
 export class CannotInitClientOnServerException extends RadonisException {
   constructor() {
     super(
-      E_CANNOT_INIT_CLIENT_ON_SERVER.message,
-      E_CANNOT_INIT_CLIENT_ON_SERVER.status,
-      E_CANNOT_INIT_CLIENT_ON_SERVER.code
-    );
+      'The Radonis client cannot be initialized server-side. Make sure to only call "initClient" in the client bundle, typically in your "entry.client.ts" file',
+      {
+        status: 500,
+        code: 'E_CANNOT_INIT_CLIENT_ON_SERVER',
+      }
+    )
   }
 }

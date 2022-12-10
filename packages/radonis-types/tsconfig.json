@@ -6,9 +6,9 @@
     "composite": true,
     "lib": ["esnext"],
     "module": "commonjs",
-    "outDir": "build",
+    "outDir": "./build",
     "types": ["@adonisjs/core"]
   },
   "include": ["./**/*"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["./node_modules", "./build"]
 }

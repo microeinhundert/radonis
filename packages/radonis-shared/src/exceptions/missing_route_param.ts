@@ -7,22 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { E_MISSING_ROUTE_PARAM } from "../../exceptions.json";
-import { RadonisException } from "../exception";
-import { interpolate } from "../utils/interpolate";
+import { RadonisException } from '../exception/main'
 
 /**
  * @internal
  */
 export class MissingRouteParamException extends RadonisException {
   constructor(paramName: string, pattern: string) {
-    super(
-      interpolate(E_MISSING_ROUTE_PARAM.message, {
-        paramName,
-        pattern,
-      }),
-      E_MISSING_ROUTE_PARAM.status,
-      E_MISSING_ROUTE_PARAM.code
-    );
+    super(`The "${paramName}" param is required for building the URL to the "${pattern}" route`, {
+      status: 500,
+      code: 'E_MISSING_ROUTE_PARAM',
+    })
   }
 }

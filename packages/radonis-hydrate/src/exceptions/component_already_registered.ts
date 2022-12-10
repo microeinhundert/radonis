@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_COMPONENT_ALREADY_REGISTERED } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,11 +15,11 @@ import { E_COMPONENT_ALREADY_REGISTERED } from "../../exceptions.json";
 export class ComponentAlreadyRegisteredException extends RadonisException {
   constructor(componentIdentifier: string) {
     super(
-      interpolate(E_COMPONENT_ALREADY_REGISTERED.message, {
-        componentIdentifier,
-      }),
-      E_COMPONENT_ALREADY_REGISTERED.status,
-      E_COMPONENT_ALREADY_REGISTERED.code
-    );
+      `The component "${componentIdentifier}" was already registered for hydration. Make sure to not use the same name for multiple components, regardless of which directory they are in`,
+      {
+        status: 500,
+        code: 'E_COMPONENT_ALREADY_REGISTERED',
+      }
+    )
   }
 }

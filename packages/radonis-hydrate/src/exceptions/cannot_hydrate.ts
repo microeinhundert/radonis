@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_HYDRATE } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,12 +15,11 @@ import { E_CANNOT_HYDRATE } from "../../exceptions.json";
 export class CannotHydrateException extends RadonisException {
   constructor(hydrationRootId: string, componentIdentifier: string) {
     super(
-      interpolate(E_CANNOT_HYDRATE.message, {
-        hydrationRootId,
-        componentIdentifier,
-      }),
-      E_CANNOT_HYDRATE.status,
-      E_CANNOT_HYDRATE.code
-    );
+      `The server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootId}" could not be hydrated. Make sure the component exists in the client bundle`,
+      {
+        status: 500,
+        code: 'E_CANNOT_HYDRATE',
+      }
+    )
   }
 }

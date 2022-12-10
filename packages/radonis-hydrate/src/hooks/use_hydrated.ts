@@ -7,22 +7,22 @@
  * file that was distributed with this source code.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import { useHydration } from "./use_hydration";
+import { useHydration } from './use_hydration'
 
 /**
  * Hook for checking if a component was hydrated client-side
  * @see https://radonis.vercel.app/docs/hooks/use-hydrated
  */
 export function useHydrated() {
-  const hydration = useHydration();
-  const [hydrated, setHydrated] = useState(false);
+  const hydration = useHydration()
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    setHydrated(hydration.hydrated);
+    setHydrated(hydration.hydrated)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  return hydrated;
+  return hydrated
 }

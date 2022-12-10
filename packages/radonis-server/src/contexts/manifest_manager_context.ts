@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { ManifestManagerContract } from "@microeinhundert/radonis-types";
-import { createContext } from "react";
+import type { ManifestManagerContract } from '@microeinhundert/radonis-types'
+import { createContext } from 'react'
 
 /**
  * @internal
  */
-export const manifestManagerContext = createContext<ManifestManagerContract>(null as any);
+export const manifestManagerContext = createContext<ManifestManagerContract>(null as any)
 
 /**
  * @internal
  */
-export const ManifestManagerContextProvider = manifestManagerContext.Provider;
+export const ManifestManagerContextProvider = manifestManagerContext.Provider

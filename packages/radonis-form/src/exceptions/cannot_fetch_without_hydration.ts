@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_FETCH_WITHOUT_HYDRATION } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,9 +15,11 @@ import { E_CANNOT_FETCH_WITHOUT_HYDRATION } from "../../exceptions.json";
 export class CannotFetchWithoutHydrationException extends RadonisException {
   constructor(formAction: string) {
     super(
-      interpolate(E_CANNOT_FETCH_WITHOUT_HYDRATION.message, { formAction }),
-      E_CANNOT_FETCH_WITHOUT_HYDRATION.status,
-      E_CANNOT_FETCH_WITHOUT_HYDRATION.code
-    );
+      `The form with action "${formAction}" and the "noReload" prop set can't work without being hydrated client-side. Wrap the component containing this form with an HydrationRoot`,
+      {
+        status: 500,
+        code: 'E_CANNOT_FETCH_WITHOUT_HYDRATION',
+      }
+    )
   }
 }

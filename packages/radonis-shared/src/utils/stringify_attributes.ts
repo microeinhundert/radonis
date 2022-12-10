@@ -15,7 +15,7 @@ export function stringifyAttributes(attributes: Record<string, unknown>) {
   return Object.entries(attributes)
     .filter(([_, attributeValue]) => attributeValue)
     .map(([attributeName, attributeValue]) =>
-      typeof attributeValue === "boolean" ? attributeName : `${attributeName}="${attributeValue}"`
+      typeof attributeValue === 'boolean' ? attributeName : `${attributeName}="${attributeValue}"`
     )
-    .join(" ");
+    .join(' ')
 }

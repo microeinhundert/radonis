@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_HYDRATE_WITH_CHILDREN } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,12 +15,11 @@ import { E_CANNOT_HYDRATE_WITH_CHILDREN } from "../../exceptions.json";
 export class CannotHydrateWithChildrenException extends RadonisException {
   constructor(hydrationRootId: string, componentIdentifier: string) {
     super(
-      interpolate(E_CANNOT_HYDRATE_WITH_CHILDREN.message, {
-        hydrationRootId,
-        componentIdentifier,
-      }),
-      E_CANNOT_HYDRATE_WITH_CHILDREN.status,
-      E_CANNOT_HYDRATE_WITH_CHILDREN.code
-    );
+      `The component "${componentIdentifier}" inside HydrationRoot "${hydrationRootId}" has children. Children are not supported on the direct child of an HydrationRoot`,
+      {
+        status: 500,
+        code: 'E_CANNOT_HYDRATE_WITH_CHILDREN',
+      }
+    )
   }
 }

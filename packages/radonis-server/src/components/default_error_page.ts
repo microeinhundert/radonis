@@ -9,74 +9,74 @@
  * file that was distributed with this source code.
  */
 
-import { isProduction } from "@microeinhundert/radonis-shared";
-import { createElement as h } from "react";
+import { isProduction } from '@microeinhundert/radonis-shared'
+import { createElement as h } from 'react'
 
 /**
  * The default error page
  * @internal
  */
 export function DefaultErrorPage({ error }: { error: unknown }) {
-  let message;
+  let message
 
   if (!isProduction) {
     if (error instanceof Error) {
-      message = error.stack;
+      message = error.stack
     } else {
-      message = String(error);
+      message = String(error)
     }
   }
 
   return h(
-    "div",
+    'div',
     {
       style: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       },
     },
     h(
-      "div",
+      'div',
       {
         style: {
-          border: "#f3f4f6 2px solid",
-          borderTop: "red 4px solid",
-          background: "#f9fafb",
+          border: '#f3f4f6 2px solid',
+          borderTop: 'red 4px solid',
+          background: '#f9fafb',
           margin: 16,
-          minWidth: "300px",
-          width: "50%",
+          minWidth: '300px',
+          width: '50%',
         },
       },
       h(
-        "p",
+        'p',
         {
           style: {
             margin: 0,
-            fontSize: "12pt",
+            fontSize: '12pt',
             padding: 16,
-            fontFamily: "sans-serif",
+            fontFamily: 'sans-serif',
           },
         },
-        "An error occured during rendering."
+        'An error occured during rendering.'
       ),
       message &&
         h(
-          "pre",
+          'pre',
           {
             style: {
               margin: 0,
-              fontSize: "12pt",
-              overflowY: "auto",
+              fontSize: '12pt',
+              overflowY: 'auto',
               padding: 16,
               paddingTop: 0,
-              fontFamily: "monospace",
+              fontFamily: 'monospace',
             },
           },
           message
         )
     )
-  );
+  )
 }
 
-DefaultErrorPage.displayName = "RadonisDefaultErrorPage";
+DefaultErrorPage.displayName = 'RadonisDefaultErrorPage'

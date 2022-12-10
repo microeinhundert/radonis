@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_CANNOT_FIND_MESSAGE } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
@@ -17,11 +15,11 @@ import { E_CANNOT_FIND_MESSAGE } from "../../exceptions.json";
 export class CannotFindMessageException extends RadonisException {
   constructor(messageIdentifier: string) {
     super(
-      interpolate(E_CANNOT_FIND_MESSAGE.message, {
-        messageIdentifier,
-      }),
-      E_CANNOT_FIND_MESSAGE.status,
-      E_CANNOT_FIND_MESSAGE.code
-    );
+      `Cannot find message for "${messageIdentifier}". Make sure the message exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis`,
+      {
+        status: 404,
+        code: 'E_CANNOT_FIND_MESSAGE',
+      }
+    )
   }
 }

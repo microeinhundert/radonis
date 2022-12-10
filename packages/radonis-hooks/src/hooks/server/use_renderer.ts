@@ -7,21 +7,21 @@
  * file that was distributed with this source code.
  */
 
-import { rendererContext } from "@microeinhundert/radonis-server/standalone";
-import { useContext } from "react";
+import { rendererContext } from '@microeinhundert/radonis-server/standalone'
+import { useContext } from 'react'
 
-import { CannotUseOnClientException } from "../../exceptions/cannot_use_on_client";
+import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
 
 /**
  * Hook for retrieving the Radonis `RendererContract`
  * @see https://radonis.vercel.app/docs/hooks/use-renderer
  */
 export function useRenderer() {
-  const context = useContext(rendererContext);
+  const context = useContext(rendererContext)
 
   if (!context) {
-    throw new CannotUseOnClientException("useRenderer");
+    throw new CannotUseOnClientException('useRenderer')
   }
 
-  return context;
+  return context
 }

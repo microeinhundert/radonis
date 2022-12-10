@@ -7,21 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_MISSING_HYDRATION_DATA } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class MissingHydrationDataException extends RadonisException {
   constructor(hydrationRootId: string) {
-    super(
-      interpolate(E_MISSING_HYDRATION_DATA.message, {
-        hydrationRootId,
-      }),
-      E_MISSING_HYDRATION_DATA.status,
-      E_MISSING_HYDRATION_DATA.code
-    );
+    super(`The HydrationRoot "${hydrationRootId}" is missing hydration data`, {
+      status: 500,
+      code: 'E_MISSING_HYDRATION_DATA',
+    })
   }
 }

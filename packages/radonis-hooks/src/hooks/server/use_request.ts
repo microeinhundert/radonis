@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { CannotUseOnClientException } from "../../exceptions/cannot_use_on_client";
-import { useHttpContext } from "./use_http_context";
+import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { useHttpContext } from './use_http_context'
 
 /**
  * Hook for retrieving the AdonisJS `RequestContract`
@@ -16,10 +16,10 @@ import { useHttpContext } from "./use_http_context";
  */
 export function useRequest() {
   try {
-    const { request } = useHttpContext();
+    const { request } = useHttpContext()
 
-    return request;
+    return request
   } catch {
-    throw new CannotUseOnClientException("useRequest");
+    throw new CannotUseOnClientException('useRequest')
   }
 }

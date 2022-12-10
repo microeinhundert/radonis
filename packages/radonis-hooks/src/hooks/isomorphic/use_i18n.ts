@@ -7,45 +7,45 @@
  * file that was distributed with this source code.
  */
 
-import { useHydration } from "@microeinhundert/radonis-hydrate";
-import type { MessageData, MessageIdentifier } from "@microeinhundert/radonis-types";
-import IntlMessageFormat from "intl-messageformat";
+import { useHydration } from '@microeinhundert/radonis-hydrate'
+import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
+import IntlMessageFormat from 'intl-messageformat'
 
-import { CannotFindMessageException } from "../../exceptions/cannot_find_message";
-import { hydrationManager } from "../../singletons";
-import { useManifest } from "./use_manifest";
+import { CannotFindMessageException } from '../../exceptions/cannot_find_message'
+import { hydrationManager } from '../../singletons'
+import { useManifest } from './use_manifest'
 
 /**
  * Hook for retrieving and formatting translation messages
  * @see https://radonis.vercel.app/docs/hooks/use-i18n
  */
 export function useI18n() {
-  const { locale, messages } = useManifest();
-  const hydration = useHydration();
+  const { locale, messages } = useManifest()
+  const hydration = useHydration()
 
   /**
    * Find the message inside the registered messages and
    * raise exception when unable to
    */
   function findMessageOrFail(identifier: MessageIdentifier) {
-    const message = messages[identifier];
+    const message = messages[identifier]
 
     if (!message) {
-      throw new CannotFindMessageException(identifier);
+      throw new CannotFindMessageException(identifier)
     }
 
     if (hydration.id) {
-      hydrationManager.requireMessage(identifier);
+      hydrationManager.requireMessage(identifier)
     }
 
-    return message;
+    return message
   }
 
   /**
    * Format a message
    */
   function formatMessage(identifier: MessageIdentifier, data?: MessageData) {
-    const message = findMessageOrFail(identifier);
+    const message = findMessageOrFail(identifier)
 
     return new IntlMessageFormat(
       message,
@@ -59,10 +59,10 @@ export function useI18n() {
         },
         ignoreTag: true,
       }
-    ).format(data || {});
+    ).format(data || {})
   }
 
   return {
     formatMessage,
-  };
+  }
 }

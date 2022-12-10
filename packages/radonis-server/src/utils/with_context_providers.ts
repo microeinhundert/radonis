@@ -12,14 +12,14 @@ import type {
   ManifestManagerContract,
   RendererContract,
   ServerContract,
-} from "@microeinhundert/radonis-types";
-import type { ReactElement } from "react";
-import { createElement as h } from "react";
+} from '@microeinhundert/radonis-types'
+import type { ReactElement } from 'react'
+import { createElement as h } from 'react'
 
-import { AssetsManagerContextProvider } from "../contexts/assets_manager_context";
-import { ManifestManagerContextProvider } from "../contexts/manifest_manager_context";
-import { RendererContextProvider } from "../contexts/renderer_context";
-import { ServerContextProvider } from "../contexts/server_context";
+import { AssetsManagerContextProvider } from '../contexts/assets_manager_context'
+import { ManifestManagerContextProvider } from '../contexts/manifest_manager_context'
+import { RendererContextProvider } from '../contexts/renderer_context'
+import { ServerContextProvider } from '../contexts/server_context'
 
 /**
  * Wrap a ReactElement with the required context providers
@@ -40,5 +40,5 @@ export function withContextProviders(
       { value: manifestManager },
       h(RendererContextProvider, { value: renderer }, h(ServerContextProvider, { value: server }, children))
     )
-  );
+  )
 }

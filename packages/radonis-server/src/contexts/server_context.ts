@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { ServerContract } from "@microeinhundert/radonis-types";
-import { createContext } from "react";
+import type { ServerContract } from '@microeinhundert/radonis-types'
+import { createContext } from 'react'
 
 /**
  * @internal
  */
-export const serverContext = createContext<ServerContract>(null as any);
+export const serverContext = createContext<ServerContract>(null as any)
 
 /**
  * @internal
  */
-export const ServerContextProvider = serverContext.Provider;
+export const ServerContextProvider = serverContext.Provider

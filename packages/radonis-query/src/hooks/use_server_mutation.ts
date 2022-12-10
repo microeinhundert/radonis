@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import type { RouteIdentifier } from "@microeinhundert/radonis";
-import { useUrlBuilder } from "@microeinhundert/radonis";
-import { fetch$ } from "@microeinhundert/radonis-shared";
-import { useMutation } from "@tanstack/react-query";
-import { useMemo } from "react";
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { RouteIdentifier } from '@microeinhundert/radonis'
+import { useUrlBuilder } from '@microeinhundert/radonis'
+import { fetch$ } from '@microeinhundert/radonis-shared'
+import { useMutation } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
-import type { ServerMutationOptions } from "../types";
-import { useQueryBaseUrl } from "./use_query_base_url";
+import type { ServerMutationOptions } from '../types/main'
+import { useQueryBaseUrl } from './use_query_base_url'
 
 /**
  * Hook for mutating server data
@@ -26,8 +26,8 @@ export function useServerMutation<
   TError = unknown,
   TData = Awaited<ReturnType<TControllerAction>>
 >(routeIdentifier: RouteIdentifier, options?: ServerMutationOptions<TData, TError>) {
-  const urlBuilder = useUrlBuilder();
-  const baseUrl = useQueryBaseUrl();
+  const urlBuilder = useUrlBuilder()
+  const baseUrl = useQueryBaseUrl()
 
   const url = useMemo(
     () =>
@@ -37,20 +37,20 @@ export function useServerMutation<
         queryParams: options?.queryParams,
       }),
     [urlBuilder, routeIdentifier, baseUrl, options]
-  );
+  )
 
   const mutationFn = async (data) => {
     const response = await fetch$(url, {
-      method: "post",
-      body: JSON.stringify(data),
+      method: 'post',
+      body: data,
       headers: options?.headers,
-    });
+    })
 
-    return response.json<any>();
-  };
+    return response.json<any>()
+  }
 
   return useMutation<TData, TError>({
     mutationFn,
     ...options?.mutation,
-  });
+  })
 }

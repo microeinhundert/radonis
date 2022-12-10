@@ -6,11 +6,8 @@
     "composite": true,
     "lib": ["esnext"],
     "module": "commonjs",
-    "outDir": "build"
+    "outDir": "./build"
   },
-  "include": [
-    "./**/*",
-    "./exceptions.json"
-  ],
-  "exclude": ["node_modules", "build"]
+  "include": ["./**/*"],
+  "exclude": ["./node_modules", "./build"]
 }

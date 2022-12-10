@@ -12,5 +12,5 @@
  * @internal
  */
 export function separateArray(array: unknown[], separator: unknown) {
-  return array.flatMap((item) => [item, separator]).slice(0, -1);
+  return array.flatMap((item) => [item, separator]).slice(0, -1)
 }

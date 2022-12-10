@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { useCallback } from "react";
+import { useCallback } from 'react'
 
-import { useIsMounted } from "./use_is_mounted";
+import { useIsMounted } from './use_is_mounted'
 
 /**
  * @internal
@@ -17,7 +17,7 @@ import { useIsMounted } from "./use_is_mounted";
 export function useSafeCallback<TArguments extends any[] = any[], TReturnValue = any>(
   callback: (...args: TArguments) => TReturnValue
 ) {
-  const isMounted = useIsMounted();
+  const isMounted = useIsMounted()
 
-  return useCallback((...args: TArguments) => (isMounted.current ? callback(...args) : void 0), [callback, isMounted]);
+  return useCallback((...args: TArguments) => (isMounted.current ? callback(...args) : void 0), [callback, isMounted])
 }

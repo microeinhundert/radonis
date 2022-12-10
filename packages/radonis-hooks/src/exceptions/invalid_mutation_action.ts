@@ -7,21 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import { interpolate, RadonisException } from "@microeinhundert/radonis-shared";
-
-import { E_INVALID_MUTATION_ACTION } from "../../exceptions.json";
+import { RadonisException } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
 export class InvalidMutationActionException extends RadonisException {
   constructor(mutationAction: string) {
-    super(
-      interpolate(E_INVALID_MUTATION_ACTION.message, {
-        mutationAction,
-      }),
-      E_INVALID_MUTATION_ACTION.status,
-      E_INVALID_MUTATION_ACTION.code
-    );
+    super(`Invalid mutation action "${mutationAction}"`, {
+      status: 500,
+      code: 'E_INVALID_MUTATION_ACTION',
+    })
   }
 }
