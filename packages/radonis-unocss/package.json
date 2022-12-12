@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@microeinhundert/radonis": "workspace:2.1.14",
-    "@types/node": "^18.11.12"
+    "@types/node": "^18.11.13"
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:2.1.13",

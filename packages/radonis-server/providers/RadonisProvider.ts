@@ -150,7 +150,7 @@ export default class RadonisProvider {
              * requests when not in production
              */
             if (request.accepts(['html']) && !this.#application.inProduction) {
-              await AssetsManager.readBuildManifest()
+              await AssetsManager.updateAssetsManifest()
             }
 
             /**
@@ -185,7 +185,7 @@ export default class RadonisProvider {
     this.#application.container.withBindings(
       ['Adonis/Core/HttpContext', 'Microeinhundert/Radonis/AssetsManager', 'Microeinhundert/Radonis/Renderer'],
       async (HttpContext, AssetsManager, Renderer) => {
-        await AssetsManager.readBuildManifest()
+        await AssetsManager.updateAssetsManifest()
 
         /**
          * Define getter

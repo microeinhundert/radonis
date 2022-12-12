@@ -8,6 +8,7 @@
  */
 
 import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { join, parse, posix, sep } from 'node:path'
 
 import type {
@@ -18,7 +19,6 @@ import type {
   RouteIdentifier,
 } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
-import { readFile } from 'fs/promises'
 import { outputFile } from 'fs-extra'
 
 import {

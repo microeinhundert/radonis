@@ -35,18 +35,20 @@ import type {
   UnwrapProps,
 } from '@microeinhundert/radonis-types'
 import { flattie } from 'flattie'
+import isbot from 'isbot'
 import type { ContiguousData } from 'minipass'
-import type Minipass from 'minipass'
+import Minipass from 'minipass'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef, ReactElement, ReactNode } from 'react'
 import { Fragment } from 'react'
 import { createElement as h, StrictMode } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToPipeableStream, renderToStaticMarkup } from 'react-dom/server'
 
 import { DefaultErrorPage } from '../components/default_error_page'
 import { extractRootRoutes } from '../utils/extract_root_routes'
+import { generateHtmlStream } from '../utils/generate_html_stream'
 import { transformRouteNode } from '../utils/transform_route_node'
 import { withContextProviders } from '../utils/with_context_providers'
-import { generateHtmlStream, onAllReady, onShellReady } from './stream'
+import { ABORT_DELAY } from './constants'
 
 /**
  * Service for rendering
@@ -312,9 +314,31 @@ export class Renderer implements RendererContract, Resettable {
    * Get the stream containing the body
    */
   #getBodyStream(tree: ReactElement): Promise<Minipass<Buffer, ContiguousData>> {
-    const renderToStream = this.#config.server.streaming ? onShellReady : onAllReady
+    const { request } = this.#context.httpContext
+    const userAgent = request.header('user-agent')
+    const isBot = isbot(userAgent)
 
-    return renderToStream(h(StrictMode, null, h('body', null, tree)))
+    const duplex = new Minipass()
+
+    return new Promise<Minipass<Buffer, ContiguousData>>((resolve, reject) => {
+      try {
+        const { pipe, abort } = renderToPipeableStream(h(StrictMode, null, h('body', null, tree)), {
+          [this.#config.server.streaming && !isBot ? 'onShellReady' : 'onAllReady']() {
+            resolve(pipe(duplex))
+          },
+          onShellError: (error) => {
+            reject(error)
+          },
+          onError: (error) => {
+            reject(error)
+          },
+        })
+
+        setTimeout(abort, ABORT_DELAY)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 
   /**

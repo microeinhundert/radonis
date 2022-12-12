@@ -92,9 +92,10 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   }
 
   /**
-   * Read the build manifest
+   * Update the assets manifest by reading the build manifest
+   * and generating the assets manifest from it
    */
-  async readBuildManifest(): Promise<void> {
+  async updateAssetsManifest(): Promise<void> {
     const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
 
     if (!buildManifest) {
