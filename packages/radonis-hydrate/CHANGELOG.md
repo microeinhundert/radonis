@@ -1,5 +1,19 @@
 # @microeinhundert/radonis-hydrate
 
+## 3.0.0
+
+### Minor Changes
+
+- [#28](https://github.com/microeinhundert/radonis/pull/28) [`322b132`](https://github.com/microeinhundert/radonis/commit/322b1322173fcc067f9c16a59427a4ef4a1756e8) Thanks [@github-actions](https://github.com/apps/github-actions)! - Do not stream for bot requests
+
+### Patch Changes
+
+- Updated dependencies [[`322b132`](https://github.com/microeinhundert/radonis/commit/322b1322173fcc067f9c16a59427a4ef4a1756e8)]:
+  - @microeinhundert/radonis-build@3.0.0
+  - @microeinhundert/radonis-server@3.0.0
+  - @microeinhundert/radonis-shared@3.0.0
+  - @microeinhundert/radonis-types@3.0.0
+
 ## 2.1.14
 
 ### Patch Changes
