@@ -15,7 +15,7 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 export class CannotSerializeManifestException extends RadonisException {
   constructor() {
     super(
-      'The Radonis manifest cannot be serialized. Make sure to only pass data serializable by superjson to components hydrated client-side',
+      'The Radonis manifest cannot be serialized. Make sure to only pass data serializable by superjson to islands',
       {
         status: 500,
         code: 'E_CANNOT_SERIALIZE_MANIFEST',

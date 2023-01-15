@@ -7,61 +7,18 @@
  * file that was distributed with this source code.
  */
 
-import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { join, parse, posix, sep } from 'node:path'
+import { join } from 'node:path/posix'
 
-import type {
-  BuildManifest,
-  ComponentIdentifier,
-  FlashMessageIdentifier,
-  MessageIdentifier,
-  RouteIdentifier,
-} from '@microeinhundert/radonis-types'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
+import type { BuildManifest } from '@microeinhundert/radonis-types'
 import { outputFile } from 'fs-extra'
 
 import {
   BUILD_MANIFEST_FILE_NAME,
-  COMPONENT_IDENTIFIER_REGEX,
   FLASH_MESSAGE_IDENTIFIER_REGEX,
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
 } from './constants'
-
-/**
- * Check if a file looks like it contains a client component:
- * - Ends with `.ts(x)` or `.js(x)`
- * - Does not end with `.server.<ext>`
- */
-function isClientComponentFile(filePath: string): boolean {
-  const { base } = parse(filePath)
-  const isComponentFile = /(ts(x)?|js(x)?)$/.test(base)
-  const isServerComponentFile = /\.server\.(ts(x)?|js(x)?)$/.test(base)
-
-  return !isServerComponentFile && isComponentFile
-}
-
-/**
- * Check if a file contains a hydratable component:
- * - Contains a valid call to the `hydratable` function
- */
-function fileContainsHydratableComponent(filePath: string): boolean {
-  const fileContents = readFileSync(filePath, 'utf8')
-  const componentIdentifier = extractComponentIdentifier(fileContents)
-
-  return !!componentIdentifier
-}
-
-/**
- * Discover all hydratable components in a specific directory
- * @internal
- */
-export function discoverHydratableComponents(directory: string): string[] {
-  return fsReadAll(directory, (filePath) => isClientComponentFile(filePath))
-    .map((filePath) => join(directory, filePath))
-    .filter((filePath) => fileContainsHydratableComponent(filePath))
-}
 
 /**
  * Read the build manifest from disk
@@ -86,30 +43,12 @@ export async function writeBuildManifestToDisk(buildManifest: BuildManifest, dir
 }
 
 /**
- * Convert a file path to a file URL
- * @internal
- */
-export function filePathToFileUrl(path: string): string {
-  return path.split(sep).filter(Boolean).join(posix.sep)
-}
-
-/**
- * Extract the component identifier
- * @internal
- */
-export function extractComponentIdentifier(haystack: string): ComponentIdentifier | null {
-  const [match] = haystack.matchAll(COMPONENT_IDENTIFIER_REGEX)
-
-  return match?.groups?.identifier ?? null
-}
-
-/**
  * Extract identifiers from usage of `.has(Error)?` and `.get(Error)?`
  * @internal
  */
-export function extractFlashMessages(haystack: string): FlashMessageIdentifier[] {
+export function extractFlashMessages(haystack: string): string[] {
   const matches = haystack.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<FlashMessageIdentifier>()
+  const identifiers = new Set<string>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -124,9 +63,9 @@ export function extractFlashMessages(haystack: string): FlashMessageIdentifier[]
  * Extract identifiers from usage of `.formatMessage`
  * @internal
  */
-export function extractMessages(haystack: string): MessageIdentifier[] {
+export function extractMessages(haystack: string): string[] {
   const matches = haystack.matchAll(MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<MessageIdentifier>()
+  const identifiers = new Set<string>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
@@ -141,9 +80,9 @@ export function extractMessages(haystack: string): MessageIdentifier[] {
  * Extract identifiers from usage of `.make` as well as specific component props
  * @internal
  */
-export function extractRoutes(haystack: string): RouteIdentifier[] {
+export function extractRoutes(haystack: string): string[] {
   const matches = haystack.matchAll(ROUTE_IDENTIFIER_REGEX)
-  const identifiers = new Set<RouteIdentifier>()
+  const identifiers = new Set<string>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {

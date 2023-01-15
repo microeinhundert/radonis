@@ -94,7 +94,7 @@ const radonisConfig: RadonisConfig = {
     | Streaming
     |--------------------------------------------------------------------------
     |
-    | Stream the rendered view to the client instead of 
+    | Stream the rendered view to the client instead of
     | waiting for the full view to finish rendering.
     | This will enable Streaming SSR features from React 18.
     |
@@ -105,44 +105,10 @@ const radonisConfig: RadonisConfig = {
   client: {
     /*
     |--------------------------------------------------------------------------
-    | Entry file
-    |--------------------------------------------------------------------------
-    |
-    | The entry file is where the Radonis client is initialized.
-    | You can also use this file to include your own scripts
-    | that are not bound to a specific component "Island".
-    |
-    */
-    entryFile: Application.resourcesPath('entry.client.ts'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Always include entry file
-    |--------------------------------------------------------------------------
-    |
-    | Always include the entry file, even if no components
-    | which need hydration are on the page.
-    |
-    */
-    alwaysIncludeEntryFile: false,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Components dir
-    |--------------------------------------------------------------------------
-    |
-    | The directory where all your React components are located in.
-    | Components in this directory will be built to also run client-side.
-    |
-    */
-    componentsDir: Application.resourcesPath('components'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Limit manifest
     |--------------------------------------------------------------------------
     |
-    | Limit the client-side manifest to only include data required for hydration. 
+    | Limit the client-side manifest to only include data required for hydration.
     | Disable this if you have some use case that requires
     | all data to be available at all times.
     |

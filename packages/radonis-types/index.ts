@@ -35,27 +35,17 @@ export interface Resettable {
 }
 
 /**
- * Component identifier
- */
-export type ComponentIdentifier = string
-
-/**
- * Components
- */
-export type Components = Map<ComponentIdentifier, ComponentType>
-
-/**
  * Hydration
  */
-export type Hydration = Record<string, { componentIdentifier: string; props: Record<string, any> }>
+export type Hydration = Record<string, { islandIdentifier: string; props: Record<string, unknown> }>
 
 /**
  * Hydration requirements
  */
 export interface HydrationRequirements {
-  flashMessages: FlashMessageIdentifier[]
-  messages: MessageIdentifier[]
-  routes: RouteIdentifier[]
+  flashMessages: string[]
+  messages: string[]
+  routes: string[]
 }
 
 /**
@@ -64,44 +54,9 @@ export interface HydrationRequirements {
 export interface Globals {}
 
 /**
- * Flash message identifier
- */
-export type FlashMessageIdentifier = string
-
-/**
- * Flash messages
- */
-export type FlashMessages = Record<FlashMessageIdentifier, any>
-
-/**
- * Locale
- */
-export type Locale = string
-
-/**
- * Message identifier
- */
-export type MessageIdentifier = string
-
-/**
  * Message data
  */
-export type MessageData = Record<string, any>
-
-/**
- * Messages
- */
-export type Messages = Record<MessageIdentifier, string>
-
-/**
- * Route identifier
- */
-export type RouteIdentifier = string
-
-/**
- * Routes
- */
-export type Routes = Record<RouteIdentifier, string>
+export type MessageData = Record<string, unknown>
 
 /* ---------------------------------------- */
 
@@ -111,8 +66,8 @@ export type Routes = Record<RouteIdentifier, string>
 export type Route = {
   identifier?: string
   pattern: string
-  params: Record<string, any>
-  searchParams: Record<string, any>
+  params: Record<string, unknown>
+  searchParams: Record<string, unknown>
 }
 
 /**
@@ -128,10 +83,15 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 /* ---------------------------------------- */
 
 /**
+ * Asset type
+ */
+export type AssetType = 'client-script' | 'island-script' | 'chunk-script'
+
+/**
  * Build manifest entry
  */
 export interface BuildManifestEntry extends HydrationRequirements {
-  type: 'component' | 'entry' | 'chunk'
+  type: AssetType
   path: string
   imports: BuildManifestEntry[]
 }
@@ -145,8 +105,8 @@ export type BuildManifest = Record<string, BuildManifestEntry>
  * Assets manifest entry
  */
 export interface AssetsManifestEntry extends HydrationRequirements {
-  type: 'component' | 'entry'
-  identifier: string
+  type: AssetType
+  hash: string
   path: string
 }
 
@@ -233,7 +193,7 @@ export interface PluginHooks {
   onInitClient: PluginHookCallback<null>
 
   /**
-   * This plugin hook is called before a component is hydrated
+   * This plugin hook is called before an island is hydrated
    */
   beforeHydrate: PluginHookBuilderCallback<ReactElement, null>
 
@@ -257,7 +217,7 @@ export interface PluginHooks {
    */
   beforeRender: PluginHookBuilderCallback<
     ReactElement,
-    { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, any> }
+    { ctx: HttpContextContract; manifest: ManifestContract; props?: Record<string, unknown> }
   >
 
   /**

@@ -8,7 +8,7 @@
  */
 
 import { useHydration } from '@microeinhundert/radonis-hydrate'
-import type { MessageData, MessageIdentifier } from '@microeinhundert/radonis-types'
+import type { MessageData } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
 import { CannotFindMessageException } from '../../exceptions/cannot_find_message'
@@ -27,7 +27,7 @@ export function useI18n() {
    * Find the message inside the registered messages and
    * raise exception when unable to
    */
-  function findMessageOrFail(identifier: MessageIdentifier) {
+  function findMessageOrFail(identifier: string) {
     const message = messages[identifier]
 
     if (!message) {
@@ -44,7 +44,7 @@ export function useI18n() {
   /**
    * Format a message
    */
-  function formatMessage(identifier: MessageIdentifier, data?: MessageData) {
+  function formatMessage(identifier: string, data?: MessageData) {
     const message = findMessageOrFail(identifier)
 
     return new IntlMessageFormat(
@@ -59,7 +59,7 @@ export function useI18n() {
         },
         ignoreTag: true,
       }
-    ).format(data || {})
+    ).format(data || {}) as string
   }
 
   return {

@@ -42,7 +42,7 @@ export default class RadonisProvider {
     this.#application.container.singleton('Microeinhundert/Radonis/AssetsManager', () => {
       const { AssetsManager } = require('../src/assets_manager/main')
 
-      return AssetsManager.getSingletonInstance(this.#config, this.#application)
+      return AssetsManager.getSingletonInstance(this.#application)
     })
 
     /**
@@ -146,8 +146,8 @@ export default class RadonisProvider {
             AssetsManager.reset()
 
             /**
-             * Read the build manifest on incoming HTML
-             * requests when not in production
+             * Update the assets manifest on incoming HTML
+             * requests (when not in production)
              */
             if (request.accepts(['html']) && !this.#application.inProduction) {
               await AssetsManager.updateAssetsManifest()

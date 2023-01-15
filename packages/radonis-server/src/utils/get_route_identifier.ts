@@ -8,12 +8,11 @@
  */
 
 import type { RouteNode } from '@ioc:Adonis/Core/Route'
-import type { RouteIdentifier } from '@microeinhundert/radonis-types'
 
 /**
  * Get the route identifier
  * @internal
  */
-export function getRouteIdentifier(routeNode: RouteNode): RouteIdentifier | undefined {
+export function getRouteIdentifier(routeNode: RouteNode): string | undefined {
   return typeof routeNode?.handler === 'string' ? routeNode.handler : routeNode.name
 }

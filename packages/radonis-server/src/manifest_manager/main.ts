@@ -11,18 +11,13 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
 import type {
-  ComponentIdentifier,
-  FlashMessages,
   Globals,
   Hydration,
   HydrationManagerContract,
-  Locale,
   ManifestContract,
   ManifestManagerContract,
-  Messages,
   Resettable,
   Route,
-  Routes,
 } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 
@@ -69,7 +64,7 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The locale
    */
-  #locale: Locale
+  #locale: string
 
   /**
    * The current route
@@ -120,17 +115,17 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The flash messages
    */
-  get flashMessages(): FlashMessages {
+  get flashMessages(): Record<string, string> {
     return this.#hydrationManager.flashMessages
   }
-  get flashMessagesRequiredForHydration(): FlashMessages {
+  get flashMessagesRequiredForHydration(): Record<string, string> {
     return this.#hydrationManager.requiredFlashMessages
   }
 
   /**
    * Set the flash messages
    */
-  setFlashMessages(flashMessages: FlashMessages): this {
+  setFlashMessages(flashMessages: Record<string, string>): this {
     this.#hydrationManager.setFlashMessages(flashMessages)
 
     return this
@@ -139,17 +134,17 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The messages
    */
-  get messages(): Messages {
+  get messages(): Record<string, string> {
     return this.#hydrationManager.messages
   }
-  get messagesRequiredForHydration(): Messages {
+  get messagesRequiredForHydration(): Record<string, string> {
     return this.#hydrationManager.requiredMessages
   }
 
   /**
    * Set the messages
    */
-  setMessages(messages: Messages): this {
+  setMessages(messages: Record<string, string>): this {
     this.#hydrationManager.setMessages(messages)
 
     return this
@@ -158,17 +153,17 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The routes
    */
-  get routes(): Routes {
+  get routes(): Record<string, string> {
     return this.#hydrationManager.routes
   }
-  get routesRequiredForHydration(): Routes {
+  get routesRequiredForHydration(): Record<string, string> {
     return this.#hydrationManager.requiredRoutes
   }
 
   /**
    * Set the routes
    */
-  setRoutes(routes: Routes): this {
+  setRoutes(routes: Record<string, string>): this {
     this.#hydrationManager.setRoutes(routes)
 
     return this
@@ -184,14 +179,10 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * Register hydration
    */
-  registerHydration(
-    hydrationRootId: string,
-    componentIdentifier: ComponentIdentifier,
-    props: Record<string, any>
-  ): this {
+  registerHydration(hydrationRootId: string, islandIdentifier: string, props: Record<string, unknown>): this {
     this.#hydration = {
       ...this.#hydration,
-      [hydrationRootId]: { componentIdentifier, props },
+      [hydrationRootId]: { islandIdentifier, props },
     }
 
     return this
@@ -216,14 +207,14 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
   /**
    * The locale
    */
-  get locale(): Locale {
+  get locale(): string {
     return this.#locale
   }
 
   /**
    * Set the locale
    */
-  setLocale(locale: Locale): this {
+  setLocale(locale: string): this {
     this.#locale = locale
 
     return this

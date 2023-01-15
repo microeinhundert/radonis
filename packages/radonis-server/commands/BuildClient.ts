@@ -7,19 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { existsSync } from 'node:fs'
-import { relative, resolve } from 'node:path'
+import { join, relative, resolve } from 'node:path/posix'
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { build, discoverHydratableComponents, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
+import { build, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
 import type { BuildManifest } from '@microeinhundert/radonis-types'
+import { fsReadAll } from '@poppinss/utils/build/helpers'
 import chokidar from 'chokidar'
-
-import { CannotFindClientEntryFileException } from '../src/exceptions/cannot_find_client_entry_file'
-import { CannotFindComponentsDirectoryException } from '../src/exceptions/cannot_find_components_directory'
-import { yieldScriptPath } from '../src/utils/yield_script_path'
 
 /**
  * A command to build the Radonis client
@@ -42,38 +38,6 @@ export default class BuildClient extends BaseCommand {
    * The Radonis config
    */
   #config: RadonisConfig = this.application.config.get('radonis', {})
-
-  /**
-   * The entry file
-   */
-  get #entryFile(): string {
-    let {
-      client: { entryFile },
-    } = this.#config
-
-    entryFile = yieldScriptPath(entryFile)
-
-    if (!existsSync(entryFile)) {
-      throw new CannotFindClientEntryFileException(entryFile)
-    }
-
-    return entryFile
-  }
-
-  /**
-   * The components directory
-   */
-  get #componentsDir(): string {
-    const {
-      client: { componentsDir },
-    } = this.#config
-
-    if (!existsSync(componentsDir)) {
-      throw new CannotFindComponentsDirectoryException(componentsDir)
-    }
-
-    return componentsDir
-  }
 
   /**
    * The output directory
@@ -102,15 +66,18 @@ export default class BuildClient extends BaseCommand {
       client: { buildOptions },
     } = this.#config
 
-    const publicPath = this.application.rcFile.directories.public || 'public'
+    const entryPoints = fsReadAll(this.application.resourcesPath(), (filePath) => {
+      return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
+    }).map((filePath) => join(this.application.resourcesPath(), filePath))
+
+    const publicDir = this.application.rcFile.directories.public || 'public'
 
     /**
      * Execute the build
      */
     const buildManifest = await build({
-      entryFile: this.#entryFile,
-      entryPoints: discoverHydratableComponents(this.#componentsDir),
-      publicPath,
+      entryPoints,
+      publicDir,
       outputDir: this.#outputDir,
       outputToDisk: true,
       outputForProduction: this.production,
@@ -122,13 +89,7 @@ export default class BuildClient extends BaseCommand {
      */
     await writeBuildManifestToDisk(buildManifest, this.#outputDir)
 
-    /**
-     * Output a log message after successful build
-     * (substracting by one to exclude the entry file)
-     */
-    this.logger.success(
-      `successfully built the client for ${Object.keys(buildManifest).length - 1} hydratable component(s)`
-    )
+    this.logger.success('successfully built the client bundle')
 
     return buildManifest
   }

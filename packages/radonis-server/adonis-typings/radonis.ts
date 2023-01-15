@@ -26,9 +26,6 @@ declare module '@ioc:Microeinhundert/Radonis' {
       streaming: boolean
     }
     client: {
-      entryFile: string
-      alwaysIncludeEntryFile: boolean
-      componentsDir: string
       limitManifest: boolean
       buildOptions: BuildOptions
     }

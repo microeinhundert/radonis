@@ -8,7 +8,6 @@
  */
 
 import { useHydration } from '@microeinhundert/radonis-hydrate'
-import type { FlashMessageIdentifier, FlashMessages } from '@microeinhundert/radonis-types'
 
 import { hydrationManager } from '../../singletons'
 import { useManifest } from './use_manifest'
@@ -26,7 +25,7 @@ export function useFlashMessages() {
   /**
    * Find the flash message inside the registered flash messages
    */
-  function findFlashMessage(identifier: FlashMessageIdentifier) {
+  function findFlashMessage(identifier: string) {
     const flashMessage = flashMessages[identifier]
 
     /**
@@ -57,7 +56,7 @@ export function useFlashMessages() {
   /**
    * Check if a specific flash message exists
    */
-  function has(identifier: FlashMessageIdentifier) {
+  function has(identifier: string) {
     return !!findFlashMessage(identifier)
   }
 
@@ -71,7 +70,7 @@ export function useFlashMessages() {
   /**
    * Get a specific flash message
    */
-  function get(identifier: FlashMessageIdentifier) {
+  function get(identifier: string) {
     return findFlashMessage(identifier)
   }
 
@@ -85,7 +84,7 @@ export function useFlashMessages() {
 
     return Object.entries(flashMessages)
       .filter(([identifier]) => identifier.startsWith(`${ERRORS_NAMESPACE}.`))
-      .reduce<FlashMessages>((errorFlashMessages, [identifier, value]) => {
+      .reduce<Record<string, string>>((errorFlashMessages, [identifier, value]) => {
         return {
           ...errorFlashMessages,
           [identifier]: value,
@@ -96,7 +95,7 @@ export function useFlashMessages() {
   /**
    * Check if a specific error flash message exists
    */
-  function hasError(identifier: FlashMessageIdentifier) {
+  function hasError(identifier: string) {
     return has(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 
@@ -110,7 +109,7 @@ export function useFlashMessages() {
   /**
    * Get a specific error flash message
    */
-  function getError(identifier: FlashMessageIdentifier) {
+  function getError(identifier: string) {
     return get(`${ERRORS_NAMESPACE}.${identifier}`)
   }
 

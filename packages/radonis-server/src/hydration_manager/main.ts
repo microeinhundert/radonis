@@ -7,17 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type {
-  AssetsManifestEntry,
-  FlashMessageIdentifier,
-  FlashMessages,
-  HydrationManagerContract,
-  MessageIdentifier,
-  Messages,
-  Resettable,
-  RouteIdentifier,
-  Routes,
-} from '@microeinhundert/radonis-types'
+import type { AssetsManifestEntry, HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
 
 import { ERRORS_NAMESPACE } from './constants'
 
@@ -41,20 +31,20 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * The flash messages
    */
-  #flashMessages: FlashMessages
-  #requiredFlashMessages: Set<FlashMessageIdentifier>
+  #flashMessages: Record<string, string>
+  #requiredFlashMessages: Set<string>
 
   /**
    * The messages
    */
-  #messages: Messages
-  #requiredMessages: Set<MessageIdentifier>
+  #messages: Record<string, string>
+  #requiredMessages: Set<string>
 
   /**
    * The routes
    */
-  #routes: Routes
-  #requiredRoutes: Set<RouteIdentifier>
+  #routes: Record<string, string>
+  #requiredRoutes: Set<string>
 
   /**
    * Constructor
@@ -66,11 +56,11 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * The flash messages
    */
-  get flashMessages(): FlashMessages {
+  get flashMessages(): Record<string, string> {
     return this.#flashMessages
   }
-  get requiredFlashMessages(): FlashMessages {
-    const flashMessages = {} as FlashMessages
+  get requiredFlashMessages(): Record<string, string> {
+    const flashMessages = {} as Record<string, string>
 
     for (const identifier of this.#requiredFlashMessages) {
       if (identifier in this.#flashMessages) {
@@ -84,7 +74,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Set the flash messages
    */
-  setFlashMessages(flashMessages: FlashMessages): this {
+  setFlashMessages(flashMessages: Record<string, string>): this {
     this.#flashMessages = flashMessages
 
     return this
@@ -93,7 +83,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Require a flash message
    */
-  requireFlashMessage(identifier: '*' | 'errors.*' | FlashMessageIdentifier): this {
+  requireFlashMessage(identifier: string): this {
     if (identifier === '*') {
       /**
        * Require all flash messages
@@ -116,11 +106,11 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * The messages
    */
-  get messages(): Messages {
+  get messages(): Record<string, string> {
     return this.#messages
   }
-  get requiredMessages(): Messages {
-    const messages = {} as Messages
+  get requiredMessages(): Record<string, string> {
+    const messages = {} as Record<string, string>
 
     for (const identifier of this.#requiredMessages) {
       if (identifier in this.#messages) {
@@ -134,7 +124,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Set the messages
    */
-  setMessages(messages: Messages): this {
+  setMessages(messages: Record<string, string>): this {
     this.#messages = messages
 
     return this
@@ -143,7 +133,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Require a message
    */
-  requireMessage(identifier: '*' | MessageIdentifier): this {
+  requireMessage(identifier: string): this {
     if (identifier === '*') {
       /**
        * Require all messages
@@ -159,11 +149,11 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * The routes
    */
-  get routes(): Routes {
+  get routes(): Record<string, string> {
     return this.#routes
   }
-  get requiredRoutes(): Routes {
-    const routes = {} as Routes
+  get requiredRoutes(): Record<string, string> {
+    const routes = {} as Record<string, string>
 
     for (const identifier of this.#requiredRoutes) {
       if (identifier in this.#routes) {
@@ -177,7 +167,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Set the routes
    */
-  setRoutes(routes: Routes): this {
+  setRoutes(routes: Record<string, string>): this {
     this.#routes = routes
 
     return this
@@ -186,7 +176,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Require a route
    */
-  requireRoute(identifier: '*' | RouteIdentifier): this {
+  requireRoute(identifier: string): this {
     if (identifier === '*') {
       /**
        * Require all routes
@@ -203,7 +193,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require the flash messages, messages and routes used by an asset
    */
   requireAsset(asset: AssetsManifestEntry): this {
-    if (asset.type === 'entry') return this
+    if (asset.type === 'client-script') return this
 
     for (const identifier of asset.flashMessages) {
       this.requireFlashMessage(identifier)

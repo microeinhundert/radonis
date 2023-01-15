@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { extname } from 'node:path'
+import { extname } from 'node:path/posix'
 
 import type { Loader } from 'esbuild'
 

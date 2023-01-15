@@ -11,7 +11,6 @@ import type {
   AssetsManifest,
   BuildManifest,
   BuildManifestEntry,
-  ComponentIdentifier,
   HydrationRequirements,
 } from '@microeinhundert/radonis-types'
 
@@ -21,33 +20,19 @@ import type {
  */
 export function extractRequiredAssets(
   assetsManifest: AssetsManifest,
-  requiredAssets: { components: Set<ComponentIdentifier> },
-  canOmitEntryFile?: boolean
+  requiredAssets: { islands: Set<string> }
 ): AssetsManifest {
   const extractedAssets = assetsManifest.reduce<AssetsManifest>((assets, asset) => {
-    /**
-     * Always include the entry file
-     */
-    if (asset.type === 'entry') {
+    if (asset.type === 'client-script') {
       return [...assets, asset]
     }
 
-    /**
-     * Include the component if it is required
-     */
-    if (requiredAssets.components.has(asset.identifier)) {
+    if (requiredAssets.islands.has(asset.hash)) {
       return [asset, ...assets]
     }
 
     return assets
   }, [])
-
-  /**
-   * Return no assets if the entry file is the only asset and `canOmitEntryFile` is true
-   */
-  if (extractedAssets.length === 1 && extractedAssets[0].type === 'entry' && canOmitEntryFile) {
-    return []
-  }
 
   return extractedAssets
 }
@@ -94,31 +79,22 @@ function reduceHydrationRequirements(
 }
 
 /**
- * Generate an assets manifest
+ * Generate the assets manifest
  * @internal
  */
 export function generateAssetsManifest(buildManifest: BuildManifest): AssetsManifest {
-  return Object.entries(buildManifest).reduce<AssetsManifest>((assetsManifest, [identifier, entry]) => {
-    if (entry.type === 'chunk') {
-      /**
-       * Should never occur since chunks
-       * are not on the topmost level
-       */
-      return assetsManifest
-    }
-
-    return [
-      ...assetsManifest,
-      {
-        type: entry.type,
-        identifier,
-        path: entry.path,
-        ...reduceHydrationRequirements(entry.imports, {
-          flashMessages: entry.flashMessages,
-          messages: entry.messages,
-          routes: entry.routes,
-        }),
-      },
-    ]
-  }, [])
+  return Object.entries(buildManifest).reduce<AssetsManifest>(
+    (assetsManifest, [hash, { type, path, imports, ...entry }]) => {
+      return [
+        ...assetsManifest,
+        {
+          type,
+          hash,
+          path,
+          ...reduceHydrationRequirements(imports, entry),
+        },
+      ]
+    },
+    []
+  )
 }

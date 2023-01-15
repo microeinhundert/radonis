@@ -7,41 +7,41 @@
  * file that was distributed with this source code.
  */
 
-import { join, parse, relative } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { basename, dirname, join, relative } from 'node:path/posix'
 
 import { RadonisException } from '@microeinhundert/radonis-shared'
 import type { BuildManifest, BuildManifestEntry } from '@microeinhundert/radonis-types'
+import type { AssetType } from '@microeinhundert/radonis-types'
 import { build as build$ } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 
+import { ISLAND_REGEX } from './constants'
 import { CannotBuildException } from './exceptions/cannot_build'
 import { CannotFindMetafileOutputEntryException } from './exceptions/cannot_find_metafile_output_entry'
-import { DuplicateBuildManifestEntryException } from './exceptions/duplicate_build_manifest_entry'
-import { loaders } from './loaders'
-import type { BuildOptions, GenerateBuildManifestOptions, MetafileWalkerOptions } from './types/main'
-import { extractFlashMessages, extractMessages, extractRoutes, filePathToFileUrl } from './utils'
+import { getLoaderForFile, loaders } from './loaders'
+import type { Asset, BuildOptions, GenerateBuildManifestOptions, Island, MetafileWalkerOptions } from './types/main'
+import { extractFlashMessages, extractMessages, extractRoutes } from './utils'
 
 /**
  * Create a metafile walker
  */
-function createMetafileWalker({ metafile, builtAssets, publicPath }: MetafileWalkerOptions) {
-  function walk(assetPath: string, assetType: BuildManifestEntry['type']): BuildManifestEntry {
-    const output = metafile.outputs[assetPath]
+function createMetafileWalker({ metafile, assets }: MetafileWalkerOptions) {
+  function walk({ path, type }: Pick<BuildManifestEntry, 'path' | 'type'>): BuildManifestEntry {
+    const output = metafile.outputs[path]
+    const asset = assets.get(path)
 
-    if (!output) {
-      throw new CannotFindMetafileOutputEntryException(assetPath)
+    if (!output || !asset) {
+      throw new CannotFindMetafileOutputEntryException(path)
     }
 
-    const absoluteAssetPath = join(process.cwd(), assetPath)
-    const builtAssetSource = builtAssets.get(absoluteAssetPath) ?? ''
-
     return {
-      type: assetType,
-      path: join('/', filePathToFileUrl(relative(publicPath, assetPath))),
-      flashMessages: extractFlashMessages(builtAssetSource),
-      messages: extractMessages(builtAssetSource),
-      routes: extractRoutes(builtAssetSource),
-      imports: output.imports.map(({ path: path$ }) => walk(path$, 'chunk')),
+      type,
+      path: asset.path,
+      flashMessages: extractFlashMessages(asset.source),
+      messages: extractMessages(asset.source),
+      routes: extractRoutes(asset.source),
+      imports: output.imports.map(({ path: path$ }) => walk({ path: path$, type: 'chunk-script' })),
     }
   }
 
@@ -49,15 +49,10 @@ function createMetafileWalker({ metafile, builtAssets, publicPath }: MetafileWal
 }
 
 /**
- * Generate a build manifest
+ * Generate the build manifest
  */
-function generateBuildManifest({
-  metafile,
-  entryFileName,
-  builtAssets,
-  publicPath,
-}: GenerateBuildManifestOptions): BuildManifest {
-  return Object.entries(metafile.outputs).reduce<BuildManifest>((buildManifest, [assetPath, { entryPoint }]) => {
+function generateBuildManifest({ metafile, assets, islands }: GenerateBuildManifestOptions): BuildManifest {
+  return Object.entries(metafile.outputs).reduce<BuildManifest>((buildManifest, [path, { entryPoint }]) => {
     if (!entryPoint) {
       /**
        * We only want entry points
@@ -66,18 +61,21 @@ function generateBuildManifest({
       return buildManifest
     }
 
-    const { name: assetFileName } = parse(assetPath)
+    const asset = assets.get(path)
 
-    if (assetFileName in buildManifest) {
-      throw new DuplicateBuildManifestEntryException(assetFileName)
+    if (!asset) {
+      return buildManifest
     }
+
+    const [type, originalPath] = entryPoint.split(':')
+    const island = islands.get(originalPath)
 
     return {
       ...buildManifest,
-      [assetFileName]: createMetafileWalker({ metafile, builtAssets, publicPath }).walk(
-        assetPath,
-        assetFileName === entryFileName ? 'entry' : 'component'
-      ),
+      [island?.identifier ?? asset.name]: createMetafileWalker({ metafile, assets }).walk({
+        type: type as AssetType,
+        path,
+      }),
     }
   }, {})
 }
@@ -85,8 +83,8 @@ function generateBuildManifest({
 /**
  * Get environment related `define` entries for esbuild
  */
-function getEnvironment(): Record<string, any> {
-  return Object.entries(process.env).reduce<Record<string, any>>((environment, [key, value]) => {
+function getEnvironment(): Record<string, string> {
+  return Object.entries(process.env).reduce<Record<string, string>>((environment, [key, value]) => {
     if (!key.startsWith('PUBLIC_')) {
       return environment
     }
@@ -99,13 +97,12 @@ function getEnvironment(): Record<string, any> {
 }
 
 /**
- * Build the entry file as well as the components
+ * Build the client
  * @internal
  */
 export async function build({
-  entryFile,
   entryPoints,
-  publicPath,
+  publicDir,
   outputDir,
   outputToDisk,
   outputForProduction,
@@ -115,13 +112,24 @@ export async function build({
     await emptyDir(outputDir)
   }
 
+  /**
+   * This map stores the built assets with metadata
+   */
+  const assets = new Map<string, Asset>()
+
+  /**
+   * This map stores the islands
+   */
+  const islands = new Map<string, Island>()
+
   try {
     /**
      * Run the build
      */
     const buildResult = await build$({
-      entryPoints: [...entryPoints, entryFile],
+      entryPoints,
       outdir: outputDir,
+      outbase: process.cwd(),
       platform: 'browser',
       metafile: true,
       bundle: true,
@@ -133,6 +141,54 @@ export async function build({
       write: false,
       jsx: 'automatic',
       ...esbuildOptions,
+      plugins: [
+        {
+          name: 'radonis',
+          setup({ onResolve, onLoad }) {
+            onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
+              return { path, namespace: 'client-script' }
+            })
+            onLoad({ filter: /.*/, namespace: 'client-script' }, async ({ path }) => {
+              const contents = await readFile(path, 'utf8')
+
+              return {
+                contents,
+                resolveDir: dirname(path),
+                loader: getLoaderForFile(path),
+              }
+            })
+
+            onResolve({ filter: /\.island\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
+              return { path, namespace: 'island-script' }
+            })
+            onLoad({ filter: /.*/, namespace: 'island-script' }, async ({ path }) => {
+              let contents = await readFile(path, 'utf8')
+
+              function injectIslandHydration(source: string) {
+                const matches = source.matchAll(ISLAND_REGEX)
+
+                for (const match of matches) {
+                  if (match?.groups?.symbol) {
+                    const identifier = match.groups.symbol.trim()
+
+                    islands.set(path, { identifier })
+                    source = source.replace(match[0], `hydrateIsland('${identifier}', ${identifier})`)
+                  }
+                }
+
+                return ["import { hydrateIsland } from '@microeinhundert/radonis';", source].join('\n')
+              }
+
+              return {
+                contents: injectIslandHydration(contents),
+                resolveDir: dirname(path),
+                loader: getLoaderForFile(path),
+              }
+            })
+          },
+        },
+        ...(esbuildOptions?.plugins ?? []),
+      ],
       loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
       define: {
         ...getEnvironment(),
@@ -141,30 +197,27 @@ export async function build({
       },
     })
 
-    /**
-     * Output and derive built assets
-     */
-    const builtAssets = (buildResult.outputFiles ?? []).reduce<Map<string, string>>(
-      (assets, { path, text, contents }) => {
-        if (outputToDisk) {
-          outputFile(path, contents)
-        }
-        assets.set(path, text)
-        return assets
-      },
-      new Map()
-    )
+    for (const { path, text, contents } of buildResult.outputFiles ?? []) {
+      if (outputToDisk) {
+        outputFile(path, contents)
+      }
 
-    const { name: entryFileName } = parse(entryFile)
+      const relativePath = relative(process.cwd(), path)
+
+      assets.set(relativePath, {
+        name: basename(relativePath),
+        path: join('/', relative(publicDir, relativePath)),
+        source: text,
+      })
+    }
 
     /**
      * Generate the build manifest
      */
     const buildManifest = generateBuildManifest({
       metafile: buildResult.metafile!,
-      entryFileName,
-      builtAssets,
-      publicPath,
+      assets,
+      islands,
     })
 
     return buildManifest
@@ -174,5 +227,8 @@ export async function build({
     }
 
     throw new CannotBuildException(error instanceof Error ? error.message : 'Unknown error')
+  } finally {
+    assets.clear()
+    islands.clear()
   }
 }

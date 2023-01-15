@@ -13,13 +13,10 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
  * @internal
  */
 export class CannotHydrateWithChildrenException extends RadonisException {
-  constructor(hydrationRootId: string, componentIdentifier: string) {
-    super(
-      `The component "${componentIdentifier}" inside HydrationRoot "${hydrationRootId}" has children. Children are not supported on the direct child of an HydrationRoot`,
-      {
-        status: 500,
-        code: 'E_CANNOT_HYDRATE_WITH_CHILDREN',
-      }
-    )
+  constructor(hydrationRootId: string, islandIdentifier: string) {
+    super(`The island "${islandIdentifier}" inside HydrationRoot "${hydrationRootId}" has children`, {
+      status: 500,
+      code: 'E_CANNOT_HYDRATE_WITH_CHILDREN',
+    })
   }
 }

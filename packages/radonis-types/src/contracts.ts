@@ -15,18 +15,12 @@ import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'r
 import type {
   AssetsManifest,
   AssetsManifestEntry,
-  ComponentIdentifier,
   ErrorPages,
-  FlashMessageIdentifier,
-  FlashMessages,
   FlushCallback,
   Globals,
   HeadMeta,
   HeadTag,
   Hydration,
-  Locale,
-  MessageIdentifier,
-  Messages,
   Plugin,
   PluginEnvironment,
   PluginHook,
@@ -34,8 +28,6 @@ import type {
   RenderOptions,
   Resettable,
   Route,
-  RouteIdentifier,
-  Routes,
   UnwrapProps,
 } from '..'
 
@@ -45,11 +37,11 @@ import type {
 export interface ManifestContract {
   hydration: Hydration
   globals: Globals
-  locale: Locale
+  locale: string
   route: Route | null
-  flashMessages: FlashMessages
-  messages: Messages
-  routes: Routes
+  flashMessages: Record<string, string>
+  messages: Record<string, string>
+  routes: Record<string, string>
 }
 
 /**
@@ -66,7 +58,7 @@ export interface ServerContract {
  */
 export interface AssetsManagerContract extends Resettable {
   requiredAssets: AssetsManifest
-  requireComponent(identifier: ComponentIdentifier): void
+  requireIsland(identifier: string): void
   updateAssetsManifest(): Promise<void>
 }
 
@@ -84,20 +76,20 @@ export interface HeadManagerContract extends Resettable {
  * HydrationManager contract
  */
 export interface HydrationManagerContract extends Resettable {
-  flashMessages: FlashMessages
-  requiredFlashMessages: FlashMessages
-  setFlashMessages(flashMessages: FlashMessages): this
-  requireFlashMessage(identifier: '*' | 'errors.*' | FlashMessageIdentifier): this
+  flashMessages: Record<string, string>
+  requiredFlashMessages: Record<string, string>
+  setFlashMessages(flashMessages: Record<string, string>): this
+  requireFlashMessage(identifier: string): this
 
-  messages: Messages
-  requiredMessages: Messages
-  setMessages(messages: Messages): this
-  requireMessage(identifier: '*' | MessageIdentifier): this
+  messages: Record<string, string>
+  requiredMessages: Record<string, string>
+  setMessages(messages: Record<string, string>): this
+  requireMessage(identifier: string): this
 
-  routes: Routes
-  requiredRoutes: Routes
-  setRoutes(routes: Routes): this
-  requireRoute(identifier: '*' | RouteIdentifier): this
+  routes: Record<string, string>
+  requiredRoutes: Record<string, string>
+  setRoutes(routes: Record<string, string>): this
+  requireRoute(identifier: string): this
 
   requireAsset(asset: AssetsManifestEntry): this
 }
@@ -108,19 +100,19 @@ export interface HydrationManagerContract extends Resettable {
 export interface ManifestManagerContract extends Resettable {
   hydration: Hydration
   globals: Globals
-  locale: Locale
+  locale: string
   route: Route | null
-  flashMessages: FlashMessages
-  messages: Messages
-  routes: Routes
+  flashMessages: Record<string, string>
+  messages: Record<string, string>
+  routes: Record<string, string>
 
-  registerHydration(hydrationRootId: string, componentIdentifier: ComponentIdentifier, props: Record<string, any>): this
+  registerHydration(hydrationRootId: string, islandIdentifier: string, props: Record<string, unknown>): this
   addGlobals(globals: Globals): this
-  setLocale(locale: Locale): this
+  setLocale(locale: string): this
   setRoute(route: Route): this
-  setFlashMessages(flashMessages: FlashMessages): this
-  setMessages(messages: Messages): this
-  setRoutes(routes: Routes): this
+  setFlashMessages(flashMessages: Record<string, string>): this
+  setMessages(messages: Record<string, string>): this
+  setRoutes(routes: Record<string, string>): this
 
   getClientManifestAsJSON(): string
   setServerManifestOnGlobalScope(): void

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteIdentifier, RouteParams, RouteQueryParams, Routes } from '@microeinhundert/radonis-types'
+import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
 import { CannotFindRouteException } from '../exceptions/cannot_find_route'
 import { MissingRouteParamException } from '../exceptions/missing_route_param'
@@ -21,7 +21,7 @@ export class UrlBuilder {
   /**
    * The routes
    */
-  #routes: Routes
+  #routes: Record<string, string>
 
   /**
    * The options
@@ -31,7 +31,7 @@ export class UrlBuilder {
   /**
    * Constructor
    */
-  constructor(routes: Routes, options?: UrlBuilderOptions) {
+  constructor(routes: Record<string, string>, options?: UrlBuilderOptions) {
     this.#routes = routes
     this.#options = options
   }
@@ -39,7 +39,7 @@ export class UrlBuilder {
   /**
    * Make URL for given route
    */
-  make(identifier: RouteIdentifier, options?: UrlBuilderMakeOptions) {
+  make(identifier: string, options?: UrlBuilderMakeOptions) {
     const route = this.#findRouteOrFail(identifier)
     const path = this.#processPattern(route, options?.params ?? {})
     const pathWithQueryString = this.#suffixWithQueryString(path, options?.queryParams ?? {})
@@ -117,7 +117,7 @@ export class UrlBuilder {
    * Find the route inside the registered routes and
    * raise exception when unable to
    */
-  #findRouteOrFail(identifier: RouteIdentifier) {
+  #findRouteOrFail(identifier: string) {
     const route = this.#routes[identifier]
 
     if (!route) {

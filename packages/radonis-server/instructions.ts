@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { existsSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { join } from 'node:path/posix'
 
 import type * as sinkStatic from '@adonisjs/sink'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
@@ -36,20 +35,6 @@ async function createEntryFile(app: ApplicationContract, sink: typeof sinkStatic
     entryFileTemplate.apply({}).commit()
     sink.logger.action('create').succeeded(`${resourcesDir}/entry.client.ts`)
   }
-}
-
-/**
- * Creates the components directory
- */
-async function createComponentsDir(app: ApplicationContract, sink: typeof sinkStatic) {
-  if (existsSync(app.resourcesPath('components'))) {
-    return
-  }
-
-  const resourcesDir = app.directoriesMap.get('resources') || 'resources'
-
-  mkdirSync(app.resourcesPath('components'), { recursive: true })
-  sink.logger.action('create').succeeded(`${resourcesDir}/components`)
 }
 
 /**
@@ -120,7 +105,6 @@ function modifyTsconfig(sink: typeof sinkStatic, projectRoot: string) {
  */
 export default async function instructions(projectRoot: string, app: ApplicationContract, sink: typeof sinkStatic) {
   createEntryFile(app, sink, projectRoot)
-  createComponentsDir(app, sink)
 
   try {
     await installPackages(sink, projectRoot)

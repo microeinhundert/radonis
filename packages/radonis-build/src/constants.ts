@@ -10,11 +10,6 @@
 /**
  * @internal
  */
-export const COMPONENT_IDENTIFIER_REGEX = new RegExp(/hydratable\((\W+)?["'](?<identifier>\S+)["']/g)
-
-/**
- * @internal
- */
 export const FLASH_MESSAGE_IDENTIFIER_REGEX = new RegExp(/(get(Error)?|has(Error)?)\((\W+)?["'](?<identifier>\S+)["']/g)
 
 /**
@@ -26,6 +21,11 @@ export const MESSAGE_IDENTIFIER_REGEX = new RegExp(/formatMessage\((\W+)?["'](?<
  * @internal
  */
 export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(make\(|(action|to|route):)(\W+)?["'](?<identifier>\S+)["']/g)
+
+/**
+ * @internal
+ */
+export const ISLAND_REGEX = new RegExp(/island\((\s+)?(?<symbol>\S+)(\s+)?\)/g)
 
 /**
  * @internal

@@ -13,9 +13,9 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
  * @internal
  */
 export class CannotHydrateException extends RadonisException {
-  constructor(hydrationRootId: string, componentIdentifier: string) {
+  constructor(hydrationRootId: string, islandIdentifier: string) {
     super(
-      `The server-rendered component "${componentIdentifier}" inside of HydrationRoot "${hydrationRootId}" could not be hydrated. Make sure the component exists in the client bundle`,
+      `The server-rendered island "${islandIdentifier}" inside of HydrationRoot "${hydrationRootId}" could not be hydrated`,
       {
         status: 500,
         code: 'E_CANNOT_HYDRATE',

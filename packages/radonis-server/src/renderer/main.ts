@@ -25,7 +25,6 @@ import type {
   HeadMeta,
   HeadTag,
   HydrationManagerContract,
-  Locale,
   ManifestManagerContract,
   PluginsManagerContract,
   RendererContract,
@@ -390,7 +389,7 @@ export class Renderer implements RendererContract, Resettable {
       await this.#pluginsManager.execute('beforeRender', h(Component, props), {
         ctx: this.#context.httpContext,
         manifest: this.#manifestManager,
-        props: props as any,
+        props: props as Record<string, unknown> | undefined,
       })
     )
 
@@ -422,7 +421,7 @@ export class Renderer implements RendererContract, Resettable {
   /**
    * Extract the user locale from the HttpContext
    */
-  #extractUserLocale({ request }: HttpContextContract): Locale {
+  #extractUserLocale({ request }: HttpContextContract): string {
     const supportedLocales = this.#i18nManager.supportedLocales()
 
     return request.language(supportedLocales) || request.input('lang') || this.#i18nManager.defaultLocale

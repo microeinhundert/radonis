@@ -22,7 +22,7 @@ let isClientInitialized = false
  */
 function hydrate() {
   startTransition(() => {
-    hydrator.hydrateRoots()
+    hydrator.hydrateHydrationRoots()
   })
 }
 

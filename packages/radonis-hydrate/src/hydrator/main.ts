@@ -7,15 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import type { ComponentIdentifier, Components, PluginsManagerContract } from '@microeinhundert/radonis-types'
+import type { PluginsManagerContract } from '@microeinhundert/radonis-types'
 import type { ComponentType } from 'react'
 import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydration_context'
 import { CannotHydrateException } from '../exceptions/cannot_hydrate'
-import { ComponentAlreadyRegisteredException } from '../exceptions/component_already_registered'
-import { MissingHydrationDataException } from '../exceptions/missing_hydration_data'
+import { IslandAlreadyRegisteredException } from '../exceptions/island_already_registered'
 import { getManifestOrFail } from '../utils/get_manifest_or_fail'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 
@@ -41,9 +40,9 @@ export class Hydrator {
   #pluginsManager: PluginsManagerContract
 
   /**
-   * The components
+   * The islands
    */
-  #components: Components
+  #islands: Map<string, ComponentType>
 
   /**
    * Constructor
@@ -51,31 +50,31 @@ export class Hydrator {
   constructor(pluginsManager: PluginsManagerContract) {
     this.#pluginsManager = pluginsManager
 
-    this.#components = new Map()
+    this.#islands = new Map()
   }
 
   /**
-   * Register a component
+   * Register an island
    */
-  registerComponent(identifier: ComponentIdentifier, Component: ComponentType): this {
-    if (this.#components.has(identifier)) {
-      throw new ComponentAlreadyRegisteredException(identifier)
+  registerIsland(identifier: string, Component: ComponentType): this {
+    if (this.#islands.has(identifier)) {
+      throw new IslandAlreadyRegisteredException(identifier)
     }
 
-    this.#components.set(identifier, Component)
+    this.#islands.set(identifier, Component)
 
     return this
   }
 
   /**
-   * Hydrate the HydrationRoots
+   * Hydrate all HydrationRoots on the page
    */
-  hydrateRoots(): this {
+  hydrateHydrationRoots(): this {
     const hydrationRoots = document.querySelectorAll(HYDRATION_ROOT_SELECTOR)
-    const rootObserver = this.#createRootObserver()!
+    const hydrationRootsObserver = this.#createHydrationRootsObserver()!
 
     for (const hydrationRoot of hydrationRoots) {
-      rootObserver.observe(hydrationRoot)
+      hydrationRootsObserver.observe(hydrationRoot)
     }
 
     return this
@@ -84,19 +83,15 @@ export class Hydrator {
   /**
    * Hydrate a specific HydrationRoot
    */
-  async #hydrateRoot(hydrationRoot: HTMLElement): Promise<void> {
+  async #hydrateHydrationRoot(hydrationRoot: HTMLElement): Promise<void> {
     const manifest = getManifestOrFail()
     const hydrationRootId = hydrationRoot.dataset.hydrationRoot!
     const hydration = manifest.hydration[hydrationRootId]
 
-    if (!hydration) {
-      throw new MissingHydrationDataException(hydrationRootId)
-    }
+    const Island = this.#islands.get(hydration.islandIdentifier)
 
-    const Component = this.#components.get(hydration.componentIdentifier)
-
-    if (!Component) {
-      throw new CannotHydrateException(hydrationRootId, hydration.componentIdentifier)
+    if (!Island) {
+      throw new CannotHydrateException(hydrationRootId, hydration.islandIdentifier)
     }
 
     const tree = await this.#pluginsManager.execute(
@@ -109,7 +104,7 @@ export class Hydrator {
             id: hydrationRootId,
           },
         },
-        h(Component, hydration.props)
+        h(Island, hydration.props)
       ),
       null
     )
@@ -120,14 +115,14 @@ export class Hydrator {
   /**
    * Create the observer for observing the visibility of HydrationRoots
    */
-  #createRootObserver(): IntersectionObserver | undefined {
+  #createHydrationRootsObserver(): IntersectionObserver | undefined {
     return new IntersectionObserver((observedHydrationRoots, observer) => {
       observedHydrationRoots.forEach(async (observedHydrationRoot) => {
         if (!observedHydrationRoot.isIntersecting) return
 
         const hydrationRoot = observedHydrationRoot.target as HTMLElement
 
-        await this.#hydrateRoot(hydrationRoot)
+        await this.#hydrateHydrationRoot(hydrationRoot)
         observer.unobserve(hydrationRoot)
       })
     })

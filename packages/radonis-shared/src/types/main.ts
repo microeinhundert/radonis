@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
+import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
 /**
  * URL builder options
  */
 export interface UrlBuilderOptions {
-  onFoundRoute: (routeIdentifier: RouteIdentifier) => void
+  onFoundRoute: (routeIdentifier: string) => void
 }
 
 /**

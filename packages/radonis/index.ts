@@ -33,14 +33,7 @@ export {
   useSession,
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
-export { hydratable, HydrationRoot, useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
+export { HydrationRoot, useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
+export { hydrateIsland, island } from '@microeinhundert/radonis-hydrate'
 export { fetch$, RadonisException, UrlBuilder } from '@microeinhundert/radonis-shared'
-export type {
-  ComponentIdentifier,
-  FlashMessageIdentifier,
-  MessageIdentifier,
-  Plugin,
-  RouteIdentifier,
-  RouteParams,
-  RouteQueryParams,
-} from '@microeinhundert/radonis-types'
+export type { Plugin, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'

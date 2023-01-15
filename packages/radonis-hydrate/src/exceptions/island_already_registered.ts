@@ -12,13 +12,13 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 /**
  * @internal
  */
-export class ComponentAlreadyRegisteredException extends RadonisException {
-  constructor(componentIdentifier: string) {
+export class IslandAlreadyRegisteredException extends RadonisException {
+  constructor(islandIdentifier: string) {
     super(
-      `The component "${componentIdentifier}" was already registered for hydration. Make sure to not use the same name for multiple components, regardless of which directory they are in`,
+      `The island "${islandIdentifier}" was already registered for hydration. Make sure to not use the same name for multiple islands`,
       {
         status: 500,
-        code: 'E_COMPONENT_ALREADY_REGISTERED',
+        code: 'E_ISLAND_ALREADY_REGISTERED',
       }
     )
   }

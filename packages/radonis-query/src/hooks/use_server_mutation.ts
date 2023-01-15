@@ -8,7 +8,6 @@
  */
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import type { RouteIdentifier } from '@microeinhundert/radonis'
 import { useUrlBuilder } from '@microeinhundert/radonis'
 import { fetch$ } from '@microeinhundert/radonis-shared'
 import { useMutation } from '@tanstack/react-query'
@@ -25,7 +24,7 @@ export function useServerMutation<
   TControllerAction extends (ctx: HttpContextContract) => any,
   TError = unknown,
   TData = Awaited<ReturnType<TControllerAction>>
->(routeIdentifier: RouteIdentifier, options?: ServerMutationOptions<TData, TError>) {
+>(routeIdentifier: string, options?: ServerMutationOptions<TData, TError>) {
   const urlBuilder = useUrlBuilder()
   const baseUrl = useQueryBaseUrl()
 

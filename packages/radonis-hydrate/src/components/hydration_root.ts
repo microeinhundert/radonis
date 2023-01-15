@@ -13,12 +13,12 @@ import { Children, createElement as h, isValidElement, useContext, useId } from 
 
 import { HydrationContextProvider } from '../contexts/hydration_context'
 import { CannotHydrateWithChildrenException } from '../exceptions/cannot_hydrate_with_children'
-import { NotHydratableException } from '../exceptions/not_hydratable'
+import { NotAnIslandException } from '../exceptions/not_an_island'
 import { useHydration } from '../hooks/use_hydration'
-import { componentIdentifierSymbol } from '../symbols'
+import { islandIdentifierSymbol } from '../symbols'
 
 /**
- * Component for marking components for client-side hydration
+ * Component for hydrating islands
  * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
 export function HydrationRoot({
@@ -26,7 +26,7 @@ export function HydrationRoot({
   className,
   disabled,
 }: {
-  children: ReactElement<Record<string, any>>
+  children: ReactElement<Record<string, unknown>>
   className?: string
   disabled?: boolean
 }) {
@@ -35,15 +35,15 @@ export function HydrationRoot({
   const { id: parentHydrationRootId } = useHydration()
   const hydrationRootId = useId()
 
-  const component = Children.only(children)
-  const componentIdentifier = component?.type?.[componentIdentifierSymbol]
+  const island = Children.only(children)
+  const islandIdentifier = island?.type?.[islandIdentifierSymbol]
 
-  if (typeof componentIdentifier !== 'string' || !isValidElement(component)) {
-    throw new NotHydratableException(hydrationRootId)
+  if (typeof islandIdentifier !== 'string' || !isValidElement(island)) {
+    throw new NotAnIslandException(hydrationRootId)
   }
 
-  if (component.props.children) {
-    throw new CannotHydrateWithChildrenException(hydrationRootId, componentIdentifier)
+  if (island.props.children) {
+    throw new CannotHydrateWithChildrenException(hydrationRootId, islandIdentifier)
   }
 
   /*
@@ -55,19 +55,19 @@ export function HydrationRoot({
       {
         className,
       },
-      component
+      island
     )
   }
 
   /*
    * Register the hydration on the ManifestManager
    */
-  manifestManager.registerHydration(hydrationRootId, componentIdentifier, component.props)
+  manifestManager.registerHydration(hydrationRootId, islandIdentifier, island.props)
 
   /*
-   * Require the component on the AssetsManager
+   * Require the island on the AssetsManager
    */
-  assetsManager.requireComponent(componentIdentifier)
+  assetsManager.requireIsland(islandIdentifier)
 
   return h(
     HydrationContextProvider,
@@ -83,7 +83,7 @@ export function HydrationRoot({
         className,
         'data-hydration-root': hydrationRootId,
       },
-      component
+      island
     )
   )
 }

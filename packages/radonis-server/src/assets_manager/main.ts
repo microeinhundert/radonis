@@ -8,18 +8,12 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
 import {
   extractRequiredAssets,
   generateAssetsManifest,
   readBuildManifestFromDisk,
 } from '@microeinhundert/radonis-build'
-import type {
-  AssetsManagerContract,
-  AssetsManifest,
-  ComponentIdentifier,
-  Resettable,
-} from '@microeinhundert/radonis-types'
+import type { AssetsManagerContract, AssetsManifest, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing assets
@@ -39,11 +33,6 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   }
 
   /**
-   * The Radonis config
-   */
-  #config: RadonisConfig
-
-  /**
    * The public path
    */
   #publicPath: string
@@ -54,16 +43,14 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   #assetsManifest: AssetsManifest
 
   /**
-   * The required components
+   * The required islands
    */
-  #requiredComponents: Set<ComponentIdentifier>
+  #requiredIslands: Set<string>
 
   /**
    * Constructor
    */
-  constructor(config: RadonisConfig, application: ApplicationContract) {
-    this.#config = config
-
+  constructor(application: ApplicationContract) {
     this.#publicPath = application.publicPath('radonis')
 
     this.#assetsManifest = []
@@ -75,20 +62,16 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    * The required assets
    */
   get requiredAssets(): AssetsManifest {
-    return extractRequiredAssets(
-      this.#assetsManifest,
-      {
-        components: this.#requiredComponents,
-      },
-      !this.#config.client.alwaysIncludeEntryFile
-    )
+    return extractRequiredAssets(this.#assetsManifest, {
+      islands: this.#requiredIslands,
+    })
   }
 
   /**
-   * Require a component
+   * Require an island
    */
-  requireComponent(identifier: ComponentIdentifier): void {
-    this.#requiredComponents.add(identifier)
+  requireIsland(identifier: string): void {
+    this.#requiredIslands.add(identifier)
   }
 
   /**
@@ -122,6 +105,6 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    * Set the defaults
    */
   #setDefaults(): void {
-    this.#requiredComponents = new Set()
+    this.#requiredIslands = new Set()
   }
 }

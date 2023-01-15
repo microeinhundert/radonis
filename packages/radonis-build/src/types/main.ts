@@ -10,12 +10,21 @@
 import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
 
 /**
+ * Asset
+ */
+export type Asset = { name: string; path: string; source: string }
+
+/**
+ * Island
+ */
+export type Island = { identifier: string }
+
+/**
  * Build options
  */
 export interface BuildOptions {
-  entryFile: string
   entryPoints: string[]
-  publicPath: string
+  publicDir: string
   outputDir: string
   outputToDisk?: boolean
   outputForProduction?: boolean
@@ -27,9 +36,8 @@ export interface BuildOptions {
  */
 export interface GenerateBuildManifestOptions {
   metafile: Metafile
-  entryFileName: string
-  builtAssets: Map<string, string>
-  publicPath: string
+  assets: Map<string, Asset>
+  islands: Map<string, Island>
 }
 
 /**
@@ -37,6 +45,5 @@ export interface GenerateBuildManifestOptions {
  */
 export interface MetafileWalkerOptions {
   metafile: Metafile
-  builtAssets: Map<string, string>
-  publicPath: string
+  assets: Map<string, Asset>
 }

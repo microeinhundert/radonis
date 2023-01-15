@@ -8,7 +8,7 @@
  */
 
 import type { MutationHooks, MutationStatus } from '@microeinhundert/radonis-hooks'
-import type { RouteIdentifier, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
+import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 import type { FormHTMLAttributes, ReactNode } from 'react'
 
 /**
@@ -25,7 +25,7 @@ export type FormHooks<TData, TError> = MutationHooks<FormData, TData, TError>
  * Form options
  */
 export interface FormOptions<TData, TError> {
-  action: RouteIdentifier
+  action: string
   params?: RouteParams
   queryParams?: RouteQueryParams
   method: FormMethod
