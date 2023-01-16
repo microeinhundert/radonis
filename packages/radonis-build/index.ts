@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { extractRequiredAssets, generateAssetsManifest } from './src/assets'
-export { build } from './src/build'
+export { Builder } from './src/builder'
 export { readBuildManifestFromDisk, writeBuildManifestToDisk } from './src/utils'
 export type { BuildOptions } from 'esbuild'

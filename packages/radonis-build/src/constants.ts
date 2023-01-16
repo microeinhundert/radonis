@@ -25,7 +25,7 @@ export const ROUTE_IDENTIFIER_REGEX = new RegExp(/(make\(|(action|to|route):)(\W
 /**
  * @internal
  */
-export const ISLAND_REGEX = new RegExp(/island\((\s+)?(?<symbol>\S+)(\s+)?\)/g)
+export const ISLAND_REGEX = new RegExp(/island\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
 
 /**
  * @internal

@@ -7,17 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
+import type { BuildOptions as EsbuildOptions } from 'esbuild'
 
 /**
  * Asset
  */
 export type Asset = { name: string; path: string; source: string }
-
-/**
- * Island
- */
-export type Island = { identifier: string }
 
 /**
  * Build options
@@ -29,21 +24,4 @@ export interface BuildOptions {
   outputToDisk?: boolean
   outputForProduction?: boolean
   esbuildOptions?: EsbuildOptions
-}
-
-/**
- * Generate build manifest options
- */
-export interface GenerateBuildManifestOptions {
-  metafile: Metafile
-  assets: Map<string, Asset>
-  islands: Map<string, Island>
-}
-
-/**
- * Metafile walker options
- */
-export interface MetafileWalkerOptions {
-  metafile: Metafile
-  assets: Map<string, Asset>
 }

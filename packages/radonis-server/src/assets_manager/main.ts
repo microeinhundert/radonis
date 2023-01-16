@@ -8,12 +8,8 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import {
-  extractRequiredAssets,
-  generateAssetsManifest,
-  readBuildManifestFromDisk,
-} from '@microeinhundert/radonis-build'
-import type { AssetsManagerContract, AssetsManifest, Resettable } from '@microeinhundert/radonis-types'
+import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
+import type { AssetsManagerContract, BuildManifest, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing assets
@@ -38,9 +34,9 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   #publicPath: string
 
   /**
-   * The assets manifest
+   * The build manifest
    */
-  #assetsManifest: AssetsManifest
+  #buildManifest: BuildManifest
 
   /**
    * The required islands
@@ -53,7 +49,7 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   constructor(application: ApplicationContract) {
     this.#publicPath = application.publicPath('radonis')
 
-    this.#assetsManifest = []
+    this.#buildManifest = []
 
     this.#setDefaults()
   }
@@ -61,10 +57,18 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   /**
    * The required assets
    */
-  get requiredAssets(): AssetsManifest {
-    return extractRequiredAssets(this.#assetsManifest, {
-      islands: this.#requiredIslands,
-    })
+  get requiredAssets(): BuildManifest {
+    return this.#buildManifest.reduce<BuildManifest>((assets, asset) => {
+      if (asset.type === 'client-script') {
+        return [...assets, asset]
+      }
+
+      if (asset.islands.some((identifier) => this.#requiredIslands.has(identifier))) {
+        return [asset, ...assets]
+      }
+
+      return assets
+    }, [])
   }
 
   /**
@@ -75,22 +79,14 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   }
 
   /**
-   * Update the assets manifest by reading the build manifest
-   * and generating the assets manifest from it
+   * Read the build manifest
    */
-  async updateAssetsManifest(): Promise<void> {
-    const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
-
-    if (!buildManifest) {
-      this.#assetsManifest = []
-      return
-    }
-
+  async readBuildManifest(): Promise<void> {
     try {
-      const assetsManifest = await generateAssetsManifest(buildManifest)
-      this.#assetsManifest = assetsManifest
+      const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
+      if (buildManifest) this.#buildManifest = buildManifest
     } catch {
-      this.#assetsManifest = []
+      this.#buildManifest = []
     }
   }
 

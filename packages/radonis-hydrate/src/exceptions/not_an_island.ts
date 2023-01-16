@@ -15,7 +15,7 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 export class NotAnIslandException extends RadonisException {
   constructor(hydrationRootId: string) {
     super(
-      `The component inside of HydrationRoot "${hydrationRootId}" is not an island. Make sure the component was wrapped with the "island" function`,
+      `The component inside of HydrationRoot "${hydrationRootId}" is not an island. Make sure the component is wrapped with the "island" function`,
       {
         status: 500,
         code: 'E_NOT_AN_ISLAND',

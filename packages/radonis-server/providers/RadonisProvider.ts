@@ -146,11 +146,10 @@ export default class RadonisProvider {
             AssetsManager.reset()
 
             /**
-             * Update the assets manifest on incoming HTML
-             * requests (when not in production)
+             * Read the build manifest on incoming HTML requests (when not in production)
              */
             if (request.accepts(['html']) && !this.#application.inProduction) {
-              await AssetsManager.updateAssetsManifest()
+              await AssetsManager.readBuildManifest()
             }
 
             /**
@@ -167,7 +166,7 @@ export default class RadonisProvider {
             await PluginsManager.execute('afterRequest', null, { ctx })
 
             /**
-             * If the request was made by Radonis,
+             * If the request is made by Radonis,
              * serialize the response with superjson
              */
             if (
@@ -185,7 +184,7 @@ export default class RadonisProvider {
     this.#application.container.withBindings(
       ['Adonis/Core/HttpContext', 'Microeinhundert/Radonis/AssetsManager', 'Microeinhundert/Radonis/Renderer'],
       async (HttpContext, AssetsManager, Renderer) => {
-        await AssetsManager.updateAssetsManifest()
+        await AssetsManager.readBuildManifest()
 
         /**
          * Define getter

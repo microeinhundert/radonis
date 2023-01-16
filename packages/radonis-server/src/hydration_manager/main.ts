@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetsManifestEntry, HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
+import type { BuildManifestEntry, HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
 
 import { ERRORS_NAMESPACE } from './constants'
 
@@ -192,7 +192,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   /**
    * Require the flash messages, messages and routes used by an asset
    */
-  requireAsset(asset: AssetsManifestEntry): this {
+  requireAsset(asset: BuildManifestEntry): this {
     if (asset.type === 'client-script') return this
 
     for (const identifier of asset.flashMessages) {

@@ -12,7 +12,7 @@ import { join, relative, resolve } from 'node:path/posix'
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { build, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
+import { Builder, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
 import type { BuildManifest } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import chokidar from 'chokidar'
@@ -66,6 +66,8 @@ export default class BuildClient extends BaseCommand {
       client: { buildOptions },
     } = this.#config
 
+    const builder = new Builder()
+
     const entryPoints = fsReadAll(this.application.resourcesPath(), (filePath) => {
       return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
     }).map((filePath) => join(this.application.resourcesPath(), filePath))
@@ -75,7 +77,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Execute the build
      */
-    const buildManifest = await build({
+    const buildManifest = await builder.build({
       entryPoints,
       publicDir,
       outputDir: this.#outputDir,

@@ -93,27 +93,14 @@ export type AssetType = 'client-script' | 'island-script' | 'chunk-script'
 export interface BuildManifestEntry extends HydrationRequirements {
   type: AssetType
   path: string
-  imports: BuildManifestEntry[]
+  name: string
+  islands: string[]
 }
 
 /**
  * Build manifest
  */
-export type BuildManifest = Record<string, BuildManifestEntry>
-
-/**
- * Assets manifest entry
- */
-export interface AssetsManifestEntry extends HydrationRequirements {
-  type: AssetType
-  hash: string
-  path: string
-}
-
-/**
- * Assets manifest
- */
-export type AssetsManifest = AssetsManifestEntry[]
+export type BuildManifest = BuildManifestEntry[]
 
 /* ---------------------------------------- */
 

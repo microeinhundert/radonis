@@ -40,7 +40,7 @@ export async function fetch$(input: RequestInfo | URL, init?: RequestInit) {
       const json = await response.json()
 
       /**
-       * If the response was sent by Radonis,
+       * If the response is sent by Radonis,
        * deserialize it with superjson
        */
       if (response.headers.get('x-radonis-response') === 'true') {

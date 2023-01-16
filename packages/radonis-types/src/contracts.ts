@@ -13,8 +13,8 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 
 import type {
-  AssetsManifest,
-  AssetsManifestEntry,
+  BuildManifest,
+  BuildManifestEntry,
   ErrorPages,
   FlushCallback,
   Globals,
@@ -57,9 +57,9 @@ export interface ServerContract {
  * AssetsManager contract
  */
 export interface AssetsManagerContract extends Resettable {
-  requiredAssets: AssetsManifest
+  requiredAssets: BuildManifest
   requireIsland(identifier: string): void
-  updateAssetsManifest(): Promise<void>
+  readBuildManifest(): Promise<void>
 }
 
 /**
@@ -91,7 +91,7 @@ export interface HydrationManagerContract extends Resettable {
   setRoutes(routes: Record<string, string>): this
   requireRoute(identifier: string): this
 
-  requireAsset(asset: AssetsManifestEntry): this
+  requireAsset(asset: BuildManifestEntry): this
 }
 
 /**
