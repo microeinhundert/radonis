@@ -60,7 +60,7 @@
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:2.2.0",
     "@microeinhundert/radonis-types": "workspace:2.2.0",
-    "esbuild": "^0.17.0",
+    "esbuild": "^0.17.3",
     "fs-extra": "^11.1.0",
     "tslib": "^2.4.1"
   }

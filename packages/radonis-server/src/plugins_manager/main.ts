@@ -52,9 +52,6 @@ export class PluginsManager implements PluginsManagerContract {
   beforeRenderHooks: PluginHook<'beforeRender'>[]
   afterRenderHooks: PluginHook<'afterRender'>[]
 
-  /**
-   * Constructor
-   */
   constructor() {
     this.#setDefaults()
   }

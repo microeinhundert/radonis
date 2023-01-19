@@ -10,9 +10,9 @@
 import type { BuildOptions as EsbuildOptions } from 'esbuild'
 
 /**
- * Asset
+ * Built asset
  */
-export type Asset = { name: string; path: string; source: string }
+export type BuiltAsset = { name: string; path: string; source: string }
 
 /**
  * Build options

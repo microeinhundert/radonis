@@ -44,9 +44,6 @@ export class Hydrator {
    */
   #islands: Map<string, ComponentType>
 
-  /**
-   * Constructor
-   */
   constructor(pluginsManager: PluginsManagerContract) {
     this.#pluginsManager = pluginsManager
 

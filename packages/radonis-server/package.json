@@ -101,7 +101,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
-    "@types/react": "^18.0.26",
+    "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10"
   },
   "dependencies": {
@@ -113,7 +113,7 @@
     "flattie": "^1.1.0",
     "isbot": "^3.6.5",
     "minipass": "^4.0.0",
-    "superjson": "^1.12.1",
+    "superjson": "^1.12.2",
     "tslib": "^2.4.1"
   }
 }

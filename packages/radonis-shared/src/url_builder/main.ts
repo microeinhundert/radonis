@@ -28,9 +28,6 @@ export class UrlBuilder {
    */
   #options?: UrlBuilderOptions
 
-  /**
-   * Constructor
-   */
   constructor(routes: Record<string, string>, options?: UrlBuilderOptions) {
     this.#routes = routes
     this.#options = options

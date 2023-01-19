@@ -50,9 +50,6 @@ export class HeadManager implements HeadManagerContract, Resettable {
    */
   #tags: HeadTag[]
 
-  /**
-   * Constructor
-   */
   constructor(config: RadonisConfig) {
     this.#config = config
 

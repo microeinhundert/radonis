@@ -71,9 +71,6 @@ export class ManifestManager implements ManifestManagerContract, Resettable {
    */
   #route: Route | null
 
-  /**
-   * Constructor
-   */
   constructor(config: RadonisConfig, application: ApplicationContract) {
     this.#config = config
 

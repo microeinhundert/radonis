@@ -43,9 +43,6 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    */
   #requiredIslands: Set<string>
 
-  /**
-   * Constructor
-   */
   constructor(application: ApplicationContract) {
     this.#publicPath = application.publicPath('radonis')
 

@@ -88,9 +88,9 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 export type AssetType = 'client-script' | 'island-script' | 'chunk-script'
 
 /**
- * Build manifest entry
+ * Asset
  */
-export interface BuildManifestEntry extends HydrationRequirements {
+export interface Asset extends HydrationRequirements {
   type: AssetType
   path: string
   name: string
@@ -100,7 +100,7 @@ export interface BuildManifestEntry extends HydrationRequirements {
 /**
  * Build manifest
  */
-export type BuildManifest = BuildManifestEntry[]
+export type BuildManifest = Asset[]
 
 /* ---------------------------------------- */
 

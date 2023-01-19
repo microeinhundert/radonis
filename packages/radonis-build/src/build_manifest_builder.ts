@@ -7,16 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import type {
-  AssetType,
-  BuildManifest,
-  BuildManifestEntry,
-  HydrationRequirements,
-} from '@microeinhundert/radonis-types'
+import type { Asset, AssetType, BuildManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
 import type { Metafile } from 'esbuild'
 
 import { CannotFindMetafileOutputEntryException } from './exceptions/cannot_find_metafile_output_entry'
-import type { Asset } from './types/main'
+import type { BuiltAsset } from './types/main'
 import { extractFlashMessages, extractMessages, extractRoutes } from './utils'
 
 /**
@@ -29,21 +24,18 @@ export class BuildManifestBuilder {
   #metafile: Metafile
 
   /**
-   * The assets
+   * The built assets
    */
-  #assets: Map<string, Asset>
+  #builtAssets: Map<string, BuiltAsset>
 
   /**
    * The islands grouped by file
    */
   #islandsByFile: Map<string, string[]>
 
-  /**
-   * Constructor
-   */
-  constructor(metafile: Metafile, assets: Map<string, Asset>, islandsByFile: Map<string, string[]>) {
+  constructor(metafile: Metafile, builtAssets: Map<string, BuiltAsset>, islandsByFile: Map<string, string[]>) {
     this.#metafile = metafile
-    this.#assets = assets
+    this.#builtAssets = builtAssets
     this.#islandsByFile = islandsByFile
   }
 
@@ -62,7 +54,7 @@ export class BuildManifestBuilder {
         return buildManifest
       }
 
-      const asset = this.#assets.get(path)
+      const asset = this.#builtAssets.get(path)
 
       if (!asset) {
         return buildManifest
@@ -75,7 +67,7 @@ export class BuildManifestBuilder {
   /**
    * Reduce the hydration requirements of multiple entries down to a single entry
    */
-  #reduceHydrationRequirements(entries: BuildManifestEntry[]): HydrationRequirements {
+  #reduceHydrationRequirements(entries: Asset[]): HydrationRequirements {
     return entries.reduce<HydrationRequirements>(
       (requirements, entry) => {
         const mergedFlashMessages = new Set([...requirements.flashMessages, ...entry.flashMessages])
@@ -97,11 +89,11 @@ export class BuildManifestBuilder {
   }
 
   /**
-   * Create a chunk entry for a specified path from the metafile
+   * Create a chunk for a specified path from the metafile
    */
-  #createChunkEntry(path: string): BuildManifestEntry {
+  #createChunk(path: string): Asset {
     const output = this.#metafile.outputs[path]
-    const asset = this.#assets.get(path)
+    const asset = this.#builtAssets.get(path)
 
     if (!output || !asset) {
       throw new CannotFindMetafileOutputEntryException(path)
@@ -121,18 +113,18 @@ export class BuildManifestBuilder {
   /**
    * Create an entry for a specified path from the metafile
    */
-  #createEntry(path: string, entryPoint: string): BuildManifestEntry {
+  #createEntry(path: string, entryPoint: string): Asset {
     const output = this.#metafile.outputs[path]
 
     const [type, originalPath] = entryPoint.split(':')
 
-    const asset = this.#assets.get(path)
+    const asset = this.#builtAssets.get(path)
 
     if (!output || !asset) {
       throw new CannotFindMetafileOutputEntryException(path)
     }
 
-    const imports = output.imports.map(({ path: chunkPath }) => this.#createChunkEntry(chunkPath))
+    const imports = output.imports.map(({ path: chunkPath }) => this.#createChunk(chunkPath))
     const islands = this.#islandsByFile.get(originalPath) ?? []
 
     const entry = {
@@ -143,7 +135,7 @@ export class BuildManifestBuilder {
       flashMessages: extractFlashMessages(asset.source),
       messages: extractMessages(asset.source),
       routes: extractRoutes(asset.source),
-    } as BuildManifestEntry
+    } as Asset
 
     return {
       ...entry,

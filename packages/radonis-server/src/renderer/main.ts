@@ -107,9 +107,6 @@ export class Renderer implements RendererContract, Resettable {
    */
   #flushCallbacks: FlushCallback[]
 
-  /**
-   * Constructor
-   */
   constructor(config: RadonisConfig, application: ApplicationContract) {
     this.#config = config
     this.#application = application

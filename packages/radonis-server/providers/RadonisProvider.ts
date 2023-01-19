@@ -24,9 +24,6 @@ export default class RadonisProvider {
    */
   #config: RadonisConfig
 
-  /**
-   * Constructor
-   */
   constructor(application: ApplicationContract) {
     this.#application = application
     this.#config = application.config.get('radonis', {})
