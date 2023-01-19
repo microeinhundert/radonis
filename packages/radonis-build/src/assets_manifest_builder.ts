@@ -89,7 +89,7 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Create a chunk for a specified path from the metafile
+   * Create a chunk for a specific entry from the esbuild generated metafile
    */
   #createChunk(path: string): Asset {
     const output = this.#metafile.outputs[path]
@@ -111,7 +111,7 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Create an entry for a specified path from the metafile
+   * Create an entry for a sspecific entry from the esbuild generated metafile
    */
   #createEntry(path: string, entryPoint: string): Asset {
     const output = this.#metafile.outputs[path]
