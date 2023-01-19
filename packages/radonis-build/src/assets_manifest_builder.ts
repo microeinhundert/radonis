@@ -100,7 +100,7 @@ export class AssetsManifestBuilder {
     }
 
     return {
-      type: 'chunk-script',
+      type: 'radonis-chunk-script',
       path: asset.path,
       name: asset.name,
       islands: [],

@@ -190,7 +190,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require the flash messages, messages and routes used by an asset
    */
   requireAsset(asset: Asset): this {
-    if (asset.type === 'client-script') return this
+    if (asset.type === 'radonis-client-script') return this
 
     for (const identifier of asset.flashMessages) {
       this.requireFlashMessage(identifier)

@@ -85,7 +85,7 @@ export type RouteQueryParams = Record<string, string | number | (string | number
 /**
  * Asset type
  */
-export type AssetType = 'client-script' | 'island-script' | 'chunk-script'
+export type AssetType = 'radonis-client-script' | 'radonis-island-script' | 'radonis-chunk-script'
 
 /**
  * Asset

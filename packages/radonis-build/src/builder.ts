@@ -17,7 +17,7 @@ import { emptyDir, outputFile } from 'fs-extra'
 import { AssetsManifestBuilder } from './assets_manifest_builder'
 import { CannotBuildException } from './exceptions/cannot_build'
 import { loaders } from './loaders'
-import { radonisPlugin } from './plugin'
+import { radonisClientPlugin, radonisIslandsPlugin } from './plugins'
 import type { BuildOptions, BuiltAssets, IslandsByFile } from './types/main'
 
 /**
@@ -69,7 +69,7 @@ export class Builder {
         jsx: 'automatic',
         ...esbuildOptions,
         plugins: [
-          radonisPlugin({
+          radonisIslandsPlugin({
             onIslandFound: (identifier, path) => {
               const islandsInFile = islandsByFile.get(path)
 
@@ -82,6 +82,7 @@ export class Builder {
               }
             },
           }),
+          radonisClientPlugin(),
           ...(esbuildOptions?.plugins ?? []),
         ],
         loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },

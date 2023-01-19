@@ -15,34 +15,21 @@ import { readFile } from 'fs-extra'
 import { ISLAND_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
 
-export interface RadonisPluginOptions {
-  onIslandFound(identifier: string, path: string): void
-}
-
 /**
- * The esbuild plugin responsible for extracting files which should be built for the client
+ * The esbuild plugin responsible for injecting hydration for islands
  * @internal
  */
-export const radonisPlugin = ({ onIslandFound }: RadonisPluginOptions): Plugin => ({
-  name: 'radonis',
+export const radonisIslandsPlugin = ({
+  onIslandFound,
+}: {
+  onIslandFound(identifier: string, path: string): void
+}): Plugin => ({
+  name: 'radonis-islands',
   setup({ onResolve, onLoad }) {
-    onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: 'client-script' }
-    })
-    onLoad({ filter: /.*/, namespace: 'client-script' }, async ({ path }) => {
-      const contents = await readFile(path, 'utf8')
-
-      return {
-        contents,
-        resolveDir: dirname(path),
-        loader: getLoaderForFile(path),
-      }
-    })
-
     onResolve({ filter: /\.island\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: 'island-script' }
+      return { path, namespace: 'radonis-island-script' }
     })
-    onLoad({ filter: /.*/, namespace: 'island-script' }, async ({ path }) => {
+    onLoad({ filter: /.*/, namespace: 'radonis-island-script' }, async ({ path }) => {
       let contents = await readFile(path, 'utf8')
       const matches = contents.matchAll(ISLAND_REGEX)
 
@@ -58,6 +45,27 @@ export const radonisPlugin = ({ onIslandFound }: RadonisPluginOptions): Plugin =
       }
 
       contents = ["import { hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
+
+      return {
+        contents,
+        resolveDir: dirname(path),
+        loader: getLoaderForFile(path),
+      }
+    })
+  },
+})
+
+/**
+ * @internal
+ */
+export const radonisClientPlugin = (): Plugin => ({
+  name: 'radonis-client',
+  setup({ onResolve, onLoad }) {
+    onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
+      return { path, namespace: 'radonis-client-script' }
+    })
+    onLoad({ filter: /.*/, namespace: 'radonis-client-script' }, async ({ path }) => {
+      const contents = await readFile(path, 'utf8')
 
       return {
         contents,

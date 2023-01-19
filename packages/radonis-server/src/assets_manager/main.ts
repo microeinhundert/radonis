@@ -56,7 +56,7 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    */
   get requiredAssets(): AssetsManifest {
     return this.#assetsManifest.reduce<AssetsManifest>((assets, asset) => {
-      if (asset.type === 'client-script') {
+      if (asset.type === 'radonis-client-script') {
         return [...assets, asset]
       }
 
