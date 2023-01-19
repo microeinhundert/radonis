@@ -14,7 +14,7 @@ import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'r
 
 import type {
   Asset,
-  BuildManifest,
+  AssetsManifest,
   ErrorPages,
   FlushCallback,
   Globals,
@@ -57,9 +57,9 @@ export interface ServerContract {
  * AssetsManager contract
  */
 export interface AssetsManagerContract extends Resettable {
-  requiredAssets: BuildManifest
+  requiredAssets: AssetsManifest
   requireIsland(identifier: string): void
-  readBuildManifest(): Promise<void>
+  readAssetsManifest(): Promise<void>
 }
 
 /**

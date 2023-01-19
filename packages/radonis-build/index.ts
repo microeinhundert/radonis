@@ -8,5 +8,5 @@
  */
 
 export { Builder } from './src/builder'
-export { readBuildManifestFromDisk, writeBuildManifestToDisk } from './src/utils'
+export { readAssetsManifestFromDisk, writeAssetsManifestToDisk } from './src/utils'
 export type { BuildOptions } from 'esbuild'

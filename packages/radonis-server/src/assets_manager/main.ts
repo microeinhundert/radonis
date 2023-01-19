@@ -8,8 +8,8 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import { readBuildManifestFromDisk } from '@microeinhundert/radonis-build'
-import type { AssetsManagerContract, BuildManifest, Resettable } from '@microeinhundert/radonis-types'
+import { readAssetsManifestFromDisk } from '@microeinhundert/radonis-build'
+import type { AssetsManagerContract, AssetsManifest, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing assets
@@ -34,9 +34,9 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   #publicPath: string
 
   /**
-   * The build manifest
+   * The assets manifest
    */
-  #buildManifest: BuildManifest
+  #assetsManifest: AssetsManifest
 
   /**
    * The required islands
@@ -46,7 +46,7 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   constructor(application: ApplicationContract) {
     this.#publicPath = application.publicPath('radonis')
 
-    this.#buildManifest = []
+    this.#assetsManifest = []
 
     this.#setDefaults()
   }
@@ -54,8 +54,8 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   /**
    * The required assets
    */
-  get requiredAssets(): BuildManifest {
-    return this.#buildManifest.reduce<BuildManifest>((assets, asset) => {
+  get requiredAssets(): AssetsManifest {
+    return this.#assetsManifest.reduce<AssetsManifest>((assets, asset) => {
       if (asset.type === 'client-script') {
         return [...assets, asset]
       }
@@ -76,14 +76,14 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
   }
 
   /**
-   * Read the build manifest
+   * Read the assets manifest
    */
-  async readBuildManifest(): Promise<void> {
+  async readAssetsManifest(): Promise<void> {
     try {
-      const buildManifest = await readBuildManifestFromDisk(this.#publicPath)
-      if (buildManifest) this.#buildManifest = buildManifest
+      const assetsManifest = await readAssetsManifestFromDisk(this.#publicPath)
+      if (assetsManifest) this.#assetsManifest = assetsManifest
     } catch {
-      this.#buildManifest = []
+      this.#assetsManifest = []
     }
   }
 

@@ -98,9 +98,9 @@ export interface Asset extends HydrationRequirements {
 }
 
 /**
- * Build manifest
+ * Assets manifest
  */
-export type BuildManifest = Asset[]
+export type AssetsManifest = Asset[]
 
 /* ---------------------------------------- */
 

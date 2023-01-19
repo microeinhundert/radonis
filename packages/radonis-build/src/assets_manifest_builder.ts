@@ -7,17 +7,17 @@
  * file that was distributed with this source code.
  */
 
-import type { Asset, AssetType, BuildManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { Asset, AssetsManifest, AssetType, HydrationRequirements } from '@microeinhundert/radonis-types'
 import type { Metafile } from 'esbuild'
 
 import { CannotFindMetafileOutputEntryException } from './exceptions/cannot_find_metafile_output_entry'
-import type { BuiltAsset } from './types/main'
+import type { BuiltAssets, IslandsByFile } from './types/main'
 import { extractFlashMessages, extractMessages, extractRoutes } from './utils'
 
 /**
  * @internal
  */
-export class BuildManifestBuilder {
+export class AssetsManifestBuilder {
   /**
    * The esbuild generated metafile
    */
@@ -26,41 +26,41 @@ export class BuildManifestBuilder {
   /**
    * The built assets
    */
-  #builtAssets: Map<string, BuiltAsset>
+  #builtAssets: BuiltAssets
 
   /**
    * The islands grouped by file
    */
-  #islandsByFile: Map<string, string[]>
+  #islandsByFile: IslandsByFile
 
-  constructor(metafile: Metafile, builtAssets: Map<string, BuiltAsset>, islandsByFile: Map<string, string[]>) {
+  constructor(metafile: Metafile, builtAssets: BuiltAssets, islandsByFile: IslandsByFile) {
     this.#metafile = metafile
     this.#builtAssets = builtAssets
     this.#islandsByFile = islandsByFile
   }
 
   /**
-   * Build the manifest
+   * Build the assets manifest
    */
-  build(): BuildManifest {
+  build(): AssetsManifest {
     const outputs = Object.entries(this.#metafile.outputs)
 
-    return outputs.reduce<BuildManifest>((buildManifest, [path, { entryPoint }]) => {
+    return outputs.reduce<AssetsManifest>((assetsManifest, [path, { entryPoint }]) => {
       if (!entryPoint) {
         /**
          * We only want entry points
          * on the topmost level
          */
-        return buildManifest
+        return assetsManifest
       }
 
       const asset = this.#builtAssets.get(path)
 
       if (!asset) {
-        return buildManifest
+        return assetsManifest
       }
 
-      return [...buildManifest, this.#createEntry(path, entryPoint)]
+      return [...assetsManifest, this.#createEntry(path, entryPoint)]
     }, [])
   }
 

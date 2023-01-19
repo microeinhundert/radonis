@@ -10,23 +10,23 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path/posix'
 
-import type { BuildManifest } from '@microeinhundert/radonis-types'
+import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { outputFile } from 'fs-extra'
 
 import {
-  BUILD_MANIFEST_FILE_NAME,
+  ASSETS_MANIFEST_FILE_NAME,
   FLASH_MESSAGE_IDENTIFIER_REGEX,
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
 } from './constants'
 
 /**
- * Read the build manifest from disk
+ * Read the assets manifest from disk
  * @internal
  */
-export async function readBuildManifestFromDisk(directory: string): Promise<BuildManifest | null> {
+export async function readAssetsManifestFromDisk(directory: string): Promise<AssetsManifest | null> {
   try {
-    const fileContents = await readFile(join(directory, BUILD_MANIFEST_FILE_NAME), 'utf-8')
+    const fileContents = await readFile(join(directory, ASSETS_MANIFEST_FILE_NAME), 'utf-8')
 
     return JSON.parse(fileContents)
   } catch {
@@ -35,11 +35,11 @@ export async function readBuildManifestFromDisk(directory: string): Promise<Buil
 }
 
 /**
- * Write the build manifest to disk
+ * Write the assets manifest to disk
  * @internal
  */
-export async function writeBuildManifestToDisk(buildManifest: BuildManifest, directory: string): Promise<void> {
-  await outputFile(join(directory, BUILD_MANIFEST_FILE_NAME), JSON.stringify(buildManifest, null, 2))
+export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, directory: string): Promise<void> {
+  await outputFile(join(directory, ASSETS_MANIFEST_FILE_NAME), JSON.stringify(assetsManifest, null, 2))
 }
 
 /**

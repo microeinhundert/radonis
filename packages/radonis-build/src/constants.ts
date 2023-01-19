@@ -30,4 +30,4 @@ export const ISLAND_REGEX = new RegExp(/island\((\s+)?["'](?<identifier>\S+)["']
 /**
  * @internal
  */
-export const BUILD_MANIFEST_FILE_NAME = 'build-manifest.json'
+export const ASSETS_MANIFEST_FILE_NAME = 'assets-manifest.json'

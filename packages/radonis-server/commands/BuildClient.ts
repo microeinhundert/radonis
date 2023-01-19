@@ -12,8 +12,8 @@ import { join, relative, resolve } from 'node:path/posix'
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { Builder, writeBuildManifestToDisk } from '@microeinhundert/radonis-build'
-import type { BuildManifest } from '@microeinhundert/radonis-types'
+import { Builder, writeAssetsManifestToDisk } from '@microeinhundert/radonis-build'
+import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { fsReadAll } from '@poppinss/utils/build/helpers'
 import chokidar from 'chokidar'
 
@@ -61,7 +61,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * Build the client
    */
-  async #buildClient(): Promise<BuildManifest> {
+  async #buildClient(): Promise<AssetsManifest> {
     const {
       client: { buildOptions },
     } = this.#config
@@ -77,7 +77,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Execute the build
      */
-    const buildManifest = await builder.build({
+    const assetsManifest = await builder.build({
       entryPoints,
       publicDir,
       outputDir: this.#outputDir,
@@ -87,13 +87,13 @@ export default class BuildClient extends BaseCommand {
     })
 
     /**
-     * Write the build manifest
+     * Write the assets manifest
      */
-    await writeBuildManifestToDisk(buildManifest, this.#outputDir)
+    await writeAssetsManifestToDisk(assetsManifest, this.#outputDir)
 
     this.logger.success('successfully built the client bundle')
 
-    return buildManifest
+    return assetsManifest
   }
 
   /**

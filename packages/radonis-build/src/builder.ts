@@ -10,15 +10,15 @@
 import { basename, join, relative } from 'node:path/posix'
 
 import { RadonisException } from '@microeinhundert/radonis-shared'
-import type { BuildManifest } from '@microeinhundert/radonis-types'
+import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 
-import { BuildManifestBuilder } from './build_manifest_builder'
+import { AssetsManifestBuilder } from './assets_manifest_builder'
 import { CannotBuildException } from './exceptions/cannot_build'
 import { loaders } from './loaders'
 import { radonisPlugin } from './plugin'
-import type { BuildOptions, BuiltAsset } from './types/main'
+import type { BuildOptions, BuiltAssets, IslandsByFile } from './types/main'
 
 /**
  * @internal
@@ -34,7 +34,7 @@ export class Builder {
     outputToDisk,
     outputForProduction,
     esbuildOptions,
-  }: BuildOptions): Promise<BuildManifest> {
+  }: BuildOptions): Promise<AssetsManifest> {
     if (outputToDisk) {
       await emptyDir(outputDir)
     }
@@ -42,12 +42,12 @@ export class Builder {
     /**
      * This Map stores the built assets with metadata
      */
-    const assets = new Map<string, BuiltAsset>()
+    const builtAssets: BuiltAssets = new Map()
 
     /**
      * This Map stores the islands grouped by file
      */
-    const islandsByFile = new Map<string, string[]>()
+    const islandsByFile: IslandsByFile = new Map()
 
     try {
       /**
@@ -99,16 +99,16 @@ export class Builder {
 
         const relativePath = relative(process.cwd(), path)
 
-        assets.set(relativePath, {
+        builtAssets.set(relativePath, {
           name: basename(relativePath),
           path: join('/', relative(publicDir, relativePath)),
           source: text,
         })
       }
 
-      const buildManifestBuilder = new BuildManifestBuilder(buildResult.metafile!, assets, islandsByFile)
+      const assetsManifest = new AssetsManifestBuilder(buildResult.metafile!, builtAssets, islandsByFile)
 
-      return buildManifestBuilder.build()
+      return assetsManifest.build()
     } catch (error) {
       if (error instanceof RadonisException) {
         throw error
