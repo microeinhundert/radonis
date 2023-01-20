@@ -15,8 +15,8 @@ import { islandIdentifierSymbol } from './symbols'
  * Make a component an island
  * @see https://radonis.vercel.app/docs/components#hydrating-components
  */
-export function island<T extends ComponentType<any>>(Component: T): T {
-  Component[islandIdentifierSymbol] = Component.name
+export function island<T extends ComponentType<any>>(islandIdentifier: string, Component: T): T {
+  Component[islandIdentifierSymbol] = islandIdentifier
 
   return Component
 }
