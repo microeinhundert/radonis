@@ -92,3 +92,11 @@ export function extractRoutes(haystack: string): string[] {
 
   return Array.from(identifiers)
 }
+
+/**
+ * Remove duplicates from an array
+ * @internal
+ */
+export function dedupe<T>(array: T[]): T[] {
+  return Array.from(new Set(array))
+}

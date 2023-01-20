@@ -23,7 +23,7 @@ import type { BuildOptions, BuiltAssets, IslandsByFile } from './types/main'
 /**
  * @internal
  */
-export class Builder {
+export class ClientBuilder {
   /**
    * Build the client
    */

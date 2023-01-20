@@ -12,7 +12,7 @@ import type { Metafile } from 'esbuild'
 
 import { CannotFindMetafileOutputEntryException } from './exceptions/cannot_find_metafile_output_entry'
 import type { BuiltAssets, IslandsByFile } from './types/main'
-import { extractFlashMessages, extractMessages, extractRoutes } from './utils'
+import { dedupe, extractFlashMessages, extractMessages, extractRoutes } from './utils'
 
 /**
  * @internal
@@ -67,17 +67,17 @@ export class AssetsManifestBuilder {
   /**
    * Reduce the hydration requirements of multiple entries down to a single entry
    */
-  #reduceHydrationRequirements(entries: Asset[]): HydrationRequirements {
-    return entries.reduce<HydrationRequirements>(
+  #reduceHydrationRequirements(assets: Asset[]): HydrationRequirements {
+    const hydrationRequirements = assets.reduce<HydrationRequirements>(
       (requirements, entry) => {
-        const mergedFlashMessages = new Set([...requirements.flashMessages, ...entry.flashMessages])
-        const mergedMessages = new Set([...requirements.messages, ...entry.messages])
-        const mergedRoutes = new Set([...requirements.routes, ...entry.routes])
+        const flashMessages = [...requirements.flashMessages, ...entry.flashMessages]
+        const messages = [...requirements.messages, ...entry.messages]
+        const routes = [...requirements.routes, ...entry.routes]
 
         return {
-          flashMessages: Array.from(mergedFlashMessages),
-          messages: Array.from(mergedMessages),
-          routes: Array.from(mergedRoutes),
+          flashMessages,
+          messages,
+          routes,
         }
       },
       {
@@ -86,6 +86,12 @@ export class AssetsManifestBuilder {
         routes: [],
       }
     )
+
+    return {
+      flashMessages: dedupe(hydrationRequirements.flashMessages),
+      messages: dedupe(hydrationRequirements.messages),
+      routes: dedupe(hydrationRequirements.routes),
+    }
   }
 
   /**
@@ -111,13 +117,11 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Create an entry for a sspecific entry from the esbuild generated metafile
+   * Create an entry for a specific entry from the esbuild generated metafile
    */
   #createEntry(path: string, entryPoint: string): Asset {
     const output = this.#metafile.outputs[path]
-
     const [type, originalPath] = entryPoint.split(':')
-
     const asset = this.#builtAssets.get(path)
 
     if (!output || !asset) {

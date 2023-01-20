@@ -7,6 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export { Builder } from './src/builder'
+export { ClientBuilder } from './src/client_builder'
 export { readAssetsManifestFromDisk, writeAssetsManifestToDisk } from './src/utils'
 export type { BuildOptions } from 'esbuild'
