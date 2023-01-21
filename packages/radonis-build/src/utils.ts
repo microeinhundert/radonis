@@ -100,3 +100,11 @@ export function extractRoutes(haystack: string): string[] {
 export function dedupe<T>(array: T[]): T[] {
   return Array.from(new Set(array))
 }
+
+/**
+ * Removes nullish entries from an array
+ * @internal
+ */
+export function nonNull<T>(array: (T | null)[]): T[] {
+  return array.filter((entry): entry is T => entry !== null)
+}

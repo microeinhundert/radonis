@@ -66,16 +66,16 @@ export default class BuildClient extends BaseCommand {
       client: { buildOptions },
     } = this.#config
 
-    const client = new ClientBuilder()
-
     const entryPoints = fsReadAll(this.application.resourcesPath(), (filePath) => {
       return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
     }).map((filePath) => join(this.application.resourcesPath(), filePath))
 
     const publicDir = this.application.rcFile.directories.public || 'public'
 
+    const client = new ClientBuilder()
+
     /**
-     * Execute the build
+     * Build the client
      */
     const assetsManifest = await client.build({
       entryPoints,

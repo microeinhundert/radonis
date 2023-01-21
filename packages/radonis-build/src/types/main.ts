@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { BuildOptions as EsbuildOptions } from 'esbuild'
+import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
 
 /**
  * Built asset
@@ -35,3 +35,8 @@ export interface BuildOptions {
   outputForProduction?: boolean
   esbuildOptions?: EsbuildOptions
 }
+
+/**
+ * Metafile output
+ */
+export type MetafileOutput = Metafile['outputs'][0]

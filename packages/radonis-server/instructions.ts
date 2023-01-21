@@ -80,7 +80,7 @@ async function addScripts(sink: typeof sinkStatic, projectRoot: string) {
   const packageJsonFile = new sink.files.PackageJsonFile(projectRoot)
 
   packageJsonFile.setScript('dev', "concurrently 'npm:dev:*'")
-  packageJsonFile.setScript('dev:client', "node ace build:client --watch './resources/!(views)/**/*.ts(x)?'")
+  packageJsonFile.setScript('dev:client', "node ace build:client --watch './resources/**/*.ts(x)?'")
   packageJsonFile.setScript('dev:server', 'node ace serve --watch')
   packageJsonFile.setScript('build', "concurrently 'npm:build:*'")
   packageJsonFile.setScript('build:client', 'node ace build:client --production')

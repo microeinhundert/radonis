@@ -10,9 +10,8 @@
 import type { Asset, AssetsManifest, AssetType, HydrationRequirements } from '@microeinhundert/radonis-types'
 import type { Metafile } from 'esbuild'
 
-import { CannotFindMetafileOutputEntryException } from './exceptions/cannot_find_metafile_output_entry'
-import type { BuiltAssets, IslandsByFile } from './types/main'
-import { dedupe, extractFlashMessages, extractMessages, extractRoutes } from './utils'
+import type { BuiltAsset, BuiltAssets, IslandsByFile, MetafileOutput } from './types/main'
+import { dedupe, extractFlashMessages, extractMessages, extractRoutes, nonNull } from './utils'
 
 /**
  * @internal
@@ -45,41 +44,24 @@ export class AssetsManifestBuilder {
   build(): AssetsManifest {
     const outputs = Object.entries(this.#metafile.outputs)
 
-    return outputs.reduce<AssetsManifest>((assetsManifest, [path, { entryPoint }]) => {
-      if (!entryPoint) {
-        /**
-         * We only want entry points
-         * on the topmost level
-         */
-        return assetsManifest
-      }
-
-      const asset = this.#builtAssets.get(path)
-
-      if (!asset) {
-        return assetsManifest
-      }
-
-      return [...assetsManifest, this.#createEntry(path, entryPoint)]
-    }, [])
+    return nonNull(
+      outputs.flatMap(([path, output]) => {
+        const asset = this.#builtAssets.get(path)
+        return asset ? this.#createEntry(asset, output) : null
+      })
+    )
   }
 
   /**
    * Reduce the hydration requirements of multiple entries down to a single entry
    */
   #reduceHydrationRequirements(assets: Asset[]): HydrationRequirements {
-    const hydrationRequirements = assets.reduce<HydrationRequirements>(
-      (requirements, entry) => {
-        const flashMessages = [...requirements.flashMessages, ...entry.flashMessages]
-        const messages = [...requirements.messages, ...entry.messages]
-        const routes = [...requirements.routes, ...entry.routes]
-
-        return {
-          flashMessages,
-          messages,
-          routes,
-        }
-      },
+    const { flashMessages, messages, routes } = assets.reduce<HydrationRequirements>(
+      (requirements, entry) => ({
+        flashMessages: [...requirements.flashMessages, ...entry.flashMessages],
+        messages: [...requirements.messages, ...entry.messages],
+        routes: [...requirements.routes, ...entry.routes],
+      }),
       {
         flashMessages: [],
         messages: [],
@@ -88,23 +70,16 @@ export class AssetsManifestBuilder {
     )
 
     return {
-      flashMessages: dedupe(hydrationRequirements.flashMessages),
-      messages: dedupe(hydrationRequirements.messages),
-      routes: dedupe(hydrationRequirements.routes),
+      flashMessages: dedupe(flashMessages),
+      messages: dedupe(messages),
+      routes: dedupe(routes),
     }
   }
 
   /**
-   * Create a chunk for a specific entry from the esbuild generated metafile
+   * Create the chunk for an asset
    */
-  #createChunk(path: string): Asset {
-    const output = this.#metafile.outputs[path]
-    const asset = this.#builtAssets.get(path)
-
-    if (!output || !asset) {
-      throw new CannotFindMetafileOutputEntryException(path)
-    }
-
+  #createChunk(asset: BuiltAsset): Asset {
     return {
       type: 'radonis-chunk-script',
       path: asset.path,
@@ -117,19 +92,22 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Create an entry for a specific entry from the esbuild generated metafile
+   * Create the entry for an asset
    */
-  #createEntry(path: string, entryPoint: string): Asset {
-    const output = this.#metafile.outputs[path]
-    const [type, originalPath] = entryPoint.split(':')
-    const asset = this.#builtAssets.get(path)
-
-    if (!output || !asset) {
-      throw new CannotFindMetafileOutputEntryException(path)
+  #createEntry(asset: BuiltAsset, output: MetafileOutput): Asset | null {
+    if (!output.entryPoint) {
+      /**
+       * We only want entry points
+       */
+      return null
     }
 
-    const imports = output.imports.map(({ path: chunkPath }) => this.#createChunk(chunkPath))
+    const [type, originalPath] = output.entryPoint.split(':')
     const islands = this.#islandsByFile.get(originalPath) ?? []
+
+    if (!type || !originalPath) {
+      return null
+    }
 
     const entry = {
       type: type as AssetType,
@@ -141,9 +119,16 @@ export class AssetsManifestBuilder {
       routes: extractRoutes(asset.source),
     } as Asset
 
+    const chunks = nonNull(
+      output.imports.map(({ path: chunkPath }) => {
+        const chunkAsset = this.#builtAssets.get(chunkPath)
+        return chunkAsset ? this.#createChunk(chunkAsset) : null
+      })
+    )
+
     return {
       ...entry,
-      ...this.#reduceHydrationRequirements([entry, ...imports]),
+      ...this.#reduceHydrationRequirements([entry, ...chunks]),
     }
   }
 }
