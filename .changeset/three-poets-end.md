@@ -1,14 +1,5 @@
 ---
-'@microeinhundert/radonis-hydrate': minor
-'@microeinhundert/radonis-server': minor
-'@microeinhundert/radonis-shared': minor
-'@microeinhundert/radonis-unocss': minor
-'@microeinhundert/radonis-build': minor
-'@microeinhundert/radonis-hooks': minor
-'@microeinhundert/radonis-query': minor
-'@microeinhundert/radonis-types': minor
-'@microeinhundert/radonis-form': minor
-'@microeinhundert/radonis': minor
+'@microeinhundert/radonis': major
 ---
 
 The way hydration works has been reworked. Defining islands (hydratable components) and client entry files is now done by convention rather than configuration.
