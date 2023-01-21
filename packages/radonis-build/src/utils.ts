@@ -8,7 +8,7 @@
  */
 
 import { readFile } from 'node:fs/promises'
-import { join } from 'node:path/posix'
+import { join } from 'node:path'
 
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { outputFile } from 'fs-extra'

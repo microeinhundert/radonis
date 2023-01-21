@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { join, relative, resolve } from 'node:path/posix'
+import { join, relative, resolve } from 'node:path'
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'

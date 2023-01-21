@@ -8,7 +8,7 @@
  */
 
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path/posix'
+import { join } from 'node:path'
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'

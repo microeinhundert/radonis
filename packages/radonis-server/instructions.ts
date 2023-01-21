@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { join } from 'node:path/posix'
+import { join } from 'node:path'
 
 import type * as sinkStatic from '@adonisjs/sink'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
