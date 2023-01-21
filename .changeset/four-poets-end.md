@@ -10,4 +10,4 @@
 '@microeinhundert/radonis-form': major
 ---
 
-Reworked hydration
+New major
