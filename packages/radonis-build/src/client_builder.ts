@@ -11,6 +11,7 @@ import { basename, join, relative } from 'node:path/posix'
 
 import { RadonisException } from '@microeinhundert/radonis-shared'
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
+import type { BuildOptions as EsbuildOptions } from 'esbuild'
 import { build } from 'esbuild'
 import { emptyDir, outputFile } from 'fs-extra'
 
@@ -24,6 +25,22 @@ import type { BuildOptions, BuiltAssets, IslandsByFile } from './types/main'
  * @internal
  */
 export class ClientBuilder {
+  /**
+   * Options passed to esbuild
+   */
+  #baseOptions: EsbuildOptions = {
+    outbase: process.cwd(),
+    platform: 'browser',
+    metafile: true,
+    bundle: true,
+    splitting: true,
+    treeShaking: true,
+    format: 'esm',
+    logLevel: 'silent',
+    write: false,
+    jsx: 'automatic',
+  }
+
   /**
    * Build the client
    */
@@ -54,28 +71,19 @@ export class ClientBuilder {
        * Run the build
        */
       const buildResult = await build({
+        ...this.#baseOptions,
         entryPoints,
         outdir: outputDir,
-        outbase: process.cwd(),
-        platform: 'browser',
-        metafile: true,
-        bundle: true,
-        splitting: true,
-        treeShaking: true,
-        format: 'esm',
-        logLevel: 'silent',
         minify: outputForProduction,
-        write: false,
-        jsx: 'automatic',
         ...esbuildOptions,
         plugins: [
           radonisIslandsPlugin({
             onIslandFound: (identifier, path) => {
-              const islandsInFile = islandsByFile.get(path)
-
-              if (!islandsInFile) {
+              if (!islandsByFile.has(path)) {
                 islandsByFile.set(path, [])
               }
+
+              const islandsInFile = islandsByFile.get(path)
 
               if (islandsInFile && !islandsInFile.includes(identifier)) {
                 islandsByFile.set(path, [...islandsInFile, identifier])

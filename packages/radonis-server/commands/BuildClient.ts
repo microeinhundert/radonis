@@ -87,7 +87,7 @@ export default class BuildClient extends BaseCommand {
     })
 
     /**
-     * Write the assets manifest
+     * Write the assets manifest to disk
      */
     await writeAssetsManifestToDisk(assetsManifest, this.#outputDir)
 
