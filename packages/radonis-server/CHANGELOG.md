@@ -1,5 +1,18 @@
 # @microeinhundert/radonis-server
 
+## 3.0.0
+
+### Major Changes
+
+- [#30](https://github.com/microeinhundert/radonis/pull/30) [`e91d059`](https://github.com/microeinhundert/radonis/commit/e91d0591cd621a976e569392082fc313c04dae5e) Thanks [@github-actions](https://github.com/apps/github-actions)! - New major
+
+### Patch Changes
+
+- Updated dependencies [[`e91d059`](https://github.com/microeinhundert/radonis/commit/e91d0591cd621a976e569392082fc313c04dae5e)]:
+  - @microeinhundert/radonis-shared@3.0.0
+  - @microeinhundert/radonis-build@3.0.0
+  - @microeinhundert/radonis-types@3.0.0
+
 ## 2.1.14
 
 ### Patch Changes

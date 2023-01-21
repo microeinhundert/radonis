@@ -1,5 +1,17 @@
 # @microeinhundert/radonis-query
 
+## 3.0.0
+
+### Major Changes
+
+- [#30](https://github.com/microeinhundert/radonis/pull/30) [`e91d059`](https://github.com/microeinhundert/radonis/commit/e91d0591cd621a976e569392082fc313c04dae5e) Thanks [@github-actions](https://github.com/apps/github-actions)! - New major
+
+### Patch Changes
+
+- Updated dependencies [[`e91d059`](https://github.com/microeinhundert/radonis/commit/e91d0591cd621a976e569392082fc313c04dae5e), [`b4b756d`](https://github.com/microeinhundert/radonis/commit/b4b756df77ed54b6c4611ff038ad7b4e0a67e9f8), [`1513f21`](https://github.com/microeinhundert/radonis/commit/1513f213f5b20001b649ec60ecd247e7f888508f)]:
+  - @microeinhundert/radonis-shared@3.0.0
+  - @microeinhundert/radonis@3.0.0
+
 ## 2.1.14
 
 ### Patch Changes
