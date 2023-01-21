@@ -1,5 +1,42 @@
 # @microeinhundert/radonis
 
+## 3.0.0
+
+### Major Changes
+
+- [#29](https://github.com/microeinhundert/radonis/pull/29) [`b4b756d`](https://github.com/microeinhundert/radonis/commit/b4b756df77ed54b6c4611ff038ad7b4e0a67e9f8) Thanks [@microeinhundert](https://github.com/microeinhundert)! - The way hydration works has been reworked. Defining islands (hydratable components) and client entry files is now done by convention rather than configuration.
+  This change comes with a few small migration steps, outlined below.
+
+  **In short:**
+
+  - Rename `hydratable` to `island`
+  - Suffix files containing islands with `.island.<ext>`
+  - Remove `entryFile`, `alwaysIncludeEntryFile` and `componentsDir` from `config/radonis.ts`.
+
+  **More in depth:**
+
+  - The `hydratable` function, which wraps all your hydratable components, has been renamed to `island`. Also, all files containing islands must now end with `.island.<ext>`, which means that a file currently named `Button.tsx` must now be named `Button.island.tsx` for the compiler to pick up islands defined in those files. These changes also fix some edge cases that were present in previous versions of Radonis: A single file can now contain multiple islands. The only requirements are that islands must be contained within `.islands.<ext>` files, be wrapped with `island` and have a unique identifier passed as the first argument to the `island` call.
+  - All files ending in `.client.<ext>` are now considered to be entry files for the client bundle. This means that the client entry file (by default `entry.client.ts`) can be located anywhere and named anything you like, as long as it's in the `resources` directory. This also means that you can have multiple client entry files.
+
+  Because of these changes, `entryFile`, `alwaysIncludeEntryFile` and `componentsDir` can be removed from `config/radonis.ts`.
+
+- [`1513f21`](https://github.com/microeinhundert/radonis/commit/1513f213f5b20001b649ec60ecd247e7f888508f) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Aligned route resolution to match the behavior of the AdonisJS core.
+
+  **Migration:**
+  If routes have a name set via `.as()` or are part of a resource, make sure that this name is used to reference that route within Radonis.
+  Run `node ace list:routes` to get a list of all your routes and their names. The name is the first value on the right, before the `›` symbol.
+  If routes have no name, use the handler instead which typically looks something like `YourController.yourAction`.
+
+### Patch Changes
+
+- Updated dependencies [[`e91d059`](https://github.com/microeinhundert/radonis/commit/e91d0591cd621a976e569392082fc313c04dae5e)]:
+  - @microeinhundert/radonis-hydrate@3.0.0
+  - @microeinhundert/radonis-server@3.0.0
+  - @microeinhundert/radonis-shared@3.0.0
+  - @microeinhundert/radonis-hooks@3.0.0
+  - @microeinhundert/radonis-types@3.0.0
+  - @microeinhundert/radonis-form@3.0.0
+
 ## 2.1.14
 
 ### Patch Changes
