@@ -29,7 +29,6 @@ export class ClientBuilder {
    * Options passed to esbuild
    */
   #baseOptions: EsbuildOptions = {
-    outbase: process.cwd(),
     platform: 'browser',
     metafile: true,
     bundle: true,
@@ -46,25 +45,31 @@ export class ClientBuilder {
    */
   async build({
     entryPoints,
-    publicDir,
-    outputDir,
+    appRootPath,
+    publicPath,
+    outputPath,
     outputToDisk,
     outputForProduction,
     esbuildOptions,
   }: BuildOptions): Promise<AssetsManifest> {
     if (outputToDisk) {
-      await emptyDir(outputDir)
+      await emptyDir(outputPath)
     }
 
     /**
-     * This Map stores the built assets with metadata
+     * The built assets
      */
     const builtAssets: BuiltAssets = new Map()
 
     /**
-     * This Map stores the islands grouped by file
+     * The islands grouped by file
      */
     const islandsByFile: IslandsByFile = new Map()
+
+    /**
+     * The output base
+     */
+    const outbase = appRootPath
 
     try {
       /**
@@ -73,7 +78,8 @@ export class ClientBuilder {
       const buildResult = await build({
         ...this.#baseOptions,
         entryPoints,
-        outdir: outputDir,
+        outbase,
+        outdir: outputPath,
         minify: outputForProduction,
         ...esbuildOptions,
         plugins: [
@@ -106,18 +112,47 @@ export class ClientBuilder {
           outputFile(path, contents)
         }
 
-        const relativePath = relative(process.cwd(), path)
+        const pathRelativeToOutbase = relative(outbase, path)
+        const pathRelativeToPublic = relative(publicPath, path)
 
-        builtAssets.set(relativePath, {
-          name: basename(relativePath),
-          path: join('/', relative(publicDir, relativePath)),
-          source: text,
-        })
+        const output = buildResult.metafile?.outputs[pathRelativeToOutbase]
+        if (!output) {
+          continue
+        }
+
+        /**
+         * TODO: Evaluate whether these checks
+         * conflict with third-party esbuild plugins
+         */
+        if (output.entryPoint?.includes(':')) {
+          const [type, originalPath] = output.entryPoint.split(':')
+          const islands = islandsByFile.get(originalPath) ?? []
+
+          if (!(type === 'radonis-client-script' || type === 'radonis-island-script')) {
+            continue
+          }
+
+          builtAssets.set(pathRelativeToOutbase, {
+            type,
+            name: basename(pathRelativeToOutbase),
+            path: join('/', pathRelativeToPublic),
+            source: text,
+            islands,
+            imports: output.imports,
+          })
+        } else {
+          builtAssets.set(pathRelativeToOutbase, {
+            type: 'radonis-chunk-script',
+            name: basename(pathRelativeToOutbase),
+            path: join('/', pathRelativeToPublic),
+            source: text,
+            islands: [],
+            imports: [],
+          })
+        }
       }
 
-      const assetsManifest = new AssetsManifestBuilder(buildResult.metafile!, builtAssets, islandsByFile)
-
-      return assetsManifest.build()
+      return new AssetsManifestBuilder(builtAssets).build()
     } catch (error) {
       if (error instanceof RadonisException) {
         throw error

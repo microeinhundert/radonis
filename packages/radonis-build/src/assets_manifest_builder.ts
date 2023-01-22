@@ -7,10 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import type { Asset, AssetsManifest, AssetType, HydrationRequirements } from '@microeinhundert/radonis-types'
-import type { Metafile } from 'esbuild'
+import type { Asset, AssetsManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
 
-import type { BuiltAsset, BuiltAssets, IslandsByFile, MetafileOutput } from './types/main'
+import type { BuiltAsset, BuiltAssets } from './types/main'
 import { dedupe, extractFlashMessages, extractMessages, extractRoutes, nonNull } from './utils'
 
 /**
@@ -18,38 +17,19 @@ import { dedupe, extractFlashMessages, extractMessages, extractRoutes, nonNull }
  */
 export class AssetsManifestBuilder {
   /**
-   * The esbuild generated metafile
-   */
-  #metafile: Metafile
-
-  /**
    * The built assets
    */
   #builtAssets: BuiltAssets
 
-  /**
-   * The islands grouped by file
-   */
-  #islandsByFile: IslandsByFile
-
-  constructor(metafile: Metafile, builtAssets: BuiltAssets, islandsByFile: IslandsByFile) {
-    this.#metafile = metafile
+  constructor(builtAssets: BuiltAssets) {
     this.#builtAssets = builtAssets
-    this.#islandsByFile = islandsByFile
   }
 
   /**
    * Build the assets manifest
    */
   build(): AssetsManifest {
-    const outputs = Object.entries(this.#metafile.outputs)
-
-    return nonNull(
-      outputs.flatMap(([path, output]) => {
-        const asset = this.#builtAssets.get(path)
-        return asset ? this.#createEntry(asset, output) : null
-      })
-    )
+    return nonNull(Array.from(this.#builtAssets).flatMap(([_, asset]) => this.#createEntry(asset)))
   }
 
   /**
@@ -77,58 +57,41 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Create the chunk for an asset
-   */
-  #createChunk(asset: BuiltAsset): Asset {
-    return {
-      type: 'radonis-chunk-script',
-      path: asset.path,
-      name: asset.name,
-      islands: [],
-      flashMessages: extractFlashMessages(asset.source),
-      messages: extractMessages(asset.source),
-      routes: extractRoutes(asset.source),
-    }
-  }
-
-  /**
    * Create the entry for an asset
    */
-  #createEntry(asset: BuiltAsset, output: MetafileOutput): Asset | null {
-    if (!output.entryPoint) {
-      /**
-       * We only want entry points
-       */
-      return null
-    }
-
-    const [type, originalPath] = output.entryPoint.split(':')
-    const islands = this.#islandsByFile.get(originalPath) ?? []
-
-    if (!type || !originalPath) {
-      return null
-    }
-
+  #createEntry({ type, name, path, source, islands, imports }: BuiltAsset): Asset | null {
     const entry = {
-      type: type as AssetType,
-      path: asset.path,
-      name: asset.name,
+      type,
+      name,
+      path,
       islands,
-      flashMessages: extractFlashMessages(asset.source),
-      messages: extractMessages(asset.source),
-      routes: extractRoutes(asset.source),
+      flashMessages: extractFlashMessages(source),
+      messages: extractMessages(source),
+      routes: extractRoutes(source),
     } as Asset
 
     const chunks = nonNull(
-      output.imports.map(({ path: chunkPath }) => {
-        const chunkAsset = this.#builtAssets.get(chunkPath)
-        return chunkAsset ? this.#createChunk(chunkAsset) : null
+      imports.map(({ path: importPath, external }) => {
+        if (external) {
+          return null
+        }
+
+        const chunksAsset = this.#builtAssets.get(importPath)
+        if (!chunksAsset || chunksAsset.type !== 'radonis-chunk-script') {
+          return null
+        }
+
+        return this.#createEntry(chunksAsset)
       })
     )
 
-    return {
-      ...entry,
-      ...this.#reduceHydrationRequirements([entry, ...chunks]),
+    if (chunks.length) {
+      return {
+        ...entry,
+        ...this.#reduceHydrationRequirements([entry, ...chunks]),
+      }
     }
+
+    return entry
   }
 }

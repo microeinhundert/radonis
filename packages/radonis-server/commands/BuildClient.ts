@@ -70,8 +70,6 @@ export default class BuildClient extends BaseCommand {
       return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
     }).map((filePath) => join(this.application.resourcesPath(), filePath))
 
-    const publicDir = this.application.rcFile.directories.public || 'public'
-
     const client = new ClientBuilder()
 
     /**
@@ -79,8 +77,9 @@ export default class BuildClient extends BaseCommand {
      */
     const assetsManifest = await client.build({
       entryPoints,
-      publicDir,
-      outputDir: this.#outputDir,
+      appRootPath: this.application.appRoot,
+      publicPath: this.application.publicPath(),
+      outputPath: this.#outputDir,
       outputToDisk: true,
       outputForProduction: this.production,
       esbuildOptions: buildOptions,
