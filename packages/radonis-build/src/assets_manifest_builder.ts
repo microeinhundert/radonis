@@ -76,12 +76,12 @@ export class AssetsManifestBuilder {
           return null
         }
 
-        const chunksAsset = this.#builtAssets.get(importPath)
-        if (!chunksAsset || chunksAsset.type !== 'radonis-chunk-script') {
+        const chunkAsset = this.#builtAssets.get(importPath)
+        if (!chunkAsset || chunkAsset.type !== 'radonis-chunk-script') {
           return null
         }
 
-        return this.#createEntry(chunksAsset)
+        return this.#createEntry(chunkAsset)
       })
     )
 

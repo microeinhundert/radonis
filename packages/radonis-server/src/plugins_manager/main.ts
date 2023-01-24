@@ -42,10 +42,14 @@ export class PluginsManager implements PluginsManagerContract {
   #installedPlugins: Map<string, { environments?: PluginEnvironment[]; conflictsWith?: string[] }>
 
   /**
-   * The registered hooks
+   * The registered client hooks
    */
   onInitClientHooks: PluginHook<'onInitClient'>[]
   beforeHydrateHooks: PluginHook<'beforeHydrate'>[]
+
+  /**
+   * The registered server hooks
+   */
   onBootServerHooks: PluginHook<'onBootServer'>[]
   beforeRequestHooks: PluginHook<'beforeRequest'>[]
   afterRequestHooks: PluginHook<'afterRequest'>[]

@@ -12,7 +12,7 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 /**
  * @internal
  */
-export class CannotBuildException extends RadonisException {
+export class CannotBuildClientException extends RadonisException {
   constructor(message: string) {
     super(`Cannot build the Radonis client bundle: ${message}`, {
       status: 500,

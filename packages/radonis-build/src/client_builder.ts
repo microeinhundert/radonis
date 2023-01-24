@@ -7,37 +7,29 @@
  * file that was distributed with this source code.
  */
 
-import { basename, join, relative } from 'node:path/posix'
-
 import { RadonisException } from '@microeinhundert/radonis-shared'
-import type { AssetsManifest } from '@microeinhundert/radonis-types'
-import type { BuildOptions as EsbuildOptions } from 'esbuild'
-import { build } from 'esbuild'
-import { emptyDir, outputFile } from 'fs-extra'
+import { context } from 'esbuild'
+import { emptyDir } from 'fs-extra'
 
-import { AssetsManifestBuilder } from './assets_manifest_builder'
-import { CannotBuildException } from './exceptions/cannot_build'
+import { CannotBuildClientException } from './exceptions/cannot_build_client'
 import { loaders } from './loaders'
-import { radonisClientPlugin, radonisIslandsPlugin } from './plugins'
-import type { BuildOptions, BuiltAssets, IslandsByFile } from './types/main'
+import { radonisAssetsPlugin, radonisClientPlugin, radonisIslandsPlugin } from './plugins'
+import type { BuildOptions, OnBuildEndCallback } from './types/main'
 
 /**
  * @internal
  */
 export class ClientBuilder {
   /**
-   * Options passed to esbuild
+   * The registered `onBuildEnd` callbacks
    */
-  #baseOptions: EsbuildOptions = {
-    platform: 'browser',
-    metafile: true,
-    bundle: true,
-    splitting: true,
-    treeShaking: true,
-    format: 'esm',
-    logLevel: 'silent',
-    write: false,
-    jsx: 'automatic',
+  #onBuildEndCallbacks: OnBuildEndCallback[]
+
+  /**
+   * Register a callback to be called when a build has ended
+   */
+  onBuildEnd(callback: OnBuildEndCallback): void {
+    this.#onBuildEndCallbacks.push(callback)
   }
 
   /**
@@ -50,115 +42,65 @@ export class ClientBuilder {
     outputPath,
     outputToDisk,
     outputForProduction,
+    watch,
     esbuildOptions,
-  }: BuildOptions): Promise<AssetsManifest> {
+  }: BuildOptions): Promise<void> {
     if (outputToDisk) {
       await emptyDir(outputPath)
     }
 
     /**
-     * The built assets
+     * Initialize the build context
      */
-    const builtAssets: BuiltAssets = new Map()
-
-    /**
-     * The islands grouped by file
-     */
-    const islandsByFile: IslandsByFile = new Map()
-
-    /**
-     * The output base
-     */
-    const outbase = appRootPath
+    const buildContext = await context({
+      platform: 'browser',
+      metafile: true,
+      bundle: true,
+      splitting: true,
+      treeShaking: true,
+      format: 'esm',
+      logLevel: 'silent',
+      write: false,
+      jsx: 'automatic',
+      entryPoints,
+      outbase: appRootPath,
+      outdir: outputPath,
+      minify: outputForProduction,
+      ...esbuildOptions,
+      plugins: [
+        radonisIslandsPlugin(),
+        radonisClientPlugin(),
+        radonisAssetsPlugin({
+          publicPath,
+          outputToDisk,
+          onEnd: (builtAssets) => {
+            this.#onBuildEndCallbacks.forEach((callback) => callback.apply(null, builtAssets))
+          },
+        }),
+        ...(esbuildOptions?.plugins ?? []),
+      ],
+      loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
+      define: {
+        ...this.#getEnvironment(),
+        'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
+        ...(esbuildOptions?.define ?? {}),
+      },
+    })
 
     try {
-      /**
-       * Run the build
-       */
-      const buildResult = await build({
-        ...this.#baseOptions,
-        entryPoints,
-        outbase,
-        outdir: outputPath,
-        minify: outputForProduction,
-        ...esbuildOptions,
-        plugins: [
-          radonisIslandsPlugin({
-            onIslandFound: (identifier, path) => {
-              if (!islandsByFile.has(path)) {
-                islandsByFile.set(path, [])
-              }
-
-              const islandsInFile = islandsByFile.get(path)
-
-              if (islandsInFile && !islandsInFile.includes(identifier)) {
-                islandsByFile.set(path, [...islandsInFile, identifier])
-              }
-            },
-          }),
-          radonisClientPlugin(),
-          ...(esbuildOptions?.plugins ?? []),
-        ],
-        loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
-        define: {
-          ...this.#getEnvironment(),
-          'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
-          ...(esbuildOptions?.define ?? {}),
-        },
-      })
-
-      for (const { path, text, contents } of buildResult.outputFiles ?? []) {
-        if (outputToDisk) {
-          outputFile(path, contents)
-        }
-
-        const pathRelativeToOutbase = relative(outbase, path)
-        const pathRelativeToPublic = relative(publicPath, path)
-
-        const output = buildResult.metafile?.outputs[pathRelativeToOutbase]
-        if (!output) {
-          continue
-        }
-
-        /**
-         * TODO: Evaluate whether these checks
-         * conflict with third-party esbuild plugins
-         */
-        if (output.entryPoint?.includes(':')) {
-          const [type, originalPath] = output.entryPoint.split(':')
-          const islands = islandsByFile.get(originalPath) ?? []
-
-          if (!(type === 'radonis-client-script' || type === 'radonis-island-script')) {
-            continue
-          }
-
-          builtAssets.set(pathRelativeToOutbase, {
-            type,
-            name: basename(pathRelativeToOutbase),
-            path: join('/', pathRelativeToPublic),
-            source: text,
-            islands,
-            imports: output.imports,
-          })
-        } else {
-          builtAssets.set(pathRelativeToOutbase, {
-            type: 'radonis-chunk-script',
-            name: basename(pathRelativeToOutbase),
-            path: join('/', pathRelativeToPublic),
-            source: text,
-            islands: [],
-            imports: [],
-          })
-        }
+      if (watch) {
+        await buildContext.watch()
+      } else {
+        await buildContext.rebuild()
       }
-
-      return new AssetsManifestBuilder(builtAssets).build()
     } catch (error) {
+      buildContext.dispose()
+
       if (error instanceof RadonisException) {
         throw error
       }
 
-      throw new CannotBuildException(error instanceof Error ? error.message : 'Unknown error')
+      throw new CannotBuildClientException(error instanceof Error ? error.message : 'Unknown error')
     }
   }
 

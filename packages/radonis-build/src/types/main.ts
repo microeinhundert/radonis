@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetType } from '@microeinhundert/radonis-types'
+import type { AssetType, MaybePromise } from '@microeinhundert/radonis-types'
 import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
 
 /**
@@ -47,5 +47,20 @@ export interface BuildOptions {
   outputPath: string
   outputToDisk?: boolean
   outputForProduction?: boolean
+  watch?: boolean
   esbuildOptions?: EsbuildOptions
+}
+
+/**
+ * `onBuildEnd` callback
+ */
+export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void>
+
+/**
+ * Options for the assets plugin
+ */
+export type AssetsPluginOptions = {
+  publicPath: string
+  outputToDisk?: boolean
+  onEnd?: (builtAssets: BuiltAssets) => void
 }

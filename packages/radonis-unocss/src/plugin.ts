@@ -8,11 +8,10 @@
  */
 
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
+import { fsReadAll } from '@microeinhundert/radonis-shared/node'
 import type { UserConfig } from '@unocss/core'
 import { createGenerator } from '@unocss/core'
 
@@ -34,15 +33,15 @@ export function unocssPlugin(config?: UserConfig) {
     async onBootServer({ resourcesPath }) {
       const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.mdx']
       const generator = createGenerator(config ?? defaultConfig)
-      const filePaths = fsReadAll(resourcesPath, (filePath) =>
-        extensions.some((extension) => filePath.endsWith(extension))
-      )
+      const filePaths = await fsReadAll(resourcesPath, {
+        filter: (filePath) => extensions.some((extension) => filePath.endsWith(extension)),
+      })
 
       /**
        * Look for classes in files
        */
       for (const filePath of filePaths) {
-        const fileContents = readFileSync(join(resourcesPath, filePath), 'utf8')
+        const fileContents = readFileSync(filePath, 'utf8')
         await generator.applyExtractors(fileContents, filePath, tokens)
       }
 

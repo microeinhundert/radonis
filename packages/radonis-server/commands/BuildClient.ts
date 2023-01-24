@@ -7,15 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { join, relative, resolve } from 'node:path'
+import { relative, resolve } from 'node:path'
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { ClientBuilder, writeAssetsManifestToDisk } from '@microeinhundert/radonis-build'
-import type { AssetsManifest } from '@microeinhundert/radonis-types'
-import { fsReadAll } from '@poppinss/utils/build/helpers'
-import chokidar from 'chokidar'
+import { AssetsManifestBuilder, ClientBuilder, writeAssetsManifestToDisk } from '@microeinhundert/radonis-build'
+import { getEntryPoints } from '@microeinhundert/radonis-build'
 
 /**
  * A command to build the Radonis client
@@ -31,8 +29,8 @@ export default class BuildClient extends BaseCommand {
   @flags.boolean({ description: 'Whether to build for production' })
   production: boolean | undefined
 
-  @flags.string({ description: 'Glob pattern of files that should automatically trigger a rebuild' })
-  watch: string | undefined
+  @flags.string({ description: 'Whether to automatically build on file changes' })
+  watch: boolean | undefined
 
   /**
    * The Radonis config
@@ -40,9 +38,9 @@ export default class BuildClient extends BaseCommand {
   #config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
-   * The output directory
+   * The output path
    */
-  get #outputDir(): string {
+  get #outputPath(): string {
     const publicPath = this.application.publicPath('radonis')
 
     /**
@@ -59,71 +57,39 @@ export default class BuildClient extends BaseCommand {
   }
 
   /**
-   * Build the client
+   * Run the command
    */
-  async #buildClient(): Promise<AssetsManifest> {
+  async run(): Promise<void> {
     const {
       client: { buildOptions },
     } = this.#config
 
-    const entryPoints = fsReadAll(this.application.resourcesPath(), (filePath) => {
-      return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
-    }).map((filePath) => join(this.application.resourcesPath(), filePath))
-
+    const entryPoints = await getEntryPoints(this.application.resourcesPath())
     const client = new ClientBuilder()
+
+    client.onBuildEnd(async (builtAssets) => {
+      const assetsManifest = new AssetsManifestBuilder(builtAssets).build()
+      await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)
+      this.logger.success('successfully built the client bundle')
+    })
+
+    const watch = !!(this.watch && !this.production)
 
     /**
      * Build the client
      */
-    const assetsManifest = await client.build({
+    await client.build({
       entryPoints,
       appRootPath: this.application.appRoot,
       publicPath: this.application.publicPath(),
-      outputPath: this.#outputDir,
+      outputPath: this.#outputPath,
       outputToDisk: true,
       outputForProduction: this.production,
+      watch,
       esbuildOptions: buildOptions,
     })
 
-    /**
-     * Write the assets manifest to disk
-     */
-    await writeAssetsManifestToDisk(assetsManifest, this.#outputDir)
-
-    this.logger.success('successfully built the client bundle')
-
-    return assetsManifest
-  }
-
-  /**
-   * Run the command
-   */
-  async run(): Promise<void> {
-    await this.#buildClient()
-
-    if (this.watch && !this.production) {
-      /**
-       * Initialize the file watcher
-       */
-      const watcher = chokidar.watch(resolve(this.application.appRoot, this.watch), {
-        cwd: process.cwd(),
-        ignoreInitial: true,
-      })
-
-      /**
-       * Rebuild on file changes
-       */
-      watcher
-        .on('ready', () => {
-          this.logger.info('watching for file changes...')
-        })
-        .on('error', () => {
-          this.logger.error('rebuilding the client failed')
-        })
-        .on('all', async () => {
-          await this.#buildClient()
-        })
-    } else {
+    if (!watch) {
       this.exit()
     }
   }

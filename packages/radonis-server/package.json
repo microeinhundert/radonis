@@ -108,8 +108,6 @@
     "@microeinhundert/radonis-build": "workspace:3.0.0",
     "@microeinhundert/radonis-shared": "workspace:3.0.0",
     "@microeinhundert/radonis-types": "workspace:3.0.0",
-    "@poppinss/utils": "^5.0.0",
-    "chokidar": "^3.5.3",
     "flattie": "^1.1.0",
     "isbot": "^3.6.5",
     "minipass": "^4.0.0",

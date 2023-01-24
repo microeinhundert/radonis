@@ -10,6 +10,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import { fsReadAll } from '@microeinhundert/radonis-shared/node'
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { outputFile } from 'fs-extra'
 
@@ -19,6 +20,18 @@ import {
   MESSAGE_IDENTIFIER_REGEX,
   ROUTE_IDENTIFIER_REGEX,
 } from './constants'
+
+/**
+ * Get the entry points for the given path
+ * @internal
+ */
+export async function getEntryPoints(path: string) {
+  return fsReadAll(path, {
+    filter: (filePath) => {
+      return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
+    },
+  })
+}
 
 /**
  * Read the assets manifest from disk
