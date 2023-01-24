@@ -10,7 +10,7 @@
 import type { Asset, AssetsManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
-import { dedupe, extractFlashMessages, extractMessages, extractRoutes, nonNull } from './utils'
+import { dedupe, nonNull } from './utils'
 
 /**
  * @internal
@@ -59,17 +59,7 @@ export class AssetsManifestBuilder {
   /**
    * Create the entry for an asset
    */
-  #createEntry({ type, name, path, source, islands, imports }: BuiltAsset): Asset | null {
-    const entry = {
-      type,
-      name,
-      path,
-      islands,
-      flashMessages: extractFlashMessages(source),
-      messages: extractMessages(source),
-      routes: extractRoutes(source),
-    } as Asset
-
+  #createEntry({ imports, ...asset }: BuiltAsset): Asset | null {
     const chunks = nonNull(
       imports.map(({ path: importPath, external }) => {
         if (external) {
@@ -87,11 +77,11 @@ export class AssetsManifestBuilder {
 
     if (chunks.length) {
       return {
-        ...entry,
-        ...this.#reduceHydrationRequirements([entry, ...chunks]),
+        ...asset,
+        ...this.#reduceHydrationRequirements([asset, ...chunks]),
       }
     }
 
-    return entry
+    return asset
   }
 }

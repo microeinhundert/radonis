@@ -7,17 +7,16 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetType, MaybePromise } from '@microeinhundert/radonis-types'
+import type { AssetType, HydrationRequirements, MaybePromise } from '@microeinhundert/radonis-types'
 import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
 
 /**
  * Built asset
  */
-export type BuiltAsset = {
+export interface BuiltAsset extends HydrationRequirements {
   type: AssetType
   name: string
   path: string
-  source: string
   islands: Islands
   imports: Metafile['outputs'][0]['imports']
 }
@@ -47,7 +46,7 @@ export interface BuildOptions {
   outputPath: string
   outputToDisk?: boolean
   outputForProduction?: boolean
-  watch?: boolean
+  rebuildOnFileChanges?: boolean
   esbuildOptions?: EsbuildOptions
 }
 
@@ -57,7 +56,7 @@ export interface BuildOptions {
 export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void>
 
 /**
- * Options for the assets plugin
+ * Assets plugin options
  */
 export type AssetsPluginOptions = {
   publicPath: string

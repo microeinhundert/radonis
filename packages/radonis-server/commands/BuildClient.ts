@@ -70,10 +70,9 @@ export default class BuildClient extends BaseCommand {
     client.onBuildEnd(async (builtAssets) => {
       const assetsManifest = new AssetsManifestBuilder(builtAssets).build()
       await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)
-      this.logger.success('successfully built the client bundle')
     })
 
-    const watch = !!(this.watch && !this.production)
+    const rebuildOnFileChanges = !!(this.watch && !this.production)
 
     /**
      * Build the client
@@ -85,11 +84,11 @@ export default class BuildClient extends BaseCommand {
       outputPath: this.#outputPath,
       outputToDisk: true,
       outputForProduction: this.production,
-      watch,
+      rebuildOnFileChanges,
       esbuildOptions: buildOptions,
     })
 
-    if (!watch) {
+    if (!rebuildOnFileChanges) {
       this.exit()
     }
   }

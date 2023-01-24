@@ -13,7 +13,9 @@ import { emptyDir } from 'fs-extra'
 
 import { CannotBuildClientException } from './exceptions/cannot_build_client'
 import { loaders } from './loaders'
-import { radonisAssetsPlugin, radonisClientPlugin, radonisIslandsPlugin } from './plugins'
+import { assetsPlugin } from './plugins/assets'
+import { clientPlugin } from './plugins/client'
+import { islandsPlugin } from './plugins/islands'
 import type { BuildOptions, OnBuildEndCallback } from './types/main'
 
 /**
@@ -24,6 +26,10 @@ export class ClientBuilder {
    * The registered `onBuildEnd` callbacks
    */
   #onBuildEndCallbacks: OnBuildEndCallback[]
+
+  constructor() {
+    this.#onBuildEndCallbacks = []
+  }
 
   /**
    * Register a callback to be called when a build has ended
@@ -42,7 +48,7 @@ export class ClientBuilder {
     outputPath,
     outputToDisk,
     outputForProduction,
-    watch,
+    rebuildOnFileChanges,
     esbuildOptions,
   }: BuildOptions): Promise<void> {
     if (outputToDisk) {
@@ -68,13 +74,13 @@ export class ClientBuilder {
       minify: outputForProduction,
       ...esbuildOptions,
       plugins: [
-        radonisIslandsPlugin(),
-        radonisClientPlugin(),
-        radonisAssetsPlugin({
+        islandsPlugin(),
+        clientPlugin(),
+        assetsPlugin({
           publicPath,
           outputToDisk,
           onEnd: (builtAssets) => {
-            this.#onBuildEndCallbacks.forEach((callback) => callback.apply(null, builtAssets))
+            this.#onBuildEndCallbacks.forEach((callback) => callback.apply(null, [builtAssets]))
           },
         }),
         ...(esbuildOptions?.plugins ?? []),
@@ -88,7 +94,7 @@ export class ClientBuilder {
     })
 
     try {
-      if (watch) {
+      if (rebuildOnFileChanges) {
         await buildContext.watch()
       } else {
         await buildContext.rebuild()
