@@ -9,6 +9,7 @@
 
 import { dirname } from 'node:path'
 
+import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
 import { readFile } from 'fs-extra'
 
@@ -21,10 +22,10 @@ export const clientPlugin = (): Plugin => ({
   name: 'radonis-client',
   setup({ onResolve, onLoad }) {
     onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: 'radonis-client-script' }
+      return { path, namespace: AssetType.ClientScript }
     })
 
-    onLoad({ filter: /.*/, namespace: 'radonis-client-script' }, async ({ path }) => {
+    onLoad({ filter: /.*/, namespace: AssetType.ClientScript }, async ({ path }) => {
       const contents = await readFile(path, 'utf8')
 
       return {

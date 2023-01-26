@@ -12,6 +12,7 @@ import { join } from 'node:path'
 
 import { fsReadAll } from '@microeinhundert/radonis-shared/node'
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
+import { AssetType } from '@microeinhundert/radonis-types'
 import { outputFile } from 'fs-extra'
 
 import {
@@ -120,4 +121,22 @@ export function dedupe<T>(array: T[]): T[] {
  */
 export function nonNull<T>(array: (T | null)[]): T[] {
   return array.filter((entry): entry is T => entry !== null)
+}
+
+/**
+ * Get the meta information for a given output
+ * @internal
+ */
+export function getOutputMeta(output: { entryPoint?: string }) {
+  const [type = AssetType[0], originalPath] = output.entryPoint?.split(':') ?? []
+  const isValidType = Object.values(AssetType).includes(type)
+
+  if (!isValidType) {
+    throw new Error(`Invalid type "${type}" for entry "${output.entryPoint}"`)
+  }
+
+  return {
+    type,
+    originalPath,
+  } as { isIslandScript: boolean; type: AssetType; originalPath?: string }
 }

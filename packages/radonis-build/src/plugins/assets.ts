@@ -10,11 +10,12 @@
 import { basename, join, relative } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
 import { outputFile } from 'fs-extra'
 
 import type { AssetsPluginOptions, BuiltAssets, IslandsByFile } from '../types/main'
-import { extractFlashMessages, extractMessages, extractRoutes } from '../utils'
+import { extractFlashMessages, extractMessages, extractRoutes, getOutputMeta } from '../utils'
 
 /**
  * @internal
@@ -28,9 +29,9 @@ export const assetsPlugin = (options: AssetsPluginOptions): Plugin => ({
       islandsByFile.clear()
     })
 
-    onResolve({ filter: /.*/, namespace: 'radonis-island-script' }, async ({ pluginData }) => {
+    onResolve({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ pluginData }) => {
       if (pluginData?.islands?.length && pluginData?.originalPath) {
-        islandsByFile.set(pluginData?.originalPath, pluginData.islands)
+        islandsByFile.set(pluginData.originalPath, pluginData.islands)
       }
 
       return null
@@ -52,43 +53,29 @@ export const assetsPlugin = (options: AssetsPluginOptions): Plugin => ({
           continue
         }
 
-        /**
-         * TODO: Evaluate whether these checks
-         * conflict with third-party esbuild plugins
-         */
-        if (output.entryPoint?.includes(':')) {
-          const [type, originalPath] = output.entryPoint.split(':')
-          const islands = islandsByFile.get(originalPath) ?? []
+        try {
+          const { type, originalPath } = getOutputMeta(output)
 
-          if (!(type === 'radonis-client-script' || type === 'radonis-island-script')) {
-            continue
-          }
+          const fileURL = pathToFileURL(join('/', pathRelativeToPublic))
+          const isIslandScript = type === AssetType.IslandScript
+          const islands = isIslandScript && originalPath ? islandsByFile.get(originalPath) : null
 
           builtAssets.set(pathRelativeToOutbase, {
             type,
             name: basename(pathRelativeToOutbase),
-            path: pathToFileURL(join('/', pathRelativeToPublic)).href,
-            islands,
+            path: fileURL.pathname,
+            islands: islands ?? [],
             imports: output.imports,
             flashMessages: extractFlashMessages(text),
             messages: extractMessages(text),
             routes: extractRoutes(text),
           })
-        } else {
-          builtAssets.set(pathRelativeToOutbase, {
-            type: 'radonis-chunk-script',
-            name: basename(pathRelativeToOutbase),
-            path: pathToFileURL(join('/', pathRelativeToPublic)).href,
-            islands: [],
-            imports: [],
-            flashMessages: extractFlashMessages(text),
-            messages: extractMessages(text),
-            routes: extractRoutes(text),
-          })
+        } catch {
+          continue
         }
-
-        options.onEnd?.(builtAssets)
       }
+
+      options.onEnd?.(builtAssets)
     })
   },
 })

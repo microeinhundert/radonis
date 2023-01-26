@@ -8,6 +8,7 @@
  */
 
 import type { Asset, AssetsManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
+import { AssetType } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
 import { dedupe, nonNull } from './utils'
@@ -67,7 +68,7 @@ export class AssetsManifestBuilder {
         }
 
         const chunkAsset = this.#builtAssets.get(importPath)
-        if (!chunkAsset || chunkAsset.type !== 'radonis-chunk-script') {
+        if (!chunkAsset || chunkAsset.type !== AssetType.ChunkScript) {
           return null
         }
 

@@ -8,6 +8,7 @@
  */
 
 import type { Asset, HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
+import { AssetType } from '@microeinhundert/radonis-types'
 
 import { ERRORS_NAMESPACE } from './constants'
 
@@ -190,7 +191,7 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require the flash messages, messages and routes used by an asset
    */
   requireAsset(asset: Asset): this {
-    if (asset.type === 'radonis-client-script') return this
+    if (asset.type === AssetType.ClientScript) return this
 
     for (const identifier of asset.flashMessages) {
       this.requireFlashMessage(identifier)

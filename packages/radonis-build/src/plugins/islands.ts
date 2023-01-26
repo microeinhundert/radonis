@@ -9,6 +9,7 @@
 
 import { dirname } from 'node:path'
 
+import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
 import { readFile } from 'fs-extra'
 
@@ -22,10 +23,10 @@ export const islandsPlugin = (): Plugin => ({
   name: 'radonis-islands',
   setup({ onResolve, onLoad }) {
     onResolve({ filter: /\.island\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: 'radonis-island-script' }
+      return { path, namespace: AssetType.IslandScript }
     })
 
-    onLoad({ filter: /.*/, namespace: 'radonis-island-script' }, async ({ path }) => {
+    onLoad({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ path }) => {
       let contents = await readFile(path, 'utf8')
 
       const matches = contents.matchAll(ISLAND_REGEX)

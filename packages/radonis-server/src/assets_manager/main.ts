@@ -10,6 +10,7 @@
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import { readAssetsManifestFromDisk } from '@microeinhundert/radonis-build'
 import type { AssetsManagerContract, AssetsManifest, Resettable } from '@microeinhundert/radonis-types'
+import { AssetType } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing assets
@@ -56,7 +57,7 @@ export class AssetsManager implements AssetsManagerContract, Resettable {
    */
   get requiredAssets(): AssetsManifest {
     return this.#assetsManifest.reduce<AssetsManifest>((assets, asset) => {
-      if (asset.type === 'radonis-client-script') {
+      if (asset.type === AssetType.ClientScript) {
         return [...assets, asset]
       }
 
