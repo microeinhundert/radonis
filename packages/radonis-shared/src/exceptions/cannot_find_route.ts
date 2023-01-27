@@ -13,7 +13,7 @@ import { createError } from '../exception/main'
  * @internal
  */
 export const E_CANNOT_FIND_ROUTE = createError<[identifier: string]>(
-  'Cannot find a route named "%s". Make sure that the route exists and can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
+  'Cannot find a route named "%s". Make sure that the route exists and that it can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
   'E_CANNOT_FIND_ROUTE',
   404
 )

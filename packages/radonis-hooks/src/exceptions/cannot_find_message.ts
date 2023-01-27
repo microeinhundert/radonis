@@ -13,7 +13,7 @@ import { createError } from '@microeinhundert/radonis-shared'
  * @internal
  */
 export const E_CANNOT_FIND_MESSAGE = createError<[identifier: string]>(
-  'Cannot find a message named "%s". Make sure that the message exists and can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
+  'Cannot find a message named "%s". Make sure that the message exists and that it can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
   'E_CANNOT_FIND_MESSAGE',
   404
 )
