@@ -8,7 +8,6 @@
  */
 
 import type { Asset, AssetsManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
-import { AssetType } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
 import { dedupe, nonNull } from './utils'
@@ -34,7 +33,7 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Reduce the hydration requirements of multiple entries down to a single entry
+   * Reduce the hydration requirements of multiple assets down to a single asset
    */
   #reduceHydrationRequirements(assets: Asset[]): HydrationRequirements {
     const { flashMessages, messages, routes } = assets.reduce<HydrationRequirements>(
@@ -68,11 +67,8 @@ export class AssetsManifestBuilder {
         }
 
         const chunkAsset = this.#builtAssets.get(importPath)
-        if (!chunkAsset || chunkAsset.type !== AssetType.ChunkScript) {
-          return null
-        }
 
-        return this.#createEntry(chunkAsset)
+        return chunkAsset ? this.#createEntry(chunkAsset) : null
       })
     )
 
