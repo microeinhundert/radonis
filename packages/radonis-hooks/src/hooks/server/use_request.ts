@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
 import { useHttpContext } from './use_http_context'
 
 /**
@@ -20,6 +20,6 @@ export function useRequest() {
 
     return request
   } catch {
-    throw new CannotUseOnClientException('useRequest')
+    throw new E_CANNOT_USE_ON_CLIENT(['useRequest'])
   }
 }

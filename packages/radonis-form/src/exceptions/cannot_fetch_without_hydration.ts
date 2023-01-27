@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotFetchWithoutHydrationException extends RadonisException {
-  constructor(formAction: string) {
-    super(
-      `The form with action "${formAction}" and the "noReload" prop set can't work without being hydrated client-side. Convert the component containing this form into an island and wrap it with an HydrationRoot`,
-      {
-        status: 500,
-        code: 'E_CANNOT_FETCH_WITHOUT_HYDRATION',
-      }
-    )
-  }
-}
+export const E_CANNOT_FETCH_WITHOUT_HYDRATION = createError<[action: string]>(
+  'The form with the action "%s" and the "noReload" prop set can\'t work without being hydrated client-side. Convert the component containing this form to an island and wrap it with an HydrationRoot',
+  'E_CANNOT_FETCH_WITHOUT_HYDRATION',
+  500
+)

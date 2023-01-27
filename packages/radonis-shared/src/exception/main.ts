@@ -71,3 +71,31 @@ export class RadonisException extends Error {
     return `${this.name}: ${this.message}`
   }
 }
+
+/**
+ * Helper to format strings
+ */
+function format<T extends string>(string: string, ...args: T[]) {
+  return args.reduce((p, c) => p.replace(/%s/, c), string)
+}
+
+/**
+ * Helper to create anonymous error classes
+ */
+export function createError<T extends any[] = never>(
+  message: string,
+  code: string,
+  status?: number
+): typeof RadonisException & T extends never
+  ? { new (args?: any, options?: ErrorOptions): RadonisException }
+  : { new (args: T, options?: ErrorOptions): RadonisException } {
+  return class extends RadonisException {
+    static message = message
+    static code = code
+    static status = status
+
+    constructor(args: T, options?: ErrorOptions) {
+      super(format(message, ...(args || [])), options)
+    }
+  }
+}

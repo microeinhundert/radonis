@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '../exception/main'
+import { createError } from '../exception/main'
 
 /**
  * @internal
  */
-export class WildcardRoutesNotSupportedException extends RadonisException {
-  constructor() {
-    super('Wildcard routes are currently not supported by the URL builder', {
-      status: 500,
-      code: 'E_WILDCARD_ROUTES_NOT_SUPPORTED',
-    })
-  }
-}
+export const E_WILDCARD_ROUTES_NOT_SUPPORTED = createError(
+  'Wildcard routes are not currently supported by the URL builder',
+  'E_WILDCARD_ROUTES_NOT_SUPPORTED',
+  500
+)

@@ -13,8 +13,8 @@ import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydration_context'
-import { CannotHydrateException } from '../exceptions/cannot_hydrate'
-import { IslandAlreadyRegisteredException } from '../exceptions/island_already_registered'
+import { E_CANNOT_HYDRATE } from '../exceptions/cannot_hydrate'
+import { E_ISLAND_ALREADY_REGISTERED } from '../exceptions/island_already_registered'
 import { getManifestOrFail } from '../utils/get_manifest_or_fail'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 
@@ -55,7 +55,7 @@ export class Hydrator {
    */
   registerIsland(identifier: string, Component: ComponentType): this {
     if (this.#islands.has(identifier)) {
-      throw new IslandAlreadyRegisteredException(identifier)
+      throw new E_ISLAND_ALREADY_REGISTERED([identifier])
     }
 
     this.#islands.set(identifier, Component)
@@ -88,7 +88,7 @@ export class Hydrator {
     const Island = this.#islands.get(hydration.islandIdentifier)
 
     if (!Island) {
-      throw new CannotHydrateException(hydrationRootId, hydration.islandIdentifier)
+      throw new E_CANNOT_HYDRATE([hydration.islandIdentifier, hydrationRootId])
     }
 
     const tree = await this.#pluginsManager.execute(

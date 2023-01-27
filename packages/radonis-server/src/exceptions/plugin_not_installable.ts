@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class PluginNotInstallableException extends RadonisException {
-  constructor(pluginName: string, environment: string) {
-    super(`The plugin "${pluginName}" is not installable in the "${environment}" environment`, {
-      status: 500,
-      code: 'E_PLUGIN_NOT_INSTALLABLE',
-    })
-  }
-}
+export const E_PLUGIN_NOT_INSTALLABLE = createError<[plugin: string, environment: string]>(
+  'The plugin "%s" is not installable in the "%s" environment',
+  'E_PLUGIN_NOT_INSTALLABLE',
+  500
+)

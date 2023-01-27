@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotUseOnClientException extends RadonisException {
-  constructor(hookName: string) {
-    super(`The "${hookName}()" hook cannot be used client-side`, {
-      status: 500,
-      code: 'E_CANNOT_USE_ON_CLIENT',
-    })
-  }
-}
+export const E_CANNOT_USE_ON_CLIENT = createError<[name: string]>(
+  'The hook "%s()" cannot be used client-side',
+  'E_CANNOT_USE_ON_CLIENT',
+  500
+)

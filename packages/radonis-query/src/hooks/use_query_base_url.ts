@@ -10,7 +10,7 @@
 import { useContext } from 'react'
 
 import { baseUrlContext } from '../contexts/base_url_context'
-import { UnknownBaseUrlException } from '../exceptions/unknown_base_url'
+import { E_UNKNOWN_BASE_URL } from '../exceptions/unknown_base_url'
 
 /**
  * Hook for retrieving the base URL set for queries
@@ -20,7 +20,7 @@ export function useQueryBaseUrl() {
   const baseUrl = useContext(baseUrlContext)
 
   if (!baseUrl) {
-    throw new UnknownBaseUrlException()
+    throw new E_UNKNOWN_BASE_URL()
   }
 
   return baseUrl

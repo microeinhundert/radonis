@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotBuildClientException extends RadonisException {
-  constructor(message: string) {
-    super(`Cannot build the Radonis client bundle: ${message}`, {
-      status: 500,
-      code: 'E_CANNOT_BUILD',
-    })
-  }
-}
+export const E_CANNOT_BUILD_CLIENT = createError<[message: string]>(
+  'Cannot build the Radonis client bundle: %s',
+  'E_CANNOT_BUILD_CLIENT',
+  500
+)

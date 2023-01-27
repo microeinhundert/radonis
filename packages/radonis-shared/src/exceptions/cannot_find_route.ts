@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '../exception/main'
+import { createError } from '../exception/main'
 
 /**
  * @internal
  */
-export class CannotFindRouteException extends RadonisException {
-  constructor(routeIdentifier: string) {
-    super(
-      `Cannot find route "${routeIdentifier}". Make sure the route exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis`,
-      {
-        status: 404,
-        code: 'E_CANNOT_FIND_ROUTE',
-      }
-    )
-  }
-}
+export const E_CANNOT_FIND_ROUTE = createError<[identifier: string]>(
+  'Cannot find a route named "%s". Make sure that the route exists and can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
+  'E_CANNOT_FIND_ROUTE',
+  404
+)

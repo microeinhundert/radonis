@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotRetrieveManifestException extends RadonisException {
-  constructor() {
-    super('Cannot retrieve the Radonis manifest. Make sure the Radonis server provider was configured properly', {
-      status: 404,
-      code: 'E_CANNOT_RETRIEVE_MANIFEST',
-    })
-  }
-}
+export const E_CANNOT_RETRIEVE_MANIFEST = createError(
+  'Cannot retrieve the Radonis manifest. Ensure that the Radonis server provider is configured correctly',
+  'E_CANNOT_RETRIEVE_MANIFEST',
+  404
+)

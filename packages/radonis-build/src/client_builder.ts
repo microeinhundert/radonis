@@ -11,7 +11,7 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 import { context } from 'esbuild'
 import { emptyDir } from 'fs-extra'
 
-import { CannotBuildClientException } from './exceptions/cannot_build_client'
+import { E_CANNOT_BUILD_CLIENT } from './exceptions/cannot_build_client'
 import { loaders } from './loaders'
 import { assetsPlugin } from './plugins/assets'
 import { clientPlugin } from './plugins/client'
@@ -104,7 +104,7 @@ export class ClientBuilder {
         throw error
       }
 
-      throw new CannotBuildClientException(error instanceof Error ? error.message : 'Unknown error')
+      throw new E_CANNOT_BUILD_CLIENT([error instanceof Error ? error.message : 'Unknown error'])
     }
   }
 

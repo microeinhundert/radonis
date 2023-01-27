@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotFindMessageException extends RadonisException {
-  constructor(messageIdentifier: string) {
-    super(
-      `Cannot find message for "${messageIdentifier}". Make sure the message exists and can be detected by static analysis, more on this on https://radonis.vercel.app/docs/compiler#static-analysis`,
-      {
-        status: 404,
-        code: 'E_CANNOT_FIND_MESSAGE',
-      }
-    )
-  }
-}
+export const E_CANNOT_FIND_MESSAGE = createError<[identifier: string]>(
+  'Cannot find a message named "%s". Make sure that the message exists and can be detected by static analysis, see https://radonis.vercel.app/docs/compiler#static-analysis for more information',
+  'E_CANNOT_FIND_MESSAGE',
+  404
+)

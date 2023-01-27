@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class PluginAlreadyInstalledException extends RadonisException {
-  constructor(pluginName: string) {
-    super(`The plugin "${pluginName}" is already installed`, {
-      status: 500,
-      code: 'E_PLUGIN_ALREADY_INSTALLED',
-    })
-  }
-}
+export const E_PLUGIN_ALREADY_INSTALLED = createError<[plugin: string]>(
+  'The plugin "%s" is already installed',
+  'E_PLUGIN_ALREADY_INSTALLED',
+  500
+)

@@ -11,7 +11,7 @@ import { extname } from 'node:path'
 
 import type { Loader } from 'esbuild'
 
-import { CannotGetFileLoaderException } from './exceptions/cannot_get_file_loader'
+import { E_CANNOT_GET_FILE_LOADER } from './exceptions/cannot_get_file_loader'
 
 /**
  * @internal
@@ -30,7 +30,7 @@ export function getLoaderForFile(fileNameOrPath: string): Loader {
   const ext = extname(fileNameOrPath)
 
   if (!(ext in loaders)) {
-    throw new CannotGetFileLoaderException(fileNameOrPath)
+    throw new E_CANNOT_GET_FILE_LOADER([fileNameOrPath])
   }
 
   return loaders[ext]

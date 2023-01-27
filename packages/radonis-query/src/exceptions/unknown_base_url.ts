@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class UnknownBaseUrlException extends RadonisException {
-  constructor() {
-    super(
-      'Cannot retrieve query data server-side because the base URL is not known. Make sure the "host" header is present on the request. You can alternatively set the base URL manually by passing it to the query plugin',
-      {
-        status: 500,
-        code: 'E_UNKNOWN_BASE_URL',
-      }
-    )
-  }
-}
+export const E_UNKNOWN_BASE_URL = createError(
+  'Cannot retrieve request data server-side because of an unknown base URL. Make sure that the "host" header is present on the request. Alternatively, you can set the base URL manually by passing it to the query plugin',
+  'E_UNKNOWN_BASE_URL',
+  500
+)

@@ -10,7 +10,7 @@
 import { serverContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
 
 /**
  * Hook for retrieving the Radonis `ServerContract`
@@ -20,7 +20,7 @@ export function useServer() {
   const context = useContext(serverContext)
 
   if (!context) {
-    throw new CannotUseOnClientException('useServer')
+    throw new E_CANNOT_USE_ON_CLIENT(['useServer'])
   }
 
   return context

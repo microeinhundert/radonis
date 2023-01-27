@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotHydrateWithChildrenException extends RadonisException {
-  constructor(hydrationRootId: string, islandIdentifier: string) {
-    super(`The island "${islandIdentifier}" inside HydrationRoot "${hydrationRootId}" has children`, {
-      status: 500,
-      code: 'E_CANNOT_HYDRATE_WITH_CHILDREN',
-    })
-  }
-}
+export const E_CANNOT_HYDRATE_WITH_CHILDREN = createError<[islandIdentifier: string, hydrationRootId: string]>(
+  'The island "%s" within HydrationRoot "%s" has children',
+  'E_CANNOT_HYDRATE_WITH_CHILDREN',
+  500
+)

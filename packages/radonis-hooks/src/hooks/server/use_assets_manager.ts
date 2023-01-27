@@ -10,7 +10,7 @@
 import { assetsManagerContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
 
 /**
  * Hook for retrieving the Radonis `AssetsManagerContract`
@@ -20,7 +20,7 @@ export function useAssetsManager() {
   const context = useContext(assetsManagerContext)
 
   if (!context) {
-    throw new CannotUseOnClientException('useAssetsManager')
+    throw new E_CANNOT_USE_ON_CLIENT(['useAssetsManager'])
   }
 
   return context

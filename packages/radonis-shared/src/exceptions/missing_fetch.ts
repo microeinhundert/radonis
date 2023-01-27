@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '../exception/main'
+import { createError } from '../exception/main'
 
 /**
  * @internal
  */
-export class MissingFetchException extends RadonisException {
-  constructor() {
-    super('No implementation of "fetch" is available server-side. Please include a polyfill', {
-      status: 500,
-      code: 'E_MISSING_FETCH',
-    })
-  }
-}
+export const E_MISSING_FETCH = createError(
+  'There is no server-side implementation of the "fetch" API available. Please include a polyfill',
+  'E_MISSING_FETCH',
+  500
+)

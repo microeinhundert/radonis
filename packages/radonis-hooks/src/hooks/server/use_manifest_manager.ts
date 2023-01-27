@@ -10,7 +10,7 @@
 import { manifestManagerContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
 
 /**
  * Hook for retrieving the Radonis `ManifestManagerContract`
@@ -20,7 +20,7 @@ export function useManifestManager() {
   const context = useContext(manifestManagerContext)
 
   if (!context) {
-    throw new CannotUseOnClientException('useManifestManager')
+    throw new E_CANNOT_USE_ON_CLIENT(['useManifestManager'])
   }
 
   return context

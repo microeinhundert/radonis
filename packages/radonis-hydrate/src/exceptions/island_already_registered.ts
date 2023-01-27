@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class IslandAlreadyRegisteredException extends RadonisException {
-  constructor(islandIdentifier: string) {
-    super(
-      `The island "${islandIdentifier}" is already registered for hydration. Make sure to not use the same name for multiple islands`,
-      {
-        status: 500,
-        code: 'E_ISLAND_ALREADY_REGISTERED',
-      }
-    )
-  }
-}
+export const E_ISLAND_ALREADY_REGISTERED = createError<[islandIdentifier: string]>(
+  'The island "%s" is already registered for hydration. Make sure you do not use the same name for multiple islands',
+  'E_ISLAND_ALREADY_REGISTERED',
+  500
+)

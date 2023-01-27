@@ -15,9 +15,9 @@ import type {
   PluginsManagerContract,
 } from '@microeinhundert/radonis-types'
 
-import { ConflictingPluginsException } from '../exceptions/conflicting_plugins'
-import { PluginAlreadyInstalledException } from '../exceptions/plugin_already_installed'
-import { PluginNotInstallableException } from '../exceptions/plugin_not_installable'
+import { E_CONFLICTING_PLUGINS } from '../exceptions/conflicting_plugins'
+import { E_PLUGIN_ALREADY_INSTALLED } from '../exceptions/plugin_already_installed'
+import { E_PLUGIN_NOT_INSTALLABLE } from '../exceptions/plugin_not_installable'
 
 /**
  * Service for managing plugins
@@ -102,13 +102,13 @@ export class PluginsManager implements PluginsManagerContract {
     { name: pluginName, environments, conflictsWith }: Plugin
   ): void {
     if (this.#installedPlugins.has(pluginName)) {
-      throw new PluginAlreadyInstalledException(pluginName)
+      throw new E_PLUGIN_ALREADY_INSTALLED([pluginName])
     }
 
     if (environments?.length) {
       for (const environment of ['server', 'client']) {
         if (targetEnvironment === environment && !environments.includes(environment)) {
-          throw new PluginNotInstallableException(pluginName, environment)
+          throw new E_PLUGIN_NOT_INSTALLABLE([pluginName, environment])
         }
       }
     }
@@ -130,7 +130,7 @@ export class PluginsManager implements PluginsManagerContract {
       )
 
       if (conflictingPlugins?.length) {
-        throw new ConflictingPluginsException(pluginName, conflictingPlugins)
+        throw new E_CONFLICTING_PLUGINS([pluginName, conflictingPlugins.join(', ')])
       }
     }
   }

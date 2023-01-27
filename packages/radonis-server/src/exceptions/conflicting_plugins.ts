@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class ConflictingPluginsException extends RadonisException {
-  constructor(pluginName: string, conflictingPlugins: string[]) {
-    super(
-      `The plugin "${pluginName}" conflicts with the following installed plugins: ${conflictingPlugins.join(', ')}`,
-      {
-        status: 500,
-        code: 'E_CONFLICTING_PLUGINS',
-      }
-    )
-  }
-}
+export const E_CONFLICTING_PLUGINS = createError<[plugin: string, conflictingPlugins: string]>(
+  'The plugin "%s" conflicts with the following installed plugins: %s',
+  'E_CONFLICTING_PLUGINS',
+  500
+)

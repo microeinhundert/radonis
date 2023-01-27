@@ -10,8 +10,8 @@
 import { isServer } from '@microeinhundert/radonis-shared'
 import { startTransition } from 'react'
 
-import { CannotInitClientMultipleTimesException } from './exceptions/cannot_init_client_multiple_times'
-import { CannotInitClientOnServerException } from './exceptions/cannot_init_client_on_server'
+import { E_CANNOT_INIT_CLIENT_MORE_THAN_ONCE } from './exceptions/cannot_init_client_more_than_once'
+import { E_CANNOT_INIT_CLIENT_ON_SERVER } from './exceptions/cannot_init_client_on_server'
 import { hydrator, pluginsManager } from './singletons'
 import type { ClientOptions } from './types/main'
 
@@ -31,10 +31,10 @@ function hydrate() {
  */
 export async function initClient(options?: ClientOptions): Promise<void> {
   if (isServer) {
-    throw new CannotInitClientOnServerException()
+    throw new E_CANNOT_INIT_CLIENT_ON_SERVER()
   }
   if (isClientInitialized) {
-    throw new CannotInitClientMultipleTimesException()
+    throw new E_CANNOT_INIT_CLIENT_MORE_THAN_ONCE()
   }
 
   isClientInitialized = true

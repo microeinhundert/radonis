@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotSerializeManifestException extends RadonisException {
-  constructor() {
-    super(
-      'The Radonis manifest cannot be serialized. Make sure to only pass data serializable by superjson to islands',
-      {
-        status: 500,
-        code: 'E_CANNOT_SERIALIZE_MANIFEST',
-      }
-    )
-  }
-}
+export const E_CANNOT_SERIALIZE_MANIFEST = createError(
+  'The Radonis manifest cannot be serialized. Make sure you only pass data to islands that can be serialized by superjson',
+  'E_CANNOT_SERIALIZE_MANIFEST',
+  500
+)

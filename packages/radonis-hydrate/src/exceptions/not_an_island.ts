@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class NotAnIslandException extends RadonisException {
-  constructor(hydrationRootId: string) {
-    super(
-      `The component inside of HydrationRoot "${hydrationRootId}" is not an island. Make sure the component is wrapped with the "island" function`,
-      {
-        status: 500,
-        code: 'E_NOT_AN_ISLAND',
-      }
-    )
-  }
-}
+export const E_NOT_AN_ISLAND = createError<[hydrationRootId: string]>(
+  'The component within HydrationRoot "%s" is not an island. Make sure the component is wrapped with the "island" function',
+  'E_NOT_AN_ISLAND',
+  500
+)

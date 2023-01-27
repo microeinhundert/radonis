@@ -7,16 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class InvalidMutationActionException extends RadonisException {
-  constructor(mutationAction: string) {
-    super(`Invalid mutation action "${mutationAction}"`, {
-      status: 500,
-      code: 'E_INVALID_MUTATION_ACTION',
-    })
-  }
-}
+export const E_INVALID_MUTATION_ACTION = createError<[action: string]>(
+  'Invalid mutation action "%s"',
+  'E_INVALID_MUTATION_ACTION',
+  500
+)

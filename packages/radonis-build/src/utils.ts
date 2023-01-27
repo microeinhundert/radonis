@@ -124,19 +124,26 @@ export function nonNull<T>(array: (T | null)[]): T[] {
 }
 
 /**
+ * Check if a string is a valid asset type
+ * @internal
+ */
+export function isAssetType(value: string): value is AssetType {
+  return Object.values<string>(AssetType).includes(value)
+}
+
+/**
  * Get the meta information for a given output
  * @internal
  */
 export function getOutputMeta(output: { entryPoint?: string }) {
   const [type = AssetType[0], originalPath] = output.entryPoint?.split(':') ?? []
-  const isValidType = Object.values(AssetType).includes(type)
 
-  if (!isValidType) {
-    throw new Error(`Invalid type "${type}" for entry "${output.entryPoint}"`)
+  if (!isAssetType(type)) {
+    throw new Error(`Invalid asset type "${type}" for entry "${output.entryPoint}"`)
   }
 
   return {
     type,
     originalPath,
-  } as { isIslandScript: boolean; type: AssetType; originalPath?: string }
+  }
 }

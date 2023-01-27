@@ -7,19 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { RadonisException } from '@microeinhundert/radonis-shared'
+import { createError } from '@microeinhundert/radonis-shared'
 
 /**
  * @internal
  */
-export class CannotUseHooksWhenReloadingException extends RadonisException {
-  constructor(formAction: string) {
-    super(
-      `The form with action "${formAction}" cannot use the "hooks" prop without the "noReload" prop also being set`,
-      {
-        status: 500,
-        code: 'E_CANNOT_USE_HOOKS_WHEN_RELOADING',
-      }
-    )
-  }
-}
+export const E_CANNOT_USE_HOOKS_WHEN_RELOADING = createError<[action: string]>(
+  'The form with action "%s" cannot use the "hooks" prop without also setting the "noReload" prop',
+  'E_CANNOT_USE_HOOKS_WHEN_RELOADING',
+  500
+)

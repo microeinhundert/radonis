@@ -10,7 +10,7 @@
 import { rendererContext } from '@microeinhundert/radonis-server/standalone'
 import { useContext } from 'react'
 
-import { CannotUseOnClientException } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
 
 /**
  * Hook for retrieving the Radonis `RendererContract`
@@ -20,7 +20,7 @@ export function useRenderer() {
   const context = useContext(rendererContext)
 
   if (!context) {
-    throw new CannotUseOnClientException('useRenderer')
+    throw new E_CANNOT_USE_ON_CLIENT(['useRenderer'])
   }
 
   return context

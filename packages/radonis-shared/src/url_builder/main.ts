@@ -9,9 +9,9 @@
 
 import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
-import { CannotFindRouteException } from '../exceptions/cannot_find_route'
-import { MissingRouteParamException } from '../exceptions/missing_route_param'
-import { WildcardRoutesNotSupportedException } from '../exceptions/wildcard_routes_not_supported'
+import { E_CANNOT_FIND_ROUTE } from '../exceptions/cannot_find_route'
+import { E_MISSING_ROUTE_PARAM } from '../exceptions/missing_route_param'
+import { E_WILDCARD_ROUTES_NOT_SUPPORTED } from '../exceptions/wildcard_routes_not_supported'
 import type { UrlBuilderMakeOptions, UrlBuilderOptions } from '../types/main'
 
 /**
@@ -51,7 +51,7 @@ export class UrlBuilder {
     let path = pattern
 
     if (path.includes('*')) {
-      throw new WildcardRoutesNotSupportedException()
+      throw new E_WILDCARD_ROUTES_NOT_SUPPORTED()
     }
 
     if (path.includes(':')) {
@@ -74,7 +74,7 @@ export class UrlBuilder {
           const paramValue = params[paramName]
 
           if (!paramValue && !isOptional) {
-            throw new MissingRouteParamException(paramName, pattern)
+            throw new E_MISSING_ROUTE_PARAM([paramName, pattern])
           }
 
           return paramValue
@@ -118,7 +118,7 @@ export class UrlBuilder {
     const route = this.#routes[identifier]
 
     if (!route) {
-      throw new CannotFindRouteException(identifier)
+      throw new E_CANNOT_FIND_ROUTE([identifier])
     }
 
     this.#options?.onFoundRoute?.(identifier)

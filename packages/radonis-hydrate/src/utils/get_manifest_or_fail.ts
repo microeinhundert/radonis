@@ -12,7 +12,7 @@ import type { ManifestContract } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
-import { CannotRetrieveManifestException } from '../exceptions/cannot_retrieve_manifest'
+import { E_CANNOT_RETRIEVE_MANIFEST } from '../exceptions/cannot_retrieve_manifest'
 
 declare global {
   var radonisManifest: ManifestContract | undefined
@@ -32,7 +32,7 @@ export function getManifestOrFail(): Readonly<ManifestContract> {
   const manifest = globalThis.radonisManifest
 
   if (!manifest) {
-    throw new CannotRetrieveManifestException()
+    throw new E_CANNOT_RETRIEVE_MANIFEST()
   }
 
   return (cachedManifest = isClient

@@ -15,8 +15,8 @@ import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 
-import { CannotFetchWithoutHydrationException } from '../exceptions/cannot_fetch_without_hydration'
-import { CannotUseHooksWhenReloadingException } from '../exceptions/cannot_use_hooks_when_reloading'
+import { E_CANNOT_FETCH_WITHOUT_HYDRATION } from '../exceptions/cannot_fetch_without_hydration'
+import { E_CANNOT_USE_HOOKS_WHEN_RELOADING } from '../exceptions/cannot_use_hooks_when_reloading'
 import { hydrationManager } from '../singletons'
 import type { FormOptions } from '../types/main'
 
@@ -49,18 +49,18 @@ export function useForm<TData = unknown, TError = unknown>({
   }
 
   if (!noReload && hooks) {
-    throw new CannotUseHooksWhenReloadingException(action)
+    throw new E_CANNOT_USE_HOOKS_WHEN_RELOADING([action])
   }
 
   if (noReload && !hydration.id) {
-    throw new CannotFetchWithoutHydrationException(action)
+    throw new E_CANNOT_FETCH_WITHOUT_HYDRATION([action])
   }
 
   const formRef = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://internal'),
+    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://radonis'),
     [urlBuilder, action, params, queryParams]
   )
 

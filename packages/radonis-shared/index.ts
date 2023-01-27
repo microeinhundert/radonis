@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export { RadonisException } from './src/exception/main'
+export { createError, RadonisException } from './src/exception/main'
 export { UrlBuilder } from './src/url_builder/main'
 export { isClient, isProduction, isServer } from './src/utils/environment'
 export { fetch$ } from './src/utils/fetch'
