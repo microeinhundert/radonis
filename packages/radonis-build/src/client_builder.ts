@@ -96,6 +96,8 @@ export class ClientBuilder {
     try {
       if (rebuildOnFileChanges) {
         await buildContext.watch()
+      } else {
+        await buildContext.rebuild()
       }
     } catch (error) {
       buildContext.dispose()

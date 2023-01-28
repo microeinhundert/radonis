@@ -59,7 +59,7 @@ export class AssetsManifestBuilder {
   /**
    * Create the entry for an asset
    */
-  #createEntry({ imports, ...asset }: BuiltAsset): Asset | null {
+  #createEntry({ imports, ...asset }: BuiltAsset): Asset {
     const chunks = nonNull(
       imports.map(({ path: importPath, external }) => {
         if (external) {

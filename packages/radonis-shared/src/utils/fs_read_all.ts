@@ -23,7 +23,7 @@ function filterDotFiles(fileName: string) {
 /**
  * Read all files from the directory recursively
  */
-async function readFiles(root: string, files: string[], relativePath: string): Promise<void> {
+async function readFiles(root: string, files: string[], relativePath: string) {
   const location = join(root, relativePath)
   const stats = await stat(location)
 
@@ -48,7 +48,7 @@ async function readFiles(root: string, files: string[], relativePath: string): P
 export async function fsReadAll(
   location: URL | string,
   options?: { filter?: (filePath: string, index: number) => boolean }
-): Promise<string[]> {
+) {
   const normalizedLocation = typeof location === 'string' ? location : fileURLToPath(location)
 
   const files: string[] = []
