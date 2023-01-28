@@ -10,7 +10,7 @@
 /**
  * @internal
  */
-export const TOKEN_REGEX = new RegExp(/\$(\(|=)(\W+)?["'](?<identifier>\S+)["']/g)
+export const TOKEN_REGEX = new RegExp(/\$(\(|=|:)(\W+)?["'](?<identifier>\S+)["']/g)
 
 /**
  * @internal
