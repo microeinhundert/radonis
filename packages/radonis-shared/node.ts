@@ -7,4 +7,5 @@
  * file that was distributed with this source code.
  */
 
-export { fsReadAll } from './src/utils/fs_read_all'
+export { ensureDirExists } from './src/utils/node/ensure_dir_exists'
+export { fsReadAll } from './src/utils/node/fs_read_all'

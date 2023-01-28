@@ -61,5 +61,5 @@ export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void
 export type AssetsPluginOptions = {
   publicPath: string
   outputToDisk?: boolean
-  onEnd?: (builtAssets: BuiltAssets) => void
+  onEnd?: (builtAssets: BuiltAssets) => MaybePromise<void>
 }

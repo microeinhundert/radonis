@@ -29,7 +29,7 @@ export default class BuildClient extends BaseCommand {
   @flags.boolean({ description: 'Whether to build for production' })
   production: boolean | undefined
 
-  @flags.string({ description: 'Whether to automatically build on file changes' })
+  @flags.boolean({ description: 'Whether to automatically build on file changes' })
   watch: boolean | undefined
 
   /**
@@ -70,6 +70,7 @@ export default class BuildClient extends BaseCommand {
     client.onBuildEnd(async (builtAssets) => {
       const assetsManifest = new AssetsManifestBuilder(builtAssets).build()
       await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)
+      this.logger.success('built the client bundle')
     })
 
     const rebuildOnFileChanges = !!(this.watch && !this.production)

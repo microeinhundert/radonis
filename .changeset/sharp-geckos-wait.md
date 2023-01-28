@@ -5,4 +5,4 @@
 '@microeinhundert/radonis-build': patch
 ---
 
-Fixed build command watch type
+Fixed type of --watch flag

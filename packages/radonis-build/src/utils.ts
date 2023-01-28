@@ -7,13 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { readFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import { fsReadAll } from '@microeinhundert/radonis-shared/node'
+import { ensureDirExists, fsReadAll } from '@microeinhundert/radonis-shared/node'
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { AssetType } from '@microeinhundert/radonis-types'
-import { outputFile } from 'fs-extra'
 
 import {
   ASSETS_MANIFEST_FILE_NAME,
@@ -53,7 +52,8 @@ export async function readAssetsManifestFromDisk(directory: string): Promise<Ass
  * @internal
  */
 export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, directory: string): Promise<void> {
-  await outputFile(join(directory, ASSETS_MANIFEST_FILE_NAME), JSON.stringify(assetsManifest, null, 2))
+  await ensureDirExists(directory)
+  await writeFile(join(directory, ASSETS_MANIFEST_FILE_NAME), JSON.stringify(assetsManifest, null, 2))
 }
 
 /**

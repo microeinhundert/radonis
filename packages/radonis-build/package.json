@@ -61,7 +61,6 @@
     "@microeinhundert/radonis-shared": "workspace:4.0.1",
     "@microeinhundert/radonis-types": "workspace:4.0.1",
     "esbuild": "^0.17.5",
-    "fs-extra": "^11.1.0",
     "tslib": "^2.5.0"
   }
 }

@@ -5,4 +5,4 @@
 '@microeinhundert/radonis-build': patch
 ---
 
-Remove usage of fs-extra
+Removed usage of fs-extra

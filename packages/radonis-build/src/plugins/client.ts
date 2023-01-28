@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import { readFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 
 import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
-import { readFile } from 'fs-extra'
 
 import { getLoaderForFile } from '../loaders'
 
@@ -27,7 +27,7 @@ export function clientPlugin(): Plugin {
       })
 
       onLoad({ filter: /.*/, namespace: AssetType.ClientScript }, async ({ path }) => {
-        const contents = await readFile(path, 'utf8')
+        const contents = await readFile(path, { encoding: 'utf-8' })
 
         return {
           contents,

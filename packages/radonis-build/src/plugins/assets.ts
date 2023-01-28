@@ -7,12 +7,13 @@
  * file that was distributed with this source code.
  */
 
+import { writeFile } from 'node:fs/promises'
 import { basename, join, relative } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import { ensureDirExists } from '@microeinhundert/radonis-shared/node'
 import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
-import { outputFile } from 'fs-extra'
 
 import type { AssetsPluginOptions, BuiltAssets, IslandsByFile } from '../types/main'
 import { extractFlashMessages, extractMessages, extractRoutes, getOutputMeta } from '../utils'
@@ -38,12 +39,13 @@ export function assetsPlugin(options: AssetsPluginOptions): Plugin {
         return null
       })
 
-      onEnd(({ outputFiles, metafile }) => {
+      onEnd(async ({ outputFiles, metafile }) => {
         const builtAssets: BuiltAssets = new Map()
 
         for (const { path, text, contents } of outputFiles ?? []) {
           if (options.outputToDisk) {
-            outputFile(path, contents)
+            await ensureDirExists(path)
+            await writeFile(path, contents)
           }
 
           const pathRelativeToOutbase = relative(initialOptions.outbase!, path)

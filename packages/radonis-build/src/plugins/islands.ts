@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import { readFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 
 import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
-import { readFile } from 'fs-extra'
 
 import { ISLAND_REGEX } from '../constants'
 import { getLoaderForFile } from '../loaders'
@@ -28,7 +28,7 @@ export function islandsPlugin(): Plugin {
       })
 
       onLoad({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ path }) => {
-        let contents = await readFile(path, 'utf8')
+        let contents = await readFile(path, { encoding: 'utf-8' })
 
         const matches = contents.matchAll(ISLAND_REGEX)
         const islands = new Set<string>()

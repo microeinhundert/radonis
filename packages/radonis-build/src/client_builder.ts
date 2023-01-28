@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
+import { rm } from 'node:fs/promises'
+
 import { RadonisException } from '@microeinhundert/radonis-shared'
 import { context } from 'esbuild'
-import { emptyDir } from 'fs-extra'
 
 import { E_CANNOT_BUILD_CLIENT } from './exceptions/cannot_build_client'
 import { loaders } from './loaders'
@@ -52,7 +53,7 @@ export class ClientBuilder {
     esbuildOptions,
   }: BuildOptions): Promise<void> {
     if (outputToDisk) {
-      await emptyDir(outputPath)
+      await rm(outputPath, { recursive: true, force: true })
     }
 
     /**
@@ -78,8 +79,8 @@ export class ClientBuilder {
         assetsPlugin({
           publicPath,
           outputToDisk,
-          onEnd: (builtAssets) => {
-            this.#onBuildEndCallbacks.forEach((callback) => callback.apply(null, [builtAssets]))
+          onEnd: async (builtAssets) => {
+            await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
           },
         }),
         ...(esbuildOptions?.plugins ?? []),
