@@ -1,5 +1,22 @@
 # @microeinhundert/radonis-form
 
+## 4.0.0
+
+### Minor Changes
+
+- [`e1fd598`](https://github.com/microeinhundert/radonis/commit/e1fd598b37f0d49ac170c7a50ee15dae6993da1c) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Reduced dependencies
+
+### Patch Changes
+
+- [`a40335c`](https://github.com/microeinhundert/radonis/commit/a40335c7e906add462e3926af77430036889420d) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Refactored internal exceptions
+
+- Updated dependencies [[`a40335c`](https://github.com/microeinhundert/radonis/commit/a40335c7e906add462e3926af77430036889420d), [`e1fd598`](https://github.com/microeinhundert/radonis/commit/e1fd598b37f0d49ac170c7a50ee15dae6993da1c), [`33fd7d0`](https://github.com/microeinhundert/radonis/commit/33fd7d0d83ad245443472fb3e316ee7df507c31b)]:
+  - @microeinhundert/radonis-hydrate@4.0.0
+  - @microeinhundert/radonis-server@4.0.0
+  - @microeinhundert/radonis-shared@4.0.0
+  - @microeinhundert/radonis-hooks@4.0.0
+  - @microeinhundert/radonis-types@4.0.0
+
 ## 3.0.0
 
 ### Major Changes
