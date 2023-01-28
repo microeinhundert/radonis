@@ -136,7 +136,9 @@ export function isAssetType(value: string): value is AssetType {
  * @internal
  */
 export function getOutputMeta(output: { entryPoint?: string }) {
-  const [type = AssetType[0], originalPath] = output.entryPoint?.split(':') ?? []
+  let [type, originalPath] = output.entryPoint?.split(':') ?? []
+
+  type ||= AssetType.ChunkScript
 
   if (!isAssetType(type)) {
     throw new Error(`Invalid asset type "${type}" for entry "${output.entryPoint}"`)
