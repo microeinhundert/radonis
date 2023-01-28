@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-types
 
+## 4.0.0
+
+### Minor Changes
+
+- [`e1fd598`](https://github.com/microeinhundert/radonis/commit/e1fd598b37f0d49ac170c7a50ee15dae6993da1c) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Reduced dependencies
+
 ## 3.0.0
 
 ### Major Changes
