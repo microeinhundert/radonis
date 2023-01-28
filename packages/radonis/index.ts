@@ -35,6 +35,6 @@ export {
   useUrlBuilder,
 } from '@microeinhundert/radonis-hooks'
 export { HydrationRoot, useHydrated, useHydration } from '@microeinhundert/radonis-hydrate'
-export { hydrateIsland, island$ } from '@microeinhundert/radonis-hydrate'
+export { hydrateIsland as __internal__hydrateIsland, island$ } from '@microeinhundert/radonis-hydrate'
 export { createError, fetch$, RadonisException, UrlBuilder } from '@microeinhundert/radonis-shared'
 export type { Plugin, RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'

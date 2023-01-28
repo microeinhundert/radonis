@@ -40,11 +40,11 @@ export function islandsPlugin(): Plugin {
 
             islands.add(identifier)
 
-            contents = contents.replace(match[0], `hydrateIsland('${identifier}', ${symbol})`)
+            contents = contents.replace(match[0], `__internal__hydrateIsland('${identifier}', ${symbol})`)
           }
         }
 
-        contents = ["import { hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
+        contents = ["import { __internal__hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
 
         return {
           contents,
