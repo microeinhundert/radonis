@@ -70,7 +70,7 @@ export default class BuildClient extends BaseCommand {
     client.onBuildEnd(async (builtAssets) => {
       const assetsManifest = new AssetsManifestBuilder(builtAssets).build()
       await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)
-      this.logger.success('built the client bundle')
+      this.logger.success('built the client bundle successfully')
     })
 
     const rebuildOnFileChanges = !!(this.watch && !this.production)
