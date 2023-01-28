@@ -32,7 +32,7 @@ function isNativeFormMethod(method: string): boolean {
  * @see https://radonis.vercel.app/docs/hooks/use-form
  */
 export function useForm<TData = unknown, TError = unknown>({
-  action$: action,
+  action$,
   params,
   queryParams,
   method,
@@ -45,23 +45,23 @@ export function useForm<TData = unknown, TError = unknown>({
   const hydration = useHydration()
 
   if (hydration.id) {
-    hydrationManager.requireRoute(action)
+    hydrationManager.requireRoute(action$)
   }
 
   if (!noReload && hooks) {
-    throw new E_CANNOT_USE_HOOKS_WHEN_RELOADING([action])
+    throw new E_CANNOT_USE_HOOKS_WHEN_RELOADING([action$])
   }
 
   if (noReload && !hydration.id) {
-    throw new E_CANNOT_FETCH_WITHOUT_HYDRATION([action])
+    throw new E_CANNOT_FETCH_WITHOUT_HYDRATION([action$])
   }
 
   const formRef = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make$(action, { params, queryParams }), 'http://radonis'),
-    [urlBuilder, action, params, queryParams]
+    () => new URL(urlBuilder.make$(action$, { params, queryParams }), 'http://radonis'),
+    [urlBuilder, action$, params, queryParams]
   )
 
   const [mutate, { status, data, error }] = useMutation<FormData, TData, TError>(
