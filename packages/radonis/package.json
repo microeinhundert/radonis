@@ -67,6 +67,6 @@
     "@microeinhundert/radonis-hydrate": "workspace:4.0.0",
     "@microeinhundert/radonis-hooks": "workspace:4.0.0",
     "@microeinhundert/radonis-form": "workspace:4.0.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   }
 }

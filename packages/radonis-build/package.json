@@ -60,8 +60,8 @@
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:4.0.0",
     "@microeinhundert/radonis-types": "workspace:4.0.0",
-    "esbuild": "^0.17.4",
+    "esbuild": "^0.17.5",
     "fs-extra": "^11.1.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   }
 }

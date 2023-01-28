@@ -69,6 +69,6 @@
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:4.0.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   }
 }

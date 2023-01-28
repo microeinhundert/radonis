@@ -69,6 +69,6 @@
     "@microeinhundert/radonis-server": "workspace:4.0.0",
     "@microeinhundert/radonis-build": "workspace:4.0.0",
     "superjson": "^1.12.2",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   }
 }
