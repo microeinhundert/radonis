@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 import type { ServerQueryOptions } from '../types/main'
-import { generateQueryKeyForUrl } from '../utils/generate_query_key_for_url'
+import { getQueryKeyForURL } from '../utils/get_query_key_for_url'
 import { useQueryBaseUrl } from './use_query_base_url'
 
 /**
@@ -50,6 +50,6 @@ export function useServerQuery<
   return useQuery<TData, TError>({
     queryFn,
     ...options?.query,
-    queryKey: generateQueryKeyForUrl(url, [routeIdentifier, options?.query?.queryKey]),
+    queryKey: getQueryKeyForURL(url, [routeIdentifier, options?.query?.queryKey]),
   })
 }

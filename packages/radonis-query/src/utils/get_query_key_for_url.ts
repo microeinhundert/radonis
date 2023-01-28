@@ -7,15 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { urlToRelativePath } from '@microeinhundert/radonis-shared'
+import { relativePathFromURL } from '@microeinhundert/radonis-shared'
 import type { QueryKey } from '@tanstack/react-query'
 
 /**
- * Generate the query key for an URL
+ * Get the query key for an URL
  */
-export function generateQueryKeyForUrl(url: URL | string, prepend?: unknown[]): QueryKey {
+export function getQueryKeyForURL(url: URL | string, prepend?: unknown[]): QueryKey {
   const internalUrl = new URL(url, 'http://radonis')
-  const urlQueryKey = urlToRelativePath(internalUrl).split('/')
+  const urlQueryKey = relativePathFromURL(internalUrl).split('/')
   const queryKey = [prepend, urlQueryKey].flat()
 
   return queryKey

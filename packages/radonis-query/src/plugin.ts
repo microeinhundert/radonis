@@ -16,7 +16,7 @@ import { QueryDehydrator } from './components/query_dehydrator'
 import { QueryHydrator } from './components/query_hydrator'
 import { BaseUrlContextProvider } from './contexts/base_url_context'
 import { getQueryClient } from './queryClient'
-import { generateQueryKeyForUrl } from './utils/generate_query_key_for_url'
+import { getQueryKeyForURL } from './utils/get_query_key_for_url'
 import { getRouteIdentifier } from './utils/get_route_identifier'
 
 /**
@@ -49,7 +49,7 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: URL | strin
       if (routeIdentifier && props) {
         const urlBuilder = new UrlBuilder(manifest.routes)
         const url = urlBuilder.make(routeIdentifier, { params: ctx.request.params(), queryParams: ctx.request.qs() })
-        const queryKey = generateQueryKeyForUrl(url, [routeIdentifier])
+        const queryKey = getQueryKeyForURL(url, [routeIdentifier])
 
         queryClient.setQueryData(queryKey, props)
       }

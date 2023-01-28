@@ -19,41 +19,43 @@ import { getLoaderForFile } from '../loaders'
 /**
  * @internal
  */
-export const islandsPlugin = (): Plugin => ({
-  name: 'radonis-islands',
-  setup({ onResolve, onLoad }) {
-    onResolve({ filter: /\.island\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: AssetType.IslandScript }
-    })
+export function islandsPlugin(): Plugin {
+  return {
+    name: 'radonis-islands',
+    setup({ onResolve, onLoad }) {
+      onResolve({ filter: /\.island\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
+        return { path, namespace: AssetType.IslandScript }
+      })
 
-    onLoad({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ path }) => {
-      let contents = await readFile(path, 'utf8')
+      onLoad({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ path }) => {
+        let contents = await readFile(path, 'utf8')
 
-      const matches = contents.matchAll(ISLAND_REGEX)
-      const islands = new Set<string>()
+        const matches = contents.matchAll(ISLAND_REGEX)
+        const islands = new Set<string>()
 
-      for (const match of matches) {
-        if (match?.groups?.identifier && match?.groups?.symbol) {
-          const identifier = match.groups.identifier.trim()
-          const symbol = match.groups.symbol.trim()
+        for (const match of matches) {
+          if (match?.groups?.identifier && match?.groups?.symbol) {
+            const identifier = match.groups.identifier.trim()
+            const symbol = match.groups.symbol.trim()
 
-          islands.add(identifier)
+            islands.add(identifier)
 
-          contents = contents.replace(match[0], `hydrateIsland('${identifier}', ${symbol})`)
+            contents = contents.replace(match[0], `hydrateIsland('${identifier}', ${symbol})`)
+          }
         }
-      }
 
-      contents = ["import { hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
+        contents = ["import { hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
 
-      return {
-        contents,
-        resolveDir: dirname(path),
-        loader: getLoaderForFile(path),
-        pluginData: {
-          islands: Array.from(islands),
-          originalPath: path,
-        },
-      }
-    })
-  },
-})
+        return {
+          contents,
+          resolveDir: dirname(path),
+          loader: getLoaderForFile(path),
+          pluginData: {
+            islands: Array.from(islands),
+            originalPath: path,
+          },
+        }
+      })
+    },
+  }
+}

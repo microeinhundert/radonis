@@ -11,6 +11,6 @@
  * Convert an URL to a relative path
  * @internal
  */
-export function urlToRelativePath(url: URL) {
+export function relativePathFromURL(url: URL) {
   return url.toString().replace(url.origin, '')
 }

@@ -9,7 +9,7 @@
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useHydration } from '@microeinhundert/radonis-hydrate'
-import { fetch$, urlToRelativePath } from '@microeinhundert/radonis-shared'
+import { fetch$, relativePathFromURL } from '@microeinhundert/radonis-shared'
 import type { FormEvent } from 'react'
 import { useMemo } from 'react'
 import { useCallback } from 'react'
@@ -83,7 +83,7 @@ export function useForm<TData = unknown, TError = unknown>({
         }
       }
 
-      const response = await fetch$(urlToRelativePath(requestUrl), requestInit)
+      const response = await fetch$(relativePathFromURL(requestUrl), requestInit)
 
       return response.json<any>()
     },
@@ -111,7 +111,7 @@ export function useForm<TData = unknown, TError = unknown>({
         actionUrl.searchParams.append('_method', method)
       }
 
-      return urlToRelativePath(actionUrl)
+      return relativePathFromURL(actionUrl)
     },
     get method() {
       return isNativeFormMethod(method) ? method : 'post'

@@ -18,21 +18,23 @@ import { getLoaderForFile } from '../loaders'
 /**
  * @internal
  */
-export const clientPlugin = (): Plugin => ({
-  name: 'radonis-client',
-  setup({ onResolve, onLoad }) {
-    onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
-      return { path, namespace: AssetType.ClientScript }
-    })
+export function clientPlugin(): Plugin {
+  return {
+    name: 'radonis-client',
+    setup({ onResolve, onLoad }) {
+      onResolve({ filter: /\.client\.(ts(x)?|js(x)?)$/ }, async ({ path }) => {
+        return { path, namespace: AssetType.ClientScript }
+      })
 
-    onLoad({ filter: /.*/, namespace: AssetType.ClientScript }, async ({ path }) => {
-      const contents = await readFile(path, 'utf8')
+      onLoad({ filter: /.*/, namespace: AssetType.ClientScript }, async ({ path }) => {
+        const contents = await readFile(path, 'utf8')
 
-      return {
-        contents,
-        resolveDir: dirname(path),
-        loader: getLoaderForFile(path),
-      }
-    })
-  },
-})
+        return {
+          contents,
+          resolveDir: dirname(path),
+          loader: getLoaderForFile(path),
+        }
+      })
+    },
+  }
+}

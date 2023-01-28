@@ -46,7 +46,7 @@ async function readFiles(root: string, files: string[], relativePath: string): P
  * Get an array of file paths from the given location
  */
 export async function fsReadAll(
-  location: string | URL,
+  location: URL | string,
   options?: { filter?: (filePath: string, index: number) => boolean }
 ): Promise<string[]> {
   const normalizedLocation = typeof location === 'string' ? location : fileURLToPath(location)

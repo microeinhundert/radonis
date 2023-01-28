@@ -20,62 +20,64 @@ import { extractFlashMessages, extractMessages, extractRoutes, getOutputMeta } f
 /**
  * @internal
  */
-export const assetsPlugin = (options: AssetsPluginOptions): Plugin => ({
-  name: 'radonis-assets',
-  setup({ onStart, onResolve, onEnd, initialOptions }) {
-    const islandsByFile: IslandsByFile = new Map()
+export function assetsPlugin(options: AssetsPluginOptions): Plugin {
+  return {
+    name: 'radonis-assets',
+    setup({ onStart, onResolve, onEnd, initialOptions }) {
+      const islandsByFile: IslandsByFile = new Map()
 
-    onStart(() => {
-      islandsByFile.clear()
-    })
+      onStart(() => {
+        islandsByFile.clear()
+      })
 
-    onResolve({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ pluginData }) => {
-      if (pluginData?.islands?.length && pluginData?.originalPath) {
-        islandsByFile.set(pluginData.originalPath, pluginData.islands)
-      }
-
-      return null
-    })
-
-    onEnd(({ outputFiles, metafile }) => {
-      const builtAssets: BuiltAssets = new Map()
-
-      for (const { path, text, contents } of outputFiles ?? []) {
-        if (options.outputToDisk) {
-          outputFile(path, contents)
+      onResolve({ filter: /.*/, namespace: AssetType.IslandScript }, async ({ pluginData }) => {
+        if (pluginData?.islands?.length && pluginData?.originalPath) {
+          islandsByFile.set(pluginData.originalPath, pluginData.islands)
         }
 
-        const pathRelativeToOutbase = relative(initialOptions.outbase!, path)
-        const pathRelativeToPublic = relative(options.publicPath, path)
+        return null
+      })
 
-        const output = metafile?.outputs[pathRelativeToOutbase]
-        if (!output) {
-          continue
+      onEnd(({ outputFiles, metafile }) => {
+        const builtAssets: BuiltAssets = new Map()
+
+        for (const { path, text, contents } of outputFiles ?? []) {
+          if (options.outputToDisk) {
+            outputFile(path, contents)
+          }
+
+          const pathRelativeToOutbase = relative(initialOptions.outbase!, path)
+          const pathRelativeToPublic = relative(options.publicPath, path)
+
+          const output = metafile?.outputs[pathRelativeToOutbase]
+          if (!output) {
+            continue
+          }
+
+          try {
+            const { type, originalPath } = getOutputMeta(output)
+
+            const fileURL = pathToFileURL(join('/', pathRelativeToPublic))
+            const isIslandScript = type === AssetType.IslandScript
+            const islands = isIslandScript && originalPath ? islandsByFile.get(originalPath) : null
+
+            builtAssets.set(pathRelativeToOutbase, {
+              type,
+              name: basename(pathRelativeToOutbase),
+              path: fileURL.pathname,
+              islands: islands ?? [],
+              imports: output.imports,
+              flashMessages: extractFlashMessages(text),
+              messages: extractMessages(text),
+              routes: extractRoutes(text),
+            })
+          } catch {
+            continue
+          }
         }
 
-        try {
-          const { type, originalPath } = getOutputMeta(output)
-
-          const fileURL = pathToFileURL(join('/', pathRelativeToPublic))
-          const isIslandScript = type === AssetType.IslandScript
-          const islands = isIslandScript && originalPath ? islandsByFile.get(originalPath) : null
-
-          builtAssets.set(pathRelativeToOutbase, {
-            type,
-            name: basename(pathRelativeToOutbase),
-            path: fileURL.pathname,
-            islands: islands ?? [],
-            imports: output.imports,
-            flashMessages: extractFlashMessages(text),
-            messages: extractMessages(text),
-            routes: extractRoutes(text),
-          })
-        } catch {
-          continue
-        }
-      }
-
-      options.onEnd?.(builtAssets)
-    })
-  },
-})
+        options.onEnd?.(builtAssets)
+      })
+    },
+  }
+}
