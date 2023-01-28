@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-form",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Form package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/index.js",
@@ -64,11 +64,11 @@
     "@types/react-dom": "^18.0.10"
   },
   "dependencies": {
-    "@microeinhundert/radonis-types": "workspace:4.0.0",
-    "@microeinhundert/radonis-shared": "workspace:4.0.0",
-    "@microeinhundert/radonis-server": "workspace:4.0.0",
-    "@microeinhundert/radonis-hydrate": "workspace:4.0.0",
-    "@microeinhundert/radonis-hooks": "workspace:4.0.0",
+    "@microeinhundert/radonis-types": "workspace:4.0.1",
+    "@microeinhundert/radonis-shared": "workspace:4.0.1",
+    "@microeinhundert/radonis-server": "workspace:4.0.1",
+    "@microeinhundert/radonis-hydrate": "workspace:4.0.1",
+    "@microeinhundert/radonis-hooks": "workspace:4.0.1",
     "tslib": "^2.5.0"
   }
 }
