@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-build",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Build package for Radonis",
   "type": "commonjs",
   "main": "./build/cjs/index.js",
@@ -58,7 +58,7 @@
     "@types/node": "^18.11.18"
   },
   "dependencies": {
-    "@microeinhundert/radonis-shared": "workspace:4.0.1",
+    "@microeinhundert/radonis-shared": "workspace:4.0.2",
     "@microeinhundert/radonis-types": "workspace:4.0.1",
     "esbuild": "^0.17.5",
     "tslib": "^2.5.0"

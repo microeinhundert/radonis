@@ -1,5 +1,16 @@
 # @microeinhundert/radonis-build
 
+## 4.0.2
+
+### Patch Changes
+
+- [`6522fb6`](https://github.com/microeinhundert/radonis/commit/6522fb6017fe0eace680624742eaf3503aade431) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Removed usage of fs-extra
+
+- [`50d762f`](https://github.com/microeinhundert/radonis/commit/50d762fc6db2691cfda64bcb0b6ef4f23791414f) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fixed type of --watch flag
+
+- Updated dependencies [[`6522fb6`](https://github.com/microeinhundert/radonis/commit/6522fb6017fe0eace680624742eaf3503aade431), [`50d762f`](https://github.com/microeinhundert/radonis/commit/50d762fc6db2691cfda64bcb0b6ef4f23791414f)]:
+  - @microeinhundert/radonis-shared@4.0.2
+
 ## 4.0.1
 
 ### Patch Changes
