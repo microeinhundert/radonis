@@ -30,7 +30,7 @@ export function useServerMutation<
 
   const url = useMemo(
     () =>
-      urlBuilder.make(routeIdentifier, {
+      urlBuilder.make$(routeIdentifier, {
         baseUrl,
         params: options?.params,
         queryParams: options?.queryParams,

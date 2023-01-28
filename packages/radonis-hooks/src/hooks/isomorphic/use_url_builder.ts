@@ -35,6 +35,6 @@ export function useUrlBuilder() {
   )
 
   return {
-    make: (...args: Parameters<typeof urlBuilder.make>) => urlBuilder.make(...args),
+    make$: (...args: Parameters<typeof urlBuilder.make>) => urlBuilder.make(...args),
   }
 }

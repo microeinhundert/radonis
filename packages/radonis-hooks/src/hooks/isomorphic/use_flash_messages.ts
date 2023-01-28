@@ -12,8 +12,6 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import { hydrationManager } from '../../singletons'
 import { useManifest } from './use_manifest'
 
-const ERRORS_NAMESPACE = 'errors'
-
 /**
  * Hook for retrieving session flash messages
  * @see https://radonis.vercel.app/docs/hooks/use-flash-messages
@@ -74,54 +72,10 @@ export function useFlashMessages() {
     return findFlashMessage(identifier)
   }
 
-  /**
-   * Get all error flash messages
-   */
-  function allErrors() {
-    if (hydration.id) {
-      hydrationManager.requireFlashMessage(`${ERRORS_NAMESPACE}.*`)
-    }
-
-    return Object.entries(flashMessages)
-      .filter(([identifier]) => identifier.startsWith(`${ERRORS_NAMESPACE}.`))
-      .reduce<Record<string, string>>((errorFlashMessages, [identifier, value]) => {
-        return {
-          ...errorFlashMessages,
-          [identifier]: value,
-        }
-      }, {})
-  }
-
-  /**
-   * Check if a specific error flash message exists
-   */
-  function hasError(identifier: string) {
-    return has(`${ERRORS_NAMESPACE}.${identifier}`)
-  }
-
-  /**
-   * Check if any error flash messages exist
-   */
-  function hasAnyError() {
-    return Boolean(Object.keys(allErrors()).length)
-  }
-
-  /**
-   * Get a specific error flash message
-   */
-  function getError(identifier: string) {
-    return get(`${ERRORS_NAMESPACE}.${identifier}`)
-  }
-
   return {
     all,
-    has,
+    has$: has,
     hasAny,
-    get,
-    //
-    allErrors,
-    hasError,
-    hasAnyError,
-    getError,
+    get$: get,
   }
 }

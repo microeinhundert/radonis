@@ -9,5 +9,4 @@
 
 export { Form } from './src/components/form'
 export { useForm } from './src/hooks/use_form'
-export { useFormField } from './src/hooks/use_form_field'
 export type { FormChildrenProps, FormOptions, FormProps } from './src/types/main'

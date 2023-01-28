@@ -3,4 +3,4 @@
 '@microeinhundert/radonis': major
 ---
 
-Removed the not documented `useFormField` hook.
+Removed the undocumented `useFormField` hook.

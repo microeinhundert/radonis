@@ -25,7 +25,7 @@ export type FormHooks<TData, TError> = MutationHooks<FormData, TData, TError>
  * Form options
  */
 export interface FormOptions<TData, TError> {
-  action: string
+  action$: string
   params?: RouteParams
   queryParams?: RouteQueryParams
   method: FormMethod

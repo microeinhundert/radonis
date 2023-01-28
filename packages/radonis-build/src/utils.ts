@@ -14,12 +14,7 @@ import { ensureDirExists, fsReadAll } from '@microeinhundert/radonis-shared/node
 import type { AssetsManifest } from '@microeinhundert/radonis-types'
 import { AssetType } from '@microeinhundert/radonis-types'
 
-import {
-  ASSETS_MANIFEST_FILE_NAME,
-  FLASH_MESSAGE_IDENTIFIER_REGEX,
-  MESSAGE_IDENTIFIER_REGEX,
-  ROUTE_IDENTIFIER_REGEX,
-} from './constants'
+import { ASSETS_MANIFEST_FILE_NAME, TOKEN_REGEX } from './constants'
 
 /**
  * Get the entry points for the given path
@@ -57,62 +52,20 @@ export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, 
 }
 
 /**
- * Extract identifiers from usage of `.has(Error)?` and `.get(Error)?`
+ * Extract tokens from a haystack
  * @internal
  */
-export function extractFlashMessages(haystack: string): string[] {
-  const matches = haystack.matchAll(FLASH_MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<string>()
+export function extractTokens(haystack: string): string[] {
+  const matches = haystack.matchAll(TOKEN_REGEX)
+  const tokens = new Set<string>()
 
   for (const match of matches) {
     if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
+      tokens.add(match.groups.identifier)
     }
   }
 
-  return Array.from(identifiers)
-}
-
-/**
- * Extract identifiers from usage of `.formatMessage`
- * @internal
- */
-export function extractMessages(haystack: string): string[] {
-  const matches = haystack.matchAll(MESSAGE_IDENTIFIER_REGEX)
-  const identifiers = new Set<string>()
-
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
-    }
-  }
-
-  return Array.from(identifiers)
-}
-
-/**
- * Extract identifiers from usage of `.make` as well as specific component props
- * @internal
- */
-export function extractRoutes(haystack: string): string[] {
-  const matches = haystack.matchAll(ROUTE_IDENTIFIER_REGEX)
-  const identifiers = new Set<string>()
-
-  for (const match of matches) {
-    if (match?.groups?.identifier) {
-      identifiers.add(match.groups.identifier.trim())
-    }
-  }
-
-  return Array.from(identifiers)
-}
-
-/**
- * Remove duplicates from an array
- * @internal
- */
-export function dedupe<T>(array: T[]): T[] {
-  return Array.from(new Set(array))
+  return Array.from(tokens)
 }
 
 /**

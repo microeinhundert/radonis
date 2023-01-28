@@ -7,10 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { Asset, HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
-import { AssetType } from '@microeinhundert/radonis-types'
-
-import { ERRORS_NAMESPACE } from './constants'
+import type { HydrationManagerContract, Resettable } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing hydration requirements
@@ -87,13 +84,6 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
        * Require all flash messages
        */
       this.#requiredFlashMessages = new Set(Object.keys(this.#flashMessages))
-    } else if (identifier === `${ERRORS_NAMESPACE}.*`) {
-      /**
-       * Require all error flash messages
-       */
-      this.#requiredFlashMessages = new Set(
-        Object.keys(this.#flashMessages).filter((key) => key.startsWith(`${ERRORS_NAMESPACE}.`))
-      )
     } else if (identifier in this.#flashMessages) {
       this.#requiredFlashMessages.add(identifier)
     }
@@ -188,21 +178,13 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
   }
 
   /**
-   * Require the flash messages, messages and routes used by an asset
+   * Require flash messages, messages and routes by tokens
    */
-  requireAsset(asset: Asset): this {
-    if (asset.type === AssetType.ClientScript) return this
-
-    for (const identifier of asset.flashMessages) {
-      this.requireFlashMessage(identifier)
-    }
-
-    for (const identifier of asset.messages) {
-      this.requireMessage(identifier)
-    }
-
-    for (const identifier of asset.routes) {
-      this.requireRoute(identifier)
+  requireTokens(tokens: string[]): this {
+    for (const token of tokens) {
+      this.requireFlashMessage(token)
+      this.requireMessage(token)
+      this.requireRoute(token)
     }
 
     return this

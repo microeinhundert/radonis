@@ -16,7 +16,7 @@ import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
 
 import type { AssetsPluginOptions, BuiltAssets, IslandsByFile } from '../types/main'
-import { extractFlashMessages, extractMessages, extractRoutes, getOutputMeta } from '../utils'
+import { extractTokens, getOutputMeta } from '../utils'
 
 /**
  * @internal
@@ -67,9 +67,7 @@ export function assetsPlugin(options: AssetsPluginOptions): Plugin {
               path: fileURL.pathname,
               islands: islands ?? [],
               imports: output.imports,
-              flashMessages: extractFlashMessages(text),
-              messages: extractMessages(text),
-              routes: extractRoutes(text),
+              tokens: extractTokens(text),
             })
           } catch {
             continue

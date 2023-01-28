@@ -63,6 +63,6 @@ export function useI18n() {
   }
 
   return {
-    formatMessage,
+    formatMessage$: formatMessage,
   }
 }

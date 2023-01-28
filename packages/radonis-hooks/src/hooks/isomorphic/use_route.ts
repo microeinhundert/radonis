@@ -38,6 +38,6 @@ export function useRoute() {
 
   return {
     current: route!,
-    isCurrent,
+    isCurrent$: isCurrent,
   }
 }

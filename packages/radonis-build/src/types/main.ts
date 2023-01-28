@@ -7,17 +7,18 @@
  * file that was distributed with this source code.
  */
 
-import type { AssetType, HydrationRequirements, MaybePromise } from '@microeinhundert/radonis-types'
+import type { AssetType, MaybePromise } from '@microeinhundert/radonis-types'
 import type { BuildOptions as EsbuildOptions, Metafile } from 'esbuild'
 
 /**
  * Built asset
  */
-export interface BuiltAsset extends HydrationRequirements {
+export interface BuiltAsset {
   type: AssetType
   name: string
   path: string
   islands: Islands
+  tokens: string[]
   imports: Metafile['outputs'][0]['imports']
 }
 

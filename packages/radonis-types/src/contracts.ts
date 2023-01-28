@@ -13,7 +13,6 @@ import type { RouterContract } from '@ioc:Adonis/Core/Route'
 import type { ComponentPropsWithoutRef, ComponentType, PropsWithoutRef } from 'react'
 
 import type {
-  Asset,
   AssetsManifest,
   ErrorPages,
   FlushCallback,
@@ -91,7 +90,7 @@ export interface HydrationManagerContract extends Resettable {
   setRoutes(routes: Record<string, string>): this
   requireRoute(identifier: string): this
 
-  requireAsset(asset: Asset): this
+  requireTokens(tokens: string[]): this
 }
 
 /**

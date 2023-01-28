@@ -35,8 +35,8 @@ export function islandsPlugin(): Plugin {
 
         for (const match of matches) {
           if (match?.groups?.identifier && match?.groups?.symbol) {
-            const identifier = match.groups.identifier.trim()
-            const symbol = match.groups.symbol.trim()
+            const identifier = match.groups.identifier
+            const symbol = match.groups.symbol
 
             islands.add(identifier)
 

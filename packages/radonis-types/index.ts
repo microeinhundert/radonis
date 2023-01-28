@@ -40,15 +40,6 @@ export interface Resettable {
 export type Hydration = Record<string, { islandIdentifier: string; props: Record<string, unknown> }>
 
 /**
- * Hydration requirements
- */
-export interface HydrationRequirements {
-  flashMessages: string[]
-  messages: string[]
-  routes: string[]
-}
-
-/**
  * Globals (must be an interface for declaration merging from userland)
  */
 export interface Globals {}
@@ -94,11 +85,12 @@ export enum AssetType {
 /**
  * Asset
  */
-export interface Asset extends HydrationRequirements {
+export interface Asset {
   type: AssetType
   path: string
   name: string
   islands: string[]
+  tokens: string[]
 }
 
 /**

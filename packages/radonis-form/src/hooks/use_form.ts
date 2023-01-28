@@ -32,7 +32,7 @@ function isNativeFormMethod(method: string): boolean {
  * @see https://radonis.vercel.app/docs/hooks/use-form
  */
 export function useForm<TData = unknown, TError = unknown>({
-  action,
+  action$: action,
   params,
   queryParams,
   method,
@@ -60,7 +60,7 @@ export function useForm<TData = unknown, TError = unknown>({
   const urlBuilder = useUrlBuilder()
 
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make(action, { params, queryParams }), 'http://radonis'),
+    () => new URL(urlBuilder.make$(action, { params, queryParams }), 'http://radonis'),
     [urlBuilder, action, params, queryParams]
   )
 

@@ -1,5 +1,5 @@
 /*
- * @microeinhundert/radonis-server
+ * @microeinhundert/radonis
  *
  * (c) Leon Seipp <l.seipp@microeinhundert.com>
  *
@@ -8,6 +8,9 @@
  */
 
 /**
- * @internal
+ * Helper to manually mark a string as
+ * a token to be parsed by the Radonis compiler
  */
-export const ERRORS_NAMESPACE = 'errors'
+export function token$(token: string): string {
+  return token
+}

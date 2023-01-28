@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import type { Asset, AssetsManifest, HydrationRequirements } from '@microeinhundert/radonis-types'
+import type { Asset, AssetsManifest } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
-import { dedupe, nonNull } from './utils'
+import { nonNull } from './utils'
 
 /**
  * @internal
@@ -33,27 +33,15 @@ export class AssetsManifestBuilder {
   }
 
   /**
-   * Reduce the hydration requirements of multiple assets down to a single asset
+   * Reduce the tokens of multiple assets down to a single asset
    */
-  #reduceHydrationRequirements(assets: Asset[]): HydrationRequirements {
-    const { flashMessages, messages, routes } = assets.reduce<HydrationRequirements>(
-      (requirements, entry) => ({
-        flashMessages: [...requirements.flashMessages, ...entry.flashMessages],
-        messages: [...requirements.messages, ...entry.messages],
-        routes: [...requirements.routes, ...entry.routes],
-      }),
-      {
-        flashMessages: [],
-        messages: [],
-        routes: [],
-      }
+  #reduceTokens(assets: Asset[]): string[] {
+    return Array.from(
+      assets.reduce<Set<string>>((tokens, asset) => {
+        asset.tokens.forEach((token) => tokens.add(token))
+        return tokens
+      }, new Set())
     )
-
-    return {
-      flashMessages: dedupe(flashMessages),
-      messages: dedupe(messages),
-      routes: dedupe(routes),
-    }
   }
 
   /**
@@ -75,7 +63,7 @@ export class AssetsManifestBuilder {
     if (chunks.length) {
       return {
         ...asset,
-        ...this.#reduceHydrationRequirements([asset, ...chunks]),
+        tokens: this.#reduceTokens([asset, ...chunks]),
       }
     }
 
