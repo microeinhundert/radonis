@@ -71,7 +71,6 @@ export class ClientBuilder {
       entryPoints,
       outbase: appRootPath,
       outdir: outputPath,
-      minify: outputForProduction,
       ...esbuildOptions,
       plugins: [
         islandsPlugin(),
