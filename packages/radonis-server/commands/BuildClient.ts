@@ -73,7 +73,7 @@ export default class BuildClient extends BaseCommand {
       this.logger.success('built the client bundle successfully')
     })
 
-    const rebuildOnFileChanges = !!(this.watch && !this.production)
+    const rebuildOnFileChanges = Boolean(this.watch && !this.production)
 
     /**
      * Build the client
@@ -83,7 +83,6 @@ export default class BuildClient extends BaseCommand {
       appRootPath: this.application.appRoot,
       publicPath: this.application.publicPath(),
       outputPath: this.#outputPath,
-      outputToDisk: true,
       outputForProduction: this.production,
       rebuildOnFileChanges,
       esbuildOptions: buildOptions,

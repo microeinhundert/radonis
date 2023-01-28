@@ -43,10 +43,8 @@ export function assetsPlugin(options: AssetsPluginOptions): Plugin {
         const builtAssets: BuiltAssets = new Map()
 
         for (const { path, text, contents } of outputFiles ?? []) {
-          if (options.outputToDisk) {
-            await ensureDirExists(path)
-            await writeFile(path, contents)
-          }
+          await ensureDirExists(path)
+          await writeFile(path, contents)
 
           const pathRelativeToOutbase = relative(initialOptions.outbase!, path)
           const pathRelativeToPublic = relative(options.publicPath, path)

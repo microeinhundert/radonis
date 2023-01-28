@@ -47,14 +47,11 @@ export class ClientBuilder {
     appRootPath,
     publicPath,
     outputPath,
-    outputToDisk,
     outputForProduction,
     rebuildOnFileChanges,
     esbuildOptions,
   }: BuildOptions): Promise<void> {
-    if (outputToDisk) {
-      await rm(outputPath, { recursive: true, force: true })
-    }
+    await rm(outputPath, { recursive: true, force: true })
 
     /**
      * Initialize the build context
@@ -78,7 +75,6 @@ export class ClientBuilder {
         clientPlugin(),
         assetsPlugin({
           publicPath,
-          outputToDisk,
           onEnd: async (builtAssets) => {
             await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
           },

@@ -44,7 +44,6 @@ export interface BuildOptions {
   appRootPath: string
   publicPath: string
   outputPath: string
-  outputToDisk?: boolean
   outputForProduction?: boolean
   rebuildOnFileChanges?: boolean
   esbuildOptions?: EsbuildOptions
@@ -60,6 +59,5 @@ export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void
  */
 export type AssetsPluginOptions = {
   publicPath: string
-  outputToDisk?: boolean
   onEnd?: (builtAssets: BuiltAssets) => MaybePromise<void>
 }

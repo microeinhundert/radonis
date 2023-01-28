@@ -341,8 +341,10 @@ export class Renderer implements RendererContract, Resettable {
    * Get the markup containing the footer scripts as well as the closing html tag
    */
   async #getFooterMarkup(): Promise<string> {
-    const resolvedFlushCallbacks = await Promise.all(this.#flushCallbacks.map((flushCallback) => flushCallback()))
-    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => !!value)
+    const resolvedFlushCallbacks = await Promise.all(
+      this.#flushCallbacks.map((flushCallback) => flushCallback.apply(null, []))
+    )
+    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => Boolean(value))
 
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireAsset(asset)
