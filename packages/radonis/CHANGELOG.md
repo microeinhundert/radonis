@@ -1,5 +1,19 @@
 # @microeinhundert/radonis
 
+## 4.0.1
+
+### Patch Changes
+
+- [`c6fc095`](https://github.com/microeinhundert/radonis/commit/c6fc095f2651379d5ecb258a620be79f0bb3dc43) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fix build not running when not in watch mode
+
+- Updated dependencies [[`c6fc095`](https://github.com/microeinhundert/radonis/commit/c6fc095f2651379d5ecb258a620be79f0bb3dc43)]:
+  - @microeinhundert/radonis-shared@4.0.1
+  - @microeinhundert/radonis-form@4.0.1
+  - @microeinhundert/radonis-hooks@4.0.1
+  - @microeinhundert/radonis-hydrate@4.0.1
+  - @microeinhundert/radonis-server@4.0.1
+  - @microeinhundert/radonis-types@4.0.1
+
 ## 4.0.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-shared
 
+## 4.0.1
+
+### Patch Changes
+
+- [`c6fc095`](https://github.com/microeinhundert/radonis/commit/c6fc095f2651379d5ecb258a620be79f0bb3dc43) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fix build not running when not in watch mode
+
 ## 4.0.0
 
 ### Minor Changes

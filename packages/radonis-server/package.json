@@ -1,6 +1,6 @@
 {
   "name": "@microeinhundert/radonis-server",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Server provider for Radonis",
   "type": "commonjs",
   "main": "./build/providers/RadonisProvider.js",
@@ -105,9 +105,9 @@
     "@types/react-dom": "^18.0.10"
   },
   "dependencies": {
-    "@microeinhundert/radonis-build": "workspace:4.0.0",
-    "@microeinhundert/radonis-shared": "workspace:4.0.0",
-    "@microeinhundert/radonis-types": "workspace:4.0.0",
+    "@microeinhundert/radonis-build": "workspace:4.0.1",
+    "@microeinhundert/radonis-shared": "workspace:4.0.1",
+    "@microeinhundert/radonis-types": "workspace:4.0.1",
     "flattie": "^1.1.0",
     "isbot": "^3.6.5",
     "minipass": "^4.0.0",
