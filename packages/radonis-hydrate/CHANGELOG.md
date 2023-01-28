@@ -1,5 +1,14 @@
 # @microeinhundert/radonis-hydrate
 
+## 4.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`6522fb6`](https://github.com/microeinhundert/radonis/commit/6522fb6017fe0eace680624742eaf3503aade431), [`50d762f`](https://github.com/microeinhundert/radonis/commit/50d762fc6db2691cfda64bcb0b6ef4f23791414f)]:
+  - @microeinhundert/radonis-server@4.0.2
+  - @microeinhundert/radonis-shared@4.0.2
+  - @microeinhundert/radonis-build@4.0.2
+
 ## 4.0.1
 
 ### Patch Changes
