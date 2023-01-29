@@ -11,6 +11,6 @@
  * Helper to manually mark a string as
  * a token to be parsed by the Radonis compiler
  */
-export function token$(token: string): string {
+export function token$<T extends string>(token: T): T {
   return token
 }

@@ -79,14 +79,18 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require a flash message
    */
   requireFlashMessage(identifier: string): this {
-    if (identifier === '*') {
-      /**
-       * Require all flash messages
-       */
-      this.#requiredFlashMessages = new Set(Object.keys(this.#flashMessages))
-    } else if (identifier in this.#flashMessages) {
+    if (identifier in this.#flashMessages) {
       this.#requiredFlashMessages.add(identifier)
     }
+
+    return this
+  }
+
+  /**
+   * Require all flash messages
+   */
+  requireAllFlashMessages(): this {
+    this.#requiredFlashMessages = new Set(Object.keys(this.#flashMessages))
 
     return this
   }
@@ -122,14 +126,18 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require a message
    */
   requireMessage(identifier: string): this {
-    if (identifier === '*') {
-      /**
-       * Require all messages
-       */
-      this.#requiredMessages = new Set(Object.keys(this.#messages))
-    } else if (identifier in this.#messages) {
+    if (identifier in this.#messages) {
       this.#requiredMessages.add(identifier)
     }
+
+    return this
+  }
+
+  /**
+   * Require all messages
+   */
+  requireAllMessages(): this {
+    this.#requiredMessages = new Set(Object.keys(this.#messages))
 
     return this
   }
@@ -165,14 +173,18 @@ export class HydrationManager implements HydrationManagerContract, Resettable {
    * Require a route
    */
   requireRoute(identifier: string): this {
-    if (identifier === '*') {
-      /**
-       * Require all routes
-       */
-      this.#requiredRoutes = new Set(Object.keys(this.#routes))
-    } else if (identifier in this.#routes) {
+    if (identifier in this.#routes) {
       this.#requiredRoutes.add(identifier)
     }
+
+    return this
+  }
+
+  /**
+   * Require all routes
+   */
+  requireAllRoutes(): this {
+    this.#requiredRoutes = new Set(Object.keys(this.#routes))
 
     return this
   }

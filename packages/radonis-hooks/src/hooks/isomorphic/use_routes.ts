@@ -21,7 +21,7 @@ export function useRoutes() {
   const hydration = useHydration()
 
   if (hydration.id) {
-    hydrationManager.requireRoute('*')
+    hydrationManager.requireAllRoutes()
   }
 
   return routes

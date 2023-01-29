@@ -15,7 +15,7 @@ export const TOKEN_REGEX = new RegExp(/\$(\(|=|:)(\W+)?["'](?<identifier>\S+)["'
 /**
  * @internal
  */
-export const ISLAND_REGEX = new RegExp(/island\$\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
+export const ISLAND_REGEX = new RegExp(/island\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
 
 /**
  * @internal

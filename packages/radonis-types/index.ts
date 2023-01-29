@@ -49,8 +49,6 @@ export interface Globals {}
  */
 export type MessageData = Record<string, unknown>
 
-/* ---------------------------------------- */
-
 /**
  * Route
  */
@@ -70,8 +68,6 @@ export type RouteParams = Record<string, string | number>
  * Route query params
  */
 export type RouteQueryParams = Record<string, string | number | (string | number)[]>
-
-/* ---------------------------------------- */
 
 /**
  * Asset type
@@ -97,8 +93,6 @@ export interface Asset {
  * Assets manifest
  */
 export type AssetsManifest = Asset[]
-
-/* ---------------------------------------- */
 
 /**
  * Head meta
@@ -141,8 +135,6 @@ export interface RenderOptions {
   }
   globals?: Globals
 }
-
-/* ---------------------------------------- */
 
 /**
  * Plugin environment

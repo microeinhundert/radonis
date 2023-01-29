@@ -45,7 +45,7 @@ export function useFlashMessages() {
    */
   function all() {
     if (hydration.id) {
-      hydrationManager.requireFlashMessage('*')
+      hydrationManager.requireAllFlashMessages()
     }
 
     return flashMessages

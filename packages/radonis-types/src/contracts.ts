@@ -79,16 +79,19 @@ export interface HydrationManagerContract extends Resettable {
   requiredFlashMessages: Record<string, string>
   setFlashMessages(flashMessages: Record<string, string>): this
   requireFlashMessage(identifier: string): this
+  requireAllFlashMessages(): this
 
   messages: Record<string, string>
   requiredMessages: Record<string, string>
   setMessages(messages: Record<string, string>): this
   requireMessage(identifier: string): this
+  requireAllMessages(): this
 
   routes: Record<string, string>
   requiredRoutes: Record<string, string>
   setRoutes(routes: Record<string, string>): this
   requireRoute(identifier: string): this
+  requireAllRoutes(): this
 
   requireTokens(tokens: string[]): this
 }
