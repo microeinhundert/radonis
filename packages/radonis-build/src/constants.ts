@@ -10,12 +10,12 @@
 /**
  * @internal
  */
-export const TOKEN_REGEX = new RegExp(/\$(\(|=|:)(\W+)?["'](?<identifier>\S+)["']/g)
+export const TOKEN_REGEX = new RegExp(/\S\$(\(|=|:)(\W+)?["'](?<identifier>\S+)["']/g)
 
 /**
  * @internal
  */
-export const ISLAND_REGEX = new RegExp(/island\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
+export const ISLAND_REGEX = new RegExp(/\bisland\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
 
 /**
  * @internal
