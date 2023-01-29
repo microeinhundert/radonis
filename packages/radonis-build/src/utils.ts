@@ -69,14 +69,6 @@ export function extractTokens(haystack: string): string[] {
 }
 
 /**
- * Removes nullish entries from an array
- * @internal
- */
-export function nonNull<T>(array: (T | null)[]): T[] {
-  return array.filter((entry): entry is T => entry !== null)
-}
-
-/**
  * Check if a string is a valid asset type
  * @internal
  */

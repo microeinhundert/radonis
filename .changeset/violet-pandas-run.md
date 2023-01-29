@@ -2,4 +2,4 @@
 '@microeinhundert/radonis': minor
 ---
 
-Added `token$$` utility function
+Added `token$$` utility function.

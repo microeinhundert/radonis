@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
+import { nonNull } from '@microeinhundert/radonis-shared'
 import type { Asset, AssetsManifest } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
-import { nonNull } from './utils'
 
 /**
  * @internal

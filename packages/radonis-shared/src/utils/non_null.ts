@@ -8,9 +8,9 @@
  */
 
 /**
- * Convert an URL to a relative path
+ * Remove nullish entries from an array
  * @internal
  */
-export function relativePathFromURL(url: URL) {
-  return url.toString().replace(url.origin, '')
+export function nonNull<T>(array: (T | null)[]): T[] {
+  return array.filter((entry): entry is T => entry !== null)
 }

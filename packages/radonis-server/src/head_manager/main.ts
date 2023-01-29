@@ -8,7 +8,7 @@
  */
 
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
-import { stringifyAttributes } from '@microeinhundert/radonis-shared'
+import { nonNull, stringifyAttributes } from '@microeinhundert/radonis-shared'
 import type { HeadManagerContract, HeadMeta, HeadTag, Resettable } from '@microeinhundert/radonis-types'
 
 import { buildTitle } from '../utils/build_title'
@@ -83,27 +83,28 @@ export class HeadManager implements HeadManagerContract, Resettable {
    * Get the meta markup
    */
   #getMetaMarkup(): string {
-    return Object.entries(this.#meta)
-      .map(([name, value]) => {
+    return nonNull(
+      Object.entries(this.#meta).map(([name, value]) => {
         if (!value) {
           return null
         }
 
-        if (['charset', 'charSet'].includes(name)) {
-          return `<meta ${stringifyAttributes({ charset: value })} />`
-        }
-
         const isOpenGraphTag = /^(og|music|video|article|book|profile|fb):.+$/.test(name)
+        const isCharsetTag = ['charset', 'charSet'].includes(name)
 
         return [value].flat().map((content) => {
           if (typeof content !== 'string') {
             return `<meta ${stringifyAttributes(content)} />`
           }
 
+          if (isCharsetTag) {
+            return `<meta ${stringifyAttributes({ charset: content })} />`
+          }
+
           return `<meta ${stringifyAttributes({ content, [isOpenGraphTag ? 'property' : 'name']: name })} />`
         })
       })
-      .join('\n')
+    ).join('\n')
   }
 
   /**

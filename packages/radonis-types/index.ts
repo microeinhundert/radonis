@@ -109,7 +109,7 @@ export interface HeadMeta {
 export interface HeadTag {
   name: string
   content: string
-  attributes?: Record<string, unknown>
+  attributes?: Record<string, string | number | boolean>
 }
 
 /**
