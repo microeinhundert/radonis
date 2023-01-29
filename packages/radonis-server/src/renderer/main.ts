@@ -344,7 +344,7 @@ export class Renderer implements RendererContract, Resettable {
     const resolvedFlushCallbacks = await Promise.all(
       this.#flushCallbacks.map((flushCallback) => flushCallback.apply(null, []))
     )
-    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => Boolean(value))
+    const flushCallbackInjects = resolvedFlushCallbacks.filter((value): value is ReactNode => !!value)
 
     const scripts = this.#assetsManager.requiredAssets.map((asset) => {
       this.#hydrationManager.requireTokens(asset.tokens)

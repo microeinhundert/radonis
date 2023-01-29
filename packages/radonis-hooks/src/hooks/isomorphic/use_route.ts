@@ -30,7 +30,7 @@ export function useRoute() {
         hydrationManager.requireRoute(identifier)
       }
 
-      return Boolean(route?.pattern?.startsWith(routes[identifier]))
+      return !!route?.pattern?.startsWith(routes[identifier])
     }
 
     return false

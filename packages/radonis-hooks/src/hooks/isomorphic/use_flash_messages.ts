@@ -55,14 +55,14 @@ export function useFlashMessages() {
    * Check if a specific flash message exists
    */
   function has(identifier: string) {
-    return Boolean(findFlashMessage(identifier))
+    return !!findFlashMessage(identifier)
   }
 
   /**
    * Check if any flash messages exist
    */
   function hasAny() {
-    return Boolean(Object.keys(all()).length)
+    return !!Object.keys(all()).length
   }
 
   /**
