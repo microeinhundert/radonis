@@ -9,6 +9,6 @@ Revised the way static analysis is performed. Instead of extracting identifiers 
 - `useFlashMessages`: `get` -> `get$$`, `has` -> `has$$`
 - `useUrlBuilder`: `make` -> `make$$`
 - `<Form>` and `useForm`: `action` -> `action$$`
-- `useRoute`: `isCurrent$$` -> `isCurrent$$`.
+- `useRoute`: `isCurrent` -> `isCurrent$$`.
 
 See the [documentation](https://radonis.vercel.app/docs/compiler) to learn more.
