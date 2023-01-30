@@ -30,9 +30,6 @@ import type {
   UnwrapProps,
 } from '..'
 
-/**
- * Manifest contract
- */
 export interface ManifestContract {
   hydration: Hydration
   globals: Globals
@@ -43,27 +40,18 @@ export interface ManifestContract {
   routes: Record<string, string>
 }
 
-/**
- * Server contract
- */
 export interface ServerContract {
   application: ApplicationContract
   httpContext: HttpContextContract
   router: RouterContract
 }
 
-/**
- * AssetsManager contract
- */
 export interface AssetsManagerContract extends Resettable {
   requiredAssets: AssetsManifest
   requireIsland(identifier: string): void
   readAssetsManifest(): Promise<void>
 }
 
-/**
- * HeadManager contract
- */
 export interface HeadManagerContract extends Resettable {
   setTitle(title: string): void
   addMeta(meta: HeadMeta): void
@@ -71,9 +59,6 @@ export interface HeadManagerContract extends Resettable {
   getMarkup(): string
 }
 
-/**
- * HydrationManager contract
- */
 export interface HydrationManagerContract extends Resettable {
   flashMessages: Record<string, string>
   requiredFlashMessages: Record<string, string>
@@ -96,9 +81,6 @@ export interface HydrationManagerContract extends Resettable {
   requireTokens(tokens: string[]): this
 }
 
-/**
- *  ManifestManager contract
- */
 export interface ManifestManagerContract extends Resettable {
   hydration: Hydration
   globals: Globals
@@ -120,9 +102,6 @@ export interface ManifestManagerContract extends Resettable {
   setServerManifestOnGlobalScope(): void
 }
 
-/**
- * PluginsManager contract
- */
 export interface PluginsManagerContract {
   onInitClientHooks: PluginHook<'onInitClient'>[]
   beforeHydrateHooks: PluginHook<'beforeHydrate'>[]
@@ -143,9 +122,6 @@ export interface PluginsManagerContract {
   ): Promise<TBuilderValue>
 }
 
-/**
- * Renderer contract
- */
 export interface RendererContract extends Resettable {
   withHeadTitle(title: string): this
   withHeadMeta(meta: HeadMeta): this

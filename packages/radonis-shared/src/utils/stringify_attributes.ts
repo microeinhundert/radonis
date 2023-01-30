@@ -7,20 +7,26 @@
  * file that was distributed with this source code.
  */
 
+import type { DOMAttributeValue } from '@microeinhundert/radonis-types'
+
 import { nonNull } from './non_null'
 
 /**
  * Stringify attributes
  * @internal
  */
-export function stringifyAttributes(attributes: Record<string, string | number | boolean>) {
+export function stringifyAttributes(attributes: Record<string, DOMAttributeValue>) {
   return nonNull(
-    Object.entries(attributes).map(([attributeName, attributeValue]) => {
-      if (typeof attributeValue === 'boolean') {
-        return attributeValue ? attributeName.trim() : null
+    Object.entries(attributes).map(([name, value]) => {
+      if (typeof value === 'boolean') {
+        return value ? name.trim() : null
       }
 
-      return `${attributeName.trim()}="${attributeValue}"`
+      if (value === null || value === undefined) {
+        return null
+      }
+
+      return `${name.trim()}="${value}"`
     })
   ).join(' ')
 }

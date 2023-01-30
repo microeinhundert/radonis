@@ -85,24 +85,18 @@ export class HeadManager implements HeadManagerContract, Resettable {
   #getMetaMarkup(): string {
     return nonNull(
       Object.entries(this.#meta).map(([name, value]) => {
-        if (!value) {
+        if (value === null || value === undefined) {
           return null
         }
 
         const isOpenGraphTag = /^(og|music|video|article|book|profile|fb):.+$/.test(name)
         const isCharsetTag = ['charset', 'charSet'].includes(name)
 
-        return [value].flat().map((content) => {
-          if (typeof content !== 'string') {
-            return `<meta ${stringifyAttributes(content)} />`
-          }
+        if (isCharsetTag) {
+          return `<meta ${stringifyAttributes({ charset: value })} />`
+        }
 
-          if (isCharsetTag) {
-            return `<meta ${stringifyAttributes({ charset: content })} />`
-          }
-
-          return `<meta ${stringifyAttributes({ content, [isOpenGraphTag ? 'property' : 'name']: name })} />`
-        })
+        return `<meta ${stringifyAttributes({ value, [isOpenGraphTag ? 'property' : 'name']: name })} />`
       })
     ).join('\n')
   }
