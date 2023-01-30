@@ -4,4 +4,4 @@
 '@microeinhundert/radonis-hooks': minor
 ---
 
-Improved strictness
+Improved strictness.
