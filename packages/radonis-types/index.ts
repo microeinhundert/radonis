@@ -55,18 +55,18 @@ export interface Asset {
 
 export type AssetsManifest = Asset[]
 
-export type DOMAttributeValue = string | number | boolean | null | undefined
+export type AttributeValue = string | number | boolean | null | undefined
 
 export interface HeadMeta {
   charset?: 'utf-8'
   charSet?: 'utf-8'
-  [name: string]: DOMAttributeValue
+  [name: string]: AttributeValue
 }
 
 export interface HeadTag {
   name: string
   content: string
-  attributes?: Record<string, DOMAttributeValue>
+  attributes?: Record<string, AttributeValue>
 }
 
 export interface ErrorPages {

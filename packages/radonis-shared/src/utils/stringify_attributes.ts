@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import type { DOMAttributeValue } from '@microeinhundert/radonis-types'
+import type { AttributeValue } from '@microeinhundert/radonis-types'
 
 import { nonNull } from './non_null'
 
@@ -15,7 +15,7 @@ import { nonNull } from './non_null'
  * Stringify attributes
  * @internal
  */
-export function stringifyAttributes(attributes: Record<string, DOMAttributeValue>) {
+export function stringifyAttributes(attributes: Record<string, AttributeValue>) {
   return nonNull(
     Object.entries(attributes).map(([name, value]) => {
       if (typeof value === 'boolean') {
