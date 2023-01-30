@@ -8,9 +8,11 @@
  */
 
 import { useHydration } from '@microeinhundert/radonis-hydrate'
+import { RadonisException } from '@microeinhundert/radonis-shared'
 import { UrlBuilder } from '@microeinhundert/radonis-shared'
 import { useMemo } from 'react'
 
+import { E_CANNOT_FIND_ROUTE } from '../../exceptions/cannot_find_route'
 import { hydrationManager } from '../../singletons'
 import { useManifest } from './use_manifest'
 
@@ -35,6 +37,16 @@ export function useUrlBuilder() {
   )
 
   return {
-    make$: (...args: Parameters<typeof urlBuilder.make>) => urlBuilder.make(...args),
+    make$: (...args: Parameters<typeof urlBuilder.make>) => {
+      try {
+        const url = urlBuilder.make(...args)
+        return url
+      } catch (error) {
+        if (error instanceof RadonisException && error.code === 'E_CANNOT_FIND_ROUTE') {
+          throw new E_CANNOT_FIND_ROUTE([args[0]])
+        }
+        throw error
+      }
+    },
   }
 }

@@ -14,9 +14,7 @@ import { context } from 'esbuild'
 
 import { E_CANNOT_BUILD_CLIENT } from './exceptions/cannot_build_client'
 import { loaders } from './loaders'
-import { assetsPlugin } from './plugins/assets'
-import { clientPlugin } from './plugins/client'
-import { islandsPlugin } from './plugins/islands'
+import { radonisPlugin } from './plugin'
 import type { BuildOptions, OnBuildEndCallback } from './types/main'
 
 /**
@@ -71,9 +69,7 @@ export class ClientBuilder {
       outdir: outputPath,
       ...esbuildOptions,
       plugins: [
-        islandsPlugin(),
-        clientPlugin(),
-        assetsPlugin({
+        radonisPlugin({
           publicPath,
           onEnd: async (builtAssets) => {
             await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
@@ -81,11 +77,11 @@ export class ClientBuilder {
         }),
         ...(esbuildOptions?.plugins ?? []),
       ],
-      loader: { ...loaders, ...(esbuildOptions?.loader ?? {}) },
+      loader: { ...loaders, ...esbuildOptions?.loader },
       define: {
         ...this.#getEnvironment(),
         'process.env.NODE_ENV': outputForProduction ? '"production"' : '"development"',
-        ...(esbuildOptions?.define ?? {}),
+        ...esbuildOptions?.define,
       },
     })
 

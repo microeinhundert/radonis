@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 
 import { definePlugin } from '@microeinhundert/radonis'
 import { isProduction } from '@microeinhundert/radonis-shared'
@@ -33,16 +33,16 @@ export function unocssPlugin(config?: UserConfig) {
     async onBootServer({ resourcesPath }) {
       const extensions = ['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.mdx']
       const generator = createGenerator(config ?? defaultConfig)
-      const filePaths = await fsReadAll(resourcesPath, {
+      const paths = await fsReadAll(resourcesPath, {
         filter: (filePath) => extensions.some((extension) => filePath.endsWith(extension)),
       })
 
       /**
-       * Look for classes in files
+       * Search for classes in files
        */
-      for (const filePath of filePaths) {
-        const fileContents = readFileSync(filePath, 'utf8')
-        await generator.applyExtractors(fileContents, filePath, tokens)
+      for (const path of paths) {
+        const contents = await readFile(path, { encoding: 'utf-8' })
+        await generator.applyExtractors(contents, path, tokens)
       }
 
       const generatorResult = await generator.generate(tokens, {
@@ -56,9 +56,9 @@ export function unocssPlugin(config?: UserConfig) {
     },
     afterRender() {
       return (html: string) => {
-        const headIndex = html.indexOf('</head>')
+        const hasHead = html.includes('</head>')
 
-        if (!cssInjected && css && headIndex !== -1) {
+        if (!cssInjected && css && hasHead) {
           cssInjected = true
 
           return html.replace('</head>', `\n<style>${css}</style>\n</head>`)

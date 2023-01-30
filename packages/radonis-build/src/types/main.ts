@@ -56,9 +56,9 @@ export interface BuildOptions {
 export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void>
 
 /**
- * Assets plugin options
+ * Radonis plugin options
  */
-export type AssetsPluginOptions = {
+export type RadonisPluginOptions = {
   publicPath: string
   onEnd?: (builtAssets: BuiltAssets) => MaybePromise<void>
 }

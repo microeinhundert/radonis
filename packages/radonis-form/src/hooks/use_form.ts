@@ -56,7 +56,7 @@ export function useForm<TData = unknown, TError = unknown>({
     throw new E_CANNOT_FETCH_WITHOUT_HYDRATION([action$])
   }
 
-  const formRef = useRef<HTMLFormElement | null>(null)
+  const ref = useRef<HTMLFormElement | null>(null)
   const urlBuilder = useUrlBuilder()
 
   const requestUrl = useMemo(
@@ -87,7 +87,7 @@ export function useForm<TData = unknown, TError = unknown>({
 
       return response.json<any>()
     },
-    { ...(hooks ?? {}), throwOnFailure, useErrorBoundary }
+    { ...hooks, throwOnFailure, useErrorBoundary }
   )
 
   const submitHandler = useCallback(
@@ -103,7 +103,7 @@ export function useForm<TData = unknown, TError = unknown>({
   const getFormProps = () => ({
     ...props,
     onSubmit: noReload ? submitHandler : undefined,
-    ref: formRef,
+    ref,
     get action() {
       const actionUrl = new URL(requestUrl)
 
@@ -122,7 +122,7 @@ export function useForm<TData = unknown, TError = unknown>({
     status,
     data,
     error,
-    ref: formRef,
+    ref,
     getFormProps,
   }
 }

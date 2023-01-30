@@ -11,6 +11,7 @@ import { separateArray } from '@microeinhundert/radonis-shared'
 
 /**
  * Build the value for the head title tag
+ * @internal
  */
 export function buildTitle(title: string, prefix: string, suffix: string, separator: string): string {
   return separateArray(
