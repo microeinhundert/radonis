@@ -55,27 +55,27 @@ export class ClientBuilder {
      * Initialize the build context
      */
     const buildContext = await context({
-      platform: 'browser',
-      metafile: true,
-      bundle: true,
-      splitting: true,
-      treeShaking: true,
-      format: 'esm',
-      logLevel: 'silent',
-      write: false,
-      jsx: 'automatic',
       entryPoints,
       outbase: appRootPath,
       outdir: outputPath,
-      ...esbuildOptions,
+      bundle: true,
+      splitting: true,
+      metafile: true,
+      write: false,
+      treeShaking: outputForProduction,
+      platform: 'browser',
+      format: 'esm',
+      logLevel: 'silent',
+      jsx: 'automatic',
       plugins: [
+        ...(esbuildOptions?.plugins ?? []),
         radonisPlugin({
           publicPath,
+          outputForProduction,
           onEnd: async (builtAssets) => {
             await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
           },
         }),
-        ...(esbuildOptions?.plugins ?? []),
       ],
       loader: { ...loaders, ...esbuildOptions?.loader },
       define: {

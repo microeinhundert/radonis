@@ -14,6 +14,7 @@ import { pathToFileURL } from 'node:url'
 import { ensureDirExists } from '@microeinhundert/radonis-shared/node'
 import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
+import { transform } from 'esbuild'
 
 import { ISLAND_REGEX } from './constants'
 import { getLoaderForFile } from './loaders'
@@ -98,7 +99,13 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
 
         for (const { path, text, contents } of outputFiles) {
           await ensureDirExists(path)
-          await writeFile(path, contents)
+
+          if (options.outputForProduction) {
+            const transformResult = await transform(text, { minify: true })
+            await writeFile(path, transformResult.code)
+          } else {
+            await writeFile(path, contents)
+          }
 
           const pathRelativeToOutbase = relative(initialOptions.outbase!, path)
           const pathRelativeToPublic = relative(options.publicPath, path)

@@ -27,7 +27,7 @@ declare module '@ioc:Microeinhundert/Radonis' {
     }
     client: {
       limitManifest: boolean
-      buildOptions: BuildOptions
+      buildOptions: Pick<BuildOptions, 'plugins' | 'loader' | 'define'>
     }
   }
 }

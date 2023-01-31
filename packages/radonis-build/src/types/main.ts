@@ -60,5 +60,6 @@ export type OnBuildEndCallback = (builtAssets: BuiltAssets) => MaybePromise<void
  */
 export type RadonisPluginOptions = {
   publicPath: string
+  outputForProduction?: boolean
   onEnd?: (builtAssets: BuiltAssets) => MaybePromise<void>
 }

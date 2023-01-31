@@ -65,10 +65,11 @@ export default class BuildClient extends BaseCommand {
     } = this.#config
 
     const entryPoints = await getEntryPoints(this.application.resourcesPath())
-    const client = new ClientBuilder()
+    const clientBuilder = new ClientBuilder()
 
-    client.onBuildEnd(async (builtAssets) => {
-      const assetsManifest = new AssetsManifestBuilder(builtAssets).build()
+    clientBuilder.onBuildEnd(async (builtAssets) => {
+      const assetsManifestBuilder = new AssetsManifestBuilder(builtAssets)
+      const assetsManifest = assetsManifestBuilder.build()
       await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)
       this.logger.success('built the client bundle successfully')
     })
@@ -78,7 +79,7 @@ export default class BuildClient extends BaseCommand {
     /**
      * Build the client
      */
-    await client.build({
+    await clientBuilder.build({
       entryPoints,
       appRootPath: this.application.appRoot,
       publicPath: this.application.publicPath(),

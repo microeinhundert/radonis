@@ -3,4 +3,4 @@
 '@microeinhundert/radonis': minor
 ---
 
-Restrict buildOptions type
+Restricted buildOptions type.
