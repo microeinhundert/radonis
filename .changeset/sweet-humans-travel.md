@@ -3,4 +3,4 @@
 '@microeinhundert/radonis': major
 ---
 
-Renamed `fetch$$` utility to `radonisFetch'.
+Renamed `fetch$$` utility to `radonisFetch`.
