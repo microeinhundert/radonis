@@ -9,12 +9,6 @@
 
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const baseUrlContext = createContext<string | undefined>(undefined)
 
-/**
- * @internal
- */
 export const BaseUrlContextProvider = baseUrlContext.Provider

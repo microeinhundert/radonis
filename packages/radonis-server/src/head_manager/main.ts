@@ -15,7 +15,6 @@ import { buildTitle } from '../utils/build_title'
 
 /**
  * Service for managing head data
- * @internal
  */
 export class HeadManager implements HeadManagerContract, Resettable {
   /**

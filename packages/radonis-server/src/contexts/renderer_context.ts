@@ -10,12 +10,6 @@
 import type { RendererContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const rendererContext = createContext<RendererContract>(null as any)
 
-/**
- * @internal
- */
 export const RendererContextProvider = rendererContext.Provider

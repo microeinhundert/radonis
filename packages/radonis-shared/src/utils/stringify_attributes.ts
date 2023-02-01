@@ -13,7 +13,6 @@ import { nonNull } from './non_null'
 
 /**
  * Stringify attributes
- * @internal
  */
 export function stringifyAttributes(attributes: Record<string, AttributeValue>) {
   return nonNull(

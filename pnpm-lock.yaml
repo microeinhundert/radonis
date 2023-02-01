@@ -211,6 +211,7 @@ importers:
       '@types/node': ^18.11.18
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
+      esbuild: ^0.17.5
       flattie: ^1.1.0
       isbot: ^3.6.5
       minipass: ^4.0.0
@@ -220,6 +221,7 @@ importers:
       '@microeinhundert/radonis-build': link:../radonis-build
       '@microeinhundert/radonis-shared': link:../radonis-shared
       '@microeinhundert/radonis-types': link:../radonis-types
+      esbuild: 0.17.5
       flattie: 1.1.0
       isbot: 3.6.5
       minipass: 4.0.0

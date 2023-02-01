@@ -9,9 +9,6 @@
 
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const hydrationContext = createContext<{
   hydrated: boolean
   id: string | null
@@ -20,7 +17,4 @@ export const hydrationContext = createContext<{
   id: null,
 })
 
-/**
- * @internal
- */
 export const HydrationContextProvider = hydrationContext.Provider

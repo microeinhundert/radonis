@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_HYDRATE_WITH_CHILDREN = createError<[islandIdentifier: string, hydrationRootId: string]>(
   'The island "%s" within HydrationRoot "%s" has children',
   'E_CANNOT_HYDRATE_WITH_CHILDREN',

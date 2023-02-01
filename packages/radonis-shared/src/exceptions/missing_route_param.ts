@@ -9,9 +9,6 @@
 
 import { createError } from '../exception/main'
 
-/**
- * @internal
- */
 export const E_MISSING_ROUTE_PARAM = createError<[param: string, pattern: string]>(
   'The param "%s" is required for building the URL to the route "%s"',
   'E_MISSING_ROUTE_PARAM',

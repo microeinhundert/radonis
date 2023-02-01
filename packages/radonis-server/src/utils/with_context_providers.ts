@@ -23,7 +23,6 @@ import { ServerContextProvider } from '../contexts/server_context'
 
 /**
  * Wrap a ReactElement with the required context providers
- * @internal
  */
 export function withContextProviders(
   renderer: RendererContract,

@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_HYDRATE = createError<[islandIdentifier: string, hydrationRootId: string]>(
   'The server-rendered island "%s" within HydrationRoot "%s" could not be hydrated',
   'E_CANNOT_HYDRATE',

@@ -14,7 +14,6 @@ import { createElement as h } from 'react'
 
 /**
  * The default error page
- * @internal
  */
 export function DefaultErrorPage({ error }: { error: unknown }) {
   let message

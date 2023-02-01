@@ -10,12 +10,5 @@
 import { Hydrator } from '@microeinhundert/radonis-hydrate'
 import { PluginsManager } from '@microeinhundert/radonis-server/standalone'
 
-/**
- * @internal
- */
 export const pluginsManager = PluginsManager.getSingletonInstance()
-
-/**
- * @internal
- */
 export const hydrator = Hydrator.getSingletonInstance(pluginsManager)

@@ -11,7 +11,6 @@ import type { HydrationManagerContract, Resettable } from '@microeinhundert/rado
 
 /**
  * Service for managing hydration requirements
- * @internal
  */
 export class HydrationManager implements HydrationManagerContract, Resettable {
   /**

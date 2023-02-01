@@ -12,9 +12,6 @@
 import type { ContiguousData } from 'minipass'
 import type Minipass from 'minipass'
 
-/**
- * @internal
- */
 export async function* generateHtmlStream({
   head,
   body,

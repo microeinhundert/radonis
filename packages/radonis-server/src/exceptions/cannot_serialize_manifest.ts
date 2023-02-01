@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_SERIALIZE_MANIFEST = createError(
   'The Radonis manifest cannot be serialized. Make sure you only pass data to islands that can be serialized by superjson',
   'E_CANNOT_SERIALIZE_MANIFEST',

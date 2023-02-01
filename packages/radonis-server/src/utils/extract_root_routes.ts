@@ -13,7 +13,6 @@ import { getRouteIdentifier } from './get_route_identifier'
 
 /**
  * Extract the root routes
- * @internal
  */
 export function extractRootRoutes(router: RouterContract): Record<string, string> {
   const rootRoutes = router.toJSON()?.['root'] ?? []

@@ -9,7 +9,4 @@
 
 import { HydrationManager } from '@microeinhundert/radonis-server/standalone'
 
-/**
- * @internal
- */
 export const hydrationManager = HydrationManager.getSingletonInstance()

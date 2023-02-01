@@ -9,9 +9,6 @@
 
 import { createError } from '../exception/main'
 
-/**
- * @internal
- */
 export const E_CANNOT_FIND_ROUTE = createError<[identifier: string]>(
   'Cannot find a route named "%s"',
   'E_CANNOT_FIND_ROUTE',

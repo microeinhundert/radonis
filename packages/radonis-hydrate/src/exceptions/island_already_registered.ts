@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_ISLAND_ALREADY_REGISTERED = createError<[islandIdentifier: string]>(
   'The island "%s" is already registered for hydration. Make sure you do not use the same name for multiple islands',
   'E_ISLAND_ALREADY_REGISTERED',

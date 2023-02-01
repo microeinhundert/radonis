@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_PLUGIN_NOT_INSTALLABLE = createError<[plugin: string, environment: string]>(
   'The plugin "%s" is not installable in the "%s" environment',
   'E_PLUGIN_NOT_INSTALLABLE',

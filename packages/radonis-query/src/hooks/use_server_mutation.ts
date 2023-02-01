@@ -9,7 +9,7 @@
 
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { useUrlBuilder } from '@microeinhundert/radonis'
-import { fetch$ } from '@microeinhundert/radonis-shared'
+import { radonisFetch } from '@microeinhundert/radonis-shared'
 import { useMutation } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
@@ -39,7 +39,7 @@ export function useServerMutation<
   )
 
   const mutationFn = async (data) => {
-    const response = await fetch$(url, {
+    const response = await radonisFetch(url, {
       method: 'post',
       body: data,
       headers: options?.headers,

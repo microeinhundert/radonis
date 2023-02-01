@@ -14,7 +14,6 @@ import type { QueryDehydratorProps } from '../types/main'
 
 /**
  * Component for dehydrating queries
- * @internal
  */
 export function QueryDehydrator({ children }: QueryDehydratorProps) {
   const renderer = useRenderer()

@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_INVALID_MUTATION_ACTION = createError<[action: string]>(
   'Invalid mutation action "%s"',
   'E_INVALID_MUTATION_ACTION',

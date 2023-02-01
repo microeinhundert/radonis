@@ -15,7 +15,6 @@ import type { QueryHydratorProps } from '../types/main'
 
 /**
  * Component for hydrating queries
- * @internal
  */
 export function QueryHydrator({ children }: QueryHydratorProps) {
   const globals = useGlobals() as any

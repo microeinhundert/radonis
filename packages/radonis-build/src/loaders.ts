@@ -13,9 +13,6 @@ import type { Loader } from 'esbuild'
 
 import { E_CANNOT_GET_FILE_LOADER } from './exceptions/cannot_get_file_loader'
 
-/**
- * @internal
- */
 export const loaders: Record<string, Loader> = {
   '.js': 'js',
   '.jsx': 'jsx',
@@ -23,9 +20,6 @@ export const loaders: Record<string, Loader> = {
   '.tsx': 'tsx',
 }
 
-/**
- * @internal
- */
 export function getLoaderForFile(fileNameOrPath: string): Loader {
   const ext = extname(fileNameOrPath)
 

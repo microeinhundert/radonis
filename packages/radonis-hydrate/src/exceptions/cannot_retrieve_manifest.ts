@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_RETRIEVE_MANIFEST = createError(
   'Cannot retrieve the Radonis manifest. Ensure that the Radonis server provider is configured correctly',
   'E_CANNOT_RETRIEVE_MANIFEST',

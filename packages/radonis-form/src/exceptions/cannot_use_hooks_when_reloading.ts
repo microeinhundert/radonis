@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_USE_HOOKS_WHEN_RELOADING = createError<[action: string]>(
   'The form with action "%s" cannot use the "hooks" prop without also setting the "noReload" prop',
   'E_CANNOT_USE_HOOKS_WHEN_RELOADING',

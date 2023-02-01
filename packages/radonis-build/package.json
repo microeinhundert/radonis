@@ -15,6 +15,16 @@
         "types": "./build/cjs/index.d.ts",
         "default": "./build/cjs/index.js"
       }
+    },
+    "./utils": {
+      "import": {
+        "types": "./build/esm/utils.d.ts",
+        "default": "./build/esm/utils.js"
+      },
+      "require": {
+        "types": "./build/cjs/utils.d.ts",
+        "default": "./build/cjs/utils.js"
+      }
     }
   },
   "sideEffects": false,

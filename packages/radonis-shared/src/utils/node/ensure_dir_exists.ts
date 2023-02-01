@@ -13,7 +13,6 @@ import { dirname } from 'node:path'
 
 /**
  * Ensure a directory exists
- * @internal
  */
 export async function ensureDirExists(path: string) {
   const dir = dirname(path)

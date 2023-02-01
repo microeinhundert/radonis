@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_USE_ON_CLIENT = createError<[name: string]>(
   'The hook "%s()" cannot be used client-side',
   'E_CANNOT_USE_ON_CLIENT',

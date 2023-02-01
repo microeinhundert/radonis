@@ -11,7 +11,6 @@ import type { RouteNode } from '@ioc:Adonis/Core/Route'
 
 /**
  * Get the route identifier
- * @internal
  */
 export function getRouteIdentifier(routeNode: RouteNode | undefined): string | undefined {
   return routeNode?.name ?? (typeof routeNode?.handler === 'string' ? routeNode.handler : undefined)

@@ -8,13 +8,12 @@
  */
 
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import { readAssetsManifestFromDisk } from '@microeinhundert/radonis-build'
+import { readAssetsManifestFromDisk } from '@microeinhundert/radonis-build/utils'
 import type { AssetsManagerContract, AssetsManifest, Resettable } from '@microeinhundert/radonis-types'
 import { AssetType } from '@microeinhundert/radonis-types'
 
 /**
  * Service for managing assets
- * @internal
  */
 export class AssetsManager implements AssetsManagerContract, Resettable {
   /**

@@ -12,9 +12,6 @@ import type { Asset, AssetsManifest } from '@microeinhundert/radonis-types'
 
 import type { BuiltAsset, BuiltAssets } from './types/main'
 
-/**
- * @internal
- */
 export class AssetsManifestBuilder {
   /**
    * The built assets

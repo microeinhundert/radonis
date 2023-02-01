@@ -10,12 +10,6 @@
 import type { ServerContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const serverContext = createContext<ServerContract>(null as any)
 
-/**
- * @internal
- */
 export const ServerContextProvider = serverContext.Provider

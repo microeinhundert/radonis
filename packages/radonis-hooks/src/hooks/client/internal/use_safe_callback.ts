@@ -11,9 +11,6 @@ import { useCallback } from 'react'
 
 import { useIsMounted } from './use_is_mounted'
 
-/**
- * @internal
- */
 export function useSafeCallback<TArguments extends any[] = any[], TReturnValue = any>(
   callback: (...args: TArguments) => TReturnValue
 ) {

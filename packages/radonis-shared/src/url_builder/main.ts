@@ -15,7 +15,7 @@ import { E_WILDCARD_ROUTES_NOT_SUPPORTED } from '../exceptions/wildcard_routes_n
 import type { UrlBuilderMakeOptions, UrlBuilderOptions } from '../types/main'
 
 /**
- * Helper for building URLs to routes
+ * Helper to build URLs to routes
  */
 export class UrlBuilder {
   /**

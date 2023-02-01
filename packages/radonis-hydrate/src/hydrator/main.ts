@@ -19,7 +19,7 @@ import { getManifestOrFail } from '../utils/get_manifest_or_fail'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 
 /**
- * @internal
+ * Service for selectively hydrating the page
  */
 export class Hydrator {
   /**

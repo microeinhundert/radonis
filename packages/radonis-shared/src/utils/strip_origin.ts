@@ -9,7 +9,6 @@
 
 /**
  * Strip the origin from an URL
- * @internal
  */
 export function stripOrigin(url: URL) {
   return url.toString().replace(url.origin, '')

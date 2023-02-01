@@ -9,9 +9,6 @@
 
 import { createError } from '../exception/main'
 
-/**
- * @internal
- */
 export const E_WILDCARD_ROUTES_NOT_SUPPORTED = createError(
   'Wildcard routes are not currently supported by the URL builder',
   'E_WILDCARD_ROUTES_NOT_SUPPORTED',

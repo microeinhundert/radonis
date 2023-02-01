@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CANNOT_BUILD_CLIENT = createError<[message: string]>(
   'Cannot build the Radonis client bundle: %s',
   'E_CANNOT_BUILD_CLIENT',

@@ -21,7 +21,6 @@ import { E_PLUGIN_NOT_INSTALLABLE } from '../exceptions/plugin_not_installable'
 
 /**
  * Service for managing plugins
- * @internal
  */
 export class PluginsManager implements PluginsManagerContract {
   /**

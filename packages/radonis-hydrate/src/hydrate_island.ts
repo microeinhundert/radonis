@@ -13,7 +13,6 @@ import { hydrator } from './singletons'
 
 /**
  * Hydrate an island (injected by the compiler)
- * @internal
  */
 export function hydrateIsland<T extends ComponentType<any>>(islandIdentifier: string, Component: T): T {
   hydrator.registerIsland(islandIdentifier, Component)

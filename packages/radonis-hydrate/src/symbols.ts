@@ -7,7 +7,4 @@
  * file that was distributed with this source code.
  */
 
-/**
- * @internal
- */
 export const islandIdentifierSymbol = Symbol('radonisIslandIdentifier')

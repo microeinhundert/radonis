@@ -9,7 +9,7 @@
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useHydration } from '@microeinhundert/radonis-hydrate'
-import { fetch$, stripOrigin } from '@microeinhundert/radonis-shared'
+import { radonisFetch, stripOrigin } from '@microeinhundert/radonis-shared'
 import type { FormEvent } from 'react'
 import { useMemo } from 'react'
 import { useCallback } from 'react'
@@ -83,7 +83,7 @@ export function useForm<TData = unknown, TError = unknown>({
         }
       }
 
-      const response = await fetch$(stripOrigin(requestUrl), requestInit)
+      const response = await radonisFetch(stripOrigin(requestUrl), requestInit)
 
       return response.json<any>()
     },

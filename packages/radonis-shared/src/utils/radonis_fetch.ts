@@ -14,9 +14,9 @@ import superjson from 'superjson'
 import { getFetchOrFail } from './get_fetch_or_fail'
 
 /**
- * Utility for fetching from the Radonis server
+ * Helper to fetch from the Radonis server
  */
-export async function fetch$(input: RequestInfo | URL, init?: RequestInit) {
+export async function radonisFetch(input: RequestInfo | URL, init?: RequestInit) {
   const requestInit: RequestInit = {
     ...init,
     headers: {

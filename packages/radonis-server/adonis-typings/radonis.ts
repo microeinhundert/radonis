@@ -8,8 +8,8 @@
  */
 
 declare module '@ioc:Microeinhundert/Radonis' {
-  import type { BuildOptions } from '@microeinhundert/radonis-build'
   import type { HeadMeta, Plugin } from '@microeinhundert/radonis-types'
+  import type { BuildOptions } from 'esbuild'
 
   interface RadonisConfig {
     plugins: Plugin[]

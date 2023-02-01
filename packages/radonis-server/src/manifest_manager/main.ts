@@ -26,7 +26,6 @@ import { DEFAULT_LOCALE } from './constants'
 
 /**
  * Service for managing the manifest
- * @internal
  */
 export class ManifestManager implements ManifestManagerContract, Resettable {
   /**

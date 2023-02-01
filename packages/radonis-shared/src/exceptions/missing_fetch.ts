@@ -9,9 +9,6 @@
 
 import { createError } from '../exception/main'
 
-/**
- * @internal
- */
 export const E_MISSING_FETCH = createError(
   'There is no server-side implementation of the "fetch" API available. Please include a polyfill',
   'E_MISSING_FETCH',

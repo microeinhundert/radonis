@@ -9,7 +9,6 @@
 
 /**
  * Remove nullish entries from an array
- * @internal
  */
 export function nonNull<T>(array: (T | null)[]): T[] {
   return array.filter((entry): entry is T => entry !== null)

@@ -51,7 +51,6 @@ import { ABORT_DELAY } from './constants'
 
 /**
  * Service for rendering
- * @internal
  */
 export class Renderer implements RendererContract, Resettable {
   /**

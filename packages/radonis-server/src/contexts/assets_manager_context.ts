@@ -10,12 +10,6 @@
 import type { AssetsManagerContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const assetsManagerContext = createContext<AssetsManagerContract>(null as any)
 
-/**
- * @internal
- */
 export const AssetsManagerContextProvider = assetsManagerContext.Provider

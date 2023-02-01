@@ -14,7 +14,6 @@ import { getRouteIdentifier } from './get_route_identifier'
 
 /**
  * Transform a RouteNode to match the shape expected by the manifest
- * @internal
  */
 export function transformRouteNode(routeNode: RouteNode): Route {
   return {

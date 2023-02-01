@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_CONFLICTING_PLUGINS = createError<[plugin: string, conflictingPlugins: string]>(
   'The plugin "%s" conflicts with the following installed plugins: %s',
   'E_CONFLICTING_PLUGINS',

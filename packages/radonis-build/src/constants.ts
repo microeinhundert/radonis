@@ -7,17 +7,6 @@
  * file that was distributed with this source code.
  */
 
-/**
- * @internal
- */
 export const TOKEN_REGEX = new RegExp(/\S\$(\(|=|:)(\W+)?["'](?<identifier>\S+)["']/g)
-
-/**
- * @internal
- */
 export const ISLAND_REGEX = new RegExp(/\bisland\((\s+)?["'](?<identifier>\S+)["'],(\s+)?(?<symbol>\S+)(\s+)?\)/g)
-
-/**
- * @internal
- */
 export const ASSETS_MANIFEST_FILE_NAME = 'assets-manifest.json'

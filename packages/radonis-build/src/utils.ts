@@ -18,7 +18,6 @@ import { ASSETS_MANIFEST_FILE_NAME, TOKEN_REGEX } from './constants'
 
 /**
  * Get the entry points for the given path
- * @internal
  */
 export async function getEntryPoints(path: string) {
   return fsReadAll(path, {
@@ -30,7 +29,6 @@ export async function getEntryPoints(path: string) {
 
 /**
  * Read the assets manifest from disk
- * @internal
  */
 export async function readAssetsManifestFromDisk(directory: string): Promise<AssetsManifest | null> {
   try {
@@ -44,7 +42,6 @@ export async function readAssetsManifestFromDisk(directory: string): Promise<Ass
 
 /**
  * Write the assets manifest to disk
- * @internal
  */
 export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, directory: string): Promise<void> {
   await ensureDirExists(directory)
@@ -53,7 +50,6 @@ export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, 
 
 /**
  * Extract tokens from a haystack
- * @internal
  */
 export function extractTokens(haystack: string): string[] {
   const matches = haystack.matchAll(TOKEN_REGEX)
@@ -70,7 +66,6 @@ export function extractTokens(haystack: string): string[] {
 
 /**
  * Check if a string is a valid asset type
- * @internal
  */
 export function isAssetType(value: string): value is AssetType {
   return Object.values<string>(AssetType).includes(value)
@@ -78,7 +73,6 @@ export function isAssetType(value: string): value is AssetType {
 
 /**
  * Get the meta information for a given output
- * @internal
  */
 export function getOutputMeta(output: { entryPoint?: string }) {
   let [type, originalPath] = output.entryPoint?.split(':') ?? []

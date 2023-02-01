@@ -10,12 +10,6 @@
 import type { ManifestManagerContract } from '@microeinhundert/radonis-types'
 import { createContext } from 'react'
 
-/**
- * @internal
- */
 export const manifestManagerContext = createContext<ManifestManagerContract>(null as any)
 
-/**
- * @internal
- */
 export const ManifestManagerContextProvider = manifestManagerContext.Provider

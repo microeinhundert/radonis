@@ -9,9 +9,6 @@
 
 import { createError } from '@microeinhundert/radonis-shared'
 
-/**
- * @internal
- */
 export const E_PLUGIN_ALREADY_INSTALLED = createError<[plugin: string]>(
   'The plugin "%s" is already installed',
   'E_PLUGIN_ALREADY_INSTALLED',

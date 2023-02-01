@@ -17,9 +17,6 @@ import { loaders } from './loaders'
 import { radonisPlugin } from './plugin'
 import type { BuildOptions, OnBuildEndCallback } from './types/main'
 
-/**
- * @internal
- */
 export class ClientBuilder {
   /**
    * The registered `onBuildEnd` callbacks
@@ -71,7 +68,7 @@ export class ClientBuilder {
         ...(esbuildOptions?.plugins ?? []),
         radonisPlugin({
           publicPath,
-          outputForProduction,
+          minify: outputForProduction,
           onEnd: async (builtAssets) => {
             await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
           },

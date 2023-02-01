@@ -17,7 +17,6 @@ let queryClient: QueryClient
 
 /**
  * Get the QueryClient
- * @internal
  */
 export function getQueryClient(config?: QueryClientConfig) {
   if (config) {

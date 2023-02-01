@@ -22,7 +22,7 @@ import type { BuiltAssets, IslandsByFile, RadonisPluginOptions } from './types/m
 import { extractTokens, getOutputMeta } from './utils'
 
 /**
- * @internal
+ * Plugin for esbuild
  */
 export function radonisPlugin(options: RadonisPluginOptions): Plugin {
   return {
@@ -100,7 +100,7 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
         for (const { path, text, contents } of outputFiles) {
           await ensureDirExists(path)
 
-          if (options.outputForProduction) {
+          if (options.minify) {
             const transformResult = await transform(text, { minify: true })
             await writeFile(path, transformResult.code)
           } else {
