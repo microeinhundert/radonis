@@ -58,11 +58,11 @@
   "peerDependencies": {
     "@microeinhundert/radonis": "workspace:4.0.2",
     "@adonisjs/core": "^5.8.0",
-    "@tanstack/react-query": "^4.23.0"
+    "@tanstack/react-query": "^4.24.4"
   },
   "devDependencies": {
     "@microeinhundert/radonis": "workspace:4.0.2",
-    "@tanstack/react-query": "^4.23.0",
+    "@tanstack/react-query": "^4.24.4",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10"
