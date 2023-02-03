@@ -1,5 +1,48 @@
 # @microeinhundert/radonis
 
+## 5.0.0
+
+### Major Changes
+
+- [`97f238d`](https://github.com/microeinhundert/radonis/commit/97f238d51b34c58d9e4f024aefb97ef633bc38dd) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Removed the undocumented `useFormField` hook.
+
+- [`87c6921`](https://github.com/microeinhundert/radonis/commit/87c6921070d1923ce62e58c71fc56e29009ada71) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Removed `allErrors`, `hasError`, `hasAnyError` and `getError` utility methods from the `useFlashMessages` hook. Use `all`, `has`, `hasAny` and `get` instead.
+
+- [`1008ab5`](https://github.com/microeinhundert/radonis/commit/1008ab5e0d84b1ddb1ae294a51595af990efadd3) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Revised the way static analysis is performed. Instead of extracting identifiers from specifically named snippets of code, Radonis now looks for any function call, object property or JSX property whose name ends with a dollar sign `$`. This has the advantage of simplifying static analysis and reducing edge cases, but also gives you more flexibility. Any function call, object property or JSX property in your codebase will now be statically analysed if it ends with a dollar sign. This convention also makes it clearer to the reader what is statically analysed and what is not.
+
+  **Migration:**
+
+  - `useI18n`: `formatMessage` -> `formatMessage$`
+  - `useFlashMessages`: `get` -> `get$`, `has` -> `has$`
+  - `useUrlBuilder`: `make` -> `make$`
+  - `<Form>` and `useForm`: `action` -> `action$`
+  - `useRoute`: `isCurrent` -> `isCurrent$`.
+
+  See the [documentation](https://radonis.vercel.app/docs/compiler) to learn more.
+
+- [`4f44646`](https://github.com/microeinhundert/radonis/commit/4f4464644115289466dd7a63c020634b4f3974e3) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `fetch$` utility to `radonisFetch`.
+
+### Minor Changes
+
+- [`9a1fe5c`](https://github.com/microeinhundert/radonis/commit/9a1fe5c956c819eb9ea737bf7618ef9b77cf05ee) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Changed default build script.
+
+  **Migration:**
+  Change the `build` script in `package.json` to `npm run build:server && npm run build:client"`. This ensures that the two build steps are performed in order.
+
+- [`c7a59fb`](https://github.com/microeinhundert/radonis/commit/c7a59fb9023f7988672d2ce60446a5f8a1cd254b) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Restricted buildOptions type.
+
+- [`f8d2206`](https://github.com/microeinhundert/radonis/commit/f8d22063291a54a2d0e5a12108f86bbe9f5fccdb) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Added `token$` utility function.
+
+### Patch Changes
+
+- Updated dependencies [[`4fbcc6c`](https://github.com/microeinhundert/radonis/commit/4fbcc6c1c34e36ae0438a10f0d465fd95347620f), [`3d5f284`](https://github.com/microeinhundert/radonis/commit/3d5f28423236654045be44e716186296b444fa35), [`5c00c86`](https://github.com/microeinhundert/radonis/commit/5c00c8633b241fad612289fd661c71e1b7a494f5), [`573a79b`](https://github.com/microeinhundert/radonis/commit/573a79b977f90ec51e9572eec86cb20eee628abb), [`4031b32`](https://github.com/microeinhundert/radonis/commit/4031b329506e0578893b243aee3737834eb5c566), [`9a1fe5c`](https://github.com/microeinhundert/radonis/commit/9a1fe5c956c819eb9ea737bf7618ef9b77cf05ee), [`97f238d`](https://github.com/microeinhundert/radonis/commit/97f238d51b34c58d9e4f024aefb97ef633bc38dd), [`c7a59fb`](https://github.com/microeinhundert/radonis/commit/c7a59fb9023f7988672d2ce60446a5f8a1cd254b), [`87c6921`](https://github.com/microeinhundert/radonis/commit/87c6921070d1923ce62e58c71fc56e29009ada71), [`fafe5ba`](https://github.com/microeinhundert/radonis/commit/fafe5ba3f4e83894b1c20670161ab2973fa9ed69), [`9f23f13`](https://github.com/microeinhundert/radonis/commit/9f23f13c592dd15a546831b035b704b5a81f2476), [`4f44646`](https://github.com/microeinhundert/radonis/commit/4f4464644115289466dd7a63c020634b4f3974e3), [`7663090`](https://github.com/microeinhundert/radonis/commit/7663090350d638d0d635f4d4ec13c7f04c191434)]:
+  - @microeinhundert/radonis-form@5.0.0
+  - @microeinhundert/radonis-hooks@5.0.0
+  - @microeinhundert/radonis-types@5.0.0
+  - @microeinhundert/radonis-shared@5.0.0
+  - @microeinhundert/radonis-server@5.0.0
+  - @microeinhundert/radonis-hydrate@5.0.0
+
 ## 4.0.2
 
 ### Patch Changes

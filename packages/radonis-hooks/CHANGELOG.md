@@ -1,5 +1,31 @@
 # @microeinhundert/radonis-hooks
 
+## 5.0.0
+
+### Major Changes
+
+- [`3d5f284`](https://github.com/microeinhundert/radonis/commit/3d5f28423236654045be44e716186296b444fa35) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `make` method on the `useUrlBuilder` hook to `make$`.
+
+- [`4031b32`](https://github.com/microeinhundert/radonis/commit/4031b329506e0578893b243aee3737834eb5c566) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `formatMessage` method on the `useI18n` hook to `formatMessage$`.
+
+- [`87c6921`](https://github.com/microeinhundert/radonis/commit/87c6921070d1923ce62e58c71fc56e29009ada71) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Removed `allErrors`, `hasError`, `hasAnyError` and `getError` utility methods from the `useFlashMessages` hook. Use `all`, `has`, `hasAny` and `get` instead.
+
+- [`9f23f13`](https://github.com/microeinhundert/radonis/commit/9f23f13c592dd15a546831b035b704b5a81f2476) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `ìsCurrent` method on the `useRoute` hook to `isCurrent$`.
+
+- [`7663090`](https://github.com/microeinhundert/radonis/commit/7663090350d638d0d635f4d4ec13c7f04c191434) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `has` and `get` methods on the `useFlashMessages` hook to `has$` and `get$` respectively.
+
+### Minor Changes
+
+- [`fafe5ba`](https://github.com/microeinhundert/radonis/commit/fafe5ba3f4e83894b1c20670161ab2973fa9ed69) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Improved strictness.
+
+### Patch Changes
+
+- Updated dependencies [[`5c00c86`](https://github.com/microeinhundert/radonis/commit/5c00c8633b241fad612289fd661c71e1b7a494f5), [`573a79b`](https://github.com/microeinhundert/radonis/commit/573a79b977f90ec51e9572eec86cb20eee628abb), [`9a1fe5c`](https://github.com/microeinhundert/radonis/commit/9a1fe5c956c819eb9ea737bf7618ef9b77cf05ee), [`c7a59fb`](https://github.com/microeinhundert/radonis/commit/c7a59fb9023f7988672d2ce60446a5f8a1cd254b), [`fafe5ba`](https://github.com/microeinhundert/radonis/commit/fafe5ba3f4e83894b1c20670161ab2973fa9ed69), [`4f44646`](https://github.com/microeinhundert/radonis/commit/4f4464644115289466dd7a63c020634b4f3974e3)]:
+  - @microeinhundert/radonis-types@5.0.0
+  - @microeinhundert/radonis-shared@5.0.0
+  - @microeinhundert/radonis-server@5.0.0
+  - @microeinhundert/radonis-hydrate@5.0.0
+
 ## 4.0.2
 
 ### Patch Changes
