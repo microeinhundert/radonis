@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-types
 
+## 5.0.0
+
+### Minor Changes
+
+- [`5c00c86`](https://github.com/microeinhundert/radonis/commit/5c00c8633b241fad612289fd661c71e1b7a494f5) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Narrowed types for attributes on the `HeadTag` interface.
+
 ## 4.0.1
 
 ### Patch Changes

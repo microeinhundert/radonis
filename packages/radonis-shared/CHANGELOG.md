@@ -1,5 +1,15 @@
 # @microeinhundert/radonis-shared
 
+## 5.0.0
+
+### Major Changes
+
+- [`4f44646`](https://github.com/microeinhundert/radonis/commit/4f4464644115289466dd7a63c020634b4f3974e3) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `fetch$` utility to `radonisFetch`.
+
+### Minor Changes
+
+- [`573a79b`](https://github.com/microeinhundert/radonis/commit/573a79b977f90ec51e9572eec86cb20eee628abb) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Improved handling of boolean attributes.
+
 ## 4.0.2
 
 ### Patch Changes

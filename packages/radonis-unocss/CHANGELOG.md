@@ -1,5 +1,13 @@
 # @microeinhundert/radonis-unocss
 
+## 5.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`573a79b`](https://github.com/microeinhundert/radonis/commit/573a79b977f90ec51e9572eec86cb20eee628abb), [`9a1fe5c`](https://github.com/microeinhundert/radonis/commit/9a1fe5c956c819eb9ea737bf7618ef9b77cf05ee), [`97f238d`](https://github.com/microeinhundert/radonis/commit/97f238d51b34c58d9e4f024aefb97ef633bc38dd), [`c7a59fb`](https://github.com/microeinhundert/radonis/commit/c7a59fb9023f7988672d2ce60446a5f8a1cd254b), [`87c6921`](https://github.com/microeinhundert/radonis/commit/87c6921070d1923ce62e58c71fc56e29009ada71), [`1008ab5`](https://github.com/microeinhundert/radonis/commit/1008ab5e0d84b1ddb1ae294a51595af990efadd3), [`4f44646`](https://github.com/microeinhundert/radonis/commit/4f4464644115289466dd7a63c020634b4f3974e3), [`f8d2206`](https://github.com/microeinhundert/radonis/commit/f8d22063291a54a2d0e5a12108f86bbe9f5fccdb)]:
+  - @microeinhundert/radonis-shared@5.0.0
+  - @microeinhundert/radonis@5.0.0
+
 ## 4.0.2
 
 ### Patch Changes
