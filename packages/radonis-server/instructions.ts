@@ -82,7 +82,7 @@ async function addScripts(sink: typeof sinkStatic, projectRoot: string) {
   packageJsonFile.setScript('dev', "concurrently 'npm:dev:*'")
   packageJsonFile.setScript('dev:client', 'node ace build:client --watch')
   packageJsonFile.setScript('dev:server', 'node ace serve --watch')
-  packageJsonFile.setScript('build', "concurrently 'npm:build:*'")
+  packageJsonFile.setScript('build', 'npm run build:server && npm run build:client')
   packageJsonFile.setScript('build:client', 'node ace build:client --production')
   packageJsonFile.setScript('build:server', 'node ace build --production')
 
