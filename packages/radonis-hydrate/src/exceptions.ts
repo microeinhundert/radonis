@@ -22,7 +22,7 @@ export const E_CANNOT_HYDRATE = createError<[islandIdentifier: string, hydration
 )
 
 export const E_CANNOT_RETRIEVE_MANIFEST = createError(
-  'Cannot retrieve the Radonis manifest. Ensure that the Radonis server provider is configured correctly',
+  'Cannot retrieve the Radonis manifest. Make sure that the Radonis server provider is configured correctly',
   'E_CANNOT_RETRIEVE_MANIFEST',
   404
 )
