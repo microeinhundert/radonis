@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-shared
 
+## 5.0.1
+
+### Patch Changes
+
+- [`e76951c`](https://github.com/microeinhundert/radonis/commit/e76951c9f8ba49fc4d44ebfe473ad3203f245b3e) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Update dependencies
+
 ## 5.0.0
 
 ### Major Changes
