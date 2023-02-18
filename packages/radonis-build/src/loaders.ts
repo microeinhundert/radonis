@@ -11,7 +11,7 @@ import { extname } from 'node:path'
 
 import type { Loader } from 'esbuild'
 
-import { E_CANNOT_GET_FILE_LOADER } from './exceptions/cannot_get_file_loader'
+import { E_CANNOT_GET_FILE_LOADER } from './exceptions'
 
 export const loaders: Record<string, Loader> = {
   '.js': 'js',

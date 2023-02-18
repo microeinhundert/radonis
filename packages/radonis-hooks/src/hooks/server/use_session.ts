@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions/cannot_use_on_client'
+import { E_CANNOT_USE_ON_CLIENT } from '../../exceptions'
 import { useHttpContext } from './use_http_context'
 
 /**

@@ -13,8 +13,7 @@ import { createElement as h, StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 
 import { HydrationContextProvider } from '../contexts/hydration_context'
-import { E_CANNOT_HYDRATE } from '../exceptions/cannot_hydrate'
-import { E_ISLAND_ALREADY_REGISTERED } from '../exceptions/island_already_registered'
+import { E_CANNOT_HYDRATE, E_ISLAND_ALREADY_REGISTERED } from '../exceptions'
 import { getManifestOrFail } from '../utils/get_manifest_or_fail'
 import { HYDRATION_ROOT_SELECTOR } from './constants'
 

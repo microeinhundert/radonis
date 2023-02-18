@@ -10,8 +10,7 @@
 import { isServer } from '@microeinhundert/radonis-shared'
 import { startTransition } from 'react'
 
-import { E_CANNOT_INIT_CLIENT_MORE_THAN_ONCE } from './exceptions/cannot_init_client_more_than_once'
-import { E_CANNOT_INIT_CLIENT_ON_SERVER } from './exceptions/cannot_init_client_on_server'
+import { E_CANNOT_INIT_CLIENT_MORE_THAN_ONCE, E_CANNOT_INIT_CLIENT_ON_SERVER } from './exceptions'
 import { hydrator, pluginsManager } from './singletons'
 import type { ClientOptions } from './types/main'
 

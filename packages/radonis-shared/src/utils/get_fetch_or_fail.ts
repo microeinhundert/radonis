@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { E_MISSING_FETCH } from '../exceptions/missing_fetch'
+import { E_MISSING_FETCH } from '../exceptions'
 
 /**
  * Get the available `fetch` implementation or fail

@@ -10,7 +10,7 @@
 import { useContext } from 'react'
 
 import { baseUrlContext } from '../contexts/base_url_context'
-import { E_UNKNOWN_BASE_URL } from '../exceptions/unknown_base_url'
+import { E_UNKNOWN_BASE_URL } from '../exceptions'
 
 /**
  * Hook for retrieving the base URL set for queries

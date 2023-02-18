@@ -12,7 +12,7 @@ import type { ManifestContract } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 import type { SuperJSONResult } from 'superjson/dist/types'
 
-import { E_CANNOT_RETRIEVE_MANIFEST } from '../../exceptions/cannot_retrieve_manifest'
+import { E_CANNOT_RETRIEVE_MANIFEST } from '../../exceptions'
 
 declare global {
   var radonisManifest: ManifestContract | undefined

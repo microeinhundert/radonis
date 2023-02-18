@@ -15,8 +15,7 @@ import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { useRef } from 'react'
 
-import { E_CANNOT_FETCH_WITHOUT_HYDRATION } from '../exceptions/cannot_fetch_without_hydration'
-import { E_CANNOT_USE_HOOKS_WHEN_RELOADING } from '../exceptions/cannot_use_hooks_when_reloading'
+import { E_CANNOT_FETCH_WITHOUT_HYDRATION, E_CANNOT_USE_HOOKS_WHEN_RELOADING } from '../exceptions'
 import { hydrationManager } from '../singletons'
 import type { FormOptions } from '../types/main'
 

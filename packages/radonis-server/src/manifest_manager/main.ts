@@ -21,7 +21,7 @@ import type {
 } from '@microeinhundert/radonis-types'
 import superjson from 'superjson'
 
-import { E_CANNOT_SERIALIZE_MANIFEST } from '../exceptions/cannot_serialize_manifest'
+import { E_CANNOT_SERIALIZE_MANIFEST } from '../exceptions'
 import { DEFAULT_LOCALE } from './constants'
 
 /**

@@ -11,7 +11,7 @@ import { useHydration } from '@microeinhundert/radonis-hydrate'
 import type { MessageData } from '@microeinhundert/radonis-types'
 import IntlMessageFormat from 'intl-messageformat'
 
-import { E_CANNOT_FIND_MESSAGE } from '../../exceptions/cannot_find_message'
+import { E_CANNOT_FIND_MESSAGE } from '../../exceptions'
 import { hydrationManager } from '../../singletons'
 import { useManifest } from './use_manifest'
 

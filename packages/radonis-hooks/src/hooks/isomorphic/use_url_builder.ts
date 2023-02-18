@@ -12,7 +12,7 @@ import { RadonisException } from '@microeinhundert/radonis-shared'
 import { UrlBuilder } from '@microeinhundert/radonis-shared'
 import { useMemo } from 'react'
 
-import { E_CANNOT_FIND_ROUTE } from '../../exceptions/cannot_find_route'
+import { E_CANNOT_FIND_ROUTE } from '../../exceptions'
 import { hydrationManager } from '../../singletons'
 import { useManifest } from './use_manifest'
 

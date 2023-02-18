@@ -14,7 +14,7 @@
 import type { Reducer } from 'react'
 import { useCallback, useReducer, useRef } from 'react'
 
-import { E_INVALID_MUTATION_ACTION } from '../../exceptions/invalid_mutation_action'
+import { E_INVALID_MUTATION_ACTION } from '../../exceptions'
 import type { MutationOptions, MutationResult, MutationStatus } from '../../types/main'
 import { useGetLatest } from './internal/use_get_latest'
 import { useSafeCallback } from './internal/use_safe_callback'

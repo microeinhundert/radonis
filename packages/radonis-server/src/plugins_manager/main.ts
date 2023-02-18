@@ -15,9 +15,7 @@ import type {
   PluginsManagerContract,
 } from '@microeinhundert/radonis-types'
 
-import { E_CONFLICTING_PLUGINS } from '../exceptions/conflicting_plugins'
-import { E_PLUGIN_ALREADY_INSTALLED } from '../exceptions/plugin_already_installed'
-import { E_PLUGIN_NOT_INSTALLABLE } from '../exceptions/plugin_not_installable'
+import { E_CONFLICTING_PLUGINS, E_PLUGIN_ALREADY_INSTALLED, E_PLUGIN_NOT_INSTALLABLE } from '../exceptions'
 
 /**
  * Service for managing plugins

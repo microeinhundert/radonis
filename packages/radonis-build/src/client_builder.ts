@@ -12,7 +12,7 @@ import { rm } from 'node:fs/promises'
 import { RadonisException } from '@microeinhundert/radonis-shared'
 import { context } from 'esbuild'
 
-import { E_CANNOT_BUILD_CLIENT } from './exceptions/cannot_build_client'
+import { E_CANNOT_BUILD_CLIENT } from './exceptions'
 import { loaders } from './loaders'
 import { radonisPlugin } from './plugin'
 import type { BuildOptions, OnBuildEndCallback } from './types/main'

@@ -9,9 +9,7 @@
 
 import type { RouteParams, RouteQueryParams } from '@microeinhundert/radonis-types'
 
-import { E_CANNOT_FIND_ROUTE } from '../exceptions/cannot_find_route'
-import { E_MISSING_ROUTE_PARAM } from '../exceptions/missing_route_param'
-import { E_WILDCARD_ROUTES_NOT_SUPPORTED } from '../exceptions/wildcard_routes_not_supported'
+import { E_CANNOT_FIND_ROUTE, E_MISSING_ROUTE_PARAM, E_WILDCARD_ROUTES_NOT_SUPPORTED } from '../exceptions'
 import type { UrlBuilderMakeOptions, UrlBuilderOptions } from '../types/main'
 
 /**

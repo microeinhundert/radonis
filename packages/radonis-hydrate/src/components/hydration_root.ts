@@ -12,8 +12,7 @@ import type { ReactElement } from 'react'
 import { Children, createElement as h, isValidElement, useContext, useId } from 'react'
 
 import { HydrationContextProvider } from '../contexts/hydration_context'
-import { E_CANNOT_HYDRATE_WITH_CHILDREN } from '../exceptions/cannot_hydrate_with_children'
-import { E_NOT_AN_ISLAND } from '../exceptions/not_an_island'
+import { E_CANNOT_HYDRATE_WITH_CHILDREN, E_NOT_AN_ISLAND } from '../exceptions'
 import { useHydration } from '../hooks/use_hydration'
 import { islandIdentifierSymbol } from '../symbols'
 
