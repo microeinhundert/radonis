@@ -57,7 +57,7 @@ export function DefaultErrorPage({ error }: { error: unknown }) {
             fontFamily: 'sans-serif',
           },
         },
-        'An error occured during rendering.'
+        'An error occurred during rendering.'
       ),
       message &&
         h(

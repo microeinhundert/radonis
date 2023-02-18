@@ -58,9 +58,9 @@
     "@adonisjs/core": "^5.8.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10"
+    "@types/node": "^18.14.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11"
   },
   "dependencies": {
     "tslib": "^2.5.0"

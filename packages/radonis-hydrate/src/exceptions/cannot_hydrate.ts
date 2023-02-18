@@ -10,7 +10,7 @@
 import { createError } from '@microeinhundert/radonis-shared'
 
 export const E_CANNOT_HYDRATE = createError<[islandIdentifier: string, hydrationRootId: string]>(
-  'The server-rendered island "%s" within HydrationRoot "%s" could not be hydrated',
+  'The server-rendered island "%s" within HydrationRoot "%s" could not be hydrated. Restart the server and try again',
   'E_CANNOT_HYDRATE',
   500
 )

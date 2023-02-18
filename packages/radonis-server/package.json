@@ -100,18 +100,18 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10"
+    "@types/node": "^18.14.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11"
   },
   "dependencies": {
     "@microeinhundert/radonis-build": "workspace:5.0.0",
     "@microeinhundert/radonis-shared": "workspace:5.0.0",
     "@microeinhundert/radonis-types": "workspace:5.0.0",
-    "esbuild": "^0.17.5",
+    "esbuild": "^0.17.8",
     "flattie": "^1.1.0",
-    "isbot": "^3.6.5",
-    "minipass": "^4.0.1",
+    "isbot": "^3.6.6",
+    "minipass": "^4.0.3",
     "superjson": "^1.12.2",
     "tslib": "^2.5.0"
   }

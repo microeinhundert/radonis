@@ -59,8 +59,7 @@ async function installPackages(sink: typeof sinkStatic, projectRoot: string) {
   packageJsonFile.install('@types/react-dom', '^18.0.0', true)
   packageJsonFile.install('concurrently', undefined, true)
 
-  const logLines = [`Installing: ${sink.logger.colors.gray(packageJsonFile.getInstalls().list.join(', '))}`]
-  const spinner = sink.logger.await(logLines.join(' '))
+  const spinner = sink.logger.await('Installing packages')
 
   try {
     await packageJsonFile.commitAsync()
