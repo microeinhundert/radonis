@@ -50,9 +50,7 @@ export class AssetsManifestBuilder {
         if (external) {
           return null
         }
-
         const chunkAsset = this.#builtAssets.get(importPath)
-
         return chunkAsset ? this.#createEntry(chunkAsset) : null
       })
     )

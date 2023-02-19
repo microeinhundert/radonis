@@ -20,3 +20,9 @@ export const E_CANNOT_GET_FILE_LOADER = createError<[path: string]>(
   'E_CANNOT_GET_FILE_LOADER',
   500
 )
+
+export const E_CANNOT_FIND_OUTPUT = createError<[key: string]>(
+  'Cannot find the output for asset "%s". This is most likely a bug of Radonis',
+  'E_CANNOT_FIND_OUTPUT',
+  500
+)

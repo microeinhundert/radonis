@@ -17,6 +17,7 @@ import type { Plugin } from 'esbuild'
 import { transform } from 'esbuild'
 
 import { ISLAND_REGEX } from './constants'
+import { E_CANNOT_FIND_OUTPUT } from './exceptions'
 import { getLoaderForFile } from './loaders'
 import type { BuiltAssets, IslandsByFile, RadonisPluginOptions } from './types/main'
 import { extractTokens, getOutputMeta } from './utils'
@@ -117,18 +118,18 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
           const assetKey = stripLeadingSlash(pathRelativeToOutbase)
           const output = metafile?.outputs[assetKey]
           if (!output) {
-            continue
+            throw new E_CANNOT_FIND_OUTPUT([assetKey])
           }
 
           try {
             const { type, originalPath } = getOutputMeta(output)
-            const islandFileKey = normalizePath(originalPath)
+            const islands = originalPath ? islandsByFile.get(normalizePath(originalPath)) ?? [] : []
 
             builtAssets.set(assetKey, {
               type,
               name: basename(pathRelativeToOutbase),
               path: pathRelativeToPublic,
-              islands: islandsByFile.get(islandFileKey) ?? [],
+              islands,
               imports: output.imports,
               tokens: extractTokens(text),
             })
