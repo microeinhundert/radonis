@@ -1,5 +1,15 @@
 # @microeinhundert/radonis-unocss
 
+## 5.0.2
+
+### Patch Changes
+
+- [`066c233`](https://github.com/microeinhundert/radonis/commit/066c2336696039a91cc1c9eed4da301872f3755c) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fixed assets manifest generation on windows
+
+- Updated dependencies [[`066c233`](https://github.com/microeinhundert/radonis/commit/066c2336696039a91cc1c9eed4da301872f3755c)]:
+  - @microeinhundert/radonis-shared@5.0.2
+  - @microeinhundert/radonis@5.0.2
+
 ## 5.0.1
 
 ### Patch Changes
