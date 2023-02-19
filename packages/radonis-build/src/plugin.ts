@@ -85,8 +85,7 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
 
         contents = ["import { __internal__hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
 
-        const { pathname } = createInternalURL(relative(initialOptions.outbase!, path))
-        islandsByFile.set(pathname, Array.from(islands))
+        islandsByFile.set(normalizePath(path), Array.from(islands))
 
         return {
           contents,
