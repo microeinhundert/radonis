@@ -20,7 +20,7 @@ export const loaders: Record<string, Loader> = {
   '.tsx': 'tsx',
 }
 
-export function getLoaderForFile(fileNameOrPath: string): Loader {
+export function getLoaderForFile(fileNameOrPath: string) {
   const ext = extname(fileNameOrPath)
 
   if (!(ext in loaders)) {

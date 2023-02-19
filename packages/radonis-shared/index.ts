@@ -9,9 +9,11 @@
 
 export { createError, RadonisException } from './src/exception/main'
 export { UrlBuilder } from './src/url_builder/main'
+export { createInternalURL } from './src/utils/create_internal_url'
 export { isClient, isProduction, isServer } from './src/utils/environment'
 export { nonNull } from './src/utils/non_null'
 export { radonisFetch } from './src/utils/radonis_fetch'
 export { separateArray } from './src/utils/separate_array'
 export { stringifyAttributes } from './src/utils/stringify_attributes'
-export { stripOrigin } from './src/utils/strip_origin'
+export { stripLeadingSlash } from './src/utils/strip_leading_slash'
+export { stripOriginFromURL } from './src/utils/strip_origin_from_url'

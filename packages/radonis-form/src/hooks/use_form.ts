@@ -9,7 +9,8 @@
 
 import { useMutation, useUrlBuilder } from '@microeinhundert/radonis-hooks'
 import { useHydration } from '@microeinhundert/radonis-hydrate'
-import { radonisFetch, stripOrigin } from '@microeinhundert/radonis-shared'
+import { createInternalURL } from '@microeinhundert/radonis-shared'
+import { radonisFetch, stripOriginFromURL } from '@microeinhundert/radonis-shared'
 import type { FormEvent } from 'react'
 import { useMemo } from 'react'
 import { useCallback } from 'react'
@@ -59,7 +60,7 @@ export function useForm<TData = unknown, TError = unknown>({
   const urlBuilder = useUrlBuilder()
 
   const requestUrl = useMemo(
-    () => new URL(urlBuilder.make$(action$, { params, queryParams }), 'http://radonis'),
+    () => createInternalURL(urlBuilder.make$(action$, { params, queryParams })),
     [urlBuilder, action$, params, queryParams]
   )
 
@@ -82,7 +83,7 @@ export function useForm<TData = unknown, TError = unknown>({
         }
       }
 
-      const response = await radonisFetch(stripOrigin(requestUrl), requestInit)
+      const response = await radonisFetch(stripOriginFromURL(requestUrl), requestInit)
 
       return response.json<any>()
     },
@@ -110,7 +111,7 @@ export function useForm<TData = unknown, TError = unknown>({
         actionUrl.searchParams.append('_method', method)
       }
 
-      return stripOrigin(actionUrl)
+      return stripOriginFromURL(actionUrl)
     },
     get method() {
       return isNativeFormMethod(method) ? method : 'post'

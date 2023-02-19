@@ -17,10 +17,10 @@ import { AssetType } from '@microeinhundert/radonis-types'
 import { ASSETS_MANIFEST_FILE_NAME, TOKEN_REGEX } from './constants'
 
 /**
- * Get the entry points for the given path
+ * Get the entry points for the given location
  */
-export async function getEntryPoints(path: string) {
-  return fsReadAll(path, {
+export async function getEntryPoints(location: string) {
+  return fsReadAll(location, {
     filter: (filePath) => {
       return /\.(client|island)\.(ts(x)?|js(x)?)$/.test(filePath)
     },
@@ -30,11 +30,11 @@ export async function getEntryPoints(path: string) {
 /**
  * Read the assets manifest from disk
  */
-export async function readAssetsManifestFromDisk(directory: string): Promise<AssetsManifest | null> {
+export async function readAssetsManifestFromDisk(location: string) {
   try {
-    const fileContents = await readFile(join(directory, ASSETS_MANIFEST_FILE_NAME), 'utf-8')
+    const fileContents = await readFile(join(location, ASSETS_MANIFEST_FILE_NAME), 'utf-8')
 
-    return JSON.parse(fileContents)
+    return JSON.parse(fileContents) as AssetsManifest
   } catch {
     return null
   }
@@ -43,15 +43,15 @@ export async function readAssetsManifestFromDisk(directory: string): Promise<Ass
 /**
  * Write the assets manifest to disk
  */
-export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, directory: string): Promise<void> {
-  await ensureDirExists(directory)
-  await writeFile(join(directory, ASSETS_MANIFEST_FILE_NAME), JSON.stringify(assetsManifest, null, 2))
+export async function writeAssetsManifestToDisk(assetsManifest: AssetsManifest, location: string) {
+  await ensureDirExists(location)
+  await writeFile(join(location, ASSETS_MANIFEST_FILE_NAME), JSON.stringify(assetsManifest, null, 2))
 }
 
 /**
  * Extract tokens from a haystack
  */
-export function extractTokens(haystack: string): string[] {
+export function extractTokens(haystack: string) {
   const matches = haystack.matchAll(TOKEN_REGEX)
   const tokens = new Set<string>()
 
@@ -75,7 +75,7 @@ export function isAssetType(value: string): value is AssetType {
  * Get the meta information for a given output
  */
 export function getOutputMeta(output: { entryPoint?: string }) {
-  let [type, originalPath] = output.entryPoint?.split(':') ?? []
+  let [type, originalPath] = output.entryPoint?.split(/:(.*)/s) ?? []
 
   type ||= AssetType.ChunkScript
 

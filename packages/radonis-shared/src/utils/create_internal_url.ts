@@ -8,8 +8,8 @@
  */
 
 /**
- * Strip the origin from an URL
+ * Create an internal URL
  */
-export function stripOrigin(url: URL) {
-  return url.toString().replace(url.origin, '')
+export function createInternalURL(location: URL | string) {
+  return new URL(location, 'http://radonis')
 }

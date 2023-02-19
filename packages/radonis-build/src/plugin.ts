@@ -8,9 +8,9 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises'
-import { basename, dirname, join, relative } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { basename, dirname, relative } from 'node:path'
 
+import { createInternalURL, stripLeadingSlash } from '@microeinhundert/radonis-shared'
 import { ensureDirExists } from '@microeinhundert/radonis-shared/node'
 import { AssetType } from '@microeinhundert/radonis-types'
 import type { Plugin } from 'esbuild'
@@ -29,6 +29,10 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
     name: 'radonis',
     setup({ onResolve, onLoad, onEnd, initialOptions }) {
       const islandsByFile: IslandsByFile = new Map()
+
+      function normalizePath(path: string, base?: string) {
+        return createInternalURL(relative(base ?? initialOptions.outbase!, path)).pathname
+      }
 
       /**
        * Process client scripts
@@ -81,7 +85,8 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
 
         contents = ["import { __internal__hydrateIsland } from '@microeinhundert/radonis';", contents].join('\n')
 
-        islandsByFile.set(path, Array.from(islands))
+        const { pathname } = createInternalURL(relative(initialOptions.outbase!, path))
+        islandsByFile.set(pathname, Array.from(islands))
 
         return {
           contents,
@@ -107,23 +112,24 @@ export function radonisPlugin(options: RadonisPluginOptions): Plugin {
             await writeFile(path, contents)
           }
 
-          const pathRelativeToOutbase = relative(initialOptions.outbase!, path)
-          const pathRelativeToPublic = relative(options.publicPath, path)
+          const pathRelativeToOutbase = normalizePath(path)
+          const pathRelativeToPublic = normalizePath(path, options.publicPath)
 
-          const output = metafile?.outputs[pathRelativeToOutbase]
+          const assetKey = stripLeadingSlash(pathRelativeToOutbase)
+          const output = metafile?.outputs[assetKey]
           if (!output) {
             continue
           }
 
           try {
             const { type, originalPath } = getOutputMeta(output)
-            const fileUrl = pathToFileURL(join('/', pathRelativeToPublic))
+            const islandFileKey = normalizePath(originalPath)
 
-            builtAssets.set(pathRelativeToOutbase, {
+            builtAssets.set(assetKey, {
               type,
               name: basename(pathRelativeToOutbase),
-              path: fileUrl.pathname,
-              islands: islandsByFile.get(originalPath) ?? [],
+              path: pathRelativeToPublic,
+              islands: islandsByFile.get(islandFileKey) ?? [],
               imports: output.imports,
               tokens: extractTokens(text),
             })
