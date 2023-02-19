@@ -11,4 +11,4 @@
 '@microeinhundert/radonis-unocss': patch
 ---
 
-Fixed manifest generation on windows
+Fixed assets manifest generation on windows
