@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { relative, resolve } from 'node:path'
+import { join } from 'node:path'
 
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
@@ -38,10 +38,10 @@ export default class BuildClient extends BaseCommand {
   #config: RadonisConfig = this.application.config.get('radonis', {})
 
   /**
-   * The output path
+   * The public path
    */
-  get #outputPath(): string {
-    const publicPath = this.application.publicPath('radonis')
+  get #publicPath() {
+    const publicDir = this.application.directoriesMap.get('public') || 'public'
 
     /**
      * Resolve path using outDir from tsconfig when building for production
@@ -50,10 +50,17 @@ export default class BuildClient extends BaseCommand {
       const tsConfig = new files.JsonFile(this.application.appRoot, 'tsconfig.json')
       const compilerOutDir = tsConfig.get('compilerOptions.outDir') || 'build'
 
-      return resolve(this.application.appRoot, compilerOutDir, relative(this.application.appRoot, publicPath))
+      return join(this.application.appRoot, compilerOutDir, publicDir)
     }
 
-    return publicPath
+    return join(this.application.appRoot, publicDir)
+  }
+
+  /**
+   * The output path
+   */
+  get #outputPath() {
+    return join(this.#publicPath, 'radonis')
   }
 
   /**
@@ -82,7 +89,7 @@ export default class BuildClient extends BaseCommand {
     await clientBuilder.build({
       entryPoints,
       appRootPath: this.application.appRoot,
-      publicPath: this.application.publicPath(),
+      publicPath: this.#publicPath,
       outputPath: this.#outputPath,
       outputForProduction: this.production,
       rebuildOnFileChanges,
