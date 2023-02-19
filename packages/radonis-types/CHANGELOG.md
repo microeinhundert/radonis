@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-types
 
+## 5.0.3
+
+### Patch Changes
+
+- [`0ae9c17`](https://github.com/microeinhundert/radonis/commit/0ae9c17204b8e6d8d73532f93e5cf6e7a34c21d0) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fixed wrong paths in assets manifest for production build
+
 ## 5.0.2
 
 ### Patch Changes
