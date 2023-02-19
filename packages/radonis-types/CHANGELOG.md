@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-types
 
+## 5.0.2
+
+### Patch Changes
+
+- [`066c233`](https://github.com/microeinhundert/radonis/commit/066c2336696039a91cc1c9eed4da301872f3755c) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Fixed assets manifest generation on windows
+
 ## 5.0.1
 
 ### Patch Changes
