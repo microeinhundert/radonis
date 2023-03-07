@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import EventEmitter from 'node:events'
 import { rm } from 'node:fs/promises'
 
 import { RadonisException } from '@microeinhundert/radonis-shared'
@@ -15,25 +16,9 @@ import { context } from 'esbuild'
 import { E_CANNOT_BUILD_CLIENT } from './exceptions'
 import { loaders } from './loaders'
 import { radonisPlugin } from './plugin'
-import type { BuildOptions, OnBuildEndCallback } from './types/main'
+import type { BuildOptions } from './types/main'
 
-export class ClientBuilder {
-  /**
-   * The registered `onBuildEnd` callbacks
-   */
-  #onBuildEndCallbacks: OnBuildEndCallback[]
-
-  constructor() {
-    this.#onBuildEndCallbacks = []
-  }
-
-  /**
-   * Register a callback to be called when a build has ended
-   */
-  onBuildEnd(callback: OnBuildEndCallback): void {
-    this.#onBuildEndCallbacks.push(callback)
-  }
-
+export class ClientBuilder extends EventEmitter {
   /**
    * Build the client
    */
@@ -70,7 +55,7 @@ export class ClientBuilder {
           publicPath,
           minify: outputForProduction,
           onEnd: async (builtAssets) => {
-            await Promise.all(this.#onBuildEndCallbacks.map((callback) => callback.apply(null, [builtAssets])))
+            this.emit('end', builtAssets)
           },
         }),
       ],

@@ -12,6 +12,7 @@ import { join } from 'node:path'
 import { BaseCommand, flags } from '@adonisjs/ace'
 import { files } from '@adonisjs/sink'
 import type { RadonisConfig } from '@ioc:Microeinhundert/Radonis'
+import type { BuiltAssets } from '@microeinhundert/radonis-build'
 import { AssetsManifestBuilder, ClientBuilder } from '@microeinhundert/radonis-build'
 import { getEntryPoints, writeAssetsManifestToDisk } from '@microeinhundert/radonis-build/utils'
 
@@ -74,7 +75,7 @@ export default class BuildClient extends BaseCommand {
     const entryPoints = await getEntryPoints(this.application.resourcesPath())
     const clientBuilder = new ClientBuilder()
 
-    clientBuilder.onBuildEnd(async (builtAssets) => {
+    clientBuilder.on('end', async (builtAssets: BuiltAssets) => {
       const assetsManifestBuilder = new AssetsManifestBuilder(builtAssets)
       const assetsManifest = assetsManifestBuilder.build()
       await writeAssetsManifestToDisk(assetsManifest, this.#outputPath)

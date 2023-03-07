@@ -9,3 +9,4 @@
 
 export { AssetsManifestBuilder } from './src/assets_manifest_builder'
 export { ClientBuilder } from './src/client_builder'
+export type { BuiltAssets } from './src/types/main'
