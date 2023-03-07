@@ -15,7 +15,7 @@ import { context } from 'esbuild'
 
 import { E_CANNOT_BUILD_CLIENT } from './exceptions'
 import { loaders } from './loaders'
-import { radonisPlugin } from './plugin'
+import { RadonisPlugin } from './plugin'
 import type { BuildOptions } from './types/main'
 
 export class ClientBuilder extends EventEmitter {
@@ -50,14 +50,14 @@ export class ClientBuilder extends EventEmitter {
       logLevel: 'silent',
       jsx: 'automatic',
       plugins: [
-        ...(esbuildOptions?.plugins ?? []),
-        radonisPlugin({
+        new RadonisPlugin({
           publicPath,
           minify: outputForProduction,
           onEnd: async (builtAssets) => {
             this.emit('end', builtAssets)
           },
         }),
+        ...(esbuildOptions?.plugins ?? []),
       ],
       loader: { ...loaders, ...esbuildOptions?.loader },
       define: {
