@@ -25,7 +25,7 @@ export function useRoute() {
       return route?.identifier === identifier
     }
 
-    if (routes[identifier]) {
+    if (typeof routes[identifier] === 'string') {
       if (hydration.id) {
         hydrationManager.requireRoute(identifier)
       }

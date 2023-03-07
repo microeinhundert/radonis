@@ -30,7 +30,7 @@ export function useI18n() {
   function findMessageOrFail(identifier: string) {
     const message = messages[identifier]
 
-    if (!message) {
+    if (typeof message !== 'string') {
       throw new E_CANNOT_FIND_MESSAGE([identifier])
     }
 
