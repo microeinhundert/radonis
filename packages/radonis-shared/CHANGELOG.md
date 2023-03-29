@@ -1,5 +1,15 @@
 # @microeinhundert/radonis-shared
 
+## 6.0.0
+
+### Minor Changes
+
+- [`89e52b2`](https://github.com/microeinhundert/radonis/commit/89e52b26b46815a2189202253e57935e74242f52) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Renamed `make` to `make# @microeinhundert/radonis-shared on UrlBuilder
+
+### Patch Changes
+
+- [`a14c42d`](https://github.com/microeinhundert/radonis/commit/a14c42d1f4d477c5de41eff5482841ff90e88a53) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Updated dependencies
+
 ## 5.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @microeinhundert/radonis-types
 
+## 6.0.0
+
+### Patch Changes
+
+- [`a14c42d`](https://github.com/microeinhundert/radonis/commit/a14c42d1f4d477c5de41eff5482841ff90e88a53) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Updated dependencies
+
 ## 5.0.4
 
 ### Patch Changes
