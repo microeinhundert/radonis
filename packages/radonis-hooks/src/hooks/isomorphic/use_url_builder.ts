@@ -37,9 +37,9 @@ export function useUrlBuilder() {
   )
 
   return {
-    make$: (...args: Parameters<typeof urlBuilder.make>) => {
+    make$: (...args: Parameters<typeof urlBuilder.make$>) => {
       try {
-        const url = urlBuilder.make(...args)
+        const url = urlBuilder.make$(...args)
         return url
       } catch (error) {
         if (error instanceof RadonisException && error.code === 'E_CANNOT_FIND_ROUTE') {

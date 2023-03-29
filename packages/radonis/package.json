@@ -58,7 +58,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.14.6"
+    "@types/node": "^18.15.11"
   },
   "dependencies": {
     "@microeinhundert/radonis-types": "workspace:5.0.4",

@@ -65,12 +65,12 @@
   "author": "Leon Seipp <l.seipp@microeinhundert.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.14.6"
+    "@types/node": "^18.15.11"
   },
   "dependencies": {
     "@microeinhundert/radonis-shared": "workspace:5.0.4",
     "@microeinhundert/radonis-types": "workspace:5.0.4",
-    "esbuild": "^0.17.11",
+    "esbuild": "^0.17.14",
     "tslib": "^2.5.0"
   }
 }

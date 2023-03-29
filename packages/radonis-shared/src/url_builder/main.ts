@@ -34,7 +34,7 @@ export class UrlBuilder {
   /**
    * Make URL for given route
    */
-  make(identifier: string, options?: UrlBuilderMakeOptions) {
+  make$(identifier: string, options?: UrlBuilderMakeOptions) {
     const route = this.#findRouteOrFail(identifier)
     const path = this.#processPattern(route, options?.params ?? {})
     const pathWithQueryString = this.#suffixWithQueryString(path, options?.queryParams ?? {})

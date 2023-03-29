@@ -48,7 +48,7 @@ export function queryPlugin(config?: QueryClientConfig & { baseUrl?: URL | strin
 
       if (routeIdentifier && props) {
         const urlBuilder = new UrlBuilder(manifest.routes)
-        const url = urlBuilder.make(routeIdentifier, { params: ctx.request.params(), queryParams: ctx.request.qs() })
+        const url = urlBuilder.make$(routeIdentifier, { params: ctx.request.params(), queryParams: ctx.request.qs() })
         const queryKey = getQueryKeyForURL(url, [routeIdentifier])
 
         queryClient.setQueryData(queryKey, props)

@@ -41,7 +41,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The public path
    */
-  get #publicPath() {
+  get #publicPath(): string {
     const publicDir = this.application.directoriesMap.get('public') || 'public'
 
     /**
@@ -60,7 +60,7 @@ export default class BuildClient extends BaseCommand {
   /**
    * The output path
    */
-  get #outputPath() {
+  get #outputPath(): string {
     return join(this.#publicPath, 'radonis')
   }
 

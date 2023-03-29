@@ -11,4 +11,4 @@
 '@microeinhundert/radonis': patch
 ---
 
-Update dependencies
+Updated dependencies
