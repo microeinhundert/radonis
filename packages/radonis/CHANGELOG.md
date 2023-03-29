@@ -1,5 +1,19 @@
 # @microeinhundert/radonis
 
+## 6.0.0
+
+### Patch Changes
+
+- [`a14c42d`](https://github.com/microeinhundert/radonis/commit/a14c42d1f4d477c5de41eff5482841ff90e88a53) Thanks [@microeinhundert](https://github.com/microeinhundert)! - Updated dependencies
+
+- Updated dependencies [[`1ef2ed9`](https://github.com/microeinhundert/radonis/commit/1ef2ed900daaed70ff4a4bc561d8553e16d787a0), [`89e52b2`](https://github.com/microeinhundert/radonis/commit/89e52b26b46815a2189202253e57935e74242f52), [`a14c42d`](https://github.com/microeinhundert/radonis/commit/a14c42d1f4d477c5de41eff5482841ff90e88a53)]:
+  - @microeinhundert/radonis-server@6.0.0
+  - @microeinhundert/radonis-shared@6.0.0
+  - @microeinhundert/radonis-hydrate@6.0.0
+  - @microeinhundert/radonis-hooks@6.0.0
+  - @microeinhundert/radonis-types@6.0.0
+  - @microeinhundert/radonis-form@6.0.0
+
 ## 5.0.4
 
 ### Patch Changes
